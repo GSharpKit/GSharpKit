@@ -1,0 +1,129 @@
+diff -Nur rpm-4.11.2.orig/autodeps/darwin.prov rpm-4.11.2/autodeps/darwin.prov
+--- rpm-4.11.2.orig/autodeps/darwin.prov	2012-11-07 13:55:24.000000000 +0100
++++ rpm-4.11.2/autodeps/darwin.prov	2014-02-27 07:37:49.000000000 +0100
+@@ -5,7 +5,7 @@
+ # This script reads filenames from STDIN and outputs any relevant provides
+ # information that needs to be included in the package.
+ 
+-filelist=$(sed -n -e '/\.dylib/p' -e '/\.so/p' -e '/\.bundle/p' | sort | uniq | xargs file -L 2>/dev/null | grep "Mach-O.*\(ppc\|i386\)" | cut -d: -f1)
++filelist=$(sed -n -e '/\.dylib/p' -e '/\.so/p' -e '/\.bundle/p' | sort | uniq | xargs file -L 2>/dev/null | grep "Mach-O.*\(ppc\|i386\|x86_64\)" | cut -d: -f1)
+ 
+ for f in $filelist; do
+     libname=$(basename $f | sed -e 's;\..*;;')
+diff -Nur rpm-4.11.2.orig/build/parsePrep.c rpm-4.11.2/build/parsePrep.c
+--- rpm-4.11.2.orig/build/parsePrep.c	2013-11-22 11:31:31.000000000 +0100
++++ rpm-4.11.2/build/parsePrep.c	2014-02-27 07:38:24.000000000 +0100
+@@ -14,6 +14,9 @@
+ #include "build/rpmbuild_misc.h"
+ #include "lib/rpmug.h"
+ #include "debug.h"
++#if __APPLE__
++#include <libgen.h>
++#endif
+ 
+ /**
+  * Check that file owner and group are known.
+diff -Nur rpm-4.11.2.orig/lib/backend/db3.c rpm-4.11.2/lib/backend/db3.c
+--- rpm-4.11.2.orig/lib/backend/db3.c	2014-02-05 14:06:13.000000000 +0100
++++ rpm-4.11.2/lib/backend/db3.c	2014-02-27 07:37:49.000000000 +0100
+@@ -284,10 +284,14 @@
+ void dbSetFSync(void *dbenv, int enable)
+ {
+ #ifdef HAVE_FDATASYNC
++#if !__APPLE__
+     db_env_set_func_fsync(enable ? fdatasync : fsync_disable);
+ #else
+     db_env_set_func_fsync(enable ? fsync : fsync_disable);
+ #endif
++#else
++    db_env_set_func_fsync(enable ? fsync : fsync_disable);
++#endif
+ }
+ 
+ int dbiSync(dbiIndex dbi, unsigned int flags)
+diff -Nur rpm-4.11.2.orig/rpm2cpio.c rpm-4.11.2/rpm2cpio.c
+--- rpm-4.11.2.orig/rpm2cpio.c	2012-11-07 13:55:24.000000000 +0100
++++ rpm-4.11.2/rpm2cpio.c	2014-02-27 07:37:49.000000000 +0100
+@@ -1,7 +1,9 @@
+ /* rpmarchive: spit out the main archive portion of a package */
+ 
+ #include "system.h"
++#if !__APPLE__
+ const char *__progname;
++#endif
+ 
+ #include <rpm/rpmlib.h>		/* rpmReadPackageFile .. */
+ #include <rpm/rpmtag.h>
+diff -Nur rpm-4.11.2.orig/rpmbuild.c rpm-4.11.2/rpmbuild.c
+--- rpm-4.11.2.orig/rpmbuild.c	2014-02-05 14:04:02.000000000 +0100
++++ rpm-4.11.2/rpmbuild.c	2014-02-27 07:37:49.000000000 +0100
+@@ -1,5 +1,7 @@
+ #include "system.h"
++#if !__APPLE__
+ const char *__progname;
++#endif
+ 
+ #include <errno.h>
+ #include <libgen.h>
+diff -Nur rpm-4.11.2.orig/rpmqv.c rpm-4.11.2/rpmqv.c
+--- rpm-4.11.2.orig/rpmqv.c	2012-11-07 13:55:24.000000000 +0100
++++ rpm-4.11.2/rpmqv.c	2014-02-27 07:37:49.000000000 +0100
+@@ -1,5 +1,7 @@
+ #include "system.h"
++#if !__APPLE__
+ const char *__progname;
++#endif
+ 
+ #include <rpm/rpmcli.h>
+ #include <rpm/rpmlib.h>			/* RPMSIGTAG, rpmReadPackageFile .. */
+diff -Nur rpm-4.11.2.orig/rpmspec.c rpm-4.11.2/rpmspec.c
+--- rpm-4.11.2.orig/rpmspec.c	2014-02-05 14:04:02.000000000 +0100
++++ rpm-4.11.2/rpmspec.c	2014-02-27 07:37:49.000000000 +0100
+@@ -1,5 +1,7 @@
+ #include "system.h"
++#if !__APPLE__
+ const char *__progname;
++#endif
+ 
+ #include <rpm/rpmcli.h>
+ #include <rpm/rpmbuild.h>
+diff -Nur rpm-4.11.2.orig/system.h rpm-4.11.2/system.h
+--- rpm-4.11.2.orig/system.h	2014-02-05 14:04:02.000000000 +0100
++++ rpm-4.11.2/system.h	2014-02-27 07:37:49.000000000 +0100
+@@ -118,12 +118,14 @@
+ #endif
+ #define	setprogname(pn)
+ #else
++#if !__APPLE__
+ #define	__progname	program_name
+ #define	setprogname(pn)	\
+   { if ((__progname = strrchr(pn, '/')) != NULL) __progname++; \
+     else __progname = pn;		\
+   }
+ #endif
++#endif
+ extern const char *__progname;
+ 
+ /* Take care of NLS matters.  */
+diff -Nur rpm-4.11.2.orig/tools/rpmdeps.c rpm-4.11.2/tools/rpmdeps.c
+--- rpm-4.11.2.orig/tools/rpmdeps.c	2013-11-22 11:22:29.000000000 +0100
++++ rpm-4.11.2/tools/rpmdeps.c	2014-02-27 07:37:49.000000000 +0100
+@@ -1,5 +1,7 @@
+ #include "system.h"
++#if !__APPLE__
+ const char *__progname;
++#endif
+ 
+ #include <rpm/rpmbuild.h>
+ #include <rpm/argv.h>
+diff -Nur rpm-4.11.2.orig/tools/rpmgraph.c rpm-4.11.2/tools/rpmgraph.c
+--- rpm-4.11.2.orig/tools/rpmgraph.c	2012-11-07 13:55:24.000000000 +0100
++++ rpm-4.11.2/tools/rpmgraph.c	2014-02-27 07:37:49.000000000 +0100
+@@ -1,5 +1,7 @@
+ #include "system.h"
++#if !__APPLE__
+ const char *__progname;
++#endif
+ 
+ #include <rpm/rpmcli.h>
+ #include <rpm/rpmlib.h>		/* rpmReadPackageFile */
