@@ -2,6 +2,7 @@ BUILD
 BUILDROOT
 RPMS
 SRPMS
+SOURCES.bak
 *.gz
 *.bz2
 *.xz

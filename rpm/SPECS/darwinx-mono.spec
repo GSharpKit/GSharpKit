@@ -1,9 +1,9 @@
 %global debug_package %{nil}
 
-%define ver 4.0.4
+%define ver 4.2.1
 
 Name:           darwinx-mono
-Version:        4.0.4.1
+Version:        4.2.1.60
 Release:        1%{?dist}
 Summary:        A .NET runtime environment
 
@@ -19,7 +19,6 @@ Source1:        monodir.c
 Source2:        mono.snk
 Patch0:		mono-3.0-sqlclient-datetime-minvalue.patch
 Patch1:		mono-3.12.0-mono-posix-dllmap.patch
-Patch2:		mono-4.0.0-dbreaderasync.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildArch:      noarch
@@ -45,7 +44,6 @@ metadata access libraries.
 %setup -q -n mono-%{ver}
 %patch0 -p1
 %patch1 -p1
-%patch2 -p1
 
 # Remove prebuilt binaries
 rm -rf mcs/class/lib/monolite/*

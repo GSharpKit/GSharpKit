@@ -64,5 +64,5 @@ rm -rf $RPM_BUILD_ROOT
 %{_prefix}/lib/pkgconfig/sqlite3.pc
 
 %changelog
-* Fri Jan 24 2014 Mikkel Kruse Johnsen <mikkel@structura-it.dk> - 1-1
+* Fri Jan 24 2014 Mikkel Kruse Johnsen <mikkel@xmedicus.com> - 1-1
 - Initial RPM release.

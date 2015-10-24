@@ -1,0 +1,140 @@
+# RPM macros for Fedora Darwin.
+
+%_darwinx_x86_64_target  x86_64-apple-darwin15.0.0
+
+%_darwinx_all_targets     %{_darwinx_x86_64_target}
+%_darwinx_base_target     darwinx
+
+# Paths.
+%_darwinx_sdkroot         /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer
+%_darwinx_sysroot         /usr/%{_darwinx_base_target}
+%_darwinx_prefix          %{_darwinx_sysroot}/usr
+%_darwinx_exec_prefix     %{_darwinx_prefix}
+%_darwinx_bindir          %{_darwinx_exec_prefix}/bin
+%_darwinx_sbindir         %{_darwinx_exec_prefix}/sbin
+%_darwinx_libexecdir      %{_darwinx_exec_prefix}/libexec
+%_darwinx_libdir          %{_darwinx_exec_prefix}/lib
+%_darwinx_datadir         %{_darwinx_prefix}/share
+%_darwinx_docdir          %{_darwinx_prefix}/share/doc
+%_darwinx_infodir         %{_darwinx_prefix}/share/info
+%_darwinx_mandir          %{_darwinx_prefix}/share/man
+%_darwinx_sysconfdir      %{_darwinx_prefix}/etc
+%_darwinx_sharedstatedir  %{_darwinx_prefix}/com
+%_darwinx_localstatedir   %{_darwinx_prefix}/var
+%_darwinx_includedir      %{_darwinx_prefix}/include
+
+%_darwinx_cflags          -O2 -m64 -arch x86_64 -mmacosx-version-min=10.8
+%_darwinx_cxxflags	  -O2 -m64 -arch x86_64 -mmacosx-version-min=10.8
+%_darwinx_cppflags        -Wall -isysroot %{_darwinx_sdkroot}/SDKs/MacOSX10.11.sdk -I%{_darwinx_includedir}
+%_darwinx_ldflags         -L%{_darwinx_libdir}
+
+%_darwinx_cc              gcc
+%_darwinx_cxx             g++
+%_darwinx_cpp             gcc -E
+%_darwinx_ar              ar
+%_darwinx_as              as
+#_darwinx_c++             c++
+#_darwinx_c++filt         c++filt
+%_darwinx_ld              ld
+%_darwinx_libtool         libtool
+%_darwinx_lipo            lipo
+%_darwinx_nm              nm
+%_darwinx_otool           otool
+%_darwinx_ranlib          ranlib
+%_darwinx_size            size
+%_darwinx_strings         strings
+%_darwinx_strip           strip
+
+%_darwinx_env \
+  if test -z "$PATH_ORIG" ; then \
+    PATH_ORIG="$PATH"; export PATH_ORIG; \
+  fi; \
+  PATH="%{_darwinx_bindir}:/Library/Frameworks/AppBox.framework/Versions/Current/bin:$PATH_ORIG"; export PATH; \
+  PKG_CONFIG_LIBDIR="%{_darwinx_libdir}/pkgconfig:/Library/Frameworks/AppBox.framework/Versions/Current/lib/pkgconfig"; export PKG_CONFIG_LIBDIR; \
+  unset PKG_CONFIG_PATH; \
+  ACLOCAL_PATH="/Library/Frameworks/AppBox.framework/Versions/Current/share/aclocal:/Library/Frameworks/AppBox.framework/Versions/Current/share/aclocal-1.14:/usr/darwinx/usr/share/aclocal"; \
+  MACOSX_DEPLOYMENT_TARGET=10.8; export MACOSX_DEPLOYMENT_TARGET; \
+  CFLAGS="$DARWINX_CFLAGS %{_darwinx_cflags}"; export CFLAGS; \
+  CXXFLAGS="$DARWINX_CXXFLAGS %{_darwinx_cxxflags}"; export CXXFLAGS; \
+  CPPFLAGS="$DARWINX_CPPFLAGS %{_darwinx_cppflags}"; export CPPFLAGS; \
+  LDFLAGS="$DARWINX_LDFLAGS %{_darwinx_ldflags}"; export LDFLAGS
+
+%_darwinx_pkg_config \
+  PKG_CONFIG_LIBDIR="%{_darwinx_libdir}/pkgconfig"; export PKG_CONFIG_LIBDIR; \
+  unset PKG_CONFIG_PATH; \
+  pkg-config
+
+%_darwinx_configure %{_darwinx_env} ; \
+  __darwinx_topdir=.; if ! test -x configure; then __darwinx_topdir=..; fi; \\\
+  $__darwinx_topdir/configure \\\
+        --host=%{_darwinx_x86_64_target} \\\
+        --build=%{_darwinx_x86_64_target} \\\
+        --target=%{_darwinx_x86_64_target} \\\
+	--prefix=%{_darwinx_prefix} \\\
+	--exec-prefix=%{_darwinx_exec_prefix} \\\
+	--bindir=%{_darwinx_bindir} \\\
+	--sbindir=%{_darwinx_sbindir} \\\
+	--sysconfdir=%{_darwinx_sysconfdir} \\\
+	--datadir=%{_darwinx_datadir} \\\
+	--includedir=%{_darwinx_includedir} \\\
+	--libdir=%{_darwinx_libdir} \\\
+	--libexecdir=%{_darwinx_libexecdir} \\\
+	--localstatedir=%{_darwinx_localstatedir} \\\
+	--sharedstatedir=%{_darwinx_sharedstatedir} \\\
+	--mandir=%{_darwinx_mandir} \\\
+	--infodir=%{_darwinx_infodir} \\\
+	--disable-dependency-tracking \\\
+        ${DARWINX_CONFIGURE_ARGS}
+
+%_darwinx_make %{_darwinx_env} ; \
+  make \\\
+	prefix=%{_darwinx_prefix} \\\
+	exec_prefix=%{_darwinx_exec_prefix} \\\
+	bindir=%{_darwinx_bindir} \\\
+	sbindir=%{_darwinx_sbindir} \\\
+	sysconfdir=%{_darwinx_sysconfdir} \\\
+	datadir=%{_darwinx_datadir} \\\
+	includedir=%{_darwinx_includedir} \\\
+	libdir=%{_darwinx_libdir} \\\
+	libexecdir=%{_darwinx_libexecdir} \\\
+	localstatedir=%{_darwinx_localstatedir} \\\
+	sharedstatedir=%{_darwinx_sharedstatedir} \\\
+	mandir=%{_darwinx_mandir} \\\
+	infodir=%{_darwinx_infodir}
+
+%_darwinx_makeinstall %{_darwinx_env} ; \
+  make \\\
+	prefix=%{?buildroot:%{buildroot}}%{_darwinx_prefix} \\\
+	exec_prefix=%{?buildroot:%{buildroot}}%{_darwinx_exec_prefix} \\\
+	bindir=%{?buildroot:%{buildroot}}%{_darwinx_bindir} \\\
+	sbindir=%{?buildroot:%{buildroot}}%{_darwinx_sbindir} \\\
+	sysconfdir=%{?buildroot:%{buildroot}}%{_darwinx_sysconfdir} \\\
+	datadir=%{?buildroot:%{buildroot}}%{_darwinx_datadir} \\\
+	includedir=%{?buildroot:%{buildroot}}%{_darwinx_includedir} \\\
+	libdir=%{?buildroot:%{buildroot}}%{_darwinx_libdir} \\\
+	libexecdir=%{?buildroot:%{buildroot}}%{_darwinx_libexecdir} \\\
+	localstatedir=%{?buildroot:%{buildroot}}%{_darwinx_localstatedir} \\\
+	sharedstatedir=%{?buildroot:%{buildroot}}%{_darwinx_sharedstatedir} \\\
+	mandir=%{?buildroot:%{buildroot}}%{_darwinx_mandir} \\\
+	infodir=%{?buildroot:%{buildroot}}%{_darwinx_infodir} \\\
+  install
+
+%_darwinx_cmake %{_darwinx_env} ; \
+  __darwinx_topdir=.; if ! test -x CMakeLists.txt; then __darwinx_topdir=..; fi; \\\
+  %__cmake \\\
+	-DCMAKE_VERBOSE_MAKEFILE=ON \\\
+	-DCMAKE_INSTALL_PREFIX:PATH=%{_darwinx_prefix} \\\
+	-DCMAKE_INSTALL_LIBDIR:PATH=%{_darwinx_libdir} \\\
+	-DINCLUDE_INSTALL_DIR:PATH=%{_darwinx_includedir} \\\
+	-DLIB_INSTALL_DIR:PATH=%{_darwinx_libdir} \\\
+	-DSYSCONF_INSTALL_DIR:PATH=%{_darwinx_sysconfdir} \\\
+	-DSHARE_INSTALL_PREFIX:PATH=%{_darwinx_datadir} \\\
+	%{?_cmake_skip_rpath} \\\
+	-DBUILD_SHARED_LIBS:BOOL=ON \\\
+	-DCMAKE_TOOLCHAIN_FILE=/usr/share/cross/toolchain-darwinx.cmake \\\
+	$* $__darwinx_topdir
+
+%_darwinx_description This is the compiled (on Mac OS X Darwin) version of this library / tool.\
+You should only install this package if you want to package programs for \
+Mac OS X (Darwin).
+
