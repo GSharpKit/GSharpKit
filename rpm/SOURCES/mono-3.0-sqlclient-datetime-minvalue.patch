@@ -1,0 +1,26 @@
+diff -Nur mono-3.0.0.orig/mcs/class/System.Data/System.Data.SqlClient/SqlDataReader.cs mono-3.0.0/mcs/class/System.Data/System.Data.SqlClient/SqlDataReader.cs
+--- mono-3.0.0.orig/mcs/class/System.Data/System.Data.SqlClient/SqlDataReader.cs	2012-10-11 18:18:47.000000000 +0200
++++ mono-3.0.0/mcs/class/System.Data/System.Data.SqlClient/SqlDataReader.cs	2012-10-23 16:46:32.329822327 +0200
+@@ -785,6 +785,9 @@
+ 				if (value is DBNull) throw new SqlNullValueException ();
+ 				else throw new InvalidCastException ("Type is " + value.GetType ().ToString ());
+ 			}
++			if (((DateTime)value) == DateTime.MinValue.AddYears(1752) ) {
++				value = DateTime.MinValue;
++			}
+ 			return (DateTime) value;
+ 		}
+ 
+diff -Nur mono-3.0.0.orig/mcs/class/System.Data/System.Data.SqlClient/SqlParameter.cs mono-3.0.0/mcs/class/System.Data/System.Data.SqlClient/SqlParameter.cs
+--- mono-3.0.0.orig/mcs/class/System.Data/System.Data.SqlClient/SqlParameter.cs	2012-10-11 18:18:48.000000000 +0200
++++ mono-3.0.0/mcs/class/System.Data/System.Data.SqlClient/SqlParameter.cs	2012-10-23 16:46:32.330822118 +0200
+@@ -394,6 +394,9 @@
+ 				return metaParameter.RawValue;
+ 			}
+ 			set {
++				if (value is DateTime && ((DateTime)value) == DateTime.MinValue) {
++					value = ((DateTime)value).AddYears (1752);
++				}
+ 				if (!isTypeSet) {
+ 					InferSqlType (value);
+ 				}

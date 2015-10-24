@@ -1,0 +1,12 @@
+diff -Nur npgsql-3.0.0.orig/src/Npgsql/NpgsqlConnector.cs npgsql-3.0.0/src/Npgsql/NpgsqlConnector.cs
+--- npgsql-3.0.0.orig/src/Npgsql/NpgsqlConnector.cs	2015-08-07 13:13:43.000000000 +0200
++++ npgsql-3.0.0/src/Npgsql/NpgsqlConnector.cs	2015-08-12 08:44:58.186901596 +0200
+@@ -937,6 +937,8 @@
+ 
+                 case BackendMessageCode.ReadyForQuery:
+                     if (error != null) {
++			if (error.Code == "57014")
++				throw new OperationCanceledException (error.Message);
+                         throw error;
+                     }
+                     break;

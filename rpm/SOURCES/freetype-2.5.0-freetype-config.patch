@@ -1,0 +1,21 @@
+diff -Nur freetype-2.5.0.orig/builds/unix/configure freetype-2.5.0/builds/unix/configure
+--- freetype-2.5.0.orig/builds/unix/configure	2013-06-19 10:36:19.000000000 +0200
++++ freetype-2.5.0/builds/unix/configure	2014-05-21 09:39:27.000000000 +0200
+@@ -12850,7 +12850,7 @@
+ # create the Unix-specific sub-Makefiles `builds/unix/unix-def.mk'
+ # and `builds/unix/unix-cc.mk' that will be used by the build system
+ #
+-ac_config_files="$ac_config_files unix-cc.mk:unix-cc.in unix-def.mk:unix-def.in"
++ac_config_files="$ac_config_files unix-cc.mk:unix-cc.in unix-def.mk:unix-def.in freetype-config freetype2.pc:freetype2.in"
+ 
+ 
+ # re-generate the Jamfile to use libtool now
+@@ -13839,6 +13839,8 @@
+     "ftconfig.h") CONFIG_HEADERS="$CONFIG_HEADERS ftconfig.h:ftconfig.in" ;;
+     "unix-cc.mk") CONFIG_FILES="$CONFIG_FILES unix-cc.mk:unix-cc.in" ;;
+     "unix-def.mk") CONFIG_FILES="$CONFIG_FILES unix-def.mk:unix-def.in" ;;
++    "freetype-config") CONFIG_FILES="$CONFIG_FILES freetype-config" ;;
++    "freetype2.pc") CONFIG_FILES="$CONFIG_FILES freetype2.pc:freetype2.in" ;;
+ 
+   *) as_fn_error $? "invalid argument: \`$ac_config_target'" "$LINENO" 5;;
+   esac

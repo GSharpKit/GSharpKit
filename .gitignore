@@ -1,0 +1,9 @@
+BUILD
+BUILDROOT
+RPMS
+SRPMS
+*.gz
+*.bz2
+*.xz
+*.tgz
+*.zip

@@ -1,0 +1,12 @@
+diff -Nur ndesk-dbus-glib-0.4.2.orig/src/GLib.cs ndesk-dbus-glib-0.4.2/src/GLib.cs
+--- ndesk-dbus-glib-0.4.2.orig/src/GLib.cs	2010-06-03 18:12:15.000000000 +0200
++++ ndesk-dbus-glib-0.4.2/src/GLib.cs	2010-06-07 18:46:51.068287472 +0200
+@@ -18,7 +18,7 @@
+ 			if (initialized)
+ 				return;
+ 
+-			Init (Bus.System);
++			//Init (Bus.System);
+ 			Init (Bus.Session);
+ 			//TODO: consider starter bus?
+ 

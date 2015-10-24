@@ -1,0 +1,37 @@
+Binary files ige-mac-bundler-0.5.orig/bundler/__init__.pyc and ige-mac-bundler-0.5/bundler/__init__.pyc differ
+diff -urN ige-mac-bundler-0.5.orig/bundler/bundler.py ige-mac-bundler-0.5/bundler/bundler.py
+--- ige-mac-bundler-0.5.orig/bundler/bundler.py	2008-06-02 10:42:54.000000000 +0200
++++ ige-mac-bundler-0.5/bundler/bundler.py	2009-10-21 15:52:17.000000000 +0200
+@@ -231,7 +231,7 @@
+                                         update=1,
+                                         verbose=1,
+                                         dry_run=0)
+-                else:
++                elif not os.path.islink(globbed_source):                	    
+                     #print "file: %s => %s" % (globbed_source, dest)
+                     shutil.copy(globbed_source, dest)
+             except EnvironmentError, e:
+@@ -243,6 +243,19 @@
+                     print "Error when copying file: " + globbed_source
+                     sys.exit(1)
+ 
++        for globbed_source in glob.glob(source):
++            try:
++                if os.path.islink(globbed_source):
++                	    #print "symlink: %s => %s" % (os.path.join(dest, os.path.basename(globbed_source)), os.path.basename(os.readlink(globbed_source)))
++                    os.symlink(os.path.basename(os.readlink(globbed_source)), os.path.join(dest, os.path.basename(globbed_source)))
++            except EnvironmentError, e:
++                if e.errno == errno.ENOENT:
++                    print "Warning, source file missing: " + globbed_source
++                elif e.errno == errno.EEXIST:
++                    print "Warning, path already exits: " + dest
++                else:
++                    print "Error when copying file: " + globbed_source
++                    sys.exit(1)
+         return dest
+ 
+     # Lists all the binaries copied in so far. Used in the library
+Binary files ige-mac-bundler-0.5.orig/bundler/bundler.pyc and ige-mac-bundler-0.5/bundler/bundler.pyc differ
+Binary files ige-mac-bundler-0.5.orig/bundler/main.pyc and ige-mac-bundler-0.5/bundler/main.pyc differ
+Binary files ige-mac-bundler-0.5.orig/bundler/project.pyc and ige-mac-bundler-0.5/bundler/project.pyc differ
+Binary files ige-mac-bundler-0.5.orig/bundler/utils.pyc and ige-mac-bundler-0.5/bundler/utils.pyc differ

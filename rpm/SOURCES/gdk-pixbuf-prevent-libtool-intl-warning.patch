@@ -1,0 +1,11 @@
+--- gdk-pixbuf/Makefile.in.orig	2010-11-21 18:01:01.204876201 +0100
++++ gdk-pixbuf/Makefile.in	2010-11-21 18:01:21.624821972 +0100
+@@ -1344,7 +1344,7 @@
+ 	$(gdk_pixbuf_symbols)			\
+ 	$(gdiplus_ldflag)
+ 
+-libgdk_pixbuf_2_0_la_LIBADD = pixops/libpixops.la $(builtin_objs) $(GDK_PIXBUF_DEP_LIBS) $(libole32) -lintl
++libgdk_pixbuf_2_0_la_LIBADD = pixops/libpixops.la $(builtin_objs) $(GDK_PIXBUF_DEP_LIBS) $(libole32) -Wl,-lintl
+ libgdk_pixbuf_2_0_la_DEPENDENCIES = pixops/libpixops.la $(builtin_objs) $(gdk_pixbuf_def) $(gdk_pixbuf_win32_res) $(libgdiplus)
+ gdk_pixbuf_headers = \
+ 	gdk-pixbuf.h			\

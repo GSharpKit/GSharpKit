@@ -1,0 +1,13 @@
+diff -Nur icu.orig/source/common/rbbi.cpp icu/source/common/rbbi.cpp
+--- icu.orig/source/common/rbbi.cpp	2011-10-19 01:12:36.000000000 +0200
++++ icu/source/common/rbbi.cpp	2013-02-01 10:55:46.003274437 +0100
+@@ -675,6 +675,9 @@
+     // covered by them, use them
+     // TODO: could use binary search
+     // TODO: what if offset is outside range, but break is not?
++
++    return previous();
++
+     if (fCachedBreakPositions != NULL) {
+         if (offset >= fCachedBreakPositions[0]
+                 && offset < fCachedBreakPositions[fNumCachedBreakPositions - 1]) {

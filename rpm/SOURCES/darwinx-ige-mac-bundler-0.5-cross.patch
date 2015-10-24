@@ -1,0 +1,28 @@
+diff -Nur ige-mac-bundler-0.5.orig/bundler/bundler.py ige-mac-bundler-0.5/bundler/bundler.py
+--- ige-mac-bundler-0.5.orig/bundler/bundler.py	2008-06-02 10:42:54.000000000 +0200
++++ ige-mac-bundler-0.5/bundler/bundler.py	2010-06-11 12:45:38.154294657 +0200
+@@ -443,7 +443,7 @@
+         self.copy_plist()
+ 
+         # Note: could move this to xml file...
+-        self.copy_path(Path("${prefix}/lib/charset.alias"))
++        #self.copy_path(Path("${prefix}/lib/charset.alias"))
+ 
+         # Data
+         for path in self.project.get_data():
+@@ -473,11 +473,11 @@
+         for path in frameworks:
+             self.copy_path(path)
+ 
+-        self.copy_icon_themes()
++        #self.copy_icon_themes()
+ 
+-        self.create_pango_setup()
+-        self.create_gtk_immodules_setup()
+-        self.create_gdk_pixbuf_loaders_setup()
++        #self.create_pango_setup()
++        #self.create_gtk_immodules_setup()
++        #self.create_gdk_pixbuf_loaders_setup()
+ 
+         if meta.run_install_name_tool:
+             self.run_install_name_tool()

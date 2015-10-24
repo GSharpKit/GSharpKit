@@ -1,0 +1,66 @@
+diff -Nur gtk+-3.16.3.orig/gtk/gtkwindow.c gtk+-3.16.3/gtk/gtkwindow.c
+--- gtk+-3.16.3.orig/gtk/gtkwindow.c	2015-05-11 20:19:47.000000000 +0200
++++ gtk+-3.16.3/gtk/gtkwindow.c	2015-06-09 20:13:45.000000000 +0200
+@@ -3953,9 +3953,13 @@
+ #ifdef GDK_WINDOWING_X11
+   if (GDK_IS_X11_DISPLAY (gtk_widget_get_display (widget)))
+     {
++      gboolean disable_csd = g_strcmp0 (g_getenv ("GTK_DISABLE_CSD"), "1") == 0;
+       GdkScreen *screen;
+       GdkVisual *visual;
+ 
++      if (disable_csd)
++        return FALSE;
++
+       screen = gtk_widget_get_screen (widget);
+ 
+       if (!gdk_screen_is_composited (screen))
+@@ -4166,9 +4170,10 @@
+   gdk_window = gtk_widget_get_window (GTK_WIDGET (window));
+   if (gdk_window)
+     {
+-      if (priv->decorated)
++      gboolean disable_csd = g_strcmp0 (g_getenv ("GTK_DISABLE_CSD"), "1") == 0;
++      if (priv->decorated && !disable_csd)
+         {
+-          if (priv->client_decorated)
++          if (priv->client_decorated && !disable_csd)
+             gdk_window_set_decorations (gdk_window, 0);
+           else
+             gdk_window_set_decorations (gdk_window, GDK_DECOR_ALL);
+@@ -5770,6 +5775,10 @@
+ {
+   GtkWindowPrivate *priv = window->priv;
+   const gchar *csd_env;
++  gboolean disable_csd = g_strcmp0 (g_getenv ("GTK_DISABLE_CSD"), "1") == 0;
++
++  if (disable_csd)
++    return FALSE;
+ 
+   if (priv->csd_requested)
+     return TRUE;
+@@ -6132,6 +6141,7 @@
+   GdkWindow *gdk_window;
+   GdkWindowState state;
+   GList *link;
++  gboolean disable_csd = g_strcmp0 (g_getenv ("GTK_DISABLE_CSD"), "1") == 0;
+ 
+   if (!gtk_widget_is_toplevel (GTK_WIDGET (widget)))
+     {
+@@ -6927,6 +6937,7 @@
+   GtkWindowPrivate *priv;
+   gint i;
+   GList *link;
++  gboolean disable_csd = g_strcmp0 (g_getenv ("GTK_DISABLE_CSD"), "1") == 0;
+ 
+   window = GTK_WINDOW (widget);
+   priv = window->priv;
+@@ -7120,7 +7131,7 @@
+   if (priv->wm_role)
+     gdk_window_set_role (gdk_window, priv->wm_role);
+ 
+-  if (!priv->decorated || priv->client_decorated)
++  if (!priv->decorated || (priv->client_decorated && !disable_csd))
+     gdk_window_set_decorations (gdk_window, 0);
+ 
+   if (!priv->deletable)

@@ -1,0 +1,19 @@
+diff -Nur glib-2.34.1.orig/glib/gkeyfile.c glib-2.34.1/glib/gkeyfile.c
+--- glib-2.34.1.orig/glib/gkeyfile.c	2012-08-29 03:27:51.000000000 +0200
++++ glib-2.34.1/glib/gkeyfile.c	2012-11-11 17:19:02.269686393 +0100
+@@ -749,13 +749,13 @@
+       return FALSE;
+     }
+ 
+-  if (!S_ISREG (stat_buf.st_mode))
++  /*if (!S_ISREG (stat_buf.st_mode))
+     {
+       g_set_error_literal (error, G_KEY_FILE_ERROR,
+                            G_KEY_FILE_ERROR_PARSE,
+                            _("Not a regular file"));
+       return FALSE;
+-    }
++    }*/
+ 
+   list_separator = key_file->list_separator;
+   g_key_file_clear (key_file);

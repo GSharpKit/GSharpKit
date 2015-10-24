@@ -1,0 +1,24 @@
+diff -Nur libsoup-2.44.2.orig/libsoup/soup-xmlrpc.c libsoup-2.44.2/libsoup/soup-xmlrpc.c
+--- libsoup-2.44.2.orig/libsoup/soup-xmlrpc.c	2013-11-11 16:02:00.000000000 +0100
++++ libsoup-2.44.2/libsoup/soup-xmlrpc.c	2014-03-03 20:47:40.000000000 +0100
+@@ -299,7 +299,7 @@
+ 	char *fault_string, *body;
+ 	int len;
+ 
+-	fault_string = g_strdup_vprintf (fault_format, args);
++	fault_string = g_strdup_vprintf ("%s", args);
+ 
+ 	doc = xmlNewDoc ((const xmlChar *)"1.0");
+ 	doc->standalone = FALSE;
+diff -Nur libsoup-2.44.2.orig/tests/coding-test.c libsoup-2.44.2/tests/coding-test.c
+--- libsoup-2.44.2.orig/tests/coding-test.c	2013-11-11 16:02:00.000000000 +0100
++++ libsoup-2.44.2/tests/coding-test.c	2014-03-03 20:50:07.000000000 +0100
+@@ -53,7 +53,7 @@
+ 			}
+ 		}
+ 		if (file_path && encoding) {
+-			file = g_strdup_printf (file_path, path);
++			file = g_strdup_printf ("%s", path);
+ 			if (g_file_test (file, G_FILE_TEST_EXISTS)) {
+ 				soup_message_headers_append (msg->response_headers,
+ 							     "Content-Encoding",

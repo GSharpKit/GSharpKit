@@ -1,0 +1,18 @@
+diff -Nur dbus-1.6.8.orig/configure.ac dbus-1.6.8/configure.ac
+--- dbus-1.6.8.orig/configure.ac	2012-09-28 21:41:40.000000000 +0200
++++ dbus-1.6.8/configure.ac	2012-11-13 09:46:18.716245224 +0100
+@@ -1118,10 +1118,10 @@
+ else
+     have_launchd=yes
+     AC_CHECK_HEADER([launch.h], , have_launchd=no)
+-    AC_PATH_PROG([LAUNCHCTL], [launchctl])
+-    if test "x$LAUNCHCTL" = "x"; then
+-        have_launchd=no
+-    fi
++#    AC_PATH_PROG([LAUNCHCTL], [launchctl])
++#    if test "x$LAUNCHCTL" = "x"; then
++#        have_launchd=no
++#    fi
+ 
+     if test x$enable_launchd = xyes && test x$have_launchd = xno ; then
+         AC_MSG_ERROR([launchd support explicitly enabled but not available])

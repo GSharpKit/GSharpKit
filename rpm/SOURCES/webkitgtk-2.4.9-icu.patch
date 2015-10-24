@@ -1,0 +1,28 @@
+diff -Nur webkitgtk-2.4.9.orig/Source/autotools/FindDependencies.m4 webkitgtk-2.4.9/Source/autotools/FindDependencies.m4
+--- webkitgtk-2.4.9.orig/Source/autotools/FindDependencies.m4	2015-05-20 11:03:25.000000000 +0200
++++ webkitgtk-2.4.9/Source/autotools/FindDependencies.m4	2015-07-14 11:41:34.000000000 +0200
+@@ -104,10 +104,6 @@
+ 
+ # TODO: use pkg-config (after CFLAGS in their .pc files are cleaned up).
+ case "$host" in
+-    *-*-darwin*)
+-        UNICODE_CFLAGS="-I$srcdir/Source/JavaScriptCore/icu -I$srcdir/Source/WebCore/icu"
+-        UNICODE_LIBS="-licucore"
+-        ;;
+     *-*-mingw*)
+ 	PKG_CHECK_MODULES(ICU, icu-i18n, ,)
+ 	if test "x$ICU_LIBS" = "x" ; then
+diff -Nur webkitgtk-2.4.9.orig/configure webkitgtk-2.4.9/configure
+--- webkitgtk-2.4.9.orig/configure	2015-05-20 11:29:21.000000000 +0200
++++ webkitgtk-2.4.9/configure	2015-07-14 11:41:34.000000000 +0200
+@@ -17713,10 +17713,6 @@
+ 
+ # TODO: use pkg-config (after CFLAGS in their .pc files are cleaned up).
+ case "$host" in
+-    *-*-darwin*)
+-        UNICODE_CFLAGS="-I$srcdir/Source/JavaScriptCore/icu -I$srcdir/Source/WebCore/icu"
+-        UNICODE_LIBS="-licucore"
+-        ;;
+     *-*-mingw*)
+ 
+ pkg_failed=no

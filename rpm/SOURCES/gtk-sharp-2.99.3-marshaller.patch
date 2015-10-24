@@ -1,0 +1,12 @@
+diff -Nur gtk-sharp-2.99.3.orig/glib/Marshaller.cs gtk-sharp-2.99.3/glib/Marshaller.cs
+--- gtk-sharp-2.99.3.orig/glib/Marshaller.cs	2014-06-06 15:48:07.000000000 +0200
++++ gtk-sharp-2.99.3/glib/Marshaller.cs	2014-08-04 10:08:29.000000000 +0200
+@@ -154,7 +154,7 @@
+ 
+ 		public static IntPtr StringToPtrGStrdup (string str) {
+ 			if (str == null)
+-				return IntPtr.Zero;
++				str = String.Empty; //return IntPtr.Zero;
+ 			byte[] bytes = System.Text.Encoding.UTF8.GetBytes (str);
+ 			IntPtr result = g_malloc (new UIntPtr ((ulong)bytes.Length + 1));
+ 			Marshal.Copy (bytes, 0, result, bytes.Length);

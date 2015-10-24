@@ -1,0 +1,25 @@
+diff -Nur dbus-1.8.12.orig/dbus/dbus-arch-deps.h.in dbus-1.8.12/dbus/dbus-arch-deps.h.in
+--- dbus-1.8.12.orig/dbus/dbus-arch-deps.h.in	2014-11-04 15:51:05.000000000 +0100
++++ dbus-1.8.12/dbus/dbus-arch-deps.h.in	2015-02-21 13:25:45.000000000 +0100
+@@ -33,11 +33,21 @@
+ 
+ /* D-Bus no longer supports platforms with no 64-bit integer type. */
+ #define DBUS_HAVE_INT64 1
++#ifndef __x86_64__
++_DBUS_GNUC_EXTENSION typedef long long dbus_int64_t;
++_DBUS_GNUC_EXTENSION typedef unsigned long long dbus_uint64_t;
++#else
+ _DBUS_GNUC_EXTENSION typedef @DBUS_INT64_TYPE@ dbus_int64_t;
+ _DBUS_GNUC_EXTENSION typedef unsigned @DBUS_INT64_TYPE@ dbus_uint64_t;
++#endif
+ 
++#ifndef __x86_64__
++#define DBUS_INT64_CONSTANT(val)  (_DBUS_GNUC_EXTENSION (val##LL))
++#define DBUS_UINT64_CONSTANT(val) (_DBUS_GNUC_EXTENSION (val##ULL))
++#else
+ #define DBUS_INT64_CONSTANT(val)  (_DBUS_GNUC_EXTENSION @DBUS_INT64_CONSTANT@)
+ #define DBUS_UINT64_CONSTANT(val) (_DBUS_GNUC_EXTENSION @DBUS_UINT64_CONSTANT@)
++#endif
+ 
+ typedef @DBUS_INT32_TYPE@ dbus_int32_t;
+ typedef unsigned @DBUS_INT32_TYPE@ dbus_uint32_t;

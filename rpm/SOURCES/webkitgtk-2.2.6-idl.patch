@@ -1,0 +1,12 @@
+diff -Nur webkitgtk-2.2.6.orig/Source/WebCore/bindings/scripts/preprocess-idls.pl webkitgtk-2.2.6/Source/WebCore/bindings/scripts/preprocess-idls.pl
+--- webkitgtk-2.2.6.orig/Source/WebCore/bindings/scripts/preprocess-idls.pl	2013-08-03 18:10:39.000000000 +0200
++++ webkitgtk-2.2.6/Source/WebCore/bindings/scripts/preprocess-idls.pl	2014-05-13 11:30:46.000000000 +0200
+@@ -188,6 +188,8 @@
+     my $attributesCode = shift;
+     my $destinationFile = shift;
+ 
++    $attributesCode =~ s/attribute -nConstructor -n;//g;
++
+     my $contents = "partial interface ${interfaceName} {\n$attributesCode};\n";
+     WriteFileIfChanged($destinationFile, $contents);
+ 

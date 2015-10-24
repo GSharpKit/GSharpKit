@@ -1,0 +1,12 @@
+diff -Nur p11-kit-0.18.1.orig/common/library.c p11-kit-0.18.1/common/library.c
+--- p11-kit-0.18.1.orig/common/library.c	2013-04-03 17:30:32.000000000 +0200
++++ p11-kit-0.18.1/common/library.c	2013-05-09 21:08:13.404804989 +0200
+@@ -125,7 +125,7 @@
+ 	uninit_common ();
+ 
+ 	/* Some cleanup to pacify valgrind */
+-	free (pthread_getspecific (thread_local));
++	/*free (pthread_getspecific (thread_local));*/
+ 	pthread_setspecific (thread_local, NULL);
+ 
+ 	p11_message_storage = dont_store_message;

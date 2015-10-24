@@ -1,0 +1,12 @@
+--- glib-2.35.3/gio/gthreadedresolver.c.orig	2013-01-02 00:29:22.990997662 +0100
++++ glib-2.35.3/gio/gthreadedresolver.c	2013-01-02 00:29:52.057314427 +0100
+@@ -37,6 +37,9 @@
+ #include "gsocketaddress.h"
+ #include "gsrvtarget.h"
+ 
++#ifdef __APPLE__
++#include <arpa/nameser_compat.h>
++#endif
+ 
+ G_DEFINE_TYPE (GThreadedResolver, g_threaded_resolver, G_TYPE_RESOLVER)
+ 

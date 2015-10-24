@@ -1,0 +1,2726 @@
+diff -Nur gtk+-3.12.2.orig/gdk/gdkwindow.h gtk+-3.12.2-theme/gdk/gdkwindow.h
+--- gtk+-3.12.2.orig/gdk/gdkwindow.h	2014-05-08 01:40:39.000000000 +0200
++++ gtk+-3.12.2-theme/gdk/gdkwindow.h	2014-05-20 14:52:05.000000000 +0200
+@@ -172,6 +172,7 @@
+  *  that belongs to a status icon.
+  * @GDK_WINDOW_TYPE_HINT_COMBO: A popup from a combo box.
+  * @GDK_WINDOW_TYPE_HINT_DND: A window that is used to implement a DND cursor.
++ * @GDK_WINDOW_TYPE_HINT_UNIFIED: A window with Unified title and toolbar
+  *
+  * These are hints for the window manager that indicate what type of function
+  * the window has. The window manager can use this when determining decoration
+@@ -195,7 +196,8 @@
+   GDK_WINDOW_TYPE_HINT_TOOLTIP,
+   GDK_WINDOW_TYPE_HINT_NOTIFICATION,
+   GDK_WINDOW_TYPE_HINT_COMBO,
+-  GDK_WINDOW_TYPE_HINT_DND
++  GDK_WINDOW_TYPE_HINT_DND,
++  GDK_WINDOW_TYPE_HINT_UNIFIED
+ } GdkWindowTypeHint;
+ 
+ /* The next two enumeration values current match the
+diff -Nur gtk+-3.12.2.orig/gdk/quartz/GdkQuartzNSWindow.c gtk+-3.12.2-theme/gdk/quartz/GdkQuartzNSWindow.c
+--- gtk+-3.12.2.orig/gdk/quartz/GdkQuartzNSWindow.c	2014-05-08 01:40:39.000000000 +0200
++++ gtk+-3.12.2-theme/gdk/quartz/GdkQuartzNSWindow.c	2014-05-20 14:52:05.000000000 +0200
+@@ -248,6 +248,7 @@
+     {
+     case GDK_WINDOW_TYPE_HINT_NORMAL:
+     case GDK_WINDOW_TYPE_HINT_DIALOG:
++    case GDK_WINDOW_TYPE_HINT_UNIFIED:
+       return YES;
+       
+     case GDK_WINDOW_TYPE_HINT_MENU:
+@@ -294,6 +295,7 @@
+     case GDK_WINDOW_TYPE_HINT_DROPDOWN_MENU:
+     case GDK_WINDOW_TYPE_HINT_POPUP_MENU:
+     case GDK_WINDOW_TYPE_HINT_COMBO:
++    case GDK_WINDOW_TYPE_HINT_UNIFIED:
+       return YES;
+       
+     case GDK_WINDOW_TYPE_HINT_SPLASHSCREEN:
+diff -Nur gtk+-3.12.2.orig/gdk/quartz/gdkwindow-quartz.c gtk+-3.12.2-theme/gdk/quartz/gdkwindow-quartz.c
+--- gtk+-3.12.2.orig/gdk/quartz/gdkwindow-quartz.c	2014-05-08 01:40:39.000000000 +0200
++++ gtk+-3.12.2-theme/gdk/quartz/gdkwindow-quartz.c	2014-05-20 14:52:05.000000000 +0200
+@@ -952,6 +952,11 @@
+                           NSResizableWindowMask);
+           }
+ 
++        //if (attributes->type_hint == GDK_WINDOW_TYPE_HINT_UNIFIED)
++          //{
++            style_mask |= NSTexturedBackgroundWindowMask;
++          //}
++
+ 	impl->toplevel = [[GdkQuartzNSWindow alloc] initWithContentRect:content_rect 
+ 			                                      styleMask:style_mask
+ 			                                        backing:NSBackingStoreBuffered
+@@ -971,6 +976,13 @@
+ 	    [impl->toplevel setBackgroundColor:[NSColor clearColor]];
+ 	  }
+ 
++        //if (attributes->type_hint == GDK_WINDOW_TYPE_HINT_UNIFIED)
++          //{
++            [impl->toplevel setAutorecalculatesContentBorderThickness: NO forEdge: NSMaxYEdge];
++            [impl->toplevel setContentBorderThickness: 0 forEdge: NSMaxYEdge];
++            [impl->toplevel setBackgroundColor:[NSColor colorWithDeviceWhite:0.866666667 alpha:1.0]];
++          //}
++
+         content_rect.origin.x = 0;
+         content_rect.origin.y = 0;
+ 
+@@ -2211,6 +2223,7 @@
+ 
+     case GDK_WINDOW_TYPE_HINT_TOOLBAR: /* Window used to implement toolbars */
+     case GDK_WINDOW_TYPE_HINT_DESKTOP: /* N/A */
++    case GDK_WINDOW_TYPE_HINT_UNIFIED:
+     case GDK_WINDOW_TYPE_HINT_DND:
+       break;
+ 
+diff -Nur gtk+-3.12.2.orig/gtk/Makefile.am gtk+-3.12.2-theme/gtk/Makefile.am
+--- gtk+-3.12.2.orig/gtk/Makefile.am	2014-05-12 12:46:53.000000000 +0200
++++ gtk+-3.12.2-theme/gtk/Makefile.am	2014-05-20 14:52:50.000000000 +0200
+@@ -462,6 +462,7 @@
+ 	gtkcssimagescaledprivate.h	\
+ 	gtkcssimagevalueprivate.h	\
+ 	gtkcssimagewin32private.h	\
++	gtkcssimagequartzprivate.h	\
+ 	gtkcssinheritvalueprivate.h	\
+ 	gtkcssinitialvalueprivate.h	\
+ 	gtkcsskeyframesprivate.h	\
+@@ -570,6 +571,7 @@
+ 	gtktreeprivate.h	\
+ 	gtkwidgetprivate.h	\
+ 	gtkwin32themeprivate.h	\
++	gtkquartzthemeprivate.h	\
+ 	gtkwindowprivate.h	\
+ 	gtktreemenu.h		\
+ 	$(gtk_private_type_h_sources) \
+@@ -707,6 +709,7 @@
+ 	gtkcssimagescaled.c	\
+ 	gtkcssimagevalue.c	\
+ 	gtkcssimagewin32.c	\
++	gtkcssimagequartz.c	\
+ 	gtkcssinheritvalue.c	\
+ 	gtkcssinitialvalue.c	\
+ 	gtkcsskeyframes.c	\
+@@ -915,6 +918,7 @@
+ 	gtkwidgetpath.c		\
+ 	gtkwindow.c		\
+ 	gtkwin32theme.c		\
++	gtkquartztheme.c        \
+ 	$(gtk_clipboard_dnd_c_sources)
+ 
+ nodist_gtk_c_sources =
+diff -Nur gtk+-3.12.2.orig/gtk/gtk.gresource.xml gtk+-3.12.2-theme/gtk/gtk.gresource.xml
+--- gtk+-3.12.2.orig/gtk/gtk.gresource.xml	2014-05-08 01:40:39.000000000 +0200
++++ gtk+-3.12.2-theme/gtk/gtk.gresource.xml	2014-05-20 14:57:14.000000000 +0200
+@@ -6,6 +6,8 @@
+     <file>theme/gtk-win32-xp.css</file>
+     <file>theme/gtk-win32-base.css</file>
+     <file>theme/gtk-win32-classic.css</file>
++    <file>theme/gtk-mac-base.css</file>
++    <file>theme/gtk-mac.css</file>
+     <file alias="cursor/dnd-ask.png">cursor/cursor_dnd_ask.png</file>
+     <file alias="cursor/dnd-link.png">cursor/cursor_dnd_link.png</file>
+     <file alias="cursor/dnd-none.png">cursor/cursor_dnd_none.png</file>
+diff -Nur gtk+-3.12.2.orig/gtk/gtkcssimage.c gtk+-3.12.2-theme/gtk/gtkcssimage.c
+--- gtk+-3.12.2.orig/gtk/gtkcssimage.c	2014-05-12 12:06:23.000000000 +0200
++++ gtk+-3.12.2-theme/gtk/gtkcssimage.c	2014-05-20 14:52:05.000000000 +0200
+@@ -30,6 +30,7 @@
+ #include "gtk/gtkcssimageurlprivate.h"
+ #include "gtk/gtkcssimagescaledprivate.h"
+ #include "gtk/gtkcssimagewin32private.h"
++#include "gtk/gtkcssimagequartzprivate.h"
+ 
+ G_DEFINE_ABSTRACT_TYPE (GtkCssImage, _gtk_css_image, G_TYPE_OBJECT)
+ 
+@@ -425,6 +426,7 @@
+     { "-gtk-gradient", _gtk_css_image_gradient_get_type },
+     { "-gtk-scaled", _gtk_css_image_scaled_get_type },
+     { "-gtk-win32-theme-part", _gtk_css_image_win32_get_type },
++    { "-gtk-quartz-theme-part", _gtk_css_image_quartz_get_type },
+     { "linear-gradient", _gtk_css_image_linear_get_type },
+     { "repeating-linear-gradient", _gtk_css_image_linear_get_type },
+     { "cross-fade", _gtk_css_image_cross_fade_get_type }
+diff -Nur gtk+-3.12.2.orig/gtk/gtkcssimagequartz.c gtk+-3.12.2-theme/gtk/gtkcssimagequartz.c
+--- gtk+-3.12.2.orig/gtk/gtkcssimagequartz.c	1970-01-01 01:00:00.000000000 +0100
++++ gtk+-3.12.2-theme/gtk/gtkcssimagequartz.c	2014-05-20 14:52:05.000000000 +0200
+@@ -0,0 +1,198 @@
++/*
++ * Copyright © 2013 Structura-IT ApS.
++ *
++ * This library is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU Lesser General Public
++ * License as published by the Free Software Foundation; either
++ * version 2.1 of the License, or (at your option) any later version.
++ *
++ * This library is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++ * Lesser General Public License for more details.
++ *
++ * You should have received a copy of the GNU Lesser General Public
++ * License along with this library. If not, see <http://www.gnu.org/licenses/>.
++ *
++ * Authors: Mikkel Kruse Johnsen <mikkel@structura-it.dk>
++ * Thanks: Benjamin Otte <otte@gnome.org>
++ */
++
++#include "config.h"
++
++#include "gtkcssimagequartzprivate.h"
++
++#include "gtkcssprovider.h"
++
++#ifdef GDK_WINDOWING_QUARTZ
++#include <Carbon/Carbon.h>
++#include <AppKit/AppKit.h>
++#endif
++
++G_DEFINE_TYPE (GtkCssImageQuartz, _gtk_css_image_quartz, GTK_TYPE_CSS_IMAGE)
++
++static void
++gtk_css_image_quartz_draw (GtkCssImage        *image,
++                           cairo_t            *cr,
++                           double              width,
++                           double              height)
++{
++  GtkCssImageQuartz *qimage = GTK_CSS_IMAGE_QUARTZ (image);
++  cairo_surface_t *surface;
++  int dx, dy;
++
++  surface = _gtk_quartz_theme_part_create_surface (qimage->type, qimage->kind, qimage->state, qimage->adornment,
++                                                   qimage->value, qimage->orientation, qimage->margins,
++  						   width, height, &dx, &dy);
++  
++  cairo_set_source_surface (cr, surface, dx, dy);
++  cairo_pattern_set_extend (cairo_get_source (cr), CAIRO_EXTEND_NONE);
++  cairo_rectangle (cr, 0, 0, width, height);
++  cairo_fill (cr);
++
++  cairo_surface_destroy (surface);
++}
++
++static gboolean
++gtk_css_image_quartz_parse (GtkCssImage  *image,
++                            GtkCssParser *parser)
++{
++  GtkCssImageQuartz *qimage = GTK_CSS_IMAGE_QUARTZ (image);
++  char *class;
++
++  if (!_gtk_css_parser_try (parser, "-gtk-quartz-theme-part", TRUE))
++    {
++      _gtk_css_parser_error (parser, "'-gtk-quartz-theme-part'");
++      return FALSE;
++    }
++  
++  if (!_gtk_css_parser_try (parser, "(", TRUE))
++    {
++      _gtk_css_parser_error (parser,
++                             "Expected '(' after '-gtk-quartz-theme-part'");
++      return FALSE;
++    }
++  
++  class = _gtk_css_parser_try_name (parser, TRUE);
++  if (class == NULL)
++    {
++      _gtk_css_parser_error (parser,
++                             "Expected name as first argument to  '-gtk-quartz-theme-part'");
++      return FALSE;
++    }
++  qimage->type = class;
++
++  if (! _gtk_css_parser_try (parser, ",", TRUE))
++    {
++      _gtk_css_parser_error (parser, "Expected ','");
++      return FALSE;
++    }
++
++  if (!_gtk_css_parser_try_int (parser, &qimage->kind))
++    {
++      _gtk_css_parser_error (parser, "Expected a valid integer value");
++      return FALSE;
++    }
++
++  if (!_gtk_css_parser_try_int (parser, &qimage->state))
++    {
++      _gtk_css_parser_error (parser, "Expected a valid integer value");
++      return FALSE;
++    }
++
++  if (_gtk_css_parser_try_int (parser, &qimage->adornment))
++    {
++      if (_gtk_css_parser_try_int (parser, &qimage->value))
++       {
++         _gtk_css_parser_try_int (parser, &qimage->orientation);
++       }
++    }
++
++  while ( _gtk_css_parser_try (parser, ",", TRUE))
++    {
++      if ( _gtk_css_parser_try (parser, "margins", TRUE))
++        {
++          guint i;
++
++          if (!_gtk_css_parser_try (parser, "(", TRUE))
++            {
++              _gtk_css_parser_error (parser,
++                                     "Expected '(' after 'margins'");
++              return FALSE;
++            }
++
++          for (i = 0; i < 4; i++)
++            {
++              if (!_gtk_css_parser_try_int (parser, &qimage->margins[i]))
++                break;
++            }
++
++          if (i == 0)
++            {
++              _gtk_css_parser_error (parser, "Expected valid margins");
++              return FALSE;
++            }
++
++          if (i == 1)
++            qimage->margins[1] = qimage->margins[0];
++          if (i <= 2)
++            qimage->margins[2] = qimage->margins[1];
++          if (i <= 3)
++            qimage->margins[3] = qimage->margins[2];
++
++          if (!_gtk_css_parser_try (parser, ")", TRUE))
++            {
++              _gtk_css_parser_error (parser,
++                                     "Expected ')' at end of 'margins'");
++              return FALSE;
++            }
++        }
++      else
++        {
++          _gtk_css_parser_error (parser,
++                                 "Expected identifier");
++          return FALSE;
++        }
++    }
++
++  if (!_gtk_css_parser_try (parser, ")", TRUE))
++    {
++      _gtk_css_parser_error (parser,
++			     "Expected ')'");
++      return FALSE;
++    }
++  
++  return TRUE;
++}
++
++static void
++gtk_css_image_quartz_print (GtkCssImage *image,
++                           GString     *string)
++{
++  g_string_append (string, "none /* printing quartz theme components is not implemented */");
++}
++
++static void
++_gtk_css_image_quartz_class_init (GtkCssImageQuartzClass *klass)
++{
++  GtkCssImageClass *image_class = GTK_CSS_IMAGE_CLASS (klass);
++
++  image_class->draw = gtk_css_image_quartz_draw;
++  image_class->parse = gtk_css_image_quartz_parse;
++  image_class->print = gtk_css_image_quartz_print;
++}
++
++static void
++_gtk_css_image_quartz_init (GtkCssImageQuartz *qimage)
++{
++#ifdef GDK_WINDOWING_QUARTZ
++  qimage->adornment = kThemeAdornmentDefault;
++  qimage->value = kThemeButtonOff;
++  qimage->orientation = kHIThemeOrientationNormal;
++#else
++  qimage->adornment = 0;
++  qimage->value = 0;
++  qimage->orientation = 0;
++#endif
++}
++
+diff -Nur gtk+-3.12.2.orig/gtk/gtkcssimagequartzprivate.h gtk+-3.12.2-theme/gtk/gtkcssimagequartzprivate.h
+--- gtk+-3.12.2.orig/gtk/gtkcssimagequartzprivate.h	1970-01-01 01:00:00.000000000 +0100
++++ gtk+-3.12.2-theme/gtk/gtkcssimagequartzprivate.h	2014-05-20 14:52:05.000000000 +0200
+@@ -0,0 +1,63 @@
++/*
++ * Copyright © 2013 Structura-IT ApS
++ *
++ * This library is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU Lesser General Public
++ * License as published by the Free Software Foundation; either
++ * version 2.1 of the License, or (at your option) any later version.
++ *
++ * This library is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++ * Lesser General Public License for more details.
++ *
++ * You should have received a copy of the GNU Lesser General Public
++ * License along with this library. If not, see <http://www.gnu.org/licenses/>.
++ *
++ * Authors: Mikkel Kruse Johnsen <mikkel@structura-it.dk>
++ * Thanks: Benjamin Otte <otte@gnome.org>
++ */
++
++#ifndef __GTK_CSS_IMAGE_QUARTZ_PRIVATE_H__
++#define __GTK_CSS_IMAGE_QUARTZ_PRIVATE_H__
++
++#include "gtk/gtkcssimageprivate.h"
++#include "gtk/gtkquartzthemeprivate.h"
++
++G_BEGIN_DECLS
++
++#define GTK_TYPE_CSS_IMAGE_QUARTZ           (_gtk_css_image_quartz_get_type ())
++#define GTK_CSS_IMAGE_QUARTZ(obj)           (G_TYPE_CHECK_INSTANCE_CAST (obj, GTK_TYPE_CSS_IMAGE_QUARTZ, GtkCssImageQuartz))
++#define GTK_CSS_IMAGE_QUARTZ_CLASS(cls)     (G_TYPE_CHECK_CLASS_CAST (cls, GTK_TYPE_CSS_IMAGE_QUARTZ, GtkCssImageQuartzClass))
++#define GTK_IS_CSS_IMAGE_QUARTZ(obj)        (G_TYPE_CHECK_INSTANCE_TYPE (obj, GTK_TYPE_CSS_IMAGE_QUARTZ))
++#define GTK_IS_CSS_IMAGE_QUARTZ_CLASS(obj)  (G_TYPE_CHECK_CLASS_TYPE (obj, GTK_TYPE_CSS_IMAGE_QUARTZ))
++#define GTK_CSS_IMAGE_QUARTZ_GET_CLASS(obj) (G_TYPE_INSTANCE_GET_CLASS ((obj), GTK_TYPE_CSS_IMAGE_QUARTZ, GtkCssImageQuartzClass))
++
++typedef struct _GtkCssImageQuartz           GtkCssImageQuartz;
++typedef struct _GtkCssImageQuartzClass      GtkCssImageQuartzClass;
++
++struct _GtkCssImageQuartz
++{
++  GtkCssImage parent;
++
++  char *type;
++  int kind;
++  int state;
++  int adornment;
++  int value;
++  int orientation;
++
++  gint margins[4];
++};
++
++struct _GtkCssImageQuartzClass
++{
++  GtkCssImageClass parent_class;
++};
++
++GType          _gtk_css_image_quartz_get_type             (void) G_GNUC_CONST;
++
++
++G_END_DECLS
++
++#endif /* __GTK_CSS_IMAGE_QUARTZ_PRIVATE_H__ */
+diff -Nur gtk+-3.12.2.orig/gtk/gtkquartztheme.c gtk+-3.12.2-theme/gtk/gtkquartztheme.c
+--- gtk+-3.12.2.orig/gtk/gtkquartztheme.c	1970-01-01 01:00:00.000000000 +0100
++++ gtk+-3.12.2-theme/gtk/gtkquartztheme.c	2014-05-20 14:52:05.000000000 +0200
+@@ -0,0 +1,391 @@
++/* GTK - The GIMP Toolkit
++ * Copyright (C) 2013 Structura-IT ApS
++ *
++ * Authors: Mikkel Kruse Johnsen <mikkel@structura-it.dk>
++ *
++ * Thanks: Carlos Garnacho <carlosg@gnome.org>
++ *         Cosimo Cecchi <cosimoc@gnome.org>
++ *
++ * This library is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU Lesser General Public
++ * License as published by the Free Software Foundation; either
++ * version 2 of the License, or (at your option) any later version.
++ *
++ * This library is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++ * Lesser General Public License for more details.
++ *
++ * You should have received a copy of the GNU Lesser General Public
++ * License along with this library. If not, see <http://www.gnu.org/licenses/>.
++ */
++
++#include <config.h>
++
++#include "gtkquartzthemeprivate.h"
++
++#ifdef GDK_WINDOWING_QUARTZ
++#include <cairo-quartz.h>
++#include <Carbon/Carbon.h>
++#include <AppKit/AppKit.h>
++#endif
++
++static void
++_gtk_quartz_theme_init (void)
++{
++}
++
++cairo_surface_t *
++_gtk_quartz_theme_part_create_surface (char  *type,
++                                       int    kind,
++                                       int    state,
++                                       int    adornment,
++				       int    value,
++                                       int    orientation,
++                                       int    margins[4],
++                                       int    width,
++                                       int    height,
++                                       int   *x_offs_out,
++                                       int   *y_offs_out)
++{
++  cairo_surface_t *surface;
++  GdkRGBA color;
++  cairo_t *cr;
++  int x_offs;
++  int y_offs;
++#ifdef GDK_WINDOWING_QUARTZ
++  NSRect rect;
++  CGContextRef context;
++#endif
++
++  x_offs = margins[3];
++  y_offs = margins[0];
++
++  width -= margins[3] + margins[1];
++  height -= margins[0] + margins[2];
++
++#ifdef GDK_WINDOWING_QUARTZ
++  surface = cairo_quartz_surface_create (CAIRO_FORMAT_ARGB32, width, height);
++  cairo_surface_flush (surface);
++  context = cairo_quartz_surface_get_cg_context (surface);
++
++  //printf("%s %dx%d %dx%d\n", type, x_offs, y_offs, width, height);
++  rect = NSMakeRect (x_offs, y_offs, width, height);
++
++  if (strcasecmp(type, "Button") == 0)
++    {
++      HIThemeButtonDrawInfo draw_info;
++
++      draw_info.version = 0;
++      draw_info.kind = kind;
++      draw_info.state = state;
++      draw_info.adornment = adornment;
++      draw_info.value = value;
++
++      if (kind == 32 || kind == 28 || kind == 25)
++        {
++          rect = NSMakeRect (x_offs, (height/2)-12, width, height);
++        }
++
++      HIThemeDrawButton ((HIRect*) &rect,
++                         &draw_info,
++                         context,
++                         kHIThemeOrientationNormal,
++                         NULL);
++    }
++  else if (strcasecmp(type, "ChasingArrows") == 0)
++    {
++      HIThemeChasingArrowsDrawInfo draw_info;
++
++      draw_info.version = 0;
++      draw_info.state = state;
++      draw_info.index = kind;
++
++      HIThemeDrawChasingArrows ((HIRect*) &rect,
++                                &draw_info,
++                                context,
++                                kHIThemeOrientationNormal);
++    }
++  else if (strcasecmp(type, "PopupArrow") == 0)
++    {
++      HIThemePopupArrowDrawInfo arrow_info;
++
++      arrow_info.version = 0;
++      arrow_info.orientation = kind;
++      arrow_info.state = state;
++      arrow_info.size = adornment;
++
++      HIThemeDrawPopupArrow ((HIRect*) &rect, 
++                             &arrow_info, 
++                             context, 
++                             kHIThemeOrientationNormal);
++    }
++  else if (strcasecmp(type, "MenuBarBackground") == 0)
++    {
++      HIThemeMenuBarDrawInfo draw_info;
++
++      draw_info.version = 0;
++      draw_info.state = state;
++
++      HIThemeDrawMenuBarBackground ((HIRect*) &rect, 
++                                    &draw_info, 
++                                    context, 
++                                    kHIThemeOrientationNormal);
++    }
++  else if (strcasecmp(type, "MenuTitle") == 0)
++    {
++      HIThemeMenuTitleDrawInfo draw_info;
++
++      draw_info.version = 0;
++      draw_info.state = state;
++      draw_info.attributes = adornment;
++      
++      HIThemeDrawMenuTitle ((HIRect*) &rect,
++                            (HIRect*) &rect,
++                            &draw_info,
++                            context,
++                            kHIThemeOrientationNormal,
++                            NULL);
++    }
++  else if (strcasecmp(type, "MenuBackground") == 0)
++    {
++      HIThemeMenuDrawInfo draw_info;
++
++      draw_info.version = 1;
++      draw_info.menuType = kind;
++
++      HIThemeDrawMenuBackground ((HIRect*) &rect, 
++                                 &draw_info, 
++                                 context, 
++                                 kHIThemeOrientationNormal);
++    }
++  else if (strcasecmp(type, "MenuItem") == 0)
++    {
++      HIThemeMenuItemDrawInfo draw_info;
++
++      draw_info.version = 0;
++      draw_info.itemType = kind | kThemeMenuItemNoBackground;
++      draw_info.state = state;
++
++      HIThemeDrawMenuItem ((HIRect*) &rect,
++                           (HIRect*) &rect,
++                           &draw_info,
++                           context,
++                           kHIThemeOrientationNormal,
++                           NULL);
++    }
++  else if (strcasecmp(type, "MenuSeparator") == 0)
++    {
++      //HIThemeMenuItemDrawInfo draw_info;
++    }
++  else if (strcasecmp(type, "Segment") == 0)
++    {
++      //HIThemeSegmentDrawInfo draw_info;
++    }
++  else if (strcasecmp(type, "TabPane") == 0)
++    {
++      //HIThemeTabPaneDrawInfo draw_info;
++    }
++  else if (strcasecmp(type, "Tab") == 0)
++    {
++      HIThemeTabDrawInfo draw_info;
++
++      draw_info.version = 1;
++      draw_info.kind = kind;
++      draw_info.style = state;
++      draw_info.adornment = adornment;
++      draw_info.position = value;
++      draw_info.direction = orientation;
++      draw_info.size = kHIThemeTabSizeNormal;
++
++      HIThemeDrawTab ((HIRect*) &rect,
++                      &draw_info,
++                      context,
++                      kHIThemeOrientationNormal,
++                      NULL);
++    }
++  else if (strcasecmp(type, "TextBox") == 0)
++    {
++      HIThemeTextInfo draw_info;
++
++      UniChar uchCheck = kCheckUnicode;
++      CFStringRef checkString = CFStringCreateWithCharacters (NULL, &uchCheck, 1);
++
++      draw_info.version = 1;
++      draw_info.fontID = kThemeMenuItemMarkFont;
++      draw_info.horizontalFlushness = kHIThemeTextHorizontalFlushRight;
++      draw_info.verticalFlushness = kHIThemeTextVerticalFlushCenter;
++      draw_info.options = 0;
++      draw_info.truncationPosition = kHIThemeTextTruncationNone;
++      draw_info.state = state;
++
++      HIThemeDrawTextBox (checkString,
++                          (HIRect*) &rect,
++                          &draw_info,
++                          context,
++                          kHIThemeOrientationNormal);
++
++      CFRelease (checkString);
++    }
++  else if (strcasecmp(type, "Track") == 0)
++    {
++      HIThemeTrackDrawInfo draw_info;
++
++      draw_info.version = 0;
++      draw_info.reserved = 0;
++      draw_info.filler1 = 0;
++      draw_info.kind = kind;
++      draw_info.enableState = state;
++      draw_info.attributes = adornment;
++      draw_info.min = 0;
++      draw_info.max = 100;
++      draw_info.value = value;
++      draw_info.trackInfo.progress.phase = 0;
++
++      if (orientation == 0)
++        draw_info.attributes |= kThemeTrackHorizontal;
++
++      draw_info.bounds = *((HIRect*) &rect);
++      HIThemeDrawTrack (&draw_info, 
++                        NULL, 
++                        context, 
++                        kHIThemeOrientationNormal);
++    }
++  else if (strcasecmp(type, "TrackTickMarks") == 0)
++    {
++      //HIThemeTrackDrawInfo draw_info;
++    }
++  else if (strcasecmp(type, "TickMark") == 0)
++    {
++      //HIThemeTickMarkDrawInfo draw_info;
++    }
++  else if (strcasecmp(type, "ScrollBarDelimiters") == 0)
++    {
++      //HIThemeScrollBarDelimitersDrawInfo draw_info;
++    }
++  else if (strcasecmp(type, "WindowFrame") == 0)
++    {
++      //HIThemeWindowDrawInfo draw_info;
++    }
++  else if (strcasecmp(type, "TitleBarWidget") == 0)
++    {
++      //HIThemeWindowWidgetDrawInfo draw_info; 
++    }
++  else if (strcasecmp(type, "GrowBox") == 0)
++    {
++      //HIThemeGrowBoxDrawInfo draw_info;
++    }
++  else if (strcasecmp(type, "Frame") == 0)
++    {
++      HIThemeFrameDrawInfo draw_info;
++
++      draw_info.version = 0;
++      draw_info.kind = kind;
++      draw_info.state = state;
++      draw_info.isFocused = (adornment == 1);
++
++      HIThemeDrawFrame ((HIRect*) &rect,
++                        &draw_info,
++                        context,
++                        kHIThemeOrientationNormal);
++    }
++  else if (strcasecmp(type, "GroupBox") == 0)
++    {
++      HIThemeGroupBoxDrawInfo draw_info;
++
++      draw_info.version = 0;
++      draw_info.kind = kind;
++
++      HIThemeDrawGroupBox ((HIRect*) &rect,
++                           &draw_info,
++                           context,
++                           kHIThemeOrientationNormal);
++    }
++  else if (strcasecmp(type, "GenericWell") == 0)
++    {
++      //HIThemeButtonDrawInfo draw_info;
++    }
++  else if (strcasecmp(type, "PaneSplitter") == 0)
++    {
++      //HIThemeSplitterDrawInfo draw_info;
++    }
++  else if (strcasecmp(type, "Grabber") == 0)
++    {
++      //HIThemeGrabberDrawInfo draw_info;
++    }
++  else if (strcasecmp(type, "Placard") == 0)
++    {
++      HIThemePlacardDrawInfo draw_info;
++
++      draw_info.version = 0;
++      draw_info.state = state;
++
++      HIThemeDrawPlacard ((HIRect *)&rect, 
++                          &draw_info, 
++                          context, 
++                          kHIThemeOrientationNormal);
++    }
++  else if (strcasecmp(type, "Header") == 0)
++    {
++      //HIThemeHeaderDrawInfo draw_info;
++    }
++  else if (strcasecmp(type, "FocusRect") == 0)
++    {
++      HIThemeDrawFocusRect ((HIRect*) &rect,
++                            (kind == 1),
++                            context,
++                            kHIThemeOrientationNormal); 
++    }
++  else if (strcasecmp(type, "Separator") == 0)
++    {
++      //HIThemeSeparatorDrawInfo draw_info;
++    }
++  else if (strcasecmp(type, "Background") == 0)
++    {
++      HIThemeBackgroundDrawInfo draw_info;
++
++      draw_info.kind = kind;
++      draw_info.state = state;
++
++      HIThemeDrawBackground ((HIRect *)&rect,
++                             &draw_info,
++                             context,
++                             kHIThemeOrientationNormal);
++    }
++  else
++    {
++       printf("Unknown Type: %s\n", type);
++    }
++
++  cairo_surface_mark_dirty (surface);
++
++  *x_offs_out = x_offs;
++  *y_offs_out = y_offs;
++
++  return surface;
++#else
++  surface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, width, height);
++  cr = create_cairo (surface); 
++#endif
++
++  /* XXX: Do something better here (like printing the theme parts) */
++  gdk_rgba_parse (&color, "pink");
++  gdk_cairo_set_source_rgba (cr, &color);
++  cairo_paint (cr);
++
++  cairo_destroy (cr);
++
++  *x_offs_out = x_offs;
++  *y_offs_out = y_offs;
++
++  return surface;
++}
++
++const char *
++_gtk_quartz_theme_get_default (void)
++{
++  _gtk_quartz_theme_init ();
++  
++  return "gtk-mac";
++}
++
+diff -Nur gtk+-3.12.2.orig/gtk/gtkquartzthemeprivate.h gtk+-3.12.2-theme/gtk/gtkquartzthemeprivate.h
+--- gtk+-3.12.2.orig/gtk/gtkquartzthemeprivate.h	1970-01-01 01:00:00.000000000 +0100
++++ gtk+-3.12.2-theme/gtk/gtkquartzthemeprivate.h	2014-05-20 14:52:05.000000000 +0200
+@@ -0,0 +1,47 @@
++/* GTK - The GIMP Toolkit
++ * Copyright (C) 2013 Structura-IT ApS
++ *
++ * Authors: Mikkel Kruse Johnsen <mikkel@structura-it.dk>
++ * Thanks: Alexander Larsson <alexl@gnome.org>
++ *
++ * This library is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU Lesser General Public
++ * License as published by the Free Software Foundation; either
++ * version 2 of the License, or (at your option) any later version.
++ *
++ * This library is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++ * Lesser General Public License for more details.
++ *
++ * You should have received a copy of the GNU Lesser General Public
++ * License along with this library. If not, see <http://www.gnu.org/licenses/>.
++ */
++
++#ifndef __GTK_QUARTZ_THEME_PART_H__
++#define __GTK_QUARTZ_THEME_PART_H__
++
++#include "gtkcssparserprivate.h"
++
++G_BEGIN_DECLS
++
++#define GTK_QUARTZ_THEME_SYMBOLIC_COLOR_NAME "-gtk-quartz-color"
++
++cairo_surface_t *  _gtk_quartz_theme_part_create_surface (char        *theme,
++							  int          kine,
++                                                          int          state,
++                                                          int          adornment,
++                                                          int          value,
++                                                          int          orientation,
++                                                          int          margins[4],
++                                                          int          width,
++                                                          int          height,
++                                                          int         *x_offs_out,
++                                                          int         *y_offs_out);
++
++GtkSymbolicColor  *_gtk_quartz_theme_color_parse   (GtkCssParser      *parser);
++const char *      _gtk_quartz_theme_get_default    (void);
++
++G_END_DECLS
++
++#endif /* __GTK_QUARTZ_THEME_PART_H__ */
+diff -Nur gtk+-3.12.2.orig/gtk/gtksettings.c gtk+-3.12.2-theme/gtk/gtksettings.c
+--- gtk+-3.12.2.orig/gtk/gtksettings.c	2014-05-12 12:46:53.000000000 +0200
++++ gtk+-3.12.2-theme/gtk/gtksettings.c	2014-05-20 15:01:38.000000000 +0200
+@@ -50,6 +50,7 @@
+ 
+ #ifdef GDK_WINDOWING_QUARTZ
+ #include "quartz/gdkquartz.h"
++#include "gtkquartzthemeprivate.h"
+ #endif
+ 
+ #ifdef G_OS_WIN32
+@@ -437,8 +438,12 @@
+ #ifdef G_OS_WIN32
+ 								  _gtk_win32_theme_get_default (),
+ #else
++#ifdef GDK_WINDOWING_QUARTZ
++                                                                  _gtk_quartz_theme_get_default (),
++#else
+                                                                   DEFAULT_THEME_NAME,
+ #endif
++#endif
+                                                                   GTK_PARAM_READWRITE),
+                                              NULL);
+   g_assert (result == PROP_THEME_NAME);
+diff -Nur gtk+-3.12.2.orig/gtk/resources/gtk-mac-base.css gtk+-3.12.2-theme/gtk/resources/gtk-mac-base.css
+--- gtk+-3.12.2.orig/gtk/resources/gtk-mac-base.css	1970-01-01 01:00:00.000000000 +0100
++++ gtk+-3.12.2-theme/gtk/resources/gtk-mac-base.css	2014-05-20 14:52:05.000000000 +0200
+@@ -0,0 +1,912 @@
++@define-color bg_color #f1f1f1;
++@define-color text_color #000000;
++@define-color base_color #ffffff;
++@define-color selected_bg_color #f1f1f1;
++@define-color selected_fg_color #000000;
++@define-color info_fg_color rgb (181, 171, 156);
++@define-color info_bg_color rgb (252, 252, 189);
++@define-color warning_fg_color rgb (173, 120, 41);
++@define-color warning_bg_color rgb (250, 173, 61);
++@define-color question_fg_color rgb (97, 122, 214);
++@define-color question_bg_color rgb (138, 173, 212);
++@define-color error_fg_color rgb (166, 38, 38);
++@define-color error_bg_color rgb (237, 54, 54);
++
++* {
++    -GtkWidget-link-color: #b5d5ff;
++    -GtkWidget-visited-link-color: #b5d5ff;
++    -GtkWidget-focus-line-width: 0;
++    -GtkWidget-focus-padding: 1;
++
++    /*-GtkComboBox-appears-as-list: true;*/
++    -GtkComboBox-arrow-size: 0;
++    -GtkComboBox-arrow-scaling: 0.0;
++
++    -GtkArrow-arrow-scaling: 0.0;
++
++    -GtkScrolledWindow-scrollbars-spacing: 0;
++
++    -GtkScrollbar-has-backward-stepper: 0;
++    -GtkScrollbar-has-forward-stepper: 0;
++
++    -GtkRange-trough-border: 0;
++    -GtkRange-arrow-scaling: 0.0;
++
++    -GtkTreeView-even-row-color: #f3f3f3;
++}
++
++.background {
++    color: @text_color;
++    background-color: @bg_color;
++}
++
++.viewport {
++    color: @text_color;
++    border-width: 1px;
++    border-style: solid;
++    border-color: #e8e8e8;
++    background-color: @base_color;
++}
++
++GtkFrame.frame {
++    background-image: -gtk-quartz-theme-part(GroupBox, 0 0);
++}
++
++GtkSrolledWindow .frame {
++    color: @text_color;
++    border-width: 1px;
++    border-style: solid;
++    border-color: mix (#000000, #e8e8e8, 0.5);
++}
++
++
++.calendar {
++    color: @text_color;
++}
++.calendar .button {
++    background-image: none;
++}
++
++GtkLabel {
++    font: Lucida Grande 12px;
++    color: @text_color;
++}
++
++*:insensitive {
++    color: #808080;
++}
++
++*:selected,
++*:selected:focus {
++    background-color: @selected_bg_color;
++    color: @selected_fg_color;
++}
++
++.info {
++    background-color: @info_bg_color;
++    color: @info_fg_color;
++}
++
++.warning {
++    background-color: @warning_bg_color;
++    color: @warning_fg_color;
++}
++
++.question {
++    background-color: @question_bg_color;
++    color: @question_fg_color;
++}
++
++.error {
++    background-color: @error_bg_color;
++    color: @error_fg_color;
++}
++
++.highlight {
++    background-color: @selected_bg_color;
++    color: @selected_fg_color;
++}
++
++.light-area-focus {
++    color: #000;
++}
++
++.dark-area-focus {
++    color: #fff;
++}
++
++.view {
++    border-width: 0px;
++    color: @text_color;
++    background-color: @base_color;
++}
++/*
++.view row:even {
++    background-color: #f3f3f3;
++}
++*/
++.view:selected {
++    background-color: shade (@bg_color, 0.9);
++    color: @text_color;
++}
++.view:selected:focused {
++    background-color: #3874d7;
++    color: #ffffff;
++}
++
++.tooltip {
++    background-color: #fff;
++    color: #000;
++    border-width: 1px;
++    border-style: solid;
++}
++.tooltip * {
++    color: #000;
++}
++
++GtkAssistant .sidebar .highlight {
++    font: bold;
++    color: #000;
++}
++
++/* Buttons */
++
++.button {
++    padding: 4px;
++    color: @text_color;
++    background-image: -gtk-quartz-theme-part(Button, 32 1, margins(0 0 0 0));
++}
++
++.button:insensitive {
++    color: @text_color;
++    background-image: -gtk-quartz-theme-part(Button, 32 0, margins(0 0 0 0));
++}
++
++.button:focused {
++    color: @text_color;
++    background-image: -gtk-quartz-theme-part(Button, 32 1, margins(0 0 0 0));
++}
++
++.button:prelight, .button:prelight:focused {
++    color: @text_color;
++    background-image: -gtk-quartz-theme-part(Button, 32 1, margins(0 0 0 0));
++}
++
++.button:active, .button:active:focused, .button:active:focused:prelight {
++    color: @text_color;
++    background-image: -gtk-quartz-theme-part(Button, 25 1, margins(0 0 0 0));
++}
++
++
++GtkToggleButton.button {
++    color: @text_color;
++    background-image: -gtk-quartz-theme-part(Button, 3 1, margins(0 0 0 0));
++}
++GtkToggleButton.button:insensitive {
++    color: @text_color;
++    background-image: -gtk-quartz-theme-part(Button, 3 0, margins(0 0 0 0));
++}
++GtkToggleButton.button:focused {
++    color: @text_color;
++    background-image: -gtk-quartz-theme-part(Button, 3 1, margins(0 0 0 0));
++}
++GtkToggleButton.button:prelight, GtkToggleButton.button:prelight:focused {
++    color: @text_color;
++    background-image: -gtk-quartz-theme-part(Button, 3 1, margins(0 0 0 0));
++}
++GtkToggleButton.button:active, GtkToggleButton.button:active:focused, GtkToggleButton.button:active:focused:prelight {
++    color: @text_color;
++    background-image: -gtk-quartz-theme-part(Button, 3 2, margins(0 0 0 0));
++}
++
++
++
++/* Check buttons */
++
++.check {
++    padding: 1px;
++    color: @text_color;
++    background-image: -gtk-quartz-theme-part(Button, 1 1, margins(0 1 0 -1));
++}
++
++.check:insensitive {
++    background-image: -gtk-quartz-theme-part(Button, 1 0, margins(0 1 0 -1));
++}
++
++/* The GtkButton here is to avoid problems with checkboxes
++   in a listview where all checkboxes in a row gets prelighted
++   whenever the row is prelighted */
++
++GtkButton.check:prelight {
++    background-image: -gtk-quartz-theme-part(Button, 1 1, margins(0 1 0 -1));
++}
++
++.check:active {
++    background-image: -gtk-quartz-theme-part(Button, 1 1 1 1, margins(0 1 0 -1));
++}
++
++.check:active:insensitive {
++    background-image: -gtk-quartz-theme-part(Button, 1 0 1 1, margins(0 1 0 -1));
++}
++
++GtkButton.check:active:prelight {
++    background-image: -gtk-quartz-theme-part(Button, 1 1 1 1, margins(0 1 0 -1));
++}
++
++.check:inconsistent {
++    background-image: -gtk-quartz-theme-part(Button, 1 0, margins(0 1 0 -1));
++}
++
++.check:inconsistent:insensitive {
++    background-image: -gtk-quartz-theme-part(Button, 1 1, margins(0 1 0 -1));
++}
++
++.check:inconsistent:prelight {
++    background-image: -gtk-quartz-theme-part(Button, 1 1, margins(0 1 0 -1));
++}
++
++
++
++/* Radio buttons */
++
++.radio {
++    padding: 0px;
++    color: @text_color;
++    background-image: -gtk-quartz-theme-part(Button, 14 1);
++}
++
++.radio:insensitive {
++    background-image: -gtk-quartz-theme-part(Button, 14 0);
++}
++
++.radio:prelight {
++    background-image: -gtk-quartz-theme-part(Button, 14 1);
++}
++
++.radio:active {
++    background-image: -gtk-quartz-theme-part(Button, 14 1 1 1);
++}
++
++.radio:active:insensitive {
++    background-image: -gtk-quartz-theme-part(Button, 14 0 1 1);
++}
++
++.radio:active:prelight {
++    background-image: -gtk-quartz-theme-part(Button, 14 1 1 1);
++}
++
++.radio:inconsistent {
++    background-image: -gtk-quartz-theme-part(Button, 14 1 1 1);
++}
++
++.radio:inconsistent:insensitive {
++    background-image: -gtk-quartz-theme-part(Button, 14 0 1 1);
++}
++
++.radio:inconsistent:prelight {
++    background-image: -gtk-quartz-theme-part(Button, 14 1 1 1);
++}
++
++
++
++/* Scrollbars */
++
++.scrollbar {
++    background-color: transparent;
++    -GtkScrollbar-has-backward-stepper: 0;
++    -GtkScrollbar-has-forward-stepper: 0;
++    -GtkRange-trough-border: 0;
++    -GtkRange-arrow-scaling: 0.0;
++    background-image: -gtk-quartz-theme-part(Track, 0 1 92 0 0);
++}
++
++.scrollbar.vertical {
++    background-image: -gtk-quartz-theme-part(Track, 0 1 92 0 1);
++}
++
++.scrollbar.trough {
++    background-color: transparent;
++    background-image: -gtk-quartz-theme-part(Placard, 0 1);
++}
++
++.scrollbar.trough.vertical {
++    background-color: transparent;
++    background-image: -gtk-quartz-theme-part(Placard, 0 1);
++}
++
++
++
++/* Entry */
++
++.entry {
++    padding: 4px;
++    color: @text_color;
++    border-width: 1px;
++    border-style: solid;
++    border-color: #c3c3c3;
++    border-radius: 2px;
++    background-color: #ffffff;
++    background-image: -gtk-quartz-theme-part(Frame, 0 1 0);
++}
++.entry:selected {
++    background-color: #b5d5ff;
++}
++.entry:insensitive {
++    background-image: -gtk-quartz-theme-part(Frame, 0 0 0);
++}
++.entry:prelight,
++.entry:focused {
++    border-width: 2px;
++    border-radius: 2px;
++    border-color: #77abdc;
++    background-image: -gtk-quartz-theme-part(Frame, 0 1 1);
++}
++.entry:selected:prelight,
++.entry:selected:focused {
++    border-width: 2px;
++    border-radius: 2px;
++    border-color: #77abdc;
++    background-color: #b5d5ff;
++    background-image: -gtk-quartz-theme-part(Frame, 0 1 1);
++}
++
++
++
++/* Spinbuttons */
++
++.spinbutton .button {
++    padding: 0px;
++    background-image: none;
++}
++
++/*
++.spinbutton .button,
++.spinbutton .button:focused {
++    background-image: -gtk-quartz-theme-part(Button, 7 1);
++}
++
++.spinbutton .button:last-child {
++    background-image: -gtk-quartz-theme-part(Button, 7 1);
++}
++
++.spinbutton .button:prelight,
++.spinbutton .button:prelight:focused {
++    background-image: -gtk-quartz-theme-part(Button, 7 1);
++}
++
++.spinbutton .button:active,
++.spinbutton .button:active:prelight,
++.spinbutton .button:active:focused,
++.spinbutton .button:active:prelight:focused {
++    background-image: -gtk-quartz-theme-part(Button, 7 1);
++}
++
++.spinbutton .button:insensitive {
++    background-image: -gtk-quartz-theme-part(Button, 7 0);
++}
++
++.spinbutton .button:insensitive:last-child {
++    background-image: -gtk-quartz-theme-part(Button, 7 0);
++}
++
++.spinbutton .button.bottom,
++.spinbutton .button.bottom:focused {
++    background-image: -gtk-quartz-theme-part(Button, 7 1);
++}
++
++.spinbutton .button.bottom:prelight,
++.spinbutton .button.bottom:prelight:focused {
++    background-image: -gtk-quartz-theme-part(Button, 7 1);
++}
++
++.spinbutton .button.bottom:active,
++.spinbutton .button.bottom:active:prelight {
++    background-image: -gtk-quartz-theme-part(Button, 7 1);
++}
++
++.spinbutton .button.bottom:insensitive {
++    background-image: -gtk-quartz-theme-part(Button, 7 1);
++}
++*/
++
++
++
++/* Ranges */
++
++.scale {
++    background-color: transparent;
++    -GtkScale-value-spacing: 0;
++    -GtkScale-slider-length: 9;
++    -GtkRange-slider-width: 20;
++    -GtkRange-trough-border: 0;
++}
++
++.scale.trough {
++    border-style: none;
++    border-width: 0;
++    background-image: -gtk-quartz-theme-part(Placard, 0 1, margins (0 0 0 0));
++}
++
++.scale.trough.vertical {
++    background-image: -gtk-quartz-theme-part(Placard, 0 1, margins (0 0 0 0));
++}
++
++.scale.slider {
++    padding: 2px;
++    background-color: transparent;
++    background-image: -gtk-quartz-theme-part(Track, 6 0 12 0 1);
++}
++
++.scale.slider:prelight {
++    background-image: -gtk-quartz-theme-part(Track, 6 0 12 0 1);
++}
++
++.scale.slider:active,
++.scale.slider:prelight:active {
++    background-image: -gtk-quartz-theme-part(Track, 6 0 12 0 1);
++}
++
++.scale.slider:focus {
++    background-image: -gtk-quartz-theme-part(Track, 6 0 12 0 1);
++}
++
++.scale.slider:insensitive {
++    background-image: -gtk-quartz-theme-part(Track, 6 1 12 0 1);
++}
++
++/*
++.scale.slider.vertical {
++    background-image: -gtk-quartz-theme-part(Track, 6 1);
++}
++
++.scale.slider.vertical:prelight {
++    background-image: -gtk-quartz-theme-part(Track, 6 2);
++}
++
++.scale.slider.vertical:active,
++.scale.slider.vertical:prelight:active {
++    background-image: -gtk-quartz-theme-part(Track, 6 3);
++}
++
++.scale.slider.vertical:focus {
++    background-image: -gtk-quartz-theme-part(Track, 6 4);
++}
++
++.scale.slider.vertical:insensitive {
++    background-image: -gtk-quartz-theme-part(Track, 6 5);
++}
++
++.scale.slider.scale-has-marks-below {
++    background-image: -gtk-quartz-theme-part(Track, 4 1);
++}
++
++.scale.slider.scale-has-marks-below:prelight {
++    background-image: -gtk-quartz-theme-part(trackbar, 4 2);
++}
++
++.scale.slider.scale-has-marks-below:active,
++.scale.slider.scale-has-marks-below:prelight:active {
++    background-image: -gtk-quartz-theme-part(trackbar, 4 3);
++}
++
++.scale.slider.scale-has-marks-below:focus {
++    background-image: -gtk-quartz-theme-part(trackbar, 4 4);
++}
++
++.scale.slider.scale-has-marks-below:insensitive {
++    background-image: -gtk-quartz-theme-part(trackbar, 4 5);
++}
++
++.scale.slider.scale-has-marks-below.vertical {
++    background-image: -gtk-quartz-theme-part(trackbar, 8 1);
++}
++
++.scale.slider.scale-has-marks-below.vertical:prelight {
++    background-image: -gtk-quartz-theme-part(trackbar, 8 2);
++}
++
++.scale.slider.scale-has-marks-below.vertical:active,
++.scale.slider.scale-has-marks-below.vertical:prelight:active {
++    background-image: -gtk-quartz-theme-part(trackbar, 8 3);
++}
++
++.scale.slider.scale-has-marks-below.vertical:focus {
++    background-image: -gtk-quartz-theme-part(trackbar, 8 4);
++}
++
++.scale.slider.scale-has-marks-below.vertical:insensitive {
++    background-image: -gtk-quartz-theme-part(trackbar, 8 5);
++}
++
++.scale.slider.scale-has-marks-above {
++    background-image: -gtk-quartz-theme-part(trackbar, 5 1);
++}
++
++.scale.slider.scale-has-marks-above:prelight {
++    background-image: -gtk-quartz-theme-part(trackbar, 5 2);
++}
++
++.scale.slider.scale-has-marks-above:active,
++.scale.slider.scale-has-marks-above:prelight:active {
++    background-image: -gtk-quartz-theme-part(trackbar, 5 3);
++}
++
++.scale.slider.scale-has-marks-above:focus {
++    background-image: -gtk-quartz-theme-part(trackbar, 5 4);
++}
++
++.scale.slider.scale-has-marks-above:insensitive {
++    background-image: -gtk-quartz-theme-part(trackbar, 5 5);
++}
++
++.scale.slider.scale-has-marks-above.vertical {
++    background-image: -gtk-quartz-theme-part(trackbar, 7 1);
++}
++
++.scale.slider.scale-has-marks-above.vertical:prelight {
++    background-image: -gtk-quartz-theme-part(trackbar, 7 2);
++}
++
++.scale.slider.scale-has-marks-above.vertical:active,
++.scale.slider.scale-has-marks-above.vertical:prelight:active {
++    background-image: -gtk-quartz-theme-part(trackbar, 7 3);
++}
++
++.scale.slider.scale-has-marks-above.vertical:focus {
++    background-image: -gtk-quartz-theme-part(trackbar, 7 4);
++}
++
++.scale.slider.scale-has-marks-above.vertical:insensitive {
++    background-image: -gtk-quartz-theme-part(trackbar, 7 5);
++}
++*/
++
++
++
++/* Progress bars */
++
++GtkProgressBar {
++    background-color: transparent;
++    padding: 0px;
++}
++
++GtkProgressBar.trough {
++    background-image: -gtk-quartz-theme-part(Placard, 0 1, margins(0 0 1 0));
++}
++
++GtkProgressBar.progressbar,
++GtkEntry.progressbar,
++GtkEntry.progressbar:focused {
++    background-image: -gtk-quartz-theme-part(Track, 7 0 0 0 0);
++}
++
++GtkProgressBar.progressbar.pulse,
++GtkEntry.progressbar.pulse,
++GtkEntry.progressbar.pulse:focused {
++    background-image: -gtk-quartz-theme-part(Track, 7 0 0 0 0);
++}
++
++GtkProgressBar.trough.vertical {
++    background-image: -gtk-quartz-theme-part(Placard, 0 1, margins(0 3 0 0));
++}
++
++.progressbar.vertical {
++    background-image: -gtk-quartz-theme-part(Track, 7 0 0 0 1);
++}
++
++.progressbar.pulse.vertical {
++    background-image: -gtk-quartz-theme-part(Track, 7 0 0 0 1);
++}
++
++
++
++/* Combobox */
++
++GtkComboBox .button {
++    padding: 2px 5px 2px 5px;
++    color: @text_color;
++    background-image: -gtk-quartz-theme-part(Button, 28 0, margins(0 0 0 0));
++}
++/*GtkComboBox:prelight .button,
++GtkComboBox:focused .button,
++GtkComboBox:prelight:focused .button,*/
++GtkComboBox .button:prelight,
++GtkComboBox .button:focused,
++GtkComboBox .button:prelight:focused {
++    background-image: -gtk-quartz-theme-part(Button, 28 0, margins(0 0 0 0));
++}
++GtkComboBox .button:active,
++GtkComboBox .button:active:focused,
++GtkComboBox .button:active:prelight,
++GtkComboBox .button:active:focused:prelight {
++    background-image: -gtk-quartz-theme-part(Button, 28 0, margins(0 0 0 0));
++}
++GtkComboBox .button:insensitive {
++    background-image: -gtk-quartz-theme-part(Button, 28 0, margins(0 0 0 0));
++}
++
++
++GtkComboBox.combobox-entry .button {
++    padding: 0px;
++    color: @text_color;
++    background-image: -gtk-quartz-theme-part(Button, 5 0, margins(0 0 0 0));
++}
++GtkComboBox.combobox-entry:prelight .button,
++GtkComboBox.combobox-entry:focused .button,
++GtkComboBox.combobox-entry:prelight:focused .button,
++GtkComboBox.combobox-entry .button:prelight,
++GtkComboBox.combobox-entry .button:focused,
++GtkComboBox.combobox-entry .button:prelight:focused {
++    background-image: -gtk-quartz-theme-part(Button, 5 0, margins(0 0 0 0));
++}
++GtkComboBox.combobox-entry .button:active,
++GtkComboBox.combobox-entry .button:active:focused,
++GtkComboBox.combobox-entry .button:active:prelight,
++GtkComboBox.combobox-entry .button:active:focused:prelight {
++    background-image: -gtk-quartz-theme-part(Button, 5 0, margins(0 0 0 0));
++}
++GtkComboBox.combobox-entry .button:insensitive {
++    background-image: -gtk-quartz-theme-part(Button, 5 0, margins(0 0 0 0));
++}
++
++GtkComboBox .separator {
++    /* always disable separators */
++    -GtkWidget-wide-separators: true;
++    -GtkWidget-horizontal-separator: 0;
++    -GtkWidget-vertical-separator: 0;
++}
++
++
++
++/* Notebook */
++
++.notebook {
++    color: @text_color;
++    border-width: 1px;
++    border-style: solid;
++    border-color: #a6a6a6;
++    background-color: #ffffff;
++    padding: 2px;
++}
++
++.notebook tab {
++    padding: 3px;
++    border-width: 0px;
++    background-color: transparent;
++    background-image: -gtk-quartz-theme-part(Tab, 0 0 16 1);
++}
++.notebook tab:first-child {
++    background-image: -gtk-quartz-theme-part(Tab, 0 0 16 0);
++}
++.notebook tab:last-child {
++    background-image: -gtk-quartz-theme-part(Tab, 0 0 16 2);
++}
++.notebook tab.left {
++    background-image: -gtk-quartz-theme-part(Tab, 0 0 16 0);
++}
++.notebook tab.right {
++    background-image: -gtk-quartz-theme-part(Tab, 0 0 16 2);
++}
++
++.notebook tab:active {
++    background-image: -gtk-quartz-theme-part(Tab, 0 1 16 1);
++}
++.notebook tab:first-child:active {
++    background-image: -gtk-quartz-theme-part(Tab, 0 1 16 0);
++}
++.notebook tab:last-child:active {
++    background-image: -gtk-quartz-theme-part(Tab, 0 1 16 2);
++}
++.notebook tab:active.left {
++    background-image: -gtk-quartz-theme-part(Tab, 0 1 16 0);
++}
++.notebook tab:active.right {
++    background-image: -gtk-quartz-theme-part(Tab, 0 1 16 2);
++}
++
++
++
++/* Toolbar */
++
++
++.toolbar {
++    padding: 4px;
++    color: @text_color;
++    border-width: 0px 0px 1px 0px;
++    border-style: solid;
++    border-color: mix (#ffffff, #6a6a6a, 0.8);
++    text-shadow: 0px 1px #ffffff;
++    background-image: -gtk-gradient (linear, left top, left bottom, from (#dedede), to (#a9a9a9));
++}
++/*.toolbar:focus {
++    background-image: -gtk-gradient (linear, left top, left bottom, from (#b4b4b4), to (#b9b9b9));
++}*/
++
++.toolbar GtkButton.button,
++.toolbar GtkButton.button:hover,
++.toolbar GtkButton.button:prelight,
++.toolbar GtkButton.button:prelight:focused,
++.toolbar GtkButton.button:selected,
++.toolbar GtkButton.button:selected:prelight,
++.toolbar GtkButton.button:focused {
++    padding: 1px;
++    background-color: transparent;
++    background-image: -gtk-quartz-theme-part(Button, 3 1);
++}
++
++.toolbar GtkButton.button:active,
++.toolbar GtkButton.button:active:selected,
++.toolbar GtkButton.button:active:prelight,
++.toolbar GtkButton.button:active:selected:prelight {
++    background-image: -gtk-quartz-theme-part(Button, 3 1);
++}
++
++.toolbar GtkButton.button:insensitive {
++    background-image: -gtk-quartz-theme-part(Button, 3 0);
++}
++
++
++
++/* Column headers */
++
++column-header .button,
++column-header .button:focus {
++    padding: 0px 3px;
++    font: 8px;
++    background-color: transparent;
++    border-width: 0;
++    background-image: -gtk-quartz-theme-part(Button, 10 1);
++}
++
++column-header .button:prelight,
++column-header .button:prelight:focus {
++    background-image: -gtk-quartz-theme-part(Button, 10 1);
++}
++
++column-header .button:active,
++column-header .button:active:prelight,
++column-header .button:active:focus,
++column-header .button:active:prelight:focus {
++    background-image: -gtk-quartz-theme-part(Button, 10 2 5);
++}
++
++
++
++GtkSwitch {
++    font: bold condensed 10;
++    color: #000;
++}
++
++GtkSwitch.slider {
++    padding: 4px;
++    background-color: transparent;
++    background-image: -gtk-quartz-theme-part(Track, 0 1 0 0 0);
++    border-width: 0;
++}
++
++GtkSwitch.trough:insensitive {
++    background-image: -gtk-quartz-theme-part(Track, 0 0 0 0 0);
++}
++
++GtkSwitch.trough {
++    background-image: -gtk-quartz-theme-part(Placard, 0 1);
++}
++
++GtkSwitch.trough:active {
++    background-image: -gtk-quartz-theme-part(Placard, 0 1);
++}
++
++
++
++/* Menus */
++
++.menubar {
++    border-image: -gtk-quartz-theme-part(Placard, 0 1);
++    background-image: -gtk-quartz-theme-part(MenuBarBackground, 0 0);
++}
++
++.popup,
++.menu {
++    background-color: transparent;
++    background-image: -gtk-quartz-theme-part(MenuBackground, 1 1);
++}
++
++.menuitem {
++    color: @text_color;
++    padding: 3px 5px;
++    background-color: transparent;
++    background-image: -gtk-quartz-theme-part(MenuItem, 0 0);
++}
++
++.menuitem:focus,
++.menuitem:hover,
++.menuitem:prelight,
++.menuitem:prelight:selected,
++.menuitem:selected {
++    color: #ffffff;
++    background-image: -gtk-quartz-theme-part(MenuItem, 0 1);
++}
++
++.menubar > .menuitem {
++    padding: 3px 5px;
++    background-image: -gtk-quartz-theme-part(MenuTitle, 0 0);
++}
++.menubar > .menuitem:selected {
++    padding: 3px 5px;
++    color: #ffffff;
++    background-image: -gtk-quartz-theme-part(MenuTitle, 0 1);
++}
++
++.menuitem .radio,
++.menuitem .check,
++.menuitem .radio:prelight,
++.menuitem .radio:focus,
++.menuitem .radio:selected,
++.menuitem .check:prelight,
++.menuitem .check:focus,
++.menuitem .check:selected {
++    background-image: none;
++}
++
++.menuitem .radio:active,
++.menuitem .check:active,
++.menuitem .radio:active:prelight,
++.menuitem .radio:active:focus,
++.menuitem .radio:active:selected,
++.menuitem .check:active:prelight,
++.menuitem .check:active:focus,
++.menuitem .check:active:selected {
++    background-image: -gtk-quartz-theme-part(TextBox, 0 1);
++}
++.menuitem .check:insensitive {
++    background-image: -gtk-quartz-theme-part(TextBox, 0 0);
++}
++
++
++/* Assistant */
++
++GtkAssistant .sidebar .highlight {
++    background-color: blue;
++    font: bold;
++}
++
++GtkAssistant .sidebar {
++    padding: 12px;
++
++    background-color: white;
++
++    border-image: none;
++    border-width: 0 1px 0 0;
++    border-style: solid;
++}
++
++GtkColorSwatch {
++    border-style: solid;
++    border-width: 1px;
++}
++
++GtkColorSwatch:prelight {
++    border-color: shade (@bg_color, 0.2);
++}
++
++.separator,
++.separator:prelight {
++    color: shade (@bg_color, 0.6);
++}
++
++GtkStatusbar > GtkFrame {
++    border-width: 1px 1px 1px 1px;
++    border-style: solid;
++    border-image:  -gtk-quartz-theme-part(Frame, 1 1, margins (-1 0 0 0))  2 1 1 1 stretch;
++    background-image: none;
++}
++
++
++/*
++ This doesn't quite look right with no background (i.e. when not on a statusbar
++
++.grip {
++    background-color: transparent;
++    background-image:  -gtk-quartz-theme-part(status, 3 1);
++}
++*/
+diff -Nur gtk+-3.12.2.orig/gtk/resources/gtk-mac.css gtk+-3.12.2-theme/gtk/resources/gtk-mac.css
+--- gtk+-3.12.2.orig/gtk/resources/gtk-mac.css	1970-01-01 01:00:00.000000000 +0100
++++ gtk+-3.12.2-theme/gtk/resources/gtk-mac.css	2014-05-20 14:52:05.000000000 +0200
+@@ -0,0 +1,2 @@
++@import url("gtk-mac-base.css");
++
+diff -Nur gtk+-3.12.2.orig/gtk/resources/theme/gtk-mac-base.css gtk+-3.12.2-theme/gtk/resources/theme/gtk-mac-base.css
+--- gtk+-3.12.2.orig/gtk/resources/theme/gtk-mac-base.css	1970-01-01 01:00:00.000000000 +0100
++++ gtk+-3.12.2-theme/gtk/resources/theme/gtk-mac-base.css	2014-05-20 21:45:49.000000000 +0200
+@@ -0,0 +1,912 @@
++@define-color bg_color #f1f1f1;
++@define-color text_color #000000;
++@define-color base_color #ffffff;
++@define-color selected_bg_color #f1f1f1;
++@define-color selected_fg_color #000000;
++@define-color info_fg_color rgb (181, 171, 156);
++@define-color info_bg_color rgb (252, 252, 189);
++@define-color warning_fg_color rgb (173, 120, 41);
++@define-color warning_bg_color rgb (250, 173, 61);
++@define-color question_fg_color rgb (97, 122, 214);
++@define-color question_bg_color rgb (138, 173, 212);
++@define-color error_fg_color rgb (166, 38, 38);
++@define-color error_bg_color rgb (237, 54, 54);
++
++* {
++    -GtkWidget-link-color: #b5d5ff;
++    -GtkWidget-visited-link-color: #b5d5ff;
++    -GtkWidget-focus-line-width: 0;
++    -GtkWidget-focus-padding: 1;
++
++    /*-GtkComboBox-appears-as-list: true;*/
++    -GtkComboBox-arrow-size: 0;
++    -GtkComboBox-arrow-scaling: 0.0;
++
++    -GtkArrow-arrow-scaling: 0.0;
++
++    -GtkScrolledWindow-scrollbars-spacing: 0;
++
++    -GtkScrollbar-has-backward-stepper: 0;
++    -GtkScrollbar-has-forward-stepper: 0;
++
++    -GtkRange-trough-border: 0;
++    -GtkRange-arrow-scaling: 0.0;
++
++    -GtkTreeView-even-row-color: #f3f3f3;
++}
++
++.background {
++    color: @text_color;
++    background-color: @bg_color;
++}
++
++.viewport {
++    color: @text_color;
++    border-width: 1px;
++    border-style: solid;
++    border-color: #e8e8e8;
++    background-color: @base_color;
++}
++
++GtkFrame.frame {
++    background-image: -gtk-quartz-theme-part(GroupBox, 0 0);
++}
++
++GtkSrolledWindow .frame {
++    color: @text_color;
++    border-width: 1px;
++    border-style: solid;
++    border-color: mix (#000000, #e8e8e8, 0.5);
++}
++
++
++.calendar {
++    color: @text_color;
++}
++.calendar .button {
++    background-image: none;
++}
++
++GtkLabel {
++    font: Lucida Grande 12px;
++    color: @text_color;
++}
++
++*:insensitive {
++    color: #808080;
++}
++
++*:selected,
++*:selected:focus {
++    background-color: @selected_bg_color;
++    color: @selected_fg_color;
++}
++
++.info {
++    background-color: @info_bg_color;
++    color: @info_fg_color;
++}
++
++.warning {
++    background-color: @warning_bg_color;
++    color: @warning_fg_color;
++}
++
++.question {
++    background-color: @question_bg_color;
++    color: @question_fg_color;
++}
++
++.error {
++    background-color: @error_bg_color;
++    color: @error_fg_color;
++}
++
++.highlight {
++    background-color: @selected_bg_color;
++    color: @selected_fg_color;
++}
++
++.light-area-focus {
++    color: #000;
++}
++
++.dark-area-focus {
++    color: #fff;
++}
++
++.view {
++    border-width: 0px;
++    color: @text_color;
++    background-color: @base_color;
++}
++/*
++.view row:even {
++    background-color: #f3f3f3;
++}
++*/
++.view:selected {
++    background-color: shade (@bg_color, 0.9);
++    color: @text_color;
++}
++.view:selected:focused {
++    background-color: #3874d7;
++    color: #ffffff;
++}
++
++.tooltip {
++    background-color: #fff;
++    color: #000;
++    border-width: 1px;
++    border-style: solid;
++}
++.tooltip * {
++    color: #000;
++}
++
++GtkAssistant .sidebar .highlight {
++    font: bold;
++    color: #000;
++}
++
++/* Buttons */
++
++.button {
++    padding: 4px;
++    color: @text_color;
++    background-image: -gtk-quartz-theme-part(Button, 32 1, margins(0 0 0 0));
++}
++
++.button:insensitive {
++    color: @text_color;
++    background-image: -gtk-quartz-theme-part(Button, 32 0, margins(0 0 0 0));
++}
++
++.button:focused {
++    color: @text_color;
++    background-image: -gtk-quartz-theme-part(Button, 32 1, margins(0 0 0 0));
++}
++
++.button:prelight, .button:prelight:focused {
++    color: @text_color;
++    background-image: -gtk-quartz-theme-part(Button, 32 1, margins(0 0 0 0));
++}
++
++.button:active, .button:active:focused, .button:active:focused:prelight {
++    color: @text_color;
++    background-image: -gtk-quartz-theme-part(Button, 25 1, margins(0 0 0 0));
++}
++
++
++GtkToggleButton.button {
++    color: @text_color;
++    background-image: -gtk-quartz-theme-part(Button, 3 1, margins(0 0 0 0));
++}
++GtkToggleButton.button:insensitive {
++    color: @text_color;
++    background-image: -gtk-quartz-theme-part(Button, 3 0, margins(0 0 0 0));
++}
++GtkToggleButton.button:focused {
++    color: @text_color;
++    background-image: -gtk-quartz-theme-part(Button, 3 1, margins(0 0 0 0));
++}
++GtkToggleButton.button:prelight, GtkToggleButton.button:prelight:focused {
++    color: @text_color;
++    background-image: -gtk-quartz-theme-part(Button, 3 1, margins(0 0 0 0));
++}
++GtkToggleButton.button:active, GtkToggleButton.button:active:focused, GtkToggleButton.button:active:focused:prelight {
++    color: @text_color;
++    background-image: -gtk-quartz-theme-part(Button, 3 2, margins(0 0 0 0));
++}
++
++
++
++/* Check buttons */
++
++.check {
++    padding: 1px;
++    color: @text_color;
++    background-image: -gtk-quartz-theme-part(Button, 1 1, margins(0 1 0 -1));
++}
++
++.check:insensitive {
++    background-image: -gtk-quartz-theme-part(Button, 1 0, margins(0 1 0 -1));
++}
++
++/* The GtkButton here is to avoid problems with checkboxes
++   in a listview where all checkboxes in a row gets prelighted
++   whenever the row is prelighted */
++
++GtkButton.check:prelight {
++    background-image: -gtk-quartz-theme-part(Button, 1 1, margins(0 1 0 -1));
++}
++
++.check:active {
++    background-image: -gtk-quartz-theme-part(Button, 1 1 1 1, margins(0 1 0 -1));
++}
++
++.check:active:insensitive {
++    background-image: -gtk-quartz-theme-part(Button, 1 0 1 1, margins(0 1 0 -1));
++}
++
++GtkButton.check:active:prelight {
++    background-image: -gtk-quartz-theme-part(Button, 1 1 1 1, margins(0 1 0 -1));
++}
++
++.check:inconsistent {
++    background-image: -gtk-quartz-theme-part(Button, 1 0, margins(0 1 0 -1));
++}
++
++.check:inconsistent:insensitive {
++    background-image: -gtk-quartz-theme-part(Button, 1 1, margins(0 1 0 -1));
++}
++
++.check:inconsistent:prelight {
++    background-image: -gtk-quartz-theme-part(Button, 1 1, margins(0 1 0 -1));
++}
++
++
++
++/* Radio buttons */
++
++.radio {
++    padding: 0px;
++    color: @text_color;
++    background-image: -gtk-quartz-theme-part(Button, 14 1);
++}
++
++.radio:insensitive {
++    background-image: -gtk-quartz-theme-part(Button, 14 0);
++}
++
++.radio:prelight {
++    background-image: -gtk-quartz-theme-part(Button, 14 1);
++}
++
++.radio:active {
++    background-image: -gtk-quartz-theme-part(Button, 14 1 1 1);
++}
++
++.radio:active:insensitive {
++    background-image: -gtk-quartz-theme-part(Button, 14 0 1 1);
++}
++
++.radio:active:prelight {
++    background-image: -gtk-quartz-theme-part(Button, 14 1 1 1);
++}
++
++.radio:inconsistent {
++    background-image: -gtk-quartz-theme-part(Button, 14 1 1 1);
++}
++
++.radio:inconsistent:insensitive {
++    background-image: -gtk-quartz-theme-part(Button, 14 0 1 1);
++}
++
++.radio:inconsistent:prelight {
++    background-image: -gtk-quartz-theme-part(Button, 14 1 1 1);
++}
++
++
++
++/* Scrollbars */
++
++.scrollbar {
++    background-color: transparent;
++    -GtkScrollbar-has-backward-stepper: 0;
++    -GtkScrollbar-has-forward-stepper: 0;
++    -GtkRange-trough-border: 0;
++    -GtkRange-arrow-scaling: 0.0;
++    background-image: -gtk-quartz-theme-part(Track, 0 1 92 0 0);
++}
++
++.scrollbar.vertical {
++    background-image: -gtk-quartz-theme-part(Track, 0 1 92 0 1);
++}
++
++.scrollbar.trough {
++    background-color: transparent;
++    background-image: -gtk-quartz-theme-part(Placard, 0 1);
++}
++
++.scrollbar.trough.vertical {
++    background-color: transparent;
++    background-image: -gtk-quartz-theme-part(Placard, 0 1);
++}
++
++
++
++/* Entry */
++
++.entry {
++    padding: 4px;
++    color: @text_color;
++    border-width: 1px;
++    border-style: solid;
++    border-color: #c3c3c3;
++    border-radius: 2px;
++    background-color: #ffffff;
++    background-image: -gtk-quartz-theme-part(Frame, 0 1 0);
++}
++.entry:selected {
++    background-color: #b5d5ff;
++}
++.entry:insensitive {
++    background-image: -gtk-quartz-theme-part(Frame, 0 0 0);
++}
++.entry:prelight,
++.entry:focused {
++    border-width: 2px;
++    border-radius: 2px;
++    border-color: #77abdc;
++    background-image: -gtk-quartz-theme-part(Frame, 0 1 1);
++}
++.entry:selected:prelight,
++.entry:selected:focused {
++    border-width: 2px;
++    border-radius: 2px;
++    border-color: #77abdc;
++    background-color: #b5d5ff;
++    background-image: -gtk-quartz-theme-part(Frame, 0 1 1);
++}
++
++
++
++/* Spinbuttons */
++
++.spinbutton .button {
++    padding: 0px;
++    background-image: none;
++}
++
++/*
++.spinbutton .button,
++.spinbutton .button:focused {
++    background-image: -gtk-quartz-theme-part(Button, 7 1);
++}
++
++.spinbutton .button:last-child {
++    background-image: -gtk-quartz-theme-part(Button, 7 1);
++}
++
++.spinbutton .button:prelight,
++.spinbutton .button:prelight:focused {
++    background-image: -gtk-quartz-theme-part(Button, 7 1);
++}
++
++.spinbutton .button:active,
++.spinbutton .button:active:prelight,
++.spinbutton .button:active:focused,
++.spinbutton .button:active:prelight:focused {
++    background-image: -gtk-quartz-theme-part(Button, 7 1);
++}
++
++.spinbutton .button:insensitive {
++    background-image: -gtk-quartz-theme-part(Button, 7 0);
++}
++
++.spinbutton .button:insensitive:last-child {
++    background-image: -gtk-quartz-theme-part(Button, 7 0);
++}
++
++.spinbutton .button.bottom,
++.spinbutton .button.bottom:focused {
++    background-image: -gtk-quartz-theme-part(Button, 7 1);
++}
++
++.spinbutton .button.bottom:prelight,
++.spinbutton .button.bottom:prelight:focused {
++    background-image: -gtk-quartz-theme-part(Button, 7 1);
++}
++
++.spinbutton .button.bottom:active,
++.spinbutton .button.bottom:active:prelight {
++    background-image: -gtk-quartz-theme-part(Button, 7 1);
++}
++
++.spinbutton .button.bottom:insensitive {
++    background-image: -gtk-quartz-theme-part(Button, 7 1);
++}
++*/
++
++
++
++/* Ranges */
++
++.scale {
++    background-color: transparent;
++    -GtkScale-value-spacing: 0;
++    -GtkScale-slider-length: 9;
++    -GtkRange-slider-width: 20;
++    -GtkRange-trough-border: 0;
++}
++
++.scale.trough {
++    border-style: none;
++    border-width: 0;
++    background-image: -gtk-quartz-theme-part(Placard, 0 1, margins (0 0 0 0));
++}
++
++.scale.trough.vertical {
++    background-image: -gtk-quartz-theme-part(Placard, 0 1, margins (0 0 0 0));
++}
++
++.scale.slider {
++    padding: 2px;
++    background-color: transparent;
++    background-image: -gtk-quartz-theme-part(Track, 6 0 12 0 1);
++}
++
++.scale.slider:prelight {
++    background-image: -gtk-quartz-theme-part(Track, 6 0 12 0 1);
++}
++
++.scale.slider:active,
++.scale.slider:prelight:active {
++    background-image: -gtk-quartz-theme-part(Track, 6 0 12 0 1);
++}
++
++.scale.slider:focus {
++    background-image: -gtk-quartz-theme-part(Track, 6 0 12 0 1);
++}
++
++.scale.slider:insensitive {
++    background-image: -gtk-quartz-theme-part(Track, 6 1 12 0 1);
++}
++
++/*
++.scale.slider.vertical {
++    background-image: -gtk-quartz-theme-part(Track, 6 1);
++}
++
++.scale.slider.vertical:prelight {
++    background-image: -gtk-quartz-theme-part(Track, 6 2);
++}
++
++.scale.slider.vertical:active,
++.scale.slider.vertical:prelight:active {
++    background-image: -gtk-quartz-theme-part(Track, 6 3);
++}
++
++.scale.slider.vertical:focus {
++    background-image: -gtk-quartz-theme-part(Track, 6 4);
++}
++
++.scale.slider.vertical:insensitive {
++    background-image: -gtk-quartz-theme-part(Track, 6 5);
++}
++
++.scale.slider.scale-has-marks-below {
++    background-image: -gtk-quartz-theme-part(Track, 4 1);
++}
++
++.scale.slider.scale-has-marks-below:prelight {
++    background-image: -gtk-quartz-theme-part(trackbar, 4 2);
++}
++
++.scale.slider.scale-has-marks-below:active,
++.scale.slider.scale-has-marks-below:prelight:active {
++    background-image: -gtk-quartz-theme-part(trackbar, 4 3);
++}
++
++.scale.slider.scale-has-marks-below:focus {
++    background-image: -gtk-quartz-theme-part(trackbar, 4 4);
++}
++
++.scale.slider.scale-has-marks-below:insensitive {
++    background-image: -gtk-quartz-theme-part(trackbar, 4 5);
++}
++
++.scale.slider.scale-has-marks-below.vertical {
++    background-image: -gtk-quartz-theme-part(trackbar, 8 1);
++}
++
++.scale.slider.scale-has-marks-below.vertical:prelight {
++    background-image: -gtk-quartz-theme-part(trackbar, 8 2);
++}
++
++.scale.slider.scale-has-marks-below.vertical:active,
++.scale.slider.scale-has-marks-below.vertical:prelight:active {
++    background-image: -gtk-quartz-theme-part(trackbar, 8 3);
++}
++
++.scale.slider.scale-has-marks-below.vertical:focus {
++    background-image: -gtk-quartz-theme-part(trackbar, 8 4);
++}
++
++.scale.slider.scale-has-marks-below.vertical:insensitive {
++    background-image: -gtk-quartz-theme-part(trackbar, 8 5);
++}
++
++.scale.slider.scale-has-marks-above {
++    background-image: -gtk-quartz-theme-part(trackbar, 5 1);
++}
++
++.scale.slider.scale-has-marks-above:prelight {
++    background-image: -gtk-quartz-theme-part(trackbar, 5 2);
++}
++
++.scale.slider.scale-has-marks-above:active,
++.scale.slider.scale-has-marks-above:prelight:active {
++    background-image: -gtk-quartz-theme-part(trackbar, 5 3);
++}
++
++.scale.slider.scale-has-marks-above:focus {
++    background-image: -gtk-quartz-theme-part(trackbar, 5 4);
++}
++
++.scale.slider.scale-has-marks-above:insensitive {
++    background-image: -gtk-quartz-theme-part(trackbar, 5 5);
++}
++
++.scale.slider.scale-has-marks-above.vertical {
++    background-image: -gtk-quartz-theme-part(trackbar, 7 1);
++}
++
++.scale.slider.scale-has-marks-above.vertical:prelight {
++    background-image: -gtk-quartz-theme-part(trackbar, 7 2);
++}
++
++.scale.slider.scale-has-marks-above.vertical:active,
++.scale.slider.scale-has-marks-above.vertical:prelight:active {
++    background-image: -gtk-quartz-theme-part(trackbar, 7 3);
++}
++
++.scale.slider.scale-has-marks-above.vertical:focus {
++    background-image: -gtk-quartz-theme-part(trackbar, 7 4);
++}
++
++.scale.slider.scale-has-marks-above.vertical:insensitive {
++    background-image: -gtk-quartz-theme-part(trackbar, 7 5);
++}
++*/
++
++
++
++/* Progress bars */
++
++GtkProgressBar {
++    background-color: transparent;
++    padding: 0px;
++}
++
++GtkProgressBar.trough {
++    background-image: -gtk-quartz-theme-part(Placard, 0 1, margins(0 0 1 0));
++}
++
++GtkProgressBar.progressbar,
++GtkEntry.progressbar,
++GtkEntry.progressbar:focused {
++    background-image: -gtk-quartz-theme-part(Track, 7 0 0 0 0);
++}
++
++GtkProgressBar.progressbar.pulse,
++GtkEntry.progressbar.pulse,
++GtkEntry.progressbar.pulse:focused {
++    background-image: -gtk-quartz-theme-part(Track, 7 0 0 0 0);
++}
++
++GtkProgressBar.trough.vertical {
++    background-image: -gtk-quartz-theme-part(Placard, 0 1, margins(0 3 0 0));
++}
++
++.progressbar.vertical {
++    background-image: -gtk-quartz-theme-part(Track, 7 0 0 0 1);
++}
++
++.progressbar.pulse.vertical {
++    background-image: -gtk-quartz-theme-part(Track, 7 0 0 0 1);
++}
++
++
++
++/* Combobox */
++
++GtkComboBox .button {
++    padding: 2px 5px 2px 5px;
++    color: @text_color;
++    background-image: -gtk-quartz-theme-part(Button, 28 0, margins(0 0 0 0));
++}
++/*GtkComboBox:prelight .button,
++GtkComboBox:focused .button,
++GtkComboBox:prelight:focused .button,*/
++GtkComboBox .button:prelight,
++GtkComboBox .button:focused,
++GtkComboBox .button:prelight:focused {
++    background-image: -gtk-quartz-theme-part(Button, 28 0, margins(0 0 0 0));
++}
++GtkComboBox .button:active,
++GtkComboBox .button:active:focused,
++GtkComboBox .button:active:prelight,
++GtkComboBox .button:active:focused:prelight {
++    background-image: -gtk-quartz-theme-part(Button, 28 0, margins(0 0 0 0));
++}
++GtkComboBox .button:insensitive {
++    background-image: -gtk-quartz-theme-part(Button, 28 0, margins(0 0 0 0));
++}
++
++
++GtkComboBox.combobox-entry .button {
++    padding: 0px;
++    color: @text_color;
++    background-image: -gtk-quartz-theme-part(Button, 5 0, margins(0 0 0 0));
++}
++GtkComboBox.combobox-entry:prelight .button,
++GtkComboBox.combobox-entry:focused .button,
++GtkComboBox.combobox-entry:prelight:focused .button,
++GtkComboBox.combobox-entry .button:prelight,
++GtkComboBox.combobox-entry .button:focused,
++GtkComboBox.combobox-entry .button:prelight:focused {
++    background-image: -gtk-quartz-theme-part(Button, 5 0, margins(0 0 0 0));
++}
++GtkComboBox.combobox-entry .button:active,
++GtkComboBox.combobox-entry .button:active:focused,
++GtkComboBox.combobox-entry .button:active:prelight,
++GtkComboBox.combobox-entry .button:active:focused:prelight {
++    background-image: -gtk-quartz-theme-part(Button, 5 0, margins(0 0 0 0));
++}
++GtkComboBox.combobox-entry .button:insensitive {
++    background-image: -gtk-quartz-theme-part(Button, 5 0, margins(0 0 0 0));
++}
++
++GtkComboBox .separator {
++    /* always disable separators */
++    -GtkWidget-wide-separators: true;
++    -GtkWidget-horizontal-separator: 0;
++    -GtkWidget-vertical-separator: 0;
++}
++
++
++
++/* Notebook */
++
++.notebook {
++    color: @text_color;
++    border-width: 1px;
++    border-style: solid;
++    border-color: #a6a6a6;
++    background-color: #ffffff;
++    padding: 2px;
++}
++
++.notebook tab {
++    padding: 3px;
++    border-width: 0px;
++    background-color: transparent;
++    background-image: -gtk-quartz-theme-part(Tab, 0 0 16 1);
++}
++.notebook tab:first-child {
++    background-image: -gtk-quartz-theme-part(Tab, 0 0 16 0);
++}
++.notebook tab:last-child {
++    background-image: -gtk-quartz-theme-part(Tab, 0 0 16 2);
++}
++.notebook tab.left {
++    background-image: -gtk-quartz-theme-part(Tab, 0 0 16 0);
++}
++.notebook tab.right {
++    background-image: -gtk-quartz-theme-part(Tab, 0 0 16 2);
++}
++
++.notebook tab:active {
++    background-image: -gtk-quartz-theme-part(Tab, 0 1 16 1);
++}
++.notebook tab:first-child:active {
++    background-image: -gtk-quartz-theme-part(Tab, 0 1 16 0);
++}
++.notebook tab:last-child:active {
++    background-image: -gtk-quartz-theme-part(Tab, 0 1 16 2);
++}
++.notebook tab:active.left {
++    background-image: -gtk-quartz-theme-part(Tab, 0 1 16 0);
++}
++.notebook tab:active.right {
++    background-image: -gtk-quartz-theme-part(Tab, 0 1 16 2);
++}
++
++
++
++/* Toolbar */
++
++
++.toolbar {
++    padding: 4px;
++    color: @text_color;
++    border-width: 0px 0px 1px 0px;
++    border-style: solid;
++    border-color: mix (#ffffff, #6a6a6a, 0.8);
++    text-shadow: 0px 1px #ffffff;
++    background-image: -gtk-gradient (linear, left top, left bottom, from (#dedede), to (#a9a9a9));
++}
++/*.toolbar:focus {
++    background-image: -gtk-gradient (linear, left top, left bottom, from (#b4b4b4), to (#b9b9b9));
++}*/
++
++.toolbar GtkButton.button,
++.toolbar GtkButton.button:hover,
++.toolbar GtkButton.button:prelight,
++.toolbar GtkButton.button:prelight:focused,
++.toolbar GtkButton.button:selected,
++.toolbar GtkButton.button:selected:prelight,
++.toolbar GtkButton.button:focused {
++    padding: 1px;
++    background-color: transparent;
++    background-image: -gtk-quartz-theme-part(Button, 3 1);
++}
++
++.toolbar GtkButton.button:active,
++.toolbar GtkButton.button:active:selected,
++.toolbar GtkButton.button:active:prelight,
++.toolbar GtkButton.button:active:selected:prelight {
++    background-image: -gtk-quartz-theme-part(Button, 3 1);
++}
++
++.toolbar GtkButton.button:insensitive {
++    background-image: -gtk-quartz-theme-part(Button, 3 0);
++}
++
++
++
++/* Column headers */
++
++column-header .button,
++column-header .button:focus {
++    padding: 0px 3px;
++    font: 8px;
++    background-color: transparent;
++    border-width: 0;
++    background-image: -gtk-quartz-theme-part(Button, 10 1);
++}
++
++column-header .button:prelight,
++column-header .button:prelight:focus {
++    background-image: -gtk-quartz-theme-part(Button, 10 1);
++}
++
++column-header .button:active,
++column-header .button:active:prelight,
++column-header .button:active:focus,
++column-header .button:active:prelight:focus {
++    background-image: -gtk-quartz-theme-part(Button, 10 2 5);
++}
++
++
++
++GtkSwitch {
++    font: bold condensed 10;
++    color: #000;
++}
++
++GtkSwitch.slider {
++    padding: 4px;
++    background-color: transparent;
++    background-image: -gtk-quartz-theme-part(Track, 0 1 0 0 0);
++    border-width: 0;
++}
++
++GtkSwitch.trough:insensitive {
++    background-image: -gtk-quartz-theme-part(Track, 0 0 0 0 0);
++}
++
++GtkSwitch.trough {
++    background-image: -gtk-quartz-theme-part(Placard, 0 1);
++}
++
++GtkSwitch.trough:active {
++    background-image: -gtk-quartz-theme-part(Placard, 0 1);
++}
++
++
++
++/* Menus */
++
++.menubar {
++    border-image: -gtk-quartz-theme-part(Placard, 0 1);
++    background-image: -gtk-quartz-theme-part(MenuBarBackground, 0 0);
++}
++
++.popup,
++.menu {
++    background-color: transparent;
++    background-image: -gtk-quartz-theme-part(MenuBackground, 1 1);
++}
++
++.menuitem {
++    color: @text_color;
++    padding: 3px 5px;
++    background-color: transparent;
++    background-image: -gtk-quartz-theme-part(MenuItem, 0 0);
++}
++
++.menuitem:focus,
++.menuitem:hover,
++.menuitem:prelight,
++.menuitem:prelight:selected,
++.menuitem:selected {
++    color: #ffffff;
++    background-image: -gtk-quartz-theme-part(MenuItem, 0 1);
++}
++
++.menubar > .menuitem {
++    padding: 3px 5px;
++    background-image: -gtk-quartz-theme-part(MenuTitle, 0 0);
++}
++.menubar > .menuitem:selected {
++    padding: 3px 5px;
++    color: #ffffff;
++    background-image: -gtk-quartz-theme-part(MenuTitle, 0 1);
++}
++
++.menuitem .radio,
++.menuitem .check,
++.menuitem .radio:prelight,
++.menuitem .radio:focus,
++.menuitem .radio:selected,
++.menuitem .check:prelight,
++.menuitem .check:focus,
++.menuitem .check:selected {
++    background-image: none;
++}
++
++.menuitem .radio:active,
++.menuitem .check:active,
++.menuitem .radio:active:prelight,
++.menuitem .radio:active:focus,
++.menuitem .radio:active:selected,
++.menuitem .check:active:prelight,
++.menuitem .check:active:focus,
++.menuitem .check:active:selected {
++    background-image: -gtk-quartz-theme-part(TextBox, 0 1);
++}
++.menuitem .check:insensitive {
++    background-image: -gtk-quartz-theme-part(TextBox, 0 0);
++}
++
++
++/* Assistant */
++
++GtkAssistant .sidebar .highlight {
++    background-color: blue;
++    font: bold;
++}
++
++GtkAssistant .sidebar {
++    padding: 12px;
++
++    background-color: white;
++
++    border-image: none;
++    border-width: 0 1px 0 0;
++    border-style: solid;
++}
++
++GtkColorSwatch {
++    border-style: solid;
++    border-width: 1px;
++}
++
++GtkColorSwatch:prelight {
++    border-color: shade (@bg_color, 0.2);
++}
++
++.separator,
++.separator:prelight {
++    color: shade (@bg_color, 0.6);
++}
++
++GtkStatusbar > GtkFrame {
++    border-width: 1px 1px 1px 1px;
++    border-style: solid;
++    border-image:  -gtk-quartz-theme-part(Frame, 1 1, margins (-1 0 0 0))  2 1 1 1 stretch;
++    background-image: none;
++}
++
++
++/*
++ This doesn't quite look right with no background (i.e. when not on a statusbar
++
++.grip {
++    background-color: transparent;
++    background-image:  -gtk-quartz-theme-part(status, 3 1);
++}
++*/
+diff -Nur gtk+-3.12.2.orig/gtk/resources/theme/gtk-mac.css gtk+-3.12.2-theme/gtk/resources/theme/gtk-mac.css
+--- gtk+-3.12.2.orig/gtk/resources/theme/gtk-mac.css	1970-01-01 01:00:00.000000000 +0100
++++ gtk+-3.12.2-theme/gtk/resources/theme/gtk-mac.css	2014-05-20 21:45:49.000000000 +0200
+@@ -0,0 +1,2 @@
++@import url("gtk-mac-base.css");
++

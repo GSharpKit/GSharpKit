@@ -1,0 +1,33 @@
+diff -Nur webkitgtk-2.2.6.orig/Source/WebCore/plugins/PluginView.cpp webkitgtk-2.2.6/Source/WebCore/plugins/PluginView.cpp
+--- webkitgtk-2.2.6.orig/Source/WebCore/plugins/PluginView.cpp	2014-03-19 08:53:03.000000000 +0100
++++ webkitgtk-2.2.6/Source/WebCore/plugins/PluginView.cpp	2014-05-13 12:02:39.000000000 +0200
+@@ -836,7 +836,7 @@
+ #if defined(XP_MACOSX)
+     , m_contextRef(0)
+ #endif
+-#if defined(XP_UNIX) && ENABLE(NETSCAPE_PLUGIN_API)
++#if PLATFORM(X11) && ENABLE(NETSCAPE_PLUGIN_API)
+     , m_hasPendingGeometryChange(true)
+     , m_drawable(0)
+     , m_visual(0)
+diff -Nur webkitgtk-2.2.6.orig/Source/WebCore/plugins/PluginView.h webkitgtk-2.2.6/Source/WebCore/plugins/PluginView.h
+--- webkitgtk-2.2.6.orig/Source/WebCore/plugins/PluginView.h	2014-03-19 08:53:03.000000000 +0100
++++ webkitgtk-2.2.6/Source/WebCore/plugins/PluginView.h	2014-05-13 12:02:06.000000000 +0200
+@@ -386,14 +386,13 @@
+ 
+ #if defined(XP_UNIX) || PLATFORM(GTK)
+         void setNPWindowIfNeeded();
+-#elif defined(XP_MACOSX)
++#endif
++#if defined(XP_MACOSX)
+         NP_CGContext m_npCgContext;
+         CGContextRef m_contextRef;
+-
+-        void setNPWindowIfNeeded();
+ #endif
+ 
+-#if defined(XP_UNIX) && ENABLE(NETSCAPE_PLUGIN_API)
++#if PLATFORM(X11) && ENABLE(NETSCAPE_PLUGIN_API)
+         bool m_hasPendingGeometryChange;
+         Pixmap m_drawable;
+         Visual* m_visual;

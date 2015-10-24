@@ -1,0 +1,11 @@
+diff -Nur opendicom-sharp-0.1.1.orig/Makefile opendicom-sharp-0.1.1/Makefile
+--- opendicom-sharp-0.1.1.orig/Makefile	2007-03-31 02:47:36.000000000 +0200
++++ opendicom-sharp-0.1.1/Makefile	2010-08-13 20:22:02.145983379 +0200
+@@ -18,7 +18,6 @@
+ 
+ DICOM_SHARP_COMPILE=mcs -target:library\
+ 	-nowarn:$(IGNORE_WARNINGS)\
+-	-doc:doc/$(NAME).xml\
+ 	-out:bin/$(NAME).dll\
+ 	$(SOURCES)
+ 

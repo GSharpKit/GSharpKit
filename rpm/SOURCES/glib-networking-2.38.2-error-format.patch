@@ -1,0 +1,12 @@
+diff -Nur glib-networking-2.38.2.orig/tls/gnutls/gtlsconnection-gnutls.c glib-networking-2.38.2/tls/gnutls/gtlsconnection-gnutls.c
+--- glib-networking-2.38.2.orig/tls/gnutls/gtlsconnection-gnutls.c	2013-11-11 15:39:34.000000000 +0100
++++ glib-networking-2.38.2/tls/gnutls/gtlsconnection-gnutls.c	2014-03-03 16:12:27.000000000 +0100
+@@ -781,7 +781,7 @@
+   if (error)
+     {
+       g_set_error (error, G_TLS_ERROR, G_TLS_ERROR_MISC,
+-                   errmsg, gnutls_strerror (status));
++                   "%s", gnutls_strerror (status));
+     }
+   return status;
+ }

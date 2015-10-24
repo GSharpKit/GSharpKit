@@ -1,6 +1,6 @@
 # RPM macros for Fedora Darwin.
 
-%_darwinx_x86_64_target  x86_64-apple-darwin12.0.0
+%_darwinx_x86_64_target  x86_64-apple-darwin15.0.0
 
 %_darwinx_all_targets     %{_darwinx_x86_64_target}
 %_darwinx_base_target     darwinx
@@ -23,8 +23,8 @@
 %_darwinx_localstatedir   %{_darwinx_prefix}/var
 %_darwinx_includedir      %{_darwinx_prefix}/include
 
-%_darwinx_cflags          -m64 -arch x86_64 -mmacosx-version-min=10.8
-%_darwinx_cxxflags	  -m64 -arch x86_64 -mmacosx-version-min=10.8
+%_darwinx_cflags          -O2 -m64 -arch x86_64 -mmacosx-version-min=10.8
+%_darwinx_cxxflags	  -O2 -m64 -arch x86_64 -mmacosx-version-min=10.8
 %_darwinx_cppflags        -Wall -isysroot %{_darwinx_sdkroot}/SDKs/MacOSX10.11.sdk -I%{_darwinx_includedir}
 %_darwinx_ldflags         -L%{_darwinx_libdir}
 

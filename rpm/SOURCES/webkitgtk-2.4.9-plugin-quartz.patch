@@ -1,0 +1,15 @@
+diff -Nur webkitgtk-2.4.9.orig/Source/WebCore/GNUmakefile.list.am webkitgtk-2.4.9/Source/WebCore/GNUmakefile.list.am
+--- webkitgtk-2.4.9.orig/Source/WebCore/GNUmakefile.list.am	2015-05-20 11:03:24.000000000 +0200
++++ webkitgtk-2.4.9/Source/WebCore/GNUmakefile.list.am	2015-09-19 14:19:07.000000000 +0200
+@@ -6315,11 +6315,9 @@
+ 
+ if TARGET_QUARTZ
+ if !TARGET_X11
+-if ENABLE_WEBKIT2
+ webcore_sources += \
+ 	Source/WebCore/plugins/PluginPackageNone.cpp \
+ 	Source/WebCore/plugins/PluginViewNone.cpp
+-endif # END ENABLE_WEBKIT2
+ endif # END !TARGET_X11
+ platformgtk_sources += \
+ 	Source/WebCore/platform/cairo/WidgetBackingStoreCairo.h \

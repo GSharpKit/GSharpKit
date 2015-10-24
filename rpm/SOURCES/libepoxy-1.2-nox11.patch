@@ -1,0 +1,51 @@
+diff -Nur libepoxy-1.2.orig/configure.ac libepoxy-1.2/configure.ac
+--- libepoxy-1.2.orig/configure.ac	2014-05-14 02:22:08.000000000 +0200
++++ libepoxy-1.2/configure.ac	2015-06-09 21:01:23.000000000 +0200
+@@ -31,15 +31,6 @@
+ # Initialize Automake
+ AM_INIT_AUTOMAKE([foreign dist-bzip2 subdir-objects])
+ 
+-# Require X.Org macros 1.8 or later for MAN_SUBSTS set by XORG_MANPAGE_SECTIONS
+-m4_ifndef([XORG_MACROS_VERSION],
+-          [m4_fatal([must install xorg-macros 1.8 or later before running autoconf/autogen.
+-  Hint: either install from source, git://anongit.freedesktop.org/xorg/util/macros or,
+-  depending on you distribution, try package 'xutils-dev' or 'xorg-x11-util-macros'])])
+-
+-XORG_MACROS_VERSION(1.8)
+-XORG_DEFAULT_OPTIONS
+-
+ AC_CHECK_PROGS([PYTHON], [python3 python2 python])
+ 
+ # Initialize libtool
+@@ -54,10 +45,6 @@
+                            )]
+                )
+ 
+-# OS X defaults to having -Wint-conversion ("warn when passing
+-# uintptr_t to a void *") by default.  Kill that.
+-XORG_TESTSET_CFLAG(CWARNFLAGS, [-Wno-int-conversion])
+-
+ has_znow=yes
+ 
+ case $host_os in
+@@ -78,7 +65,7 @@
+         ;;
+     darwin*)
+         build_egl=no
+-        build_glx=yes
++        build_glx=no
+         build_wgl=no
+         build_apple=yes
+         has_znow=no
+diff -Nur libepoxy-1.2.orig/src/dispatch_common.h libepoxy-1.2/src/dispatch_common.h
+--- libepoxy-1.2.orig/src/dispatch_common.h	2014-05-14 02:22:08.000000000 +0200
++++ libepoxy-1.2/src/dispatch_common.h	2015-06-09 21:02:31.000000000 +0200
+@@ -30,7 +30,7 @@
+ #define EPOXY_IMPORTEXPORT __declspec(dllexport)
+ #elif defined(__APPLE__)
+ #define PLATFORM_HAS_EGL 0
+-#define PLATFORM_HAS_GLX 1
++#define PLATFORM_HAS_GLX 0
+ #define PLATFORM_HAS_WGL 0
+ #define EPOXY_IMPORTEXPORT
+ #else
