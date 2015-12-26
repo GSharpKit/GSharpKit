@@ -1,6 +1,6 @@
 diff -Nur rpm-4.11.2.orig/autodeps/darwin.prov rpm-4.11.2/autodeps/darwin.prov
 --- rpm-4.11.2.orig/autodeps/darwin.prov	2012-11-07 13:55:24.000000000 +0100
-+++ rpm-4.11.2/autodeps/darwin.prov	2014-02-27 07:37:49.000000000 +0100
++++ rpm-4.11.2/autodeps/darwin.prov	2015-12-26 13:10:58.000000000 +0100
 @@ -5,7 +5,7 @@
  # This script reads filenames from STDIN and outputs any relevant provides
  # information that needs to be included in the package.
@@ -12,7 +12,7 @@ diff -Nur rpm-4.11.2.orig/autodeps/darwin.prov rpm-4.11.2/autodeps/darwin.prov
      libname=$(basename $f | sed -e 's;\..*;;')
 diff -Nur rpm-4.11.2.orig/build/parsePrep.c rpm-4.11.2/build/parsePrep.c
 --- rpm-4.11.2.orig/build/parsePrep.c	2013-11-22 11:31:31.000000000 +0100
-+++ rpm-4.11.2/build/parsePrep.c	2014-02-27 07:38:24.000000000 +0100
++++ rpm-4.11.2/build/parsePrep.c	2015-12-26 13:10:58.000000000 +0100
 @@ -14,6 +14,9 @@
  #include "build/rpmbuild_misc.h"
  #include "lib/rpmug.h"
@@ -25,7 +25,7 @@ diff -Nur rpm-4.11.2.orig/build/parsePrep.c rpm-4.11.2/build/parsePrep.c
   * Check that file owner and group are known.
 diff -Nur rpm-4.11.2.orig/lib/backend/db3.c rpm-4.11.2/lib/backend/db3.c
 --- rpm-4.11.2.orig/lib/backend/db3.c	2014-02-05 14:06:13.000000000 +0100
-+++ rpm-4.11.2/lib/backend/db3.c	2014-02-27 07:37:49.000000000 +0100
++++ rpm-4.11.2/lib/backend/db3.c	2015-12-26 13:10:58.000000000 +0100
 @@ -284,10 +284,14 @@
  void dbSetFSync(void *dbenv, int enable)
  {
@@ -41,9 +41,28 @@ diff -Nur rpm-4.11.2.orig/lib/backend/db3.c rpm-4.11.2/lib/backend/db3.c
  }
  
  int dbiSync(dbiIndex dbi, unsigned int flags)
+diff -Nur rpm-4.11.2.orig/lib/header.c rpm-4.11.2/lib/header.c
+--- rpm-4.11.2.orig/lib/header.c	2014-02-05 14:06:05.000000000 +0100
++++ rpm-4.11.2/lib/header.c	2015-12-26 13:11:31.000000000 +0100
+@@ -108,6 +108,7 @@
+ #define	ENTRY_IN_REGION(_e)	((_e)->info.offset < 0)
+ 
+ /* Convert a 64bit value to network byte order. */
++#ifndef htonll
+ RPM_GNUC_CONST
+ static uint64_t htonll(uint64_t n)
+ {
+@@ -119,6 +120,7 @@
+ #endif
+     return n;
+ }
++#endif
+ 
+ Header headerLink(Header h)
+ {
 diff -Nur rpm-4.11.2.orig/rpm2cpio.c rpm-4.11.2/rpm2cpio.c
 --- rpm-4.11.2.orig/rpm2cpio.c	2012-11-07 13:55:24.000000000 +0100
-+++ rpm-4.11.2/rpm2cpio.c	2014-02-27 07:37:49.000000000 +0100
++++ rpm-4.11.2/rpm2cpio.c	2015-12-26 13:10:58.000000000 +0100
 @@ -1,7 +1,9 @@
  /* rpmarchive: spit out the main archive portion of a package */
  
@@ -56,7 +75,7 @@ diff -Nur rpm-4.11.2.orig/rpm2cpio.c rpm-4.11.2/rpm2cpio.c
  #include <rpm/rpmtag.h>
 diff -Nur rpm-4.11.2.orig/rpmbuild.c rpm-4.11.2/rpmbuild.c
 --- rpm-4.11.2.orig/rpmbuild.c	2014-02-05 14:04:02.000000000 +0100
-+++ rpm-4.11.2/rpmbuild.c	2014-02-27 07:37:49.000000000 +0100
++++ rpm-4.11.2/rpmbuild.c	2015-12-26 13:10:58.000000000 +0100
 @@ -1,5 +1,7 @@
  #include "system.h"
 +#if !__APPLE__
@@ -67,7 +86,7 @@ diff -Nur rpm-4.11.2.orig/rpmbuild.c rpm-4.11.2/rpmbuild.c
  #include <libgen.h>
 diff -Nur rpm-4.11.2.orig/rpmqv.c rpm-4.11.2/rpmqv.c
 --- rpm-4.11.2.orig/rpmqv.c	2012-11-07 13:55:24.000000000 +0100
-+++ rpm-4.11.2/rpmqv.c	2014-02-27 07:37:49.000000000 +0100
++++ rpm-4.11.2/rpmqv.c	2015-12-26 13:10:58.000000000 +0100
 @@ -1,5 +1,7 @@
  #include "system.h"
 +#if !__APPLE__
@@ -78,7 +97,7 @@ diff -Nur rpm-4.11.2.orig/rpmqv.c rpm-4.11.2/rpmqv.c
  #include <rpm/rpmlib.h>			/* RPMSIGTAG, rpmReadPackageFile .. */
 diff -Nur rpm-4.11.2.orig/rpmspec.c rpm-4.11.2/rpmspec.c
 --- rpm-4.11.2.orig/rpmspec.c	2014-02-05 14:04:02.000000000 +0100
-+++ rpm-4.11.2/rpmspec.c	2014-02-27 07:37:49.000000000 +0100
++++ rpm-4.11.2/rpmspec.c	2015-12-26 13:10:58.000000000 +0100
 @@ -1,5 +1,7 @@
  #include "system.h"
 +#if !__APPLE__
@@ -89,7 +108,7 @@ diff -Nur rpm-4.11.2.orig/rpmspec.c rpm-4.11.2/rpmspec.c
  #include <rpm/rpmbuild.h>
 diff -Nur rpm-4.11.2.orig/system.h rpm-4.11.2/system.h
 --- rpm-4.11.2.orig/system.h	2014-02-05 14:04:02.000000000 +0100
-+++ rpm-4.11.2/system.h	2014-02-27 07:37:49.000000000 +0100
++++ rpm-4.11.2/system.h	2015-12-26 13:10:58.000000000 +0100
 @@ -118,12 +118,14 @@
  #endif
  #define	setprogname(pn)
@@ -107,7 +126,7 @@ diff -Nur rpm-4.11.2.orig/system.h rpm-4.11.2/system.h
  /* Take care of NLS matters.  */
 diff -Nur rpm-4.11.2.orig/tools/rpmdeps.c rpm-4.11.2/tools/rpmdeps.c
 --- rpm-4.11.2.orig/tools/rpmdeps.c	2013-11-22 11:22:29.000000000 +0100
-+++ rpm-4.11.2/tools/rpmdeps.c	2014-02-27 07:37:49.000000000 +0100
++++ rpm-4.11.2/tools/rpmdeps.c	2015-12-26 13:10:58.000000000 +0100
 @@ -1,5 +1,7 @@
  #include "system.h"
 +#if !__APPLE__
@@ -118,7 +137,7 @@ diff -Nur rpm-4.11.2.orig/tools/rpmdeps.c rpm-4.11.2/tools/rpmdeps.c
  #include <rpm/argv.h>
 diff -Nur rpm-4.11.2.orig/tools/rpmgraph.c rpm-4.11.2/tools/rpmgraph.c
 --- rpm-4.11.2.orig/tools/rpmgraph.c	2012-11-07 13:55:24.000000000 +0100
-+++ rpm-4.11.2/tools/rpmgraph.c	2014-02-27 07:37:49.000000000 +0100
++++ rpm-4.11.2/tools/rpmgraph.c	2015-12-26 13:10:58.000000000 +0100
 @@ -1,5 +1,7 @@
  #include "system.h"
 +#if !__APPLE__
