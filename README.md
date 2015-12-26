@@ -11,3 +11,21 @@ sh build.sh
 - RPM
 
 cp rpmmacros ~/.rpmmacros 
+
+# El Capitain SIP (System Integrity Protection)
+
+- Reboot and hold down Cmd+r
+- Select Utility -> Terminal
+- Type "csrutil disable"
+- Reboot into normal
+- sudo vi /System/Library/Sandbox/rootless.conf
+
+*				/usr/darwinx
+
+- sudo mkdir /usr/darwinx
+- sudo chflags norestricted /usr/darwinx/
+- Reboot and hold down Cmd+r
+- Select Utility -> Terminal
+- Type "csrutil enable"
+- Reboot into normal
+
