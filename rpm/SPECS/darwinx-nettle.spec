@@ -1,5 +1,5 @@
 Name:           darwinx-nettle
-Version:        2.7.1
+Version:        3.1.1
 Release:        1%{?dist}
 Summary:        A low-level cryptographic library
 License:        LGPLv2+
@@ -10,7 +10,7 @@ BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildArch:      noarch
 
-BuildRequires:  darwinx-filesystem >= 7
+BuildRequires:  darwinx-filesystem-base >= 18
 BuildRequires:  darwinx-gcc
 BuildRequires:  darwinx-libgpg-error
 BuildRequires:  darwinx-libgcrypt >= 1.5.2
@@ -22,6 +22,7 @@ BuildRequires:  automake
 BuildRequires:  libtool
 BuildRequires:  pkgconfig
 
+Requires:  	darwinx-filesystem >= 18
 
 %description
 Nettle is a cryptographic library that is designed to fit easily in more
@@ -60,17 +61,15 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,root)
-%doc COPYING.LIB
 %{_darwinx_bindir}/nettle-hash
 %{_darwinx_bindir}/nettle-lfib-stream
 %{_darwinx_bindir}/pkcs1-conv
 %{_darwinx_bindir}/sexp-conv
+%{_darwinx_bindir}/nettle-pbkdf2
 %{_darwinx_includedir}/nettle
-%{_darwinx_libdir}/libhogweed.2.5.dylib
-%{_darwinx_libdir}/libhogweed.2.dylib
+%{_darwinx_libdir}/libhogweed.*.dylib
 %{_darwinx_libdir}/libhogweed.dylib
-%{_darwinx_libdir}/libnettle.4.7.dylib
-%{_darwinx_libdir}/libnettle.4.dylib
+%{_darwinx_libdir}/libnettle.*.dylib
 %{_darwinx_libdir}/libnettle.dylib
 %{_darwinx_libdir}/pkgconfig/hogweed.pc
 %{_darwinx_libdir}/pkgconfig/nettle.pc

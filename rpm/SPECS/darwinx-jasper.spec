@@ -61,5 +61,5 @@ rm -rf $RPM_BUILD_ROOT
 %{_darwinx_libdir}/libjasper.a
 
 %changelog
-* Thu Feb 27 2014 Mikkel Kruse Johnsen <mikkel@structura-it.dk> - 3.0.13-1
+* Thu Feb 27 2014 Mikkel Kruse Johnsen <mikkel@xmedicus.com> - 1.900.1-1
 - Initial RPM release

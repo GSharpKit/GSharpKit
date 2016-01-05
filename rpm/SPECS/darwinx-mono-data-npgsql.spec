@@ -9,20 +9,22 @@
 %define apiversion 3.0.0.0
 
 Name:           darwinx-mono-data-npgsql
-Version:        3.0.3
-Release:        2%{?dist}
+Version:        3.0.5
+Release:        1%{?dist}
 Summary:        Postgresql database connectivity for C#
 Group:          Development/Languages
 License:        MIT
-URL:            http://npgsql.projects.pgfoundry.org/
+URL:            https://github.com/npgsql/Npgsql/releases
 Source0:        npgsql-%{version}.tar.gz
 Patch0:		npgsql-3.0.0-cancel.patch
 
 Prefix:		/usr
 BuildArch:	noarch
 
+BuildRequires:	darwinx-filesystem-base >= 18
 BuildRequires:	darwinx-mono >= 4.0
 
+Requires:	darwinx-filesystem >= 18
 Requires:	darwinx-mono >= 4.0
 
 %description
@@ -33,9 +35,9 @@ database.
 %setup -q -n npgsql-%{version}
 %patch0 -p1
 
-sed -i -e 's!AssemblyVersion("0.0.0")!AssemblyVersion("%{apiversion}")!g' src/CommonAssemblyInfo.cs
-sed -i -e 's!AssemblyFileVersion("0.0.0")!AssemblyFileVersion("%{apiversion}")!g' src/CommonAssemblyInfo.cs
-sed -i -e 's!AssemblyInformationalVersion("0.0.0")!AssemblyInformationalVersion("%{apiversion}")!g' src/CommonAssemblyInfo.cs
+sed -i '' 's!AssemblyVersion("0.0.0")!AssemblyVersion("%{apiversion}")!g' src/CommonAssemblyInfo.cs
+sed -i '' 's!AssemblyFileVersion("0.0.0")!AssemblyFileVersion("%{apiversion}")!g' src/CommonAssemblyInfo.cs
+sed -i '' 's!AssemblyInformationalVersion("0.0.0")!AssemblyInformationalVersion("%{apiversion}")!g' src/CommonAssemblyInfo.cs
 
 cat > Npgsql.pc << \EOF
 prefix=%{_darwinx_prefix}

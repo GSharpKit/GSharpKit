@@ -1,5 +1,5 @@
 Name:           darwinx-gnutls
-Version:        3.3.12
+Version:        3.4.7
 Release:        1%{?dist}
 Summary:        GnuTLS TLS/SSL encryption library
 
@@ -70,18 +70,18 @@ rm -rf $RPM_BUILD_ROOT
 %{_darwinx_bindir}/psktool
 %{_darwinx_libdir}/libgnutls.*.dylib
 %{_darwinx_libdir}/libgnutls.dylib
-%{_darwinx_libdir}/libgnutls-openssl.*.dylib
-%{_darwinx_libdir}/libgnutls-openssl.dylib
+#%{_darwinx_libdir}/libgnutls-openssl.*.dylib
+#%{_darwinx_libdir}/libgnutls-openssl.dylib
 #%{_darwinx_libdir}/libgnutlsxx.*.dylib
 #%{_darwinx_libdir}/libgnutlsxx.dylib
 %{_darwinx_libdir}/libgnutls.la
-%{_darwinx_libdir}/libgnutls-openssl.la
+#%{_darwinx_libdir}/libgnutls-openssl.la
 #%{_darwinx_libdir}/libgnutlsxx.la
 %{_darwinx_libdir}/pkgconfig/gnutls.pc
 %{_darwinx_includedir}/gnutls/
 %{_darwinx_datadir}/locale
 
 %changelog
-* Thu May  9 2013 Mikkel Kruse Johnsen <mikkel@structura-it.dk> - 2.6-1
+* Thu May  9 2013 Mikkel Kruse Johnsen <mikkel@xmedicus.com> - 3.3.1-1
 - Initial RPM release.
 

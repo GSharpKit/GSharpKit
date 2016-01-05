@@ -1,5 +1,5 @@
 Name:           darwinx-libwebp
-Version:        0.4.2
+Version:        0.4.4
 Release:        1%{?dist}
 Summary:        Library and tools for the WebP graphics format
 License:        BSD
@@ -24,6 +24,7 @@ images more efficiently.
 %setup -q -n libwebp-%{version}
 
 %build
+sh autogen.sh
 %{_darwinx_configure} --disable-static --disable-assembly
 %{_darwinx_make} %{?_smp_mflags}
 
@@ -49,5 +50,5 @@ rm -rf $RPM_BUILD_ROOT
 %{_darwinx_libdir}/pkgconfig/libwebp.pc
 
 %changelog
-* Thu May  9 2013 Mikkel Kruse Johnsen <mikkel@structura-it.dk> - 5.1.1-1
+* Thu May  9 2013 Mikkel Kruse Johnsen <mikkel@xmedicus.com> - 0.4.2-1
 - Initial RPM release.

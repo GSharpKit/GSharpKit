@@ -1,8 +1,8 @@
 %define		majorminor	1.0
 
 Name:		darwinx-gstreamer1
-Version: 	1.4.5
-Release: 	2%{?dist}
+Version: 	1.6.2
+Release: 	1%{?dist}
 Summary: 	GStreamer streaming media framework runtime
 
 Group: 		Applications/Multimedia
@@ -13,7 +13,7 @@ BuildRoot: 	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildArch: noarch
 
-BuildRequires:	darwinx-filesystem >= 9
+BuildRequires:	darwinx-filesystem-base >= 18
 BuildRequires:	darwinx-gcc
 BuildRequires:	darwinx-glib2
 BuildRequires:	darwinx-gettext
@@ -22,6 +22,8 @@ BuildRequires:	flex
 BuildRequires:	m4
 BuildRequires:	pkgconfig
 BuildRequires:	libtool
+
+Requires:	darwinx-filesystem >= 18
 
 Obsoletes:	darwinx-gstreamer
 
@@ -96,6 +98,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_darwinx_includedir}/gstreamer-%{majorminor}/gst/controller
 %{_darwinx_includedir}/gstreamer-%{majorminor}/gst/net
 
+%{_darwinx_libdir}/gstreamer-1.0/include/gst/gstconfig.h
+
 %{_darwinx_datadir}/aclocal/gst-element-check-%{majorminor}.m4
 
 %{_darwinx_libdir}/pkgconfig/gstreamer-%{majorminor}.pc
@@ -105,13 +109,14 @@ rm -rf $RPM_BUILD_ROOT
 %{_darwinx_libdir}/pkgconfig/gstreamer-net-%{majorminor}.pc
 
 %{_darwinx_datadir}/locale/
+%{_darwinx_datadir}/bash-completion/
 
 %{_darwinx_bindir}/gst-inspect-%{majorminor}
 %{_darwinx_bindir}/gst-launch-%{majorminor}
 %{_darwinx_bindir}/gst-typefind-%{majorminor}
 %{_darwinx_libexecdir}/gstreamer-%{majorminor}/gst-plugin-scanner
-
-
+%{_darwinx_libexecdir}/gstreamer-1.0/gst-ptp-helper
+   
 %changelog
 * Sun Jul  5 2009 - Levente Farkas <lfarkas@lfarkas.org> - 0.10.23-3
 - more spec cleanup

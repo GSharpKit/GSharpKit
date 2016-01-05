@@ -1,0 +1,38 @@
+diff -Nur dbus-sharp-glib-0.6.0.orig/configure dbus-sharp-glib-0.6.0/configure
+--- dbus-sharp-glib-0.6.0.orig/configure	2013-10-07 03:01:29.000000000 +0200
++++ dbus-sharp-glib-0.6.0/configure	2015-11-09 11:00:55.638062112 +0100
+@@ -2600,8 +2600,8 @@
+ 
+ fi
+ 
+-# Extract the first word of "gmcs", so it can be a program name with args.
+-set dummy gmcs; ac_word=$2
++# Extract the first word of "mcs", so it can be a program name with args.
++set dummy mcs; ac_word=$2
+ { $as_echo "$as_me:${as_lineno-$LINENO}: checking for $ac_word" >&5
+ $as_echo_n "checking for $ac_word... " >&6; }
+ if ${ac_cv_path_GMCS+:} false; then :
+@@ -2642,7 +2642,7 @@
+ 
+ 
+ if test "x$GMCS" = "xno"; then
+-	as_fn_error $? "You need to install gmcs" "$LINENO" 5
++	as_fn_error $? "You need to install mcs" "$LINENO" 5
+ fi
+ 
+ 
+diff -Nur dbus-sharp-glib-0.6.0.orig/configure.ac dbus-sharp-glib-0.6.0/configure.ac
+--- dbus-sharp-glib-0.6.0.orig/configure.ac	2013-10-07 02:59:19.000000000 +0200
++++ dbus-sharp-glib-0.6.0/configure.ac	2015-11-09 11:00:42.239063709 +0100
+@@ -23,9 +23,9 @@
+ MONO_REQ_VERSION=1.1.13
+ PKG_CHECK_MODULES(MONO, mono >= $MONO_REQ_VERSION)
+ 
+-AC_PATH_PROG(GMCS, gmcs, no)
++AC_PATH_PROG(GMCS, mcs, no)
+ if test "x$GMCS" = "xno"; then
+-	AC_MSG_ERROR([You need to install gmcs])
++	AC_MSG_ERROR([You need to install mcs])
+ fi
+ AC_SUBST(GMCS)
+ 

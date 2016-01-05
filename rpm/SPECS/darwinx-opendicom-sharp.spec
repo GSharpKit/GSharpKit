@@ -49,7 +49,7 @@ Cflags:
 EOF
 
 cp %{SOURCE1} .
-sed -i '' "s!DICOM_SHARP_COMPILE=mcs!DICOM_SHARP_COMPILE=/usr/bin/mcs -keyfile:xcare.pub!" Makefile
+sed -i '' "s!DICOM_SHARP_COMPILE=mcs!DICOM_SHARP_COMPILE=/usr/darwinx/usr/bin/mcs -keyfile:xcare.pub!" Makefile
 
 %build
 

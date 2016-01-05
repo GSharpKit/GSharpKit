@@ -6,11 +6,15 @@ Group:		Development/Languages
 License:	MIT
 URL:		http://www.mono-project.com/
 Source0:	mono-addins-%{version}.tar.gz	
+Patch0:		mono-addins-1.2-mcs.patch
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch: 	noarch
-BuildRequires:  darwinx-filesystem
+
+BuildRequires:  darwinx-filesystem-base >= 18
 BuildRequires:	darwinx-mono >= 3.0, autoconf, automake
 BuildRequires:	pkgconfig
+
+Requires:  	darwinx-filesystem >= 18
 
 %description
 Mono.Addins is a generic framework for creating extensible applications,
@@ -18,6 +22,7 @@ and for creating libraries which extend those applications.
 
 %prep
 %setup -q -n mono-addins-%{version}
+%patch0 -p1
 
 #sed -i '' 's!$(prefix)/lib!%{darwinx_libdir}!' configure
 

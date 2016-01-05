@@ -1,5 +1,5 @@
 Name:           darwinx-gdl-sharp
-Version:        3.14.0
+Version:        3.18.0
 Release:        1%{?dist}
 Summary:        Max OS X GDL library
 
@@ -10,9 +10,11 @@ Source0:        gdl-sharp-%{version}.tar.xz
 
 BuildArch:      noarch
 
-BuildRequires:  darwinx-filesystem >= 15
+BuildRequires:  darwinx-filesystem-base >= 18
 BuildRequires:  darwinx-mono
 BuildRequires:  darwinx-gdl >= %{version}
+
+Requires:  	darwinx-filesystem >= 18
 
 %description
 GTK+ is a multi-platform toolkit for creating graphical user
@@ -24,6 +26,8 @@ suites.
 %setup -q -n gdl-sharp-%{version}
 
 %build
+mkdir -p m4
+autoreconf  -i --force --warnings=none -I . -I m4
 %{_darwinx_configure}
 
 sed -i '' "s!libgdl-3.so.5!libgdl-3.5.dylib!" out/gdl-sharp.dll.config
@@ -36,7 +40,7 @@ sed -i '' "s!libgdl-3.so.5!libgdl-3.5.dylib!" out/gdl-sharp.dll.config
 
 %files -n darwinx-gdl-sharp
 %{_darwinx_libdir}/mono
-%{_darwinx_libdir}/pkgconfig/gdl-sharp-3.pc
+%{_darwinx_datadir}/pkgconfig/gdl-sharp-3.pc
 
 %changelog
 * Tue Nov 04 2014 Mikkel Kruse Johnsen <mikkel@xmedicus.com> - 3.12.0-1

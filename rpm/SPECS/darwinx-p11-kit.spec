@@ -1,5 +1,5 @@
 Name:           darwinx-p11-kit
-Version:        0.22.1
+Version:        0.23.2
 Release:        1%{?dist}
 Summary:        Library for loading and sharing PKCS#11 modules
 

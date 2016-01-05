@@ -1,7 +1,7 @@
 %define		majorminor	1.0
 
 Name:		darwinx-gstreamer1-plugins-good
-Version: 	1.4.5
+Version: 	1.6.2
 Release: 	1%{?dist}
 Summary: 	GStreamer streaming media framework base plug-ins
 Group: 		Applications/Multimedia
@@ -41,8 +41,6 @@ This package contains a set of well-maintained base plug-ins.
 %prep
 %setup -q -n gst-plugins-good-%{version}
 
-#%patch1 -p1 -b .rpm-provides
-
 %build
 %{_darwinx_configure} \
   --with-package-name='Fedora gstreamer package' \
@@ -56,9 +54,10 @@ This package contains a set of well-maintained base plug-ins.
   --disable-shout2 \
   --disable-shout2test \
   --disable-jpeg \
-  --disable-goom
+  --disable-goom \
+  --disable-osx_video
 
-%{_darwinx_make} OBJC=darwinx-gcc %{?_smp_mflags}
+%{_darwinx_make} OBJC=%{_darwinx-cc} %{?_smp_mflags}
 
 %install  
 rm -rf $RPM_BUILD_ROOT
@@ -84,6 +83,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_darwinx_datadir}
 
 %changelog
-* Thu Apr 06 2010 Mikkel Kruse Johnsen <mikkel@linet.dk>
+* Thu Apr 06 2010 Mikkel Kruse Johnsen <mikkel@xmedicus.com>
 - first draft of spec file
 

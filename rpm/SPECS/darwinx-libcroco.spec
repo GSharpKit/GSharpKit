@@ -9,6 +9,10 @@ Source0:        http://ftp.gnome.org/pub/GNOME/sources/libcroco/0.6/libcroco-%{v
 
 BuildArch:      noarch
 
+BuildRequires:  darwinx-filesystem-base >= 18
+
+Requires:  	darwinx-filesystem >= 18
+
 %description
 CSS2 parsing and manipulation library for GNOME
 
@@ -32,6 +36,5 @@ rm -rf $RPM_BUILD_ROOT
 %{_darwinx_datadir}
 
 %changelog
-* Tue Oct 28 2014 Kalev Lember <kalevlember@gmail.com> - 3.14.0-3
-- Split out adwaita-cursor-theme subpackage for alternate desktop spins
-  (#1157324)
+* Tue Oct 28 2014 Mikkel Kruse Johnsen <mikkel@xmedicus.com> - 0.6.8-1
+- First build

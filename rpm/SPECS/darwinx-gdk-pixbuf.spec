@@ -1,12 +1,12 @@
 Name:           darwinx-gdk-pixbuf
-Version:        2.31.4
+Version:        2.32.3
 Release:        1%{?dist}
 Summary:        Cross compiled GDK Pixbuf library
 
 License:        LGPLv2+
 Group:          Development/Libraries
 URL:            http://www.gtk.org
-Source0:        http://download.gnome.org/sources/gdk-pixbuf/2.31/gdk-pixbuf-%{version}.tar.xz
+Source0:        http://download.gnome.org/sources/gdk-pixbuf/2.32/gdk-pixbuf-%{version}.tar.xz
 
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
@@ -23,7 +23,7 @@ Patch4:         gdk-pixbuf-prevent-libtool-intl-warning.patch
 
 BuildArch:      noarch
 
-BuildRequires:  darwinx-filesystem >= 6
+BuildRequires:  darwinx-filesystem-base >= 18
 BuildRequires:  darwinx-sdk
 BuildRequires:  darwinx-gcc
 
@@ -32,9 +32,17 @@ BuildRequires:  darwinx-jasper
 BuildRequires:  darwinx-libjpeg-turbo
 BuildRequires:  darwinx-libpng
 BuildRequires:  darwinx-libtiff
-BuildRequires:  darwinx-librsvg2
 
 BuildRequires:  pkgconfig
+
+Requires:       darwinx-filesystem >= 18
+Requires:  	darwinx-glib2
+Requires:  	darwinx-jasper
+Requires:  	darwinx-libjpeg-turbo
+Requires:  	darwinx-libpng
+Requires:  	darwinx-libtiff
+Requires:  	darwinx-librsvg2
+
 
 %description
 Cross compiled GDK Pixbuf library.
@@ -104,13 +112,13 @@ rm -rf $RPM_BUILD_ROOT
 %{_darwinx_libdir}/gdk-pixbuf-2.0/2.10.0/loaders/libpixbufloader-tiff.so
 %{_darwinx_libdir}/gdk-pixbuf-2.0/2.10.0/loaders/libpixbufloader-icns.so
 %{_darwinx_libdir}/gdk-pixbuf-2.0/2.10.0/loaders/libpixbufloader-jasper.so
-%{_darwinx_libdir}/gdk-pixbuf-2.0/2.10.0/loaders/libpixbufloader-pcx.so
+#%{_darwinx_libdir}/gdk-pixbuf-2.0/2.10.0/loaders/libpixbufloader-pcx.so
 %{_darwinx_libdir}/gdk-pixbuf-2.0/2.10.0/loaders/libpixbufloader-png.so
 %{_darwinx_libdir}/gdk-pixbuf-2.0/2.10.0/loaders/libpixbufloader-pnm.so
 %{_darwinx_libdir}/gdk-pixbuf-2.0/2.10.0/loaders/libpixbufloader-qtif.so
-%{_darwinx_libdir}/gdk-pixbuf-2.0/2.10.0/loaders/libpixbufloader-ras.so
+#%{_darwinx_libdir}/gdk-pixbuf-2.0/2.10.0/loaders/libpixbufloader-ras.so
 %{_darwinx_libdir}/gdk-pixbuf-2.0/2.10.0/loaders/libpixbufloader-tga.so
-%{_darwinx_libdir}/gdk-pixbuf-2.0/2.10.0/loaders/libpixbufloader-wbmp.so
+#%{_darwinx_libdir}/gdk-pixbuf-2.0/2.10.0/loaders/libpixbufloader-wbmp.so
 %{_darwinx_libdir}/gdk-pixbuf-2.0/2.10.0/loaders/libpixbufloader-xbm.so
 %{_darwinx_libdir}/gdk-pixbuf-2.0/2.10.0/loaders/libpixbufloader-xpm.so
 %{_darwinx_libdir}/libgdk_pixbuf-2.0.0.dylib
@@ -130,13 +138,13 @@ rm -rf $RPM_BUILD_ROOT
 %{_darwinx_libdir}/gdk-pixbuf-2.0/2.10.0/loaders/libpixbufloader-tiff.a
 %{_darwinx_libdir}/gdk-pixbuf-2.0/2.10.0/loaders/libpixbufloader-icns.a
 %{_darwinx_libdir}/gdk-pixbuf-2.0/2.10.0/loaders/libpixbufloader-jasper.a
-%{_darwinx_libdir}/gdk-pixbuf-2.0/2.10.0/loaders/libpixbufloader-pcx.a
+#%{_darwinx_libdir}/gdk-pixbuf-2.0/2.10.0/loaders/libpixbufloader-pcx.a
 %{_darwinx_libdir}/gdk-pixbuf-2.0/2.10.0/loaders/libpixbufloader-png.a
 %{_darwinx_libdir}/gdk-pixbuf-2.0/2.10.0/loaders/libpixbufloader-pnm.a
 %{_darwinx_libdir}/gdk-pixbuf-2.0/2.10.0/loaders/libpixbufloader-qtif.a
-%{_darwinx_libdir}/gdk-pixbuf-2.0/2.10.0/loaders/libpixbufloader-ras.a
+#%{_darwinx_libdir}/gdk-pixbuf-2.0/2.10.0/loaders/libpixbufloader-ras.a
 %{_darwinx_libdir}/gdk-pixbuf-2.0/2.10.0/loaders/libpixbufloader-tga.a
-%{_darwinx_libdir}/gdk-pixbuf-2.0/2.10.0/loaders/libpixbufloader-wbmp.a
+#%{_darwinx_libdir}/gdk-pixbuf-2.0/2.10.0/loaders/libpixbufloader-wbmp.a
 %{_darwinx_libdir}/gdk-pixbuf-2.0/2.10.0/loaders/libpixbufloader-xbm.a
 %{_darwinx_libdir}/gdk-pixbuf-2.0/2.10.0/loaders/libpixbufloader-xpm.a
 %{_darwinx_libdir}/libgdk_pixbuf-2.0.a

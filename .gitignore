@@ -3,6 +3,7 @@ BUILDROOT
 RPMS
 SRPMS
 SOURCES.bak
+PATCHES
 *.gz
 *.bz2
 *.xz

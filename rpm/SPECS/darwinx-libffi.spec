@@ -5,7 +5,7 @@ Summary:        A portable foreign function interface library
 
 License:        LGPLv2+
 Group:          Development/Libraries
-URL:            ftp://sourceware.org/pub/libffi/libffi-3.0.13.tar.gz
+URL:            ftp://sourceware.org/pub/libffi/libffi-%{version}.tar.gz
 Source0:        ftp://sourceware.org/pub/libffi/libffi-%{version}.tar.gz
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:      noarch
@@ -64,5 +64,5 @@ rm -rf $RPM_BUILD_ROOT
 %{_darwinx_libdir}/libffi.a
 
 %changelog
-* Thu Feb 27 2014 Mikkel Kruse Johnsen <mikkel@structura-it.dk> - 3.0.13-1
+* Thu Feb 27 2014 Mikkel Kruse Johnsen <mikkel@xmedicus.com> - 3.0.13-1
 - Initial RPM release

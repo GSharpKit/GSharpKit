@@ -1,5 +1,5 @@
 Name:           darwinx-cairo
-Version:        1.14.2
+Version:        1.14.6
 Release:        1%{?dist}
 Summary:        Darwin Cairo library
 
@@ -11,7 +11,7 @@ BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildArch:      noarch
 
-BuildRequires:  darwinx-filesystem >= 5
+BuildRequires:  darwinx-filesystem >= 18
 BuildRequires:  darwinx-gcc
 BuildRequires:  darwinx-sdk
 BuildRequires:  darwinx-odcctools

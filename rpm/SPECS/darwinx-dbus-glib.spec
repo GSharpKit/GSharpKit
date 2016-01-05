@@ -11,9 +11,11 @@ BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildArch:      noarch
 
-BuildRequires:  darwinx-filesystem >= 14
+BuildRequires:  darwinx-filesystem-base >= 18
 BuildRequires:  darwinx-glib2
 BuildRequires:  darwinx-dbus
+
+Requires:  	darwinx-filesystem >= 18
 
 %description
 D-Bus is a message bus system, a simple way for applications to talk to

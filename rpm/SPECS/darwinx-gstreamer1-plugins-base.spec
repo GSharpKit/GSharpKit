@@ -1,7 +1,7 @@
 %define		majorminor	1.0
 
 Name:		darwinx-gstreamer1-plugins-base
-Version: 	1.4.5
+Version: 	1.6.2
 Release: 	1%{?dist}
 Summary: 	GStreamer streaming media framework base plug-ins
 Group: 		Applications/Multimedia
@@ -14,7 +14,7 @@ BuildArch: 	noarch
 
 Requires:	darwinx-gstreamer1 >= %{version}
 
-BuildRequires:	darwinx-filesystem >= 9
+BuildRequires:	darwinx-filesystem >= 18
 BuildRequires:	darwinx-gcc
 BuildRequires:	darwinx-glib2
 BuildRequires:	darwinx-gstreamer1 >= %{version}
@@ -23,6 +23,8 @@ BuildRequires:	flex
 BuildRequires:	m4
 BuildRequires:	pkgconfig
 BuildRequires:	libtool
+
+Requires:	darwinx-filesystem >= 18
 
 Obsoletes:	darwinx-gstreamer-plugins-base
 

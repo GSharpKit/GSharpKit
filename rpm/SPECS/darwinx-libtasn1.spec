@@ -1,5 +1,5 @@
 Name:           darwinx-libtasn1
-Version:        4.2
+Version:        4.7
 Release:        1%{?dist}
 Summary:        The ASN.1 library used in GNUTLS
 License:        GPLv3+ and LGPLv2+
@@ -10,17 +10,18 @@ BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildArch:      noarch
 
-BuildRequires:  darwinx-filesystem >= 7
+BuildRequires:  darwinx-filesystem-base >= 18
 BuildRequires:  darwinx-gcc
 BuildRequires:  darwinx-libgpg-error
 BuildRequires:  darwinx-libgcrypt >= 1.2.2
+BuildRequires:  darwinx-gettext
 
 BuildRequires:  autoconf
 BuildRequires:  automake
 BuildRequires:  libtool
 BuildRequires:  pkgconfig
-#BuildRequires:  gettext
 
+Requires:  darwinx-filesystem >= 18
 
 %description
 A library that provides Abstract Syntax Notation One (ASN.1, as specified

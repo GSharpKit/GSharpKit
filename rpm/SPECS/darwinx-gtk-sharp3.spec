@@ -1,7 +1,7 @@
 %define debug_package %{nil}
 
 Name:           darwinx-gtk-sharp3
-Version:        3.16.6
+Version:        3.18.5
 Release:        1%{?dist}
 Summary:        GTK+ and GNOME bindings for Mono
 
@@ -13,12 +13,14 @@ Patch0:		gtk-sharp-2.99.3-marshaller.patch
 
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
-Requires:	darwinx-gtk3 >= 3.12.2
-Requires: 	darwinx-mono >= 3.8
+Requires:	darwinx-filesystem >= 18
+Requires:	darwinx-gtk3 >= 3.18.5
+Requires: 	darwinx-mono >= 4.0
 
-BuildRequires:  darwinx-mono >= 3.8
+BuildRequires:  darwinx-filesystem-base >= 18
+BuildRequires:  darwinx-mono >= 4.0
 BuildRequires:  automake, libtool
-BuildRequires:	darwinx-gtk3 >= 3.12.2
+BuildRequires:	darwinx-gtk3 >= 3.18.5
 
 BuildArch:	noarch
 

@@ -1,0 +1,64 @@
+diff -Nur mono-zeroconf-0.9.0.orig/configure mono-zeroconf-0.9.0/configure
+--- mono-zeroconf-0.9.0.orig/configure	2009-03-31 01:13:16.000000000 +0200
++++ mono-zeroconf-0.9.0/configure	2015-04-28 12:38:34.436761358 +0200
+@@ -2526,7 +2526,7 @@
+ 
+ 
+ API_VERSION="4.0.0.90"
+-POLICY_VERSIONS="1.0 2.0 3.0 4.0"
++POLICY_VERSIONS="4.0"
+ 
+ 
+ 
+@@ -2857,8 +2857,8 @@
+ 
+ 
+ 
+-	# Extract the first word of "gmcs", so it can be a program name with args.
+-set dummy gmcs; ac_word=$2
++	# Extract the first word of "mcs", so it can be a program name with args.
++set dummy mcs; ac_word=$2
+ { $as_echo "$as_me:$LINENO: checking for $ac_word" >&5
+ $as_echo_n "checking for $ac_word... " >&6; }
+ if test "${ac_cv_path_MCS+set}" = set; then
+@@ -2901,8 +2901,8 @@
+ 
+ 
+ 	if test "xMCS" = "xno"; then
+-		{ { $as_echo "$as_me:$LINENO: error: You need to install 'gmcs'" >&5
+-$as_echo "$as_me: error: You need to install 'gmcs'" >&2;}
++		{ { $as_echo "$as_me:$LINENO: error: You need to install 'mcs'" >&5
++$as_echo "$as_me: error: You need to install 'mcs'" >&2;}
+    { (exit 1); exit 1; }; }
+ 	fi
+ 
+@@ -3089,29 +3089,6 @@
+ 
+ 
+ 
+-	for asm in $(echo "2.0,System
+-	System.Web
+-" | cut -d, -f2- | sed 's/\,/ /g')
+-	do
+-		{ $as_echo "$as_me:$LINENO: checking for Mono 2.0 GAC for $asm.dll" >&5
+-$as_echo_n "checking for Mono 2.0 GAC for $asm.dll... " >&6; }
+-		if test \
+-			-e "$($PKG_CONFIG --variable=libdir mono)/mono/2.0/$asm.dll" -o \
+-			-e "$($PKG_CONFIG --variable=prefix mono)/lib/mono/2.0/$asm.dll"; \
+-			then \
+-			{ $as_echo "$as_me:$LINENO: result: found" >&5
+-$as_echo "found" >&6; }
+-		else
+-			{ $as_echo "$as_me:$LINENO: result: not found" >&5
+-$as_echo "not found" >&6; }
+-			{ { $as_echo "$as_me:$LINENO: error: missing reqired Mono 2.0 assembly: $asm.dll" >&5
+-$as_echo "$as_me: error: missing reqired Mono 2.0 assembly: $asm.dll" >&2;}
+-   { (exit 1); exit 1; }; }
+-		fi
+-	done
+-
+-
+-
+ # Extract the first word of "gacutil", so it can be a program name with args.
+ set dummy gacutil; ac_word=$2
+ { $as_echo "$as_me:$LINENO: checking for $ac_word" >&5

@@ -1,5 +1,5 @@
 Name:           darwinx-libgcrypt
-Version:        1.6.1
+Version:        1.6.4
 Release:        1%{?dist}
 Summary:        Libgcrypt is a general purpose cryptographic library based on the code from GnuPG
 
@@ -63,5 +63,5 @@ rm -rf $RPM_BUILD_ROOT
 %{_darwinx_libdir}/libgcrypt.a
 
 %changelog
-* Thu Feb 27 2014 Mikkel Kruse Johnsen <mikkel@structura-it.dk> - 3.0.13-1
+* Thu Feb 27 2014 Mikkel Kruse Johnsen <mikkel@xmedicus.com> - 1.6.1-1
 - Initial RPM release

@@ -1,16 +1,16 @@
 Name:           darwinx-gdl
-Version:        3.14.0
+Version:        3.18.0
 Release:        1%{?dist}
 Summary:        Mac OS X GDL library
 
 License:        LGPLv2+
 Group:          Development/Libraries
 URL:            http://www.gtk.org
-Source0:        http://download.gnome.org/sources/gdl/3.14/gdl-%{version}.tar.xz
+Source0:        http://download.gnome.org/sources/gdl/3.18/gdl-%{version}.tar.xz
 
 BuildArch:      noarch
 
-BuildRequires:  darwinx-filesystem >= 15
+BuildRequires:  darwinx-filesystem-base >= 18
 BuildRequires:  darwinx-gcc
 
 BuildRequires:  darwinx-atk
@@ -21,6 +21,9 @@ BuildRequires:  darwinx-glib2
 BuildRequires:  darwinx-gtk3
 BuildRequires:  darwinx-pango
 BuildRequires:  darwinx-pixman
+
+Requires:  	darwinx-filesystem >= 18
+Requires:  	darwinx-gtk3
 
 %description
 GTK+ is a multi-platform toolkit for creating graphical user

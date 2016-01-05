@@ -39,6 +39,14 @@ make
 sudo make install
 
 cd $BUILD_ROOT
+curl -OL http://ftpmirror.gnu.org/automake/automake-1.15.tar.gz
+tar xzf automake-1.15.tar.gz
+cd automake-1.15
+CFLAGS="-m64 -arch x86_64" CXXFLAGS="-m64 -arch x86_64" LDFLAGS="-arch x86_64" ./configure --prefix=$PREFIX --exec-prefix=$PREFIX
+make
+sudo make install
+
+cd $BUILD_ROOT
 curl -OL http://ftpmirror.gnu.org/libtool/libtool-2.4.tar.gz
 tar xzf libtool-2.4.tar.gz
 cd libtool-2.4
@@ -47,12 +55,14 @@ make
 sudo make install
 
 sudo ln -s $SYMLINK/bin/autoconf /usr/local/bin/autoconf
-sudo ln -s $SYMLINK/bin/automake-1.14 /usr/local/bin/automake
+sudo ln -sf $SYMLINK/bin/automake-1.15 /usr/local/bin/automake
+sudo ln -s $SYMLINK/bin/automake-1.15 /usr/local/bin/automake-1.15
 sudo ln -s $SYMLINK/bin/automake-1.14 /usr/local/bin/automake-1.14
 sudo ln -s $SYMLINK/bin/automake-1.13 /usr/local/bin/automake-1.13
 sudo ln -s $SYMLINK/bin/automake-1.11 /usr/local/bin/automake-1.11
-sudo ln -s $SYMLINK/bin/aclocal-1.14 /usr/local/bin/aclocal
-sudo ln -s $SYMLINK/bin/aclocal-1.13 /usr/local/bin/aclocal-1.14
+sudo ln -sf $SYMLINK/bin/aclocal-1.15 /usr/local/bin/aclocal
+sudo ln -s $SYMLINK/bin/aclocal-1.15 /usr/local/bin/aclocal-1.15
+sudo ln -s $SYMLINK/bin/aclocal-1.14 /usr/local/bin/aclocal-1.14
 sudo ln -s $SYMLINK/bin/aclocal-1.13 /usr/local/bin/aclocal-1.13
 sudo ln -s $SYMLINK/bin/aclocal-1.11 /usr/local/bin/aclocal-1.11
 sudo ln -s $SYMLINK/bin/autom4te /usr/local/bin/autom4te

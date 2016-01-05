@@ -11,10 +11,11 @@ Patch0:		libepoxy-1.2-nox11.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:      noarch
 
-BuildRequires:  darwinx-filesystem >= 2
+BuildRequires:  darwinx-filesystem-base >= 18
 BuildRequires:  darwinx-gcc
 BuildRequires:  darwinx-gettext
 
+Requires:  	darwinx-filesystem >= 18
 
 %description
 Epoxy is a library for handling OpenGL function pointer management for you.

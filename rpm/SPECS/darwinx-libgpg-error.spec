@@ -11,10 +11,11 @@ Source1:        ftp://ftp.gnupg.org/gcrypt/libgpg-error/libgpg-error-%{version}.
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:      noarch
 
-BuildRequires:  darwinx-filesystem >= 7
+BuildRequires:  darwinx-filesystem-base >= 18
 BuildRequires:  darwinx-gcc
 BuildRequires:  darwinx-gettext
 
+Requires:  	darwinx-filesystem >= 18
 
 %description
 Darwin Windows GnuPGP error library.

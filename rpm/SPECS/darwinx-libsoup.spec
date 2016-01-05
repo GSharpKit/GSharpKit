@@ -1,18 +1,18 @@
 Name:		darwinx-libsoup
-Version:	2.48.1
+Version:	2.52.2
 Release:	1%{?dist}
 Summary:	Darwin for HTTP and XML-RPC functionality
 
 License:	LGPLv2
 Group:		Development/Libraries
 URL:		http://live.gnome.org/LibSoup
-Source0:	http://download.gnome.org/sources/libsoup/2.48/libsoup-%{version}.tar.xz
+Source0:	http://download.gnome.org/sources/libsoup/2.52/libsoup-%{version}.tar.xz
 Patch0:		libsoup-2.44.2-literal.patch
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildArch:	noarch
 
-BuildRequires:	darwinx-filesystem >= 14
+BuildRequires:	darwinx-filesystem-base >= 18
 BuildRequires:	darwinx-gcc
 BuildRequires:	darwinx-glib2
 BuildRequires:	darwinx-gnutls
@@ -20,6 +20,8 @@ BuildRequires:	darwinx-glib-networking
 #BuildRequires:	darwinx-sqlite3
 
 Requires:	pkgconfig
+
+Requires:	darwinx-filesystem >= 18
 
 %description
 Libsoup is an HTTP library implementation in C. It was originally part
@@ -59,6 +61,7 @@ pushd build_static
 		--enable-static				\
 		--disable-shared			\
 		--without-gnome				\
+		--enable-vala=no			\
 		CFLAGS="$CFLAGS -DGLIB_STATIC_COMPILATION -DGOBJECT_STATIC_COMPILATION -DLIBXML_STATIC"
 	make %{?_smp_mflags} V=99
 popd
@@ -69,7 +72,8 @@ pushd build_shared
 		--without-apache-httpd			\
 		--disable-static			\
 		--enable-shared				\
-		--without-gnome
+		--without-gnome				\
+		--enable-vala=no
 	make %{?_smp_mflags} V=99
 popd
 
@@ -95,9 +99,8 @@ rm -rf $RPM_BUILD_ROOT/build_static
 rm -rf $RPM_BUILD_ROOT%{_darwinx_datadir}/gtk-doc
 
 # Move locale
-#mkdir $RPM_BUILD_ROOT%{_darwinx_datadir}
-#mv $RPM_BUILD_ROOT%{_darwinx_libdir}/locale $RPM_BUILD_ROOT%{_darwinx_datadir}/
-
+mkdir $RPM_BUILD_ROOT%{_darwinx_datadir}
+mv $RPM_BUILD_ROOT%{_darwinx_libdir}/locale $RPM_BUILD_ROOT%{_darwinx_datadir}/
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -105,7 +108,6 @@ rm -rf $RPM_BUILD_ROOT
 
 %files 
 %defattr(-,root,root,-)
-%doc COPYING
 %{_darwinx_includedir}/libsoup-2.4/
 %{_darwinx_libdir}/libsoup-2.4.1.dylib
 %{_darwinx_libdir}/libsoup-2.4.dylib
@@ -119,7 +121,7 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
-* Thu May  9 2013 Mikkel Kruse Johnsen <mikkel@structura-it.dk> - 2.42.2-1
+* Thu May  9 2013 Mikkel Kruse Johnsen <mikkel@xmedicus.com> - 2.42.2-1
 - Updated to 2.42.1
 
 * Sat May  8 2010 Erik van Pienbroek <epienbro@fedoraproject.org> - 2.30.1-1

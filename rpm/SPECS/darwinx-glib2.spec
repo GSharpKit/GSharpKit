@@ -1,12 +1,12 @@
 Name:           darwinx-glib2
-Version:        2.44.1
+Version:        2.46.2
 Release:        1%{?dist}
 Summary:        Darwin GLib2 library
 
 License:        LGPLv2+
 Group:          Development/Libraries
 URL:            http://www.gtk.org
-Source0:        http://download.gnome.org/sources/glib/2.44/glib-%{version}.tar.xz
+Source0:        http://download.gnome.org/sources/glib/2.46/glib-%{version}.tar.xz
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 Summary:        Cross compiled GLib2 library
@@ -17,9 +17,11 @@ Patch0:         0001-Don-t-start-a-DBus-server-when-built-as-static-lib.patch
 Patch11:        glib-fix-compilation-on-osx.patch
 Patch12:	glib-2.34.1-isreg.patch
 
+Patch13:	glib-2.46.2-appkit.patch
+
 BuildArch:      noarch
 
-BuildRequires:  darwinx-filesystem >= 2
+BuildRequires:  darwinx-filesystem >= 18
 BuildRequires:  darwinx-gcc
 BuildRequires:  darwinx-odcctools
 BuildRequires:  darwinx-sdk
@@ -49,20 +51,21 @@ Static version of the Darwin GLib2 library.
 %patch0 -p1
 %patch11 -p1
 %patch12 -p1
+%patch13 -p1
 
 %build
 # GLib can't build static and shared libraries in one go, so we
 # build GLib twice here
 mkdir build_static
 pushd build_static
-        %{_darwinx_configure} --disable-shared --enable-static
-        make %{?_smp_mflags}
+        %{_darwinx_configure} --disable-shared --enable-static --disable-fam
+        V=99 make %{?_smp_mflags}
 popd
 
 mkdir build_shared
 pushd build_shared
-        %{_darwinx_configure} --disable-static
-        make %{?_smp_mflags}
+        %{_darwinx_configure} --disable-static --disable-fam
+        V=99 make %{?_smp_mflags}
 popd
 
 

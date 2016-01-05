@@ -1,4 +1,4 @@
-prefix=/Applications/Xcode.app//Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.8.sdk
+prefix=/Applications/Xcode.app//Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.11.sdk
 exec_prefix=${prefix}/usr
 libdir=${exec_prefix}/lib
 includedir=${exec_prefix}/include

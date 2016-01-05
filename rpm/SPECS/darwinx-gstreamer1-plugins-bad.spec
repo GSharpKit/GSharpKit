@@ -1,7 +1,7 @@
 %define		majorminor	1.0
 
 Name:		darwinx-gstreamer1-plugins-bad
-Version: 	1.4.5
+Version: 	1.6.2
 Release: 	1%{?dist}
 Summary: 	GStreamer streaming media framework base plug-ins
 Group: 		Applications/Multimedia
@@ -12,11 +12,11 @@ BuildRoot: 	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildArch: 	noarch
 
-Requires:	darwinx-filesystem >= 16
+Requires:	darwinx-filesystem >= 18
 Requires:	darwinx-gstreamer1 >= %{version}
 Requires:	darwinx-gstreamer1-plugins-base >= %{version}
 
-BuildRequires:	darwinx-filesystem >= 16
+BuildRequires:	darwinx-filesystem-base >= 18
 BuildRequires:	darwinx-gcc
 BuildRequires:	darwinx-glib2
 BuildRequires:	darwinx-gstreamer1 >= %{version}
@@ -43,8 +43,6 @@ This package contains a set of well-maintained base plug-ins.
 %prep
 %setup -q -n gst-plugins-bad-%{version}
 
-#%patch1 -p1 -b .rpm-provides
-
 %build
 %{_darwinx_configure} \
   --with-package-name='Fedora gstreamer package' \
@@ -58,9 +56,11 @@ This package contains a set of well-maintained base plug-ins.
   --disable-shout2 \
   --disable-shout2test \
   --disable-jpeg \
-  --disable-goom
+  --disable-goom \
+  --disable-cocoa \
+  --disable-apple_media
 
-%{_darwinx_make} OBJC=darwinx-gcc %{?_smp_mflags}
+%{_darwinx_make} OBJC=%{_darwinx-cc} %{?_smp_mflags}
 
 %install  
 rm -rf $RPM_BUILD_ROOT

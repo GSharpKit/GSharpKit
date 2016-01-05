@@ -10,7 +10,7 @@ BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildArch:      noarch
 
-BuildRequires:  darwinx-filesystem >= 7
+BuildRequires:  darwinx-filesystem-base >= 18
 BuildRequires:  darwinx-gcc
 BuildRequires:  darwinx-libgpg-error
 BuildRequires:  darwinx-libgcrypt >= 1.5.2
@@ -18,6 +18,7 @@ BuildRequires:  darwinx-gettext
 
 BuildRequires:  pkgconfig
 
+Requires:  	darwinx-filesystem >= 18
 
 %description
 The gmp package contains GNU MP, a library for arbitrary precision
@@ -57,5 +58,5 @@ rm -rf $RPM_BUILD_ROOT
 %{_darwinx_libdir}/libgmp.la
 
 %changelog
-* Thu May  9 2013 Mikkel Kruse Johnsen <mikkel@structura-it.dk> - 5.1.1-1
+* Thu May  9 2013 Mikkel Kruse Johnsen <mikkel@xmedicus.com> - 6.0.0-1
 - Initial RPM release.

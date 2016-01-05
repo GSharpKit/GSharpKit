@@ -1,5 +1,5 @@
 Name:           darwinx-harfbuzz
-Version:        0.9.40
+Version:        1.0.6
 Release:        1%{?dist}
 Summary:        Darwin Text shaping library
 
@@ -12,7 +12,7 @@ BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildArch:      noarch
 
-BuildRequires:  darwinx-filesystem >= 6
+BuildRequires:  darwinx-filesystem >= 18
 BuildRequires:  darwinx-gcc
 BuildRequires:  darwinx-sdk
 BuildRequires:  darwinx-odcctools

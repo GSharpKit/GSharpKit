@@ -25,7 +25,7 @@ BuildRequires:	bison
 BuildRequires:	flex
 BuildRequires:	gperf
 BuildRequires:  ruby
-BuildRequires:	darwinx-filesystem >= 14
+BuildRequires:	darwinx-filesystem-base >= 18
 BuildRequires:	darwinx-gcc
 BuildRequires:	darwinx-odcctools
 BuildRequires:  darwinx-sdk
@@ -37,6 +37,9 @@ BuildRequires:	darwinx-libxslt
 BuildRequires:	darwinx-libsoup
 BuildRequires:	darwinx-enchant
 BuildRequires:	darwinx-gstreamer1
+BuildRequires:	darwinx-gstreamer1-plugins-base
+
+Requires:	darwinx-filesystem >= 18
 
 %description 
 %{name} is an open-source Web content engine library.
@@ -128,7 +131,7 @@ rm -rf %{buildroot}
 
 
 %changelog
-* Wed Jan 30 2013 Mikkel Kruse Johnsen <mikkel@structura-it.dk> - 1.10.2-1
+* Wed Jan 30 2013 Mikkel Kruse Johnsen <mikkel@xmedicus.com> - 2.4.9-2
 - Updated to Gtk3
 
 * Thu Oct 15 2009 Erik van Pienbroek <epienbro@fedoraproject.org> - 1.1.15-4

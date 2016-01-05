@@ -1,5 +1,5 @@
 Name:           darwinx-pixman
-Version:        0.32.6
+Version:        0.33.6
 Release:        1%{?dist}
 Summary:        Pixman is a low-level software library for pixel manipulation
 
@@ -10,7 +10,7 @@ Source0:        http://cairographics.org/releases/pixman-%{version}.tar.gz
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:      noarch
 
-BuildRequires:  darwinx-filesystem >= 2
+BuildRequires:  darwinx-filesystem >= 18
 BuildRequires:  darwinx-gcc
 BuildRequires:  darwinx-gettext
 
@@ -61,5 +61,5 @@ rm -rf $RPM_BUILD_ROOT
 %{_darwinx_libdir}/libpixman-1.a
 
 %changelog
-* Thu Feb 27 2014 Mikkel Kruse Johnsen <mikkel@structura-it.dk> - 0.32.4-1
+* Thu Feb 27 2014 Mikkel Kruse Johnsen <mikkel@xmedicus.com> - 0.32.4-1
 - Initial RPM release

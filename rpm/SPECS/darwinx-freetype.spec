@@ -1,12 +1,13 @@
 Name:           darwinx-freetype
-Version:        2.5.0
+Version:        2.6.2
 Release:        1%{?dist}
 Summary:        Darwin A free and portable font rendering engine
 
 License:        LGPLv2+
 Group:          Development/Libraries
 URL:            http://www.freetype.org
-Source0:        http://sourceforge.net/projects/freetype/files/freetype2/2.5.4/freetype-%{version}.tar.bz2
+Source0:        http://sourceforge.net/projects/freetype/files/freetype2/2.6.2/freetype-%{version}.tar.bz2
+Source1:	freetype2.pc
 Patch0:		freetype-2.5.0-freetype-config.patch
 
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -67,6 +68,8 @@ rm -rf $RPM_BUILD_ROOT
 # First install all the files belonging to the shared build
 make DESTDIR=$RPM_BUILD_ROOT install
 
+cp -f %{SOURCE1} $RPM_BUILD_ROOT%{_darwinx_prefix}/lib/pkgconfig/
+
 %clean
 rm -rf $RPM_BUILD_ROOT
 
@@ -76,12 +79,12 @@ rm -rf $RPM_BUILD_ROOT
 %doc README ChangeLog
 %{_darwinx_bindir}/freetype-config
 %{_darwinx_includedir}/freetype2
-%{_darwinx_includedir}/ft2build.h
 %{_darwinx_libdir}/libfreetype.6.dylib
 %{_darwinx_libdir}/libfreetype.dylib
 %{_darwinx_libdir}/libfreetype.la
 %{_darwinx_libdir}/pkgconfig/freetype2.pc
 %{_darwinx_datadir}/aclocal/freetype2.m4
+%{_darwinx_mandir}/man1/freetype-config.1
 
 %files static
 %defattr(-,root,root,-)

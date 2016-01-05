@@ -1,5 +1,5 @@
 Name:           darwinx-librsvg2
-Version:        2.40.9
+Version:        2.40.12
 Release:        1%{?dist}
 Summary:        Librsvg
 
@@ -9,7 +9,11 @@ Source0:        http://ftp.gnome.org/pub/GNOME/sources/librsvg/2.40/librsvg-%{ve
 
 BuildArch:      noarch
 
+BuildRequires:	darwinx-filesystem-base >= 18
 BuildRequires:	darwinx-libcroco
+
+Requires:	darwinx-filesystem >= 18
+Requires:	darwinx-libcroco
 
 %description
 An SVG library based on cairo
@@ -34,6 +38,5 @@ rm -rf $RPM_BUILD_ROOT
 %{_darwinx_datadir}
 
 %changelog
-* Tue Oct 28 2014 Kalev Lember <kalevlember@gmail.com> - 3.14.0-3
-- Split out adwaita-cursor-theme subpackage for alternate desktop spins
-  (#1157324)
+* Tue Oct 28 2014 Mikkel Kruse Johnsen <mikkel@xmedicus.com> - 2.40.12-1
+- First build

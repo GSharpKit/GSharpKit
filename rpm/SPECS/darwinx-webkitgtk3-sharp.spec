@@ -1,5 +1,5 @@
 Name:		darwinx-webkitgtk3-sharp
-Version:	2.2.8
+Version:	2.4.9
 Release:	1%{?dist}
 Summary:	.NET bindings for WebKit
 Group:		Development/Languages

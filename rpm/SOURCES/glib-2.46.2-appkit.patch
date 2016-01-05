@@ -1,0 +1,81 @@
+diff -Nur glib-2.46.2.orig/gio/Makefile.am glib-2.46.2/gio/Makefile.am
+--- glib-2.46.2.orig/gio/Makefile.am	2015-11-06 19:12:04.000000000 +0100
++++ glib-2.46.2/gio/Makefile.am	2016-01-03 13:13:56.000000000 +0100
+@@ -710,6 +710,10 @@
+ 	$(top_builddir)/glib/libglib-2.0.la 		\
+ 	$(NULL)
+ 
++if OS_COCOA
++glib_compile_resources_LDFLAGS = -Wl,-framework,Foundation -Wl,-framework,AppKit
++endif
++
+ glib_compile_resources_SOURCES = \
+ 	gvdb/gvdb-format.h		\
+ 	gvdb/gvdb-builder.h		\
+@@ -723,6 +727,10 @@
+ 	$(top_builddir)/glib/libglib-2.0.la		\
+ 	$(NULL)
+ 
++if OS_COCOA
++glib_querymodules_LDFLAGS = -Wl,-framework,Foundation -Wl,-framework,AppKit
++endif
++
+ gconstructor_as_data.h: $(top_srcdir)/glib/gconstructor.h data-to-c.pl
+ 	$(AM_V_GEN) $(srcdir)/data-to-c.pl $(top_srcdir)/glib/gconstructor.h gconstructor_code > $@.tmp && mv $@.tmp $@
+ 
+@@ -734,6 +742,10 @@
+ 	gvdb/gvdb-builder.c		\
+ 	glib-compile-schemas.c
+ 
++if OS_COCOA
++glib_compile_schemas_LDFLAGS = -Wl,-framework,Foundation -Wl,-framework,AppKit
++endif
++
+ gsettings_LDADD = libgio-2.0.la 			\
+ 	$(top_builddir)/gobject/libgobject-2.0.la	\
+ 	$(top_builddir)/gmodule/libgmodule-2.0.la 	\
+@@ -741,6 +753,10 @@
+ 	$(NULL)
+ gsettings_SOURCES = gsettings-tool.c
+ 
++if OS_COCOA
++gsettings_LDFLAGS = -Wl,-framework,Foundation -Wl,-framework,AppKit
++endif
++
+ schemadir = $(datadir)/glib-2.0/schemas
+ dist_schema_DATA = gschema.dtd
+ 
+@@ -755,6 +771,10 @@
+ 	$(top_builddir)/glib/libglib-2.0.la		\
+ 	$(NULL)
+ 
++if OS_COCOA
++gdbus_LDFLAGS = -Wl,-framework,Foundation -Wl,-framework,AppKit
++endif
++
+ if OS_UNIX
+ # ------------------------------------------------------------------------
+ # gapplication(1) tool
+@@ -765,6 +785,11 @@
+ 	$(top_builddir)/gmodule/libgmodule-2.0.la 	\
+ 	$(top_builddir)/glib/libglib-2.0.la		\
+ 	$(NULL)
++
++if OS_COCOA
++gapplication_LDFLAGS = -Wl,-framework,Foundation -Wl,-framework,AppKit
++endif
++
+ endif
+ 
+ completiondir = $(datadir)/bash-completion/completions
+@@ -787,6 +812,10 @@
+ 	$(top_builddir)/glib/libglib-2.0.la		\
+ 	$(LIBELF_LIBS)
+ 
++if OS_COCOA
++gresource_LDFLAGS = -Wl,-framework,Foundation -Wl,-framework,AppKit
++endif
++
+ # ------------------------------------------------------------------------
+ # ------ MSVC Project File Generation ------
+ MSVCPROJS = gio glib-compile-resources glib-compile-schemas

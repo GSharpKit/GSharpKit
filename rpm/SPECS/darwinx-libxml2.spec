@@ -10,10 +10,11 @@ Source0:        libxml2-%{version}.tar.gz
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:      noarch
 
-BuildRequires:  darwinx-filesystem >= 2
+BuildRequires:  darwinx-filesystem-base >= 18
 BuildRequires:  darwinx-gcc
 BuildRequires:  darwinx-gettext
 
+Requires:       darwinx-filesystem >= 18
 
 %description
 libxml2 is the official PNG reference library.
@@ -64,5 +65,5 @@ rm -rf $RPM_BUILD_ROOT
 %{_darwinx_libdir}/libxml2.a
 
 %changelog
-* Thu Feb 27 2014 Mikkel Kruse Johnsen <mikkel@structura-it.dk> - 3.0.13-1
+* Thu Feb 27 2014 Mikkel Kruse Johnsen <mikkel@xmedicus.com> - 2.9.2-1
 - Initial RPM release

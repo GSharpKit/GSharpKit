@@ -3,16 +3,17 @@
 %define _prefix /Library/Frameworks/AppBox.framework/Versions/1.0.0
 
 Name: 		darwinx-filesystem-base
-Version: 	17
+Version: 	18
 Release: 	1%{?dist}
 Summary: 	Darwin filesystem and environment
 License: 	GPLv2+
 Group: 		Development/Libraries
 URL: 		http://www.appbox.info
 Source0:	macros.darwinx
-Source1:	darwinx.sh
-Source2:	zlib.pc
-Source3:	sqlite3.pc
+Source1:	macros.dist
+Source2:	darwinx.sh
+Source3:	zlib.pc
+Source4:	sqlite3.pc
 
 BuildRoot: 	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch: 	noarch
@@ -44,12 +45,13 @@ mkdir -p $RPM_BUILD_ROOT%{_prefix}/etc/profile.d
 mkdir -p $RPM_BUILD_ROOT%{_prefix}/etc/rpm
 
 cp %{SOURCE0} $RPM_BUILD_ROOT%{_prefix}/etc/rpm/
-cp %{SOURCE1} $RPM_BUILD_ROOT%{_prefix}/etc/profile.d/
+cp %{SOURCE1} $RPM_BUILD_ROOT%{_prefix}/etc/rpm/
+cp %{SOURCE2} $RPM_BUILD_ROOT%{_prefix}/etc/profile.d/
 
 mkdir -p $RPM_BUILD_ROOT%{_prefix}/lib/pkgconfig
 
-cp %{SOURCE2} $RPM_BUILD_ROOT%{_prefix}/lib/pkgconfig/
 cp %{SOURCE3} $RPM_BUILD_ROOT%{_prefix}/lib/pkgconfig/
+cp %{SOURCE4} $RPM_BUILD_ROOT%{_prefix}/lib/pkgconfig/
 
 
 %clean
@@ -60,6 +62,7 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(-,root,root)
 %{_prefix}/etc/profile.d/darwinx.sh
 %{_prefix}/etc/rpm/macros.darwinx
+%{_prefix}/etc/rpm/macros.dist
 %{_prefix}/lib/pkgconfig/zlib.pc
 %{_prefix}/lib/pkgconfig/sqlite3.pc
 

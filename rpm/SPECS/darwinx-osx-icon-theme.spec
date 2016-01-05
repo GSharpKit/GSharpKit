@@ -1,6 +1,6 @@
 Name:           darwinx-adwaita-icon-theme
-Version:        3.14.1
-Release:        4%{?dist}
+Version:        3.18.0
+Release:        1%{?dist}
 Summary:        Adwaita Mac OS X icon theme
 
 License:        LGPLv3+ or CC-BY-SA

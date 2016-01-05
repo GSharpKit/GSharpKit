@@ -1,6 +1,6 @@
 Name:           darwinx-dbus
 Version:        1.8.16
-Release:        2%{?dist}
+Release:        1%{?dist}
 Summary:        D-Bus Message Bus System
 
 License:        Dual GPLv2 or AFLv2.1
@@ -16,7 +16,9 @@ BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildArch:      noarch
 
-BuildRequires:  darwinx-filesystem >= 13
+BuildRequires:  darwinx-filesystem-base >= 18
+
+Requires:  	darwinx-filesystem >= 18
 
 %description
 D-Bus is a message bus system, a simple way for applications to talk to
@@ -42,7 +44,8 @@ echo "lt_cv_deplibs_check_method='pass_all'" >>%{_darwinx_cache}
 	--disable-tests \
 	--enable-checks \
 	--enable-asserts \
-	--enable-launchd
+	--enable-launchd \
+	--with-dbus-daemondir=/usr/local/bin
 make %{?_smp_mflags} || make
 
 
@@ -53,13 +56,15 @@ make DESTDIR=$RPM_BUILD_ROOT install
 
 install -m 775 %{SOURCE1} $RPM_BUILD_ROOT%{_darwinx_bindir}/
 
+mv $RPM_BUILD_ROOT/usr/local/bin/dbus-daemon $RPM_BUILD_ROOT%{_darwinx_bindir}/
+rm -rf $RPM_BUILD_ROOT/usr/local
+
 rm -rf $RPM_BUILD_ROOT%{_darwinx_sysconfdir}/rc.d
 rm -rf $RPM_BUILD_ROOT%{_darwinx_datadir}/doc
 
 mv $RPM_BUILD_ROOT/Library $RPM_BUILD_ROOT%{_darwinx_prefix}
 
 sed -i '' 's!\/usr\/darwinx!!' $RPM_BUILD_ROOT%{_darwinx_prefix}/Library/LaunchAgents/org.freedesktop.dbus-session.plist
-sed -i '' 's!\/usr\/bin!\/usr\/local\/bin!' $RPM_BUILD_ROOT%{_darwinx_prefix}/Library/LaunchAgents/org.freedesktop.dbus-session.plist
 sed -i '' 's!--session!--config-file=\/etc\/dbus-1\/session.conf!' $RPM_BUILD_ROOT%{_darwinx_prefix}/Library/LaunchAgents/org.freedesktop.dbus-session.plist
 sed -i '' 's!false !true!' $RPM_BUILD_ROOT%{_darwinx_prefix}/Library/LaunchAgents/org.freedesktop.dbus-session.plist
 

@@ -7,6 +7,7 @@ Release:	1%{?dist}
 Summary:	Provides glib mainloop integration for ndesk-dbus
 Source0:	http://www.ndesk.org/archive/dbus-sharp/dbus-sharp-glib-%{version}.tar.gz
 Patch0:		ndesk-dbus-glib-0.4.2.patch
+Patch1:		dbus-sharp-glib-0.6.0-mcs.patch
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildArch: 	noarch
@@ -22,6 +23,7 @@ ndesk-dbus-glib provides glib mainloop integration for ndesk-dbus
 %prep
 %setup -q -n dbus-sharp-glib-%{version}
 %patch0 -p1
+%patch1 -p1
 
 # Fix dll.config
 sed -i '' 's|libglib-2.0.so.0|libglib-2.0.0.dylib|g' src/dbus-sharp-glib.dll.config

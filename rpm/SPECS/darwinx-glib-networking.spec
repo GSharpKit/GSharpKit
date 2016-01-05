@@ -1,24 +1,26 @@
 Name:           darwinx-glib-networking
-Version:        2.42.1
+Version:        2.46.1
 Release:        1%{?dist}
 Summary:        Networking support for GLib 
 
 License:        GPLv3+ and LGPLv2+
 Group:          Development/Libraries
-URL:            http://ftp.gnome.org/pub/GNOME/sources/glib-networking/2.42/
+URL:            http://ftp.gnome.org/pub/GNOME/sources/glib-networking/2.46/
 Source0:        glib-networking-%{version}.tar.xz
 Patch0:		glib-networking-2.38.2-error-format.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildArch:      noarch
 
-BuildRequires:  darwinx-filesystem >= 7
+BuildRequires:  darwinx-filesystem-base >= 18
 BuildRequires:  darwinx-gcc
 BuildRequires:  darwinx-libgpg-error
 BuildRequires:  darwinx-libgcrypt
 BuildRequires:  darwinx-gnutls
 
 BuildRequires:  pkgconfig
+
+Requires:  	darwinx-filesystem >= 18
 
 %description
 This package contains modules that extend the networking support in
@@ -55,6 +57,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_darwinx_datadir}/locale
 
 %changelog
-* Thu May  9 2013 Mikkel Kruse Johnsen <mikkel@structura-it.dk> - 2.36.1-1
+* Thu May  9 2013 Mikkel Kruse Johnsen <mikkel@xmedicus.com> - 2.36.1-1
 - Initial RPM release.
 

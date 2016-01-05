@@ -1,22 +1,14 @@
 Name:           darwinx-pango
-Version:        1.36.8
+Version:        1.38.1
 Release:        1%{?dist}
 Summary:        Darwin Pango library
 
 License:        LGPLv2+
 Group:          Development/Libraries
 URL:            http://www.pango.org
-Source0:        http://download.gnome.org/sources/pango/1.36/pango-%{version}.tar.xz
+Source0:        http://download.gnome.org/sources/pango/1.38/pango-%{version}.tar.xz
 
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-
-# Native pango uses a %post script to generate this, but the
-# pango-querymodules.exe binary is not something we can easily run on
-# a Linux host. We could use wine but wine isn't happy in a mock
-# environment. So we just include a pre-generated copy on basis that
-# it won't ever change much.
-#
-Source1:        pango.modules
 
 BuildArch:      noarch
 
@@ -62,6 +54,8 @@ Static version of the Darwin Pango library.
 %prep
 %setup -q -n pango-%{version}
 
+sed -i '' "s!SUBDIRS = pango pango-view examples docs tools tests build!SUBDIRS = pango pango-view docs tools build!" Makefile.in 
+
 %build
 # Pango can't build static and shared libraries in one go, so we
 # build Pango twice here
@@ -72,7 +66,6 @@ pushd build_static
         --disable-shared \
         CFLAGS="$CFLAGS -DGLIB_STATIC_COMPILATION -DGOBJECT_STATIC_COMPILATION"
 
-    sed -i -e 's!SUBDIRS = pango modules pango-view examples docs tools tests build!SUBDIRS = pango modules pango-view examples docs tools build!g' Makefile
     make %{?_smp_mflags}
 popd
 
@@ -80,7 +73,6 @@ mkdir build_shared
 pushd build_shared
 %{_darwinx_configure} \
         --disable-static
-    sed -i -e 's!SUBDIRS = pango modules pango-view examples docs tools tests build!SUBDIRS = pango modules pango-view examples docs tools build!g' Makefile
     make %{?_smp_mflags}
 popd
 
@@ -94,32 +86,14 @@ make -C build_shared DESTDIR=$RPM_BUILD_ROOT install
 # and move the static libraries to the right location
 make -C build_static DESTDIR=$RPM_BUILD_ROOT/build_static install
 mv $RPM_BUILD_ROOT/build_static%{_darwinx_libdir}/*.a $RPM_BUILD_ROOT%{_darwinx_libdir}
-mv $RPM_BUILD_ROOT/build_static%{_darwinx_libdir}/pango/1.8.0/modules/*.a $RPM_BUILD_ROOT%{_darwinx_libdir}/pango/1.8.0/modules/
 
 # Manually merge the libtool files
 sed -i '' s/"old_library=''"/"old_library='libpango-1.0.a'"/ $RPM_BUILD_ROOT%{_darwinx_libdir}/libpango-1.0.la
 sed -i '' s/"old_library=''"/"old_library='libpangocairo-1.0.a'"/ $RPM_BUILD_ROOT%{_darwinx_libdir}/libpangocairo-1.0.la
 sed -i '' s/"old_library=''"/"old_library='libpangoft2-1.0.a'"/ $RPM_BUILD_ROOT%{_darwinx_libdir}/libpangoft2-1.0.la
-#sed -i '' s/"old_library=''"/"old_library='libpangowin32-1.0.a'"/ $RPM_BUILD_ROOT%{_darwinx_libdir}/libpangowin32-1.0.la
-#sed -i '' s/"old_library=''"/"old_library='pango-basic-atsui.a'"/ $RPM_BUILD_ROOT%{_darwinx_libdir}/pango/1.8.0/modules/pango-basic-atsui.la
-sed -i '' s/"old_library=''"/"old_library='pango-basic-coretext.a'"/ $RPM_BUILD_ROOT%{_darwinx_libdir}/pango/1.8.0/modules/pango-basic-coretext.la
-sed -i '' s/"old_library=''"/"old_library='pango-arabic-lang.a'"/ $RPM_BUILD_ROOT%{_darwinx_libdir}/pango/1.8.0/modules/pango-arabic-lang.la
-sed -i '' s/"old_library=''"/"old_library='pango-indic-lang.a'"/ $RPM_BUILD_ROOT%{_darwinx_libdir}/pango/1.8.0/modules/pango-indic-lang.la
-#sed -i '' s/"old_library=''"/"old_library='pango-arabic-fc.a'"/ $RPM_BUILD_ROOT%{_darwinx_libdir}/pango/1.8.0/modules/pango-arabic-fc.la
-sed -i '' s/"old_library=''"/"old_library='pango-basic-fc.a'"/ $RPM_BUILD_ROOT%{_darwinx_libdir}/pango/1.8.0/modules/pango-basic-fc.la
-#sed -i '' s/"old_library=''"/"old_library='pango-hangul-fc.a'"/ $RPM_BUILD_ROOT%{_darwinx_libdir}/pango/1.8.0/modules/pango-hangul-fc.la
-#sed -i '' s/"old_library=''"/"old_library='pango-hebrew-fc.a'"/ $RPM_BUILD_ROOT%{_darwinx_libdir}/pango/1.8.0/modules/pango-hebrew-fc.la
-#sed -i '' s/"old_library=''"/"old_library='pango-indic-fc.a'"/ $RPM_BUILD_ROOT%{_darwinx_libdir}/pango/1.8.0/modules/pango-indic-fc.la
-#sed -i '' s/"old_library=''"/"old_library='pango-khmer-fc.a'"/ $RPM_BUILD_ROOT%{_darwinx_libdir}/pango/1.8.0/modules/pango-khmer-fc.la
-#sed -i '' s/"old_library=''"/"old_library='pango-syriac-fc.a'"/ $RPM_BUILD_ROOT%{_darwinx_libdir}/pango/1.8.0/modules/pango-syriac-fc.la
-#sed -i '' s/"old_library=''"/"old_library='pango-thai-fc.a'"/ $RPM_BUILD_ROOT%{_darwinx_libdir}/pango/1.8.0/modules/pango-thai-fc.la
-#sed -i '' s/"old_library=''"/"old_library='pango-tibetan-fc.a'"/ $RPM_BUILD_ROOT%{_darwinx_libdir}/pango/1.8.0/modules/pango-tibetan-fc.la
 
 # Drop the folder which was temporary used for installing the static bits
 rm -rf $RPM_BUILD_ROOT/build_static
-
-mkdir -p $RPM_BUILD_ROOT%{_darwinx_sysconfdir}/pango/
-cp %{SOURCE1} $RPM_BUILD_ROOT%{_darwinx_sysconfdir}/pango/
 
 # Drop unnecessary and duplicate files
 rm -f $RPM_BUILD_ROOT%{_darwinx_libdir}/charset.alias
@@ -134,9 +108,7 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(-,root,root,-)
 %doc COPYING
-%{_darwinx_bindir}/pango-querymodules
 %{_darwinx_bindir}/pango-view
-%{_darwinx_sysconfdir}/pango/
 %{_darwinx_includedir}/pango-1.0/
 %{_darwinx_libdir}/libpango-1.0.0.dylib
 %{_darwinx_libdir}/libpango-1.0.dylib
@@ -147,17 +119,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_darwinx_libdir}/libpangoft2-1.0.0.dylib
 %{_darwinx_libdir}/libpangoft2-1.0.dylib
 %{_darwinx_libdir}/libpangoft2-1.0.la
-%dir %{_darwinx_libdir}/pango
-%dir %{_darwinx_libdir}/pango/1.8.0
-%dir %{_darwinx_libdir}/pango/1.8.0/modules
-%{_darwinx_libdir}/pango/1.8.0/modules/pango-arabic-lang.la
-%{_darwinx_libdir}/pango/1.8.0/modules/pango-arabic-lang.so
-%{_darwinx_libdir}/pango/1.8.0/modules/pango-indic-lang.la
-%{_darwinx_libdir}/pango/1.8.0/modules/pango-indic-lang.so
-%{_darwinx_libdir}/pango/1.8.0/modules/pango-basic-coretext.la
-%{_darwinx_libdir}/pango/1.8.0/modules/pango-basic-coretext.so
-%{_darwinx_libdir}/pango/1.8.0/modules/pango-basic-fc.la
-%{_darwinx_libdir}/pango/1.8.0/modules/pango-basic-fc.so
 %{_darwinx_libdir}/pkgconfig/pango.pc
 %{_darwinx_libdir}/pkgconfig/pangocairo.pc
 %{_darwinx_libdir}/pkgconfig/pangoft2.pc
@@ -167,10 +128,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_darwinx_libdir}/libpango-1.0.a
 %{_darwinx_libdir}/libpangocairo-1.0.a
 %{_darwinx_libdir}/libpangoft2-1.0.a
-%{_darwinx_libdir}/pango/1.8.0/modules/pango-basic-coretext.a
-%{_darwinx_libdir}/pango/1.8.0/modules/pango-arabic-lang.a
-%{_darwinx_libdir}/pango/1.8.0/modules/pango-indic-lang.a
-%{_darwinx_libdir}/pango/1.8.0/modules/pango-basic-fc.a
  
 
 %changelog

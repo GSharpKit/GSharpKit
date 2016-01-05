@@ -142,8 +142,8 @@ sudo install_name_tool -change @executable_path/libnspr4.dylib $PREFIX/lib/libns
 
 sudo mkdir -p $PREFIX/var/lib/rpm
 sudo mkdir -p $PREFIX/etc/rpm
-sudo cp $SCRIPT_ROOT/macros.darwinx $PREFIX/etc/rpm/
-sudo cp $SCRIPT_ROOT/macros.dist $PREFIX/etc/rpm/
+sudo cp $SCRIPT_ROOT/rpm/SOURCES/macros.darwinx $PREFIX/etc/rpm/
+sudo cp $SCRIPT_ROOT/rpm/SOURCES/macros.dist $PREFIX/etc/rpm/
 #sudo cp $SCRIPT_ROOT/darwinx-find-lang.sh $PREFIX/lib/rpm/
 #sudo cp $SCRIPT_ROOT/darwinx-find-provides.sh $PREFIX/lib/rpm/
 #sudo cp $SCRIPT_ROOT/darwinx-find-requires.sh $PREFIX/lib/rpm/

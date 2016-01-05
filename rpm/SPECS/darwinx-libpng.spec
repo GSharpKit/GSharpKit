@@ -1,5 +1,5 @@
 Name:           darwinx-libpng
-Version:        1.6.10
+Version:        1.6.19
 Release:        1%{?dist}
 Summary:        libpng is the official PNG reference library.
 
@@ -69,5 +69,5 @@ rm -rf $RPM_BUILD_ROOT
 %{_darwinx_libdir}/libpng16.a
 
 %changelog
-* Thu Feb 27 2014 Mikkel Kruse Johnsen <mikkel@structura-it.dk> - 3.0.13-1
+* Thu Feb 27 2014 Mikkel Kruse Johnsen <mikkel@xmedicus.com> - 3.0.13-1
 - Initial RPM release

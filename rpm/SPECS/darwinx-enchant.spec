@@ -54,6 +54,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_darwinx_includedir}/
 
 %changelog
-* Thu May  9 2013 Mikkel Kruse Johnsen <mikkel@structura-it.dk> - 2.6-1
+* Thu May  9 2013 Mikkel Kruse Johnsen <mikkel@xmedicus.com> - 1.6.0-1
 - Initial RPM release.
 

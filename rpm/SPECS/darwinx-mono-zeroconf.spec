@@ -6,10 +6,14 @@ Group:          Development/Languages
 License:        MIT
 URL:            http://banshee-project.org/files/mono-zeroconf
 Source0:        mono-zeroconf-%{version}.tar.bz2
+Patch0:		mono-zeroconf-0.9.0-profile.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:	noarch
-BuildRequires:	darwinx-filesystem
 
+BuildRequires:	darwinx-filesystem-base >= 18
+BuildRequires:  darwinx-mono
+
+Requires:	darwinx-filesystem >= 18
 Requires:       darwinx-mono
 
 %description
@@ -18,9 +22,11 @@ for Mono and .NET.
 
 %prep
 %setup -q -n mono-zeroconf-%{version}
+%patch0 -p1
+
 # https://bugzilla.novell.com/show_bug.cgi?id=549163
-sed -i -e 's!$(DESTDIR)$(prefix)/lib!$(GACDESTDIR)%{_darwinx_libdir}!' configure.ac
-sed -i -e 's!$(DESTDIR)$(prefix)/lib!$(GACDESTDIR)%{_darwinx_libdir}!' configure
+sed -i '' 's!$(DESTDIR)$(prefix)/lib!$(GACDESTDIR)%{_darwinx_libdir}!' configure.ac
+sed -i '' 's!$(DESTDIR)$(prefix)/lib!$(GACDESTDIR)%{_darwinx_libdir}!' configure
 
 %build
 %{_darwinx_configure} --disable-mdnsresponder --disable-docs

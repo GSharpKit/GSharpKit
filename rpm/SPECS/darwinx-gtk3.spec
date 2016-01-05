@@ -1,19 +1,19 @@
 Name:           darwinx-gtk3
-Version:        3.16.3
+Version:        3.18.6
 Release:        1%{?dist}
 Summary:        Darwin Gtk3 library
 
 License:        LGPLv2+
 Group:          Development/Libraries
 URL:            http://www.gtk.org
-Source0:        http://download.gnome.org/sources/gtk+/3.16/gtk+-%{version}.tar.xz
+Source0:        http://download.gnome.org/sources/gtk+/3.18/gtk+-%{version}.tar.xz
 Patch0:		gtk-3.12.2-quartz-theme.patch
 Patch1:		gtk-3.16.3-disable_csd_envvar.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildArch:      noarch
 
-BuildRequires:  darwinx-filesystem >= 7
+BuildRequires:  darwinx-filesystem-base >= 18
 BuildRequires:  darwinx-gcc
 BuildRequires:  darwinx-odcctools
 BuildRequires:  darwinx-sdk
@@ -38,6 +38,7 @@ BuildRequires:  libtool
 
 Requires:       pkgconfig
 
+Requires:  	darwinx-filesystem >= 18
 
 %description
 Darwin Gtk3 library.
@@ -54,7 +55,7 @@ Static version of the Darwin Gtk3 library.
 %prep
 %setup -q -n gtk+-%{version}
 #patch0 -p1
-%patch1 -p1
+#patch1 -p1
 
 # Regenerate the configure script
 #AUTOMAKE_OPTIONS=subdir-objects autoreconf --verbose --install -I /usr/darwinx/usr/share/aclocal
@@ -100,6 +101,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_darwinx_bindir}/gtk-update-icon-cache
 %{_darwinx_bindir}/gtk-encode-symbolic-svg
 %{_darwinx_bindir}/gtk3-icon-browser
+%{_darwinx_bindir}/gtk-builder-tool
 %{_darwinx_sysconfdir}/gtk-3.0/
 %{_darwinx_includedir}/gail-3.0/
 %{_darwinx_includedir}/gtk-3.0/

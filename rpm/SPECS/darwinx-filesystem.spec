@@ -4,7 +4,7 @@
 #define _target_os	linux
 
 Name: 		darwinx-filesystem
-Version: 	17
+Version: 	18
 Release: 	1%{?dist}
 Summary: 	Darwin filesystem and environment
 License: 	GPLv2+
@@ -75,5 +75,5 @@ environment for Darwin (Mac OS X) cross-compiler packages.
 
 
 %changelog
-* Fri Jan 24 2014 Mikkel Kruse Johnsen <mikkel@structura-it.dk> - 1-1
+* Fri Jan 24 2014 Mikkel Kruse Johnsen <mikkel@xmedicus.com> - 1-1
 - Initial RPM release.

@@ -10,9 +10,9 @@ if [ ! -d /etc/dbus-1/session.d ]; then
 fi
 
 cp ../etc/dbus-1/session.conf /etc/dbus-1/
-sed -i -e 's!unix:tmpdir=\/tmp!launchd:env=DBUS_LAUNCHD_SESSION_BUS_SOCKET!' /etc/dbus-1/session.conf 
-rm /etc/dbus-1/session.conf-e
+sed -i '' 's!unix:tmpdir=\/tmp!launchd:env=DBUS_LAUNCHD_SESSION_BUS_SOCKET!' /etc/dbus-1/session.conf 
 
+mkdir -p /usr/local/bin/
 cp dbus-daemon /usr/local/bin/
 cp ../Library/LaunchAgents/org.freedesktop.dbus-session.plist /Library/LaunchAgents/
 

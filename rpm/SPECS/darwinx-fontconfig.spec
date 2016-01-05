@@ -1,5 +1,5 @@
 Name:           darwinx-fontconfig
-Version:        2.11.1
+Version:        2.11.94
 Release:        1%{?dist}
 Summary:        Darwin Font configuration and customization library
 
@@ -12,7 +12,7 @@ BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildArch:      noarch
 
-BuildRequires:  darwinx-filesystem >= 4
+BuildRequires:  darwinx-filesystem >= 18
 BuildRequires:  darwinx-gcc
 BuildRequires:  darwinx-sdk
 BuildRequires:  darwinx-odcctools
