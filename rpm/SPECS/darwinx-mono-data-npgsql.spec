@@ -9,14 +9,13 @@
 %define apiversion 3.0.0.0
 
 Name:           darwinx-mono-data-npgsql
-Version:        3.0.5
+Version:        3.1.6
 Release:        1%{?dist}
 Summary:        Postgresql database connectivity for C#
 Group:          Development/Languages
 License:        MIT
 URL:            https://github.com/npgsql/Npgsql/releases
 Source0:        npgsql-%{version}.tar.gz
-Patch0:		npgsql-3.0.0-cancel.patch
 
 Prefix:		/usr
 BuildArch:	noarch
@@ -33,11 +32,10 @@ database.
 
 %prep
 %setup -q -n npgsql-%{version}
-%patch0 -p1
 
-sed -i '' 's!AssemblyVersion("0.0.0")!AssemblyVersion("%{apiversion}")!g' src/CommonAssemblyInfo.cs
-sed -i '' 's!AssemblyFileVersion("0.0.0")!AssemblyFileVersion("%{apiversion}")!g' src/CommonAssemblyInfo.cs
-sed -i '' 's!AssemblyInformationalVersion("0.0.0")!AssemblyInformationalVersion("%{apiversion}")!g' src/CommonAssemblyInfo.cs
+sed -i '' 's!AssemblyVersion(".*")!AssemblyVersion("%{apiversion}")!g' src/CommonAssemblyInfo.cs
+sed -i '' 's!AssemblyFileVersion(".*")!AssemblyFileVersion("%{apiversion}")!g' src/CommonAssemblyInfo.cs
+sed -i '' 's!AssemblyInformationalVersion(".*")!AssemblyInformationalVersion("%{apiversion}")!g' src/CommonAssemblyInfo.cs
 
 cat > Npgsql.pc << \EOF
 prefix=%{_darwinx_prefix}
@@ -53,9 +51,6 @@ Cflags:
 EOF
 
 %build
-pushd packages
-nuget install AsyncRewriter -Version 0.6.0
-popd
 cd src/Npgsql
 %{_darwinx_env} ; xbuild /tv:4.0 /property:Configuration='Release' Npgsql.csproj
 

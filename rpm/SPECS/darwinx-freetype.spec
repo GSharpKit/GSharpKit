@@ -1,5 +1,5 @@
 Name:           darwinx-freetype
-Version:        2.6.2
+Version:        2.6.3
 Release:        1%{?dist}
 Summary:        Darwin A free and portable font rendering engine
 

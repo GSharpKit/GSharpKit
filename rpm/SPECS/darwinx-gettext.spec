@@ -1,5 +1,5 @@
 Name:           darwinx-gettext
-Version:        0.19.4
+Version:        0.19.7
 Release:        1%{?dist}
 Summary:        Darwin Gettext library
 
@@ -12,7 +12,16 @@ BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:      noarch
 
 %description
-Darwin Glib2 library
+The GNU gettext package provides a set of tools and documentation for
+producing multi-lingual messages in programs. Tools include a set of
+conventions about how programs should be written to support message
+catalogs, a directory and file naming organization for the message
+catalogs, a runtime library which supports the retrieval of translated
+messages, and stand-alone programs for handling the translatable and
+the already translated strings. Gettext provides an easy to use
+library and tools for creating, using, and modifying natural language
+catalogs and is a powerful and simple method for internationalizing
+programs.
 
 %package static
 Summary:        Static version of the Darwin Gettext library
@@ -56,5 +65,7 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
-* Fri Jan 24 2014 Mikkel Kruse Johnsen <mikkel@xmedicus.com> - 0.18.3.1-1
+* Wed Jul 20 2016 Mikkel Kruse Johnsen <mikkel@xmedicus.com> - 0.19.7-1
+- Updated to 0.19.7
+* Fri Jan 24 2014 Mikkel Kruse Johnsen <mikkel@xmedicus.com> - 0.19.4-1
 - Initial RPM release

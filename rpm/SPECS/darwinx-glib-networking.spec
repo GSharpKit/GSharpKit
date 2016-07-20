@@ -1,11 +1,11 @@
 Name:           darwinx-glib-networking
-Version:        2.46.1
+Version:        2.48.2
 Release:        1%{?dist}
 Summary:        Networking support for GLib 
 
 License:        GPLv3+ and LGPLv2+
 Group:          Development/Libraries
-URL:            http://ftp.gnome.org/pub/GNOME/sources/glib-networking/2.46/
+URL:            http://ftp.gnome.org/pub/GNOME/sources/glib-networking/2.48/
 Source0:        glib-networking-%{version}.tar.xz
 Patch0:		glib-networking-2.38.2-error-format.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)

@@ -1,5 +1,5 @@
 Name:           darwinx-gdl-sharp
-Version:        3.18.0
+Version:        3.20.0
 Release:        1%{?dist}
 Summary:        Max OS X GDL library
 
@@ -15,6 +15,7 @@ BuildRequires:  darwinx-mono
 BuildRequires:  darwinx-gdl >= %{version}
 
 Requires:  	darwinx-filesystem >= 18
+Requires:  	darwinx-gdl >= %{version}
 
 %description
 GTK+ is a multi-platform toolkit for creating graphical user

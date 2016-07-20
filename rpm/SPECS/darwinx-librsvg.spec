@@ -1,5 +1,5 @@
 Name:           darwinx-librsvg2
-Version:        2.40.12
+Version:        2.40.15
 Release:        1%{?dist}
 Summary:        Librsvg
 

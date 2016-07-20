@@ -1,5 +1,5 @@
 Name:           darwinx-glib2
-Version:        2.46.2
+Version:        2.48.1
 Release:        1%{?dist}
 Summary:        Darwin GLib2 library
 
@@ -27,6 +27,7 @@ BuildRequires:  darwinx-odcctools
 BuildRequires:  darwinx-sdk
 BuildRequires:  darwinx-gettext
 BuildRequires:  darwinx-libffi
+BuildRequires:  darwinx-pcre
 
 BuildRequires:  pkgconfig
 # Native version required for msgfmt use in build
@@ -158,6 +159,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_darwinx_datadir}/bash-completion/completions/gresource
 %{_darwinx_datadir}/bash-completion/completions/gsettings
 %{_darwinx_datadir}/bash-completion/completions/gapplication
+%{_darwinx_datadir}/gettext/its/gschema.its
+%{_darwinx_datadir}/gettext/its/gschema.loc
 
 %files static
 %defattr(-,root,root,-)

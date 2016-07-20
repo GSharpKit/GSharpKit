@@ -1,7 +1,7 @@
 %define		majorminor	1.0
 
 Name:		darwinx-gstreamer1
-Version: 	1.6.2
+Version: 	1.8.1
 Release: 	1%{?dist}
 Summary: 	GStreamer streaming media framework runtime
 
@@ -90,6 +90,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_darwinx_libdir}/gstreamer-%{majorminor}/libgstcoreelements.la
 %{_darwinx_libdir}/gstreamer-%{majorminor}/libgstcoreelements.so
 
+%{_darwinx_libdir}/gstreamer-%{majorminor}/libgstcoretracers.la
+%{_darwinx_libdir}/gstreamer-%{majorminor}/libgstcoretracers.so
+
 %dir %{_darwinx_includedir}/gstreamer-%{majorminor}
 %dir %{_darwinx_includedir}/gstreamer-%{majorminor}/gst
 %{_darwinx_includedir}/gstreamer-%{majorminor}/gst/*.h
@@ -114,9 +117,10 @@ rm -rf $RPM_BUILD_ROOT
 %{_darwinx_bindir}/gst-inspect-%{majorminor}
 %{_darwinx_bindir}/gst-launch-%{majorminor}
 %{_darwinx_bindir}/gst-typefind-%{majorminor}
+%{_darwinx_bindir}/gst-stats-%{majorminor}
 %{_darwinx_libexecdir}/gstreamer-%{majorminor}/gst-plugin-scanner
 %{_darwinx_libexecdir}/gstreamer-1.0/gst-ptp-helper
-   
+
 %changelog
 * Sun Jul  5 2009 - Levente Farkas <lfarkas@lfarkas.org> - 0.10.23-3
 - more spec cleanup

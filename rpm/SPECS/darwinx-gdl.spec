@@ -1,12 +1,12 @@
 Name:           darwinx-gdl
-Version:        3.18.0
+Version:        3.20.0
 Release:        1%{?dist}
 Summary:        Mac OS X GDL library
 
 License:        LGPLv2+
 Group:          Development/Libraries
 URL:            http://www.gtk.org
-Source0:        http://download.gnome.org/sources/gdl/3.18/gdl-%{version}.tar.xz
+Source0:        http://download.gnome.org/sources/gdl/3.20/gdl-%{version}.tar.xz
 
 BuildArch:      noarch
 
@@ -48,7 +48,6 @@ rm -rf $RPM_BUILD_ROOT%{_darwinx_libdir}/locale
 rm -rf $RPM_BUILD_ROOT%{_darwinx_datadir}/gtk-doc
 
 %files -n darwinx-gdl
-%doc COPYING
 %{_darwinx_libdir}/libgdl-3.5.dylib
 %{_darwinx_libdir}/libgdl-3.dylib
 %{_darwinx_includedir}/libgdl-3.0/gdl/gdl-dock-bar.h

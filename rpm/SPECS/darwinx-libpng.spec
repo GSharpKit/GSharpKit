@@ -1,5 +1,5 @@
 Name:           darwinx-libpng
-Version:        1.6.19
+Version:        1.6.23
 Release:        1%{?dist}
 Summary:        libpng is the official PNG reference library.
 

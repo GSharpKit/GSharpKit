@@ -1,12 +1,12 @@
 Name:           darwinx-pango
-Version:        1.38.1
+Version:        1.40.1
 Release:        1%{?dist}
 Summary:        Darwin Pango library
 
 License:        LGPLv2+
 Group:          Development/Libraries
 URL:            http://www.pango.org
-Source0:        http://download.gnome.org/sources/pango/1.38/pango-%{version}.tar.xz
+Source0:        http://download.gnome.org/sources/pango/1.40/pango-%{version}.tar.xz
 
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 

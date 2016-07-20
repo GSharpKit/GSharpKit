@@ -1,5 +1,5 @@
 Name:           darwinx-adwaita-icon-theme
-Version:        3.18.0
+Version:        3.20.0
 Release:        1%{?dist}
 Summary:        Adwaita Mac OS X icon theme
 

@@ -1,9 +1,9 @@
 %global debug_package %{nil}
 
-%define ver 4.2.2
+%define ver 4.4.1
 
 Name:           darwinx-mono
-Version:        4.2.2.10
+Version:        4.4.1.0
 Release:        1%{?dist}
 Summary:        A .NET runtime environment
 
@@ -17,8 +17,6 @@ Source1:        monodir.c
 # sn -k mono.snk
 # You should not regenerate this unless you have a really, really, really good reason.
 Source2:        mono.snk
-Patch0:		mono-3.0-sqlclient-datetime-minvalue.patch
-Patch1:		mono-3.12.0-mono-posix-dllmap.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildArch:      noarch
@@ -44,8 +42,8 @@ metadata access libraries.
 
 %prep
 %setup -q -n mono-%{ver}
-%patch0 -p1
-%patch1 -p1
+
+sed -i '' 's!$mono_libdir/!!g' data/config.in
 
 # Remove prebuilt binaries
 rm -rf mcs/class/lib/monolite/*
@@ -75,7 +73,9 @@ install -p -m0644 %{SOURCE2} %{buildroot}%{_darwinx_sysconfdir}/pki/mono/
 
 # No more 2.0 and 3.5
 %{__rm} -rf %{buildroot}%{monodir}/2.0
+%{__rm} -rf %{buildroot}%{monodir}/2.0-api
 %{__rm} -rf %{buildroot}%{monodir}/3.5
+%{__rm} -rf %{buildroot}%{monodir}/3.5-api
 
 # This was removed upstream:
 %{__rm} -rf %{buildroot}%{monodir}/gac/Mono.Security.Win32
@@ -146,11 +146,9 @@ install -p -m0644 %{SOURCE2} %{buildroot}%{_darwinx_sysconfdir}/pki/mono/
 %gac_dll Commons.Xml.Relaxng
 %gac_dll ICSharpCode.SharpZipLib
 %gac_dll Mono.Debugger.Soft
-%{monodir}/gac/Mono.Cecil
 
 %gac_dll cscompmgd
 %gac_dll Microsoft.VisualC
-%gac_dll Mono.C5
 %gac_dll Mono.Cairo
 %gac_dll Mono.CompilerServices.SymbolWriter
 %gac_dll Mono.CSharp
@@ -159,6 +157,10 @@ install -p -m0644 %{SOURCE2} %{buildroot}%{_darwinx_sysconfdir}/pki/mono/
 %gac_dll Mono.Management
 %gac_dll Mono.Posix
 %gac_dll Mono.Security
+%gac_dll Mono.Security.Providers.DotNet
+%gac_dll Mono.Security.Providers.NewSystemSource
+%gac_dll Mono.Security.Providers.NewTls
+%gac_dll Mono.Security.Providers.OldTls
 %gac_dll Mono.Simd
 %gac_dll System
 %gac_dll System.Configuration
@@ -195,12 +197,15 @@ install -p -m0644 %{SOURCE2} %{buildroot}%{_darwinx_sysconfdir}/pki/mono/
 %{monodir}/4.0/mscorlib.dll
 %{monodir}/4.5/mscorlib.dll
 %{monodir}/4.5/mscorlib.dll.mdb
+%{monodir}/4.0-api/
+%{monodir}/4.5-api/
 %gac_dll Microsoft.CSharp
 %gac_dll System.Dynamic
 %gac_dll System.ComponentModel.Composition
 %gac_dll System.EnterpriseServices
 %gac_dll System.Data
 %gac_dll System.Numerics
+%gac_dll System.Numerics.Vectors
 %gac_dll System.Runtime.Caching
 %gac_dll System.Runtime.DurableInstancing
 %gac_dll System.Transactions
@@ -225,6 +230,7 @@ install -p -m0644 %{SOURCE2} %{buildroot}%{_darwinx_sysconfdir}/pki/mono/
 %gac_dll System.IO.Compression
 %gac_dll System.Windows
 %{_darwinx_prefix}/lib/mono/4.5/Facades
+%{_darwinx_prefix}/lib/mono/gac/Mono.Cecil/*/Mono.Cecil.dll*
 
 ### files devel
 %{_darwinx_sysconfdir}/pki/mono/
@@ -265,9 +271,10 @@ install -p -m0644 %{SOURCE2} %{buildroot}%{_darwinx_sysconfdir}/pki/mono/
 %{_darwinx_bindir}/pedump
 %{_darwinx_bindir}/mdbrebase
 %{_darwinx_bindir}/ikdasm
-%{_darwinx_prefix}/lib/mono/4.0/Microsoft.VisualBasic.dll
 %{_darwinx_prefix}/lib/mono/4.5/mono-symbolicate.exe
 %{_darwinx_prefix}/lib/mono/4.5/mono-symbolicate.exe.mdb
+%{_darwinx_prefix}/lib/mono/4.5/linkeranalyzer.exe
+%{_darwinx_prefix}/lib/mono/4.5/linkeranalyzer.exe.mdb
 %{_darwinx_mandir}/man1/resgen.1
 %{_darwinx_mandir}/man1/al.1
 %{_darwinx_mandir}/man1/cert2spc.1
@@ -499,7 +506,6 @@ install -p -m0644 %{SOURCE2} %{buildroot}%{_darwinx_sysconfdir}/pki/mono/
 %{monodir}/gac/monodoc
 %{_darwinx_prefix}/lib/monodoc/*
 %{monodir}/monodoc/monodoc.dll
-%{_darwinx_prefix}/lib/mono/4.0/monodoc.dll
 %{_darwinx_bindir}/mod
 %{_darwinx_bindir}/mdoc-*
 %{_darwinx_bindir}/mdass*

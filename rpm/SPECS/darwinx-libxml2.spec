@@ -1,12 +1,12 @@
 Name:           darwinx-libxml2
-Version:        2.9.2
+Version:        2.9.3
 Release:        1%{?dist}
 Summary:        libxml2 is the official PNG reference library.
 
 License:        LGPLv2+
 Group:          Development/Libraries
-URL:            http://prdownloads.sourceforge.net/libxml2/
-Source0:        libxml2-%{version}.tar.gz
+URL:            http://xmlsoft.org/
+Source0:        ftp://xmlsoft.org/libxml2/libxml2-%{version}.tar.gz
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:      noarch
 
@@ -32,7 +32,7 @@ Static version of the libxml2 library.
 
 
 %build
-%{_darwinx_configure}
+%{_darwinx_configure} --without-lzma
 make %{?_smp_mflags}
 
 

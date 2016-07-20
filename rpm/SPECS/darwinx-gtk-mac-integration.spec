@@ -41,6 +41,7 @@ Static version of the Darwin Gtk-Mac-Integration library.
 %setup -q -n gtk-mac-integration-%{version}
 
 %build
+sh autogen.sh --enable-static --enable-shared --enable-python=no --with-gtk=gtk+-3.0 
 %{_darwinx_configure} --enable-static --enable-shared --enable-python=no --with-gtk=gtk+-3.0 
 %{_darwinx_make} %{?_smp_mflags} V=99
 

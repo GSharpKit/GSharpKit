@@ -1,5 +1,5 @@
 Name:           darwinx-libepoxy
-Version:        1.2
+Version:        1.3.1
 Release:        1%{?dist}
 Summary:        Epoxy is a library for handling OpenGL function pointer management for you.
 
@@ -7,7 +7,7 @@ License:        LGPLv2+
 Group:          Development/Libraries
 URL:		https://github.com/anholt/libepoxy/releases
 Source0:        https://github.com/anholt/libepoxy/releases/libepoxy-%{version}.tar.gz
-Patch0:		libepoxy-1.2-nox11.patch
+Patch0:		libepoxy-nox11.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:      noarch
 

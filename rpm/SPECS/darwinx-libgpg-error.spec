@@ -7,7 +7,6 @@ License:        LGPLv2+
 Group:          Development/Libraries
 URL:            ftp://ftp.gnupg.org/gcrypt/libgpg-error/
 Source0:        ftp://ftp.gnupg.org/gcrypt/libgpg-error/libgpg-error-%{version}.tar.bz2
-Source1:        ftp://ftp.gnupg.org/gcrypt/libgpg-error/libgpg-error-%{version}.tar.bz2.sig
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:      noarch
 

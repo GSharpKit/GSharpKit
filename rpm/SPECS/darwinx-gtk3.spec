@@ -1,12 +1,12 @@
 Name:           darwinx-gtk3
-Version:        3.18.6
+Version:        3.20.6
 Release:        1%{?dist}
 Summary:        Darwin Gtk3 library
 
 License:        LGPLv2+
 Group:          Development/Libraries
 URL:            http://www.gtk.org
-Source0:        http://download.gnome.org/sources/gtk+/3.18/gtk+-%{version}.tar.xz
+Source0:        http://download.gnome.org/sources/gtk+/3.20/gtk+-%{version}.tar.xz
 Patch0:		gtk-3.12.2-quartz-theme.patch
 Patch1:		gtk-3.16.3-disable_csd_envvar.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -18,16 +18,16 @@ BuildRequires:  darwinx-gcc
 BuildRequires:  darwinx-odcctools
 BuildRequires:  darwinx-sdk
 
-BuildRequires:  darwinx-atk >= 2.10.0
-BuildRequires:  darwinx-cairo >= 1.12.10
+BuildRequires:  darwinx-atk >= 2.20.0
+BuildRequires:  darwinx-cairo >= 1.14.0
 BuildRequires:  darwinx-gettext
-BuildRequires:  darwinx-glib2 >= 2.38.0
+BuildRequires:  darwinx-glib2 >= 2.48.0
 BuildRequires:  darwinx-jasper
 BuildRequires:  darwinx-libjpeg-turbo
-BuildRequires:  darwinx-libpng >= 1.5.13
-BuildRequires:  darwinx-pango >= 1.34.0
+BuildRequires:  darwinx-libpng >= 1.6.0
+BuildRequires:  darwinx-pango >= 1.40.0
 BuildRequires:  darwinx-pixman
-BuildRequires:  darwinx-libepoxy >= 1.2
+BuildRequires:  darwinx-libepoxy >= 1.3
 
 BuildRequires:  pkgconfig
 
@@ -102,6 +102,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_darwinx_bindir}/gtk-encode-symbolic-svg
 %{_darwinx_bindir}/gtk3-icon-browser
 %{_darwinx_bindir}/gtk-builder-tool
+%{_darwinx_bindir}/gtk-query-settings
 %{_darwinx_sysconfdir}/gtk-3.0/
 %{_darwinx_includedir}/gail-3.0/
 %{_darwinx_includedir}/gtk-3.0/
@@ -161,6 +162,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_darwinx_datadir}/locale/
 %{_darwinx_datadir}/applications/
 %{_darwinx_datadir}/icons/
+%{_darwinx_datadir}/gettext/its/gtkbuilder.its
+%{_darwinx_datadir}/gettext/its/gtkbuilder.loc
 
 %files static
 %defattr(-,root,root,-)

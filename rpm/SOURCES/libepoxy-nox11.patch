@@ -1,6 +1,6 @@
-diff -Nur libepoxy-1.2.orig/configure.ac libepoxy-1.2/configure.ac
---- libepoxy-1.2.orig/configure.ac	2014-05-14 02:22:08.000000000 +0200
-+++ libepoxy-1.2/configure.ac	2015-06-09 21:01:23.000000000 +0200
+diff -Nur libepoxy-1.3.1.orig/configure.ac libepoxy-1.3.1/configure.ac
+--- libepoxy-1.3.1.orig/configure.ac	2015-07-16 01:46:36.000000000 +0200
++++ libepoxy-1.3.1/configure.ac	2016-07-20 14:29:13.000000000 +0200
 @@ -31,15 +31,6 @@
  # Initialize Automake
  AM_INIT_AUTOMAKE([foreign dist-bzip2 subdir-objects])
@@ -28,24 +28,3 @@ diff -Nur libepoxy-1.2.orig/configure.ac libepoxy-1.2/configure.ac
  has_znow=yes
  
  case $host_os in
-@@ -78,7 +65,7 @@
-         ;;
-     darwin*)
-         build_egl=no
--        build_glx=yes
-+        build_glx=no
-         build_wgl=no
-         build_apple=yes
-         has_znow=no
-diff -Nur libepoxy-1.2.orig/src/dispatch_common.h libepoxy-1.2/src/dispatch_common.h
---- libepoxy-1.2.orig/src/dispatch_common.h	2014-05-14 02:22:08.000000000 +0200
-+++ libepoxy-1.2/src/dispatch_common.h	2015-06-09 21:02:31.000000000 +0200
-@@ -30,7 +30,7 @@
- #define EPOXY_IMPORTEXPORT __declspec(dllexport)
- #elif defined(__APPLE__)
- #define PLATFORM_HAS_EGL 0
--#define PLATFORM_HAS_GLX 1
-+#define PLATFORM_HAS_GLX 0
- #define PLATFORM_HAS_WGL 0
- #define EPOXY_IMPORTEXPORT
- #else

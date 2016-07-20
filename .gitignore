@@ -9,3 +9,5 @@ PATCHES
 *.xz
 *.tgz
 *.zip
+.DS_Store
+rpm/.DS_Store
