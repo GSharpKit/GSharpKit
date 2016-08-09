@@ -49,7 +49,7 @@ Cross compiled GDK Pixbuf library.
 
 %package static
 Summary:        Static version of the cross compiled %{name} library
-Requires:       darwinx-%{_cross_pkg_name} = %{version}-%{release}
+Requires:       %{name} = %{version}-%{release}
 
 %description static
 Static version of the cross compiled %{name} library.

@@ -1,8 +1,8 @@
 %define debug_package %{nil}
 
 Name:		darwinx-webkitgtk3
-Version:	2.4.9
-Release:	2%{?dist}
+Version:	2.4.11
+Release:	1%{?dist}
 Summary:	Darwin web content engine library
 
 Group:		Development/Libraries

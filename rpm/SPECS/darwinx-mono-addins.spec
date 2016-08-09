@@ -1,12 +1,11 @@
 Name:		darwinx-mono-addins
-Version:	1.2
+Version:	1.3
 Release:	1%{?dist}
 Summary:	Addins for mono
 Group:		Development/Languages
 License:	MIT
 URL:		http://www.mono-project.com/
-Source0:	mono-addins-%{version}.tar.gz	
-Patch0:		mono-addins-1.2-mcs.patch
+Source0:	mono-addins-mono-addins-%{version}.tar.gz	
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch: 	noarch
 
@@ -21,8 +20,7 @@ Mono.Addins is a generic framework for creating extensible applications,
 and for creating libraries which extend those applications.
 
 %prep
-%setup -q -n mono-addins-%{version}
-%patch0 -p1
+%setup -q -n mono-addins-mono-addins-%{version}
 
 #sed -i '' 's!$(prefix)/lib!%{darwinx_libdir}!' configure
 

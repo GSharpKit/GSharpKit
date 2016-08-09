@@ -1,5 +1,5 @@
 Name:           darwinx-gnutls
-Version:        3.4.12
+Version:        3.4.14
 Release:        1%{?dist}
 Summary:        GnuTLS TLS/SSL encryption library
 
@@ -77,8 +77,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_darwinx_libdir}/libgnutls.la
 #%{_darwinx_libdir}/libgnutls-openssl.la
 #%{_darwinx_libdir}/libgnutlsxx.la
-%{_darwinx_libdir}/gnutls/libpkcs11mock1.la
-%{_darwinx_libdir}/gnutls/libpkcs11mock1.so
+#%{_darwinx_libdir}/gnutls/libpkcs11mock1.la
+#%{_darwinx_libdir}/gnutls/libpkcs11mock1.so
 %{_darwinx_libdir}/pkgconfig/gnutls.pc
 %{_darwinx_includedir}/gnutls/
 %{_darwinx_datadir}/locale

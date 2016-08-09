@@ -1,11 +1,11 @@
 Name:		darwinx-webkitgtk3-sharp
-Version:	2.4.9
+Version:	2.4.11
 Release:	1%{?dist}
 Summary:	.NET bindings for WebKit
 Group:		Development/Languages
 License:	MIT
 URL:		http://ftp.novell.com/pub/mono/sources/webkit-sharp/
-Source0:        webkitgtk3-sharp-%{version}.tar.xz
+Source0:        webkitgtk3-sharp-%{version}.tar.gz
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildArch:	noarch

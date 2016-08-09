@@ -1,9 +1,9 @@
 %global debug_package %{nil}
 
-%define ver 4.4.1
+%define ver 4.6.0
 
 Name:           darwinx-mono
-Version:        4.4.1.0
+Version:        %{ver}.125
 Release:        1%{?dist}
 Summary:        A .NET runtime environment
 
@@ -201,6 +201,8 @@ install -p -m0644 %{SOURCE2} %{buildroot}%{_darwinx_sysconfdir}/pki/mono/
 %{monodir}/4.5-api/
 %gac_dll Microsoft.CSharp
 %gac_dll System.Dynamic
+%gac_dll System.Runtime.InteropServices.RuntimeInformation
+%gac_dll System.Reflection.Context
 %gac_dll System.ComponentModel.Composition
 %gac_dll System.EnterpriseServices
 %gac_dll System.Data
@@ -263,6 +265,7 @@ install -p -m0644 %{SOURCE2} %{buildroot}%{_darwinx_sysconfdir}/pki/mono/
 %{_darwinx_bindir}/monodis
 %mono_bin monolinker
 %mono_bin monop
+%mono_bin mono-api-html
 %{_darwinx_bindir}/monop2
 %{_darwinx_bindir}/peverify
 %{_darwinx_bindir}/prj2make
@@ -308,6 +311,7 @@ install -p -m0644 %{SOURCE2} %{buildroot}%{_darwinx_sysconfdir}/pki/mono/
 %gac_dll Microsoft.Build.Tasks.v4.0
 %gac_dll Microsoft.Build.Utilities.v4.0
 %gac_dll Mono.XBuild.Tasks
+%gac_dll System.Deployment
 %{monodir}/4.5/xbuild.rsp
 %{monodir}/4.5/MSBuild/Microsoft.Build.CommonTypes.xsd
 %{monodir}/4.5/MSBuild/Microsoft.Build.Core.xsd
@@ -347,7 +351,7 @@ install -p -m0644 %{SOURCE2} %{buildroot}%{_darwinx_sysconfdir}/pki/mono/
 %{monodir}/4.5/installutil.exe.mdb
 %{monodir}/4.5/mod.exe
 %{monodir}/4.5/mod.exe.mdb
-%{monodir}/4.5/mono-api-info.exe
+%{monodir}/4.5/mono-api-info.exe*
 %{_darwinx_libdir}/pkgconfig/reactive.pc
 %{_darwinx_prefix}/lib/mono/4.5/mdbrebase.exe
 %{_darwinx_prefix}/lib/mono/4.5/mdbrebase.exe.mdb
@@ -408,6 +412,10 @@ install -p -m0644 %{SOURCE2} %{buildroot}%{_darwinx_sysconfdir}/pki/mono/
 %gac_dll System.ServiceModel.Routing
 %gac_dll System.ServiceModel.Activation
 %gac_dll System.ServiceModel.Internals
+%gac_dll System.Workflow.Activities
+%gac_dll System.Workflow.ComponentModel
+%gac_dll System.Workflow.Runtime
+
 
 ### files web
 %mono_bin wsdl
@@ -436,6 +444,8 @@ install -p -m0644 %{SOURCE2} %{buildroot}%{_darwinx_sysconfdir}/pki/mono/
 %gac_dll System.Web.WebPages.Razor
 %gac_dll System.Web.WebPages
 %gac_dll System.Web.Http.WebHost
+%gac_dll System.Web.Mobile
+%gac_dll System.Web.RegularExpressions
 %{_darwinx_mandir}/man1/disco.1
 %{_darwinx_mandir}/man1/httpcfg.1
 %{_darwinx_mandir}/man1/mconfig.1
