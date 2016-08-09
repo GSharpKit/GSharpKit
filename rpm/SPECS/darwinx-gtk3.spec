@@ -1,5 +1,5 @@
 Name:           darwinx-gtk3
-Version:        3.20.6
+Version:        3.20.8
 Release:        1%{?dist}
 Summary:        Darwin Gtk3 library
 
