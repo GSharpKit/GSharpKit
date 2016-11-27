@@ -1,9 +1,9 @@
 %global debug_package %{nil}
 
-%define ver 4.6.1
+%define ver 4.8.0
 
 Name:           darwinx-mono
-Version:        %{ver}.3
+Version:        %{ver}.344
 Release:        1%{?dist}
 Summary:        A .NET runtime environment
 
@@ -109,6 +109,10 @@ install -p -m0644 %{SOURCE2} %{buildroot}%{_darwinx_sysconfdir}/pki/mono/
 %{_darwinx_bindir}/mono-test-install
 %{_darwinx_bindir}/mono-gdb.py
 %{_darwinx_bindir}/mono-symbolicate
+%{_darwinx_bindir}/mono-package-runtime
+%{_darwinx_bindir}/monograph
+%{_darwinx_bindir}/sgen-grep-binprot
+%mono_bin btls-cert-sync
 %mono_bin mcs
 %mono_bin cccheck
 %mono_bin ccrewrite
@@ -138,6 +142,7 @@ install -p -m0644 %{SOURCE2} %{buildroot}%{_darwinx_sysconfdir}/pki/mono/
 %{_darwinx_mandir}/man1/lc.1
 %{_darwinx_mandir}/man1/mprof-report.1
 %{_darwinx_mandir}/man1/cccheck.1
+%{_darwinx_mandir}/man1/cert-sync.1
 %{_darwinx_libdir}/libMonoPosixHelper.dylib
 %dir %{monodir}
 %dir %{monodir}/4.0
@@ -157,10 +162,6 @@ install -p -m0644 %{SOURCE2} %{buildroot}%{_darwinx_sysconfdir}/pki/mono/
 %gac_dll Mono.Management
 %gac_dll Mono.Posix
 %gac_dll Mono.Security
-%gac_dll Mono.Security.Providers.DotNet
-%gac_dll Mono.Security.Providers.NewSystemSource
-%gac_dll Mono.Security.Providers.NewTls
-%gac_dll Mono.Security.Providers.OldTls
 %gac_dll Mono.Simd
 %gac_dll System
 %gac_dll System.Configuration
@@ -233,6 +234,7 @@ install -p -m0644 %{SOURCE2} %{buildroot}%{_darwinx_sysconfdir}/pki/mono/
 %gac_dll System.Windows
 %{_darwinx_prefix}/lib/mono/4.5/Facades
 %{_darwinx_prefix}/lib/mono/gac/Mono.Cecil/*/Mono.Cecil.dll*
+%gac_dll Mono.Btls.Interface
 
 ### files devel
 %{_darwinx_sysconfdir}/pki/mono/
