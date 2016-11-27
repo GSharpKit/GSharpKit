@@ -1,9 +1,9 @@
 %global debug_package %{nil}
 
-%define ver 4.6.0
+%define ver 4.6.1
 
 Name:           darwinx-mono
-Version:        %{ver}.125
+Version:        %{ver}.3
 Release:        1%{?dist}
 Summary:        A .NET runtime environment
 

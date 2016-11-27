@@ -1,0 +1,21 @@
+diff -Nur npgsql-3.1.7.orig/src/Npgsql/GeneratedAsync.cs npgsql-3.1.7/src/Npgsql/GeneratedAsync.cs
+--- npgsql-3.1.7.orig/src/Npgsql/GeneratedAsync.cs	2016-08-06 16:47:27.000000000 +0200
++++ npgsql-3.1.7/src/Npgsql/GeneratedAsync.cs	2016-09-13 11:29:26.928240851 +0200
+@@ -259,6 +259,10 @@
+                 _connector.CurrentReader = reader;
+                 return reader;
+             }
++            catch (Exception e) when (e is PostgresException && (e as PostgresException).SqlState == "57014")
++            {
++                throw new TaskCanceledException ("57014");
++            }
+             catch
+             {
+                 State = CommandState.Idle;
+@@ -2315,4 +2319,4 @@
+             return await (ReadInternalAsync(null, 0, 0, true, checkNetworkStream, cancellationToken).ConfigureAwait(false)) == 1;
+         }
+     }
+-}
+\ Intet linjeskift ved filafslutning
++}

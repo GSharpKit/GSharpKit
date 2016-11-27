@@ -4,10 +4,10 @@ RPMS
 SRPMS
 SOURCES.bak
 PATCHES
-*.gz
-*.bz2
-*.xz
-*.tgz
-*.zip
+rpm/SOURCES/*.gz
+rpm/SOURCES/*.bz2
+rpm/SOURCES/*.xz
+rpm/SOURCES/*.tgz
+rpm/SOURCES/*.zip
 .DS_Store
 rpm/.DS_Store

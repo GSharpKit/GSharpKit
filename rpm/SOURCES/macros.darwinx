@@ -25,7 +25,7 @@
 
 %_darwinx_cflags          -O2 -m64 -arch x86_64 -mmacosx-version-min=10.8
 %_darwinx_cxxflags	  -O2 -m64 -arch x86_64 -mmacosx-version-min=10.8
-%_darwinx_cppflags        -Wall -isysroot %{_darwinx_sdkroot}/SDKs/MacOSX10.11.sdk -I%{_darwinx_includedir}
+%_darwinx_cppflags        -Wall -isysroot %{_darwinx_sdkroot}/SDKs/MacOSX.sdk -I%{_darwinx_includedir}
 %_darwinx_ldflags         -L%{_darwinx_libdir}
 
 %_darwinx_cc              gcc

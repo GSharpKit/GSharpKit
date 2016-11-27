@@ -20,13 +20,16 @@ sudo ln -s $SYMLINK/ Home
 sudo ln -s $SYMLINK/lib Libraries
 sudo mkdir External
 
+cd $SCRIPT_ROOT
+cp sources/rpm-${RPM_VERSION}.tar.bz2 $BUILD_ROOT/
+
 cd $BUILD_ROOT
 curl -o nspr-4.10.2.tar.gz http://ftp.mozilla.org/pub/mozilla.org/nspr/releases/v4.10.2/src/nspr-4.10.2.tar.gz
 curl -o nss-3.15.3.tar.gz https://ftp.mozilla.org/pub/mozilla.org/security/nss/releases/NSS_3_15_3_RTM/src/nss-3.15.3.tar.gz
 curl -o file-5.16.tar.gz ftp://ftp.astron.com/pub/file/file-5.16.tar.gz
 curl -o popt-1.16.tar.gz ftp://anduin.linuxfromscratch.org/BLFS/svn/p/popt-1.16.tar.gz
 curl -o db-4.5.20.tar.gz http://download.oracle.com/berkeley-db/db-4.5.20.tar.gz
-curl -o rpm-${RPM_VERSION}.tar.bz2 http://rpm.org/releases/rpm-4.11.x/rpm-${RPM_VERSION}.tar.bz2
+#curl -o rpm-${RPM_VERSION}.tar.bz2 http://rpm.org/releases/rpm-4.11.x/rpm-${RPM_VERSION}.tar.bz2
 
 tar xfz nspr-4.10.2.tar.gz
 tar xfz nss-3.15.3.tar.gz
