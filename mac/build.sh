@@ -9,3 +9,5 @@ sh pkg-config.sh
 sh automake.sh
 sh bison.sh
 sh xz.sh
+sh cmake.sh
+
