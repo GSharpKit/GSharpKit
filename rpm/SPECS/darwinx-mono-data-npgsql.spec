@@ -9,7 +9,7 @@
 %define apiversion 3.0.0.0
 
 Name:           darwinx-mono-data-npgsql
-Version:        3.1.8
+Version:        3.1.9
 Release:        1%{?dist}
 Summary:        Postgresql database connectivity for C#
 Group:          Development/Languages

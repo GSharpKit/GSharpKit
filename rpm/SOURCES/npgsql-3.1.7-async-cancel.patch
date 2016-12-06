@@ -12,10 +12,3 @@ diff -Nur npgsql-3.1.7.orig/src/Npgsql/GeneratedAsync.cs npgsql-3.1.7/src/Npgsql
              catch
              {
                  State = CommandState.Idle;
-@@ -2315,4 +2319,4 @@
-             return await (ReadInternalAsync(null, 0, 0, true, checkNetworkStream, cancellationToken).ConfigureAwait(false)) == 1;
-         }
-     }
--}
-\ Intet linjeskift ved filafslutning
-+}
