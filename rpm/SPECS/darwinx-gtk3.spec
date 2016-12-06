@@ -1,6 +1,6 @@
 Name:           darwinx-gtk3
 Version:        3.20.9
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Darwin Gtk3 library
 
 License:        LGPLv2+
@@ -64,7 +64,7 @@ Static version of the Darwin Gtk3 library.
 
 %build
 %{_darwinx_configure} \
-    --enable-debug=no \
+    --enable-debug=yes \
     --enable-static \
     --enable-quartz-backend \
     --enable-quartz-relocation \
