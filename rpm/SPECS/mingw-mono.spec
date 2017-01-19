@@ -12,7 +12,7 @@
 %define ver 4.8.0
 
 Name:		mingw-mono
-Version:	%{ver}.429
+Version:	%{ver}.459
 Release:	1%{?dist}
 Summary:	The Mono CIL runtime, suitable for running .NET code
 License:	LGPLv2

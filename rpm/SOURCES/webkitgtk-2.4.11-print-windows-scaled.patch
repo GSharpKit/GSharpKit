@@ -1,0 +1,23 @@
+diff -Nur webkitgtk-2.4.11.orig/Source/WebKit/gtk/webkit/webkitwebframe.cpp webkitgtk-2.4.11/Source/WebKit/gtk/webkit/webkitwebframe.cpp
+--- webkitgtk-2.4.11.orig/Source/WebKit/gtk/webkit/webkitwebframe.cpp	2016-04-10 08:48:37.000000000 +0200
++++ webkitgtk-2.4.11/Source/WebKit/gtk/webkit/webkitwebframe.cpp	2016-07-20 08:16:58.790352732 +0200
+@@ -892,11 +892,17 @@
+ {
+     PrintContext* printContext = reinterpret_cast<PrintContext*>(user_data);
+ 
++    float scale = 1.0;
++#if OS(WINDOWS)
++    float dpix = gtk_print_context_get_dpi_x (context);
++    scale = dpix / 96.0;
++#endif
++
+     float width = gtk_print_context_get_width(context);
+     float height = gtk_print_context_get_height(context);
+-    FloatRect printRect = FloatRect(0, 0, width, height);
++    FloatRect printRect = FloatRect(0, 0, width / scale, height / scale);
+ 
+-    printContext->begin(width);
++    printContext->begin(width / scale);
+ 
+     // TODO: Margin adjustments and header/footer support
+     float headerHeight = 0;

@@ -2,7 +2,7 @@
 %define BINUTILS_VERSION 2.26
 %define HEADER_CRT_THREAD_VERSION 5.0.0
 %define COMPILER_VERSION 6.3.0
-%define PKG_CONFIG_VERSION 0.29
+%define PKG_CONFIG_VERSION 0.28
 %define TERMCAP_VERSION 1.3.1
 %define ZLIB_VERSION 1.2.8
 %define ICONV_VERSION 0.0.6
@@ -85,7 +85,7 @@
 Summary: 		Easy management of applications
 Name: 			appbox
 Version:		2.2
-Release:		2%{?dist}
+Release:		3%{?dist}
 License:		GPL
 Group: 			Applications/Desktop
 Source0: 		%{name}-0.1.tar.bz2

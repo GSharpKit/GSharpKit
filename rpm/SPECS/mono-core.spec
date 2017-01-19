@@ -29,13 +29,14 @@
 %define ver 4.8.0
 
 Name:           mono-core
-Version:        %{ver}.429
+Version:        %{ver}.459
 Release:        1%{?dist}
 Summary:        Cross-platform, Open Source, .NET development framework
 License:        LGPL-2.1 and MIT and MS-PL
 Group:          Development/Languages/Mono
 Url:            http://www.mono-project.com
 Source0:        http://download.mono-project.com/sources/mono/mono-%{version}.tar.bz2
+Patch0:		mono-4.6.2-keepalive.patch
 BuildRequires:  autoconf
 BuildRequires:  automake
 BuildRequires:  cmake
@@ -121,7 +122,7 @@ technologies that have been submitted to the ECMA for standardization.
 
 %prep
 %setup -q -n mono-%{ver}
-#%patch0 -p1
+%patch0 -p1
 
 # Remove hardcoded lib directory for libMonoPosixHelper.so from the config
 sed -i 's|$mono_libdir/||g' data/config.in
@@ -261,7 +262,6 @@ rm %{buildroot}%{_bindir}/mono-sgen-gdb.py
 %{_bindir}/setreg
 %{_bindir}/sn
 %{_bindir}/mono-symbolicate
-%{_bindir}/btls-cert-sync
 %{_bindir}/mono-package-runtime
 %{_bindir}/monograph
 %{_bindir}/sgen-grep-binprot
@@ -284,7 +284,6 @@ rm %{buildroot}%{_bindir}/mono-sgen-gdb.py
 %{_prefix}/lib/mono/4.5/System.IO.Compression.FileSystem.dll
 %{_prefix}/lib/mono/4.5/System.IO.Compression.dll
 %{_prefix}/lib/mono/4.5/al.exe*
-%{_prefix}/lib/mono/4.5/btls-cert-sync.exe*
 %{_prefix}/lib/mono/4.5/cert-sync.exe*
 %{_prefix}/lib/mono/4.5/certmgr.exe*
 %{_prefix}/lib/mono/4.5/chktrust.exe*
