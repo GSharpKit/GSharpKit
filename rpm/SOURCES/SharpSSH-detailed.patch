@@ -1,0 +1,49 @@
+--- SharpSSH.orig/Sftp.cs	2007-06-24 21:03:00.000000000 +0200
++++ SharpSSH/Sftp.cs	2007-07-11 17:46:56.000000000 +0200
+@@ -1,4 +1,5 @@
+ using System;
++using System.Collections.Generic;
+ using Tamir.SharpSsh.jsch;
+ using System.Collections;
+ 
+@@ -137,11 +138,18 @@
+ 			SftpChannel.mkdir(directory);
+ 		}
+ 
+-		//Ls
++    //Ls
+ 
+-		public ArrayList GetFileList(string path)
++    public SftpATTRS GetFileStats(string path)
++    {
++      return SftpChannel.stat(path);
++    }
++    
++    //Ls
++
++		public List<String> GetFileList(string path)
+ 		{
+-			ArrayList list = new ArrayList();
++      List<String> list = new List<String>();
+ 			foreach(Tamir.SharpSsh.jsch.ChannelSftp.LsEntry entry in SftpChannel.ls(path))
+ 			{
+ 				list.Add(entry.getFilename().ToString());
+@@ -149,7 +157,17 @@
+ 			return list;
+ 		}
+ 
+-		#region ProgressMonitor Implementation
++    public List<ChannelSftp.LsEntry> GetFileListDetailed(string path)
++    {
++      List<ChannelSftp.LsEntry> list = new List<ChannelSftp.LsEntry>();
++      foreach (Tamir.SharpSsh.jsch.ChannelSftp.LsEntry entry in SftpChannel.ls(path))
++      {
++        list.Add(entry);
++      }
++      return list;
++    }
++
++    #region ProgressMonitor Implementation
+ 
+ 		private class MyProgressMonitor : SftpProgressMonitor
+ 		{

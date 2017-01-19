@@ -1,13 +1,15 @@
 # RPM macros for Fedora Darwin.
 
-%_darwinx_x86_64_target  x86_64-apple-darwin15.0.0
+%_darwinx_ppc_target      powerpc-apple-darwin10
+%_darwinx_ppc64_target    powerpc64-apple-darwin10
+%_darwinx_i686_target     i686-apple-darwin10
+%_darwinx_x86_64_target   x86_64-apple-darwin10
 
 %_darwinx_all_targets     %{_darwinx_x86_64_target}
 %_darwinx_base_target     darwinx
 
 # Paths.
-%_darwinx_sdkroot         /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer
-%_darwinx_sysroot         /usr/%{_darwinx_base_target}
+%_darwinx_sysroot         %{_prefix}/%{_darwinx_base_target}
 %_darwinx_prefix          %{_darwinx_sysroot}/usr
 %_darwinx_exec_prefix     %{_darwinx_prefix}
 %_darwinx_bindir          %{_darwinx_exec_prefix}/bin
@@ -23,9 +25,11 @@
 %_darwinx_localstatedir   %{_darwinx_prefix}/var
 %_darwinx_includedir      %{_darwinx_prefix}/include
 
-%_darwinx_cflags          -O2 -m64 -arch x86_64 -mmacosx-version-min=10.8
-%_darwinx_cxxflags	  -O2 -m64 -arch x86_64 -mmacosx-version-min=10.8
-%_darwinx_cppflags        -Wall -isysroot %{_darwinx_sdkroot}/SDKs/MacOSX.sdk -I%{_darwinx_includedir}
+# Build macros.
+#%_darwinx_host            %{_darwinx_target}
+
+%_darwinx_cppflags        -gstabs1 -Wall -I%{_darwinx_includedir}
+%_darwinx_cflags          %{_darwinx_cppflags}
 %_darwinx_ldflags         -L%{_darwinx_libdir}
 
 %_darwinx_cc              gcc
@@ -45,31 +49,53 @@
 %_darwinx_strings         strings
 %_darwinx_strip           strip
 
+%_darwinx_findprovides    %{_cross_findprovides}
+%_darwinx_findrequires    %{_cross_findrequires}
+
 %_darwinx_env \
   if test -z "$PATH_ORIG" ; then \
     PATH_ORIG="$PATH"; export PATH_ORIG; \
   fi; \
-  PATH="%{_darwinx_bindir}:/Library/Frameworks/AppBox.framework/Versions/Current/bin:$PATH_ORIG"; export PATH; \
-  PKG_CONFIG_LIBDIR="%{_darwinx_libdir}/pkgconfig:/Library/Frameworks/AppBox.framework/Versions/Current/lib/pkgconfig"; export PKG_CONFIG_LIBDIR; \
+  PATH="$PATH_ORIG:%{_darwinx_bindir}"; export PATH; \
+  HOST_CC=gcc; export HOST_CC; \
+  PKG_CONFIG_LIBDIR="%{_darwinx_libdir}/pkgconfig:%{_darwinx_datadir}/pkgconfig"; export PKG_CONFIG_LIBDIR; \
   unset PKG_CONFIG_PATH; \
-  ACLOCAL_PATH="/Library/Frameworks/AppBox.framework/Versions/Current/share/aclocal:/Library/Frameworks/AppBox.framework/Versions/Current/share/aclocal-1.14:/usr/darwinx/usr/share/aclocal"; \
-  MACOSX_DEPLOYMENT_TARGET=10.8; export MACOSX_DEPLOYMENT_TARGET; \
-  CFLAGS="$DARWINX_CFLAGS %{_darwinx_cflags}"; export CFLAGS; \
-  CXXFLAGS="$DARWINX_CXXFLAGS %{_darwinx_cxxflags}"; export CXXFLAGS; \
-  CPPFLAGS="$DARWINX_CPPFLAGS %{_darwinx_cppflags}"; export CPPFLAGS; \
-  LDFLAGS="$DARWINX_LDFLAGS %{_darwinx_ldflags}"; export LDFLAGS
+  _PREFIX="%{_bindir}/%{_darwinx_base_target}-"; \
+  for i in `ls -1 ${_PREFIX}* | grep -v 'gcc-' | grep -v 'make'`; do \
+    x=`echo $i|sed "s,${_PREFIX},,"|tr "a-z+-" "A-ZX_"|tr -d '.'`; \
+    declare -x $x="$i" ; export $x; \
+  done; \
+  unset _PREFIX; \
+  MACOSX_DEPLOYMENT_TARGET=10.5; export MACOSX_DEPLOYMENT_TARGET; \
+  CC="${DARWINX_CC:-%_darwinx_cc}"; export CC; \
+  CFLAGS="${DARWINX_CFLAGS:-%_darwinx_cflags}"; export CFLAGS; \
+  CPPFLAGS="${DARWINX_CPPFLAGS:-%_darwinx_cppflags}"; export CPPFLAGS; \
+  if [ -x "%{_bindir}/%{_darwinx_cxx}" ]; then \
+    CXX="${DARWINX_CXX:-%_darwinx_cxx}"; export CXX; \
+    CXXFLAGS="${DARWINX_CXXFLAGS:-%_darwinx_cflags}"; export CXXFLAGS; \
+  else \
+    CXX=; export CXX; \
+    ac_cv_prog_CXX=no; export ac_cv_prog_CXX; \
+    CXXFLAGS=; export CXXFLAGS; \
+  fi; \
+  LDFLAGS="${DARWINX_LDFLAGS:-%_darwinx_ldflags}"; export LDFLAGS; \
+  for i in `ls %{_darwinx_bindir}/* 2>/dev/null |grep -- "-config\$"` `ls %{_darwinx_sysroot}/SDKs/MacOSX10.5.sdk/usr/bin/* 2>/dev/null |grep -- "-config\$"`; do \
+    x=`basename $i|tr "a-z+-" "A-ZX_"|tr -d '.'`; \
+    declare -x $x="$i" ; export $x; \
+  done; \
+  unset x i
 
 %_darwinx_pkg_config \
-  PKG_CONFIG_LIBDIR="%{_darwinx_libdir}/pkgconfig"; export PKG_CONFIG_LIBDIR; \
+  PKG_CONFIG_LIBDIR="%{_darwinx_libdir}/pkgconfig:%{_darwinx_datadir}/pkgconfig"; export PKG_CONFIG_LIBDIR; \
   unset PKG_CONFIG_PATH; \
   pkg-config
 
 %_darwinx_configure %{_darwinx_env} ; \
   __darwinx_topdir=.; if ! test -x configure; then __darwinx_topdir=..; fi; \\\
   $__darwinx_topdir/configure \\\
-        --host=%{_darwinx_x86_64_target} \\\
-        --build=%{_darwinx_x86_64_target} \\\
-        --target=%{_darwinx_x86_64_target} \\\
+	--host=%{_darwinx_x86_64_target} \\\
+	--build=%_build \\\
+	--target=%{_darwinx_x86_64_target} \\\
 	--prefix=%{_darwinx_prefix} \\\
 	--exec-prefix=%{_darwinx_exec_prefix} \\\
 	--bindir=%{_darwinx_bindir} \\\
@@ -134,7 +160,34 @@
 	-DCMAKE_TOOLCHAIN_FILE=/usr/share/cross/toolchain-darwinx.cmake \\\
 	$* $__darwinx_topdir
 
-%_darwinx_description This is the compiled (on Mac OS X Darwin) version of this library / tool.\
-You should only install this package if you want to package programs for \
+%_darwinx_description This is the cross-compiled version of this library / tool.\
+You should only install this package if you want to cross-compile programs for \
 Mac OS X (Darwin).
+
+# Compatibility stuff
+%darwinx_ppc_target      %{_darwinx_ppc_target}
+%darwinx_ppc64_target    %{_darwinx_ppc64_target}
+%darwinx_i686_target     %{_darwinx_i686_target}
+%darwinx_x86_64_target   %{_darwinx_x86_64_target}
+%darwinx_all_targets     %{_darwinx_all_targets}
+%darwinx_base_target     %{_darwinx_base_target}
+%darwinx_configure       %{_darwinx_configure}
+%darwinx_pkg_config      %{_darwinx_pkg_config}
+%darwinx_make            %{_darwinx_make}
+%darwinx_cmake           %{_darwinx_cmake}
+%darwinx_sysroot         %{_darwinx_sysroot}
+%darwinx_prefix          %{_darwinx_prefix}
+%darwinx_exec_prefix     %{_darwinx_exec_prefix}
+%darwinx_bindir          %{_darwinx_bindir}
+%darwinx_sbindir         %{_darwinx_sbindir}
+%darwinx_libexecdir      %{_darwinx_libexecdir}
+%darwinx_libdir          %{_darwinx_libdir}
+%darwinx_datadir         %{_darwinx_datadir}
+%darwinx_docdir          %{_darwinx_docdir}
+%darwinx_infodir         %{_darwinx_infodir}
+%darwinx_mandir          %{_darwinx_mandir}
+%darwinx_sysconfdir      %{_darwinx_sysconfdir}
+%darwinx_sharedstatedir  %{_darwinx_sharedstatedir}
+%darwinx_localstatedir   %{_darwinx_localstatedir}
+%darwinx_includedir      %{_darwinx_includedir}
 
