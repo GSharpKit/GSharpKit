@@ -29,7 +29,7 @@
 %define ver 4.8.0
 
 Name:           mono-core
-Version:        %{ver}.459
+Version:        %{ver}.472
 Release:        1%{?dist}
 Summary:        Cross-platform, Open Source, .NET development framework
 License:        LGPL-2.1 and MIT and MS-PL

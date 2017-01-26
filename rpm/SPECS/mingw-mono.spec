@@ -12,7 +12,7 @@
 %define ver 4.8.0
 
 Name:		mingw-mono
-Version:	%{ver}.459
+Version:	%{ver}.472
 Release:	1%{?dist}
 Summary:	The Mono CIL runtime, suitable for running .NET code
 License:	LGPLv2
@@ -55,7 +55,8 @@ BuildRequires:  mono-data-sqlite 	= %{version}
 BuildRequires:  mono-winforms 		= %{version}
 BuildRequires:  mono-web 		= %{version}
 BuildRequires:  mono-wcf 		= %{version}
-BuildRequires:  mono-winfx 		= %{version}
+BuildRequires:  mono-mvc 		= %{version}
+BuildRequires:  mono-winfxcore 		= %{version}
 BuildRequires:  mono-devel 		= %{version}
 
 %description
@@ -334,12 +335,12 @@ cp -rf /usr/lib/mono/gac/System.Runtime.Serialization.Formatters.Soap %{buildroo
 cp -rf /usr/lib/mono/gac/System.Web %{buildroot}%{mingw32_libdir}/mono/gac/
 cp -rf /usr/lib/mono/gac/System.Web.Abstractions %{buildroot}%{mingw32_libdir}/mono/gac/
 cp -rf /usr/lib/mono/gac/System.Web.ApplicationServices %{buildroot}%{mingw32_libdir}/mono/gac/
-cp -rf /usr/lib/mono/gac/System.Web.DynamicData %{buildroot}%{mingw32_libdir}/mono/gac/
 cp -rf /usr/lib/mono/gac/System.Web.Http %{buildroot}%{mingw32_libdir}/mono/gac/
 cp -rf /usr/lib/mono/gac/System.Web.Http.SelfHost %{buildroot}%{mingw32_libdir}/mono/gac/
 cp -rf /usr/lib/mono/gac/System.Web.Http.WebHost %{buildroot}%{mingw32_libdir}/mono/gac/
 cp -rf /usr/lib/mono/gac/System.Web.Mobile %{buildroot}%{mingw32_libdir}/mono/gac/
 cp -rf /usr/lib/mono/gac/System.Web.Razor %{buildroot}%{mingw32_libdir}/mono/gac/
+cp -rf /usr/lib/mono/gac/System.Web.RegularExpressions %{buildroot}%{mingw32_libdir}/mono/gac/
 cp -rf /usr/lib/mono/gac/System.Web.Routing %{buildroot}%{mingw32_libdir}/mono/gac/
 cp -rf /usr/lib/mono/gac/System.Web.Services %{buildroot}%{mingw32_libdir}/mono/gac/
 cp -rf /usr/lib/mono/gac/System.Web.WebPages %{buildroot}%{mingw32_libdir}/mono/gac/
@@ -355,12 +356,12 @@ cp -rf /usr/lib/mono/gac/System.Runtime.Serialization.Formatters.Soap %{buildroo
 cp -rf /usr/lib/mono/gac/System.Web %{buildroot}%{mingw64_libdir}/mono/gac/
 cp -rf /usr/lib/mono/gac/System.Web.Abstractions %{buildroot}%{mingw64_libdir}/mono/gac/
 cp -rf /usr/lib/mono/gac/System.Web.ApplicationServices %{buildroot}%{mingw64_libdir}/mono/gac/
-cp -rf /usr/lib/mono/gac/System.Web.DynamicData %{buildroot}%{mingw64_libdir}/mono/gac/
 cp -rf /usr/lib/mono/gac/System.Web.Http %{buildroot}%{mingw64_libdir}/mono/gac/
 cp -rf /usr/lib/mono/gac/System.Web.Http.SelfHost %{buildroot}%{mingw64_libdir}/mono/gac/
 cp -rf /usr/lib/mono/gac/System.Web.Http.WebHost %{buildroot}%{mingw64_libdir}/mono/gac/
 cp -rf /usr/lib/mono/gac/System.Web.Mobile %{buildroot}%{mingw64_libdir}/mono/gac/
 cp -rf /usr/lib/mono/gac/System.Web.Razor %{buildroot}%{mingw64_libdir}/mono/gac/
+cp -rf /usr/lib/mono/gac/System.Web.RegularExpressions %{buildroot}%{mingw64_libdir}/mono/gac/
 cp -rf /usr/lib/mono/gac/System.Web.Routing %{buildroot}%{mingw64_libdir}/mono/gac/
 cp -rf /usr/lib/mono/gac/System.Web.Services %{buildroot}%{mingw64_libdir}/mono/gac/
 cp -rf /usr/lib/mono/gac/System.Web.WebPages %{buildroot}%{mingw64_libdir}/mono/gac/
