@@ -7,10 +7,11 @@
 %define debug_package %{nil}
 
 %define libdir /lib
+%define api_version 9.0.0.0
 
 Name:           mingw-Newtonsoft.Json
 Version:        9.0.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Json.NET is a popular high-performance JSON framework for .NET
 
 Group:          Development/Languages
@@ -59,7 +60,7 @@ libdir=%{mingw32_libdir}
 Name: Newtonsoft.Json
 Description: Json.NET is a popular high-performance JSON framework for .NET
 Requires:
-Version: %{version}
+Version: %{api_version}
 Libs: -r:${libdir}/mono/Newtonsoft.Json/Newtonsoft.Json.dll
 Cflags:
 EOF
