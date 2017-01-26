@@ -8,7 +8,7 @@
 
 Name:           mingw-gtk-sharp3
 Version:        3.22.6
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        GTK+ and GNOME bindings for Mono
 
 Group:          System Environment/Libraries
