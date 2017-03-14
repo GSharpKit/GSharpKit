@@ -3,7 +3,7 @@
 %define _prefix /Library/Frameworks/AppBox.framework/Versions/1.0.0
 
 Name: 		darwinx-filesystem-base
-Version: 	101
+Version: 	102
 Release: 	1%{?dist}
 Summary: 	Darwin filesystem and environment
 License: 	GPLv2+

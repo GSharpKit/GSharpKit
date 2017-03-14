@@ -3,7 +3,7 @@
 %define ver 4.8.0
 
 Name:           darwinx-mono
-Version:        %{ver}.344
+Version:        %{ver}.374
 Release:        1%{?dist}
 Summary:        A .NET runtime environment
 

@@ -1,12 +1,12 @@
 Name:           darwinx-glib2
-Version:        2.48.2
+Version:        2.50.3
 Release:        1%{?dist}
 Summary:        Darwin GLib2 library
 
 License:        LGPLv2+
 Group:          Development/Libraries
 URL:            http://www.gtk.org
-Source0:        http://download.gnome.org/sources/glib/2.48/glib-%{version}.tar.xz
+Source0:        http://download.gnome.org/sources/glib/2.50/glib-%{version}.tar.xz
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 Summary:        Cross compiled GLib2 library
@@ -17,7 +17,7 @@ Patch0:         0001-Don-t-start-a-DBus-server-when-built-as-static-lib.patch
 Patch11:        glib-fix-compilation-on-osx.patch
 Patch12:	glib-2.34.1-isreg.patch
 
-Patch13:	glib-2.46.2-appkit.patch
+Patch13:	glib-2.50.3-appkit.patch
 
 BuildArch:      noarch
 
