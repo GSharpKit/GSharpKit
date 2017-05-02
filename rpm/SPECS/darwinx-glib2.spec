@@ -1,18 +1,19 @@
 Name:           darwinx-glib2
 Version:        2.48.2
-Release:        1%{?dist}
+Release:        3%{?dist}
 Summary:        Darwin GLib2 library
 
 License:        LGPLv2+
 Group:          Development/Libraries
 URL:            http://www.gtk.org
 Source0:        http://download.gnome.org/sources/glib/2.48/glib-%{version}.tar.xz
+Patch0:		glib-2.48.2-disable-assert.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 Summary:        Cross compiled GLib2 library
 
 # https://bugzilla.gnome.org/show_bug.cgi?id=675516
-Patch0:         0001-Don-t-start-a-DBus-server-when-built-as-static-lib.patch
+Patch1:         0001-Don-t-start-a-DBus-server-when-built-as-static-lib.patch
 
 Patch11:        glib-fix-compilation-on-osx.patch
 Patch12:	glib-2.34.1-isreg.patch
@@ -50,6 +51,7 @@ Static version of the Darwin GLib2 library.
 %prep
 %setup -q -n glib-%{version}
 %patch0 -p1
+%patch1 -p1
 %patch11 -p1
 %patch12 -p1
 %patch13 -p1

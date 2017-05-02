@@ -1,0 +1,36 @@
+diff -Nur gtk+-3.20.10.orig/gtk/deprecated/gtkuimanager.c gtk+-3.20.10/gtk/deprecated/gtkuimanager.c
+--- gtk+-3.20.10.orig/gtk/deprecated/gtkuimanager.c	2017-02-21 22:08:57.000000000 +0100
++++ gtk+-3.20.10/gtk/deprecated/gtkuimanager.c	2017-03-23 13:26:47.000000000 +0100
+@@ -2550,6 +2550,9 @@
+   g_return_if_fail (node != NULL);
+   g_return_if_fail (NODE_INFO (node) != NULL);
+ 
++  if (node == NULL) return;
++  if (NODE_INFO (node) == NULL) return;
++
+   info = NODE_INFO (node);
+   
+   if (!info->dirty)
+diff -Nur gtk+-3.20.10.orig/gtk/gtkcontainer.c gtk+-3.20.10/gtk/gtkcontainer.c
+--- gtk+-3.20.10.orig/gtk/gtkcontainer.c	2017-02-21 22:08:57.000000000 +0100
++++ gtk+-3.20.10/gtk/gtkcontainer.c	2017-03-23 14:03:41.000000000 +0100
+@@ -2434,6 +2434,9 @@
+   g_return_if_fail (GTK_IS_CONTAINER (container));
+   g_return_if_fail (callback != NULL);
+ 
++  if (!GTK_IS_CONTAINER (container)) return;
++  if (callback == NULL) return;
++
+   class = GTK_CONTAINER_GET_CLASS (container);
+ 
+   if (class->forall)
+@@ -2466,6 +2469,9 @@
+   g_return_if_fail (GTK_IS_CONTAINER (container));
+   g_return_if_fail (callback != NULL);
+ 
++  if (!GTK_IS_CONTAINER (container)) return;
++  if (callback == NULL) return;
++
+   class = GTK_CONTAINER_GET_CLASS (container);
+ 
+   if (class->forall)

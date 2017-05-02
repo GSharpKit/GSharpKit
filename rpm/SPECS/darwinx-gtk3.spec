@@ -1,5 +1,5 @@
 Name:           darwinx-gtk3
-Version:        3.20.9
+Version:        3.20.10
 Release:        2%{?dist}
 Summary:        Darwin Gtk3 library
 
@@ -8,6 +8,7 @@ Group:          Development/Libraries
 URL:            http://www.gtk.org
 Source0:        http://download.gnome.org/sources/gtk+/3.20/gtk+-%{version}.tar.xz
 Patch0:		gtk-3.12.2-quartz-theme.patch
+Patch1:		gtk-3.20.10-disable-assert.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildArch:      noarch
@@ -54,6 +55,7 @@ Static version of the Darwin Gtk3 library.
 %prep
 %setup -q -n gtk+-%{version}
 #patch0 -p1
+%patch1 -p1
 
 # Regenerate the configure script
 #AUTOMAKE_OPTIONS=subdir-objects autoreconf --verbose --install -I /usr/darwinx/usr/share/aclocal
@@ -64,14 +66,13 @@ Static version of the Darwin Gtk3 library.
 
 %build
 %{_darwinx_configure} \
-    --enable-debug=yes \
     --enable-static \
     --enable-quartz-backend \
     --enable-quartz-relocation \
     --enable-cups \
     --enable-test-print-backend \
     --enable-packagekit=no
-%{_darwinx_make} %{?_smp_mflags}
+V=99 %{_darwinx_make} %{?_smp_mflags}
 
 
 %install
