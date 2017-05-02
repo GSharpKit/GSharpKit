@@ -1,0 +1,24 @@
+diff -Nur glib-2.48.2.orig/configure glib-2.48.2/configure
+--- glib-2.48.2.orig/configure	2016-08-17 18:37:42.000000000 +0200
++++ glib-2.48.2/configure	2017-03-24 11:46:22.000000000 +0100
+@@ -7043,7 +7043,7 @@
+   fi
+   GLIB_DEBUG_FLAGS="-DG_ENABLE_DEBUG"
+ else
+-  GLIB_DEBUG_FLAGS="-DG_DISABLE_CAST_CHECKS"
++  GLIB_DEBUG_FLAGS="-DG_DISABLE_ASSERT -DG_DISABLE_CAST_CHECKS"
+ 
+   if test "x$enable_debug" = "xno"; then
+     GLIB_DEBUG_FLAGS="$GLIB_DEBUG_FLAGS -DG_DISABLE_ASSERT -DG_DISABLE_CHECKS"
+diff -Nur glib-2.48.2.orig/configure.ac glib-2.48.2/configure.ac
+--- glib-2.48.2.orig/configure.ac	2016-08-17 18:36:50.000000000 +0200
++++ glib-2.48.2/configure.ac	2017-03-24 11:46:05.000000000 +0100
+@@ -309,7 +309,7 @@
+   fi
+   GLIB_DEBUG_FLAGS="-DG_ENABLE_DEBUG"
+ else
+-  GLIB_DEBUG_FLAGS="-DG_DISABLE_CAST_CHECKS"
++  GLIB_DEBUG_FLAGS="-DG_DISABLE_ASSERT -DG_DISABLE_CAST_CHECKS"
+ 
+   if test "x$enable_debug" = "xno"; then
+     GLIB_DEBUG_FLAGS="$GLIB_DEBUG_FLAGS -DG_DISABLE_ASSERT -DG_DISABLE_CHECKS"
