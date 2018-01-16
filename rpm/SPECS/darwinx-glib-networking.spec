@@ -1,5 +1,5 @@
 Name:           darwinx-glib-networking
-Version:        2.48.2
+Version:        2.54.1
 Release:        1%{?dist}
 Summary:        Networking support for GLib 
 
@@ -54,7 +54,6 @@ rm -rf $RPM_BUILD_ROOT
 %doc COPYING
 %{_darwinx_libdir}/gio/modules/libgiognutls.so
 %{_darwinx_libdir}/gio/modules/libgiognutls.la
-%{_darwinx_datadir}/locale
 
 %changelog
 * Thu May  9 2013 Mikkel Kruse Johnsen <mikkel@xmedicus.com> - 2.36.1-1

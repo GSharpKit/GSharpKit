@@ -56,9 +56,9 @@
   if test -z "$PATH_ORIG" ; then \
     PATH_ORIG="$PATH"; export PATH_ORIG; \
   fi; \
-  PATH="$PATH_ORIG:%{_darwinx_bindir}"; export PATH; \
   HOST_CC=gcc; export HOST_CC; \
-  PKG_CONFIG_LIBDIR="%{_darwinx_libdir}/pkgconfig:%{_darwinx_datadir}/pkgconfig"; export PKG_CONFIG_LIBDIR; \
+  PATH="%{_darwinx_bindir}:/Library/Frameworks/AppBox.framework/Versions/Current/bin:$PATH_ORIG"; export PATH; \
+  PKG_CONFIG_LIBDIR="%{_darwinx_libdir}/pkgconfig:%{_darwinx_datadir}/pkgconfig:/Library/Frameworks/AppBox.framework/Versions/Current/lib/pkgconfig"; export PKG_CONFIG_LIBDIR; \
   unset PKG_CONFIG_PATH; \
   _PREFIX="%{_bindir}/%{_darwinx_base_target}-"; \
   for i in `ls -1 ${_PREFIX}* | grep -v 'gcc-' | grep -v 'make'`; do \

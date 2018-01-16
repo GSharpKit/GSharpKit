@@ -1,24 +1,24 @@
 %define debug_package %{nil}
 
 Name:		darwinx-gstreamer1-sharp
-Version: 	1.39.91
+Version: 	1.12.3
 Release: 	1%{?dist}
 Summary: 	GStreamer streaming media framework runtime
 Group: 		Applications/Multimedia
 License: 	LGPLv2+
 URL:		http://gstreamer.freedesktop.org/
-Source: 	http://gstreamer.freedesktop.org/src/gstreamer-sharp/gstreamer-sharp-%{version}.tar.xz
+Source: 	https://github.com/GSharpKit/gstreamer-sharp/releases/gstreamer-sharp-%{version}.tar.gz
 BuildRoot: 	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildArch: 	noarch
 
-Requires:	darwinx-gstreamer1 >= 1.2
+Requires:	darwinx-gstreamer1 >= 1.12
 
 BuildRequires:	pkgconfig
 
 BuildRequires:	darwinx-filesystem >= 14
-BuildRequires:	darwinx-mono
-BuildRequires:	darwinx-gstreamer1 >= 1.2
+BuildRequires:	darwinx-mono-core
+BuildRequires:	darwinx-gstreamer1 >= 1.12
 
 Obsoletes:	darwinx-gstreamer-sharp
 
@@ -33,33 +33,40 @@ plugins.
 %prep
 %setup -q -n gstreamer-sharp-%{version}
 
-sed -i '' 's!csc.exe!msc!' configure.ac
+sed -i '' 's!1.13.0.1!1.12.3!' meson.build
+
+cat > gstreamer-sharp-1.0.pc << \EOF
+prefix=%{_darwinx_prefix}
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib
+
+Name: gstreamer1-sharp
+Description: gstreamer1-sharp - gstreamer1 .NET Binding
+Version: %{version}
+Libs: -r:${libdir}/mono/gstreamer-sharp-1.0/gstreamer-sharp.dll
+Requires: gtk-sharp-3.0
+EOF
 
 %build
-#NOCONFIGURE=yes sh autogen.sh
-#DARWINX_CFLAGS="%{_darwinx_cppflags} -arch x86_64 -DMAC_OS_X_VERSION_MIN_REQUIRED=1050 -D__DARWIN_UNIX03" DARWINX_CXXFLAGS="%{_darwinx_cppflags} -arch x86_64 -DMAC_OS_X_VERSION_MIN_REQUIRED=1050 -D__DARWIN_UNIX03" 
-autoreconf --verbose --install -I /usr/darwinx/usr/share/aclocal
-%{_darwinx_configure} --disable-static
+%{_darwinx_env} ; meson --prefix=%{_darwinx_prefix} --libdir=%{_darwinx_prefix}/lib build/
+ninja -C build/
 
-%{_darwinx_make}
-
-%install  
+%install
 rm -rf $RPM_BUILD_ROOT
-make install DESTDIR=$RPM_BUILD_ROOT program_transform_name=""
+
+install -d -m 755 %{buildroot}%{_darwinx_prefix}/lib/mono/gstreamer-sharp-1.0/
+install -d -m 755 %{buildroot}%{_darwinx_prefix}/share/pkgconfig
+
+install -m 644 build/sources/gstreamer-sharp.dll %{buildroot}%{_darwinx_prefix}/lib/mono/gstreamer-sharp-1.0/
+install -m 644 gstreamer-sharp-1.0.pc %{buildroot}%{_darwinx_prefix}/share/pkgconfig/gstreamer-sharp-1.0.pc
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 %files
-%{_darwinx_libdir}/libgstreamersharpglue-1.0.0.la
-%{_darwinx_libdir}/libgstreamersharpglue-1.0.0.so
-%{_darwinx_libdir}/mono/gac/gstreamer-sharp
+#{_darwinx_libdir}/mono/gac/gstreamer-sharp
 %{_darwinx_libdir}/mono/gstreamer-sharp/gstreamer-sharp.dll
-%{_darwinx_libdir}/monodoc/sources/gstreamer-sharp-docs.source
-%{_darwinx_libdir}/monodoc/sources/gstreamer-sharp-docs.tree
-%{_darwinx_libdir}/monodoc/sources/gstreamer-sharp-docs.zip
-%{_darwinx_libdir}/pkgconfig/gstreamer-sharp-1.0.pc
-%{_darwinx_datadir}/gapi-3.0/gstreamer-sharp-api.xml
+%{_darwinx_datadir}/pkgconfig/gstreamer-sharp-1.0.pc
 
 %changelog
 * Thu Jun 03 2010 Mikkel Kruse Johnsen <mikkel@linet.dk> - 0.9.1.2

@@ -1,5 +1,5 @@
-Name:           darwinx-gdl
-Version:        3.20.0
+Name:           darwinx-libgdl
+Version:        3.26.0
 Release:        1%{?dist}
 Summary:        Mac OS X GDL library
 
@@ -47,7 +47,7 @@ rm -f $RPM_BUILD_ROOT%{_darwinx_libdir}/*.la
 rm -rf $RPM_BUILD_ROOT%{_darwinx_libdir}/locale
 rm -rf $RPM_BUILD_ROOT%{_darwinx_datadir}/gtk-doc
 
-%files -n darwinx-gdl
+%files -n darwinx-libgdl
 %{_darwinx_libdir}/libgdl-3.5.dylib
 %{_darwinx_libdir}/libgdl-3.dylib
 %{_darwinx_includedir}/libgdl-3.0/gdl/gdl-dock-bar.h
@@ -63,6 +63,7 @@ rm -rf $RPM_BUILD_ROOT%{_darwinx_datadir}/gtk-doc
 %{_darwinx_includedir}/libgdl-3.0/gdl/gdl.h
 %{_darwinx_includedir}/libgdl-3.0/gdl/libgdltypebuiltins.h
 %{_darwinx_libdir}/pkgconfig/gdl-3.0.pc
+%{_darwinx_datadir}/locale
 
 %changelog
 * Tue Nov 04 2014 Mikkel Kruse Johnsen <mikkel@xmedicus.com> - 3.12.0-1

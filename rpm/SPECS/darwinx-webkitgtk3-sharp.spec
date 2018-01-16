@@ -11,8 +11,12 @@ BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:	noarch
 
 BuildRequires:	darwinx-webkitgtk3 >= %{version}
-BuildRequires:	darwinx-mono
-BuildRequires:	darwinx-gtk-sharp3 >= 3.14.0
+BuildRequires:	darwinx-mono-core
+BuildRequires:	darwinx-GtkSharp >= 3.14.0
+
+Requires:  	darwinx-webkitgtk3 >= %{version}
+Requires:  	darwinx-mono-core
+Requires:  	darwinx-GtkSharp >= 3.14.0
 
 %description
 WebKit-sharp is .NET bindings for the WebKit rendering engine.

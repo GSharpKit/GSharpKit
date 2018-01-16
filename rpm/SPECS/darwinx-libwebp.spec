@@ -1,5 +1,5 @@
 Name:           darwinx-libwebp
-Version:        0.4.4
+Version:        0.6.1
 Release:        1%{?dist}
 Summary:        Library and tools for the WebP graphics format
 License:        BSD

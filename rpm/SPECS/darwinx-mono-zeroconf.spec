@@ -11,10 +11,10 @@ BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:	noarch
 
 BuildRequires:	darwinx-filesystem-base >= 18
-BuildRequires:  darwinx-mono
+BuildRequires:  darwinx-mono-core
 
 Requires:	darwinx-filesystem >= 18
-Requires:       darwinx-mono
+Requires:       darwinx-mono-core
 
 %description
 Mono.Zeroconf is a cross platform Zero Configuration Networking library

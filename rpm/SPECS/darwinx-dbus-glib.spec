@@ -1,5 +1,5 @@
 Name:           darwinx-dbus-glib
-Version:        0.104
+Version:        0.108
 Release:        1%{?dist}
 Summary:        D-Bus Message Bus System
 

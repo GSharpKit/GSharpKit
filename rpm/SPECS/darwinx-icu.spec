@@ -1,9 +1,9 @@
 %define debug_package %{nil}
 
-%global underscore_version 50_1_2
+%global underscore_version 57_1
 
 Name:           darwinx-icu
-Version:        50.1.2
+Version:        57.1
 Release:        1%{?dist}
 Summary:        International Components for Unicode Tools
 

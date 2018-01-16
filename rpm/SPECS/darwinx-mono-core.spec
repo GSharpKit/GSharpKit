@@ -1,9 +1,9 @@
 %global debug_package %{nil}
 
-%define ver 4.8.0
+%define ver 5.8.0
 
-Name:           darwinx-mono
-Version:        %{ver}.374
+Name:           darwinx-mono-core
+Version:        %{ver}.88
 Release:        1%{?dist}
 Summary:        A .NET runtime environment
 
@@ -41,7 +41,7 @@ metadata access libraries.
   %{nil}
 
 %prep
-%setup -q -n mono-%{ver}
+%setup -q -n mono-%{version}
 
 sed -i '' 's!$mono_libdir/!!g' data/config.in
 
@@ -94,6 +94,14 @@ install -p -m0644 %{SOURCE2} %{buildroot}%{_darwinx_sysconfdir}/pki/mono/
 %{__rm} -rf %{buildroot}%{_darwinx_bindir}/mono-configuration-crypto
 %{__rm} -rf %{buildroot}%{_darwinx_mandir}/man?/mono-configuration-crypto*
 
+%{__rm} -f %{buildroot}%{monodir}/4.5/Microsoft.CodeAnalysis.CSharp.dll.dylib
+%{__rm} -f %{buildroot}%{monodir}/4.5/Microsoft.CodeAnalysis.dll.dylib
+%{__rm} -f %{buildroot}%{monodir}/4.5/System.Collections.Immutable.dll.dylib
+%{__rm} -f %{buildroot}%{monodir}/4.5/System.Reflection.Metadata.dll.dylib
+%{__rm} -f %{buildroot}%{monodir}/4.5/System.Collections.Immutable.dll.dylib
+%{__rm} -f %{buildroot}%{monodir}/4.5/System.Reflection.Metadata.dll.dylib
+
+
 # Remove Npgsql
 %{__rm} -rf %{buildroot}%{monodir}/4.0/Npgsql.dll
 
@@ -112,18 +120,53 @@ install -p -m0644 %{SOURCE2} %{buildroot}%{_darwinx_sysconfdir}/pki/mono/
 %{_darwinx_bindir}/mono-package-runtime
 %{_darwinx_bindir}/monograph
 %{_darwinx_bindir}/sgen-grep-binprot
-%mono_bin btls-cert-sync
+%{_darwinx_bindir}/al
+%{_darwinx_bindir}/caspol
+%{_darwinx_bindir}/cccheck
+%{_darwinx_bindir}/ccrewrite
+%{_darwinx_bindir}/cert-sync
+%{_darwinx_bindir}/cert2spc
+%{_darwinx_bindir}/certmgr
+%{_darwinx_bindir}/chktrust
+%{_darwinx_bindir}/crlupdate
+%{_darwinx_bindir}/csc
+%{_darwinx_bindir}/csharp
+%{_darwinx_bindir}/csi
+%{_darwinx_bindir}/disco
+%{_darwinx_bindir}/dtd2rng
+%{_darwinx_bindir}/dtd2xsd
+%{_darwinx_bindir}/gacutil
+%{_darwinx_bindir}/genxs
+%{_darwinx_bindir}/httpcfg
+%{_darwinx_bindir}/ilasm
+%{_darwinx_bindir}/installvst
+%{_darwinx_bindir}/lc
+%{_darwinx_bindir}/macpack
+%{_darwinx_bindir}/makecert
+%{_darwinx_bindir}/mconfig
+%{_darwinx_bindir}/mdoc
+%{_darwinx_bindir}/mkbundle
+%{_darwinx_bindir}/mono-api-html
+%{_darwinx_bindir}/mono-cil-strip
+%{_darwinx_bindir}/mono-service
+%{_darwinx_bindir}/mono-xmltool
+%{_darwinx_bindir}/monolinker
+%{_darwinx_bindir}/monop
+%{_darwinx_bindir}/mozroots
+%{_darwinx_bindir}/pdb2mdb
+%{_darwinx_bindir}/permview
+%{_darwinx_bindir}/resgen
+%{_darwinx_bindir}/secutil
+%{_darwinx_bindir}/setreg
+%{_darwinx_bindir}/sgen
+%{_darwinx_bindir}/signcode
+%{_darwinx_bindir}/sn
+%{_darwinx_bindir}/soapsuds
+%{_darwinx_bindir}/sqlsharp
+%{_darwinx_bindir}/svcutil
+%{_darwinx_bindir}/wsdl
+%{_darwinx_bindir}/xsd
 %mono_bin mcs
-%mono_bin cccheck
-%mono_bin ccrewrite
-%mono_bin gacutil
-%mono_bin chktrust
-%mono_bin csharp
-%mono_bin lc
-%mono_bin mozroots
-%mono_bin pdb2mdb
-%mono_bin setreg
-%mono_bin sn
 %{_darwinx_bindir}/gacutil2
 %{_darwinx_bindir}/dmcs
 %{_darwinx_bindir}/mono-heapviz
@@ -144,14 +187,17 @@ install -p -m0644 %{SOURCE2} %{buildroot}%{_darwinx_sysconfdir}/pki/mono/
 %{_darwinx_mandir}/man1/cccheck.1
 %{_darwinx_mandir}/man1/cert-sync.1
 %{_darwinx_libdir}/libMonoPosixHelper.dylib
+%{_darwinx_libdir}/libMonoSupportW.dylib
+%{_darwinx_libdir}/libmono-btls-shared.dylib
+
 %dir %{monodir}
 %dir %{monodir}/4.0
 %dir %{monodir}/4.5
 %dir %{monodir}/gac
+%gac_dll Mono.Profiler.Log
 %gac_dll Commons.Xml.Relaxng
 %gac_dll ICSharpCode.SharpZipLib
 %gac_dll Mono.Debugger.Soft
-
 %gac_dll cscompmgd
 %gac_dll Microsoft.VisualC
 %gac_dll Mono.Cairo
@@ -197,12 +243,16 @@ install -p -m0644 %{SOURCE2} %{buildroot}%{_darwinx_sysconfdir}/pki/mono/
 %dir %{_darwinx_sysconfdir}/mono/4.0
 %{monodir}/4.0/mscorlib.dll
 %{monodir}/4.5/mscorlib.dll
-%{monodir}/4.5/mscorlib.dll.mdb
 %{monodir}/4.0-api/
 %{monodir}/4.5-api/
+%{monodir}/4.5.1-api/
+%{monodir}/4.5.2-api/
+%{monodir}/4.6-api/
+%{monodir}/4.6.1-api/
+%{monodir}/4.6.2-api/
+%{monodir}/4.7-api/
 %gac_dll Microsoft.CSharp
 %gac_dll System.Dynamic
-%gac_dll System.Runtime.InteropServices.RuntimeInformation
 %gac_dll System.Reflection.Context
 %gac_dll System.ComponentModel.Composition
 %gac_dll System.EnterpriseServices
@@ -233,53 +283,145 @@ install -p -m0644 %{SOURCE2} %{buildroot}%{_darwinx_sysconfdir}/pki/mono/
 %gac_dll System.IO.Compression
 %gac_dll System.Windows
 %{_darwinx_prefix}/lib/mono/4.5/Facades
-%{_darwinx_prefix}/lib/mono/gac/Mono.Cecil/*/Mono.Cecil.dll*
+%{_darwinx_prefix}/lib/mono/gac/Mono.Cecil/*/Mono.Cecil.*
 %gac_dll Mono.Btls.Interface
+%{monodir}/4.5/al.exe
+%{monodir}/4.5/al.pdb
+%{monodir}/4.5/browsercaps-updater.pdb
+%{monodir}/4.5/caspol.exe
+%{monodir}/4.5/caspol.pdb
+%{monodir}/4.5/cccheck.exe
+%{monodir}/4.5/cccheck.pdb
+%{monodir}/4.5/ccrewrite.exe
+%{monodir}/4.5/ccrewrite.pdb
+%{monodir}/4.5/cert-sync.exe
+%{monodir}/4.5/cert-sync.pdb
+%{monodir}/4.5/cert2spc.exe
+%{monodir}/4.5/cert2spc.pdb
+%{monodir}/4.5/certmgr.exe
+%{monodir}/4.5/certmgr.pdb
+%{monodir}/4.5/chktrust.exe
+%{monodir}/4.5/chktrust.pdb
+%{monodir}/4.5/crlupdate.exe
+%{monodir}/4.5/crlupdate.pdb
+%{monodir}/4.5/csc.exe
+%{monodir}/4.5/csc.exe.config
+%{monodir}/4.5/csc.exe.dylib
+%{monodir}/4.5/csc.rsp
+%{monodir}/4.5/csharp.exe
+%{monodir}/4.5/csharp.pdb
+%{monodir}/4.5/csi.exe
+%{monodir}/4.5/csi.exe.config
+%{monodir}/4.5/csi.rsp
+%{monodir}/4.5/disco.exe
+%{monodir}/4.5/disco.pdb
+%{monodir}/4.5/dtd2rng.exe
+%{monodir}/4.5/dtd2rng.pdb
+%{monodir}/4.5/dtd2xsd.exe
+%{monodir}/4.5/dtd2xsd.pdb
+%{monodir}/4.5/gacutil.exe
+%{monodir}/4.5/gacutil.pdb
+%{monodir}/4.5/genxs.exe
+%{monodir}/4.5/genxs.pdb
+%{monodir}/4.5/httpcfg.exe
+%{monodir}/4.5/httpcfg.pdb
+%{monodir}/4.5/ictool.pdb
+%{monodir}/4.5/ikdasm.pdb
+%{monodir}/4.5/ilasm.exe
+%{monodir}/4.5/ilasm.pdb
+%{monodir}/4.5/installutil.pdb
+%{monodir}/4.5/installvst.exe
+%{monodir}/4.5/installvst.pdb
+%{monodir}/4.5/lc.exe
+%{monodir}/4.5/lc.pdb
+%{monodir}/4.5/linkeranalyzer.pdb
+%{monodir}/4.5/macpack.exe
+%{monodir}/4.5/macpack.pdb
+%{monodir}/4.5/makecert.exe
+%{monodir}/4.5/makecert.pdb
+%{monodir}/4.5/mconfig.exe
+%{monodir}/4.5/mconfig.pdb
+%{monodir}/4.5/mcs.pdb
+%{monodir}/4.5/mdbrebase.pdb
+%{monodir}/4.5/mdoc.exe
+%{monodir}/4.5/mdoc.pdb
+%{monodir}/4.5/mkbundle.exe
+%{monodir}/4.5/mkbundle.pdb
+%{monodir}/4.5/mod.pdb
+%{monodir}/4.5/mono-api-html.exe
+%{monodir}/4.5/mono-api-html.pdb
+%{monodir}/4.5/mono-api-info.pdb
+%{monodir}/4.5/mono-cil-strip.exe
+%{monodir}/4.5/mono-cil-strip.pdb
+%{monodir}/4.5/mono-service.exe
+%{monodir}/4.5/mono-service.pdb
+%{monodir}/4.5/mono-shlib-cop.pdb
+%{monodir}/4.5/mono-symbolicate.pdb
+%{monodir}/4.5/mono-xmltool.exe
+%{monodir}/4.5/mono-xmltool.pdb
+%{monodir}/4.5/monolinker.exe
+%{monodir}/4.5/monolinker.pdb
+%{monodir}/4.5/monop.exe
+%{monodir}/4.5/monop.pdb
+%{monodir}/4.5/mozroots.exe
+%{monodir}/4.5/mozroots.pdb
+%{monodir}/4.5/mscorlib.pdb
+%{monodir}/4.5/nunit-console.pdb
+%{monodir}/4.5/pdb2mdb.exe
+%{monodir}/4.5/pdb2mdb.pdb
+%{monodir}/4.5/permview.exe
+%{monodir}/4.5/permview.pdb
+%{monodir}/4.5/resgen.exe
+%{monodir}/4.5/resgen.pdb
+%{monodir}/4.5/secutil.exe
+%{monodir}/4.5/secutil.pdb
+%{monodir}/4.5/setreg.exe
+%{monodir}/4.5/setreg.pdb
+%{monodir}/4.5/sgen.exe
+%{monodir}/4.5/sgen.pdb
+%{monodir}/4.5/signcode.exe
+%{monodir}/4.5/signcode.pdb
+%{monodir}/4.5/sn.exe
+%{monodir}/4.5/sn.pdb
+%{monodir}/4.5/soapsuds.exe
+%{monodir}/4.5/soapsuds.pdb
+%{monodir}/4.5/sqlmetal.pdb
+%{monodir}/4.5/sqlsharp.exe
+%{monodir}/4.5/sqlsharp.pdb
+%{monodir}/4.5/svcutil.exe
+%{monodir}/4.5/svcutil.pdb
+%{monodir}/4.5/wsdl.exe
+%{monodir}/4.5/wsdl.pdb
+%{monodir}/4.5/xbuild.pdb
+%{monodir}/4.5/xsd.exe
+%{monodir}/4.5/xsd.pdb
+%{monodir}/4.5/System.Collections.Immutable.dll
+%{monodir}/4.5/System.Reflection.Metadata.dll
+%{monodir}/4.5/VBCSCompiler.exe
+%{monodir}/4.5/VBCSCompiler.exe.config
 
 ### files devel
 %{_darwinx_sysconfdir}/pki/mono/
 %{_darwinx_bindir}/mono-api-info
 %mono_bin xbuild
-%mono_bin genxs
 %{monodir}/?.?/culevel*
-%mono_bin al
-%mono_bin caspol
-%mono_bin cert2spc
-%mono_bin certmgr
-%mono_bin crlupdate
-%mono_bin dtd2rng
-%mono_bin dtd2xsd
-%mono_bin installvst
-%mono_bin macpack
-%mono_bin makecert
-%mono_bin mono-cil-strip
 %{_darwinx_bindir}/mono-sgen-gdb.py
 %mono_bin mono-shlib-cop
-%mono_bin mono-xmltool
-%mono_bin permview
-%mono_bin secutil
-%mono_bin sgen
-%mono_bin signcode
 %{_darwinx_bindir}/al2
-%mono_bin ilasm
-%mono_bin mkbundle
-%mono_bin cert-sync
 %{_darwinx_bindir}/monodis
-%mono_bin monolinker
-%mono_bin monop
-%mono_bin mono-api-html
 %{_darwinx_bindir}/monop2
 %{_darwinx_bindir}/peverify
-%{_darwinx_bindir}/prj2make
-%mono_bin resgen
 %{_darwinx_bindir}/resgen2
 %{_darwinx_bindir}/pedump
 %{_darwinx_bindir}/mdbrebase
 %{_darwinx_bindir}/ikdasm
 %{_darwinx_prefix}/lib/mono/4.5/mono-symbolicate.exe
-%{_darwinx_prefix}/lib/mono/4.5/mono-symbolicate.exe.mdb
 %{_darwinx_prefix}/lib/mono/4.5/linkeranalyzer.exe
-%{_darwinx_prefix}/lib/mono/4.5/linkeranalyzer.exe.mdb
+%{_darwinx_prefix}/lib/mono/4.5/Microsoft.CodeAnalysis.CSharp.Scripting.dll
+%{_darwinx_prefix}/lib/mono/4.5/Microsoft.CodeAnalysis.CSharp.dll
+%{_darwinx_prefix}/lib/mono/4.5/Microsoft.CodeAnalysis.Scripting.dll
+%{_darwinx_prefix}/lib/mono/4.5/Microsoft.CodeAnalysis.VisualBasic.dll
+%{_darwinx_prefix}/lib/mono/4.5/Microsoft.CodeAnalysis.dll
 %{_darwinx_mandir}/man1/resgen.1
 %{_darwinx_mandir}/man1/al.1
 %{_darwinx_mandir}/man1/cert2spc.1
@@ -297,7 +439,6 @@ install -p -m0644 %{SOURCE2} %{buildroot}%{_darwinx_sysconfdir}/pki/mono/
 %{_darwinx_mandir}/man1/mono-xmltool.1
 %{_darwinx_mandir}/man1/monop.1
 %{_darwinx_mandir}/man1/permview.1
-%{_darwinx_mandir}/man1/prj2make.1
 %{_darwinx_mandir}/man1/secutil.1
 %{_darwinx_mandir}/man1/sgen.1
 %{_darwinx_mandir}/man1/signcode.1
@@ -323,10 +464,10 @@ install -p -m0644 %{SOURCE2} %{buildroot}%{_darwinx_sysconfdir}/pki/mono/
 %{monodir}/4.5/Microsoft.Common.tasks
 %{monodir}/4.5/Microsoft.VisualBasic.targets
 %{monodir}/mono-configuration-crypto/4.5/Mono.Configuration.Crypto.dll
-%{monodir}/mono-configuration-crypto/4.5/Mono.Configuration.Crypto.dll.mdb
 %{monodir}/mono-configuration-crypto/4.5/mono-configuration-crypto.exe
-%{monodir}/mono-configuration-crypto/4.5/mono-configuration-crypto.exe.mdb
-%{_darwinx_libdir}/libMonoSupportW.dylib
+%{monodir}/mono-configuration-crypto/4.5/Mono.Configuration.Crypto.pdb
+%{monodir}/mono-configuration-crypto/4.5/mono-configuration-crypto.pdb
+
 %{_darwinx_libdir}/libikvm-native.dylib
 %{_darwinx_libdir}/pkgconfig/dotnet.pc
 %{_darwinx_libdir}/pkgconfig/mono-cairo.pc
@@ -340,25 +481,20 @@ install -p -m0644 %{SOURCE2} %{buildroot}%{_darwinx_sysconfdir}/pki/mono/
 %{_darwinx_libdir}/pkgconfig/monosgen-2.pc
 %{_darwinx_libdir}/pkgconfig/xbuild12.pc
 %{monodir}/xbuild
+%{monodir}/msbuild
 %{_darwinx_includedir}/mono-2.0/mono/jit/jit.h
 %{_darwinx_includedir}/mono-2.0/mono/metadata/*.h
 %{_darwinx_includedir}/mono-2.0/mono/utils/*.h
 %{_darwinx_includedir}/mono-2.0/mono/cil/opcode.def
 %{monodir}/xbuild-frameworks
 %{monodir}/4.5/browsercaps-updater.exe
-%{monodir}/4.5/browsercaps-updater.exe.mdb
 %{monodir}/4.5/ictool.exe
-%{monodir}/4.5/ictool.exe.mdb
 %{monodir}/4.5/installutil.exe
-%{monodir}/4.5/installutil.exe.mdb
 %{monodir}/4.5/mod.exe
-%{monodir}/4.5/mod.exe.mdb
 %{monodir}/4.5/mono-api-info.exe*
 %{_darwinx_libdir}/pkgconfig/reactive.pc
 %{_darwinx_prefix}/lib/mono/4.5/mdbrebase.exe
-%{_darwinx_prefix}/lib/mono/4.5/mdbrebase.exe.mdb
 %{_darwinx_prefix}/lib/mono/4.5/ikdasm.exe
-%{_darwinx_prefix}/lib/mono/4.5/ikdasm.exe.mdb
 %{_darwinx_prefix}/lib/mono/gac/Microsoft.Build.Tasks.Core
 %{_darwinx_prefix}/lib/mono/gac/Microsoft.Build.Tasks.v12.0
 %{_darwinx_prefix}/lib/mono/gac/Microsoft.Build.Utilities.Core
@@ -393,7 +529,6 @@ install -p -m0644 %{SOURCE2} %{buildroot}%{_darwinx_sysconfdir}/pki/mono/
 
 ### files extras
 %{_darwinx_bindir}/mono-service2
-%mono_bin mono-service
 %{monodir}/gac/mono-service
 %gac_dll System.Configuration.Install
 %gac_dll System.Management
@@ -420,14 +555,7 @@ install -p -m0644 %{SOURCE2} %{buildroot}%{_darwinx_sysconfdir}/pki/mono/
 
 
 ### files web
-%mono_bin wsdl
-%mono_bin soapsuds
-%mono_bin svcutil
-%mono_bin httpcfg
-%mono_bin mconfig
 %{_darwinx_bindir}/wsdl2
-%mono_bin xsd
-%mono_bin disco
 %gac_dll Mono.Http
 %gac_dll System.ComponentModel.DataAnnotations
 %gac_dll System.Runtime.Remoting
@@ -491,7 +619,6 @@ install -p -m0644 %{SOURCE2} %{buildroot}%{_darwinx_sysconfdir}/pki/mono/
 
 ### files data
 %mono_bin sqlmetal
-%mono_bin sqlsharp
 %gac_dll System.Data.Entity
 %gac_dll System.Data.DataSetExtensions
 %gac_dll System.Data.Linq
@@ -514,7 +641,6 @@ install -p -m0644 %{SOURCE2} %{buildroot}%{_darwinx_sysconfdir}/pki/mono/
 %gac_dll IBM.Data.DB2
 
 ### files -n monodoc
-%mono_bin mdoc
 %{monodir}/gac/monodoc
 %{_darwinx_prefix}/lib/monodoc/*
 %{monodir}/monodoc/monodoc.dll

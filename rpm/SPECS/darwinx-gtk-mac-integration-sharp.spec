@@ -8,9 +8,13 @@ Source0:	gtk-mac-integration-sharp-%{version}.tar.xz
 Source1:	xcare.pub
 BuildArch:	noarch
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
+
 BuildRequires:	darwinx-gtk-mac-integration
-BuildRequires:	darwinx-mono
-BuildRequires:	darwinx-gtk-sharp3
+BuildRequires:	darwinx-mono-core
+BuildRequires:	darwinx-GtkSharp
+
+Requires:  	darwinx-mono-core
+Requires:  	darwinx-GtkSharp
 
 Obsoletes:	darwinx-gtkosxapplication-sharp
 

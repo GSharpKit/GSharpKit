@@ -1,12 +1,12 @@
 Name:           darwinx-jasper
-Version:        1.900.1
+Version:        1.900.29
 Release:        1%{?dist}
 Summary:        The JasPer Project is an JPEG-2000 Part-1 standard
 
 License:        See LICENSE
 Group:          Development/Libraries
 URL:            http://www.ece.uvic.ca/~frodo/jasper/
-Source0:        jasper-%{version}.zip
+Source0:        jasper-%{version}.tar.gz
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:      noarch
 
@@ -55,6 +55,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_darwinx_libdir}/libjasper.la
 %{_darwinx_includedir}/jasper/jasper.h
 %{_darwinx_includedir}/jasper/jas_*
+%{_darwinx_libdir}/pkgconfig/jasper.pc
 
 %files static
 %defattr(-,root,root)

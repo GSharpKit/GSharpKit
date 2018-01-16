@@ -15,9 +15,9 @@ cd intltool-0.50.2
 CFLAGS="-m64 -arch x86_64" CXXFLAGS="-m64 -arch x86_64" LDFLAGS="-arch x86_64" ./configure --prefix=$PREFIX --exec-prefix=$PREFIX
 make
 sudo make install
-sudo ln -s $SYMLINK/bin/intltoolize /usr/bin/intltoolize
-sudo ln -s $SYMLINK/bin/intltool-update /usr/bin/intltool-update
-sudo ln -s $SYMLINK/bin/intltool-extract /usr/bin/intltool-extract
-sudo ln -s $SYMLINK/bin/intltool-merge /usr/bin/intltool-merge
-sudo ln -s $SYMLINK/bin/intltool-prepare /usr/bin/intltool-prepare
+sudo ln -s $SYMLINK/bin/intltoolize /usr/local/bin/intltoolize
+sudo ln -s $SYMLINK/bin/intltool-update /usr/local/bin/intltool-update
+sudo ln -s $SYMLINK/bin/intltool-extract /usr/local/bin/intltool-extract
+sudo ln -s $SYMLINK/bin/intltool-merge /usr/local/bin/intltool-merge
+sudo ln -s $SYMLINK/bin/intltool-prepare /usr/local/bin/intltool-prepare
 

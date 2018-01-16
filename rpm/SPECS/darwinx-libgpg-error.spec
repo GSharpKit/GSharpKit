@@ -1,5 +1,5 @@
 Name:           darwinx-libgpg-error
-Version:        1.12
+Version:        1.27
 Release:        1%{?dist}
 Summary:        Darwin Windows GnuPGP error library
 
@@ -34,6 +34,8 @@ rm -rf $RPM_BUILD_ROOT
 
 make DESTDIR=$RPM_BUILD_ROOT install
 
+rm -rf $RPM_BUILD_ROOT%{_darwinx_infodir}
+
 %clean
 rm -rf $RPM_BUILD_ROOT
 
@@ -45,11 +47,13 @@ rm -rf $RPM_BUILD_ROOT
 %{_darwinx_libdir}/libgpg-error.*.dylib
 %{_darwinx_libdir}/libgpg-error.dylib
 %{_darwinx_libdir}/libgpg-error.la
+%{_darwinx_includedir}/gpgrt.h
 %{_darwinx_includedir}/gpg-error.h
 %{_darwinx_datadir}/aclocal/gpg-error.m4
 %{_darwinx_datadir}/common-lisp/source/gpg-error/*
 %{_darwinx_datadir}/locale
-
+%{_darwinx_datadir}/libgpg-error
+%{_darwinx_datadir}/man
 
 %changelog
 * Fri Oct  9 2009 Erik van Pienbroek <epienbro@fedoraproject.org> - 1.6-13

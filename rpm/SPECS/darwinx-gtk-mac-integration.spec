@@ -13,6 +13,7 @@ License:	LGPLv2
 Group:		Development/Libraries
 URL:		http://sourceforge.net/projects/gtk-osx/files/
 Source0:	gtk-mac-integration-%{version}.tar.gz
+Patch0:		gtk-mac-integration-2.0.7-glib-autogen.patch
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildArch:	noarch
@@ -39,8 +40,10 @@ Static version of the Darwin Gtk-Mac-Integration library.
 
 %prep
 %setup -q -n gtk-mac-integration-%{version}
+%patch0 -p1
 
 %build
+%{_darwinx_env}
 sh autogen.sh --enable-static --enable-shared --enable-python=no --with-gtk=gtk+-3.0 
 %{_darwinx_configure} --enable-static --enable-shared --enable-python=no --with-gtk=gtk+-3.0 
 %{_darwinx_make} %{?_smp_mflags} V=99

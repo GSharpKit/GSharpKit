@@ -1,5 +1,5 @@
 Name:           darwinx-libxslt
-Version:        1.1.28
+Version:        1.1.32
 Release:        1%{?dist}
 Summary:        libxslt is the official PNG reference library.
 

@@ -1,11 +1,11 @@
 Name:           darwinx-p11-kit
-Version:        0.23.2
+Version:        0.23.9
 Release:        1%{?dist}
 Summary:        Library for loading and sharing PKCS#11 modules
 
 License:        GPLv3+ and LGPLv2+
 Group:          Development/Libraries
-URL:            http://p11-glue.freedesktop.org/releases/
+URL:            https://github.com/p11-glue/p11-kit/releases/download/0.23.9/
 Source0:        p11-kit-%{version}.tar.gz
 Patch0:		p11-kit-0.18.1-free.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -74,9 +74,14 @@ rm -rf $RPM_BUILD_ROOT
 %{_darwinx_libdir}/pkcs11/p11-kit-trust.la
 %{_darwinx_libdir}/pkcs11/p11-kit-trust.so
 %{_darwinx_libdir}/pkgconfig/p11-kit-1.pc
-%{_darwinx_libdir}/p11-kit/trust-extract-compat
-%{_darwinx_libdir}/p11-kit/p11-kit-remote
 %{_darwinx_datadir}/p11-kit/modules/p11-kit-trust.module
+%{_darwinx_libdir}/p11-kit-proxy.dylib
+%{_darwinx_libdir}/pkcs11/p11-kit-client.la
+%{_darwinx_libdir}/pkcs11/p11-kit-client.so
+%{_darwinx_libexecdir}/p11-kit/p11-kit-remote
+%{_darwinx_libexecdir}/p11-kit/p11-kit-server
+%{_darwinx_libexecdir}/p11-kit/trust-extract-compat
+
 
 %changelog
 * Fri Oct  9 2009 Erik van Pienbroek <epienbro@fedoraproject.org> - 2.6.4-3

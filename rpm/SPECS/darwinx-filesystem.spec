@@ -34,6 +34,7 @@ Provides:	CoreVideo
 Provides:	QTKit
 Provides:       AVFoundation
 Provides:       VideoToolbox
+Provides:	Kerberos
 
 Provides:	libSystem.B.dylib
 Provides:	libexpat.1.dylib

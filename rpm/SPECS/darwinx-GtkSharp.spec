@@ -1,24 +1,23 @@
 %define debug_package %{nil}
 
-Name:           darwinx-gtk-sharp3
-Version:        3.20.4
+Name:           darwinx-GtkSharp
+Version:        3.22.6
 Release:        1%{?dist}
 Summary:        GTK+ and GNOME bindings for Mono
 
 Group:          System Environment/Libraries
 License:        LGPLv2+
-URL:            http://gtk-sharp.sf.net
-Source0:        gtk-sharp-%{version}.tar.xz
-Patch0:		gtk-sharp-2.99.3-marshaller.patch
+URL:            https://github.com/GSharpKit/GtkSharp/releases 
+Source0:        GtkSharp-%{version}.tar.gz
 
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 Requires:	darwinx-filesystem >= 18
 Requires:	darwinx-gtk3 >= %{version}
-Requires: 	darwinx-mono >= 4.4
+Requires: 	darwinx-mono-core >= 4.8
 
 BuildRequires:  darwinx-filesystem-base >= 18
-BuildRequires:  darwinx-mono >= 4.4
+BuildRequires:  darwinx-mono-core >= 4.8
 BuildRequires:  automake, libtool
 BuildRequires:	darwinx-gtk3 >= %{version}
 
@@ -32,32 +31,30 @@ toolkit used in GNOME. It includes bindings for Gtk, Atk,
 Pango, Gdk. 
 
 %prep
-%setup -q -n gtk-sharp-%{version}
-%patch0 -p1
+%setup -q -n GtkSharp-%{version}
 
 %build
-autoreconf --verbose --install -I /usr/darwinx/usr/share/aclocal
-%{_darwinx_configure} --disable-static
-
-%{_darwinx_make} %{?_smp_mflags}
+%{_darwinx_env} ; meson --prefix=%{_darwinx_prefix} --libdir=%{_darwinx_prefix}/lib build/
+ninja -C build/
 
 %install
 %{__rm} -rf $RPM_BUILD_ROOT
-%{_darwinx_makeinstall} program_transform_name=""
-
-%{__rm} -rf $RPM_BUILD_ROOT%{_darwinx_libdir}/monodoc
+DESTDIR=$RPM_BUILD_ROOT ninja -C build/ install
 
 %clean
 #%{__rm} -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,root,-)
-%{_darwinx_libdir}/libatksharpglue-3.so
-%{_darwinx_libdir}/libgtksharpglue-3.so
-%{_darwinx_libdir}/libgiosharpglue-3.so
-%{_darwinx_libdir}/libpangosharpglue-3.so
 %{_darwinx_libdir}/mono/gac
-%{_darwinx_libdir}/mono/gtk-sharp-3.0
+%{_darwinx_libdir}/mono/GtkSharp-3.0
+%{_darwinx_libdir}/mono/atk-sharp/atk-sharp.dll
+%{_darwinx_libdir}/mono/cairo-sharp/cairo-sharp.dll
+%{_darwinx_libdir}/mono/gdk-sharp/gdk-sharp.dll
+%{_darwinx_libdir}/mono/gio-sharp/gio-sharp.dll
+%{_darwinx_libdir}/mono/glib-sharp/glib-sharp.dll
+%{_darwinx_libdir}/mono/gtk-sharp/gtk-sharp.dll
+%{_darwinx_libdir}/mono/pango-sharp/pango-sharp.dll
 %{_darwinx_bindir}/gapi3-codegen
 %{_darwinx_bindir}/gapi3-fixup
 %{_darwinx_bindir}/gapi3-parser
@@ -70,14 +67,6 @@ autoreconf --verbose --install -I /usr/darwinx/usr/share/aclocal
 %{_darwinx_datadir}/gapi-3.0/
 %{_darwinx_libdir}/pkgconfig/gapi-3.0.pc
 %{_darwinx_libdir}/pkgconfig/*-sharp-3.0.pc
-%{_darwinx_libdir}/pkgconfig/gtk-dotnet-3.0.pc
-%{_darwinx_libdir}/libatksharpglue-3.la
-%{_darwinx_libdir}/libgtksharpglue-3.la
-%{_darwinx_libdir}/libgiosharpglue-3.la
-%{_darwinx_libdir}/libpangosharpglue-3.la
-%{_darwinx_libdir}/libmono-profiler-gui-thread-check.0.dylib
-%{_darwinx_libdir}/libmono-profiler-gui-thread-check.dylib
-%{_darwinx_libdir}/libmono-profiler-gui-thread-check.la
 
 %changelog
 * Tue Feb 24 2009 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 2.12.7-4

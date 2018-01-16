@@ -12,8 +12,12 @@ BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildArch: 	noarch
 
-BuildRequires:	darwinx-mono 
+BuildRequires:	darwinx-mono-core 
 BuildRequires:	darwinx-dbus-sharp
+
+Requires:  	darwinx-mono-core
+Requires:  	darwinx-dbus-sharp
+
 
 Obsoletes:	darwinx-ndes-dbus-glib
 
@@ -41,7 +45,6 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,root,-)
-%doc COPYING
 %{_darwinx_libdir}/mono/gac/dbus-sharp-glib/*/*.dll
 %{_darwinx_libdir}/mono/gac/dbus-sharp-glib/*/*.dll.config
 %{_darwinx_libdir}/mono/dbus-sharp-glib-2.0/
