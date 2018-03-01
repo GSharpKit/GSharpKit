@@ -1,17 +1,18 @@
 Name:			darwinx-dbus-sharp
-Version:		0.9.0
+Epoch:			2
+Version:		0.9.2
 Release:		1%{?dist}
 Summary:		Managed C# implementation of DBus
 License:		MIT
 Group:			System Environment/Libraries
 URL:			http://www.ndesk.org/DBusSharp
-Source0:		http://www.ndesk.org/archive/dbus-sharp/dbus-sharp-%{version}.tar.xz
+Source0:		http://www.ndesk.org/archive/dbus-sharp/dbus-sharp-%{version}.tar.gz
 BuildRoot:		%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildArch: 		noarch
 
-BuildRequires:		darwinx-mono
-Requires:		darwinx-mono
+BuildRequires:		darwinx-mono-core
+Requires:		darwinx-mono-core
 
 Obsoletes:		darwinx-ndesk-dbus
 
@@ -22,6 +23,7 @@ Managed C# implementation of DBus
 %setup -q -n dbus-sharp-%{version}
 
 %build
+%{_darwinx_env} ; sh autogen.sh --prefix=%{_darwinx_prefix}
 %{_darwinx_configure}
 %{_darwinx_make}
 

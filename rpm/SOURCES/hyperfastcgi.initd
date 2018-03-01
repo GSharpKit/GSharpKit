@@ -1,0 +1,74 @@
+#!/bin/sh
+#
+# chkconfig: - 24 73
+# description: Starts and stops the HyperfastCGI4 daemon
+#	       #
+# pidfile: /var/run/hyperfastcgi4.pid
+# config:  /etc/hyperfastcgi/hfc.config
+
+
+# Source function library.
+. /etc/rc.d/init.d/functions
+
+# Avoid using root's TMPDIR
+unset TMPDIR
+
+# Source networking configuration.
+. /etc/sysconfig/network
+
+# Check that networking is up.
+[ ${NETWORKING} = "no" ] && exit 1
+
+# Check that smb.conf exists.
+[ -f /etc/hyperfastcgi/hfc.config ] || exit 6
+
+RETVAL=0
+pidfile=/var/run/hyperfastcgi4.pid
+
+start() {
+        KIND="hyperfastcgi"
+	echo -n $"Starting $KIND services: "
+	daemon daemonize -p $pidfile -u nginx /usr/bin/hyperfastcgi4 /config=/etc/hyperfastcgi/hfc.config /loglevels=Standard /logfile=/var/log/hyperfastcgi/hfc.log
+	RETVAL=$?
+	echo
+	[ $RETVAL -eq 0 ] && touch /var/lock/subsys/hyperfastcgi4 || RETVAL=1
+	return $RETVAL
+}	
+
+stop() {
+	KIND="hyperfastcgi"
+	echo -n $"Shutting down $KIND services: "
+	killproc -p $pidfile hyperfastcgi4
+	RETVAL=$?
+	[ $RETVAL -eq 0 ] && rm -f /var/lock/subsys/hyperfastcgi4
+	echo ""
+	return $RETVAL
+}	
+
+restart() {
+	stop
+	start
+}	
+
+# Check that we are root ... so non-root users stop here
+[  `id -u` -eq  "0" ] ||  exit 4
+
+case "$1" in
+  start)
+  	start
+	;;
+  stop)
+  	stop
+	;;
+  restart)
+  	restart
+	;;
+  reload)
+  	reload
+	;;
+  *)
+	echo $"Usage: $0 {start|stop|restart}"
+	exit 2
+esac
+
+exit $?

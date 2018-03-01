@@ -1,0 +1,52 @@
+--- shared/Microsoft.NETCore.App/1.1.0/Microsoft.NETCore.App.deps.json	2016-11-14 23:26:30.000000000 +0100
++++ shared/Microsoft.NETCore.App/1.1.0/Microsoft.NETCore.App.deps.json	2017-02-10 11:45:24.550503581 +0100
+@@ -2703,6 +2703,28 @@
+       "any",
+       "base"
+     ],
++    "fedora.25-x64": [
++      "fedora.25",
++      "fedora-x64",
++      "fedora",
++      "linux-x64",
++      "linux",
++      "unix-x64",
++      "unix",
++      "any",
++      "base"
++    ],
++    "fedora.26-x64": [
++      "fedora.26",
++      "fedora-x64",
++      "fedora",
++      "linux-x64",
++      "linux",
++      "unix-x64",
++      "unix",
++      "any",
++      "base"
++    ],
+     "debian.8-x64": [
+       "debian.8",
+       "debian-x64",
+@@ -3319,6 +3341,20 @@
+       "any",
+       "base"
+     ],
++    "fedora.25": [
++      "fedora",
++      "linux",
++      "unix",
++      "any",
++      "base"
++    ],
++    "fedora.26": [
++      "fedora",
++      "linux",
++      "unix",
++      "any",
++      "base"
++    ],
+     "opensuse": [
+       "linux",
+       "unix",

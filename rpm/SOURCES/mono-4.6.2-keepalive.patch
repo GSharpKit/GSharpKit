@@ -1,0 +1,12 @@
+diff -Nur mono-4.6.2.orig/mcs/class/Mono.Data.Tds/Mono.Data.Tds.Protocol/TdsComm.cs mono-4.6.2/mcs/class/Mono.Data.Tds/Mono.Data.Tds.Protocol/TdsComm.cs
+--- mono-4.6.2.orig/mcs/class/Mono.Data.Tds/Mono.Data.Tds.Protocol/TdsComm.cs	2016-11-14 09:48:44.000000000 +0100
++++ mono-4.6.2/mcs/class/Mono.Data.Tds/Mono.Data.Tds.Protocol/TdsComm.cs	2016-12-09 10:51:35.388940595 +0100
+@@ -114,7 +114,7 @@
+ 				try {
+ 					// MS sets these socket option
+ 					socket.SetSocketOption (SocketOptionLevel.Socket, SocketOptionName.KeepAlive, 1);
+-				} catch (SocketException) {
++				} catch (Exception) {
+ 					// Some platform may throw an exception, so
+ 					// eat all socket exception, yeaowww! 
+ 				}

@@ -1,5 +1,5 @@
 Name:		darwinx-libsoup
-Version:	2.52.2
+Version:	2.60.2
 Release:	1%{?dist}
 Summary:	Darwin for HTTP and XML-RPC functionality
 
@@ -12,7 +12,7 @@ BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildArch:	noarch
 
-BuildRequires:	darwinx-filesystem-base >= 18
+BuildRequires:	darwinx-filesystem-base >= 102
 BuildRequires:	darwinx-gcc
 BuildRequires:	darwinx-glib2
 BuildRequires:	darwinx-gnutls
@@ -21,7 +21,7 @@ BuildRequires:	darwinx-glib-networking
 
 Requires:	pkgconfig
 
-Requires:	darwinx-filesystem >= 18
+Requires:	darwinx-filesystem >= 102
 
 %description
 Libsoup is an HTTP library implementation in C. It was originally part
@@ -97,10 +97,6 @@ rm -rf $RPM_BUILD_ROOT/build_static
 
 # Strip all the GTK-Doc
 rm -rf $RPM_BUILD_ROOT%{_darwinx_datadir}/gtk-doc
-
-# Move locale
-mkdir $RPM_BUILD_ROOT%{_darwinx_datadir}
-mv $RPM_BUILD_ROOT%{_darwinx_libdir}/locale $RPM_BUILD_ROOT%{_darwinx_datadir}/
 
 %clean
 rm -rf $RPM_BUILD_ROOT

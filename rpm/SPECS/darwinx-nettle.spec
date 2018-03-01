@@ -1,5 +1,5 @@
 Name:           darwinx-nettle
-Version:        3.2
+Version:        3.4
 Release:        1%{?dist}
 Summary:        A low-level cryptographic library
 License:        LGPLv2+

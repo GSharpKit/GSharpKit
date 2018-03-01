@@ -1,5 +1,5 @@
 Name:           darwinx-gnutls
-Version:        3.4.14
+Version:        3.5.16
 Release:        1%{?dist}
 Summary:        GnuTLS TLS/SSL encryption library
 
@@ -18,8 +18,16 @@ BuildRequires:  darwinx-libtasn1
 BuildRequires:  darwinx-p11-kit
 BuildRequires:  darwinx-gmp
 BuildRequires:  darwinx-nettle
-
+BuildRequires:  darwinx-libunistring
 BuildRequires:  pkgconfig
+
+Requires:  darwinx-libgcrypt
+Requires:  darwinx-libtasn1
+Requires:  darwinx-p11-kit
+Requires:  darwinx-gmp
+Requires:  darwinx-nettle
+Requires:  darwinx-libunistring
+
 
 %description
 GnuTLS TLS/SSL encryption library.  This library is cross-compiled
@@ -47,9 +55,9 @@ for Darwin.
 rm -rf $RPM_BUILD_ROOT
 
 make DESTDIR=$RPM_BUILD_ROOT install
-rm -f $RPM_BUILD_ROOT%{_darwinx_datadir}/info/dir
 
 # Remove info and man pages which duplicate stuff in Fedora already.
+rm -rf $RPM_BUILD_ROOT%{_darwinx_datadir}/doc
 rm -rf $RPM_BUILD_ROOT%{_darwinx_infodir}
 rm -rf $RPM_BUILD_ROOT%{_darwinx_mandir}
 
@@ -60,7 +68,6 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,root)
-%doc COPYING
 %{_darwinx_bindir}/certtool
 %{_darwinx_bindir}/gnutls-cli
 %{_darwinx_bindir}/gnutls-cli-debug

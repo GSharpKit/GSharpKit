@@ -1,5 +1,5 @@
 Name:		darwinx-mono-addins
-Version:	1.3
+Version:	1.3.3
 Release:	1%{?dist}
 Summary:	Addins for mono
 Group:		Development/Languages
@@ -10,10 +10,11 @@ BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch: 	noarch
 
 BuildRequires:  darwinx-filesystem-base >= 18
-BuildRequires:	darwinx-mono >= 3.0, autoconf, automake
+BuildRequires:	darwinx-mono-core >= 4.8, autoconf, automake
 BuildRequires:	pkgconfig
 
 Requires:  	darwinx-filesystem >= 18
+Requires:	darwinx-mono-core >= 4.8
 
 %description
 Mono.Addins is a generic framework for creating extensible applications,
@@ -29,6 +30,11 @@ sh autogen.sh --disable-gui
 %{_darwinx_configure} --disable-gui
 
 %{_darwinx_make}
+
+sn -R bin/Mono.Addins.CecilReflector.dll mono-addins.snk
+sn -R bin/Mono.Addins.dll mono-addins.snk
+sn -R bin/Mono.Addins.MSBuild.dll mono-addins.snk
+sn -R bin/Mono.Addins.Setup.dll mono-addins.snk
 
 %install
 %{__rm} -rf %{buildroot}

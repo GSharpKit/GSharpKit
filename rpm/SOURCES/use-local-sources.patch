@@ -1,0 +1,24 @@
+diff -uprN msbuild-2017.05.30.git.5070ccac.old/cibuild.sh msbuild-2017.05.30.git.5070ccac/cibuild.sh
+--- msbuild-2017.05.30.git.5070ccac.old/cibuild.sh	2017-05-31 22:28:59.731978104 +0300
++++ msbuild-2017.05.30.git.5070ccac/cibuild.sh	2017-05-31 22:44:03.567978104 +0300
+@@ -38,8 +38,9 @@ downloadMSBuildForMono()
+     then
+         mkdir -p "$PACKAGES_DIR" # Create packages dir if it doesn't exist.
+ 
+-        echo "** Downloading MSBUILD from $MSBUILD_DOWNLOAD_URL"
+-        curl -sL -o "$MSBUILD_ZIP" "$MSBUILD_DOWNLOAD_URL"
++        #echo "** Downloading MSBUILD from $MSBUILD_DOWNLOAD_URL"
++        #curl -sL -o "$MSBUILD_ZIP" "$MSBUILD_DOWNLOAD_URL"
++        cp "_LOCAL_MSBUILD_ZIP" "$MSBUILD_ZIP"
+ 
+         unzip -q "$MSBUILD_ZIP" -d "$PACKAGES_DIR"
+         find "$PACKAGES_DIR/msbuild" -name "*.exe" -exec chmod "+x" '{}' ';'
+@@ -130,7 +131,7 @@ get_current_linux_name() {
+     fi
+ 
+     # Cannot determine Linux distribution, assuming Ubuntu 14.04.
+-    echo "ubuntu.14.04"
++    echo "ubuntu.16.04"
+     return 0
+ }
+ 

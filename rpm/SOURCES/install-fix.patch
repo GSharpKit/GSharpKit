@@ -1,0 +1,12 @@
+diff -uprN msbuild-2017.07.20.git.17f02c27.old/install-mono-prefix.sh msbuild-2017.07.20.git.17f02c27/install-mono-prefix.sh
+--- msbuild-2017.07.20.git.17f02c27.old/install-mono-prefix.sh	2017-08-09 14:04:08.000000000 +0300
++++ msbuild-2017.07.20.git.17f02c27/install-mono-prefix.sh	2017-08-09 14:28:28.188781259 +0300
+@@ -56,7 +56,7 @@ mv ${DESTDIR}${MSBUILD_INSTALL_BIN_DIR}/
+ 
+ rm ${DESTDIR}${MSBUILD_INSTALL_BIN_DIR}/*UnitTests*
+ rm ${DESTDIR}${MSBUILD_INSTALL_BIN_DIR}/*xunit*
+-rm ${DESTDIR}${MSBUILD_INSTALL_BIN_DIR}/NuGet*
++rm -f ${DESTDIR}${MSBUILD_INSTALL_BIN_DIR}/NuGet*
+ rm ${DESTDIR}${MSBUILD_INSTALL_BIN_DIR}/System.Runtime.InteropServices.RuntimeInformation.dll
+ rm ${DESTDIR}${MSBUILD_INSTALL_BIN_DIR}/Roslyn/System.Runtime.InteropServices.RuntimeInformation.dll
+ rm ${DESTDIR}${MSBUILD_INSTALL_BIN_DIR}/Roslyn/csc.exe*

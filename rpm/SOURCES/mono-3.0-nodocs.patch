@@ -1,0 +1,24 @@
+diff -Nur mono-3.0.0.orig/libgc/Makefile.am mono-3.0.0/libgc/Makefile.am
+--- mono-3.0.0.orig/libgc/Makefile.am	2012-10-12 22:00:12.000000000 +0200
++++ mono-3.0.0/libgc/Makefile.am	2012-10-23 23:13:26.787453749 +0200
+@@ -20,7 +20,7 @@
+ 
+ ACLOCAL_AMFLAGS = -I m4
+ 
+-SUBDIRS = m4 include doc
++SUBDIRS = m4 include
+ 
+ AM_CPPFLAGS = -I$(top_builddir)/.. -I$(top_srcdir)/..
+ 
+diff -Nur mono-3.0.0.orig/libgc/Makefile.in mono-3.0.0/libgc/Makefile.in
+--- mono-3.0.0.orig/libgc/Makefile.in	2012-10-17 03:05:39.000000000 +0200
++++ mono-3.0.0/libgc/Makefile.in	2012-10-23 23:13:51.715453643 +0200
+@@ -323,7 +323,7 @@
+ top_builddir = @top_builddir@
+ top_srcdir = @top_srcdir@
+ ACLOCAL_AMFLAGS = -I m4
+-SUBDIRS = m4 include doc
++SUBDIRS = m4 include
+ 
+ #
+ # libtool is not capable of creating shared/static versions of a convenience

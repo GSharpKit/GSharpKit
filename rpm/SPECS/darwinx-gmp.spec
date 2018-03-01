@@ -1,5 +1,5 @@
 Name:           darwinx-gmp
-Version:        6.1.0
+Version:        6.1.2
 Release:        1%{?dist}
 Summary:        A GNU arbitrary precision library
 License:        LGPLv3+

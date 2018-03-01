@@ -1,11 +1,11 @@
 Name:           darwinx-libtiff
-Version:        4.0.3
+Version:        4.0.9
 Release:        1%{?dist}
 Summary:        libtiff is the official TIFF reference library.
 
 License:        LGPLv2+
 Group:          Development/Libraries
-URL:            ftp://ftp.remotesensing.org/pub/libtiff/
+URL:            http://download.osgeo.org/libtiff/
 Source0:        tiff-%{version}.tar.gz
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:      noarch
@@ -47,11 +47,8 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,root)
-%{_darwinx_bindir}/bmp2tiff
 %{_darwinx_bindir}/fax2tiff
 %{_darwinx_bindir}/pal2rgb
-%{_darwinx_bindir}/ras2tiff
-%{_darwinx_bindir}/rgb2ycbcr
 %{_darwinx_bindir}/tiff2bw
 %{_darwinx_bindir}/tiff2ps
 %{_darwinx_bindir}/tiffcmp
@@ -60,10 +57,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_darwinx_bindir}/tiffmedian
 %{_darwinx_bindir}/tiffsplit
 %{_darwinx_bindir}/fax2ps
-%{_darwinx_bindir}/gif2tiff
 %{_darwinx_bindir}/ppm2tiff
 %{_darwinx_bindir}/raw2tiff
-%{_darwinx_bindir}/thumbnail
 %{_darwinx_bindir}/tiff2pdf
 %{_darwinx_bindir}/tiff2rgba
 %{_darwinx_bindir}/tiffcp

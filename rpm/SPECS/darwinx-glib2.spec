@@ -1,24 +1,40 @@
 Name:           darwinx-glib2
+<<<<<<< HEAD
 Version:        2.48.2
 Release:        3%{?dist}
+=======
+Version:        2.54.2
+Release:        1%{?dist}
+>>>>>>> 9a7269a1c7a1ad180dfab8bc61612db1d6d67e4f
 Summary:        Darwin GLib2 library
 
 License:        LGPLv2+
 Group:          Development/Libraries
 URL:            http://www.gtk.org
+<<<<<<< HEAD
 Source0:        http://download.gnome.org/sources/glib/2.48/glib-%{version}.tar.xz
 Patch0:		glib-2.48.2-disable-assert.patch
+=======
+Source0:        http://download.gnome.org/sources/glib/2.50/glib-%{version}.tar.xz
+>>>>>>> 9a7269a1c7a1ad180dfab8bc61612db1d6d67e4f
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 Summary:        Cross compiled GLib2 library
 
+Patch0:		glib-2.48.2-disable-assert.patch
+
 # https://bugzilla.gnome.org/show_bug.cgi?id=675516
 Patch1:         0001-Don-t-start-a-DBus-server-when-built-as-static-lib.patch
+<<<<<<< HEAD
+=======
+
+Patch2:		remove-gcocoanotificationbackend.patch
+>>>>>>> 9a7269a1c7a1ad180dfab8bc61612db1d6d67e4f
 
 Patch11:        glib-fix-compilation-on-osx.patch
 Patch12:	glib-2.34.1-isreg.patch
 
-Patch13:	glib-2.46.2-appkit.patch
+Patch13:	glib-2.50.3-appkit.patch
 
 BuildArch:      noarch
 
@@ -36,6 +52,7 @@ BuildRequires:  pkgconfig
 # These are required for the glib-i386-atomic patch.
 BuildRequires:  autoconf, automake, libtool
 
+Provides:	import
 
 %description
 Darwin Glib2 library
@@ -52,9 +69,13 @@ Static version of the Darwin GLib2 library.
 %setup -q -n glib-%{version}
 %patch0 -p1
 %patch1 -p1
+<<<<<<< HEAD
+=======
+#patch2 -p1
+>>>>>>> 9a7269a1c7a1ad180dfab8bc61612db1d6d67e4f
 %patch11 -p1
 %patch12 -p1
-%patch13 -p1
+#patch13 -p1
 
 %build
 # GLib can't build static and shared libraries in one go, so we
@@ -111,6 +132,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,root,-)
+%{_darwinx_bindir}/gio
 %{_darwinx_bindir}/gio-querymodules
 %{_darwinx_bindir}/glib-genmarshal
 %{_darwinx_bindir}/glib-gettextize
@@ -124,7 +146,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_darwinx_bindir}/glib-compile-schemas
 %{_darwinx_bindir}/gresource
 %{_darwinx_bindir}/gsettings
-%{_darwinx_bindir}/gapplication
 %{_darwinx_includedir}/gio-unix-2.0/
 %{_darwinx_includedir}/glib-2.0/
 %{_darwinx_libdir}/glib-2.0/

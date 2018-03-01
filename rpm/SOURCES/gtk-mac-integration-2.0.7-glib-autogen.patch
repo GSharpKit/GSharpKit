@@ -1,0 +1,12 @@
+diff -Nur gtk-mac-integration-2.0.7.orig/configure.ac gtk-mac-integration-2.0.7/configure.ac
+--- gtk-mac-integration-2.0.7.orig/configure.ac	2015-01-23 10:22:11.000000000 +0100
++++ gtk-mac-integration-2.0.7/configure.ac	2018-01-08 09:56:01.000000000 +0100
+@@ -36,7 +36,7 @@
+ AC_PROG_OBJC
+ AM_PROG_CC_C_O
+ 
+-AM_PATH_GLIB_2_0([2.14.0])
++#AM_PATH_GLIB_2_0([2.14.0])
+ AC_MSG_CHECKING([GLib Version])
+ 
+ AC_ARG_ENABLE([menu-images],

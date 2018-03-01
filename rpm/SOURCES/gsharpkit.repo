@@ -1,0 +1,23 @@
+[gsharpkit]
+name=Fedora $releasever - $basearch - GSharpKit
+baseurl=http://yum.gsharpkit.org/gsharpkit/fedora-$releasever-$basearch/RPMS/
+enabled=1
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-gsharpkit
+gpgcheck=1
+cost=800
+
+[gsharpkit-framework]
+name=Fedora $releasever - $basearch - GSharpKit
+baseurl=http://yum.gsharpkit.org/framework/fedora-$releasever-$basearch/RPMS/
+enabled=1
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-gsharpkit
+gpgcheck=1
+ignore_os=1
+
+[gsharpkit-testing]
+name=Fedora $releasever - $basearch - GSharpKit
+baseurl=http://yum.gsharpkit.org/testing/fedora-$releasever-$basearch/RPMS/
+enabled=0
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-gsharpkit
+gpgcheck=1
+

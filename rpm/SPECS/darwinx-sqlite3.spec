@@ -1,13 +1,13 @@
-%define ver 3080301
+%define ver 3200100
 
 Name:           darwinx-sqlite3
-Version:        3.8.3.1
+Version:        3.20.1.0
 Release:        1%{?dist}
 Summary:        SQL database engine.
 
 License:        GPLv3+ and LGPLv2+
 Group:          Development/Libraries
-URL:            http://www.gnutls.org/
+URL:            https://www.sqlite.org/
 Source0:        sqlite-autoconf-%{ver}.tar.gz
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 

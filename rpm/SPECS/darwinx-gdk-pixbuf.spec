@@ -1,12 +1,12 @@
 Name:           darwinx-gdk-pixbuf
-Version:        2.32.3
+Version:        2.36.11
 Release:        1%{?dist}
 Summary:        Cross compiled GDK Pixbuf library
 
 License:        LGPLv2+
 Group:          Development/Libraries
 URL:            http://www.gtk.org
-Source0:        http://download.gnome.org/sources/gdk-pixbuf/2.32/gdk-pixbuf-%{version}.tar.xz
+Source0:        http://download.gnome.org/sources/gdk-pixbuf/2.36/gdk-pixbuf-%{version}.tar.xz
 
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
@@ -58,8 +58,8 @@ Static version of the cross compiled %{name} library.
 %prep
 %setup -q -n gdk-pixbuf-%{version}
 
-%patch3 -p0
-%patch4 -p0
+#patch3 -p0
+#patch4 -p0
 
 
 %build
@@ -100,6 +100,7 @@ rm -rf $RPM_BUILD_ROOT
 %doc COPYING
 %{_darwinx_bindir}/gdk-pixbuf-pixdata
 %{_darwinx_bindir}/gdk-pixbuf-query-loaders
+%{_darwinx_bindir}/gdk-pixbuf-thumbnailer
 %dir %{_darwinx_libdir}/gdk-pixbuf-2.0
 %dir %{_darwinx_libdir}/gdk-pixbuf-2.0/2.10.0
 %dir %{_darwinx_libdir}/gdk-pixbuf-2.0/2.10.0/loaders
@@ -127,6 +128,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_darwinx_libdir}/pkgconfig/gdk-pixbuf-2.0.pc
 %{_darwinx_includedir}/gdk-pixbuf-2.0/
 %{_darwinx_datadir}/locale/
+%{_darwinx_datadir}/thumbnailers/gdk-pixbuf-thumbnailer.thumbnailer
 
 %files static
 %defattr(-,root,root,-)

@@ -1,5 +1,5 @@
 Name:           darwinx-cairo
-Version:        1.14.6
+Version:        1.14.12
 Release:        1%{?dist}
 Summary:        Darwin Cairo library
 

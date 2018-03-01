@@ -1,5 +1,5 @@
 Name:           darwinx-libogg
-Version:        1.3.0
+Version:        1.3.3
 Release:        1%{?dist}
 Summary:        The Ogg bitstream file format library
 License:        BSD

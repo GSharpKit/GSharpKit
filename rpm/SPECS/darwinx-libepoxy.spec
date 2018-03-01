@@ -1,13 +1,12 @@
 Name:           darwinx-libepoxy
-Version:        1.3.1
+Version:        1.4.3
 Release:        1%{?dist}
 Summary:        Epoxy is a library for handling OpenGL function pointer management for you.
 
 License:        LGPLv2+
 Group:          Development/Libraries
 URL:		https://github.com/anholt/libepoxy/releases
-Source0:        https://github.com/anholt/libepoxy/releases/libepoxy-%{version}.tar.gz
-Patch0:		libepoxy-nox11.patch
+Source0:        https://github.com/anholt/libepoxy/releases/libepoxy-%{version}.tar.xz
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:      noarch
 
@@ -39,10 +38,9 @@ Static version of the libepoxy library.
 
 %prep
 %setup -q -n libepoxy-%{version}
-%patch0 -p1
 
 %build
-NOCONFIGURE=1 sh autogen.sh
+#NOCONFIGURE=1 sh autogen.sh
 %{_darwinx_configure} --enable-static
 make %{?_smp_mflags}
 
@@ -63,6 +61,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_darwinx_libdir}/libepoxy.*.dylib
 %{_darwinx_libdir}/libepoxy.la
 %{_darwinx_libdir}/pkgconfig/epoxy.pc
+%{_darwinx_includedir}/epoxy/common.h
 %{_darwinx_includedir}/epoxy/gl.h
 %{_darwinx_includedir}/epoxy/gl_generated.h
 

@@ -1,0 +1,12 @@
+diff -Nur dbus-sharp-glib-0.6.orig/src/GLib.cs dbus-sharp-glib-0.6/src/GLib.cs
+--- dbus-sharp-glib-0.6.orig/src/GLib.cs	2013-10-07 01:49:54.000000000 +0200
++++ dbus-sharp-glib-0.6/src/GLib.cs	2017-11-17 09:05:03.073643772 +0100
+@@ -19,7 +19,7 @@
+ 			if (initialized)
+ 				return;
+ 
+-			Init (Bus.System);
++			//Init (Bus.System);
+ 			Init (Bus.Session);
+ 			//TODO: consider starter bus?
+ 

@@ -1,0 +1,21 @@
+diff -uprN monodevelop-2017.05.01.git.e5296061de.old/main/Makefile.am monodevelop-2017.05.01.git.e5296061de/main/Makefile.am
+--- monodevelop-2017.05.01.git.e5296061de.old/main/Makefile.am	2017-05-06 03:03:45.343305103 +0300
++++ monodevelop-2017.05.01.git.e5296061de/main/Makefile.am	2017-05-06 17:52:33.594105986 +0300
+@@ -13,7 +13,7 @@ buildinfo = $(top_builddir)/build/bin/bu
+
+ all: vcrevision
+
+-all-local: vcrevision restore-packages sln_build
++all-local: vcrevision sln_build
+
+ clean: clean-local
+
+@@ -22,7 +22,7 @@ clean-local: sln_clean
+ 	cd build && $(MAKE) clean
+
+ NUGET_FOUND = $$(echo $$(which nuget))
+-NUGET_RESTORE = mono external/nuget-binary/nuget.exe restore -DisableParallelProcessing;
++NUGET_RESTORE = mono .nuget/NuGet.exe restore -DisableParallelProcessing;
+
+ #FIXME: move the restore logic into MSBuild (Before.sln.targets),
+ #       see: https://github.com/kzu/NuGet.Restore

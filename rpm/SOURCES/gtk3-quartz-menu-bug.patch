@@ -1,0 +1,30 @@
+diff -ruN gtk+-3.22.26.old/gdk/gdkwindow.c gtk+-3.22.26.new/gdk/gdkwindow.c
+--- gtk+-3.22.26.old/gdk/gdkwindow.c	2017-10-26 12:23:40.000000000 +0200
++++ gtk+-3.22.26.new/gdk/gdkwindow.c	2017-11-20 01:46:52.000000000 +0100
+@@ -8531,6 +8531,26 @@
+ 
+   pointer_info = _gdk_display_get_pointer_info (display, device);
+ 
++  //HACK: workaround for a bug in the Quartz driver which causes i.e. menus to hang
++#if defined(__APPLE__)
++  /* It seems the Quartz driver is sometimes not handling crossing events
++     correctly (i.e. after menu popups, tooltips appeared), which causes
++     toplevel_under_pointer to point to an old toplevel window or even NULL,
++     and finally the respective relevent child widget under the mouse pointer
++     could not be resolved due to this, which caused i.e. menus to ignore all
++     mouse events. The following is a harsh way to ensure toplevel_under_pointer
++     is always pointing to the window under the current pointer location by
++     updating this whenever pointer info is accessed.
++  */
++  if (pointer_info) {
++    if (pointer_info->toplevel_under_pointer)
++      g_object_unref (pointer_info->toplevel_under_pointer);
++    GdkWindow* w =
++      _gdk_device_window_at_position (device, NULL, NULL, NULL, TRUE);
++    pointer_info->toplevel_under_pointer = w ? g_object_ref (w) : NULL;
++  }
++#endif
++
+   if (event_window == pointer_info->toplevel_under_pointer)
+     pointer_window =
+       _gdk_window_find_descendant_at (event_window,

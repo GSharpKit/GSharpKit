@@ -1,5 +1,5 @@
 Name:           darwinx-libxml2
-Version:        2.9.3
+Version:        2.9.7
 Release:        1%{?dist}
 Summary:        libxml2 is the official PNG reference library.
 

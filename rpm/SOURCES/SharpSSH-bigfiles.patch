@@ -1,0 +1,138 @@
+diff -Nur SharpSSH-1.1.1.13.src.orig/Examples/ConsoleProgressBar.cs SharpSSH-1.1.1.13.src/Examples/ConsoleProgressBar.cs
+--- SharpSSH-1.1.1.13.src.orig/Examples/ConsoleProgressBar.cs	2007-06-24 21:02:58.000000000 +0200
++++ SharpSSH-1.1.1.13.src/Examples/ConsoleProgressBar.cs	2011-02-09 11:44:53.323166741 +0100
+@@ -91,7 +91,7 @@
+ 		/// <param name="transferredBytes">The bytes already copied</param>
+ 		/// <param name="totalBytes">The total bytes to be copied</param>
+ 		/// <param name="message">A progress message</param>
+-		public void Update(int transferredBytes, int totalBytes, string message)
++		public void Update(Int64 transferredBytes, Int64 totalBytes, string message)
+ 		{
+ 			COORD cur = this.GetCursorPos();
+ 			this.SetCursorPos(barCoord.X, barCoord.Y);
+@@ -144,4 +144,4 @@
+ 			return s;
+ 		}
+ 	}
+-}
+\ Intet linjeskift ved filafslutning
++}
+diff -Nur SharpSSH-1.1.1.13.src.orig/Examples/sharpssh_samples/SshFileTransferTest.cs SharpSSH-1.1.1.13.src/Examples/sharpssh_samples/SshFileTransferTest.cs
+--- SharpSSH-1.1.1.13.src.orig/Examples/sharpssh_samples/SshFileTransferTest.cs	2007-06-24 21:02:58.000000000 +0200
++++ SharpSSH-1.1.1.13.src/Examples/sharpssh_samples/SshFileTransferTest.cs	2011-02-09 11:41:43.464392845 +0100
+@@ -102,14 +102,14 @@
+ 
+ 		static ConsoleProgressBar progressBar;
+ 
+-		private static void sshCp_OnTransferStart(string src, string dst, int transferredBytes, int totalBytes, string message)
++		private static void sshCp_OnTransferStart(string src, string dst, Int64 transferredBytes, Int64 totalBytes, string message)
+ 		{
+ 			Console.WriteLine();
+ 			progressBar = new ConsoleProgressBar();
+ 			progressBar.Update(transferredBytes, totalBytes, message);
+ 		}
+ 
+-		private static void sshCp_OnTransferProgress(string src, string dst, int transferredBytes, int totalBytes, string message)
++		private static void sshCp_OnTransferProgress(string src, string dst, Int64 transferredBytes, Int64 totalBytes, string message)
+ 		{
+ 			if(progressBar!=null)
+ 			{
+@@ -117,7 +117,7 @@
+ 			}
+ 		}
+ 
+-		private static void sshCp_OnTransferEnd(string src, string dst, int transferredBytes, int totalBytes, string message)
++		private static void sshCp_OnTransferEnd(string src, string dst, Int64 transferredBytes, Int64 totalBytes, string message)
+ 		{
+ 			if(progressBar!=null)
+ 			{
+diff -Nur SharpSSH-1.1.1.13.src.orig/SharpSSH/ITransferProtocol.cs SharpSSH-1.1.1.13.src/SharpSSH/ITransferProtocol.cs
+--- SharpSSH-1.1.1.13.src.orig/SharpSSH/ITransferProtocol.cs	2007-06-24 21:03:00.000000000 +0200
++++ SharpSSH-1.1.1.13.src/SharpSSH/ITransferProtocol.cs	2011-02-09 11:40:17.945276313 +0100
+@@ -57,5 +57,5 @@
+ 		event FileTransferEvent OnTransferProgress;
+ 	}
+ 
+-	public delegate void FileTransferEvent(string src, string dst, int transferredBytes, int totalBytes, string message);
++	public delegate void FileTransferEvent(string src, string dst, Int64 transferredBytes, Int64 totalBytes, string message);
+ }
+diff -Nur SharpSSH-1.1.1.13.src.orig/SharpSSH/Scp.cs SharpSSH-1.1.1.13.src/SharpSSH/Scp.cs
+--- SharpSSH-1.1.1.13.src.orig/SharpSSH/Scp.cs	2007-06-24 21:03:00.000000000 +0200
++++ SharpSSH-1.1.1.13.src/SharpSSH/Scp.cs	2011-02-09 11:40:17.945276313 +0100
+@@ -239,7 +239,7 @@
+ 			Channel channel=null;
+ 			Stream server = null;
+ 			m_cancelled=false;
+-			int filesize=0;
++			Int64 filesize=0;
+ 			String filename=null;
+ 			string cmd = null;
+ 
+@@ -417,10 +417,10 @@
+ 		/// <param name="dst">The remote destination path</param>
+ 		protected void SCP_SendFile(Stream server, string src, string dst)
+ 		{
+-			int filesize = 0;
+-			int copied = 0;
++			Int64 filesize = 0;
++			Int64 copied = 0;
+ 
+-			filesize=(int)(new FileInfo(src)).Length;				
++			filesize=(new FileInfo(src)).Length;				
+ 
+ 			byte[] tmp=new byte[1];
+ 
+@@ -473,19 +473,19 @@
+ 		/// <param name="server">A connected server I/O stream</param>
+ 		/// <param name="rfile">The remote file to copy</param>
+ 		/// <param name="lfile">The local destination path</param>
+-		protected void SCP_ReceiveFile(Stream server, string rfile, string lfile, int size)
++		protected void SCP_ReceiveFile(Stream server, string rfile, string lfile, Int64 size)
+ 		{
+-			int copied = 0;
++			Int64 copied = 0;
+ 			SendStartMessage(rfile, lfile, size, "Connected, starting transfer.");
+ 			// read a content of lfile
+ 			FileStream fos=File.OpenWrite(lfile);
+ 			int foo;
+-			int filesize=size;
++			Int64 filesize=size;
+ 			byte[] buf = new byte[1024];
+ 			while(!m_cancelled)
+ 			{
+ 				if(buf.Length<filesize) foo=buf.Length;
+-				else foo=filesize;
++				else foo=(int)filesize;
+ 				int len=server.Read(buf, 0, foo);
+ 				copied += len;
+ 				fos.Write(buf, 0, foo);
+diff -Nur SharpSSH-1.1.1.13.src.orig/SharpSSH/SshTransferProtocolBase.cs SharpSSH-1.1.1.13.src/SharpSSH/SshTransferProtocolBase.cs
+--- SharpSSH-1.1.1.13.src.orig/SharpSSH/SshTransferProtocolBase.cs	2007-06-24 21:03:00.000000000 +0200
++++ SharpSSH-1.1.1.13.src/SharpSSH/SshTransferProtocolBase.cs	2011-02-09 11:40:17.946276152 +0100
+@@ -73,7 +73,7 @@
+ 		/// <param name="dst">Transfer destination</param>
+ 		/// <param name="totalBytes">Total bytes to transfer</param>
+ 		/// <param name="msg">A transfer message</param>
+-		protected void SendStartMessage(string src, string dst, int totalBytes, string msg)
++		protected void SendStartMessage(string src, string dst, Int64 totalBytes, string msg)
+ 		{
+ 			if (OnTransferStart != null)
+ 				OnTransferStart(src, dst, 0, totalBytes, msg);
+@@ -87,7 +87,7 @@
+ 		/// <param name="transferredBytes">Transferred Bytes</param>
+ 		/// <param name="totalBytes">Total bytes to transfer</param>
+ 		/// <param name="msg">A transfer message</param>
+-		protected void SendEndMessage(string src, string dst, int transferredBytes, int totalBytes, string msg)
++		protected void SendEndMessage(string src, string dst, Int64 transferredBytes, Int64 totalBytes, string msg)
+ 		{
+ 			if (OnTransferEnd != null)
+ 				OnTransferEnd(src, dst, transferredBytes, totalBytes, msg);
+@@ -101,7 +101,7 @@
+ 		/// <param name="transferredBytes">Transferred Bytes</param>
+ 		/// <param name="totalBytes">Total bytes to transfer</param>
+ 		/// <param name="msg">A transfer message</param>
+-		protected void SendProgressMessage(string src, string dst, int transferredBytes, int totalBytes, string msg)
++		protected void SendProgressMessage(string src, string dst, Int64 transferredBytes, Int64 totalBytes, string msg)
+ 		{
+ 			if (OnTransferProgress != null)
+ 			{

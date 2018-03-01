@@ -1,5 +1,5 @@
 Name:           darwinx-pango
-Version:        1.40.1
+Version:        1.40.14
 Release:        1%{?dist}
 Summary:        Darwin Pango library
 

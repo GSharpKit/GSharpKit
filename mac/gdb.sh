@@ -12,4 +12,4 @@ cd gdb-7.6
 ./configure --prefix=$PREFIX --exec-prefix=$PREFIX --enable-targets=x86_64-apple-darwin13.0.0 --enable-64-bit-bfd --disable-werror --build=x86_64-apple-darwin13.0.0 --host=x86_64-apple-darwin13.0.0 --target=x86_64-apple-darwin13.0.0
 make
 sudo make install
-sudo ln -s $SYMLINK/bin/gdb /usr/bin/gdb
+sudo ln -s $SYMLINK/bin/gdb /usr/local/bin/gdb

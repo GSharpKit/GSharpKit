@@ -1,5 +1,5 @@
 Name:           darwinx-libffi
-Version:        3.0.13
+Version:        3.1
 Release:        1%{?dist}
 Summary:        A portable foreign function interface library
 

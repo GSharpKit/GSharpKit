@@ -1,0 +1,17 @@
+diff -Nur mono-3.6.0.orig/mono/mini/genmdesc.pl mono-3.6.0/mono/mini/genmdesc.pl
+--- mono-3.6.0.orig/mono/mini/genmdesc.pl	2014-08-09 13:10:44.000000000 +0200
++++ mono-3.6.0/mono/mini/genmdesc.pl	2014-08-25 09:09:25.215136534 +0200
+@@ -89,9 +89,10 @@
+ 		$arch_define = "TARGET_ARM64";
+ 	}
+ 
+-	parse_file ($arch_define, "$srcdir/mini-ops.h");
+-	return;
+-	$cpp .= " -D$arch_define $srcdir/mini-ops.h|";
++	#parse_file ($arch_define, "$srcdir/mini-ops.h");
++	#return;
++
++	$cpp .= " -DMONO_ARCH_SIMD_INTRINSICS -D$arch_define $srcdir/mini-ops.h|";
+ 	#print "Running: $cpp\n";
+ 	open (OPS, $cpp) || die "Cannot execute cpp: $!";
+ 	while (<OPS>) {
