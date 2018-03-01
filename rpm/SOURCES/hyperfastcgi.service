@@ -1,0 +1,14 @@
+[Unit]
+Description=HyperFastCGI service
+
+[Service]
+Type=simple
+User=nginx
+Group=nginx
+ExecStart=/usr/bin/hyperfastcgi4 /config=/etc/hyperfastcgi/hfc.config /loglevels=Standard /logfile=/var/log/hyperfastcgi/hfc.log
+Restart=on-failure
+TimeoutStopSec=5
+
+[Install]
+WantedBy=multi-user.target
+

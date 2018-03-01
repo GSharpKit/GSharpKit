@@ -9,12 +9,11 @@
 %define enable_autoreconf 0
 
 Name:           mingw-gtk3
-Version:        3.20.9
-Release:        2%{?dist}
+Version:        3.22.7
+Release:        1%{?dist}
 Summary:        MinGW Windows GTK+ library
 
 License:        LGPLv2+
-Group:          Development/Libraries
 URL:            http://www.gtk.org
 Source0:        http://download.gnome.org/sources/gtk+/%{release_version}/gtk+-%{version}.tar.xz
 # wine gtk-query-immodules-3.0.exe | sed -e 's@Z:/usr/i686-w64-mingw32/sys-root/mingw@..@' -e 's@/usr/i686-w64-mingw32/sys-root/mingw@..@' > gtk.immodules
@@ -79,7 +78,8 @@ This package contains the MinGW Windows cross compiled GTK+ 3 library.
 %package -n mingw32-gtk3
 Summary:        MinGW Windows GTK+ library
 Requires:       mingw32-adwaita-icon-theme
-Requires:       pkgconfig
+# split out in a subpackage
+Requires:       mingw32-gtk-update-icon-cache
 # Fix upgrade path for people upgrading from the mingw-w64 testing repository
 Obsoletes:      mingw32-gtk3-static < 3.3.14-3
 
@@ -92,10 +92,25 @@ suites.
 This package contains the MinGW Windows cross compiled GTK+ 3 library.
 
 
+%package -n mingw32-gtk-update-icon-cache
+Summary: Icon theme caching utility
+# gtk-update-icon-cache used to be shipped in the mingw-gtk3 package
+Conflicts: mingw32-gtk3 < 3.22.2
+
+%description -n mingw32-gtk-update-icon-cache
+GTK+ can use the cache files created by gtk-update-icon-cache to avoid a lot of
+system call and disk seek overhead when the application starts. Since the
+format of the cache files allows them to be mmap()ed shared between multiple
+applications, the overall memory consumption is reduced as well.
+
+This package contains the MinGW Windows cross compiled gtk-update-icon-cache.
+
+
 %package -n mingw64-gtk3
 Summary:        MinGW Windows GTK+ library
 Requires:       mingw64-adwaita-icon-theme
-Requires:       pkgconfig
+# split out in a subpackage
+Requires:       mingw64-gtk-update-icon-cache
 # Fix upgrade path for people upgrading from the mingw-w64 testing repository
 Obsoletes:      mingw64-gtk3-static < 3.3.14-3
 
@@ -106,6 +121,20 @@ projects ranging from small one-off tools to complete application
 suites.
 
 This package contains the MinGW Windows cross compiled GTK+ 3 library.
+
+
+%package -n mingw64-gtk-update-icon-cache
+Summary: Icon theme caching utility
+# gtk-update-icon-cache used to be shipped in the mingw-gtk3 package
+Conflicts: mingw64-gtk3 < 3.22.2
+
+%description -n mingw64-gtk-update-icon-cache
+GTK+ can use the cache files created by gtk-update-icon-cache to avoid a lot of
+system call and disk seek overhead when the application starts. Since the
+format of the cache files allows them to be mmap()ed shared between multiple
+applications, the overall memory consumption is reduced as well.
+
+This package contains the MinGW Windows cross compiled gtk-update-icon-cache.
 
 
 %?mingw_debug_package
@@ -120,7 +149,6 @@ autoreconf --install --force
 
 %build
 %mingw_configure \
-  --enable-debug=yes \
   --disable-cups
 
 %mingw_make %{?_smp_mflags} V=1
@@ -200,7 +228,6 @@ fi
 %{mingw32_bindir}/gtk-launch.exe
 %{mingw32_bindir}/gtk-query-immodules-3.0.exe
 %{mingw32_bindir}/gtk-query-settings.exe
-%{mingw32_bindir}/gtk-update-icon-cache.exe
 %{mingw32_bindir}/libgdk-3-0.dll
 %{mingw32_bindir}/libgailutil-3-0.dll
 %{mingw32_bindir}/libgtk-3-0.dll
@@ -239,6 +266,10 @@ fi
 %{mingw32_datadir}/gtk-3.0/
 %{mingw32_datadir}/themes/*
 
+%files -n mingw32-gtk-update-icon-cache
+%license COPYING
+%{mingw32_bindir}/gtk-update-icon-cache.exe
+
 %files -n mingw64-gtk3 -f mingw64-%{name}.lang
 %license COPYING
 %{mingw64_bindir}/gtk3-demo-application.exe
@@ -250,7 +281,6 @@ fi
 %{mingw64_bindir}/gtk-launch.exe
 %{mingw64_bindir}/gtk-query-immodules-3.0.exe
 %{mingw64_bindir}/gtk-query-settings.exe
-%{mingw64_bindir}/gtk-update-icon-cache.exe
 %{mingw64_bindir}/libgdk-3-0.dll
 %{mingw64_bindir}/libgailutil-3-0.dll
 %{mingw64_bindir}/libgtk-3-0.dll
@@ -289,8 +319,29 @@ fi
 %{mingw64_datadir}/gtk-3.0/
 %{mingw64_datadir}/themes/*
 
+%files -n mingw64-gtk-update-icon-cache
+%license COPYING
+%{mingw64_bindir}/gtk-update-icon-cache.exe
+
 
 %changelog
+* Mon Oct 24 2016 Kalev Lember <klember@redhat.com> - 3.22.2-1
+- Update to 3.22.2
+- Split out gtk-update-icon-cache.exe in a subpackage
+
+* Fri Oct 07 2016 Kalev Lember <klember@redhat.com> - 3.22.1-1
+- Update to 3.22.1
+
+* Fri Sep 23 2016 Kalev Lember <klember@redhat.com> - 3.22.0-1
+- Update to 3.22.0
+- Don't set group tags
+
+* Thu Aug 18 2016 Kalev Lember <klember@redhat.com> - 3.20.9-1
+- Update to 3.20.9
+
+* Wed Aug 10 2016 Kalev Lember <klember@redhat.com> - 3.20.8-1
+- Update to 3.20.8
+
 * Mon May 23 2016 Kalev Lember <klember@redhat.com> - 3.20.6-1
 - Update to 3.20.6
 

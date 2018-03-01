@@ -1,0 +1,20 @@
+diff -uprN monodevelop-2017.08.01.git.23dbfec46c.old/main/src/core/MonoDevelop.Core/MonoDevelop.Core.csproj monodevelop-2017.08.01.git.23dbfec46c/main/src/core/MonoDevelop.Core/MonoDevelop.Core.csproj
+--- monodevelop-2017.08.01.git.23dbfec46c.old/main/src/core/MonoDevelop.Core/MonoDevelop.Core.csproj	2017-08-08 14:49:33.664190082 +0300
++++ monodevelop-2017.08.01.git.23dbfec46c/main/src/core/MonoDevelop.Core/MonoDevelop.Core.csproj	2017-08-08 15:17:54.216190082 +0300
+@@ -797,13 +797,13 @@
+   <Target Name="BeforeBuild" Inputs="BuildVariables.cs.in; $(MSBuildProjectDirectory)\..\..\..\..\version.config" Outputs="BuildVariables.cs">
+     <MakeDir Directories="$(FullBuildInfo)" />
+     <Csc Sources="$(ConfigureScript)" OutputAssembly="$(ConfigureScriptExe)" ToolExe="$(CscToolExe)" ToolPath="$(CscToolPath)" Condition="!Exists('$(ConfigureScriptExe)')" />
+-    <Exec Command="$(MonoLauncher)$(ConfigureScriptExe) gen-buildinfo $(FullBuildInfo)" WorkingDirectory="$(MSBuildProjectDirectory)" />
++    <Exec Command="cp ../../../buildinfo $(FullBuildInfo)" WorkingDirectory="$(MSBuildProjectDirectory)" />
+     <Csc Sources="BuildVariables.gen.cs" OutputAssembly="BuildVariables.gen.exe" ToolExe="$(CscToolExe)" ToolPath="$(CscToolPath)" />
+     <Exec Command="$(MonoLauncher)$(MSBuildProjectDirectory)\BuildVariables.gen.exe ." WorkingDirectory="$(MSBuildProjectDirectory)" />
+     <Delete Files="BuildVariables.gen.exe" />
+     <MakeDir Directories="$(OutputPath)" />
+-    <Exec Command="&quot;$(Git)&quot; rev-parse HEAD &gt; $(BuildInfo)" WorkingDirectory="$(MSBuildProjectDirectory)" IgnoreExitCode="True" />
+-    <Exec Command="&quot;$(Git)&quot; rev-parse HEAD &gt; $(VcRevision)" WorkingDirectory="$(MSBuildProjectDirectory)" IgnoreExitCode="True" />
++    <Exec Command="&quot;echo&quot; 23dbfec46cc34a04c0b4d31238f0a545418724c3 &gt; $(BuildInfo)" WorkingDirectory="$(MSBuildProjectDirectory)" IgnoreExitCode="True" />
++    <Exec Command="&quot;echo&quot; 23dbfec46cc34a04c0b4d31238f0a545418724c3 &gt; $(VcRevision)" WorkingDirectory="$(MSBuildProjectDirectory)" IgnoreExitCode="True" />
+     <RemoveDir Directories="$(FullBuildInfo)" />
+   </Target>
+ </Project>

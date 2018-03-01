@@ -1,0 +1,11 @@
+--- dotnet.bootstrap.py	2017-02-17 22:55:43.000000000 +0100
++++ dotnet.bootstrap.py.patched	2017-02-19 18:40:41.994792024 +0100
+@@ -503,7 +503,7 @@
+     libuv_working_git_directory         = path.join(RoverSettings._srcDirectory, 'libuv')
+ 
+     default_coreclr_bin_directory       = '%s/bin/Product/Linux.x64.Release/'%(coreclr_working_git_directory)
+-    default_corefx_native_bin_directory = '%s/bin/Linux.x64.Release/Native'%(corefx_working_git_directory)
++    default_corefx_native_bin_directory = '%s/bin/Linux.x64.Release/native'%(corefx_working_git_directory)
+     default_core_setup_cli_bin_directory= '%s/src/corehost/cli'%(core_setup_working_git_directory)
+     default_libuv_bin_directory         = '%s/.libs'%(libuv_working_git_directory)
+ 

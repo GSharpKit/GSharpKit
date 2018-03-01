@@ -7,17 +7,20 @@
 %define debug_package %{nil}
 
 Name:			mingw-dbus-sharp
-Version:		0.9.1
-Release:		2%{?dist}
+Version:		0.9.2
+Release:		1%{?dist}
+Epoch:			2
 Summary:		Managed C# implementation of DBus
 License:		MIT
 Group:			System Environment/Libraries
 URL:			https://github.com/mono/dbus-sharp
-Source0:		dbus-sharp-%{version}.tar.xz
+Source0:		dbus-sharp-%{version}.tar.gz
 BuildRoot:		%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch: 		noarch
+
+BuildRequires:          msbuild
 BuildRequires:		mono-devel
-Requires:		mono-core
+BuildRequires:		mono-core
 
 %description
 Managed C# implementation of DBus
@@ -50,11 +53,16 @@ Managed C# implementation of DBus
 %setup -q -n dbus-sharp-%{version}
 
 %build
+sh autogen.sh
 make distclean
 %mingw_configure
 
+cp build_win32/src/AssemblyInfo.cs src/
+
 %mingw_make %{?_smp_mflags} V=1
 
+cp src/dbus-sharp.dll build_win32/src/
+cp src/dbus-sharp.dll build_win64/src/
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -63,7 +71,7 @@ rm -rf $RPM_BUILD_ROOT
 rm -f $RPM_BUILD_ROOT%{mingw32_libdir}/mono/gac/dbus-sharp/*/*.dll.config
 
 %clean
-#rm -rf $RPM_BUILD_ROOT
+rm -rf $RPM_BUILD_ROOT
 
 %files -n mingw32-%{mingw_pkg_name}
 %defattr(-,root,root,-)

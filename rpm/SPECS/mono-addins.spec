@@ -1,5 +1,5 @@
 Name:		mono-addins
-Version:	1.3
+Version:	1.3.3
 Release:	1%{?dist}
 Summary:	Addins for mono
 Group:		Development/Languages
@@ -20,11 +20,16 @@ and for creating libraries which extend those applications.
 
 %prep
 %setup -q -n mono-addins-mono-addins-%{version}
+sh autogen.sh --prefix=%{prefix} --disable-gui
 
 %build
-sh autogen.sh --prefix=%{prefix} --disable-gui
-#./configure --prefix=%{prefix} --disable-gui
 make
+
+sn -R bin/Mono.Addins.CecilReflector.dll mono-addins.snk
+sn -R bin/Mono.Addins.dll mono-addins.snk
+sn -R bin/Mono.Addins.MSBuild.dll mono-addins.snk
+sn -R bin/Mono.Addins.Setup.dll mono-addins.snk
+
 
 %install
 %{__rm} -rf %{buildroot}
@@ -41,27 +46,27 @@ rm -rf $RPM_BUILD_ROOT%{prefix}/lib/pkgconfig
 %defattr(-,root,root,-)
 %{_bindir}/mautil
 %{prefix}/lib/mono/mono-addins
-#%{prefix}/lib/mono/gac/Mono.Addins.Gui
+#{prefix}/lib/mono/gac/Mono.Addins.Gui
 %{prefix}/lib/mono/gac/Mono.Addins.Setup
 %{prefix}/lib/mono/gac/Mono.Addins
 %{prefix}/lib/mono/gac/Mono.Addins.CecilReflector
-#%{prefix}/lib/mono/gac/policy.0.2.Mono.Addins.Gui
+#{prefix}/lib/mono/gac/policy.0.2.Mono.Addins.Gui
 %{prefix}/lib/mono/gac/policy.0.2.Mono.Addins.Setup
 %{prefix}/lib/mono/gac/policy.0.2.Mono.Addins
 %{prefix}/lib/mono/gac/policy.0.2.Mono.Addins.CecilReflector
-#%{prefix}/lib/mono/gac/policy.0.3.Mono.Addins.Gui
+#{prefix}/lib/mono/gac/policy.0.3.Mono.Addins.Gui
 %{prefix}/lib/mono/gac/policy.0.3.Mono.Addins.Setup
 %{prefix}/lib/mono/gac/policy.0.3.Mono.Addins
 %{prefix}/lib/mono/gac/policy.0.3.Mono.Addins.CecilReflector
-#%{prefix}/lib/mono/gac/policy.0.4.Mono.Addins.Gui
+#{prefix}/lib/mono/gac/policy.0.4.Mono.Addins.Gui
 %{prefix}/lib/mono/gac/policy.0.4.Mono.Addins.Setup
 %{prefix}/lib/mono/gac/policy.0.4.Mono.Addins
 %{prefix}/lib/mono/gac/policy.0.4.Mono.Addins.CecilReflector
-#%{prefix}/lib/mono/gac/policy.0.5.Mono.Addins.Gui
+#{prefix}/lib/mono/gac/policy.0.5.Mono.Addins.Gui
 %{prefix}/lib/mono/gac/policy.0.5.Mono.Addins.Setup
 %{prefix}/lib/mono/gac/policy.0.5.Mono.Addins
 %{prefix}/lib/mono/gac/policy.0.5.Mono.Addins.CecilReflector
-#%{prefix}/lib/mono/gac/policy.0.6.Mono.Addins.Gui
+#{prefix}/lib/mono/gac/policy.0.6.Mono.Addins.Gui
 %{prefix}/lib/mono/gac/policy.0.6.Mono.Addins.Setup
 %{prefix}/lib/mono/gac/policy.0.6.Mono.Addins
 %{prefix}/lib/mono/gac/policy.0.6.Mono.Addins.CecilReflector
@@ -75,6 +80,9 @@ rm -rf $RPM_BUILD_ROOT%{prefix}/lib/pkgconfig
 %{_datadir}/pkgconfig/mono-addins*
 
 %changelog
+* Fri Nov 17 2017 Mikkel Kruse Johnsen <mikkel@xmedicus.com> - 1.3.3-1
+- Updated to 1.3.3
+
 * Thu Jun 03 2010 Mikkel Kruse Johnsen <mikkel@linet.dk> - 0.5-1
 - Updated to 0.5
 

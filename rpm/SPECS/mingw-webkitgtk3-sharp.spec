@@ -39,7 +39,7 @@ WebKit-sharp is .NET bindings for the WebKit rendering engine.
 Summary:        %{summary}
 Requires:       mingw32-glib2
 Requires:       mingw32-webkitgtk3
-Requires:       mingw32-mono >= 3.12
+Requires:       mingw32-mono-core >= 3.12
 
 %description -n mingw32-%{mingw_pkg_name}
 WebKit-sharp is .NET bindings for the WebKit rendering engine.
@@ -50,7 +50,7 @@ WebKit-sharp is .NET bindings for the WebKit rendering engine.
 Summary:        %{summary}
 Requires:       mingw64-glib2
 Requires:       mingw64-webkitgtk3
-Requires:       mingw64-mono >= 3.12
+Requires:       mingw64-mono-core >= 3.12
 
 %description -n mingw64-%{mingw_pkg_name}
 WebKit-sharp is .NET bindings for the WebKit rendering engine.

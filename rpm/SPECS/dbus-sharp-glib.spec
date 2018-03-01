@@ -1,14 +1,15 @@
+%define pkg_version 0.6
+
 Name:		dbus-sharp-glib
 URL:		http://www.ndesk.org/DBusSharp
 License:	MIT
 Group:		Development/Libraries
 Version:	0.6.0
-Release:	3%{?dist}
+Release:	5%{?dist}
 Summary:	Provides glib mainloop integration for dbus-sharp
-Source0:	http://www.ndesk.org/archive/dbus-sharp/dbus-sharp-glib-%{version}.tar.gz
-Source1:	autogen.sh
-Patch0:		ndesk-dbus-glib-0.4.2.patch
-Patch1:		dbus-sharp-glib-0.6.0-mcs.patch
+Source0:	https://github.com/mono/dbus-sharp-glib/releases/dbus-sharp-glib-%{pkg_version}.tar.gz
+#Patch0:	dbus-sharp-glib-0.6-nosystembus.patch
+Patch1:		dbus-sharp-glib-0.6-mcs.patch
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Prefix:		/usr
 
@@ -16,9 +17,9 @@ BuildArch: 	noarch
 
 BuildRequires:	mono-core 
 BuildRequires:	mono-devel
-BuildRequires:	dbus-sharp >= 1:0.8.0
+BuildRequires:	dbus-sharp >= 2:0.9.1
 
-Requires:       dbus-sharp >= 1:0.8.0
+Requires:       dbus-sharp >= 2:0.9.1
 
 Obsoletes:      dbus-sharp-glib-devel
 Provides:       dbus-sharp-glib-devel
@@ -30,12 +31,11 @@ Obsoletes:      ndesk-dbus-glib-devel
 dbus-sharp-glib provides glib mainloop integration for dbus-sharp
 
 %prep
-%setup -q
-%patch0 -p1
+%setup -q -n dbus-sharp-glib-%{pkg_version}
+#patch0 -p1
 %patch1 -p1
 
 %build
-cp %{SOURCE1} .
 sh autogen.sh
 ./configure --prefix=%{prefix}
 make

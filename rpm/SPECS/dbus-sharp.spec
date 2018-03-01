@@ -1,18 +1,18 @@
 Name:			dbus-sharp
-Version:		0.9.0
-Release:		4%{?dist}
-Epoch:			1
+Epoch: 			2
+Version:		0.9.2
+Release:		1%{?dist}
 Summary:		Managed C# implementation of DBus
 License:		MIT
 Group:			System Environment/Libraries
 URL:			http://www.ndesk.org/DBusSharp
-Source0:		http://www.ndesk.org/archive/dbus-sharp/dbus-sharp-%{version}.tar.xz
-Patch0:			dbus-sharp-0.9.0-mcs.patch
+Source0:		http://www.ndesk.org/archive/dbus-sharp/dbus-sharp-%{version}.tar.gz
 BuildRoot:		%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Prefix:			/usr
 
 BuildArch: 		noarch
 
+BuildRequires:		msbuild
 BuildRequires:		mono-devel
 Requires:		mono-core
 
@@ -27,9 +27,9 @@ Managed C# implementation of DBus
 
 %prep
 %setup -q -n dbus-sharp-%{version}
-%patch0 -p1
 
 %build
+sh autogen.sh --prefix=%{prefix}
 ./configure --prefix=%{prefix}
 
 sed -i -e 's!#define HAVE_CMSGCRED!//#define HAVE_CMSGCRED!g' src/Transports/UnixNativeTransport.cs
@@ -54,6 +54,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/pkgconfig/dbus-sharp-2.0.pc
 
 %changelog
+* Wed Oct 04 2017 Mikkel Kruse Johnsen <mikkel@xmedicus.com> - 0.9.1-1
+- Updated to 0.9.1 with MSBuild
+
 * Sat May 30 2009 Xavier Lamien <laxathom@fedoraproject.org> - 0.6-1a-6
 - Fix pkconfig.
 

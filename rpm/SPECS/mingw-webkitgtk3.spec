@@ -2,6 +2,8 @@
 
 %global mingw_build_win64 1
 
+%define rel_version 2.4.11
+
 ## NOTE: Lots of files in various subdirectories have the same name (such as
 ## "LICENSE") so this short macro allows us to distinguish them by using their
 ## directory names (from the source tree) as prefixes for the files.
@@ -13,22 +15,22 @@
     cp -p %1  %{buildroot}%{_docdir}/mingw64-webkitgtk3/$(echo '%1' | sed -e 's!/!.!g')
 
 Name:           mingw-webkitgtk3
-Version:        2.4.11
-Release:        3%{?dist}
+Version:        2.4.12
+Release:        1%{?dist}
 Summary:        MinGW Windows GTK+ Web content engine library
 
 Group:          Development/Libraries
 License:        LGPLv2+ and BSD
 URL:            http://webkit.org/
 
-Source0:        http://webkitgtk.org/releases/webkitgtk-%{version}.tar.xz
+Source0:        http://webkitgtk.org/releases/webkitgtk-%{rel_version}.tar.xz
 # Fix the build with GCC 6
 Patch0:         webkitgtk-2.4.9-abs.patch
 # Fix llint build with mingw64, patch taken from
 # https://github.com/Alexpux/MINGW-packages/blob/master/mingw-w64-webkitgtk3/0101-webkitgtk-2.4.3-gcc-asm.all.patch
 Patch1:         webkitgtk-2.4.3-gcc-asm.all.patch
 # https://bugs.webkit.org/show_bug.cgi?id=143563
-Patch2:		webkitgtk-2.4.11-print-windows-scaled.patch
+Patch2:         webkitgtk-2.4.11-print-windows-scaled.patch
 
 BuildArch:      noarch
 
@@ -36,8 +38,9 @@ BuildRequires:  bison
 BuildRequires:  flex
 BuildRequires:  gettext
 BuildRequires:  gperf
-BuildRequires:  perl
+BuildRequires:  perl-interpreter
 BuildRequires:  perl(Getopt::Long)
+BuildRequires:  python2
 BuildRequires:  ruby
 BuildRequires:  rubygems
 
@@ -120,7 +123,7 @@ This is the MinGW port of WebKitGTK+ for GTK+ 3.
 
 
 %prep
-%setup -qn "webkitgtk-%{version}"
+%setup -qn "webkitgtk-%{rel_version}"
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
@@ -215,6 +218,19 @@ find $RPM_BUILD_ROOT -name "*.la" -delete
 
 
 %changelog
+* Wed Jul 26 2017 Fedora Release Engineering <releng@fedoraproject.org> - 2.4.11-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_27_Mass_Rebuild
+
+* Fri Feb 10 2017 Fedora Release Engineering <releng@fedoraproject.org> - 2.4.11-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_26_Mass_Rebuild
+
+* Wed Feb 01 2017 Sandro Mani <manisandro@gmail.com> - 2.4.11-3
+- Rebuild (libwebp)
+- Add missing BR: python2
+
+* Mon Oct 24 2016 Kalev Lember <klember@redhat.com> - 2.4.11-2
+- Rebuilt for mingw-icu 57
+
 * Sun Apr 17 2016 Kalev Lember <klember@redhat.com> - 2.4.11-1
 - Update to 2.4.11
 

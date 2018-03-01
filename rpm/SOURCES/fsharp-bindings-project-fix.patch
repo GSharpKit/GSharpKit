@@ -1,0 +1,12 @@
+diff -uprN monodevelop-2017.05.08.git.dbfa162a52.old/main/external/fsharpbinding/MonoDevelop.FSharpBinding/MonoDevelop.FSharp.fsproj monodevelop-2017.05.08.git.dbfa162a52/main/external/fsharpbinding/MonoDevelop.FSharpBinding/MonoDevelop.FSharp.fsproj
+--- monodevelop-2017.05.08.git.dbfa162a52.old/main/external/fsharpbinding/MonoDevelop.FSharpBinding/MonoDevelop.FSharp.fsproj	2017-05-08 18:15:35.504927085 +0300
++++ monodevelop-2017.05.08.git.dbfa162a52/main/external/fsharpbinding/MonoDevelop.FSharpBinding/MonoDevelop.FSharp.fsproj	2017-05-08 21:11:43.711199153 +0300
+@@ -72,7 +72,7 @@
+         <Version>4.3.0</Version>
+       </NuGetPackage>
+     </ItemGroup>
+-    <Copy SourceFiles="..\packages\%(NuGetPackage.Name)\%(NuGetPackage.Name).%(NuGetPackage.Version).nupkg" DestinationFolder="$(OutputPath)/Packages" />
++    <Copy SourceFiles="..\packages\%(NuGetPackage.Name)\%(NuGetPackage.Name).nupkg" DestinationFolder="$(OutputPath)/Packages/%(NuGetPackage.Name).%(NuGetPackage.Version).nupkg" />
+   </Target>
+   <Target Name="AfterBuild">
+   </Target>

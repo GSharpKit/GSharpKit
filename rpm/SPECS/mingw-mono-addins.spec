@@ -7,7 +7,7 @@
 %define debug_package %{nil}
 
 Name:		mingw-mono-addins
-Version:	1.3
+Version:	1.3.3
 Release:	1%{?dist}
 Summary:	Addins for mono
 Group:		Development/Languages
@@ -30,7 +30,7 @@ and for creating libraries which extend those applications.
 %package -n mingw32-%{mingw_pkg_name}
 Summary:        %{summary}
 Requires:       mingw32-glib2
-Requires:       mingw32-mono >= 2.11
+Requires:       mingw32-mono-core >= 4.8
 
 %description -n mingw32-%{mingw_pkg_name}
 Mono.Addins is a generic framework for creating extensible applications,
@@ -40,7 +40,7 @@ and for creating libraries which extend those applications.
 %package -n mingw64-%{mingw_pkg_name}
 Summary:        %{summary}
 Requires:       mingw64-glib2
-Requires:       mingw64-mono >= 3.8
+Requires:       mingw64-mono-core >= 4.8
 
 %description -n mingw64-%{mingw_pkg_name}
 Mono.Addins is a generic framework for creating extensible applications,
@@ -93,18 +93,35 @@ sed -i -e 's!Compile Include="!Compile Include="../../Mono.Addins.Gui/!' build_w
 sed -i -e 's!Compile Include="!Compile Include="../../Mono.Addins.MSBuild/!' build_win64/Mono.Addins.MSBuild/Mono.Addins.MSBuild.csproj
 sed -i -e 's!Compile Include="!Compile Include="../../Mono.Addins.Setup/!' build_win64/Mono.Addins.Setup/Mono.Addins.Setup.csproj
 
-
 %mingw_make
+
+sn -R build_win32/bin/Mono.Addins.CecilReflector.dll mono-addins.snk
+sn -R build_win32/bin/Mono.Addins.dll mono-addins.snk
+sn -R build_win32/bin/Mono.Addins.MSBuild.dll mono-addins.snk
+sn -R build_win32/bin/Mono.Addins.Setup.dll mono-addins.snk
+
+sn -R build_win64/bin/Mono.Addins.CecilReflector.dll mono-addins.snk
+sn -R build_win64/bin/Mono.Addins.dll mono-addins.snk
+sn -R build_win64/bin/Mono.Addins.MSBuild.dll mono-addins.snk
+sn -R build_win64/bin/Mono.Addins.Setup.dll mono-addins.snk
 
 %install
 %{__rm} -rf %{buildroot}
 %mingw_make_install program_transform_name="" DESTDIR=$RPM_BUILD_ROOT
 
+# Mingw32
 %{__rm} -f $RPM_BUILD_ROOT%{mingw32_bindir}/mautil
 %{__mv} $RPM_BUILD_ROOT%{mingw32_libdir}/mono/mono-addins/mautil.exe $RPM_BUILD_ROOT%{mingw32_bindir}/
 
+%{__mv} $RPM_BUILD_ROOT%{mingw32_libdir}/pkgconfig $RPM_BUILD_ROOT%{mingw32_prefix}/share/
+
+# Mingw64
 %{__rm} -f $RPM_BUILD_ROOT%{mingw64_bindir}/mautil
 %{__mv} $RPM_BUILD_ROOT%{mingw64_libdir}/mono/mono-addins/mautil.exe $RPM_BUILD_ROOT%{mingw64_bindir}/
+
+%{__mv} $RPM_BUILD_ROOT%{mingw64_libdir}/pkgconfig $RPM_BUILD_ROOT%{mingw64_prefix}/share/
+
+
 
 
 %clean
@@ -145,7 +162,7 @@ sed -i -e 's!Compile Include="!Compile Include="../../Mono.Addins.Setup/!' build
 %{mingw32_libdir}/mono/gac/policy.0.6.Mono.Addins.CecilReflector
 %{mingw32_libdir}/mono/gac/policy.0.6.Mono.Addins.MSBuild
 %{mingw32_mandir}/man1/mautil.1
-%{mingw32_libdir}/pkgconfig/mono-addins*
+%{mingw32_datadir}/pkgconfig/mono-addins*
 
 %files -n mingw64-%{mingw_pkg_name}
 %defattr(-,root,root,-)
@@ -182,7 +199,7 @@ sed -i -e 's!Compile Include="!Compile Include="../../Mono.Addins.Setup/!' build
 %{mingw64_libdir}/mono/gac/policy.0.6.Mono.Addins.CecilReflector
 %{mingw64_libdir}/mono/gac/policy.0.6.Mono.Addins.MSBuild
 %{mingw64_mandir}/man1/mautil.1
-%{mingw64_libdir}/pkgconfig/mono-addins*
+%{mingw64_datadir}/pkgconfig/mono-addins*
 
 %changelog
 * Thu Jun 03 2010 Mikkel Kruse Johnsen <mikkel@linet.dk> - 0.5-1

@@ -1,0 +1,14 @@
+[opensource]
+name=RHEL $releasever - $basearch - XMedicus Open Source
+baseurl=http://yum.xmedicus.com/opensource/rhel-$releasever-$basearch/RPMS/
+enabled=1
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-xmedicus
+gpgcheck=1
+
+[xmedicus]
+name=RHEL $releasever - $basearch - XMedicus
+baseurl=http://yum.xmedicus.com/xmedicus/rhel-$releasever-$basearch/RPMS/2.4/
+enabled=1
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-xmedicus
+gpgcheck=1
+

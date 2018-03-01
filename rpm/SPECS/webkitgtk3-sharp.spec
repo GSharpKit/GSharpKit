@@ -12,15 +12,14 @@ BuildArch:	noarch
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:	webkitgtk3-devel >= %{version}
 BuildRequires:	mono-devel
-BuildRequires:	gtk-sharp3-devel
-BuildRequires:	gtk-sharp3-gapi >= 3.12.0
+BuildRequires:	GtkSharp-gapi >= 3.12.0
 BuildRequires:	monodoc-devel
 
 Obsoletes:	webkit-sharp
 Provides:	webkit-sharp = %{version}-%{release}
 
 Requires:	webkitgtk3 >= %{version}
-Requires:	gtk-sharp3 >= 3.12.0
+Requires:	GtkSharp >= 3.12.0
 
 Provides:	webkitgtk3-sharp-devel
 
@@ -50,8 +49,11 @@ make DESTDIR=%{buildroot} install
 %{_prefix}/lib/monodoc/sources/webkitgtk3-sharp*
 
 %changelog
-* Sat May 5 2013 Mikkel Kruse Johnsen <mikkel@structura-it.dk> - 2.0.1-1
+* Fri Nov 5 2017 Mikkel Kruse Johnsen <mikkel@xmedicus.com> - 2.4.11-1
+- Updated to 2.4.11
+
+* Sat May 5 2013 Mikkel Kruse Johnsen <mikkel@xmedicus.com> - 2.0.1-1
 - Updated to 2.0.1 and moved to own git
 
-* Sat Jan 5 2013 Mikkel Kruse Johnsen <mikkel@structura-it.dk> - 1.4.0-1
+* Sat Jan 5 2013 Mikkel Kruse Johnsen <mikkel@xmedicus.com> - 1.4.0-1
 - Initial package
