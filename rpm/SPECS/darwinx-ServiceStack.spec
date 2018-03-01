@@ -3,8 +3,8 @@
 %define libdir /lib
 
 Name:           darwinx-ServiceStack
-Version:        4.5.14
-Release:        2%{?dist}
+Version:        5.0.2
+Release:        1%{?dist}
 Summary:        ServiceStack webservice framework: Faster, Cleaner, Modern WCF alternative.
 
 Group:          Development/Languages
@@ -22,7 +22,7 @@ for all your services and web apps that's intuitive and Easy to use!
 
 %prep
 %setup -c %{name}-%{version} -T
-nuget install ServiceStack.Signed -Version %{version}
+nuget install ServiceStack -Version %{version}
 
 cat > ServiceStack.pc << \EOF
 prefix=%{_darwinx_prefix}
@@ -57,11 +57,11 @@ EOF
 %{__rm} -rf %{buildroot}
 
 install -d -m 755 $RPM_BUILD_ROOT%{_darwinx_prefix}%{libdir}/mono/gac
-gacutil -i ServiceStack.Signed.%{version}/lib/net45/ServiceStack.dll -package ServiceStack -root $RPM_BUILD_ROOT%{_darwinx_prefix}%{libdir} -gacdir mono/gac
-gacutil -i ServiceStack.Common.Signed.%{version}/lib/net45/ServiceStack.Common.dll -package ServiceStack.Common -root $RPM_BUILD_ROOT%{_darwinx_prefix}%{libdir} -gacdir mono/gac
-gacutil -i ServiceStack.Client.Signed.%{version}/lib/net45/ServiceStack.Client.dll -package ServiceStack.Client -root $RPM_BUILD_ROOT%{_darwinx_prefix}%{libdir} -gacdir mono/gac
-gacutil -i ServiceStack.Text.Signed.%{version}/lib/net45/ServiceStack.Text.dll -package ServiceStack.Text -root $RPM_BUILD_ROOT%{_darwinx_prefix}%{libdir} -gacdir mono/gac
-gacutil -i ServiceStack.Interfaces.%{version}/lib/portable-wp80+sl5+net45+win8+wpa81+monotouch+monoandroid+xamarin.ios10/ServiceStack.Interfaces.dll -package ServiceStack.Interfaces -root $RPM_BUILD_ROOT%{_darwinx_prefix}%{libdir} -gacdir mono/gac
+gacutil -i ServiceStack.%{version}/lib/net45/ServiceStack.dll -package ServiceStack -root $RPM_BUILD_ROOT%{_darwinx_prefix}%{libdir} -gacdir mono/gac
+gacutil -i ServiceStack.Common.%{version}/lib/net45/ServiceStack.Common.dll -package ServiceStack.Common -root $RPM_BUILD_ROOT%{_darwinx_prefix}%{libdir} -gacdir mono/gac
+gacutil -i ServiceStack.Client.%{version}/lib/net45/ServiceStack.Client.dll -package ServiceStack.Client -root $RPM_BUILD_ROOT%{_darwinx_prefix}%{libdir} -gacdir mono/gac
+gacutil -i ServiceStack.Text.%{version}/lib/net45/ServiceStack.Text.dll -package ServiceStack.Text -root $RPM_BUILD_ROOT%{_darwinx_prefix}%{libdir} -gacdir mono/gac
+gacutil -i ServiceStack.Interfaces.%{version}/lib/net45/ServiceStack.Interfaces.dll -package ServiceStack.Interfaces -root $RPM_BUILD_ROOT%{_darwinx_prefix}%{libdir} -gacdir mono/gac
 
 install -d -m 755 $RPM_BUILD_ROOT%{_darwinx_datadir}/pkgconfig/
 install -m 644 ServiceStack.pc $RPM_BUILD_ROOT%{_darwinx_datadir}/pkgconfig/

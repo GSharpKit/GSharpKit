@@ -1,11 +1,6 @@
 Name:           darwinx-gtk3
-<<<<<<< HEAD
-Version:        3.20.10
-Release:        2%{?dist}
-=======
 Version:        3.22.26
 Release:        1%{?dist}
->>>>>>> 9a7269a1c7a1ad180dfab8bc61612db1d6d67e4f
 Summary:        Darwin Gtk3 library
 
 License:        LGPLv2+
@@ -14,10 +9,7 @@ URL:            http://www.gtk.org
 Source0:        http://download.gnome.org/sources/gtk+/3.20/gtk+-%{version}.tar.xz
 Patch0:		gtk-3.12.2-quartz-theme.patch
 Patch1:		gtk-3.20.10-disable-assert.patch
-<<<<<<< HEAD
-=======
 Patch2:		gtk3-quartz-menu-bug_r1.patch
->>>>>>> 9a7269a1c7a1ad180dfab8bc61612db1d6d67e4f
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildArch:      noarch
@@ -65,10 +57,7 @@ Static version of the Darwin Gtk3 library.
 %setup -q -n gtk+-%{version}
 #patch0 -p1
 %patch1 -p1
-<<<<<<< HEAD
-=======
 %patch2 -p1
->>>>>>> 9a7269a1c7a1ad180dfab8bc61612db1d6d67e4f
 
 # Regenerate the configure script
 #AUTOMAKE_OPTIONS=subdir-objects autoreconf --verbose --install -I /usr/darwinx/usr/share/aclocal

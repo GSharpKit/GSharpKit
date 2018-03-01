@@ -3,7 +3,7 @@
 %define libdir /lib
 
 Name:           darwinx-MailKit
-Version:        2.0.1
+Version:        1.22.0
 Release:        1%{?dist}
 Summary:        MailKit is an Open Source cross-platform .NET mail-client library.
 Group:          Development/Languages

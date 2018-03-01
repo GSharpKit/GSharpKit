@@ -3,7 +3,7 @@
 %define ver 5.8.0
 
 Name:           darwinx-mono-core
-Version:        %{ver}.88
+Version:        %{ver}.108
 Release:        1%{?dist}
 Summary:        A .NET runtime environment
 

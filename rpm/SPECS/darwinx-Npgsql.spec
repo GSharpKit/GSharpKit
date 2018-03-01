@@ -9,7 +9,7 @@
 %define apiversion 3.0.0.0
 
 Name:           darwinx-Npgsql
-Version:        3.2.6
+Version:        3.2.7
 Release:        1%{?dist}
 Summary:        Postgresql database connectivity for C#
 Group:          Development/Languages
