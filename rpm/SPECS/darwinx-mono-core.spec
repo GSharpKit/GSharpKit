@@ -1,9 +1,9 @@
 %global debug_package %{nil}
 
-%define ver 5.8.0
+%define ver 5.10.0
 
 Name:           darwinx-mono-core
-Version:        %{ver}.108
+Version:        %{ver}.157
 Release:        1%{?dist}
 Summary:        A .NET runtime environment
 
@@ -167,6 +167,7 @@ install -p -m0644 %{SOURCE2} %{buildroot}%{_darwinx_sysconfdir}/pki/mono/
 %{_darwinx_bindir}/wsdl
 %{_darwinx_bindir}/xsd
 %mono_bin mcs
+%mono_bin vbc
 %{_darwinx_bindir}/gacutil2
 %{_darwinx_bindir}/dmcs
 %{_darwinx_bindir}/mono-heapviz
@@ -186,6 +187,7 @@ install -p -m0644 %{SOURCE2} %{buildroot}%{_darwinx_sysconfdir}/pki/mono/
 %{_darwinx_mandir}/man1/mprof-report.1
 %{_darwinx_mandir}/man1/cccheck.1
 %{_darwinx_mandir}/man1/cert-sync.1
+%{_darwinx_mandir}/man1/mono-profilers.1
 %{_darwinx_libdir}/libMonoPosixHelper.dylib
 %{_darwinx_libdir}/libMonoSupportW.dylib
 %{_darwinx_libdir}/libmono-btls-shared.dylib
@@ -251,6 +253,7 @@ install -p -m0644 %{SOURCE2} %{buildroot}%{_darwinx_sysconfdir}/pki/mono/
 %{monodir}/4.6.1-api/
 %{monodir}/4.6.2-api/
 %{monodir}/4.7-api/
+%{monodir}/4.7.1-api/
 %gac_dll Microsoft.CSharp
 %gac_dll System.Dynamic
 %gac_dll System.Reflection.Context
@@ -390,6 +393,7 @@ install -p -m0644 %{SOURCE2} %{buildroot}%{_darwinx_sysconfdir}/pki/mono/
 %{monodir}/4.5/sqlsharp.pdb
 %{monodir}/4.5/svcutil.exe
 %{monodir}/4.5/svcutil.pdb
+%{monodir}/4.5/vbc.rsp
 %{monodir}/4.5/wsdl.exe
 %{monodir}/4.5/wsdl.pdb
 %{monodir}/4.5/xbuild.pdb
@@ -504,6 +508,7 @@ install -p -m0644 %{SOURCE2} %{buildroot}%{_darwinx_sysconfdir}/pki/mono/
 %{_darwinx_prefix}/lib/mono/gac/SMDiagnostics
 %{_darwinx_datadir}/mono-2.0/mono/cil/cil-opcodes.xml
 %{_darwinx_datadir}/mono-2.0/mono/profiler/mono-profiler-log.suppression
+%{_darwinx_datadir}/mono-2.0/mono/profiler/mono-profiler-coverage.suppression
 
 ### files nunit
 %mono_bin nunit-console
