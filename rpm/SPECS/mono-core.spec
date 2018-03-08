@@ -26,7 +26,7 @@
 %global debug_package %{nil} 
 %define sgen yes
 
-%define ver 5.8.0.108
+%define ver 5.10.0.154
 
 Name:           mono-core
 Version:        %{ver}
@@ -121,6 +121,7 @@ Provides:	mono(System.Runtime.Loader) = 4.0.0.0
 Provides:	mono(System.Diagnostics.Process) = 4.0.0.0
 Provides:	mono(System.Security.AccessControl) = 4.0.0.0
 Provides:	mono(System.Security.Principal.Windows) = 4.0.0.0
+Provides:       mono(System.Diagnostics.StackTrace) = 4.0.2.0
 
 %description
 The Mono Project is an open development initiative that is working to
@@ -264,6 +265,7 @@ rm %{buildroot}%{_bindir}/mono-sgen-gdb.py
 %{_bindir}/gacutil2
 %{_bindir}/ikdasm
 %{_bindir}/mcs
+%{_bindir}/vbc
 %{_bindir}/mono
 %{_bindir}/mono-boehm
 %{_bindir}/mono-configuration-crypto
@@ -307,6 +309,7 @@ rm %{buildroot}%{_bindir}/mono-sgen-gdb.py
 %{_prefix}/lib/mono/4.5/gacutil.*
 %{_prefix}/lib/mono/4.5/ikdasm.*
 %{_prefix}/lib/mono/4.5/mcs.*
+%{_prefix}/lib/mono/4.5/vbc.*
 %{_prefix}/lib/mono/4.5/csc.*
 %{_prefix}/lib/mono/4.5/mozroots.*
 %{_prefix}/lib/mono/4.5/setreg.*
@@ -1144,6 +1147,7 @@ Mono development tools.
 %dir %{_datadir}/mono-2.0/mono/cil
 %{_datadir}/mono-2.0/mono/cil/cil-opcodes.xml
 %{_datadir}/mono-2.0/mono/profiler/mono-profiler-log.suppression
+%{_datadir}/mono-2.0/mono/profiler/mono-profiler-coverage.suppression
 %{_libdir}/libmono-profiler-*.*
 %{_libdir}/pkgconfig/cecil.pc
 %{_libdir}/pkgconfig/dotnet.pc
@@ -1176,6 +1180,7 @@ Mono development tools.
 %{_mandir}/man1/mprof-report.1%ext_man
 %{_mandir}/man1/pdb2mdb.1%ext_man
 %{_mandir}/man1/permview.1%ext_man
+%{_mandir}/man1/mono-profilers.1%ext_man
 %{_mandir}/man1/resgen.1%ext_man
 %{_mandir}/man1/secutil.1%ext_man
 %{_mandir}/man1/sgen.1%ext_man
@@ -1183,6 +1188,7 @@ Mono development tools.
 %{_mandir}/man1/xbuild.1%ext_man
 %{_prefix}/lib/mono-source-libs
 %{_prefix}/lib/mono/4.0
+%{_prefix}/lib/mono/4.7.1-api
 %{_prefix}/lib/mono/4.7-api
 %{_prefix}/lib/mono/4.6.2-api
 %{_prefix}/lib/mono/4.6.1-api
