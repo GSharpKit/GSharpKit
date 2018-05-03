@@ -1,0 +1,12 @@
+diff -Nur fontconfig-2.11.1.orig/src/fcxml.c fontconfig-2.11.1/src/fcxml.c
+--- fontconfig-2.11.1.orig/src/fcxml.c	2014-03-13 08:00:47.000000000 +0100
++++ fontconfig-2.11.1/src/fcxml.c	2014-10-06 11:53:06.394993303 +0200
+@@ -2143,7 +2143,7 @@
+ 	char szFPath[MAX_PATH + 1];
+ 	size_t len;
+ 
+-	if (!(pSHGetFolderPathA && SUCCEEDED(pSHGetFolderPathA(NULL, /* CSIDL_LOCAL_APPDATA */ 28, NULL, 0, szFPath))))
++	if (!(pSHGetFolderPathA && SUCCEEDED(pSHGetFolderPathA(NULL, /* CSIDL_APPDATA */ 26, NULL, 0, szFPath))))
+ 	{
+ 	    FcConfigMessage (parse, FcSevereError, "SHGetFolderPathA failed");
+ 	    goto bail;

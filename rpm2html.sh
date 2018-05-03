@@ -50,6 +50,7 @@ nettle
 libtasn1
 p11-kit
 readline
+libunistring
 gnutls
 openssl
 glib-networking
@@ -97,6 +98,60 @@ SealApi
 PDFsharp-MigraDoc
 )
 
+LIN_BUILD_IN=(
+crt
+headers
+pkg-config
+gdk-pixbuf
+termcap
+jasper
+)
+
+LIN_NA=(
+gtk-mac-integration
+winpthreads
+win-iconv
+nsis
+gtk-mac-integration-sharp
+)
+
+WIN_BUILD_IN=(
+)
+
+WIN_NA=(
+ige-mac-bundler
+gtk-mac-integration
+libunistring
+gtk-mac-integration-sharp
+)
+
+MAC_BUILD_IN=(
+binutils
+crt
+headers
+cpp
+gcc
+gcc-c++
+gcc-objc
+pkg-config
+termcap
+zlib
+bzip2
+expat
+readline
+openssl
+sqlite
+libidn
+hunspell
+)
+
+MAC_NA=(
+winpthreads
+win-iconv
+nsis
+gtk-mac-integration-sharp
+)
+
 declare -A RPMS
 CRPMS=(`rpm -qa --qf '%{NAME} %{VERSION} '`)
 IDX=0
@@ -110,12 +165,6 @@ for i in ${CRPMS[@]}; do
 	IDX=$((IDX + 1))
 done
 
-#for k in "${!RPMS[@]}"
-#do
-#	echo "$k ${RPMS[$k]}"
-#done
-#exit;
-
 echo "Package, Linux 64bit, Windows 32/64bit, Mac OS X 64bit "
 
 for i in ${NAMES[@]}; do
@@ -126,10 +175,29 @@ for i in ${NAMES[@]}; do
 		if [[ $i == $k ]]; then
 			STR="$STR, ${RPMS[$k]}"
 			FOUND=1
+			break
 		fi
 	done
 	if [[ $FOUND == 0 ]]; then
-		STR="$STR, "
+		for lb in ${LIN_BUILD_IN[@]};
+		do
+		        if [[ $i == $lb ]]; then
+				STR="$STR, Build-in"
+				FOUND=1
+				break
+		        fi	
+		done
+		for lna in ${LIN_NA[@]};
+		do
+		        if [[ $i == $lna ]]; then
+				STR="$STR, N/A"
+				FOUND=1
+				break
+		        fi	
+		done
+		if [[ $FOUND == 0 ]]; then
+                	STR="$STR, "
+		fi
 	fi
 	FOUND=0
         for k in "${!RPMS[@]}"
@@ -137,10 +205,29 @@ for i in ${NAMES[@]}; do
                	if [[ mingw32-$i == $k ]]; then
 			STR="$STR, ${RPMS[$k]}"
 			FOUND=1
+			break
 		fi
         done
         if [[ $FOUND == 0 ]]; then
-                STR="$STR, "
+		for wb in ${WIN_BUILD_IN[@]};
+		do
+		        if [[ $i == $wb ]]; then
+				STR="$STR, Build-in"
+				FOUND=1
+				break
+		        fi	
+		done
+		for wna in ${WIN_NA[@]};
+		do
+		        if [[ $i == $wna ]]; then
+				STR="$STR, N/A"
+				FOUND=1
+				break
+		        fi	
+		done
+		if [[ $FOUND == 0 ]]; then
+                	STR="$STR, "
+		fi
         fi
         FOUND=0
         for k in "${!RPMS[@]}"
@@ -148,10 +235,29 @@ for i in ${NAMES[@]}; do
                 if [[ darwinx-$i == $k ]]; then
 			STR="$STR, ${RPMS[$k]}"
 			FOUND=1
+			break
                 fi
         done
         if [[ $FOUND == 0 ]]; then
-                STR="$STR, "
+		for mb in ${MAC_BUILD_IN[@]};
+		do
+		        if [[ $i == $mb ]]; then
+				STR="$STR, Build-in"
+				FOUND=1
+				break
+		        fi	
+		done
+		for mna in ${MAC_NA[@]};
+		do
+		        if [[ $i == $mna ]]; then
+				STR="$STR, N/A"
+				FOUND=1
+				break
+		        fi	
+		done
+		if [[ $FOUND == 0 ]]; then
+                	STR="$STR, "
+		fi
         fi
 	echo $STR
 done

@@ -26,7 +26,7 @@
 %global debug_package %{nil} 
 %define sgen yes
 
-%define ver 5.10.0.154
+%define ver 5.12.0.223
 
 Name:           mono-core
 Version:        %{ver}
@@ -258,12 +258,14 @@ rm %{buildroot}%{_bindir}/mono-sgen-gdb.py
 %{_bindir}/chktrust
 %{_bindir}/crlupdate
 %{_bindir}/csc
+%{_bindir}/csc-dim
 %{_bindir}/csi
 %{_bindir}/csharp
 %{_bindir}/dmcs
 %{_bindir}/gacutil
 %{_bindir}/gacutil2
 %{_bindir}/ikdasm
+%{_bindir}/illinkanalyzer
 %{_bindir}/mcs
 %{_bindir}/vbc
 %{_bindir}/mono
@@ -289,6 +291,7 @@ rm %{buildroot}%{_bindir}/mono-sgen-gdb.py
 %{_mandir}/man1/crlupdate.1%ext_man
 %{_mandir}/man1/csharp.1%ext_man
 %{_mandir}/man1/gacutil.1%ext_man
+%{_mandir}/man1/illinkanalyzer.1%ext_man
 %{_mandir}/man1/mcs.1%ext_man
 %{_mandir}/man1/mono-configuration-crypto.1%ext_man
 %{_mandir}/man1/mono.1%ext_man
@@ -308,13 +311,13 @@ rm %{buildroot}%{_bindir}/mono-sgen-gdb.py
 %{_prefix}/lib/mono/4.5/csharp.*
 %{_prefix}/lib/mono/4.5/gacutil.*
 %{_prefix}/lib/mono/4.5/ikdasm.*
+%{_prefix}/lib/mono/4.5/illinkanalyzer.*
 %{_prefix}/lib/mono/4.5/mcs.*
 %{_prefix}/lib/mono/4.5/vbc.*
 %{_prefix}/lib/mono/4.5/csc.*
 %{_prefix}/lib/mono/4.5/mozroots.*
 %{_prefix}/lib/mono/4.5/setreg.*
 %{_prefix}/lib/mono/4.5/sn.*
-%{_prefix}/lib/mono/4.5/linkeranalyzer.*
 %{_prefix}/lib/mono/4.5/Commons.Xml.Relaxng.dll
 %{_prefix}/lib/mono/4.5/CustomMarshalers.dll
 %{_prefix}/lib/mono/4.5/I18N.West.dll
@@ -366,6 +369,7 @@ rm %{buildroot}%{_bindir}/mono-sgen-gdb.py
 %{_prefix}/lib/mono/4.5/Facades/System*
 %{_prefix}/lib/mono/4.5/Facades/Microsoft*
 %{_prefix}/lib/mono/4.5/Facades/netstandard.dll
+%{_prefix}/lib/mono/4.5/dim/*
 %{_prefix}/lib/mono/gac/Commons.Xml.Relaxng
 %{_prefix}/lib/mono/gac/CustomMarshalers
 %{_prefix}/lib/mono/gac/I18N

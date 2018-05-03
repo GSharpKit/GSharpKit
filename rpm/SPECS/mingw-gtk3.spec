@@ -9,7 +9,7 @@
 %define enable_autoreconf 0
 
 Name:           mingw-gtk3
-Version:        3.22.7
+Version:        3.22.29
 Release:        1%{?dist}
 Summary:        MinGW Windows GTK+ library
 
@@ -54,7 +54,7 @@ BuildRequires:  gettext
 # Native one for glib-genmarshal
 BuildRequires:  glib2-devel
 # Native one for gtk-update-icon-cache
-BuildRequires:  gtk2
+BuildRequires:  gtk-update-icon-cache
 # Native one for gdk-pixbuf-csource
 BuildRequires:  gdk-pixbuf2-devel
 
@@ -263,6 +263,7 @@ fi
 %{mingw32_datadir}/glib-2.0/schemas/org.gtk.Settings.Debug.gschema.xml
 %{mingw32_datadir}/glib-2.0/schemas/org.gtk.Settings.ColorChooser.gschema.xml
 %{mingw32_datadir}/glib-2.0/schemas/org.gtk.Settings.FileChooser.gschema.xml
+%{mingw32_datadir}/glib-2.0/schemas/org.gtk.Settings.EmojiChooser.gschema.xml
 %{mingw32_datadir}/gtk-3.0/
 %{mingw32_datadir}/themes/*
 
@@ -316,6 +317,7 @@ fi
 %{mingw64_datadir}/glib-2.0/schemas/org.gtk.Settings.Debug.gschema.xml
 %{mingw64_datadir}/glib-2.0/schemas/org.gtk.Settings.ColorChooser.gschema.xml
 %{mingw64_datadir}/glib-2.0/schemas/org.gtk.Settings.FileChooser.gschema.xml
+%{mingw64_datadir}/glib-2.0/schemas/org.gtk.Settings.EmojiChooser.gschema.xml
 %{mingw64_datadir}/gtk-3.0/
 %{mingw64_datadir}/themes/*
 
@@ -325,6 +327,16 @@ fi
 
 
 %changelog
+* Wed Jun 21 2017 Kalev Lember <klember@redhat.com> - 3.22.16-1
+- Update to 3.22.16
+
+* Mon Jun 19 2017 Kalev Lember <klember@redhat.com> - 3.22.15-1
+- Update to 3.22.15
+- BR gtk-update-icon-cache instead of gtk2
+
+* Fri Feb 10 2017 Fedora Release Engineering <releng@fedoraproject.org> - 3.22.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_26_Mass_Rebuild
+
 * Mon Oct 24 2016 Kalev Lember <klember@redhat.com> - 3.22.2-1
 - Update to 3.22.2
 - Split out gtk-update-icon-cache.exe in a subpackage

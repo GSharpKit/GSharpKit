@@ -69,20 +69,20 @@
 %define DBUS_VERSION 1.8.16
 %define DBUS_GLIB_VERSION 0.108
 
-%define MONO_CORE_VERSION 5.4.0
-%define NPGSQL_VERSION 3.2.6
+%define MONO_CORE_VERSION 5.10.0
+%define NPGSQL_VERSION 3.2.7
 %define GTK3_SHARP_VERSION 3.22.6
 %define GDL_SHARP_VERSION 3.26.0
 %define MONO_ZEROCONF_VERSION 0.9.0
 %define MONO_ADDINS_VERSION 1.3.3
 %define WEBKITGTK3_SHARP_VERSION 2.4.11
 %define DBUS_SHARP_VERSION 2:0.9.2
-%define DBUS_SHARP_GLIB_VERSION 0.6.0
+%define DBUS_GLIB_SHARP_VERSION 0.6.0
 %define GSTREAMER1_SHARP_VERSION 1:1.12.3
 %define NEWTONSOFT_JSON_VERSION 10.0.3
 %define BOUNCY_CASTLE_VERSION 1.8.1
-%define MIMEKIT_VERSION 1.20.0
-%define MAILKIT_VERSION 1.20.0
+%define MIMEKIT_VERSION 1.22.0
+%define MAILKIT_VERSION 1.22.0
 %define GTK_MAC_INTEGRATION_SHARP_VERSION 0.9
 %define SERVICE_STACK_VERSION 4.5.14
 %define REST_SHARP_VERSION 105.2.3
@@ -91,7 +91,7 @@
 
 Summary: 		Easy management of applications
 Name: 			GSharpKit
-Version:		27.14
+Version:		27.15
 Release:		1%{?dist}
 License:		GPL
 Group: 			Applications/Desktop
@@ -159,7 +159,7 @@ Requires:		mono-winfxcore >= %{MONO_CORE_VERSION}
 Requires:		mono-addins >= %{MONO_ADDINS_VERSION}
 Requires:		mono-zeroconf >= %{MONO_ZEROCONF_VERSION}
 Requires:		dbus-sharp >= %{DBUS_SHARP_VERSION}
-Requires:		dbus-sharp-glib >= %{DBUS_SHARP_GLIB_VERSION}
+Requires:		dbus-sharp-glib >= %{DBUS_GLIB_SHARP_VERSION}
 
 Requires:		libcroco >= %{LIBCROCO_VERSION}
 Requires:		libepoxy >= %{LIBEPOXY_VERSION}

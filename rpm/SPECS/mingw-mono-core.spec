@@ -8,7 +8,7 @@
 
 %define _binaries_in_noarch_packages_terminate_build 0
 
-%define ver 5.10.0.154
+%define ver 5.12.0.220
 
 Name:		mingw-mono-core
 Version:	%{ver}
