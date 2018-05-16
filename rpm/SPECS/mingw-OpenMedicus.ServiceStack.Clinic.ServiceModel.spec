@@ -22,9 +22,6 @@ URL:            https://www.nuget.org/packages/OpenMedicus.ServiceStack.Clinic.S
 Prefix:		/usr
 BuildArch:	noarch
 
-Requires:	mono-core >= 3.0.0
-Requires:	mono-data >= 3.0.0
-Requires:	ServiceStack >= 5.0.2
 
 %description
 ServiceStack access to Clinic Healthcare System
@@ -33,6 +30,7 @@ ServiceStack access to Clinic Healthcare System
 %package -n mingw32-%{mingw_pkg_name}
 Summary:       %{summary}
 Requires:       mingw32-mono
+Requires:	mingw32-ServiceStack >= 5.0.2
 
 %description -n mingw32-%{mingw_pkg_name}
 ServiceStack access to Clinic Healthcare System
@@ -41,6 +39,7 @@ ServiceStack access to Clinic Healthcare System
 %package -n mingw64-%{mingw_pkg_name}
 Summary:       %{summary}
 Requires:       mingw64-mono
+Requires:	mingw64-ServiceStack >= 5.0.2
 
 %description -n mingw64-%{mingw_pkg_name}
 ServiceStack access to Clinic Healthcare System
@@ -56,7 +55,7 @@ libdir=%{mingw32_prefix}%{libdir}/mono
 
 Name: %{mingw_pkg_name}
 Description: ServiceStack access to Clinic Healthcare System 
-Requires:
+Requires: ServiceStack
 Version: %{api_version}
 Libs: -r:${libdir}/%{mingw_pkg_name}/%{mingw_pkg_name}.dll
 Cflags:
@@ -69,7 +68,7 @@ libdir=%{mingw64_prefix}%{libdir}/mono
 
 Name: %{mingw_pkg_name}
 Description: ServiceStack access to Clinic Healthcare System
-Requires:
+Requires: ServiceStack
 Version: %{api_version}
 Libs: -r:${libdir}/%{mingw_pkg_name}/%{mingw_pkg_name}.dll
 Cflags:

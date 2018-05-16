@@ -32,7 +32,7 @@ libdir=%{_prefix}%{libdir}/mono
 
 Name: %{name}
 Description: ServiceStack access to XMedicus Healthcare System 
-Requires:
+Requires: ServiceStack
 Version: %{api_version}
 Libs: -r:${libdir}/%{name}/%{name}.dll
 Cflags:
