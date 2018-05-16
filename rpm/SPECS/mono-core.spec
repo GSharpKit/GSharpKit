@@ -26,7 +26,7 @@
 %global debug_package %{nil} 
 %define sgen yes
 
-%define ver 5.12.0.223
+%define ver 5.12.0.226
 
 Name:           mono-core
 Version:        %{ver}
