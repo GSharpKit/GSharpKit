@@ -3,7 +3,7 @@
 %define _prefix /Library/Frameworks/AppBox.framework/Versions/1.0.0
 
 Name: 		darwinx-filesystem-base
-Version: 	102
+Version: 	103
 Release: 	1%{?dist}
 Summary: 	Darwin filesystem and environment
 License: 	GPLv2+
@@ -25,6 +25,8 @@ Provides:       darwinx-odcctools
 Provides:       darwinx-sdk
 Provides:       autoconf, automake, libtool
 Provides:	bison, flex, m4, gperf, ruby, perl
+Provides:       pkgconfig
+Provides:       python
 
 %description
 This package contains the base filesystem layout, RPM macros and
