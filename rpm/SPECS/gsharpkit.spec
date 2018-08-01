@@ -89,9 +89,13 @@
 %define SEALAPI_VERSION 2.0.7
 %define PDFSHARP_MIGRADOC_VERSION 1.50.4740
 
+%define OPENMEDICUS_SERVICESTACK_EHR_SERVICEMODEL_VERSION 1.0.34
+%define OPENMEDICUS_SERVICESTACK_CLINIC_SERVICEMODEL_VERSION 2.4.12
+%define OPENMEDICUS_SERVICESTACK_MASTER_SERVICEMODEL_VERSION 1.2.3
+
 Summary: 		Easy management of applications
 Name: 			GSharpKit
-Version:		27.15
+Version:		27.18
 Release:		1%{?dist}
 License:		GPL
 Group: 			Applications/Desktop
@@ -104,6 +108,10 @@ Source6:		darwinx-cmake
 Source7:		darwinx-configure 
 Source8:		darwinx-make
 Source9:		darwinx-pkg-config
+Source10:		centos7-vs.repo
+Source11:		RPM-GPG-KEY-xamarin
+Source12:		microsoft-prod.repo
+Source13:		RPM-GPG-KEY-microsoft
 URL:			http://www.gsharpkit.com
 Vendor:			GSharpKit
 Packager:		Mikkel Kruse Johnsen <mikkel@gsharpkit.com>
@@ -198,6 +206,9 @@ Requires:		ServiceStack >= %{SERVICE_STACK_VERSION}
 Requires:		RestSharp >= %{REST_SHARP_VERSION}
 Requires:		SealApi >= %{SEALAPI_VERSION}
 Requires:		PDFsharp-MigraDoc >= %{PDFSHARP_MIGRADOC_VERSION}
+Requires:		OpenMedicus.ServiceStack.EHR.ServiceModel >= %{OPENMEDICUS_SERVICESTACK_EHR_SERVICEMODEL_VERSION}
+Requires:		OpenMedicus.ServiceStack.Clinic.ServiceModel >= %{OPENMEDICUS_SERVICESTACK_CLINIC_SERVICEMODEL_VERSION}
+Requires:		OpenMedicus.ServiceStack.Master.ServiceModel >= %{OPENMEDICUS_SERVICESTACK_MASTER_SERVICEMODEL_VERSION}
 
 %description runtime
 Easy management of applications
@@ -226,9 +237,9 @@ Requires:		gstreamer1-sharp-devel
 #Requires:		libgphoto2-sharp-devel
 
 Requires:		gnome-sharp
-Requires:		dotnet-sdk-2.0
+Requires:		dotnet-sdk-2.1
 Requires:		msbuild
-Requires:		monodevelop-beta
+Requires:		monodevelop
 
 
 %description sdk
@@ -325,6 +336,10 @@ Requires:		mingw32-ServiceStack >= %{SERVICE_STACK_VERSION}
 Requires:		mingw32-RestSharp >= %{REST_SHARP_VERSION}
 Requires:		mingw32-SealApi >= %{SEALAPI_VERSION}
 Requires:               mingw32-PDFsharp-MigraDoc >= %{PDFSHARP_MIGRADOC_VERSION}
+Requires:               mingw32-OpenMedicus.ServiceStack.EHR.ServiceModel >= %{OPENMEDICUS_SERVICESTACK_EHR_SERVICEMODEL_VERSION}
+Requires:               mingw32-OpenMedicus.ServiceStack.Clinic.ServiceModel >= %{OPENMEDICUS_SERVICESTACK_CLINIC_SERVICEMODEL_VERSION}
+Requires:               mingw32-OpenMedicus.ServiceStack.Master.ServiceModel >= %{OPENMEDICUS_SERVICESTACK_MASTER_SERVICEMODEL_VERSION}
+
 
 %description sdk-mingw32
 Easy management of applications for Windows 32 bit
@@ -418,6 +433,10 @@ Requires:		mingw64-ServiceStack >= %{SERVICE_STACK_VERSION}
 Requires:		mingw64-RestSharp >= %{REST_SHARP_VERSION}
 Requires:		mingw64-SealApi >= %{SEALAPI_VERSION}
 Requires:               mingw64-PDFsharp-MigraDoc >= %{PDFSHARP_MIGRADOC_VERSION}
+Requires:               mingw64-OpenMedicus.ServiceStack.EHR.ServiceModel >= %{OPENMEDICUS_SERVICESTACK_EHR_SERVICEMODEL_VERSION}
+Requires:               mingw64-OpenMedicus.ServiceStack.Clinic.ServiceModel >= %{OPENMEDICUS_SERVICESTACK_CLINIC_SERVICEMODEL_VERSION}
+Requires:               mingw64-OpenMedicus.ServiceStack.Master.ServiceModel >= %{OPENMEDICUS_SERVICESTACK_MASTER_SERVICEMODEL_VERSION}
+
 
 %description sdk-mingw64
 Easy management of applications for Windows 64 bit
@@ -595,11 +614,12 @@ Requires:               darwinx-ServiceStack >= %{SERVICE_STACK_VERSION}
 Requires:		darwinx-RestSharp >= %{REST_SHARP_VERSION}
 Requires:		darwinx-SealApi >= %{SEALAPI_VERSION}
 Requires:               darwinx-PDFsharp-MigraDoc >= %{PDFSHARP_MIGRADOC_VERSION}
+Requires:               darwinx-OpenMedicus.ServiceStack.EHR.ServiceModel >= %{OPENMEDICUS_SERVICESTACK_EHR_SERVICEMODEL_VERSION}
+Requires:               darwinx-OpenMedicus.ServiceStack.Clinic.ServiceModel >= %{OPENMEDICUS_SERVICESTACK_CLINIC_SERVICEMODEL_VERSION}
+Requires:               darwinx-OpenMedicus.ServiceStack.Master.ServiceModel >= %{OPENMEDICUS_SERVICESTACK_MASTER_SERVICEMODEL_VERSION}
 
 %description sdk-darwinx
 Easy management of applications for Mac OS X
-
-
 
 
 %prep
@@ -621,9 +641,13 @@ cp %{SOURCE2} $RPM_BUILD_ROOT%{_datadir}/yum-plugins
 
 mkdir -p $RPM_BUILD_ROOT%{_sysconfdir}/yum.repos.d
 cp %{SOURCE3} $RPM_BUILD_ROOT%{_sysconfdir}/yum.repos.d/
+cp %{SOURCE10} $RPM_BUILD_ROOT%{_sysconfdir}/yum.repos.d/
+cp %{SOURCE12} $RPM_BUILD_ROOT%{_sysconfdir}/yum.repos.d/
 
 mkdir -p $RPM_BUILD_ROOT%{_sysconfdir}/pki/rpm-gpg
 cp %{SOURCE4} $RPM_BUILD_ROOT%{_sysconfdir}/pki/rpm-gpg/
+cp %{SOURCE11} $RPM_BUILD_ROOT%{_sysconfdir}/pki/rpm-gpg/
+cp %{SOURCE13} $RPM_BUILD_ROOT%{_sysconfdir}/pki/rpm-gpg/
 
 mkdir -p $RPM_BUILD_ROOT%{_sysconfdir}/rpm
 cp %{SOURCE5} $RPM_BUILD_ROOT%{_sysconfdir}/rpm/
@@ -653,7 +677,11 @@ rm -rf $RPM_BUILD_ROOT
 %files release
 %defattr(-, root, root)
 %{_sysconfdir}/yum.repos.d/gsharpkit.repo
+%{_sysconfdir}/yum.repos.d/centos7-vs.repo
+%{_sysconfdir}/yum.repos.d/microsoft-prod.repo
 %{_sysconfdir}/pki/rpm-gpg/RPM-GPG-KEY-gsharpkit
+%{_sysconfdir}/pki/rpm-gpg/RPM-GPG-KEY-xamarin
+%{_sysconfdir}/pki/rpm-gpg/RPM-GPG-KEY-microsoft
 %{_sysconfdir}/yum/pluginconf.d/yum_ignoreos.conf
 %{_datadir}/yum-plugins/yum_ignoreos.py
 %{_datadir}/yum-plugins/yum_ignoreos.pyc

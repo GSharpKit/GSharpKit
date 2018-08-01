@@ -1,0 +1,6 @@
+[packages-microsoft-com-prod]
+name=packages-microsoft-com-prod
+baseurl=https://packages.microsoft.com/fedora/27/prod/
+enabled=1
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-microsoft
+gpgcheck=1

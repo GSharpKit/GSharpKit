@@ -26,7 +26,7 @@
 %global debug_package %{nil} 
 %define sgen yes
 
-%define ver 5.12.0.226
+%define ver 5.14.0.84
 
 Name:           mono-core
 Version:        %{ver}
@@ -1150,7 +1150,6 @@ Mono development tools.
 %dir %{_datadir}/mono-2.0/mono
 %dir %{_datadir}/mono-2.0/mono/cil
 %{_datadir}/mono-2.0/mono/cil/cil-opcodes.xml
-%{_datadir}/mono-2.0/mono/profiler/mono-profiler-log.suppression
 %{_datadir}/mono-2.0/mono/profiler/mono-profiler-coverage.suppression
 %{_libdir}/libmono-profiler-*.*
 %{_libdir}/pkgconfig/cecil.pc

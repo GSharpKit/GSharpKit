@@ -2,20 +2,24 @@
 %define freetype_version 2.1.9
 %define fontconfig_version 2.2.95
 
-%if 0%{?fedora} < 37
-%global cairogl --enable-gl
-%else
+%if 0%{?fedora} > 36 || 0%{?rhel} > 7
 %global cairogl --disable-gl
+%else
+%global cairogl --enable-gl
+%global with_gl 1
 %endif
 
 Name:		cairo
-Version:	1.15.10
-Release:	2%{?dist}
+Version:	1.15.12
+Release:	3%{?dist}
 Summary:	A 2D graphics library
 
 License:	LGPLv2 or MPLv1.1
 URL:		http://cairographics.org
 Source0:	http://cairographics.org/snapshots/%{name}-%{version}.tar.xz
+
+# Backported from upstream
+Patch0:         0001-Fix-assertion-failure-in-the-freetype-backend.patch
 
 Patch3:         cairo-multilib.patch
 
@@ -29,18 +33,18 @@ BuildRequires: freetype-devel >= %{freetype_version}
 BuildRequires: fontconfig-devel >= %{fontconfig_version}
 BuildRequires: glib2-devel
 BuildRequires: librsvg2-devel
+%if 0%{?with_gl}
 BuildRequires: mesa-libGL-devel
 BuildRequires: mesa-libEGL-devel
+%endif
 
 %description
 Cairo is a 2D graphics library designed to provide high-quality display
 and print output. Currently supported output targets include the X Window
-System, OpenGL (via glitz), in-memory image buffers, and image files (PDF,
-PostScript, and SVG).
+System, in-memory image buffers, and image files (PDF, PostScript, and SVG).
 
 Cairo is designed to produce consistent output on all output media while
-taking advantage of display hardware acceleration when available (e.g.
-through the X Render Extension or OpenGL).
+taking advantage of display hardware acceleration when available.
 
 %package devel
 Summary: Development files for cairo
@@ -87,8 +91,7 @@ This package contains tools for working with the cairo graphics library.
  * cairo-trace: Record cairo library calls for later playback
 
 %prep
-%setup -q
-%patch3 -p1 -b .multilib
+%autosetup -p1
 
 %build
 %configure --disable-static	\
@@ -109,11 +112,8 @@ make V=1 %{?_smp_mflags}
 %make_install
 find $RPM_BUILD_ROOT -name '*.la' -delete
 
-%post -p /sbin/ldconfig
-%postun -p /sbin/ldconfig
-
-%post gobject -p /sbin/ldconfig
-%postun gobject -p /sbin/ldconfig
+%ldconfig_scriptlets
+%ldconfig_scriptlets gobject
 
 %files
 %license COPYING COPYING-LGPL-2.1 COPYING-MPL-1.1
@@ -155,7 +155,7 @@ find $RPM_BUILD_ROOT -name '*.la' -delete
 %{_libdir}/pkgconfig/cairo-xcb-shm.pc
 %{_libdir}/pkgconfig/cairo-xcb.pc
 %{_datadir}/gtk-doc/html/cairo
-%if 0%{?fedora} < 37
+%if 0%{?with_gl}
 %{_includedir}/cairo/cairo-gl.h
 %{_libdir}/pkgconfig/cairo-egl.pc
 %{_libdir}/pkgconfig/cairo-gl.pc
@@ -175,6 +175,24 @@ find $RPM_BUILD_ROOT -name '*.la' -delete
 %{_libdir}/cairo/
 
 %changelog
+* Sat Apr 21 2018 Kalev Lember <klember@redhat.com> - 1.15.12-2
+- Fix assertion failure in the freetype backend (#1567633)
+
+* Thu Apr 12 2018 Kalev Lember <klember@redhat.com> - 1.15.12-1
+- Update to 1.15.12
+
+* Mon Mar 19 2018 Adam Jackson <ajax@redhat.com> - 1.15.10-5
+- Update the description to reflect dropping the OpenGL backend.
+
+* Thu Mar 15 2018 Adam Jackson <ajax@redhat.com> - 1.15.10-4
+- Drop cairo-gl in RHEL too.
+
+* Wed Feb 07 2018 Fedora Release Engineering <releng@fedoraproject.org> - 1.15.10-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_28_Mass_Rebuild
+
+* Sat Feb 03 2018 Igor Gnatenko <ignatenkobrain@fedoraproject.org> - 1.15.10-2
+- Switch to %%ldconfig_scriptlets
+
 * Tue Dec 12 2017 Kalev Lember <klember@redhat.com> - 1.15.10-1
 - Update to 1.15.10
 

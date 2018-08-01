@@ -1,0 +1,7 @@
+[mono-centos7-vs]
+name=mono-centos7-vs
+baseurl=https://download.mono-project.com/repo/centos7-vs/
+enabled=1
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-xamarin
+gpgcheck=1
+
