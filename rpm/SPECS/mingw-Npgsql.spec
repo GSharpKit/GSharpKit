@@ -9,10 +9,10 @@
 %define debug_package %{nil}
 
 %define libdir /lib
-%define apiversion 3.0.0.0
+%define apiversion 4.0.0.0
 
 Name:           mingw-Npgsql
-Version:        3.2.7
+Version:        4.0.2
 Release:        1%{?dist}
 Summary:        Postgresql database connectivity for C#
 
@@ -62,26 +62,26 @@ nuget install %{mingw_pkg_name} -Version %{version}
 cat > Npgsql32.pc << \EOF
 prefix=%{mingw32_prefix}
 exec_prefix=${prefix}
-libdir=%{mingw32_prefix}%{libdir}/mono
+libdir=%{mingw32_prefix}%{libdir}
 
 Name: Npgsql
 Description: Npgsql - Postgresql database connectivity for C#
 Requires:
 Version: %{version}
-Libs: -r:System.Data.dll -r:${libdir}/System.Threading.Tasks.Extensions/System.Threading.Tasks.Extensions.dll -r:${libdir}/Npgsql/Npgsql.dll
+Libs: -r:Facades/netstandard.dll -r:${libdir}/mono/System.Threading.Tasks.Extensions/System.Threading.Tasks.Extensions.dll -r:${libdir}/mono/Npgsql/Npgsql.dll -r:${libdir}/System.Runtime.CompilerServices.Unsafe.dll
 Cflags:
 EOF
 
 cat > Npgsql64.pc << \EOF
 prefix=%{mingw64_prefix}
 exec_prefix=${prefix}
-libdir=%{mingw64_prefix}%{libdir}/mono
+libdir=%{mingw64_prefix}%{libdir}
 
 Name: Npgsql
 Description: Npgsql - Postgresql database connectivity for C#
 Requires:
 Version: %{version}
-Libs: -r:System.Data.dll -r:${libdir}/System.Threading.Tasks.Extensions/System.Threading.Tasks.Extensions.dll -r:${libdir}/Npgsql/Npgsql.dll
+Libs: -r:Facades/netstandard.dll -r:${libdir}/mono/System.Threading.Tasks.Extensions/System.Threading.Tasks.Extensions.dll -r:${libdir}/mono/Npgsql/Npgsql.dll -r:${libdir}/System.Runtime.CompilerServices.Unsafe.dll
 Cflags:
 EOF
 
@@ -93,16 +93,22 @@ EOF
 
 # Mingw32
 install -d -m 755 $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir}/mono/gac
-gacutil -i Npgsql.%{version}/lib/net451/Npgsql.dll -package %{mingw_pkg_name} -root $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir} -gacdir mono/gac
-gacutil -i System.Threading.Tasks.Extensions.4.3.0/lib/netstandard1.0/System.Threading.Tasks.Extensions.dll -package System.Threading.Tasks.Extensions -root $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir} -gacdir mono/gac
+gacutil -i Npgsql.%{version}/lib/netstandard2.0/Npgsql.dll -package %{mingw_pkg_name} -root $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir} -gacdir mono/gac
+gacutil -i System.Threading.Tasks.Extensions.4.5.0/lib/netstandard2.0/System.Threading.Tasks.Extensions.dll -package System.Threading.Tasks.Extensions -root $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir} -gacdir mono/gac
+
+install -d -m 755 $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir}
+install -m 644 System.Runtime.CompilerServices.Unsafe.4.5.0/lib/netstandard2.0/System.Runtime.CompilerServices.Unsafe.dll $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir}/
 
 install -d -m 755 $RPM_BUILD_ROOT%{mingw32_datadir}/pkgconfig/
 install -m 644 Npgsql32.pc $RPM_BUILD_ROOT%{mingw32_datadir}/pkgconfig/Npgsql.pc
 
 # Mingw64
 install -d -m 755 $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir}/mono/gac
-gacutil -i Npgsql.%{version}/lib/net451/Npgsql.dll -package %{mingw_pkg_name} -root $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir} -gacdir mono/gac
-gacutil -i System.Threading.Tasks.Extensions.4.3.0/lib/netstandard1.0/System.Threading.Tasks.Extensions.dll -package System.Threading.Tasks.Extensions -root $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir} -gacdir mono/gac
+gacutil -i Npgsql.%{version}/lib/netstandard2.0/Npgsql.dll -package %{mingw_pkg_name} -root $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir} -gacdir mono/gac
+gacutil -i System.Threading.Tasks.Extensions.4.5.0/lib/netstandard2.0/System.Threading.Tasks.Extensions.dll -package System.Threading.Tasks.Extensions -root $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir} -gacdir mono/gac
+
+install -d -m 755 $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir}
+install -m 644 System.Runtime.CompilerServices.Unsafe.4.5.0/lib/netstandard2.0/System.Runtime.CompilerServices.Unsafe.dll $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir}/
 
 install -d -m 755 $RPM_BUILD_ROOT%{mingw64_datadir}/pkgconfig/
 install -m 644 Npgsql64.pc $RPM_BUILD_ROOT%{mingw64_datadir}/pkgconfig/Npgsql.pc
@@ -116,6 +122,7 @@ install -m 644 Npgsql64.pc $RPM_BUILD_ROOT%{mingw64_datadir}/pkgconfig/Npgsql.pc
 %{mingw32_prefix}%{libdir}/mono/gac
 %{mingw32_prefix}%{libdir}/mono/Npgsql/Npgsql.dll
 %{mingw32_prefix}%{libdir}/mono/System.Threading.Tasks.Extensions/System.Threading.Tasks.Extensions.dll
+%{mingw32_prefix}%{libdir}/System.Runtime.CompilerServices.Unsafe.dll
 %{mingw32_datadir}/pkgconfig/Npgsql.pc
 
 %files -n mingw64-%{mingw_pkg_name}
@@ -123,10 +130,14 @@ install -m 644 Npgsql64.pc $RPM_BUILD_ROOT%{mingw64_datadir}/pkgconfig/Npgsql.pc
 %{mingw64_prefix}%{libdir}/mono/gac
 %{mingw64_prefix}%{libdir}/mono/Npgsql/Npgsql.dll
 %{mingw64_prefix}%{libdir}/mono/System.Threading.Tasks.Extensions/System.Threading.Tasks.Extensions.dll
+%{mingw64_prefix}%{libdir}/System.Runtime.CompilerServices.Unsafe.dll
 %{mingw64_datadir}/pkgconfig/Npgsql.pc
 
 
 %changelog
+* Fri Aug 3 2018 Mikkel Kruse Johnsen <mikkel@xmedicus.com> - 4.0.2-1
+- Update to 4.0.2
+
 * Fri Jun 16 2017 Mikkel Kruse Johnsen <mikkel@xmedicus.com> - 3.2.4-1
 - Rename RPM package to mingw-Npgsql
 - Updated to use NuGet version

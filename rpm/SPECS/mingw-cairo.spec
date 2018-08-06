@@ -1,22 +1,22 @@
 %?mingw_package_header
 
 Name:           mingw-cairo
-Version:        1.14.8
+Version:        1.15.12
 Release:        1%{?dist}
 Summary:        MinGW Windows Cairo library
 
 License:        LGPLv2 or MPLv1.1
 URL:            http://cairographics.org
-Source0:        http://cairographics.org/releases/cairo-%{version}.tar.xz
+Source0:        http://cairographics.org/snapshots/cairo-%{version}.tar.xz
 Group:          Development/Libraries
 
 # Backported upstream patches to add API required by gtk3
-Patch0:         0001-win32-Add-cairo-API-to-set-up-a-Win32-surface-for-an.patch
-Patch1:         0002-win32-Add-a-win32-boilerplate-that-uses-a-real-windo.patch
+#Patch0:         0001-win32-Add-cairo-API-to-set-up-a-Win32-surface-for-an.patch
+#Patch1:         0002-win32-Add-a-win32-boilerplate-that-uses-a-real-windo.patch
 
 BuildArch:      noarch
 
-BuildRequires:  mingw32-filesystem >= 95
+BuildRequires:  mingw32-filesystem >= 104
 BuildRequires:  mingw32-gcc
 BuildRequires:  mingw32-binutils
 BuildRequires:  mingw32-fontconfig
@@ -28,7 +28,7 @@ BuildRequires:  mingw32-win-iconv
 BuildRequires:  mingw32-zlib
 BuildRequires:  mingw32-glib2
 
-BuildRequires:  mingw64-filesystem >= 95
+BuildRequires:  mingw64-filesystem >= 104
 BuildRequires:  mingw64-gcc
 BuildRequires:  mingw64-binutils
 BuildRequires:  mingw64-fontconfig
@@ -90,8 +90,8 @@ Static version of the MinGW Windows Cairo library.
 
 %prep
 %setup -q -n cairo-%{version}
-%patch0 -p1
-%patch1 -p1
+#patch0 -p1
+#patch1 -p1
 
 
 %build

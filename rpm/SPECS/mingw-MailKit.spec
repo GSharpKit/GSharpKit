@@ -11,7 +11,7 @@
 %define libdir /lib
 
 Name:           mingw-MailKit
-Version:        1.22.0
+Version:        2.0.5
 Release:        1%{?dist}
 Summary:        MailKit is an Open Source cross-platform .NET mail-client library.
 
@@ -84,7 +84,7 @@ Name: MailKit
 Description: %{name} - %{summary}
 Requires: MimeKit
 Version: %{version}
-Libs: -r:${libdir}/MailKit/MailKit.dll
+Libs: -r:Facades/netstandard.dll -r:${libdir}/MailKit/MailKit.dll
 Cflags:
 EOF
 
@@ -97,7 +97,7 @@ Name: MailKit
 Description: %{name} - %{summary}
 Requires: MimeKit
 Version: %{version}
-Libs: -r:${libdir}/MailKit/MailKit.dll
+Libs: -r:Facades/netstandard.dll -r:${libdir}/MailKit/MailKit.dll
 Cflags:
 EOF
 
@@ -109,14 +109,14 @@ EOF
 
 # Mingw32
 install -d -m 755 $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir}/mono/gac
-gacutil -i MailKit.%{version}/lib/net45/MailKit.dll -package %{mingw_pkg_name} -root $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir} -gacdir mono/gac
+gacutil -i MailKit.%{version}/lib/netstandard2.0/MailKit.dll -package %{mingw_pkg_name} -root $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir} -gacdir mono/gac
 
 install -d -m 755 $RPM_BUILD_ROOT%{mingw32_datadir}/pkgconfig/
 install -m 644 MailKit32.pc $RPM_BUILD_ROOT%{mingw32_datadir}/pkgconfig/MailKit.pc
 
 # Mingw64
 install -d -m 755 $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir}/mono/gac
-gacutil -i MailKit.%{version}/lib/net45/MailKit.dll -package %{mingw_pkg_name} -root $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir} -gacdir mono/gac
+gacutil -i MailKit.%{version}/lib/netstandard2.0/MailKit.dll -package %{mingw_pkg_name} -root $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir} -gacdir mono/gac
 
 install -d -m 755 $RPM_BUILD_ROOT%{mingw64_datadir}/pkgconfig/
 install -m 644 MailKit64.pc $RPM_BUILD_ROOT%{mingw64_datadir}/pkgconfig/MailKit.pc
@@ -139,5 +139,8 @@ install -m 644 MailKit64.pc $RPM_BUILD_ROOT%{mingw64_datadir}/pkgconfig/MailKit.
 
 
 %changelog
+* Fri Aug 03 2018 Mikkel Kruse Johnsen <mikkel@xmedicus.com> - 2.0.5-1
+- Update to 2.0.5
+
 * Thu Sep 7 2017 Mikkel Kruse Johnsen <mikkel@xmedicus.com> - 1.18.0-1
 - Initial version

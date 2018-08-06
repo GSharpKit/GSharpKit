@@ -4,7 +4,7 @@
 %global __python %{__python3}
 
 Name:           mingw-glib2
-Version:        2.54.3
+Version:        2.56.1
 Release:        1%{?dist}
 Summary:        MinGW Windows GLib2 library
 
@@ -49,10 +49,6 @@ Patch1:         0001-Use-CreateFile-on-Win32-to-make-sure-g_unlink-always.patch
 # http://lists.fedoraproject.org/pipermail/mingw/2013-March/006469.html
 # https://bugzilla.gnome.org/show_bug.cgi?id=698118
 Patch5:         glib-prefer-constructors-over-DllMain.patch
-
-# Don't segfault when IPv6 support is unavailable
-# https://bugzilla.gnome.org/show_bug.cgi?id=733338
-Patch8:         0002-GNetworkMonitorBase-don-t-fail-when-IPv6-support-is-.patch
 
 %description
 MinGW Windows Glib2 library.
@@ -99,7 +95,6 @@ Static version of the MinGW Windows GLib2 library.
 %setup -q -n glib-%{version}
 %patch1 -p1
 %patch5 -p1
-%patch8 -p1
 
 %build
 #GLib can't build static and shared libraries in one go, so we build GLib twice

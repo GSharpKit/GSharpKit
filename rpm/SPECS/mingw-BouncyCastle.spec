@@ -12,8 +12,8 @@
 %define apiversion 1.8.0.0
 
 Name:           mingw-BouncyCastle
-Version:        1.8.1
-Release:        2%{?dist}
+Version:        1.8.2
+Release:        1%{?dist}
 Summary:        BouncyCastle is a Crypto library written in C#
 
 Group:          Development/Languages
@@ -183,5 +183,7 @@ install -m 644 BouncyCastle64.pc $RPM_BUILD_ROOT%{mingw64_datadir}/pkgconfig/Bou
 
 
 %changelog
+* Fri Aug 2 2018 Mikkel Kruse Johnsen <mikkel@xmedicus.com> - 1.8.2-1
+- Updated to 1.8.2
 * Thu Sep 7 2017 Mikkel Kruse Johnsen <mikkel@xmedicus.com> - 1.8.1-1
 - Initial version

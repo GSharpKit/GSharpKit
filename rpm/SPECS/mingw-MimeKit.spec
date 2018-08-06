@@ -11,7 +11,7 @@
 %define libdir /lib
 
 Name:           mingw-MimeKit
-Version:        1.22.0
+Version:        2.0.5
 Release:        1%{?dist}
 Summary:        MimeKit is an Open Source library for creating and parsing MIME, S/MIME and PGP messages.
 
@@ -66,7 +66,7 @@ Name: MimeKit
 Description: %{name} - %{summary}
 Requires: BouncyCastle
 Version: %{version}
-Libs: -r:${libdir}/MimeKit/MimeKit.dll
+Libs: -r:Facades/netstandard.dll -r:${libdir}/MimeKit/MimeKit.dll
 Cflags:
 EOF
 
@@ -79,7 +79,7 @@ Name: MimeKit
 Description: %{name} - %{summary}
 Requires: BouncyCastle
 Version: %{version}
-Libs: -r:${libdir}/MimeKit/MimeKit.dll
+Libs: -r:Facades/netstandard.dll -r:${libdir}/MimeKit/MimeKit.dll
 Cflags:
 EOF
 
@@ -91,14 +91,14 @@ EOF
 
 # Mingw32
 install -d -m 755 $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir}/mono/gac
-gacutil -i MimeKit.%{version}/lib/net45/MimeKit.dll -package %{mingw_pkg_name} -root $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir} -gacdir mono/gac
+gacutil -i MimeKit.%{version}/lib/netstandard2.0/MimeKit.dll -package %{mingw_pkg_name} -root $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir} -gacdir mono/gac
 
 install -d -m 755 $RPM_BUILD_ROOT%{mingw32_datadir}/pkgconfig/
 install -m 644 MimeKit32.pc $RPM_BUILD_ROOT%{mingw32_datadir}/pkgconfig/MimeKit.pc
 
 # Mingw64
 install -d -m 755 $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir}/mono/gac
-gacutil -i MimeKit.%{version}/lib/net45/MimeKit.dll -package %{mingw_pkg_name} -root $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir} -gacdir mono/gac
+gacutil -i MimeKit.%{version}/lib/netstandard2.0/MimeKit.dll -package %{mingw_pkg_name} -root $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir} -gacdir mono/gac
 
 install -d -m 755 $RPM_BUILD_ROOT%{mingw64_datadir}/pkgconfig/
 install -m 644 MimeKit64.pc $RPM_BUILD_ROOT%{mingw64_datadir}/pkgconfig/MimeKit.pc
@@ -121,5 +121,8 @@ install -m 644 MimeKit64.pc $RPM_BUILD_ROOT%{mingw64_datadir}/pkgconfig/MimeKit.
 
 
 %changelog
+* Fri Aug 03 2018 Mikkel Kruse Johnsen <mikkel@xmedicus.com> - 2.0.5-1
+- Update to 2.0.5
+
 * Thu Sep 7 2017 Mikkel Kruse Johnsen <mikkel@xmedicus.com> - 1.18.0-1
 - Initial version

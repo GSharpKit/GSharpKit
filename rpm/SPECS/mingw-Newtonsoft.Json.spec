@@ -12,8 +12,8 @@
 %define apiversion 10.0.0.0
 
 Name:           mingw-Newtonsoft.Json
-Version:        10.0.3
-Release:        2%{?dist}
+Version:        11.0.2
+Release:        1%{?dist}
 Summary:        Json.NET is a popular high-performance JSON framework for .NET
 
 Group:          Development/Languages
@@ -64,7 +64,7 @@ Name: Newtonsoft.Json
 Description: %{name} - %{summary}
 Requires:
 Version: %{version}
-Libs: -r:${libdir}/Newtonsoft.Json/Newtonsoft.Json.dll
+Libs: -r:Facades/netstandard.dll -r:${libdir}/Newtonsoft.Json/Newtonsoft.Json.dll
 Cflags:
 EOF
 
@@ -77,7 +77,7 @@ Name: Newtonsoft.Json
 Description: %{name} - %{summary}
 Requires:
 Version: %{version}
-Libs: -r:${libdir}/Newtonsoft.Json/Newtonsoft.Json.dll
+Libs: -r:Facades/netstandard.dll -r:${libdir}/Newtonsoft.Json/Newtonsoft.Json.dll
 Cflags:
 EOF
 
@@ -89,14 +89,14 @@ EOF
 
 # Mingw32
 install -d -m 755 $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir}/mono/gac
-gacutil -i Newtonsoft.Json.%{version}/lib/net45/Newtonsoft.Json.dll -package %{mingw_pkg_name} -root $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir} -gacdir mono/gac
+gacutil -i Newtonsoft.Json.%{version}/lib/netstandard2.0/Newtonsoft.Json.dll -package %{mingw_pkg_name} -root $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir} -gacdir mono/gac
 
 install -d -m 755 $RPM_BUILD_ROOT%{mingw32_datadir}/pkgconfig/
 install -m 644 Newtonsoft.Json32.pc $RPM_BUILD_ROOT%{mingw32_datadir}/pkgconfig/Newtonsoft.Json.pc
 
 # Mingw64
 install -d -m 755 $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir}/mono/gac
-gacutil -i Newtonsoft.Json.%{version}/lib/net45/Newtonsoft.Json.dll -package %{mingw_pkg_name} -root $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir} -gacdir mono/gac
+gacutil -i Newtonsoft.Json.%{version}/lib/netstandard2.0/Newtonsoft.Json.dll -package %{mingw_pkg_name} -root $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir} -gacdir mono/gac
 
 install -d -m 755 $RPM_BUILD_ROOT%{mingw64_datadir}/pkgconfig/
 install -m 644 Newtonsoft.Json64.pc $RPM_BUILD_ROOT%{mingw64_datadir}/pkgconfig/Newtonsoft.Json.pc
@@ -119,5 +119,8 @@ install -m 644 Newtonsoft.Json64.pc $RPM_BUILD_ROOT%{mingw64_datadir}/pkgconfig/
 
 
 %changelog
+* Fri Aug 3 2018 Mikkel Kruse Johnsen <mikkel@xmedicus.com> - 11.0.2-1
+- Updated to 11.0.2
+
 * Thu Sep 7 2017 Mikkel Kruse Johnsen <mikkel@xmedicus.com> - 10.0.3-1
 - Initial version

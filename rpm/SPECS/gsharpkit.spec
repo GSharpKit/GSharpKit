@@ -1,7 +1,7 @@
-%define MINGW_FILESYSTEM_VERSION 101
+%define MINGW_FILESYSTEM_VERSION 104
 %define BINUTILS_VERSION 2.29
 %define HEADER_CRT_THREAD_VERSION 5.0.2
-%define COMPILER_VERSION 7.2.0
+%define COMPILER_VERSION 7.3.0
 %define PKG_CONFIG_VERSION 0.28
 %define TERMCAP_VERSION 1.3.1
 %define ZLIB_VERSION 1.2.8
@@ -9,7 +9,7 @@
 %define GETTEXT_VERSION 0.19.7
 %define LIBFFI_VERSION 3.1
 %define PCRE_VERSION 8.38
-%define GLIB2_VERSION 2.54.1
+%define GLIB2_VERSION 2.56.1
 %define PIXMAN_VERSION 0.34.0
 %define BZIP2_VERSION 1.0.6
 %define FREETYPE_VERSION 2.8
@@ -17,11 +17,12 @@
 %define FONTCONFIG_VERSION 2.12.6
 %define LIBPNG_VERSION 1.6.29
 %define LIBJPEG_TURBO_VERSION 1.5.1
-%define LIBTIFF_VERSION 4.0.8
-%define CAIRO_VERSION 1.14.10
+%define LIBTIFF_VERSION 4.0.9
+%define CAIRO_VERSION 1.15.12
 %define ICU_VERSION 57.1
-%define HARFBUZZ_VERSION 1.4.8
-%define PANGO_VERSION 1.40.12
+%define HARFBUZZ_VERSION 1.7.5
+%define FRIBIDI_VERSION 1.0.2
+%define PANGO_VERSION 1.42.1
 %define ATK_VERSION 2.26.0
 %define JASPER_VERSION 1.900.1
 %define LIBXML2_VERSION 2.9.3
@@ -29,11 +30,11 @@
 %define LIBEPOXY_VERSION 1.4.3
 %define LIBRSVG2_VERSION 2.40.19
 %define GDK_PIXBUF_VERSION 2.36.11
-%define GTK3_VERSION 3.22.16
-%define GTK3_ADWAITA_VERSION 3.14.1
-%define GDL_VERSION 3.22.0
+%define GTK3_VERSION 3.22.30
+%define GTK3_ADWAITA_VERSION 3.26.0
+%define GDL_VERSION 3.28.0
 
-%define NSIS_VERSION 2.46
+%define NSIS_VERSION 3.03
 
 %define GTK_MAC_BUNDLER_VERSION 0.5
 %define GTK_MAC_INTEGRATION_VERSION 0.9
@@ -43,34 +44,34 @@
 %define GMP_VERSION 6.1.2
 %define NETTLE_VERSION 3.3
 %define P11_KIT_VERSION 0.23.7
-%define LIBTASN1_VERSION 4.12
+%define LIBTASN1_VERSION 4.13
 %define READLINE_VERSION 6.2
-%define GNUTLS_VERSION 3.5.13
+%define GNUTLS_VERSION 3.6.2
 %define OPENSSL_VERSION 1.0.2
 %define GLIB_NETWORKING_VERSION 2.54.0
 
 %define LIBXSLT_VERSION 1.1.28
-%define SQLITE_VERSION 3.20.1
+%define SQLITE_VERSION 3.22.0
 %define LIBSOUP_VERSION 2.59.0
 
-%define HUNSPELL_VERSION 1.5.4
+%define HUNSPELL_VERSION 1.6.2
 %define ENCHANT_VERSION 1.6.0
 
 %define LIBOGG_VERSION 1.3.2
 %define LIBVORBIS_VERSION 1.3.5
-%define LIBWEBP_VERSION 0.6.0
-%define GSTREAMER1_VERSION 1.12.3
-%define GSTREAMER1_PLUGINS_BASE_VERSION 1.12.3
-%define GSTREAMER1_PLUGINS_GOOD_VERSION 1.12.3
-%define GSTREAMER1_PLUGINS_BAD_VERSION 1.12.3
+%define LIBWEBP_VERSION 1.0.0
+%define GSTREAMER1_VERSION 1.14.1
+%define GSTREAMER1_PLUGINS_BASE_VERSION 1.14.1
+%define GSTREAMER1_PLUGINS_GOOD_VERSION 1.14.1
+%define GSTREAMER1_PLUGINS_BAD_VERSION 1.14.1
 %define WEBKITGTK3_VERSION 2.4.11
 %define LIBEXIF_VERSION 0.6.20
 
 %define DBUS_VERSION 1.8.16
 %define DBUS_GLIB_VERSION 0.108
 
-%define MONO_CORE_VERSION 5.10.0
-%define NPGSQL_VERSION 3.2.7
+%define MONO_CORE_VERSION 5.12.0
+%define NPGSQL_VERSION 4.0.2
 %define GTK3_SHARP_VERSION 3.22.6
 %define GDL_SHARP_VERSION 3.26.0
 %define MONO_ZEROCONF_VERSION 0.9.0
@@ -79,15 +80,15 @@
 %define DBUS_SHARP_VERSION 2:0.9.2
 %define DBUS_GLIB_SHARP_VERSION 0.6.0
 %define GSTREAMER1_SHARP_VERSION 1:1.12.3
-%define NEWTONSOFT_JSON_VERSION 10.0.3
-%define BOUNCY_CASTLE_VERSION 1.8.1
-%define MIMEKIT_VERSION 1.22.0
-%define MAILKIT_VERSION 1.22.0
+%define NEWTONSOFT_JSON_VERSION 11.0.2
+%define BOUNCY_CASTLE_VERSION 1.8.2
+%define MIMEKIT_VERSION 2.0.5
+%define MAILKIT_VERSION 2.0.5
 %define GTK_MAC_INTEGRATION_SHARP_VERSION 0.9
-%define SERVICE_STACK_VERSION 4.5.14
-%define REST_SHARP_VERSION 105.2.3
+%define SERVICE_STACK_VERSION 5.1.0
+%define REST_SHARP_VERSION 106.3.1
 %define SEALAPI_VERSION 2.0.7
-%define PDFSHARP_MIGRADOC_VERSION 1.50.4740
+%define PDFSHARP_MIGRADOC_VERSION 1.50.4845
 
 %define OPENMEDICUS_SERVICESTACK_EHR_SERVICEMODEL_VERSION 1.0.34
 %define OPENMEDICUS_SERVICESTACK_CLINIC_SERVICEMODEL_VERSION 2.4.12
@@ -95,7 +96,7 @@
 
 Summary: 		Easy management of applications
 Name: 			GSharpKit
-Version:		27.18
+Version:		28.1
 Release:		1%{?dist}
 License:		GPL
 Group: 			Applications/Desktop
@@ -119,10 +120,6 @@ BuildRoot:		%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:		noarch
 
 Requires:		GSharpKit-runtime = %{version}
-
-#BuildRequires:		mono-devel >= %{MONO_CORE_VERSION}
-#BuildRequires:		gtk-sharp3-devel >= %{GTK3_SHARP_VERSION}
-#BuildRequires:		webkitgtk3-sharp >= %{WEBKITGTK3_SHARP_VERSION}
 
 Obsoletes:		appbox
 Provides:		appbox
@@ -276,6 +273,7 @@ Requires:               mingw32-libtiff >= %{LIBTIFF_VERSION}
 Requires:               mingw32-cairo >= %{CAIRO_VERSION}
 Requires:               mingw32-icu >= %{ICU_VERSION}
 Requires:               mingw32-harfbuzz >= %{HARFBUZZ_VERSION}
+Requires:               mingw32-fribidi >= %{FRIBIDI_VERSION}
 Requires:               mingw32-pango >= %{PANGO_VERSION}
 Requires:               mingw32-atk >= %{ATK_VERSION}
 Requires:               mingw32-jasper >= %{JASPER_VERSION}
@@ -373,6 +371,7 @@ Requires:               mingw64-libtiff >= %{LIBTIFF_VERSION}
 Requires:               mingw64-cairo >= %{CAIRO_VERSION}
 Requires:               mingw64-icu >= %{ICU_VERSION}
 Requires:               mingw64-harfbuzz >= %{HARFBUZZ_VERSION}
+Requires:               mingw64-fribidi >= %{FRIBIDI_VERSION}
 Requires:               mingw64-pango >= %{PANGO_VERSION}
 Requires:               mingw64-atk >= %{ATK_VERSION}
 Requires:               mingw64-jasper >= %{JASPER_VERSION}
@@ -555,6 +554,7 @@ Requires:               darwinx-libtiff >= %{LIBTIFF_VERSION}
 Requires:               darwinx-cairo >= %{CAIRO_VERSION}
 Requires:               darwinx-icu >= %{ICU_VERSION}
 Requires:               darwinx-harfbuzz >= %{HARFBUZZ_VERSION}
+Requires:               darwinx-fribidi >= %{FRIBIDI_VERSION}
 Requires:               darwinx-pango >= %{PANGO_VERSION}
 Requires:               darwinx-atk >= %{ATK_VERSION}
 Requires:               darwinx-jasper >= %{JASPER_VERSION}

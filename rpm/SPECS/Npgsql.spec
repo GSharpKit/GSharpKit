@@ -6,10 +6,10 @@
 %global debug_package %{nil}
 
 %define libdir /lib
-%define apiversion 3.2.0.0
+%define apiversion 4.0.0.0
 
 Name:           Npgsql
-Version:        3.2.7
+Version:        4.0.2
 Release:        1%{?dist}
 Summary:        Postgresql database connectivity for C#
 
@@ -44,13 +44,13 @@ nuget install %{name} -Version %{version}
 cat > Npgsql.pc << \EOF
 prefix=%{_prefix}
 exec_prefix=${prefix}
-libdir=%{_prefix}%{libdir}/mono
+libdir=%{_prefix}%{libdir}
 
 Name: Npgsql
 Description: Npgsql - Postgresql database connectivity for C#
 Requires:
 Version: %{version}
-Libs: -r:System.Data.dll -r:${libdir}/Npgsql/Npgsql.dll -r:${libdir}/System.Threading.Tasks.Extensions/System.Threading.Tasks.Extensions.dll
+Libs: -r:Facades/netstandard.dll -r:${libdir}/mono/Npgsql/Npgsql.dll -r:${libdir}/mono/System.Threading.Tasks.Extensions/System.Threading.Tasks.Extensions.dll -r:${libdir}/System.Runtime.CompilerServices.Unsafe.dll
 Cflags:
 EOF
 
@@ -59,12 +59,12 @@ EOF
 %install
 %{__rm} -rf %{buildroot}
 
-gacutil -i Npgsql.%{version}/lib/net451/Npgsql.dll -package Npgsql -root $RPM_BUILD_ROOT%{_prefix}%{libdir} -gacdir mono/gac
-gacutil -i System.Threading.Tasks.Extensions.4.3.0/lib/netstandard1.0/System.Threading.Tasks.Extensions.dll -package System.Threading.Tasks.Extensions -root $RPM_BUILD_ROOT%{_prefix}%{libdir} -gacdir mono/gac
+gacutil -i Npgsql.%{version}/lib/netstandard2.0/Npgsql.dll -package Npgsql -root $RPM_BUILD_ROOT%{_prefix}%{libdir} -gacdir mono/gac
+gacutil -i System.Threading.Tasks.Extensions.4.5.0/lib/netstandard2.0/System.Threading.Tasks.Extensions.dll -package System.Threading.Tasks.Extensions -root $RPM_BUILD_ROOT%{_prefix}%{libdir} -gacdir mono/gac
+#gacutil -i System.Runtime.CompilerServices.Unsafe.4.5.0/lib/netstandard2.0/System.Runtime.CompilerServices.Unsafe.dll -package System.Runtime.CompilerServices.Unsafe -root $RPM_BUILD_ROOT%{_prefix}%{libdir} -gacdir mono/gac
 
-#install -d -m 755 $RPM_BUILD_ROOT%{_prefix}%{libdir}/mono/Npgsql
-#install -m 644 Npgsql.%{version}/lib/net451/Npgsql.dll $RPM_BUILD_ROOT%{_prefix}%{libdir}/mono/Npgsql/
-#install -m 644 System.Threading.Tasks.Extensions.4.3.0/lib/netstandard1.0/System.Threading.Tasks.Extensions.dll $RPM_BUILD_ROOT%{_prefix}%{libdir}/mono/Npgsql
+install -d -m 755 $RPM_BUILD_ROOT%{_prefix}%{libdir}
+install -m 644 System.Runtime.CompilerServices.Unsafe.4.5.0/lib/netstandard2.0/System.Runtime.CompilerServices.Unsafe.dll $RPM_BUILD_ROOT%{_prefix}%{libdir}/
 
 install -d -m 755 $RPM_BUILD_ROOT%{_datadir}/pkgconfig/
 install -m 644 Npgsql.pc $RPM_BUILD_ROOT%{_datadir}/pkgconfig/
@@ -77,9 +77,12 @@ install -m 644 Npgsql.pc $RPM_BUILD_ROOT%{_datadir}/pkgconfig/
 %{_prefix}%{libdir}/mono/gac
 %{_prefix}%{libdir}/mono/Npgsql/Npgsql.dll
 %{_prefix}%{libdir}/mono/System.Threading.Tasks.Extensions/System.Threading.Tasks.Extensions.dll
+%{_prefix}%{libdir}/System.Runtime.CompilerServices.Unsafe.dll
 %{_datadir}/pkgconfig/Npgsql.pc
 
 %changelog
+* Thu Aug 02 2018 Mikkel Kruse Johnsen <mikkel@xmedicus.com> - 4.0.2-1
+- Update to 4.0.2
 * Fri Jun 16 2017 Mikkel Kruse Johnsen <mikkel@xmedicus.com> - 3.2.4-1
 - Rename RPM package to Npgsql
 - Updated to use NuGet version

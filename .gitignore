@@ -54,6 +54,11 @@ rpm/SOURCES/oauth2.snk
 rpm/SOURCES/sdk/
 rpm/SOURCES/shared/
 rpm/SOURCES/ThirdPartyNotices.txt
+rpm/SOURCES/0001-Add-config-module-for-querying-PacRunner-d-mon.patch
+rpm/SOURCES/harfbuzz-enable-delayload-freetype.patch
+rpm/SOURCES/libproxy-pacrunner-crash-fix.patch
+rpm/SOURCES/pango-enable-delay-load-of-freetype-and-fontconfig.patch
+rpm/SOURCES/proxy.1
 RPMS
 SOURCES.bak
 SRPMS

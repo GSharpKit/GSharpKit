@@ -3,7 +3,7 @@
 %define libdir /lib
 
 Name:           MailKit
-Version:        1.22.0
+Version:        2.0.5
 Release:        1%{?dist}
 Summary:        MailKit is an Open Source cross-platform .NET mail-client library.
 
@@ -17,7 +17,7 @@ BuildArch:	noarch
 BuildRequires:  nuget
 
 Requires:	mono-core >= 4.8.0
-Requires:	BouncyCastle >= 1.8.1
+Requires:	BouncyCastle >= 1.8.2
 Requires:	MimeKit >= %{version}
 
 %description
@@ -46,7 +46,7 @@ Name: %{name}
 Description: %{name} - %{summary}
 Requires: MimeKit
 Version: %{version}
-Libs: -r:${libdir}/%{name}/MailKit.dll
+Libs: -r:Facades/netstandard.dll -r:${libdir}/%{name}/MailKit.dll
 Cflags:
 EOF
 
@@ -56,7 +56,7 @@ EOF
 %{__rm} -rf %{buildroot}
 
 install -d -m 755 $RPM_BUILD_ROOT%{_prefix}%{libdir}/mono/gac
-gacutil -i MailKit.%{version}/lib/net45/MailKit.dll -package %{name} -root $RPM_BUILD_ROOT%{_prefix}%{libdir} -gacdir mono/gac
+gacutil -i MailKit.%{version}/lib/netstandard2.0/MailKit.dll -package %{name} -root $RPM_BUILD_ROOT%{_prefix}%{libdir} -gacdir mono/gac
 
 install -d -m 755 $RPM_BUILD_ROOT%{_datadir}/pkgconfig/
 install -m 644 %{name}.pc $RPM_BUILD_ROOT%{_datadir}/pkgconfig/
@@ -71,5 +71,7 @@ install -m 644 %{name}.pc $RPM_BUILD_ROOT%{_datadir}/pkgconfig/
 %{_datadir}/pkgconfig/%{name}.pc
 
 %changelog
+* Thu Aug 02 2018 Mikkel Kruse Johnsen <mikkel@xmedicus.com> - 2.0.5-1
+- Update to 2.0.5
 * Mon Aug 18 2017 Mikkel Kruse Johnsen <mikkel@xmedicus.com> - 1.18.0-1
 - Initial version

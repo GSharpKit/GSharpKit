@@ -29,6 +29,7 @@ libtiff
 cairo
 icu
 harfbuzz
+fribidi
 pango
 atk
 jasper

@@ -3,7 +3,7 @@
 %define release_version 2.26
 
 Name:           mingw-libgdl
-Version:        3.26.0
+Version:        3.28.0
 Release:        1%{?dist}
 Summary:        MinGW Windows GDL library
 

@@ -6,10 +6,10 @@
 
 %define debug_package %{nil}
 
-%define platform net45
+%define platform netstandard2.0
 
 Name:		mingw-RestSharp
-Version: 	105.2.3
+Version: 	106.3.1
 Release: 	2%{?dist}
 Summary: 	Simple REST and HTTP API Client
 Group: 		System Environment/Libraries
@@ -44,7 +44,7 @@ Simple REST and HTTP API Client
 
 %prep
 %setup -c %{mingw_pkg_name}-%{version} -T
-nuget install %{mingw_pkg_name}Signed -Version %{version}
+nuget install %{mingw_pkg_name} -Version %{version}
 
 cat > RestSharp32.pc << \EOF
 prefix=%{mingw32_prefix}
@@ -55,7 +55,7 @@ Name: RestSharp
 Description: Simple REST and HTTP API Client
 Requires: 
 Version: %{version}
-Libs: -r:${libdir}/RestSharp/RestSharp.dll
+Libs: -r:Facades/netstandard.dll -r:${libdir}/RestSharp/RestSharp.dll
 Cflags:
 EOF
 
@@ -68,7 +68,7 @@ Name: RestSharp
 Description: Simple REST and HTTP API Client
 Requires:
 Version: %{version}
-Libs: -r:${libdir}/RestSharp/RestSharp.dll
+Libs: -r:Facades/netstandard.dll -r:${libdir}/RestSharp/RestSharp.dll
 Cflags:
 EOF
 
@@ -80,7 +80,7 @@ rm -rf $RPM_BUILD_ROOT
 
 # Mingw32
 install -d -m 755 $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir}/mono/gac
-gacutil -i RestSharpSigned.%{version}/lib/%{platform}/RestSharp.dll -package %{mingw_pkg_name} -root $RPM_BUILD_ROOT%{mingw32_prefix}/lib -gacdir mono/gac
+gacutil -i RestSharp.%{version}/lib/%{platform}/RestSharp.dll -package %{mingw_pkg_name} -root $RPM_BUILD_ROOT%{mingw32_prefix}/lib -gacdir mono/gac
 
 install -d -m 755 $RPM_BUILD_ROOT%{mingw32_datadir}/RestSharp
 install -m 664 %{SOURCE0} $RPM_BUILD_ROOT%{mingw32_datadir}/RestSharp/License
@@ -90,7 +90,7 @@ install -m 644 RestSharp32.pc $RPM_BUILD_ROOT%{mingw32_datadir}/pkgconfig/RestSh
 
 # Mingw32 
 install -d -m 755 $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir}/mono/gac
-gacutil -i RestSharpSigned.%{version}/lib/%{platform}/RestSharp.dll -package %{mingw_pkg_name} -root $RPM_BUILD_ROOT%{mingw64_prefix}/lib -gacdir mono/gac
+gacutil -i RestSharp.%{version}/lib/%{platform}/RestSharp.dll -package %{mingw_pkg_name} -root $RPM_BUILD_ROOT%{mingw64_prefix}/lib -gacdir mono/gac
 
 install -d -m 755 $RPM_BUILD_ROOT%{mingw64_datadir}/RestSharp
 install -m 664 %{SOURCE0} $RPM_BUILD_ROOT%{mingw64_datadir}/RestSharp/License
@@ -117,6 +117,9 @@ rm -rf $RPM_BUILD_ROOT
 %{mingw64_datadir}/pkgconfig/RestSharp.pc
 
 %changelog
+* Fri Aug 3 2018 Mikkel Kruse Johnsen <mikkel@xmedicus.com> - 106.3.1-1
+- Updated to 106.3.1
+
 * Wed May 03 2017 Mikkel Kruse Johnsen <mikkel@xmedicus.com>
 - first draft of spec file
 

@@ -3,11 +3,11 @@
 %define libdir /lib
 %define apiversion 1.50.0.0
 
-%define beta -beta5a
+%define beta -RC2a
 
 Name:           PDFsharp-MigraDoc
-Version:        1.50.4790
-Release:        beta5a%{?dist}
+Version:        1.50.4845
+Release:        RC2a%{?dist}
 Summary:        .NET library that easily creates documents and renders them into PDF or RTF.
 
 Group:          Development/Languages
@@ -71,5 +71,8 @@ install -m 644 %{name}.pc $RPM_BUILD_ROOT%{_datadir}/pkgconfig/
 %{_datadir}/pkgconfig/%{name}.pc
 
 %changelog
+* Thu Aug 02 2018 Mikkel Kruse Johnsen <mikkel@xmedicus.com> - 1.50.4845-RC2a-1
+- Update to 1.50.4845-RC2a
+
 * Thu Jan 4 2018 Mikkel Kruse Johnsen <mikkel@xmedicus.com> - 1.50.4740-beta5-1
 - Initial version

@@ -11,7 +11,7 @@
 %define libdir /lib
 
 Name:           mingw-ServiceStack
-Version:        5.0.2
+Version:        5.1.0
 Release:        1%{?dist}
 Summary:        ServiceStack webservice framework: Faster, Cleaner, Modern WCF alternative.
 
@@ -164,5 +164,8 @@ install -m 644 ServiceStack.Interfaces64.pc $RPM_BUILD_ROOT%{mingw64_datadir}/pk
 
 
 %changelog
+* Fri Aug 3 2018 Mikkel Kruse Johnsen <mikkel@xmedicus.com> - 5.1.0-1
+- Update to 5.1.0
+
 * Thu Nov 23 2017 Mikkel Kruse Johnsen <mikkel@xmedicus.com> - 4.5.14-1
 - Initial version

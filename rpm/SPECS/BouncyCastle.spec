@@ -4,8 +4,8 @@
 %define apiversion 1.8.0.0
 
 Name:           BouncyCastle
-Version:        1.8.1
-Release:        2%{?dist}
+Version:        1.8.2
+Release:        1%{?dist}
 Summary:        BouncyCastle is a Crypto library written in C# 
 
 Group:          Development/Languages

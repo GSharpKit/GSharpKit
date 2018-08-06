@@ -4,8 +4,8 @@
 %define api_version 10.0.0.0
 
 Name:           Newtonsoft.Json
-Version:        10.0.3
-Release:        2%{?dist}
+Version:        11.0.2
+Release:        1%{?dist}
 Summary:        Json.NET is a popular high-performance JSON framework for .NET
 
 Group:          Development/Languages
@@ -36,7 +36,7 @@ Name: Newtonsoft.Json
 Description: Json.NET is a popular high-performance JSON framework for .NET
 Requires:
 Version: %{api_version}
-Libs: -r:${libdir}/%{name}/Newtonsoft.Json.dll
+Libs: -r:Facades/netstandard.dll -r:${libdir}/%{name}/Newtonsoft.Json.dll
 Cflags:
 EOF
 
@@ -46,7 +46,7 @@ EOF
 %{__rm} -rf %{buildroot}
 
 install -d -m 755 $RPM_BUILD_ROOT%{_prefix}%{libdir}/mono/gac
-gacutil -i Newtonsoft.Json.%{version}/lib/net45/Newtonsoft.Json.dll -package %{name} -root $RPM_BUILD_ROOT%{_prefix}%{libdir} -gacdir mono/gac
+gacutil -i Newtonsoft.Json.%{version}/lib/netstandard2.0/Newtonsoft.Json.dll -package %{name} -root $RPM_BUILD_ROOT%{_prefix}%{libdir} -gacdir mono/gac
 
 install -d -m 755 $RPM_BUILD_ROOT%{_datadir}/pkgconfig/
 install -m 644 Newtonsoft.Json.pc $RPM_BUILD_ROOT%{_datadir}/pkgconfig/
@@ -62,6 +62,9 @@ install -m 644 Newtonsoft.Json.pc $RPM_BUILD_ROOT%{_datadir}/pkgconfig/
 
 
 %changelog
+* Thu Aug 02 2018 Mikkel Kruse Johnsen <mikkel@xmedicus.com> - 11.0.2-1
+- Updated to 11.0.2
+
 * Thu Oct 03 2017 Mikkel Kruse Johnsen <mikkel@xmedicus.com> - 10.0.3-1
 - Updated to 10.0.3
 
