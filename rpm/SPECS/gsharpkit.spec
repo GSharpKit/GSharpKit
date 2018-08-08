@@ -224,7 +224,7 @@ Provides:		distribution-release
 
 Requires:		GSharpKit-runtime = %{version}
 
-Requires:		gnome-common intltool glib2-devel redhat-rpm-config
+Requires:		gnome-common intltool glib2-devel redhat-rpm-config rpm-build fedora-packager
 Requires:		meson
 
 Requires:		mono-zeroconf-devel
@@ -484,6 +484,7 @@ Provides:               appbox-mingw32-devel
 Requires:               GSharpKit-sdk-mingw32
 
 Requires:		redhat-rpm-config rpm-build
+Requires:		msitools
 Requires:		osslsigncode
 Requires:		hunspell-da
 Requires:               mingw32-filesystem >= %{MINGW_FILESYSTEM_VERSION}
@@ -513,6 +514,7 @@ Provides:               appbox-sdk-mingw64-devel
 Requires:		GSharpKit-sdk-mingw64
 
 Requires:               redhat-rpm-config rpm-build
+Requires:		msitools
 Requires:		osslsigncode
 Requires:		hunspell-da
 Requires:               mingw64-filesystem >= %{MINGW_FILESYSTEM_VERSION}

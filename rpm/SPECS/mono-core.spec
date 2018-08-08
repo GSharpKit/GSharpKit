@@ -26,7 +26,7 @@
 %global debug_package %{nil} 
 %define sgen yes
 
-%define ver 5.14.0.84
+%define ver 5.14.0.177
 
 Name:           mono-core
 Version:        %{ver}
@@ -122,6 +122,7 @@ Provides:	mono(System.Diagnostics.Process) = 4.0.0.0
 Provides:	mono(System.Security.AccessControl) = 4.0.0.0
 Provides:	mono(System.Security.Principal.Windows) = 4.0.0.0
 Provides:       mono(System.Diagnostics.StackTrace) = 4.0.2.0
+Provides:	mono(System.IO.Pipes.AccessControl) = 4.0.1.0
 
 %description
 The Mono Project is an open development initiative that is working to

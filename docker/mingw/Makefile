@@ -7,7 +7,7 @@ pull:
 	sudo docker pull fedora:${FEDORA_VERSION}
 
 build:
-	sudo docker build -t gsharpkit-mingw .
+	sudo docker build --no-cache -t gsharpkit-mingw .
 
 tag:
 	sudo docker tag gsharpkit-mingw gsharpkit/gsharpkit-mingw:latest
