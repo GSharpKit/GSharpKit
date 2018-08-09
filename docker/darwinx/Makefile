@@ -10,10 +10,8 @@ build:
 	sudo docker build --no-cache -t gsharpkit-darwinx .
 
 tag:
-	sudo docker tag gsharpkit-darwinx gsharpkit/gsharpkit-darwinx:latest
 	sudo docker tag gsharpkit-darwinx gsharpkit/gsharpkit-darwinx:${VERSION}
 
 push:
-	sudo docker push gsharpkit/gsharpkit-darwinx:latest
 	sudo docker push gsharpkit/gsharpkit-darwinx:${VERSION}
 
