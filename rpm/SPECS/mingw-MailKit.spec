@@ -11,7 +11,7 @@
 %define libdir /lib
 
 Name:           mingw-MailKit
-Version:        2.0.5
+Version:        2.0.6
 Release:        1%{?dist}
 Summary:        MailKit is an Open Source cross-platform .NET mail-client library.
 
@@ -139,6 +139,9 @@ install -m 644 MailKit64.pc $RPM_BUILD_ROOT%{mingw64_datadir}/pkgconfig/MailKit.
 
 
 %changelog
+* Fri Aug 17 2018 Mikkel Kruse Johnsen <mikkel@xmedicus.com> - 2.0.6-1
+- Update to 2.0.6
+
 * Fri Aug 03 2018 Mikkel Kruse Johnsen <mikkel@xmedicus.com> - 2.0.5-1
 - Update to 2.0.5
 

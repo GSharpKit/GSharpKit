@@ -1,11 +1,11 @@
 %global debug_package %{nil}
 
 %define libdir /lib
-%define api_version 10.0.0.0
+%define api_version 11.0.0.0
 
 Name:           Newtonsoft.Json
 Version:        11.0.2
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Json.NET is a popular high-performance JSON framework for .NET
 
 Group:          Development/Languages
@@ -62,6 +62,9 @@ install -m 644 Newtonsoft.Json.pc $RPM_BUILD_ROOT%{_datadir}/pkgconfig/
 
 
 %changelog
+* Fri Aug 17 2018 Mikkel Kruse Johnsen <mikkel@xmedicus.com> - 11.0.2-1
+- Fixed API version to 11.0.0.0
+
 * Thu Aug 02 2018 Mikkel Kruse Johnsen <mikkel@xmedicus.com> - 11.0.2-1
 - Updated to 11.0.2
 

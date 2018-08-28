@@ -11,7 +11,7 @@
 %define libdir /lib
 
 Name:           mingw-MimeKit
-Version:        2.0.5
+Version:        2.0.6
 Release:        1%{?dist}
 Summary:        MimeKit is an Open Source library for creating and parsing MIME, S/MIME and PGP messages.
 
@@ -121,6 +121,9 @@ install -m 644 MimeKit64.pc $RPM_BUILD_ROOT%{mingw64_datadir}/pkgconfig/MimeKit.
 
 
 %changelog
+* Fri Aug 17 2018 Mikkel Kruse Johnsen <mikkel@xmedicus.com> - 2.0.6-1
+- Update to 2.0.6
+
 * Fri Aug 03 2018 Mikkel Kruse Johnsen <mikkel@xmedicus.com> - 2.0.5-1
 - Update to 2.0.5
 

@@ -9,11 +9,11 @@
 %define debug_package %{nil}
 
 %define libdir /lib
-%define apiversion 10.0.0.0
+%define apiversion 11.0.0.0
 
 Name:           mingw-Newtonsoft.Json
 Version:        11.0.2
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Json.NET is a popular high-performance JSON framework for .NET
 
 Group:          Development/Languages
@@ -119,6 +119,9 @@ install -m 644 Newtonsoft.Json64.pc $RPM_BUILD_ROOT%{mingw64_datadir}/pkgconfig/
 
 
 %changelog
+* Fri Aug 17 2018 Mikkel Kruse Johnsen <mikkel@xmedicus.com> - 11.0.2-1
+- Fixed API version to 11.0.0.0
+
 * Fri Aug 3 2018 Mikkel Kruse Johnsen <mikkel@xmedicus.com> - 11.0.2-1
 - Updated to 11.0.2
 
