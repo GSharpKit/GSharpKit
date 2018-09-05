@@ -1,0 +1,65 @@
+{
+    "upgrade_guid": "67246d64-b0ee-11e8-af4d-708bcda85715",
+    "version": "@VERSION@",
+    "product_name": "GSharpKit",
+    "manufacturer": "XMedicus Systems ApS",
+    "name": "GSharpKit",
+    "name_base": "GSharpKit",
+    "comments": "GSharpKit Framework",
+    "installdir": "GSharpKit",
+    "license_file": "License.rtf",
+    "arch": @ARCH_NO@,
+    "need_msvcrt": false,
+    "major_upgrade": {
+    	"AllowDowngrades": "yes"
+    },
+    "registry_entries": [
+    	{
+    		"root": "HKLM",
+    		"key": "SOFTWARE\\GSharpKit",
+    		"action": "createAndRemoveOnUninstall",
+    		"name": "Install_Dir",
+    		"type": "string",
+    		"value": "[INSTALLDIR]",
+    		"key_path": "no"
+    	},
+        {
+                "root": "HKLM",
+                "key": "SOFTWARE\\GSharpKit",
+                "action": "createAndRemoveOnUninstall",
+                "name": "Version",
+                "type": "string",
+                "value": "@VERSION@",
+                "key_path": "no"
+        }
+    ],
+    "custom_actions": [
+    	{
+    		"id": "CertAction",
+    		"property": "",
+    		"exe_command": "\"[INSTALLDIR]bin\\mono.exe\" \"[INSTALLDIR]bin\\cert-sync.exe\" --quiet \"[INSTALLDIR]bin\\cacert.pem\"",
+    		"execute": "deferred",
+    		"return": "ignore",
+    		"impersonate": "no",
+                "before": "InstallFinalize"
+    	},
+    	{
+    		"id": "VCRedist",
+    		"property": "",
+    		"exe_command": "\"[INSTALLDIR]bin\\VC_redist.@ARCH_SHORT@.exe\" /install /quiet /norestart",
+    		"execute": "deferred",
+    		"return": "ignore",
+    		"impersonate": "no",
+                "before": "InstallFinalize"
+    	}
+    ],
+    "parts": [
+        {
+         "id": "GSharpKit",
+         "title": "GSharpKit",
+         "description": "GSharpKit Framework",
+         "absent": "disallow",
+         "staged_dir": "framework"
+        }
+    ]
+}

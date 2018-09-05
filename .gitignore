@@ -1,4 +1,8 @@
 *.bak
+*.msi
+
+GSharpKit.json
+make-msi32.sh
 
 # Everything below should be auto-sorted. Edit gitignore.sh to add lines above.
 
@@ -54,3 +58,4 @@ RPMS
 SOURCES.bak
 SRPMS
 docker/darwinx/packages
+rpm/SOURCES/proxy.1
