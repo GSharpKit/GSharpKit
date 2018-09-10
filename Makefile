@@ -14,7 +14,7 @@ msi32: GSharpKit.json.in make-msi32.sh.in
 
 sign32: GSharpKit-28.1-x86.msi
 	mv GSharpKit-${VERSION}-x86.msi GSharpKit-${VERSION}-x86.msi.unsigned
-	osslsigncode sign -pkcs12 ~/.tls/gsharpkit.p12 -askpass -n "GSharpKit" -i http://www.gsharpkit.com -t http://time.certum.pl -in GSharpKit-${VERSION}-x86.msi.unsigned -out GSharpKit-${VERSION}-x86.msi && rm GSharpKit-${VERSION}-x86.msi.unsigned
+	osslsigncode sign -pkcs12 ~/.pki/gsharpkit.p12 -askpass -n "GSharpKit" -i http://www.gsharpkit.com -t http://time.certum.pl -in GSharpKit-${VERSION}-x86.msi.unsigned -out GSharpKit-${VERSION}-x86.msi && rm GSharpKit-${VERSION}-x86.msi.unsigned
 
 
 clean:
