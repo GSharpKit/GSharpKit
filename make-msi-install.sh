@@ -12,7 +12,7 @@ echo "Install Framework $FROM"
 mkdir $TO/bin
 cp $FROM/bin/mono.exe $TO/bin/
 cp $FROM/lib/mono/4.5/cert-sync.exe $TO/bin/
-cp cacert.pem $TO/bin/
+cp /etc/pki/tls/certs/ca-bundle.crt $TO/bin/
 
 cp $FROM/bin/VC_redist.${ARCH}.exe $TO/bin/
 
