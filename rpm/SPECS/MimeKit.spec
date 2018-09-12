@@ -19,6 +19,8 @@ BuildRequires:  nuget
 Requires:	mono-core >= 4.8.0
 Requires:	BouncyCastle >= 1.8.2
 
+Provides:       mono(System.Text.Encoding.CodePages)
+
 %description
 MimeKit is an Open Source library for creating and parsing MIME, 
 S/MIME and PGP messages on desktop and mobile platforms. 
