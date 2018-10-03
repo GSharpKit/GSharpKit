@@ -9,7 +9,7 @@
 %define apiversion 4.0.0.0
 
 Name:           Npgsql
-Version:        4.0.2
+Version:        4.0.3
 Release:        1%{?dist}
 Summary:        Postgresql database connectivity for C#
 

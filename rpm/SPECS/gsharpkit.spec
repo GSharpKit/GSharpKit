@@ -71,7 +71,7 @@
 %define DBUS_GLIB_VERSION 0.108
 
 %define MONO_CORE_VERSION 5.14.0
-%define NPGSQL_VERSION 4.0.2
+%define NPGSQL_VERSION 4.0.3
 %define GTK3_SHARP_VERSION 3.22.6
 %define GDL_SHARP_VERSION 3.26.0
 %define MONO_ZEROCONF_VERSION 0.9.0
@@ -89,6 +89,7 @@
 %define REST_SHARP_VERSION 106.3.1
 %define SEALAPI_VERSION 2.0.7
 %define PDFSHARP_MIGRADOC_VERSION 1.50.4845
+%define SPRACHE_VERSION 2.1.2
 
 %define OPENMEDICUS_SERVICESTACK_EHR_SERVICEMODEL_VERSION 1.0.34
 %define OPENMEDICUS_SERVICESTACK_CLINIC_SERVICEMODEL_VERSION 2.4.12
@@ -96,7 +97,7 @@
 
 Summary: 		Easy management of applications
 Name: 			GSharpKit
-Version:		28.1
+Version:		28.2
 Release:		1%{?dist}
 License:		GPL
 Group: 			Applications/Desktop
@@ -203,6 +204,7 @@ Requires:		ServiceStack >= %{SERVICE_STACK_VERSION}
 Requires:		RestSharp >= %{REST_SHARP_VERSION}
 Requires:		SealApi >= %{SEALAPI_VERSION}
 Requires:		PDFsharp-MigraDoc >= %{PDFSHARP_MIGRADOC_VERSION}
+Requires:		Sprache >= %{SPRACHE_VERSION}
 Requires:		OpenMedicus.ServiceStack.EHR.ServiceModel >= %{OPENMEDICUS_SERVICESTACK_EHR_SERVICEMODEL_VERSION}
 Requires:		OpenMedicus.ServiceStack.Clinic.ServiceModel >= %{OPENMEDICUS_SERVICESTACK_CLINIC_SERVICEMODEL_VERSION}
 Requires:		OpenMedicus.ServiceStack.Master.ServiceModel >= %{OPENMEDICUS_SERVICESTACK_MASTER_SERVICEMODEL_VERSION}
@@ -333,6 +335,7 @@ Requires:               mingw32-MailKit >= %{MAILKIT_VERSION}
 Requires:		mingw32-ServiceStack >= %{SERVICE_STACK_VERSION}
 Requires:		mingw32-RestSharp >= %{REST_SHARP_VERSION}
 Requires:		mingw32-SealApi >= %{SEALAPI_VERSION}
+Requires:               mingw32-Sprache >= %{SPRACHE_VERSION}
 Requires:               mingw32-PDFsharp-MigraDoc >= %{PDFSHARP_MIGRADOC_VERSION}
 Requires:               mingw32-OpenMedicus.ServiceStack.EHR.ServiceModel >= %{OPENMEDICUS_SERVICESTACK_EHR_SERVICEMODEL_VERSION}
 Requires:               mingw32-OpenMedicus.ServiceStack.Clinic.ServiceModel >= %{OPENMEDICUS_SERVICESTACK_CLINIC_SERVICEMODEL_VERSION}
@@ -431,6 +434,7 @@ Requires:               mingw64-MailKit >= %{MAILKIT_VERSION}
 Requires:		mingw64-ServiceStack >= %{SERVICE_STACK_VERSION}
 Requires:		mingw64-RestSharp >= %{REST_SHARP_VERSION}
 Requires:		mingw64-SealApi >= %{SEALAPI_VERSION}
+Requires:               mingw64-Sprache >= %{SPRACHE_VERSION}
 Requires:               mingw64-PDFsharp-MigraDoc >= %{PDFSHARP_MIGRADOC_VERSION}
 Requires:               mingw64-OpenMedicus.ServiceStack.EHR.ServiceModel >= %{OPENMEDICUS_SERVICESTACK_EHR_SERVICEMODEL_VERSION}
 Requires:               mingw64-OpenMedicus.ServiceStack.Clinic.ServiceModel >= %{OPENMEDICUS_SERVICESTACK_CLINIC_SERVICEMODEL_VERSION}
@@ -615,6 +619,7 @@ Requires:               darwinx-MailKit >= %{MAILKIT_VERSION}
 Requires:               darwinx-ServiceStack >= %{SERVICE_STACK_VERSION}
 Requires:		darwinx-RestSharp >= %{REST_SHARP_VERSION}
 Requires:		darwinx-SealApi >= %{SEALAPI_VERSION}
+Requires:               darwinx-Sprache >= %{SPRACHE_VERSION}
 Requires:               darwinx-PDFsharp-MigraDoc >= %{PDFSHARP_MIGRADOC_VERSION}
 Requires:               darwinx-OpenMedicus.ServiceStack.EHR.ServiceModel >= %{OPENMEDICUS_SERVICESTACK_EHR_SERVICEMODEL_VERSION}
 Requires:               darwinx-OpenMedicus.ServiceStack.Clinic.ServiceModel >= %{OPENMEDICUS_SERVICESTACK_CLINIC_SERVICEMODEL_VERSION}
@@ -686,8 +691,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_sysconfdir}/pki/rpm-gpg/RPM-GPG-KEY-microsoft
 %{_sysconfdir}/yum/pluginconf.d/yum_ignoreos.conf
 %{_datadir}/yum-plugins/yum_ignoreos.py
-%{_datadir}/yum-plugins/yum_ignoreos.pyc
-%{_datadir}/yum-plugins/yum_ignoreos.pyo
+#{_datadir}/yum-plugins/yum_ignoreos.pyc
+#{_datadir}/yum-plugins/yum_ignoreos.pyo
 
 
 %files runtime
