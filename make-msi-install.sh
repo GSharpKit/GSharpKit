@@ -31,7 +31,6 @@ mkdir $TO/etc
 cp -r $FROM/etc/dbus-1 $TO/etc/
 touch $TO/etc/dbus-1/session.d/empty
 cp -r $FROM/etc/fonts $TO/etc/
-cp -r $FROM/etc/gtk-2.0 $TO/etc/
 cp -r $FROM/etc/gtk-3.0 $TO/etc/
 cp -r $FROM/etc/mono $TO/etc/
 cp -r $FROM/etc/pki $TO/etc/
