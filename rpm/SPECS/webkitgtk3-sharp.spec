@@ -32,6 +32,7 @@ webkitgtk-sharp is .NET bindings for the WebKit rendering engine.
 %build
 sh autogen.sh --prefix=/usr
 # parallel build fails in mock
+touch sources/generated-stamp
 make
 
 %install
