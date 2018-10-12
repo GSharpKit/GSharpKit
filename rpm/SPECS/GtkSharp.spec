@@ -1,14 +1,29 @@
 %global debug_package %{nil}
 
+%define libdir /lib
+
 Name:           GtkSharp
-Version:        3.22.6
-Release:        3%{?dist}
+Version:        3.22.24
+Release:        30%{?dist}
 Summary:        GTK+ and GNOME bindings for Mono
 
 Group:          System Environment/Libraries
 License:        LGPLv2+
 URL:            http://www.mono-project.com/GtkSharp
 Source0:        GtkSharp-%{version}.tar.gz
+Source1:        gdk-sharp-3.0.pc
+Source2:        glib-sharp-3.0.pc
+Source3:        gio-sharp-3.0.pc
+Source4:        gtk-sharp-3.0.pc
+Source100:	gapi3-codegen
+Source101:	gapi3-fixup
+Source102:	gapi3-parser 
+Source103:	gapi-fixup.exe 
+Source104:	gapi-parser.exe 
+Source105:	gapi2xml.pl 
+Source106:	gapi_codegen.exe 
+Source107:	gapi_pp.pl
+Source108:	gapi-3.0.pc
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:  mono-devel, libmono-2_0-devel, gtk3-devel, cairo-devel, monodoc, perl-XML-LibXML
@@ -50,16 +65,59 @@ the GAPI tools and found in Gtk# include Gtk, Atk, Pango, Gdk.
 find -name '*.c' -exec chmod a-x {} \;
 
 %build
-meson --prefix=%{_prefix} --libdir=%{_prefix}/lib build/
-ninja -C build/
+sh build.sh
+
+#pushd Source/OldStuff/parser/
+#meson --prefix=%{_prefix} --libdir=%{_prefix}/lib build
+#ninja -C build/
+#popd
+
 
 %install
 %{__rm} -rf $RPM_BUILD_ROOT
-DESTDIR=$RPM_BUILD_ROOT ninja -C build/ install
 
-mkdir -p %{buildroot}%{_prefix}/share/
-mv %{buildroot}%{_prefix}/lib/pkgconfig %{buildroot}%{_prefix}/share/
+sn -R BuildOutput/Release/AtkSharp.dll Source/GtkSharp.snk
+gacutil -i BuildOutput/Release/AtkSharp.dll -package %{name}-3.0 -root $RPM_BUILD_ROOT%{_prefix}%{libdir} -gacdir mono/gac
 
+sn -R BuildOutput/Release/CairoSharp.dll Source/GtkSharp.snk
+gacutil -i BuildOutput/Release/CairoSharp.dll -package %{name}-3.0 -root $RPM_BUILD_ROOT%{_prefix}%{libdir} -gacdir mono/gac
+
+sn -R BuildOutput/Release/GdkSharp.dll Source/GtkSharp.snk
+gacutil -i BuildOutput/Release/GdkSharp.dll -package %{name}-3.0 -root $RPM_BUILD_ROOT%{_prefix}%{libdir} -gacdir mono/gac
+
+sn -R BuildOutput/Release/GioSharp.dll Source/GtkSharp.snk
+gacutil -i BuildOutput/Release/GioSharp.dll -package %{name}-3.0 -root $RPM_BUILD_ROOT%{_prefix}%{libdir} -gacdir mono/gac
+
+sn -R BuildOutput/Release/GLibSharp.dll Source/GtkSharp.snk
+gacutil -i BuildOutput/Release/GLibSharp.dll -package %{name}-3.0 -root $RPM_BUILD_ROOT%{_prefix}%{libdir} -gacdir mono/gac
+
+sn -R BuildOutput/Release/GtkSharp.dll Source/GtkSharp.snk
+gacutil -i BuildOutput/Release/GtkSharp.dll -package %{name}-3.0 -root $RPM_BUILD_ROOT%{_prefix}%{libdir} -gacdir mono/gac
+
+sn -R BuildOutput/Release/PangoSharp.dll Source/GtkSharp.snk
+gacutil -i BuildOutput/Release/PangoSharp.dll -package %{name}-3.0 -root $RPM_BUILD_ROOT%{_prefix}%{libdir} -gacdir mono/gac
+
+mkdir -p %{buildroot}%{_prefix}/share/pkgconfig
+install -m 644 %{SOURCE1} %{buildroot}%{_prefix}/share/pkgconfig/
+install -m 644 %{SOURCE2} %{buildroot}%{_prefix}/share/pkgconfig/
+install -m 644 %{SOURCE3} %{buildroot}%{_prefix}/share/pkgconfig/
+install -m 644 %{SOURCE4} %{buildroot}%{_prefix}/share/pkgconfig/
+install -m 644 %{SOURCE108} %{buildroot}%{_prefix}/share/pkgconfig/
+
+mkdir -p %{buildroot}%{_prefix}/share/gapi-3.0
+cp Source/Libs/*/*Sharp-api.xml %{buildroot}%{_prefix}/share/gapi-3.0/
+
+mkdir -p %{buildroot}%{_prefix}/bin
+install -m 755 %{SOURCE100} %{buildroot}%{_prefix}/bin/
+install -m 755 %{SOURCE101} %{buildroot}%{_prefix}/bin/
+install -m 755 %{SOURCE102} %{buildroot}%{_prefix}/bin/
+
+mkdir -p %{buildroot}%{_prefix}/lib/gapi-3.0
+install -m 755 %{SOURCE103} %{buildroot}%{_prefix}/lib/gapi-3.0/
+install -m 755 %{SOURCE104} %{buildroot}%{_prefix}/lib/gapi-3.0/
+install -m 755 %{SOURCE105} %{buildroot}%{_prefix}/lib/gapi-3.0/
+install -m 755 %{SOURCE106} %{buildroot}%{_prefix}/lib/gapi-3.0/
+install -m 755 %{SOURCE107} %{buildroot}%{_prefix}/lib/gapi-3.0/
 
 %clean
 %{__rm} -rf $RPM_BUILD_ROOT
@@ -71,10 +129,9 @@ mv %{buildroot}%{_prefix}/lib/pkgconfig %{buildroot}%{_prefix}/share/
 %defattr(-,root,root,-)
 %{_prefix}/lib/mono/gac
 %{_prefix}/lib/mono/GtkSharp-3.0
-%{_prefix}/lib/mono/*-sharp/*.dll
+%{_prefix}/lib/mono/gac/*Sharp/*/*.dll
+%{_prefix}/lib/mono/gac/*Sharp/*/*.pdb
 %{_prefix}/share/pkgconfig/*-sharp-3.0.pc
-#{_libdir}/libmono-profiler-gui-thread-check.so.0
-#{_libdir}/libmono-profiler-gui-thread-check.so.0.0.0
 
 %files gapi
 %defattr(-,root,root,-)
