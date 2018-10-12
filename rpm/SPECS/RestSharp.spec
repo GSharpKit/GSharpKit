@@ -4,7 +4,7 @@
 %define libdir /lib
 
 Name:		RestSharp
-Version: 	106.3.1
+Version: 	106.5.2
 Release: 	1%{?dist}
 Summary: 	Simple REST and HTTP API Client
 Group: 		System Environment/Libraries

@@ -9,8 +9,8 @@
 %define platform netstandard2.0
 
 Name:		mingw-RestSharp
-Version: 	106.3.1
-Release: 	2%{?dist}
+Version: 	106.5.2
+Release: 	1%{?dist}
 Summary: 	Simple REST and HTTP API Client
 Group: 		System Environment/Libraries
 License: 	Apache License
