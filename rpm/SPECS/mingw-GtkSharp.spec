@@ -6,15 +6,21 @@
 
 %define debug_package %{nil}
 
+%define libdir /lib
+
 Name:           mingw-GtkSharp
-Version:        3.22.6
-Release:        4%{?dist}
+Version:        3.22.24
+Release:        30%{?dist}
 Summary:        GTK+ and GNOME bindings for Mono
 
 Group:          System Environment/Libraries
 License:        LGPLv2+
-URL:            http://gtk-sharp.sf.net
+URL:            https://github.com/GtkSharp/GtkSharp
 Source0:        GtkSharp-%{version}.tar.gz
+Source1:        gdk-sharp-3.0.pc
+Source2:        glib-sharp-3.0.pc
+Source3:        gio-sharp-3.0.pc
+Source4:        gtk-sharp-3.0.pc
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:  redhat-rpm-config
@@ -78,83 +84,96 @@ tools and libraries (corlib, XML, System.Security, ZipLib,
 %setup -q -n GtkSharp-%{version}
 
 %build
-meson --prefix=%{mingw32_prefix} --libdir=%{mingw32_prefix}/lib build_win32/
-ninja -C build_win32/
-
-meson --prefix=%{mingw64_prefix} --libdir=%{mingw64_prefix}/lib build_win64/
-ninja -C build_win64/
+sh build.sh
 
 %install
 %{__rm} -rf $RPM_BUILD_ROOT
-DESTDIR=$RPM_BUILD_ROOT ninja -C build_win32/ install
-DESTDIR=$RPM_BUILD_ROOT ninja -C build_win64/ install
 
-
-# Move dll to bin dir
 # Mingw32
-%{__mv} $RPM_BUILD_ROOT%{mingw32_libdir}/pkgconfig $RPM_BUILD_ROOT%{mingw32_prefix}/share/
+sn -R BuildOutput/Release/AtkSharp.dll Source/GtkSharp.snk
+gacutil -i BuildOutput/Release/AtkSharp.dll -package %{mingw_pkg_name}-3.0 -root $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir} -gacdir mono/gac
 
-%{__rm} -f $RPM_BUILD_ROOT%{mingw32_bindir}/gapi3-codegen
-%{__rm} -f $RPM_BUILD_ROOT%{mingw32_bindir}/gapi3-fixup
-%{__rm} -f $RPM_BUILD_ROOT%{mingw32_bindir}/gapi3-parser
+sn -R BuildOutput/Release/CairoSharp.dll Source/GtkSharp.snk
+gacutil -i BuildOutput/Release/CairoSharp.dll -package %{mingw_pkg_name}-3.0 -root $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir} -gacdir mono/gac
 
-%{__cp} $RPM_BUILD_ROOT%{mingw32_libdir}/gapi-3.0/gapi_codegen.exe $RPM_BUILD_ROOT%{mingw32_bindir}/gapi3-codegen.exe
-%{__cp} $RPM_BUILD_ROOT%{mingw32_libdir}/gapi-3.0/gapi-fixup.exe $RPM_BUILD_ROOT%{mingw32_bindir}/gapi3-fixup.exe
-%{__cp} $RPM_BUILD_ROOT%{mingw32_libdir}/gapi-3.0/gapi-parser.exe $RPM_BUILD_ROOT%{mingw32_bindir}/gapi3-parser.exe
-%{__cp} $RPM_BUILD_ROOT%{mingw32_libdir}/gapi-3.0/gapi2xml.pl $RPM_BUILD_ROOT%{mingw32_bindir}/gapi2xml.pl
-%{__cp} $RPM_BUILD_ROOT%{mingw32_libdir}/gapi-3.0/gapi_pp.pl $RPM_BUILD_ROOT%{mingw32_bindir}/gapi_pp.pl
+sn -R BuildOutput/Release/GdkSharp.dll Source/GtkSharp.snk
+gacutil -i BuildOutput/Release/GdkSharp.dll -package %{mingw_pkg_name}-3.0 -root $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir} -gacdir mono/gac
 
-%{__rm} -rf $RPM_BUILD_ROOT%{mingw32_libdir}/gapi-3.0
-%{__rm} -rf $RPM_BUILD_ROOT%{mingw32_libdir}/mono/gac/*/*/*.config
+sn -R BuildOutput/Release/GioSharp.dll Source/GtkSharp.snk
+gacutil -i BuildOutput/Release/GioSharp.dll -package %{mingw_pkg_name}-3.0 -root $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir} -gacdir mono/gac
+
+sn -R BuildOutput/Release/GLibSharp.dll Source/GtkSharp.snk
+gacutil -i BuildOutput/Release/GLibSharp.dll -package %{mingw_pkg_name}-3.0 -root $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir} -gacdir mono/gac
+
+sn -R BuildOutput/Release/GtkSharp.dll Source/GtkSharp.snk
+gacutil -i BuildOutput/Release/GtkSharp.dll -package %{mingw_pkg_name}-3.0 -root $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir} -gacdir mono/gac
+
+sn -R BuildOutput/Release/PangoSharp.dll Source/GtkSharp.snk
+gacutil -i BuildOutput/Release/PangoSharp.dll -package %{mingw_pkg_name}-3.0 -root $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir} -gacdir mono/gac
+
+mkdir -p %{buildroot}%{mingw32_prefix}/share/pkgconfig
+install -m 644 %{SOURCE1} %{buildroot}%{mingw32_prefix}/share/pkgconfig/
+install -m 644 %{SOURCE2} %{buildroot}%{mingw32_prefix}/share/pkgconfig/
+install -m 644 %{SOURCE3} %{buildroot}%{mingw32_prefix}/share/pkgconfig/
+install -m 644 %{SOURCE4} %{buildroot}%{mingw32_prefix}/share/pkgconfig/
+
+sed -i -e 's!@PREFIX@!%{mingw32_prefix}!g' %{buildroot}%{mingw32_prefix}/share/pkgconfig/*.pc
+
+mkdir -p %{buildroot}%{mingw32_prefix}/share/gapi-3.0
+cp Source/Libs/*/*Sharp-api.xml %{buildroot}%{mingw32_prefix}/share/gapi-3.0/
+
 
 # Mingw64
-%{__mv} $RPM_BUILD_ROOT%{mingw64_libdir}/pkgconfig $RPM_BUILD_ROOT%{mingw64_prefix}/share/
+sn -R BuildOutput/Release/AtkSharp.dll Source/GtkSharp.snk
+gacutil -i BuildOutput/Release/AtkSharp.dll -package %{mingw_pkg_name}-3.0 -root $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir} -gacdir mono/gac
 
-%{__rm} -f $RPM_BUILD_ROOT%{mingw64_bindir}/gapi3-codegen
-%{__rm} -f $RPM_BUILD_ROOT%{mingw64_bindir}/gapi3-fixup
-%{__rm} -f $RPM_BUILD_ROOT%{mingw64_bindir}/gapi3-parser
+sn -R BuildOutput/Release/CairoSharp.dll Source/GtkSharp.snk
+gacutil -i BuildOutput/Release/CairoSharp.dll -package %{mingw_pkg_name}-3.0 -root $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir} -gacdir mono/gac
 
-%{__cp} $RPM_BUILD_ROOT%{mingw64_libdir}/gapi-3.0/gapi_codegen.exe $RPM_BUILD_ROOT%{mingw64_bindir}/gapi3-codegen.exe
-%{__cp} $RPM_BUILD_ROOT%{mingw64_libdir}/gapi-3.0/gapi-fixup.exe $RPM_BUILD_ROOT%{mingw64_bindir}/gapi3-fixup.exe
-%{__cp} $RPM_BUILD_ROOT%{mingw64_libdir}/gapi-3.0/gapi-parser.exe $RPM_BUILD_ROOT%{mingw64_bindir}/gapi3-parser.exe
-%{__cp} $RPM_BUILD_ROOT%{mingw64_libdir}/gapi-3.0/gapi2xml.pl $RPM_BUILD_ROOT%{mingw64_bindir}/gapi2xml.pl
-%{__cp} $RPM_BUILD_ROOT%{mingw64_libdir}/gapi-3.0/gapi_pp.pl $RPM_BUILD_ROOT%{mingw64_bindir}/gapi_pp.pl
+sn -R BuildOutput/Release/GdkSharp.dll Source/GtkSharp.snk
+gacutil -i BuildOutput/Release/GdkSharp.dll -package %{mingw_pkg_name}-3.0 -root $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir} -gacdir mono/gac
 
-%{__rm} -rf $RPM_BUILD_ROOT%{mingw64_libdir}/gapi-3.0
-%{__rm} -rf $RPM_BUILD_ROOT%{mingw64_libdir}/mono/gac/*/*/*.config
+sn -R BuildOutput/Release/GioSharp.dll Source/GtkSharp.snk
+gacutil -i BuildOutput/Release/GioSharp.dll -package %{mingw_pkg_name}-3.0 -root $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir} -gacdir mono/gac
+
+sn -R BuildOutput/Release/GLibSharp.dll Source/GtkSharp.snk
+gacutil -i BuildOutput/Release/GLibSharp.dll -package %{mingw_pkg_name}-3.0 -root $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir} -gacdir mono/gac
+
+sn -R BuildOutput/Release/GtkSharp.dll Source/GtkSharp.snk
+gacutil -i BuildOutput/Release/GtkSharp.dll -package %{mingw_pkg_name}-3.0 -root $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir} -gacdir mono/gac
+
+sn -R BuildOutput/Release/PangoSharp.dll Source/GtkSharp.snk
+gacutil -i BuildOutput/Release/PangoSharp.dll -package %{mingw_pkg_name}-3.0 -root $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir} -gacdir mono/gac
+
+mkdir -p %{buildroot}%{mingw64_prefix}/share/pkgconfig
+install -m 644 %{SOURCE1} %{buildroot}%{mingw64_prefix}/share/pkgconfig/
+install -m 644 %{SOURCE2} %{buildroot}%{mingw64_prefix}/share/pkgconfig/
+install -m 644 %{SOURCE3} %{buildroot}%{mingw64_prefix}/share/pkgconfig/
+install -m 644 %{SOURCE4} %{buildroot}%{mingw64_prefix}/share/pkgconfig/
+
+sed -i -e 's!@PREFIX@!%{mingw64_prefix}!g' %{buildroot}%{mingw64_prefix}/share/pkgconfig/*.pc
+
+mkdir -p %{buildroot}%{mingw64_prefix}/share/gapi-3.0
+cp Source/Libs/*/*Sharp-api.xml %{buildroot}%{mingw64_prefix}/share/gapi-3.0/
+
 
 %clean
 #%{__rm} -rf $RPM_BUILD_ROOT
 
 %files -n mingw32-%{mingw_pkg_name}
 %defattr(-,root,root,-)
-%{mingw32_libdir}/mono/GtkSharp-3.0/*-sharp.dll
-%{mingw32_libdir}/mono/*-sharp/*-sharp.dll
+%{mingw32_libdir}/mono/GtkSharp-3.0/*Sharp.dll
 %{mingw32_libdir}/mono/gac/*
-%{mingw32_bindir}/gapi3-codegen.exe
-%{mingw32_bindir}/gapi3-fixup.exe
-%{mingw32_bindir}/gapi3-parser.exe
-%{mingw32_bindir}/gapi_pp.pl
-%{mingw32_bindir}/gapi2xml.pl
-%{mingw32_datadir}/gapi-3.0
-%{mingw32_datadir}/pkgconfig/gapi-3.0.pc
-
 %{mingw32_datadir}/pkgconfig/*-sharp-3.0.pc
+%{mingw32_datadir}/gapi-3.0
 
 %files -n mingw64-%{mingw_pkg_name}
 %defattr(-,root,root,-)
-%{mingw64_libdir}/mono/GtkSharp-3.0/*-sharp.dll
-%{mingw64_libdir}/mono/*-sharp/*-sharp.dll
+%{mingw64_libdir}/mono/GtkSharp-3.0/*Sharp.dll
 %{mingw64_libdir}/mono/gac/*
-%{mingw64_bindir}/gapi3-codegen.exe
-%{mingw64_bindir}/gapi3-fixup.exe
-%{mingw64_bindir}/gapi3-parser.exe
-%{mingw64_bindir}/gapi_pp.pl
-%{mingw64_bindir}/gapi2xml.pl
-%{mingw64_datadir}/gapi-3.0
-%{mingw64_datadir}/pkgconfig/gapi-3.0.pc
-
 %{mingw64_datadir}/pkgconfig/*-sharp-3.0.pc
+%{mingw64_datadir}/gapi-3.0
+
 
 %changelog
 * Mon Nov 20 2017 Mikkel Kruse Johnsen <mikkel@xmedicus.com> - 3.22.6-1

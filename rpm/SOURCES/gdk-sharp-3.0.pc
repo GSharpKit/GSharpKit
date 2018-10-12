@@ -1,4 +1,4 @@
-prefix=${pcfiledir}/../..
+prefix=@PREFIX@
 exec_prefix=${prefix}
 libdir=${exec_prefix}/lib
 gapidir=${prefix}/share/gapi-3.0

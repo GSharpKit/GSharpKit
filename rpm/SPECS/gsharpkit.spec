@@ -81,7 +81,7 @@
 %define DBUS_GLIB_SHARP_VERSION 0.6.0
 %define GSTREAMER1_SHARP_VERSION 1:1.12.3
 %define NEWTONSOFT_JSON_VERSION 11.0.2
-%define BOUNCY_CASTLE_VERSION 1.8.3.1
+%define BOUNCY_CASTLE_VERSION 1.8.2
 %define MIMEKIT_VERSION 2.0.6
 %define MAILKIT_VERSION 2.0.6
 %define GTK_MAC_INTEGRATION_SHARP_VERSION 0.9
@@ -97,7 +97,7 @@
 
 Summary: 		Easy management of applications
 Name: 			GSharpKit
-Version:		28.2
+Version:		28.3
 Release:		1%{?dist}
 License:		GPL
 Group: 			Applications/Desktop
@@ -110,7 +110,7 @@ Source6:		darwinx-cmake
 Source7:		darwinx-configure 
 Source8:		darwinx-make
 Source9:		darwinx-pkg-config
-Source10:		centos7-vs.repo
+Source10:		mono-centos7.repo
 Source11:		RPM-GPG-KEY-xamarin
 Source12:		microsoft-prod.repo
 Source13:		RPM-GPG-KEY-microsoft
@@ -684,7 +684,7 @@ rm -rf $RPM_BUILD_ROOT
 %files release
 %defattr(-, root, root)
 %{_sysconfdir}/yum.repos.d/gsharpkit.repo
-%{_sysconfdir}/yum.repos.d/centos7-vs.repo
+%{_sysconfdir}/yum.repos.d/mono-centos7.repo
 %{_sysconfdir}/yum.repos.d/microsoft-prod.repo
 %{_sysconfdir}/pki/rpm-gpg/RPM-GPG-KEY-gsharpkit
 %{_sysconfdir}/pki/rpm-gpg/RPM-GPG-KEY-xamarin

@@ -1,12 +1,12 @@
-prefix=${pcfiledir}/../..
+prefix=@PREFIX@
 exec_prefix=${prefix}
 libdir=${exec_prefix}/lib
 gapidir=${prefix}/share/gapi-3.0
 
 
 Name: Gtk#
-Description: Gtk# - GNOME .NET Binding
+Description: Gtk# - Gtk .NET Binding
 Version: 3.22.24
 Cflags: -I:${gapidir}/CairoSharp-api.xml -I:${gapidir}/PangoSharp-api.xml -I:${gapidir}/AtkSharp-api.xml -I:${gapidir}/GtkSharp-api.xml
-Libs: -r:Facades/netstandard.dll -r:${libdir}/mono/GtkSharp-3.0/CairoSharp.dll -r:${libdir}/mono/GtkSharp-3.0/PangoSharp.dll -r:${libdir}/mono/GtkSharp-3.0/AtkSharp.dll  -r:${libdir}/mono/GtkSharp-3.0/GtkSharp.dll
+Libs: -r:Facades/netstandard.dll -r:${libdir}/mono/GtkSharp-3.0/CairoSharp.dll -r:${libdir}/mono/GtkSharp-3.0/PangoSharp.dll -r:${libdir}/mono/GtkSharp-3.0/AtkSharp.dll -r:${libdir}/mono/GtkSharp-3.0/GtkSharp.dll
 Requires: glib-sharp-3.0 gio-sharp-3.0 gdk-sharp-3.0

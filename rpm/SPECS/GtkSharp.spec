@@ -104,6 +104,8 @@ install -m 644 %{SOURCE3} %{buildroot}%{_prefix}/share/pkgconfig/
 install -m 644 %{SOURCE4} %{buildroot}%{_prefix}/share/pkgconfig/
 install -m 644 %{SOURCE108} %{buildroot}%{_prefix}/share/pkgconfig/
 
+sed -i -e 's!@PREFIX@!${pcfiledir}/../..!g' %{buildroot}%{_prefix}/share/pkgconfig/*.pc
+
 mkdir -p %{buildroot}%{_prefix}/share/gapi-3.0
 cp Source/Libs/*/*Sharp-api.xml %{buildroot}%{_prefix}/share/gapi-3.0/
 

@@ -1,4 +1,4 @@
-prefix=${pcfiledir}/../..
+prefix=@PREFIX@
 exec_prefix=${prefix}
 libdir=${exec_prefix}/lib
 assemblies_dir=${libdir}/mono/GtkSharp-3.0

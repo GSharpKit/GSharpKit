@@ -1,6 +1,6 @@
 Name:           GdlSharp
 Version:        3.26.0
-Release:        1%{?dist}
+Release:        3%{?dist}
 Summary:        GDL library
 
 License:        LGPLv2+
@@ -29,6 +29,7 @@ suites.
 
 %build
 sh autogen.sh --prefix=/usr
+make clean
 make %{?_smp_mflags} V=1
 
 %install

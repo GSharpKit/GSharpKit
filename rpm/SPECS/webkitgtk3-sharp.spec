@@ -2,7 +2,7 @@
 
 Name:		webkitgtk3-sharp
 Version:	2.4.11
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	.NET bindings for WebKit
 Group:		Development/Languages
 License:	MIT

@@ -10,7 +10,7 @@
 
 Name:           mingw-GdlSharp
 Version:        3.26.0
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        MinGW Windows GDL library
 
 License:        LGPLv2+
