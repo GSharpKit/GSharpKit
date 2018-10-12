@@ -1,8 +1,8 @@
 %define debug_package %{nil}
 
 Name:		gstreamer1-sharp
-Version: 	1.12.3
-Release: 	2%{?dist}
+Version: 	1.14.2
+Release: 	1%{?dist}
 Epoch:		1
 Summary: 	GStreamer streaming media framework runtime
 Group: 		Applications/Multimedia
@@ -11,7 +11,7 @@ URL:		http://gstreamer.freedesktop.org/
 Source0: 	https://github.com/GSharpKit/gstreamer-sharp/releases/gstreamer-sharp-%{version}.tar.gz
 BuildRoot: 	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Prefix:		/usr
-BuildRequires:	pkgconfig gstreamer1-devel gstreamer1-plugins-base-devel gst-editing-services-devel
+BuildRequires:	pkgconfig gstreamer1-devel gstreamer1-plugins-base-devel gst-editing-services-devel gstreamer1-plugins-bad-free-devel
 BuildRequires:	mono-core
 
 Requires:       gstreamer1
@@ -19,6 +19,9 @@ Requires:       gstreamer1-plugins-base
 
 Obsoletes:	gstreamer1-sharp-devel
 Provides:	gstreamer1-sharp-devel
+
+Provides:	mono(gio-sharp) = 3.0.0.0 
+Provides:	mono(glib-sharp) = 3.0.0.0
 
 %description
 GStreamer is a streaming media framework, based on graphs of filters which
@@ -31,7 +34,7 @@ plugins.
 %prep
 %setup -q -n gstreamer-sharp-%{version}
 
-sed -i -e 's!1.13.0.1!1.12.3!g' meson.build
+sed -i -e 's!1.14.2!1.14.1!g' meson.build
 
 cat > gstreamer-sharp-1.0.pc << \EOF
 prefix=%{_prefix}
