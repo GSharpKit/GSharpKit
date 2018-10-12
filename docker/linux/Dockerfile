@@ -1,7 +1,7 @@
 FROM fedora:28
 MAINTAINER Mikkel Kruse Johnsen <mikkel@xmedicus.com>
 
-RUN rpm -Uvh http://yum.gsharpkit.org/gsharpkit/fedora-28-x86_64/RPMS/GSharpKit-release-28.1-1.fc28.noarch.rpm
+RUN rpm -Uvh http://yum.gsharpkit.org/gsharpkit/fedora-28-x86_64/RPMS/GSharpKit-release-28.2-1.fc28.noarch.rpm
 
 RUN dnf -y --exclude darwinx* install sudo rpm-build NHapi nuget netstandard mono-nunit GSharpKit-sdk && dnf clean all && rm -rf /var/cache/dnf
 
