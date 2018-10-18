@@ -1,9 +1,8 @@
-BUILD_ROOT=~/AppboxBuild
+BUILD_ROOT=~/GSharpKitBuild
 
-NAME=AppBox
-VERSION=1.0.0
-PREFIX=/Library/Frameworks/$NAME.framework/Versions/$VERSION
-SYMLINK=/Library/Frameworks/$NAME.framework/Versions/Current
+NAME=GSharpKit
+PREFIX=/Library/$NAME
+SYMLINK=/Library/$NAME
 
 cd $BUILD_ROOT
 curl -OL http://ftpmirror.gnu.org/autoconf/autoconf-2.69.tar.gz
@@ -54,20 +53,20 @@ CFLAGS="-m64 -arch x86_64" CXXFLAGS="-m64 -arch x86_64" LDFLAGS="-arch x86_64" .
 make
 sudo make install
 
-sudo ln -s $SYMLINK/bin/autoconf /usr/local/bin/autoconf
+sudo ln -sf $SYMLINK/bin/autoconf /usr/local/bin/autoconf
 sudo ln -sf $SYMLINK/bin/automake-1.15 /usr/local/bin/automake
-sudo ln -s $SYMLINK/bin/automake-1.15 /usr/local/bin/automake-1.15
-sudo ln -s $SYMLINK/bin/automake-1.14 /usr/local/bin/automake-1.14
-sudo ln -s $SYMLINK/bin/automake-1.13 /usr/local/bin/automake-1.13
-sudo ln -s $SYMLINK/bin/automake-1.11 /usr/local/bin/automake-1.11
+sudo ln -sf $SYMLINK/bin/automake-1.15 /usr/local/bin/automake-1.15
+sudo ln -sf $SYMLINK/bin/automake-1.14 /usr/local/bin/automake-1.14
+sudo ln -sf $SYMLINK/bin/automake-1.13 /usr/local/bin/automake-1.13
+sudo ln -sf $SYMLINK/bin/automake-1.11 /usr/local/bin/automake-1.11
 sudo ln -sf $SYMLINK/bin/aclocal-1.15 /usr/local/bin/aclocal
-sudo ln -s $SYMLINK/bin/aclocal-1.15 /usr/local/bin/aclocal-1.15
-sudo ln -s $SYMLINK/bin/aclocal-1.14 /usr/local/bin/aclocal-1.14
-sudo ln -s $SYMLINK/bin/aclocal-1.13 /usr/local/bin/aclocal-1.13
-sudo ln -s $SYMLINK/bin/aclocal-1.11 /usr/local/bin/aclocal-1.11
-sudo ln -s $SYMLINK/bin/autom4te /usr/local/bin/autom4te
-sudo ln -s $SYMLINK/bin/autoreconf /usr/local/bin/autoreconf
-sudo ln -s $SYMLINK/bin/autoheader /usr/local/bin/autoheader
-sudo ln -s $SYMLINK/bin/libtoolize /usr/local/bin/libtoolize
+sudo ln -sf $SYMLINK/bin/aclocal-1.15 /usr/local/bin/aclocal-1.15
+sudo ln -sf $SYMLINK/bin/aclocal-1.14 /usr/local/bin/aclocal-1.14
+sudo ln -sf $SYMLINK/bin/aclocal-1.13 /usr/local/bin/aclocal-1.13
+sudo ln -sf $SYMLINK/bin/aclocal-1.11 /usr/local/bin/aclocal-1.11
+sudo ln -sf $SYMLINK/bin/autom4te /usr/local/bin/autom4te
+sudo ln -sf $SYMLINK/bin/autoreconf /usr/local/bin/autoreconf
+sudo ln -sf $SYMLINK/bin/autoheader /usr/local/bin/autoheader
+sudo ln -sf $SYMLINK/bin/libtoolize /usr/local/bin/libtoolize
 
-sudo ln -s /usr/local/bin/gcc /usr/local/bin/darwinx-gcc
+sudo ln -sf /usr/local/bin/gcc /usr/local/bin/darwinx-gcc

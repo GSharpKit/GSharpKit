@@ -1,10 +1,9 @@
 #!/bin/bash
-BUILD_ROOT=~/AppboxBuild
+BUILD_ROOT=~/GSharpKitBuild
 
-NAME=AppBox
-VERSION=1.0.0
-PREFIX=/Library/Frameworks/$NAME.framework/Versions/$VERSION
-SYMLINK=/Library/Frameworks/$NAME.framework/Versions/Current
+NAME=GSharpKit
+PREFIX=/Library/$NAME
+SYMLINK=/Library/$NAME
 
 URL=http://pkgconfig.freedesktop.org/releases/
 
@@ -15,5 +14,5 @@ cd pkg-config-0.28
 CFLAGS="-m64 -arch x86_64" CXXFLAGS="-m64 -arch x86_64" LDFLAGS="-arch x86_64" ./configure --prefix=$PREFIX --exec-prefix=$PREFIX --with-internal-glib
 make
 sudo make install
-sudo ln -s $SYMLINK/bin/pkg-config /usr/local/bin/pkg-config
+sudo ln -sf $SYMLINK/bin/pkg-config /usr/local/bin/pkg-config
 

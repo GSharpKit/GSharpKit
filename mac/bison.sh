@@ -1,10 +1,9 @@
 MAIN_ROOT=`pwd`
-BUILD_ROOT=~/AppboxBuild
+BUILD_ROOT=~/GSharpKitBuild
 
-NAME=AppBox
-VERSION=1.0.0
-PREFIX=/Library/Frameworks/$NAME.framework/Versions/$VERSION
-SYMLINK=/Library/Frameworks/$NAME.framework/Versions/Current
+NAME=GSharpKit
+PREFIX=/Library/$NAME
+SYMLINK=/Library/$NAME
 
 cd $BUILD_ROOT
 curl -OL http://ftp.gnu.org/gnu/bison/bison-2.7.tar.gz 

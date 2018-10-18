@@ -1,5 +1,5 @@
 #!/bin/bash
-NAME=AppBox
+NAME=GSharpKit
 VERSION=1.0.0
 PREFIX=/Library/Frameworks/$NAME.framework/Versions/$VERSION
 

@@ -1,7 +1,7 @@
 #!/bin/bash
 
 SCRIPT_ROOT=`pwd`
-BUILD_ROOT=~/AppboxBuild
+BUILD_ROOT=~/GSharpKitBuild
 
 NAME=gettext
 VERSION=0.18.3.1

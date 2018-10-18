@@ -1,7 +1,7 @@
 #!/bin/bash
-BUILD_ROOT=~/AppboxBuild
+BUILD_ROOT=~/GSharpKitBuild
 
-NAME=AppBox
+NAME=GSharpKit
 VERSION=1.0.0
 PREFIX=/Library/Frameworks/$NAME.framework/Versions/$VERSION
 SYMLINK=/Library/Frameworks/$NAME.framework/Versions/Current
@@ -15,9 +15,9 @@ cd intltool-0.50.2
 CFLAGS="-m64 -arch x86_64" CXXFLAGS="-m64 -arch x86_64" LDFLAGS="-arch x86_64" ./configure --prefix=$PREFIX --exec-prefix=$PREFIX
 make
 sudo make install
-sudo ln -s $SYMLINK/bin/intltoolize /usr/local/bin/intltoolize
-sudo ln -s $SYMLINK/bin/intltool-update /usr/local/bin/intltool-update
-sudo ln -s $SYMLINK/bin/intltool-extract /usr/local/bin/intltool-extract
-sudo ln -s $SYMLINK/bin/intltool-merge /usr/local/bin/intltool-merge
-sudo ln -s $SYMLINK/bin/intltool-prepare /usr/local/bin/intltool-prepare
+sudo ln -sf $SYMLINK/bin/intltoolize /usr/local/bin/intltoolize
+sudo ln -sf $SYMLINK/bin/intltool-update /usr/local/bin/intltool-update
+sudo ln -sf $SYMLINK/bin/intltool-extract /usr/local/bin/intltool-extract
+sudo ln -sf $SYMLINK/bin/intltool-merge /usr/local/bin/intltool-merge
+sudo ln -sf $SYMLINK/bin/intltool-prepare /usr/local/bin/intltool-prepare
 

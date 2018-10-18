@@ -1,24 +1,15 @@
 #!/bin/bash
 
 SCRIPT_ROOT=`pwd`
-BUILD_ROOT=~/AppboxBuild
+BUILD_ROOT=~/GSharpKitBuild
 
-NAME=AppBox
-VERSION=1.0.0
-PREFIX=/Library/Frameworks/$NAME.framework/Versions/$VERSION
-SYMLINK=/Library/Frameworks/$NAME.framework/Versions/Current
+NAME=GSharpKit
+PREFIX=/Library/$NAME
+SYMLINK=/Library/$NAME
 
 RPM_VERSION=4.11.2
 
 sudo mkdir -p $PREFIX
-cd $PREFIX/..
-sudo ln -s $PREFIX Current
-cd ../
-sudo ln -s $SYMLINK/bin Commands
-sudo ln -s $SYMLINK/include Headers
-sudo ln -s $SYMLINK/ Home
-sudo ln -s $SYMLINK/lib Libraries
-sudo mkdir External
 
 cd $SCRIPT_ROOT
 cp sources/rpm-${RPM_VERSION}.tar.bz2 $BUILD_ROOT/
@@ -39,7 +30,7 @@ tar xfz db-4.5.20.tar.gz
 tar xfj rpm-${RPM_VERSION}.tar.bz2
 
 cd $BUILD_ROOT/nspr-4.10.2/nspr
-CFLAGS="-m64 -arch x86_64" CXXFLAGS="-m64 -arch x86_64" LDFLAGS="-arch x86_64" ./configure --prefix=$PREFIX --exec-prefix=$PREFIX
+CFLAGS="-m64 -arch x86_64" CXXFLAGS="-m64 -arch x86_64" LDFLAGS="-arch x86_64" ./configure --prefix=$PREFIX --exec-prefix=$PREFIX --enable-64bit
 make
 sudo make install
 
@@ -145,8 +136,8 @@ sudo install_name_tool -change @executable_path/libnspr4.dylib $PREFIX/lib/libns
 
 sudo mkdir -p $PREFIX/var/lib/rpm
 sudo mkdir -p $PREFIX/etc/rpm
-sudo cp $SCRIPT_ROOT/rpm/SOURCES/macros.darwinx $PREFIX/etc/rpm/
-sudo cp $SCRIPT_ROOT/rpm/SOURCES/macros.dist $PREFIX/etc/rpm/
+sudo cp $SCRIPT_ROOT/../rpm/SOURCES/macros.darwinx $PREFIX/etc/rpm/
+sudo cp $SCRIPT_ROOT/../rpm/SOURCES/macros.dist $PREFIX/etc/rpm/
 #sudo cp $SCRIPT_ROOT/darwinx-find-lang.sh $PREFIX/lib/rpm/
 #sudo cp $SCRIPT_ROOT/darwinx-find-provides.sh $PREFIX/lib/rpm/
 #sudo cp $SCRIPT_ROOT/darwinx-find-requires.sh $PREFIX/lib/rpm/
@@ -154,18 +145,17 @@ sudo chmod 777 $PREFIX/var/tmp
 sudo chmod 777 $PREFIX/var/lib
 sudo chmod 777 $PREFIX/var/lib/rpm
 
-export PATH="/Library/Frameworks/AppBox.framework/Versions/Current/bin:$PATH"
-export DYLD_LIBRARY_PATH="/Library/Frameworks/AppBox.framework/Versions/Current/lib:$DYLD_LIBRARY_PATH"
-export DYLD_FALLBACK_LIBRARY_PATH="/Library/Frameworks/AppBox.framework/Versions/Current/lib:$DYLD_FALLBACK_LIBRARY_PATH"
+export PATH="/Library/Frameworks/GSharpKit.framework/Versions/Current/bin:$PATH"
+export DYLD_LIBRARY_PATH="/Library/Frameworks/GSharpKit.framework/Versions/Current/lib:$DYLD_LIBRARY_PATH"
+export DYLD_FALLBACK_LIBRARY_PATH="/Library/Frameworks/GSharpKit.framework/Versions/Current/lib:$DYLD_FALLBACK_LIBRARY_PATH"
+
+sudo ln -sf $SYMLINK/bin/rpm /usr/local/bin/rpm
+sudo ln -sf $SYMLINK/bin/rpm2cpio /usr/local/bin/rpm2cpio
+sudo ln -sf $SYMLINK/bin/rpmbuild /usr/local/bin/rpmbuild
+sudo ln -sf $SYMLINK/bin/rpmdb /usr/local/bin/rpmdb
+sudo ln -sf $SYMLINK/bin/rpmgraph /usr/local/bin/rpmgraph
+sudo ln -sf $SYMLINK/bin/rpmkeys /usr/local/bin/rpmkeys
+sudo ln -sf $SYMLINK/bin/rpmsign /usr/local/bin/rpmsign
+sudo ln -sf $SYMLINK/bin/rpmspec /usr/local/bin/rpmspec
 
 rpm --initdb
-
-sudo ln -s $SYMLINK/bin/rpm /usr/local/bin/rpm
-sudo ln -s $SYMLINK/bin/rpm2cpio /usr/local/bin/rpm2cpio
-sudo ln -s $SYMLINK/bin/rpmbuild /usr/local/bin/rpmbuild
-sudo ln -s $SYMLINK/bin/rpmdb /usr/local/bin/rpmdb
-sudo ln -s $SYMLINK/bin/rpmgraph /usr/local/bin/rpmgraph
-sudo ln -s $SYMLINK/bin/rpmkeys /usr/local/bin/rpmkeys
-sudo ln -s $SYMLINK/bin/rpmsign /usr/local/bin/rpmsign
-sudo ln -s $SYMLINK/bin/rpmspec /usr/local/bin/rpmspec
-

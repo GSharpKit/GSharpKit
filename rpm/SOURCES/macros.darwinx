@@ -57,8 +57,8 @@
     PATH_ORIG="$PATH"; export PATH_ORIG; \
   fi; \
   HOST_CC=gcc; export HOST_CC; \
-  PATH="%{_darwinx_bindir}:/Library/Frameworks/AppBox.framework/Versions/Current/bin:$PATH_ORIG"; export PATH; \
-  PKG_CONFIG_LIBDIR="%{_darwinx_libdir}/pkgconfig:%{_darwinx_datadir}/pkgconfig:/Library/Frameworks/AppBox.framework/Versions/Current/lib/pkgconfig"; export PKG_CONFIG_LIBDIR; \
+  PATH="%{_darwinx_bindir}:/Library/GSharpKit/bin:$PATH_ORIG"; export PATH; \
+  PKG_CONFIG_LIBDIR="%{_darwinx_libdir}/pkgconfig:%{_darwinx_datadir}/pkgconfig:/Library/GSharpKit/lib/pkgconfig"; export PKG_CONFIG_LIBDIR; \
   unset PKG_CONFIG_PATH; \
   _PREFIX="%{_bindir}/%{_darwinx_base_target}-"; \
   for i in `ls -1 ${_PREFIX}* | grep -v 'gcc-' | grep -v 'make'`; do \
@@ -79,7 +79,7 @@
     CXXFLAGS=; export CXXFLAGS; \
   fi; \
   LDFLAGS="${DARWINX_LDFLAGS:-%_darwinx_ldflags}"; export LDFLAGS; \
-  for i in `ls %{_darwinx_bindir}/* 2>/dev/null |grep -- "-config\$"` `ls %{_darwinx_sysroot}/SDKs/MacOSX10.5.sdk/usr/bin/* 2>/dev/null |grep -- "-config\$"`; do \
+  for i in `ls %{_darwinx_bindir}/* 2>/dev/null |grep -- "-config\$"` `ls %{_darwinx_sysroot}/SDKs/MacOSX.sdk/usr/bin/* 2>/dev/null |grep -- "-config\$"`; do \
     x=`basename $i|tr "a-z+-" "A-ZX_"|tr -d '.'`; \
     declare -x $x="$i" ; export $x; \
   done; \
