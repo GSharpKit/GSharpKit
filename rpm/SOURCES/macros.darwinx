@@ -1,7 +1,5 @@
 # RPM macros for Fedora Darwin.
 
-%_darwinx_ppc_target      powerpc-apple-darwin10
-%_darwinx_ppc64_target    powerpc64-apple-darwin10
 %_darwinx_i686_target     i686-apple-darwin10
 %_darwinx_x86_64_target   x86_64-apple-darwin10
 
@@ -9,8 +7,8 @@
 %_darwinx_base_target     darwinx
 
 # Paths.
-%_darwinx_sysroot         %{_prefix}/%{_darwinx_base_target}
-%_darwinx_prefix          %{_darwinx_sysroot}/usr
+%_darwinx_sysroot         /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer
+%_darwinx_prefix          /usr/%{_darwinx_base_target}/usr
 %_darwinx_exec_prefix     %{_darwinx_prefix}
 %_darwinx_bindir          %{_darwinx_exec_prefix}/bin
 %_darwinx_sbindir         %{_darwinx_exec_prefix}/sbin
@@ -28,7 +26,7 @@
 # Build macros.
 #%_darwinx_host            %{_darwinx_target}
 
-%_darwinx_cppflags        -gstabs1 -Wall -I%{_darwinx_includedir}
+%_darwinx_cppflags        -Wall -I%{_darwinx_includedir}
 %_darwinx_cflags          %{_darwinx_cppflags}
 %_darwinx_ldflags         -L%{_darwinx_libdir}
 
@@ -48,6 +46,8 @@
 %_darwinx_size            size
 %_darwinx_strings         strings
 %_darwinx_strip           strip
+
+%__xz			  /usr/local/bin/xz
 
 %_darwinx_findprovides    %{_cross_findprovides}
 %_darwinx_findrequires    %{_cross_findrequires}
@@ -165,8 +165,6 @@ You should only install this package if you want to cross-compile programs for \
 Mac OS X (Darwin).
 
 # Compatibility stuff
-%darwinx_ppc_target      %{_darwinx_ppc_target}
-%darwinx_ppc64_target    %{_darwinx_ppc64_target}
 %darwinx_i686_target     %{_darwinx_i686_target}
 %darwinx_x86_64_target   %{_darwinx_x86_64_target}
 %darwinx_all_targets     %{_darwinx_all_targets}

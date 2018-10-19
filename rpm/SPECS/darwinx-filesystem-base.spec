@@ -1,14 +1,14 @@
 %define debug_package %{nil}
 
-%define _prefix /Library/Frameworks/AppBox.framework/Versions/1.0.0
+%define _prefix /Library/GSharpKit
 
 Name: 		darwinx-filesystem-base
-Version: 	103
+Version: 	104
 Release: 	1%{?dist}
 Summary: 	Darwin filesystem and environment
 License: 	GPLv2+
 Group: 		Development/Libraries
-URL: 		http://www.appbox.info
+URL: 		http://www.gsharpkit.org
 Source0:	macros.darwinx
 Source1:	macros.dist
 Source2:	darwinx.sh
