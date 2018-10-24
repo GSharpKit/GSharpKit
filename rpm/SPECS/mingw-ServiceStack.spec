@@ -56,13 +56,13 @@ nuget install %{mingw_pkg_name} -Version %{version}
 cat > ServiceStack32.pc << \EOF
 prefix=%{mingw32_prefix}
 exec_prefix=${prefix}
-libdir=%{mingw32_prefix}%{libdir}/mono
+libdir=%{mingw32_prefix}%{libdir}
 
 Name: ServiceStack
 Description: ServiceStack webservice framework: Faster, Cleaner, Modern WCF alternative.
 Requires:
 Version: %{version}
-Libs: -r:${libdir}/ServiceStack/ServiceStack.dll -r:${libdir}/ServiceStack.Common/ServiceStack.Common.dll -r:${libdir}/ServiceStack.Client/ServiceStack.Client.dll -r:${libdir}/ServiceStack.Text/ServiceStack.Text.dll -r:${libdir}/ServiceStack.Interfaces/ServiceStack.Interfaces.dll
+Libs: -r:${libdir}/System.Numerics.Vectors.dll -r:${libdir}/mono/System.Buffers/System.Buffers.dll -r:${libdir}/mono/System.Memory/System.Memory.dll -r:${libdir}/mono/ServiceStack/ServiceStack.dll -r:${libdir}/mono/ServiceStack.Common/ServiceStack.Common.dll -r:${libdir}/mono/ServiceStack.Client/ServiceStack.Client.dll -r:${libdir}/mono/ServiceStack.Text/ServiceStack.Text.dll -r:${libdir}/mono/ServiceStack.Interfaces/ServiceStack.Interfaces.dll
 Cflags:
 EOF
 
@@ -82,13 +82,13 @@ EOF
 cat > ServiceStack64.pc << \EOF
 prefix=%{mingw64_prefix}
 exec_prefix=${prefix}
-libdir=%{mingw64_prefix}%{libdir}/mono
+libdir=%{mingw64_prefix}%{libdir}
 
 Name: ServiceStack
 Description: ServiceStack webservice framework: Faster, Cleaner, Modern WCF alternative.
 Requires:
 Version: %{version}
-Libs: -r:${libdir}/ServiceStack/ServiceStack.dll -r:${libdir}/ServiceStack.Common/ServiceStack.Common.dll -r:${libdir}/ServiceStack.Client/ServiceStack.Client.dll -r:${libdir}/ServiceStack.Text/ServiceStack.Text.dll -r:${libdir}/ServiceStack.Interfaces/ServiceStack.Interfaces.dll
+Libs: -r:${libdir}/System.Numerics.Vectors.dll -r:${libdir}/mono/System.Buffers/System.Buffers.dll -r:${libdir}/mono/System.Memory/System.Memory.dll -r:${libdir}/mono/ServiceStack/ServiceStack.dll -r:${libdir}/mono/ServiceStack.Common/ServiceStack.Common.dll -r:${libdir}/mono/ServiceStack.Client/ServiceStack.Client.dll -r:${libdir}/mono/ServiceStack.Text/ServiceStack.Text.dll -r:${libdir}/mono/ServiceStack.Interfaces/ServiceStack.Interfaces.dll 
 Cflags:
 EOF
 
@@ -119,6 +119,12 @@ gacutil -i ServiceStack.Client.%{version}/lib/net45/ServiceStack.Client.dll -pac
 gacutil -i ServiceStack.Text.%{version}/lib/net45/ServiceStack.Text.dll -package %{mingw_pkg_name}.Text -root $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir} -gacdir mono/gac
 gacutil -i ServiceStack.Interfaces.%{version}/lib/net45/ServiceStack.Interfaces.dll -package %{mingw_pkg_name}.Interfaces -root $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir} -gacdir mono/gac
 
+gacutil -i System.Memory.4.5.1/lib/netstandard2.0/System.Memory.dll -package System.Memory -root $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir} -gacdir mono/gac
+gacutil -i System.Buffers.4.4.0/lib/netstandard2.0/System.Buffers.dll -package System.Buffers -root $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir} -gacdir mono/gac
+
+install -d -m 755 $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir}
+install -m 644 System.Numerics.Vectors.4.4.0/lib/netstandard2.0/System.Numerics.Vectors.dll $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir} 
+
 install -d -m 755 $RPM_BUILD_ROOT%{mingw32_datadir}/pkgconfig/
 install -m 644 ServiceStack32.pc $RPM_BUILD_ROOT%{mingw32_datadir}/pkgconfig/ServiceStack.pc
 install -m 644 ServiceStack.Interfaces32.pc $RPM_BUILD_ROOT%{mingw32_datadir}/pkgconfig/ServiceStack.Interfaces.pc
@@ -131,6 +137,12 @@ gacutil -i ServiceStack.Client.%{version}/lib/net45/ServiceStack.Client.dll -pac
 gacutil -i ServiceStack.Text.%{version}/lib/net45/ServiceStack.Text.dll -package %{mingw_pkg_name}.Text -root $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir} -gacdir mono/gac
 gacutil -i ServiceStack.Interfaces.%{version}/lib/net45/ServiceStack.Interfaces.dll -package %{mingw_pkg_name}.Interfaces -root $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir} -gacdir mono/gac
 
+gacutil -i System.Memory.4.5.1/lib/netstandard2.0/System.Memory.dll -package System.Memory -root $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir} -gacdir mono/gac
+gacutil -i System.Buffers.4.4.0/lib/netstandard2.0/System.Buffers.dll -package System.Buffers -root $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir} -gacdir mono/gac
+
+install -d -m 755 $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir}
+install -m 644 System.Numerics.Vectors.4.4.0/lib/netstandard2.0/System.Numerics.Vectors.dll $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir}
+
 install -d -m 755 $RPM_BUILD_ROOT%{mingw64_datadir}/pkgconfig/
 install -m 644 ServiceStack64.pc $RPM_BUILD_ROOT%{mingw64_datadir}/pkgconfig/ServiceStack.pc
 install -m 644 ServiceStack.Interfaces64.pc $RPM_BUILD_ROOT%{mingw64_datadir}/pkgconfig/ServiceStack.Interfaces.pc
@@ -142,7 +154,10 @@ install -m 644 ServiceStack.Interfaces64.pc $RPM_BUILD_ROOT%{mingw64_datadir}/pk
 
 %files -n mingw32-%{mingw_pkg_name}
 %defattr(-,root,root,-)
+%{mingw32_prefix}%{libdir}/System.Numerics.Vectors.dll
 %{mingw32_prefix}%{libdir}/mono/gac
+%{mingw32_prefix}%{libdir}/mono/System.Memory/System.Memory.dll
+%{mingw32_prefix}%{libdir}/mono/System.Buffers/System.Buffers.dll
 %{mingw32_prefix}%{libdir}/mono/ServiceStack/ServiceStack.dll
 %{mingw32_prefix}%{libdir}/mono/ServiceStack.Common/ServiceStack.Common.dll
 %{mingw32_prefix}%{libdir}/mono/ServiceStack.Client/ServiceStack.Client.dll
@@ -153,7 +168,10 @@ install -m 644 ServiceStack.Interfaces64.pc $RPM_BUILD_ROOT%{mingw64_datadir}/pk
 
 %files -n mingw64-%{mingw_pkg_name}
 %defattr(-,root,root,-)
+%{mingw64_prefix}%{libdir}/System.Numerics.Vectors.dll
 %{mingw64_prefix}%{libdir}/mono/gac
+%{mingw64_prefix}%{libdir}/mono/System.Memory/System.Memory.dll
+%{mingw64_prefix}%{libdir}/mono/System.Buffers/System.Buffers.dll
 %{mingw64_prefix}%{libdir}/mono/ServiceStack/ServiceStack.dll
 %{mingw64_prefix}%{libdir}/mono/ServiceStack.Common/ServiceStack.Common.dll
 %{mingw64_prefix}%{libdir}/mono/ServiceStack.Client/ServiceStack.Client.dll
