@@ -1,7 +1,7 @@
 FROM fedora:28
 MAINTAINER Mikkel Kruse Johnsen <mikkel@xmedicus.com>
 
-RUN rpm -Uvh http://yum.gsharpkit.org/gsharpkit/fedora-28-x86_64/RPMS/GSharpKit-release-28.2-1.fc28.noarch.rpm
+RUN rpm -Uvh http://yum.gsharpkit.org/gsharpkit/fedora-28-x86_64/RPMS/GSharpKit-release-28.4-1.fc28.noarch.rpm
 
 RUN dnf -y --exclude darwinx* install sudo msitools GSharpKit-sdk GSharpKit-sdk-mingw-devel GSharpKit-sdk-mingw && dnf clean all && rm -rf /var/cache/dnf
 
