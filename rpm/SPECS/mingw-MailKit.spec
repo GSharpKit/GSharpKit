@@ -11,7 +11,7 @@
 %define libdir /lib
 
 Name:           mingw-MailKit
-Version:        2.0.6
+Version:        2.0.7
 Release:        1%{?dist}
 Summary:        MailKit is an Open Source cross-platform .NET mail-client library.
 
@@ -84,7 +84,7 @@ Name: MailKit
 Description: %{name} - %{summary}
 Requires: MimeKit
 Version: %{version}
-Libs: -r:Facades/netstandard.dll -r:${libdir}/MailKit/MailKit.dll
+Libs: -r:${libdir}/MailKit/MailKit.dll
 Cflags:
 EOF
 
@@ -97,7 +97,7 @@ Name: MailKit
 Description: %{name} - %{summary}
 Requires: MimeKit
 Version: %{version}
-Libs: -r:Facades/netstandard.dll -r:${libdir}/MailKit/MailKit.dll
+Libs: -r:${libdir}/MailKit/MailKit.dll
 Cflags:
 EOF
 

@@ -10,7 +10,7 @@
 
 Name:           Npgsql
 Version:        4.0.3
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Postgresql database connectivity for C#
 
 Group:          Development/Languages
@@ -23,8 +23,8 @@ BuildArch:	noarch
 BuildRequires:  mono-devel
 BuildRequires:  nuget
 
-Requires:	mono-core >= 4.0.0
-Requires:	mono-data >= 4.0.0
+Requires:	mono-core >= 5.0.0
+Requires:	mono-data >= 5.0.0
 
 Obsoletes:	mono-data-postgresql
 Obsoletes:	mono-data-npgsql
@@ -50,7 +50,7 @@ Name: Npgsql
 Description: Npgsql - Postgresql database connectivity for C#
 Requires:
 Version: %{version}
-Libs: -r:Facades/netstandard.dll -r:${libdir}/mono/Npgsql/Npgsql.dll -r:${libdir}/mono/System.Threading.Tasks.Extensions/System.Threading.Tasks.Extensions.dll -r:${libdir}/System.Runtime.CompilerServices.Unsafe.dll
+Libs: -r:${libdir}/mono/Npgsql/Npgsql.dll -r:${libdir}/mono/System.Threading.Tasks.Extensions/System.Threading.Tasks.Extensions.dll -r:${libdir}/System.Runtime.CompilerServices.Unsafe.dll
 Cflags:
 EOF
 

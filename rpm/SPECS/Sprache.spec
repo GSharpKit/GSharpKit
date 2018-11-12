@@ -4,7 +4,7 @@
 %define api_version 2.1.2.0
 
 Name:           Sprache
-Version:        2.1.2
+Version:        2.2.0
 Release:        1%{?dist}
 Summary:        Sprache is a simple, lightweight library for constructing parsers directly in C# code
 
@@ -14,8 +14,7 @@ URL:            http://json.codeplex.com/
 Prefix:		/usr
 BuildArch:	noarch
 
-Requires:	mono-core >= 3.0.0
-Requires:	mono-data >= 3.0.0
+Requires:	mono-core >= 5.14.0
 
 %description
 Sprache is a simple, lightweight library for constructing parsers directly in C# code
@@ -33,7 +32,7 @@ Name: %{name}
 Description: Sprache is a simple, lightweight library for constructing parsers directly in C# code
 Requires:
 Version: %{api_version}
-Libs: -r:Facades/netstandard.dll -r:${libdir}/%{name}/%{name}.Signed.dll
+Libs: -r:${libdir}/%{name}/%{name}.Signed.dll
 Cflags:
 EOF
 

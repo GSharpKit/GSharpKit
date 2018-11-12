@@ -11,7 +11,7 @@
 %define libdir /lib
 
 Name:           mingw-MimeKit
-Version:        2.0.6
+Version:        2.0.7
 Release:        1%{?dist}
 Summary:        MimeKit is an Open Source library for creating and parsing MIME, S/MIME and PGP messages.
 
@@ -66,7 +66,7 @@ Name: MimeKit
 Description: %{name} - %{summary}
 Requires: BouncyCastle
 Version: %{version}
-Libs: -r:Facades/netstandard.dll -r:${libdir}/MimeKit/MimeKit.dll
+Libs: -r:${libdir}/MimeKit/MimeKit.dll
 Cflags:
 EOF
 
@@ -79,7 +79,7 @@ Name: MimeKit
 Description: %{name} - %{summary}
 Requires: BouncyCastle
 Version: %{version}
-Libs: -r:Facades/netstandard.dll -r:${libdir}/MimeKit/MimeKit.dll
+Libs: -r:${libdir}/MimeKit/MimeKit.dll
 Cflags:
 EOF
 

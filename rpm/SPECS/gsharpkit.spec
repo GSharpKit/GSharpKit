@@ -71,8 +71,10 @@
 %define DBUS_GLIB_VERSION 0.108
 
 %define MONO_CORE_VERSION 5.14.0
+%define MICROSOFT_CSHARP_VERSION 4.5.0
+%define MONO_POSIX_NETSTANDARD_VERSION 1.0.0
 %define NPGSQL_VERSION 4.0.3
-%define GTK3_SHARP_VERSION 3.22.6
+%define GTK3_SHARP_VERSION 3.22.24
 %define GDL_SHARP_VERSION 3.26.0
 %define MONO_ZEROCONF_VERSION 0.9.0
 %define MONO_ADDINS_VERSION 1.3.3
@@ -82,14 +84,14 @@
 %define GSTREAMER1_SHARP_VERSION 1:1.12.3
 %define NEWTONSOFT_JSON_VERSION 11.0.2
 %define BOUNCY_CASTLE_VERSION 1.8.2
-%define MIMEKIT_VERSION 2.0.6
-%define MAILKIT_VERSION 2.0.6
+%define MIMEKIT_VERSION 2.0.7
+%define MAILKIT_VERSION 2.0.7
 %define GTK_MAC_INTEGRATION_SHARP_VERSION 0.9
 %define SERVICE_STACK_VERSION 5.4.0
-%define REST_SHARP_VERSION 106.5.2
+%define REST_SHARP_VERSION 106.5.4
 %define SEALAPI_VERSION 2.0.7
 %define PDFSHARP_MIGRADOC_VERSION 1.50.4845
-%define SPRACHE_VERSION 2.1.2
+%define SPRACHE_VERSION 2.2.0
 
 %define OPENMEDICUS_SERVICESTACK_EHR_SERVICEMODEL_VERSION 1.0.34
 %define OPENMEDICUS_SERVICESTACK_CLINIC_SERVICEMODEL_VERSION 2.4.12
@@ -97,7 +99,7 @@
 
 Summary: 		Easy management of applications
 Name: 			GSharpKit
-Version:		28.3
+Version:		28.4
 Release:		1%{?dist}
 License:		GPL
 Group: 			Applications/Desktop
@@ -156,6 +158,8 @@ Requires:		mono-extras >= %{MONO_CORE_VERSION}
 Requires:		mono-locale-extras >= %{MONO_CORE_VERSION}
 Requires:		mono-data >= %{MONO_CORE_VERSION}
 Requires:		mono-data-sqlite >= %{MONO_CORE_VERSION}
+Requires:		Microsoft.CSharp >= %{MICROSOFT_CSHARP_VERSION}
+Requires:		Mono.Posix.NETStandard >= %{MONO_POSIX_NETSTANDARD_VERSION}
 Requires:		Npgsql >= %{NPGSQL_VERSION}
 Requires:		mono-web >= %{MONO_CORE_VERSION}
 Requires:		mono-wcf >= %{MONO_CORE_VERSION}
@@ -238,7 +242,7 @@ Requires:		gstreamer1-sharp-devel
 Requires:		gnome-sharp
 Requires:		dotnet-sdk-2.1
 Requires:		msbuild
-Requires:		monodevelop
+Requires:		netstandard
 
 
 %description sdk
@@ -318,6 +322,8 @@ Requires:               mingw32-webkitgtk3 >= %{WEBKITGTK3_VERSION}
 Requires:               mingw32-dbus >= %{DBUS_VERSION}
 Requires:               mingw32-dbus-glib >= %{DBUS_GLIB_VERSION}
 
+Requires:               mingw32-Microsoft.CSharp >= %{MICROSOFT_CSHARP_VERSION}
+Requires:               mingw32-Mono.Posix.NETStandard >= %{MONO_POSIX_NETSTANDARD_VERSION}
 Requires:               mingw32-mono-core >= %{MONO_CORE_VERSION}
 Requires:               mingw32-Npgsql >= %{NPGSQL_VERSION}
 Requires:               mingw32-GtkSharp >= %{GTK3_SHARP_VERSION}
@@ -417,6 +423,8 @@ Requires:               mingw64-webkitgtk3 >= %{WEBKITGTK3_VERSION}
 Requires:               mingw64-dbus >= %{DBUS_VERSION}
 Requires:               mingw64-dbus-glib >= %{DBUS_GLIB_VERSION}
 
+Requires:               mingw64-Microsoft.CSharp >= %{MICROSOFT_CSHARP_VERSION}
+Requires:               mingw64-Mono.Posix.NETStandard >= %{MONO_POSIX_NETSTANDARD_VERSION}
 Requires:               mingw64-mono-core >= %{MONO_CORE_VERSION}
 Requires:               mingw64-Npgsql >= %{NPGSQL_VERSION}
 Requires:               mingw64-GtkSharp >= %{GTK3_SHARP_VERSION}
@@ -601,6 +609,8 @@ Requires:               darwinx-webkitgtk3 >= %{WEBKITGTK3_VERSION}
 Requires:               darwinx-dbus >= %{DBUS_VERSION}
 Requires:               darwinx-dbus-glib >= %{DBUS_GLIB_VERSION}
 
+Requires:               darwinx-Microsoft.CSharp >= %{MICROSOFT_CSHARP_VERSION}
+Requires:               darwinx-Mono.Posix.NETStandard >= %{MONO_POSIX_NETSTANDARD_VERSION}
 Requires:               darwinx-mono-core >= %{MONO_CORE_VERSION}
 Requires:               darwinx-Npgsql >= %{NPGSQL_VERSION}
 Requires:               darwinx-GtkSharp >= %{GTK3_SHARP_VERSION}

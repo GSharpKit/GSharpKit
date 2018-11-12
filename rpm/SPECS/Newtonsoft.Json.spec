@@ -5,7 +5,7 @@
 
 Name:           Newtonsoft.Json
 Version:        11.0.2
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Json.NET is a popular high-performance JSON framework for .NET
 
 Group:          Development/Languages
@@ -15,7 +15,6 @@ Prefix:		/usr
 BuildArch:	noarch
 
 Requires:	mono-core >= 3.0.0
-Requires:	mono-data >= 3.0.0
 
 Obsoletes:	newtonsoft-json
 Provides:	newtonsoft-json
@@ -36,7 +35,7 @@ Name: Newtonsoft.Json
 Description: Json.NET is a popular high-performance JSON framework for .NET
 Requires:
 Version: %{api_version}
-Libs: -r:Facades/netstandard.dll -r:${libdir}/%{name}/Newtonsoft.Json.dll
+Libs: -r:${libdir}/%{name}/Newtonsoft.Json.dll
 Cflags:
 EOF
 

@@ -13,7 +13,7 @@
 
 Name:           mingw-Newtonsoft.Json
 Version:        11.0.2
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Json.NET is a popular high-performance JSON framework for .NET
 
 Group:          Development/Languages
@@ -64,7 +64,7 @@ Name: Newtonsoft.Json
 Description: %{name} - %{summary}
 Requires:
 Version: %{version}
-Libs: -r:Facades/netstandard.dll -r:${libdir}/Newtonsoft.Json/Newtonsoft.Json.dll
+Libs: -r:${libdir}/Newtonsoft.Json/Newtonsoft.Json.dll
 Cflags:
 EOF
 
@@ -77,7 +77,7 @@ Name: Newtonsoft.Json
 Description: %{name} - %{summary}
 Requires:
 Version: %{version}
-Libs: -r:Facades/netstandard.dll -r:${libdir}/Newtonsoft.Json/Newtonsoft.Json.dll
+Libs: -r:${libdir}/Newtonsoft.Json/Newtonsoft.Json.dll
 Cflags:
 EOF
 

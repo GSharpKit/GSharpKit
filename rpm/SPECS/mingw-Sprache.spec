@@ -12,8 +12,8 @@
 %define apiversion 2.1.2.0
 
 Name:           mingw-Sprache
-Version:        2.1.2
-Release:        2%{?dist}
+Version:        2.2.0
+Release:        1%{?dist}
 Summary:        Sprache is a simple, lightweight library for constructing parsers directly in C# code
 
 Group:          Development/Languages
@@ -58,7 +58,7 @@ Name: Sprache
 Description: %{name} - %{summary}
 Requires:
 Version: %{version}
-Libs: -r:Facades/netstandard.dll -r:${libdir}/Sprache/Sprache.Signed.dll
+Libs: -r:${libdir}/Sprache/Sprache.Signed.dll
 Cflags:
 EOF
 
@@ -71,7 +71,7 @@ Name: Sprache
 Description: %{name} - %{summary}
 Requires:
 Version: %{version}
-Libs: -r:Facades/netstandard.dll -r:${libdir}/Sprache/Sprache.Signed.dll
+Libs: -r:${libdir}/Sprache/Sprache.Signed.dll
 Cflags:
 EOF
 

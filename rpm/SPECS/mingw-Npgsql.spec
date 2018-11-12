@@ -13,7 +13,7 @@
 
 Name:           mingw-Npgsql
 Version:        4.0.3
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Postgresql database connectivity for C#
 
 Group:          Development/Languages
@@ -68,7 +68,7 @@ Name: Npgsql
 Description: Npgsql - Postgresql database connectivity for C#
 Requires:
 Version: %{version}
-Libs: -r:Facades/netstandard.dll -r:${libdir}/mono/System.Threading.Tasks.Extensions/System.Threading.Tasks.Extensions.dll -r:${libdir}/mono/Npgsql/Npgsql.dll -r:${libdir}/System.Runtime.CompilerServices.Unsafe.dll
+Libs: -r:${libdir}/mono/System.Threading.Tasks.Extensions/System.Threading.Tasks.Extensions.dll -r:${libdir}/mono/Npgsql/Npgsql.dll -r:${libdir}/System.Runtime.CompilerServices.Unsafe.dll
 Cflags:
 EOF
 
@@ -81,7 +81,7 @@ Name: Npgsql
 Description: Npgsql - Postgresql database connectivity for C#
 Requires:
 Version: %{version}
-Libs: -r:Facades/netstandard.dll -r:${libdir}/mono/System.Threading.Tasks.Extensions/System.Threading.Tasks.Extensions.dll -r:${libdir}/mono/Npgsql/Npgsql.dll -r:${libdir}/System.Runtime.CompilerServices.Unsafe.dll
+Libs: -r:${libdir}/mono/System.Threading.Tasks.Extensions/System.Threading.Tasks.Extensions.dll -r:${libdir}/mono/Npgsql/Npgsql.dll -r:${libdir}/System.Runtime.CompilerServices.Unsafe.dll
 Cflags:
 EOF
 

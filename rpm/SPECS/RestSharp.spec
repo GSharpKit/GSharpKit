@@ -4,7 +4,7 @@
 %define libdir /lib
 
 Name:		RestSharp
-Version: 	106.5.2
+Version: 	106.5.4
 Release: 	1%{?dist}
 Summary: 	Simple REST and HTTP API Client
 Group: 		System Environment/Libraries
@@ -34,7 +34,7 @@ Name: RestSharp
 Description: Simple REST and HTTP API Client
 Requires: 
 Version: %{version}
-Libs: -r:Facades/netstandard.dll -r:${libdir}/RestSharp.dll
+Libs: -r:${libdir}/RestSharp.dll
 Cflags:
 EOF
 

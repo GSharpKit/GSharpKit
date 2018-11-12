@@ -3,7 +3,7 @@
 %define libdir /lib
 
 Name:           MimeKit
-Version:        2.0.6
+Version:        2.0.7
 Release:        1%{?dist}
 Summary:        MimeKit is an Open Source library for creating and parsing MIME, S/MIME and PGP messages.
 
@@ -16,7 +16,7 @@ BuildArch:	noarch
 
 BuildRequires:  nuget
 
-Requires:	mono-core >= 4.8.0
+Requires:	mono-core >= 5.14.0
 Requires:	BouncyCastle >= 1.8.2
 
 Provides:       mono(System.Text.Encoding.CodePages)
@@ -39,7 +39,7 @@ Name: %{name}
 Description: %{name} - %{summary}
 Requires: BouncyCastle
 Version: %{version}
-Libs: -r:Facades/netstandard.dll -r:${libdir}/%{name}/MimeKit.dll
+Libs: -r:${libdir}/%{name}/MimeKit.dll
 Cflags:
 EOF
 
