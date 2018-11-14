@@ -74,14 +74,13 @@
 %define MICROSOFT_CSHARP_VERSION 4.5.0
 %define MONO_POSIX_NETSTANDARD_VERSION 1.0.0
 %define NPGSQL_VERSION 4.0.3
+%define MONO_ADDINS_VERSION 1.3.8
 %define GTK3_SHARP_VERSION 3.22.24
 %define GDL_SHARP_VERSION 3.26.0
-%define MONO_ZEROCONF_VERSION 0.9.0
-%define MONO_ADDINS_VERSION 1.3.3
 %define WEBKITGTK3_SHARP_VERSION 2.4.11
 %define DBUS_SHARP_VERSION 2:0.9.2
 %define DBUS_GLIB_SHARP_VERSION 0.6.0
-%define GSTREAMER1_SHARP_VERSION 1:1.12.3
+%define GST_SHARP_VERSION 1.14.2
 %define NEWTONSOFT_JSON_VERSION 11.0.2
 %define BOUNCY_CASTLE_VERSION 1.8.2
 %define MIMEKIT_VERSION 2.0.7
@@ -92,6 +91,7 @@
 %define SEALAPI_VERSION 2.0.7
 %define PDFSHARP_MIGRADOC_VERSION 1.50.4845
 %define SPRACHE_VERSION 2.2.0
+%define SHARP_ZIP_LIB_VERSION 1.0.0
 
 %define OPENMEDICUS_SERVICESTACK_EHR_SERVICEMODEL_VERSION 1.0.34
 %define OPENMEDICUS_SERVICESTACK_CLINIC_SERVICEMODEL_VERSION 2.4.12
@@ -99,7 +99,7 @@
 
 Summary: 		Easy management of applications
 Name: 			GSharpKit
-Version:		28.4
+Version:		28.5
 Release:		1%{?dist}
 License:		GPL
 Group: 			Applications/Desktop
@@ -166,8 +166,7 @@ Requires:		mono-wcf >= %{MONO_CORE_VERSION}
 Requires:		mono-mvc >= %{MONO_CORE_VERSION}
 Requires:		mono-winfxcore >= %{MONO_CORE_VERSION}
 
-Requires:		mono-addins >= %{MONO_ADDINS_VERSION}
-Requires:		mono-zeroconf >= %{MONO_ZEROCONF_VERSION}
+Requires:		Mono.Addins >= %{MONO_ADDINS_VERSION}
 Requires:		dbus-sharp >= %{DBUS_SHARP_VERSION}
 Requires:		dbus-sharp-glib >= %{DBUS_GLIB_SHARP_VERSION}
 
@@ -194,7 +193,7 @@ Requires:		gstreamer1 => %{GSTREAMER1_VERSION}
 Requires:		gstreamer1-plugins-base >= %{GSTREAMER1_PLUGINS_BASE_VERSION}
 Requires:		gstreamer1-plugins-good >= %{GSTREAMER1_PLUGINS_GOOD_VERSION}
 Requires:		gstreamer1-plugins-bad-free >= %{GSTREAMER1_PLUGINS_BAD_VERSION}
-Requires:		gstreamer1-sharp >= %{GSTREAMER1_SHARP_VERSION}
+Requires:		GstSharp >= %{GST_SHARP_VERSION}
 
 Requires:		libexif >= %{LIBEXIF_VERSION}
 #Requires:		libgphoto2 >= %{LIBGPHOTO2_VERSION}
@@ -207,8 +206,9 @@ Requires:		MailKit >= %{MAILKIT_VERSION}
 Requires:		ServiceStack >= %{SERVICE_STACK_VERSION}
 Requires:		RestSharp >= %{REST_SHARP_VERSION}
 Requires:		SealApi >= %{SEALAPI_VERSION}
-Requires:		PDFsharp-MigraDoc >= %{PDFSHARP_MIGRADOC_VERSION}
 Requires:		Sprache >= %{SPRACHE_VERSION}
+Requires:		PDFsharp-MigraDoc >= %{PDFSHARP_MIGRADOC_VERSION}
+Requires:		SharpZipLib >= %{SHARP_ZIP_LIB_VERSION}
 Requires:		OpenMedicus.ServiceStack.EHR.ServiceModel >= %{OPENMEDICUS_SERVICESTACK_EHR_SERVICEMODEL_VERSION}
 Requires:		OpenMedicus.ServiceStack.Clinic.ServiceModel >= %{OPENMEDICUS_SERVICESTACK_CLINIC_SERVICEMODEL_VERSION}
 Requires:		OpenMedicus.ServiceStack.Master.ServiceModel >= %{OPENMEDICUS_SERVICESTACK_MASTER_SERVICEMODEL_VERSION}
@@ -233,9 +233,7 @@ Requires:		GSharpKit-runtime = %{version}
 Requires:		gnome-common intltool glib2-devel redhat-rpm-config rpm-build fedora-packager
 Requires:		meson
 
-Requires:		mono-zeroconf-devel
 Requires:		gtk-sharp3-devel gtk-sharp3-gapi
-Requires:		gstreamer1-sharp-devel
 
 #Requires:		libgphoto2-sharp-devel
 
@@ -328,12 +326,11 @@ Requires:               mingw32-mono-core >= %{MONO_CORE_VERSION}
 Requires:               mingw32-Npgsql >= %{NPGSQL_VERSION}
 Requires:               mingw32-GtkSharp >= %{GTK3_SHARP_VERSION}
 Requires:               mingw32-GdlSharp >= %{GDL_SHARP_VERSION}
-Requires:               mingw32-mono-zeroconf >= %{MONO_ZEROCONF_VERSION}
-Requires:               mingw32-mono-addins >= %{MONO_ADDINS_VERSION}
+Requires:               mingw32-Mono.Addins >= %{MONO_ADDINS_VERSION}
 Requires:               mingw32-webkitgtk3-sharp >= %{WEBKITGTK3_SHARP_VERSION}
 Requires:               mingw32-dbus-sharp >= %{DBUS_SHARP_VERSION}
 Requires:               mingw32-dbus-sharp-glib >= %{DBUS_GLIB_SHARP_VERSION}
-Requires:		mingw32-gstreamer1-sharp >= %{GSTREAMER1_SHARP_VERSION}
+Requires:		mingw32-GstSharp >= %{GST_SHARP_VERSION}
 Requires:		mingw32-Newtonsoft.Json >= %{NEWTONSOFT_JSON_VERSION}
 Requires:               mingw32-BouncyCastle >= %{BOUNCY_CASTLE_VERSION}
 Requires:               mingw32-MimeKit >= %{MIMEKIT_VERSION}
@@ -343,6 +340,7 @@ Requires:		mingw32-RestSharp >= %{REST_SHARP_VERSION}
 Requires:		mingw32-SealApi >= %{SEALAPI_VERSION}
 Requires:               mingw32-Sprache >= %{SPRACHE_VERSION}
 Requires:               mingw32-PDFsharp-MigraDoc >= %{PDFSHARP_MIGRADOC_VERSION}
+Requires:		mingw32-SharpZipLib >= %{SHARP_ZIP_LIB_VERSION}
 Requires:               mingw32-OpenMedicus.ServiceStack.EHR.ServiceModel >= %{OPENMEDICUS_SERVICESTACK_EHR_SERVICEMODEL_VERSION}
 Requires:               mingw32-OpenMedicus.ServiceStack.Clinic.ServiceModel >= %{OPENMEDICUS_SERVICESTACK_CLINIC_SERVICEMODEL_VERSION}
 Requires:               mingw32-OpenMedicus.ServiceStack.Master.ServiceModel >= %{OPENMEDICUS_SERVICESTACK_MASTER_SERVICEMODEL_VERSION}
@@ -429,12 +427,11 @@ Requires:               mingw64-mono-core >= %{MONO_CORE_VERSION}
 Requires:               mingw64-Npgsql >= %{NPGSQL_VERSION}
 Requires:               mingw64-GtkSharp >= %{GTK3_SHARP_VERSION}
 Requires:               mingw64-GdlSharp >= %{GDL_SHARP_VERSION}
-Requires:               mingw64-mono-zeroconf >= %{MONO_ZEROCONF_VERSION}
-Requires:               mingw64-mono-addins >= %{MONO_ADDINS_VERSION}
+Requires:               mingw64-Mono.Addins >= %{MONO_ADDINS_VERSION}
 Requires:               mingw64-webkitgtk3-sharp >= %{WEBKITGTK3_SHARP_VERSION}
 Requires:               mingw64-dbus-sharp >= %{DBUS_SHARP_VERSION}
 Requires:               mingw64-dbus-sharp-glib >= %{DBUS_GLIB_SHARP_VERSION}
-Requires:               mingw64-gstreamer1-sharp >= %{GSTREAMER1_SHARP_VERSION}
+Requires:               mingw64-GstSharp >= %{GST_SHARP_VERSION}
 Requires:               mingw64-Newtonsoft.Json >= %{NEWTONSOFT_JSON_VERSION}
 Requires:               mingw64-BouncyCastle >= %{BOUNCY_CASTLE_VERSION}
 Requires:               mingw64-MimeKit >= %{MIMEKIT_VERSION}
@@ -444,6 +441,7 @@ Requires:		mingw64-RestSharp >= %{REST_SHARP_VERSION}
 Requires:		mingw64-SealApi >= %{SEALAPI_VERSION}
 Requires:               mingw64-Sprache >= %{SPRACHE_VERSION}
 Requires:               mingw64-PDFsharp-MigraDoc >= %{PDFSHARP_MIGRADOC_VERSION}
+Requires:		mingw64-SharpZipLib >= %{SHARP_ZIP_LIB_VERSION}
 Requires:               mingw64-OpenMedicus.ServiceStack.EHR.ServiceModel >= %{OPENMEDICUS_SERVICESTACK_EHR_SERVICEMODEL_VERSION}
 Requires:               mingw64-OpenMedicus.ServiceStack.Clinic.ServiceModel >= %{OPENMEDICUS_SERVICESTACK_CLINIC_SERVICEMODEL_VERSION}
 Requires:               mingw64-OpenMedicus.ServiceStack.Master.ServiceModel >= %{OPENMEDICUS_SERVICESTACK_MASTER_SERVICEMODEL_VERSION}
@@ -616,12 +614,11 @@ Requires:               darwinx-Npgsql >= %{NPGSQL_VERSION}
 Requires:               darwinx-GtkSharp >= %{GTK3_SHARP_VERSION}
 Requires:               darwinx-GdlSharp >= %{GDL_SHARP_VERSION}
 Requires:		darwinx-gtk-mac-integration-sharp >= %{GTK_MAC_INTEGRATION_SHARP_VERSION}
-Requires:               darwinx-mono-zeroconf >= %{MONO_ZEROCONF_VERSION}
-Requires:               darwinx-mono-addins >= %{MONO_ADDINS_VERSION}
+Requires:               darwinx-Mono.Addins >= %{MONO_ADDINS_VERSION}
 Requires:               darwinx-webkitgtk3-sharp >= %{WEBKITGTK3_SHARP_VERSION}
 Requires:               darwinx-dbus-sharp >= %{DBUS_SHARP_VERSION}
 Requires:               darwinx-dbus-sharp-glib >= %{DBUS_GLIB_SHARP_VERSION}
-#Requires:               darwinx-gstreamer1-sharp >= %{GSTREAMER1_SHARP_VERSION}
+Requires:               darwinx-GstSharp >= %{GST_SHARP_VERSION}
 Requires:               darwinx-Newtonsoft.Json >= %{NEWTONSOFT_JSON_VERSION}
 Requires:               darwinx-BouncyCastle >= %{BOUNCY_CASTLE_VERSION}
 Requires:               darwinx-MimeKit >= %{MIMEKIT_VERSION}
@@ -631,6 +628,7 @@ Requires:		darwinx-RestSharp >= %{REST_SHARP_VERSION}
 Requires:		darwinx-SealApi >= %{SEALAPI_VERSION}
 Requires:               darwinx-Sprache >= %{SPRACHE_VERSION}
 Requires:               darwinx-PDFsharp-MigraDoc >= %{PDFSHARP_MIGRADOC_VERSION}
+Requires:		darwinx-SharpZipLib >= %{SHARP_ZIP_LIB_VERSION}
 Requires:               darwinx-OpenMedicus.ServiceStack.EHR.ServiceModel >= %{OPENMEDICUS_SERVICESTACK_EHR_SERVICEMODEL_VERSION}
 Requires:               darwinx-OpenMedicus.ServiceStack.Clinic.ServiceModel >= %{OPENMEDICUS_SERVICESTACK_CLINIC_SERVICEMODEL_VERSION}
 Requires:               darwinx-OpenMedicus.ServiceStack.Master.ServiceModel >= %{OPENMEDICUS_SERVICESTACK_MASTER_SERVICEMODEL_VERSION}

@@ -83,12 +83,11 @@ Npgsql
 GtkSharp
 GdlSharp
 gtk-mac-integration-sharp
-mono-zeroconf
-mono-addins
+Mono.Addins
 webkitgtk3-sharp
 dbus-sharp
 dbus-sharp-glib
-gstreamer1-sharp
+GstSharp
 Newtonsoft.Json
 BouncyCastle
 MimeKit
@@ -97,6 +96,7 @@ ServiceStack
 RestSharp
 SealApi
 PDFsharp-MigraDoc
+SharpZipLib
 )
 
 LIN_BUILD_IN=(

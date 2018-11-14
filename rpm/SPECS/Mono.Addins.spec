@@ -1,85 +1,68 @@
-Name:		mono-addins
-Version:	1.3.3
+%define libdir /lib
+
+Name:		Mono.Addins
+Version:	1.3.8
 Release:	1%{?dist}
 Summary:	Addins for mono
 Group:		Development/Languages
 License:	MIT
-URL:		http://www.mono-project.com/
-Source0:	mono-addins-mono-addins-%{version}.tar.gz
+URL:		https://www.nuget.org/packages/Mono.Addins
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Prefix:		/usr
 
 BuildArch: 	noarch
 
-BuildRequires:	mono-devel >= 3.10, gtk-sharp3-devel, autoconf, automake
-BuildRequires:	pkgconfig
+Requires:	mono-core >= 5.14.0
+
+Obsoletes:	mono-addins
+Provides:	mono-addins
+
+BuildRequires:	nuget
 
 %description
 Mono.Addins is a generic framework for creating extensible applications,
 and for creating libraries which extend those applications.
 
 %prep
-%setup -q -n mono-addins-mono-addins-%{version}
-sh autogen.sh --prefix=%{prefix} --disable-gui
+%setup -c %{name}-%{version} -T
+nuget install %{name} -Version %{version}
+
+cat > mono-addins.pc << \EOF
+prefix=%{_prefix}
+exec_prefix=${prefix}
+libdir=%{_prefix}%{libdir}/mono
+
+Name: %{name}
+Description: %{summary}
+Requires:
+Version: %{version}
+Libs: -r:${libdir}/%{name}/%{name}.dll
+Cflags:
+EOF
 
 %build
-make
-
-sn -R bin/Mono.Addins.CecilReflector.dll mono-addins.snk
-sn -R bin/Mono.Addins.dll mono-addins.snk
-sn -R bin/Mono.Addins.MSBuild.dll mono-addins.snk
-sn -R bin/Mono.Addins.Setup.dll mono-addins.snk
-
 
 %install
 %{__rm} -rf %{buildroot}
-make install program_transform_name="" DESTDIR=$RPM_BUILD_ROOT
 
-install -d -m 755 $RPM_BUILD_ROOT%{_datadir}/pkgconfig
-mv $RPM_BUILD_ROOT%{prefix}/lib/pkgconfig/* $RPM_BUILD_ROOT%{_datadir}/pkgconfig/
-rm -rf $RPM_BUILD_ROOT%{prefix}/lib/pkgconfig
+install -d -m 755 $RPM_BUILD_ROOT%{_prefix}%{libdir}/mono/gac
+gacutil -i %{name}.%{version}/lib/net45/%{name}.dll -package %{name} -root $RPM_BUILD_ROOT%{_prefix}%{libdir} -gacdir mono/gac
+
+install -d -m 755 $RPM_BUILD_ROOT%{_datadir}/pkgconfig/
+install -m 644 mono-addins.pc $RPM_BUILD_ROOT%{_datadir}/pkgconfig/
 
 %clean
-%{__rm} -rf %{buildroot}
 
 %files
 %defattr(-,root,root,-)
-%{_bindir}/mautil
-%{prefix}/lib/mono/mono-addins
-#{prefix}/lib/mono/gac/Mono.Addins.Gui
-%{prefix}/lib/mono/gac/Mono.Addins.Setup
-%{prefix}/lib/mono/gac/Mono.Addins
-%{prefix}/lib/mono/gac/Mono.Addins.CecilReflector
-#{prefix}/lib/mono/gac/policy.0.2.Mono.Addins.Gui
-%{prefix}/lib/mono/gac/policy.0.2.Mono.Addins.Setup
-%{prefix}/lib/mono/gac/policy.0.2.Mono.Addins
-%{prefix}/lib/mono/gac/policy.0.2.Mono.Addins.CecilReflector
-#{prefix}/lib/mono/gac/policy.0.3.Mono.Addins.Gui
-%{prefix}/lib/mono/gac/policy.0.3.Mono.Addins.Setup
-%{prefix}/lib/mono/gac/policy.0.3.Mono.Addins
-%{prefix}/lib/mono/gac/policy.0.3.Mono.Addins.CecilReflector
-#{prefix}/lib/mono/gac/policy.0.4.Mono.Addins.Gui
-%{prefix}/lib/mono/gac/policy.0.4.Mono.Addins.Setup
-%{prefix}/lib/mono/gac/policy.0.4.Mono.Addins
-%{prefix}/lib/mono/gac/policy.0.4.Mono.Addins.CecilReflector
-#{prefix}/lib/mono/gac/policy.0.5.Mono.Addins.Gui
-%{prefix}/lib/mono/gac/policy.0.5.Mono.Addins.Setup
-%{prefix}/lib/mono/gac/policy.0.5.Mono.Addins
-%{prefix}/lib/mono/gac/policy.0.5.Mono.Addins.CecilReflector
-#{prefix}/lib/mono/gac/policy.0.6.Mono.Addins.Gui
-%{prefix}/lib/mono/gac/policy.0.6.Mono.Addins.Setup
-%{prefix}/lib/mono/gac/policy.0.6.Mono.Addins
-%{prefix}/lib/mono/gac/policy.0.6.Mono.Addins.CecilReflector
-%{_mandir}/man1/mautil.1*
-%{prefix}/lib/mono/gac/Mono.Addins.MSBuild
-%{prefix}/lib/mono/gac/policy.0.2.Mono.Addins.MSBuild
-%{prefix}/lib/mono/gac/policy.0.3.Mono.Addins.MSBuild
-%{prefix}/lib/mono/gac/policy.0.4.Mono.Addins.MSBuild
-%{prefix}/lib/mono/gac/policy.0.5.Mono.Addins.MSBuild
-%{prefix}/lib/mono/gac/policy.0.6.Mono.Addins.MSBuild
-%{_datadir}/pkgconfig/mono-addins*
+%{_prefix}%{libdir}/mono/gac
+%{_prefix}%{libdir}/mono/%{name}/%{name}.dll
+%{_datadir}/pkgconfig/mono-addins.pc
 
 %changelog
+* Wed Nov 14 2018 Mikkel Kruse Johnsen <mikkel@xmedicus.com> - 1.3.8-1
+- Updated to 1.3.8 from NuGet
+
 * Fri Nov 17 2017 Mikkel Kruse Johnsen <mikkel@xmedicus.com> - 1.3.3-1
 - Updated to 1.3.3
 
