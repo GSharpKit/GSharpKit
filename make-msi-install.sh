@@ -36,7 +36,7 @@ cp -r $FROM/etc/fonts $TO/etc/
 cp -r $FROM/etc/gtk-3.0 $TO/etc/
 cp -r $FROM/etc/mono $TO/etc/
 cp -r $FROM/etc/pki $TO/etc/
-cp -r $FROM/sane.d $TO/etc/
+cp -r $FROM/etc/sane.d $TO/etc/
 
 # LIB directory
 mkdir $TO/lib
