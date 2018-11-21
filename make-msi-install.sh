@@ -26,6 +26,8 @@ cp $FROM/bin/*.dll $TO/bin/
 cp $FROM/lib/*.dll $TO/bin/
 cp $TO/bin/libsqlite3-0.dll $TO/bin/libsqlite3.dll
 
+cp $FROM/bin/sane-find-scanner.exe $TO/bin/
+
 # ETC directory
 mkdir $TO/etc
 cp -r $FROM/etc/dbus-1 $TO/etc/
@@ -34,6 +36,7 @@ cp -r $FROM/etc/fonts $TO/etc/
 cp -r $FROM/etc/gtk-3.0 $TO/etc/
 cp -r $FROM/etc/mono $TO/etc/
 cp -r $FROM/etc/pki $TO/etc/
+cp -r $FROM/sane.d $TO/etc/
 
 # LIB directory
 mkdir $TO/lib
@@ -43,6 +46,9 @@ cp -r $FROM/lib/gdk-pixbuf-2.0 $TO/lib/
 cp -r $FROM/lib/gio $TO/lib/
 cp -r $FROM/lib/gstreamer-1.0 $TO/lib/
 cp -r $FROM/lib/gtk-3.0 $TO/lib/
+cp -r $FROM/lib/libgphoto2 $TO/lib/
+mv $TO/lib/libgphoto2/print-camera-list.exe $TO/bin/
+cp -r $FROM/lib/libgphoto2_port $TO/lib/
 
 mkdir -p $TO/lib/mono/4.5
 cp -r $FROM/lib/mono/4.5/mscorlib.dll $TO/lib/mono/4.5/

@@ -75,6 +75,11 @@ gstreamer1
 gstreamer1-plugins-base
 gstreamer1-plugins-good
 gstreamer1-plugins-bad
+libusbx
+libexif
+libgphoto2
+sane-backends
+twaindsm
 webkitgtk3
 dbus
 dbus-glib
@@ -88,6 +93,8 @@ webkitgtk3-sharp
 dbus-sharp
 dbus-sharp-glib
 GstSharp
+libgphoto2-sharp
+SharpCamera
 Newtonsoft.Json
 BouncyCastle
 MimeKit
@@ -144,6 +151,7 @@ openssl
 sqlite
 libidn
 hunspell
+twaindsm
 )
 
 MAC_NA=(

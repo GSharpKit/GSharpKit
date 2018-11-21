@@ -70,6 +70,11 @@
 %define DBUS_VERSION 1.8.16
 %define DBUS_GLIB_VERSION 0.108
 
+%define LIBUSB_VERSION 1.0.22
+%define LIBGPHOTO2_VERSION 2.5.16
+%define SANE_BACKENDS_VERSION 1.0.27
+%define TWAIN_DSM_VERSION 2.3.1
+
 %define MONO_CORE_VERSION 5.14.0
 %define MICROSOFT_CSHARP_VERSION 4.5.0
 %define MONO_POSIX_NETSTANDARD_VERSION 1.0.0
@@ -92,6 +97,8 @@
 %define PDFSHARP_MIGRADOC_VERSION 1.50.4845
 %define SPRACHE_VERSION 2.2.0
 %define SHARP_ZIP_LIB_VERSION 1.0.0
+%define LIBGPHOTO2_SHARP_VERSION 0.3.2
+%define SHARP_CAMERA_VERSION 0.3.7
 
 %define OPENMEDICUS_SERVICESTACK_EHR_SERVICEMODEL_VERSION 1.0.34
 %define OPENMEDICUS_SERVICESTACK_CLINIC_SERVICEMODEL_VERSION 2.4.12
@@ -99,7 +106,7 @@
 
 Summary: 		Easy management of applications
 Name: 			GSharpKit
-Version:		28.5
+Version:		28.6
 Release:		1%{?dist}
 License:		GPL
 Group: 			Applications/Desktop
@@ -186,6 +193,12 @@ Requires:		enchant >= %{ENCHANT_VERSION}
 Requires:		webkitgtk3 >= %{WEBKITGTK3_VERSION}
 Requires:		webkitgtk3-sharp >= %{WEBKITGTK3_SHARP_VERSION}
 
+Requires:		libusbx >= %{LIBUSB_VERSION}
+Requires:		libexif >= %{LIBEXIF_VERSION}
+Requires:		libgphoto2 >= %{LIBGPHOTO2_VERSION}
+Requires:		sane-backends >= %{SANE_BACKENDS_VERSION}
+Requires:		twaindsm >= %{TWAIN_DSM_VERSION}
+
 Requires:		libogg => %{LIBOGG_VERSION}
 Requires:		libvorbis => %{LIBVORBIS_VERSION}
 Requires:		libwebp => %{LIBWEBP_VERSION}
@@ -194,11 +207,6 @@ Requires:		gstreamer1-plugins-base >= %{GSTREAMER1_PLUGINS_BASE_VERSION}
 Requires:		gstreamer1-plugins-good >= %{GSTREAMER1_PLUGINS_GOOD_VERSION}
 Requires:		gstreamer1-plugins-bad-free >= %{GSTREAMER1_PLUGINS_BAD_VERSION}
 Requires:		GstSharp >= %{GST_SHARP_VERSION}
-
-Requires:		libexif >= %{LIBEXIF_VERSION}
-#Requires:		libgphoto2 >= %{LIBGPHOTO2_VERSION}
-#Requires:		libgphoto2-sharp >= %{LIBGPHOTO2_SHARP_VERSION}
-
 Requires:		Newtonsoft.Json >= %{NEWTONSOFT_JSON_VERSION}
 Requires:		BouncyCastle >= %{BOUNCY_CASTLE_VERSION}
 Requires:		MimeKit >= %{MIMEKIT_VERSION}
@@ -209,6 +217,8 @@ Requires:		SealApi >= %{SEALAPI_VERSION}
 Requires:		Sprache >= %{SPRACHE_VERSION}
 Requires:		PDFsharp-MigraDoc >= %{PDFSHARP_MIGRADOC_VERSION}
 Requires:		SharpZipLib >= %{SHARP_ZIP_LIB_VERSION}
+Requires:		libgphoto2-sharp >= %{LIBGPHOTO2_SHARP_VERSION}
+Requires:		SharpCamera >= %{SHARP_CAMERA_VERSION}
 Requires:		OpenMedicus.ServiceStack.EHR.ServiceModel >= %{OPENMEDICUS_SERVICESTACK_EHR_SERVICEMODEL_VERSION}
 Requires:		OpenMedicus.ServiceStack.Clinic.ServiceModel >= %{OPENMEDICUS_SERVICESTACK_CLINIC_SERVICEMODEL_VERSION}
 Requires:		OpenMedicus.ServiceStack.Master.ServiceModel >= %{OPENMEDICUS_SERVICESTACK_MASTER_SERVICEMODEL_VERSION}
@@ -234,8 +244,6 @@ Requires:		gnome-common intltool glib2-devel redhat-rpm-config rpm-build fedora-
 Requires:		meson
 
 Requires:		gtk-sharp3-devel gtk-sharp3-gapi
-
-#Requires:		libgphoto2-sharp-devel
 
 Requires:		gnome-sharp
 Requires:		dotnet-sdk-2.1
@@ -320,6 +328,12 @@ Requires:               mingw32-webkitgtk3 >= %{WEBKITGTK3_VERSION}
 Requires:               mingw32-dbus >= %{DBUS_VERSION}
 Requires:               mingw32-dbus-glib >= %{DBUS_GLIB_VERSION}
 
+Requires:		mingw32-libusbx >= %{LIBUSB_VERSION}
+Requires:		mingw32-libexif >= %{LIBEXIF_VERSION}
+Requires:		mingw32-libgphoto2 >= %{LIBGPHOTO2_VERSION}
+Requires:		mingw32-sane-backends >= %{SANE_BACKENDS_VERSION}
+Requires:		mingw32-twaindsm >= %{TWAIN_DSM_VERSION}
+
 Requires:               mingw32-Microsoft.CSharp >= %{MICROSOFT_CSHARP_VERSION}
 Requires:               mingw32-Mono.Posix.NETStandard >= %{MONO_POSIX_NETSTANDARD_VERSION}
 Requires:               mingw32-mono-core >= %{MONO_CORE_VERSION}
@@ -341,6 +355,8 @@ Requires:		mingw32-SealApi >= %{SEALAPI_VERSION}
 Requires:               mingw32-Sprache >= %{SPRACHE_VERSION}
 Requires:               mingw32-PDFsharp-MigraDoc >= %{PDFSHARP_MIGRADOC_VERSION}
 Requires:		mingw32-SharpZipLib >= %{SHARP_ZIP_LIB_VERSION}
+Requires:		mingw32-libgphoto2-sharp >= %{LIBGPHOTO2_SHARP_VERSION}
+Requires:		mingw32-SharpCamera >= %{SHARP_CAMERA_VERSION}
 Requires:               mingw32-OpenMedicus.ServiceStack.EHR.ServiceModel >= %{OPENMEDICUS_SERVICESTACK_EHR_SERVICEMODEL_VERSION}
 Requires:               mingw32-OpenMedicus.ServiceStack.Clinic.ServiceModel >= %{OPENMEDICUS_SERVICESTACK_CLINIC_SERVICEMODEL_VERSION}
 Requires:               mingw32-OpenMedicus.ServiceStack.Master.ServiceModel >= %{OPENMEDICUS_SERVICESTACK_MASTER_SERVICEMODEL_VERSION}
@@ -421,6 +437,12 @@ Requires:               mingw64-webkitgtk3 >= %{WEBKITGTK3_VERSION}
 Requires:               mingw64-dbus >= %{DBUS_VERSION}
 Requires:               mingw64-dbus-glib >= %{DBUS_GLIB_VERSION}
 
+Requires:		mingw64-libusbx >= %{LIBUSB_VERSION}
+Requires:		mingw64-libexif >= %{LIBEXIF_VERSION}
+Requires:		mingw64-libgphoto2 >= %{LIBGPHOTO2_VERSION}
+Requires:		mingw64-sane-backends >= %{SANE_BACKENDS_VERSION}
+Requires:		mingw64-twaindsm >= %{TWAIN_DSM_VERSION}
+
 Requires:               mingw64-Microsoft.CSharp >= %{MICROSOFT_CSHARP_VERSION}
 Requires:               mingw64-Mono.Posix.NETStandard >= %{MONO_POSIX_NETSTANDARD_VERSION}
 Requires:               mingw64-mono-core >= %{MONO_CORE_VERSION}
@@ -442,6 +464,8 @@ Requires:		mingw64-SealApi >= %{SEALAPI_VERSION}
 Requires:               mingw64-Sprache >= %{SPRACHE_VERSION}
 Requires:               mingw64-PDFsharp-MigraDoc >= %{PDFSHARP_MIGRADOC_VERSION}
 Requires:		mingw64-SharpZipLib >= %{SHARP_ZIP_LIB_VERSION}
+Requires:		mingw64-libgphoto2-sharp >= %{LIBGPHOTO2_SHARP_VERSION}
+Requires:		mingw64-SharpCamera >= %{SHARP_CAMERA_VERSION}
 Requires:               mingw64-OpenMedicus.ServiceStack.EHR.ServiceModel >= %{OPENMEDICUS_SERVICESTACK_EHR_SERVICEMODEL_VERSION}
 Requires:               mingw64-OpenMedicus.ServiceStack.Clinic.ServiceModel >= %{OPENMEDICUS_SERVICESTACK_CLINIC_SERVICEMODEL_VERSION}
 Requires:               mingw64-OpenMedicus.ServiceStack.Master.ServiceModel >= %{OPENMEDICUS_SERVICESTACK_MASTER_SERVICEMODEL_VERSION}
@@ -607,6 +631,12 @@ Requires:               darwinx-webkitgtk3 >= %{WEBKITGTK3_VERSION}
 Requires:               darwinx-dbus >= %{DBUS_VERSION}
 Requires:               darwinx-dbus-glib >= %{DBUS_GLIB_VERSION}
 
+Requires:		darwinx-libusbx >= %{LIBUSB_VERSION}
+Requires:		darwinx-libexif >= %{LIBEXIF_VERSION}
+Requires:		darwinx-libgphoto2 >= %{LIBGPHOTO2_VERSION}
+Requires:		darwinx-sane-backends >= %{SANE_BACKENDS_VERSION}
+#Requires:		darwinx-twaindsm >= %{TWAIN_DSM_VERSION} # Uses Twain.Framework on macOS
+
 Requires:               darwinx-Microsoft.CSharp >= %{MICROSOFT_CSHARP_VERSION}
 Requires:               darwinx-Mono.Posix.NETStandard >= %{MONO_POSIX_NETSTANDARD_VERSION}
 Requires:               darwinx-mono-core >= %{MONO_CORE_VERSION}
@@ -629,6 +659,8 @@ Requires:		darwinx-SealApi >= %{SEALAPI_VERSION}
 Requires:               darwinx-Sprache >= %{SPRACHE_VERSION}
 Requires:               darwinx-PDFsharp-MigraDoc >= %{PDFSHARP_MIGRADOC_VERSION}
 Requires:		darwinx-SharpZipLib >= %{SHARP_ZIP_LIB_VERSION}
+Requires:		darwinx-libgphoto2-sharp >= %{LIBGPHOTO2_SHARP_VERSION}
+Requires:		darwinx-SharpCamera >= %{SHARP_CAMERA_VERSION}
 Requires:               darwinx-OpenMedicus.ServiceStack.EHR.ServiceModel >= %{OPENMEDICUS_SERVICESTACK_EHR_SERVICEMODEL_VERSION}
 Requires:               darwinx-OpenMedicus.ServiceStack.Clinic.ServiceModel >= %{OPENMEDICUS_SERVICESTACK_CLINIC_SERVICEMODEL_VERSION}
 Requires:               darwinx-OpenMedicus.ServiceStack.Master.ServiceModel >= %{OPENMEDICUS_SERVICESTACK_MASTER_SERVICEMODEL_VERSION}

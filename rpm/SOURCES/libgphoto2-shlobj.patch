@@ -1,0 +1,12 @@
+diff -Nur libgphoto2-2.5.20.orig/libgphoto2/gphoto2-setting.c libgphoto2-2.5.20/libgphoto2/gphoto2-setting.c
+--- libgphoto2-2.5.20.orig/libgphoto2/gphoto2-setting.c	2016-11-20 00:05:44.000000000 +0100
++++ libgphoto2-2.5.20/libgphoto2/gphoto2-setting.c	2018-11-19 14:07:17.235073584 +0100
+@@ -35,7 +35,7 @@
+ #include <gphoto2/gphoto2-port-portability.h>
+ 
+ #ifdef WIN32
+-#include <Shlobj.h>
++#include <shlobj.h>
+ #endif
+ 
+ /**
