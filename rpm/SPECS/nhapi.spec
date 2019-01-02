@@ -20,6 +20,8 @@ Requires:  	mono-core
 Obsoletes:	NHapi-devel NHapi
 Provides:	NHapi-devel NHapi
 
+Provides:	mono(System.Core) = 3.5.0.0
+
 %description
 nHapi is a port of the original project HAPI.
 nHapi allows Microsoft .NET developers to easily use an HL7 2.x object model. This object model allows for parsing and encoding HL7 2.x data to/from Pipe Delmimited or XML formats. A very handy program for use in the health care industry.

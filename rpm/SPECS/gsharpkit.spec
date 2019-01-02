@@ -75,10 +75,10 @@
 %define SANE_BACKENDS_VERSION 1.0.27
 %define TWAIN_DSM_VERSION 2.3.1
 
-%define MONO_CORE_VERSION 5.14.0
+%define MONO_CORE_VERSION 5.18.0
 %define MICROSOFT_CSHARP_VERSION 4.5.0
 %define MONO_POSIX_NETSTANDARD_VERSION 1.0.0
-%define NPGSQL_VERSION 4.0.3
+%define NPGSQL_VERSION 4.0.4
 %define MONO_ADDINS_VERSION 1.3.8
 %define GTK3_SHARP_VERSION 3.22.24
 %define GDL_SHARP_VERSION 3.26.0
@@ -106,7 +106,7 @@
 
 Summary: 		Easy management of applications
 Name: 			GSharpKit
-Version:		28.6
+Version:		28.7
 Release:		1%{?dist}
 License:		GPL
 Group: 			Applications/Desktop

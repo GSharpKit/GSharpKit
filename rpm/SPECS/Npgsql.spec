@@ -9,8 +9,8 @@
 %define apiversion 4.0.0.0
 
 Name:           Npgsql
-Version:        4.0.3
-Release:        2%{?dist}
+Version:        4.0.4
+Release:        1%{?dist}
 Summary:        Postgresql database connectivity for C#
 
 Group:          Development/Languages
@@ -60,8 +60,7 @@ EOF
 %{__rm} -rf %{buildroot}
 
 gacutil -i Npgsql.%{version}/lib/netstandard2.0/Npgsql.dll -package Npgsql -root $RPM_BUILD_ROOT%{_prefix}%{libdir} -gacdir mono/gac
-gacutil -i System.Threading.Tasks.Extensions.4.5.0/lib/netstandard2.0/System.Threading.Tasks.Extensions.dll -package System.Threading.Tasks.Extensions -root $RPM_BUILD_ROOT%{_prefix}%{libdir} -gacdir mono/gac
-#gacutil -i System.Runtime.CompilerServices.Unsafe.4.5.0/lib/netstandard2.0/System.Runtime.CompilerServices.Unsafe.dll -package System.Runtime.CompilerServices.Unsafe -root $RPM_BUILD_ROOT%{_prefix}%{libdir} -gacdir mono/gac
+gacutil -i System.Threading.Tasks.Extensions.4.5.1/lib/netstandard2.0/System.Threading.Tasks.Extensions.dll -package System.Threading.Tasks.Extensions -root $RPM_BUILD_ROOT%{_prefix}%{libdir} -gacdir mono/gac
 
 install -d -m 755 $RPM_BUILD_ROOT%{_prefix}%{libdir}
 install -m 644 System.Runtime.CompilerServices.Unsafe.4.5.0/lib/netstandard2.0/System.Runtime.CompilerServices.Unsafe.dll $RPM_BUILD_ROOT%{_prefix}%{libdir}/

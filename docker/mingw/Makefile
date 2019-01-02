@@ -1,5 +1,5 @@
 FEDORA_VERSION = 28
-VERSION = 28.6
+VERSION = 28.7
 RELEASE = 1
 
 all: pull build tag push

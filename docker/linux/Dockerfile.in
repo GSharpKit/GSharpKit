@@ -1,8 +1,8 @@
 FROM fedora:@FEDORA_VERSION@
 MAINTAINER Mikkel Kruse Johnsen <mikkel@xmedicus.com>
 
-RUN rpm -Uvh http://yum.gsharpkit.org/gsharpkit/fedora-28-x86_64/RPMS/GSharpKit-release-@VERSION@-@RELEASE@.fc28.noarch.rpm
+RUN rpm -Uvh http://yum.gsharpkit.org/gsharpkit/fedora-@FEDORA_VERSION@-x86_64/RPMS/GSharpKit-release-@VERSION@-@RELEASE@.fc@FEDORA_VERSION@.noarch.rpm
 
-RUN dnf -y --exclude darwinx* install sudo rpm-build NHapi nuget netstandard mono-nunit GSharpKit-sdk && dnf clean all && rm -rf /var/cache/dnf
+RUN dnf -y --exclude darwinx* install sudo rpm-build nHapi NHapiTools nuget netstandard mono-nunit GSharpKit-sdk && dnf clean all && rm -rf /var/cache/dnf
 
 RUN mkdir -p /root/rpm/SPECS ; mkdir -p /root/rpm/SOURCES ; mkdir -p /root/rpm/BUILD ; mkdir -p /root/rpm/RPMS ; mkdir -p /root/rpm/SRPMS ; mkdir -p /root/rpm/BUILDROOT ; echo "%_topdir /root/rpm" > /root/.rpmmacros 
