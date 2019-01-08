@@ -9,7 +9,7 @@
 %define GETTEXT_VERSION 0.19.7
 %define LIBFFI_VERSION 3.1
 %define PCRE_VERSION 8.38
-%define GLIB2_VERSION 2.56.1
+%define GLIB2_VERSION 2.58.1
 %define PIXMAN_VERSION 0.34.0
 %define BZIP2_VERSION 1.0.6
 %define FREETYPE_VERSION 2.8
@@ -18,11 +18,11 @@
 %define LIBPNG_VERSION 1.6.29
 %define LIBJPEG_TURBO_VERSION 1.5.1
 %define LIBTIFF_VERSION 4.0.9
-%define CAIRO_VERSION 1.15.12
+%define CAIRO_VERSION 1.16.0
 %define ICU_VERSION 57.1
-%define HARFBUZZ_VERSION 1.7.5
-%define FRIBIDI_VERSION 1.0.2
-%define PANGO_VERSION 1.42.1
+%define HARFBUZZ_VERSION 1.8.7
+%define FRIBIDI_VERSION 1.0.5
+%define PANGO_VERSION 1.42.3
 %define ATK_VERSION 2.26.0
 %define JASPER_VERSION 1.900.1
 %define LIBXML2_VERSION 2.9.3
@@ -30,7 +30,7 @@
 %define LIBEPOXY_VERSION 1.4.3
 %define LIBRSVG2_VERSION 2.40.19
 %define GDK_PIXBUF_VERSION 2.36.11
-%define GTK3_VERSION 3.22.30
+%define GTK3_VERSION 3.24.1
 %define GTK3_ADWAITA_VERSION 3.26.0
 %define GDL_VERSION 3.28.0
 
@@ -39,19 +39,19 @@
 %define GTK_MAC_BUNDLER_VERSION 0.5
 %define GTK_MAC_INTEGRATION_VERSION 0.9
 
-%define LIBGPG_ERROR_VERSION 1.22
+%define LIBGPG_ERROR_VERSION 1.31
 %define LIBGCRYPT_VERSION 1.6.3
 %define GMP_VERSION 6.1.2
-%define NETTLE_VERSION 3.3
+%define NETTLE_VERSION 3.4
 %define P11_KIT_VERSION 0.23.7
 %define LIBTASN1_VERSION 4.13
 %define READLINE_VERSION 6.2
-%define GNUTLS_VERSION 3.6.2
+%define GNUTLS_VERSION 3.6.3
 %define OPENSSL_VERSION 1.0.2
 %define GLIB_NETWORKING_VERSION 2.54.0
 
 %define LIBXSLT_VERSION 1.1.28
-%define SQLITE_VERSION 3.22.0
+%define SQLITE_VERSION 3.24.0
 %define LIBSOUP_VERSION 2.59.0
 
 %define HUNSPELL_VERSION 1.6.2
@@ -106,7 +106,7 @@
 
 Summary: 		Easy management of applications
 Name: 			GSharpKit
-Version:		28.7
+Version:		29.1
 Release:		1%{?dist}
 License:		GPL
 Group: 			Applications/Desktop
@@ -731,8 +731,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_sysconfdir}/pki/rpm-gpg/RPM-GPG-KEY-microsoft
 %{_sysconfdir}/yum/pluginconf.d/yum_ignoreos.conf
 %{_datadir}/yum-plugins/yum_ignoreos.py
-#{_datadir}/yum-plugins/yum_ignoreos.pyc
-#{_datadir}/yum-plugins/yum_ignoreos.pyo
+%{_datadir}/yum-plugins/yum_ignoreos.pyc
+%{_datadir}/yum-plugins/yum_ignoreos.pyo
 
 
 %files runtime

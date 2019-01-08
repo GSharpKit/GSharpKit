@@ -10,19 +10,23 @@
 %endif
 
 Name:		cairo
-Version:	1.15.12
-Release:	3%{?dist}
+Version:	1.16.0
+Release:	4%{?dist}
 Summary:	A 2D graphics library
 
 License:	LGPLv2 or MPLv1.1
 URL:		http://cairographics.org
-Source0:	http://cairographics.org/snapshots/%{name}-%{version}.tar.xz
-
-# Backported from upstream
-Patch0:         0001-Fix-assertion-failure-in-the-freetype-backend.patch
+Source0:	http://cairographics.org/releases/%{name}-%{version}.tar.xz
 
 Patch3:         cairo-multilib.patch
 
+# https://gitlab.freedesktop.org/cairo/cairo/merge_requests/1
+Patch4:         0001-Set-default-LCD-filter-to-FreeType-s-default.patch
+
+# https://gitlab.freedesktop.org/cairo/cairo/merge_requests/5
+Patch5:         0001-ft-Use-FT_Done_MM_Var-instead-of-free-when-available.patch
+
+BuildRequires:  gcc
 BuildRequires: pkgconfig
 BuildRequires: libXrender-devel
 BuildRequires: libX11-devel
@@ -112,9 +116,6 @@ make V=1 %{?_smp_mflags}
 %make_install
 find $RPM_BUILD_ROOT -name '*.la' -delete
 
-%ldconfig_scriptlets
-%ldconfig_scriptlets gobject
-
 %files
 %license COPYING COPYING-LGPL-2.1 COPYING-MPL-1.1
 %doc AUTHORS BIBLIOGRAPHY BUGS NEWS README
@@ -175,6 +176,24 @@ find $RPM_BUILD_ROOT -name '*.la' -delete
 %{_libdir}/cairo/
 
 %changelog
+* Fri Dec  7 2018 Marek Kasik <mkasik@redhat.com> - 1.16.0-3
+- Use FT_Done_MM_Var instead of free when available in
+- cairo_ft_apply_variations
+
+* Fri Dec  7 2018 Marek Kasik <mkasik@redhat.com> - 1.16.0-2
+- Set default LCD filter to FreeType's default
+- Resolves: #1645763
+
+* Mon Oct 22 2018 Kalev Lember <klember@redhat.com> - 1.16.0-1
+- Update to 1.16.0
+
+* Sat Sep 22 2018 Kalev Lember <klember@redhat.com> - 1.15.14-1
+- Update to 1.15.14
+- Drop ldconfig scriptlets
+
+* Thu Jul 12 2018 Fedora Release Engineering <releng@fedoraproject.org> - 1.15.12-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_29_Mass_Rebuild
+
 * Sat Apr 21 2018 Kalev Lember <klember@redhat.com> - 1.15.12-2
 - Fix assertion failure in the freetype backend (#1567633)
 

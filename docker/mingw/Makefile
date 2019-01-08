@@ -1,5 +1,5 @@
-FEDORA_VERSION = 28
-VERSION = 28.7
+FEDORA_VERSION = 29
+VERSION = 29.1
 RELEASE = 1
 
 all: pull build tag push

@@ -12,7 +12,7 @@
 
 Name:		mingw-mono-core
 Version:	%{ver}
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	The Mono CIL runtime, suitable for running .NET code
 License:	LGPLv2
 Group:		Development/Languages
@@ -22,6 +22,7 @@ Source1:	mono-%{ver}-x64.zip
 Source2:	VC_redist.x86.exe
 Source3:	VC_redist.x64.exe
 Source4:       	mingw-mono-5.10-config.patch
+Source5:	System.ServiceModel.dll
 
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:	noarch
@@ -156,8 +157,10 @@ install -d -m 755 %{buildroot}%{mingw32_includedir}
 cp -rf -L ../mono-%{ver}-x86/etc/mono/* %{buildroot}%{mingw32_sysconfdir}/mono/
 
 cp -rf -L ../mono-%{ver}-x86/lib/mono/4.0 %{buildroot}%{mingw32_libdir}/mono/
-cp -rf -L ../mono-%{ver}-x86/lib/mono/4.0-api %{buildroot}%{mingw32_libdir}/mono/
 cp -rf -L ../mono-%{ver}-x86/lib/mono/4.5 %{buildroot}%{mingw32_libdir}/mono/
+cp -f %{SOURCE5} %{buildroot}%{mingw32_libdir}/mono/4.5/
+
+cp -rf -L ../mono-%{ver}-x86/lib/mono/4.0-api %{buildroot}%{mingw32_libdir}/mono/
 cp -rf -L ../mono-%{ver}-x86/lib/mono/4.5-api %{buildroot}%{mingw32_libdir}/mono/
 cp -rf -L ../mono-%{ver}-x86/lib/mono/4.5.1-api %{buildroot}%{mingw32_libdir}/mono/
 cp -rf -L ../mono-%{ver}-x86/lib/mono/4.5.2-api %{buildroot}%{mingw32_libdir}/mono/
@@ -166,6 +169,7 @@ cp -rf -L ../mono-%{ver}-x86/lib/mono/4.6.1-api %{buildroot}%{mingw32_libdir}/mo
 cp -rf -L ../mono-%{ver}-x86/lib/mono/4.6.2-api %{buildroot}%{mingw32_libdir}/mono/
 cp -rf -L ../mono-%{ver}-x86/lib/mono/4.7-api %{buildroot}%{mingw32_libdir}/mono/
 cp -rf -L ../mono-%{ver}-x86/lib/mono/4.7.1-api %{buildroot}%{mingw32_libdir}/mono/
+cp -rf -L ../mono-%{ver}-x86/lib/mono/4.7.2-api %{buildroot}%{mingw32_libdir}/mono/
 
 cp -f ../mono-%{ver}-x86/bin/mono-sgen.exe %{buildroot}%{mingw32_bindir}/mono-sgen.exe
 cp -f ../mono-%{ver}-x86/bin/mono-sgen.pdb %{buildroot}%{mingw32_bindir}/mono-sgen.pdb
@@ -199,8 +203,10 @@ install -d -m 755 %{buildroot}%{mingw64_includedir}
 cp -rf -L ../mono-%{ver}-x64/etc/mono/* %{buildroot}%{mingw64_sysconfdir}/mono/
 
 cp -rf -L ../mono-%{ver}-x64/lib/mono/4.0 %{buildroot}%{mingw64_libdir}/mono/
-cp -rf -L ../mono-%{ver}-x64/lib/mono/4.0-api %{buildroot}%{mingw64_libdir}/mono/
 cp -rf -L ../mono-%{ver}-x64/lib/mono/4.5 %{buildroot}%{mingw64_libdir}/mono/
+cp -f %{SOURCE5} %{buildroot}%{mingw64_libdir}/mono/4.5/
+
+cp -rf -L ../mono-%{ver}-x64/lib/mono/4.0-api %{buildroot}%{mingw64_libdir}/mono/
 cp -rf -L ../mono-%{ver}-x64/lib/mono/4.5-api %{buildroot}%{mingw64_libdir}/mono/
 cp -rf -L ../mono-%{ver}-x64/lib/mono/4.5.1-api %{buildroot}%{mingw64_libdir}/mono/
 cp -rf -L ../mono-%{ver}-x64/lib/mono/4.5.2-api %{buildroot}%{mingw64_libdir}/mono/
@@ -209,6 +215,7 @@ cp -rf -L ../mono-%{ver}-x64/lib/mono/4.6.1-api %{buildroot}%{mingw64_libdir}/mo
 cp -rf -L ../mono-%{ver}-x64/lib/mono/4.6.2-api %{buildroot}%{mingw64_libdir}/mono/
 cp -rf -L ../mono-%{ver}-x64/lib/mono/4.7-api %{buildroot}%{mingw64_libdir}/mono/
 cp -rf -L ../mono-%{ver}-x64/lib/mono/4.7.1-api %{buildroot}%{mingw64_libdir}/mono/
+cp -rf -L ../mono-%{ver}-x64/lib/mono/4.7.2-api %{buildroot}%{mingw64_libdir}/mono/
 
 cp -f ../mono-%{ver}-x64/bin/mono-sgen.exe %{buildroot}%{mingw64_bindir}/mono-sgen.exe
 cp -f ../mono-%{ver}-x64/bin/mono-sgen.pdb %{buildroot}%{mingw64_bindir}/mono-sgen.pdb

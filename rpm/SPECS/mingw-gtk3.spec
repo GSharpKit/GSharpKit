@@ -9,18 +9,19 @@
 %define enable_autoreconf 0
 
 Name:           mingw-gtk3
-Version:        3.22.29
+Version:        3.24.2
 Release:        1%{?dist}
 Summary:        MinGW Windows GTK+ library
 
 License:        LGPLv2+
 URL:            http://www.gtk.org
 Source0:        http://download.gnome.org/sources/gtk+/%{release_version}/gtk+-%{version}.tar.xz
-# wine gtk-query-immodules-3.0.exe | sed -e 's@Z:/usr/i686-w64-mingw32/sys-root/mingw@..@' -e 's@/usr/i686-w64-mingw32/sys-root/mingw@..@' > gtk.immodules
+# wine /usr/i686-w64-mingw32/sys-root/mingw/bin/gtk-query-immodules-3.0.exe | sed -e 's@Z:/usr/i686-w64-mingw32/sys-root/mingw@..@' -e 's@/usr/i686-w64-mingw32/sys-root/mingw@..@' > gtk.immodules
 Source1:        gtk.immodules
 
 BuildArch:      noarch
 
+BuildRequires:  gcc
 BuildRequires:  mingw32-filesystem >= 98
 BuildRequires:  mingw64-filesystem >= 98
 BuildRequires:  mingw32-gcc
@@ -57,6 +58,8 @@ BuildRequires:  glib2-devel
 BuildRequires:  gtk-update-icon-cache
 # Native one for gdk-pixbuf-csource
 BuildRequires:  gdk-pixbuf2-devel
+# Native one for /usr/bin/perl
+BuildRequires:  perl-interpreter
 
 %if 0%{?enable_autoreconf}
 BuildRequires:  autoconf
@@ -80,8 +83,6 @@ Summary:        MinGW Windows GTK+ library
 Requires:       mingw32-adwaita-icon-theme
 # split out in a subpackage
 Requires:       mingw32-gtk-update-icon-cache
-# Fix upgrade path for people upgrading from the mingw-w64 testing repository
-Obsoletes:      mingw32-gtk3-static < 3.3.14-3
 
 %description -n mingw32-gtk3
 GTK+ is a multi-platform toolkit for creating graphical user
@@ -94,8 +95,6 @@ This package contains the MinGW Windows cross compiled GTK+ 3 library.
 
 %package -n mingw32-gtk-update-icon-cache
 Summary: Icon theme caching utility
-# gtk-update-icon-cache used to be shipped in the mingw-gtk3 package
-Conflicts: mingw32-gtk3 < 3.22.2
 
 %description -n mingw32-gtk-update-icon-cache
 GTK+ can use the cache files created by gtk-update-icon-cache to avoid a lot of
@@ -111,8 +110,6 @@ Summary:        MinGW Windows GTK+ library
 Requires:       mingw64-adwaita-icon-theme
 # split out in a subpackage
 Requires:       mingw64-gtk-update-icon-cache
-# Fix upgrade path for people upgrading from the mingw-w64 testing repository
-Obsoletes:      mingw64-gtk3-static < 3.3.14-3
 
 %description -n mingw64-gtk3
 GTK+ is a multi-platform toolkit for creating graphical user
@@ -125,8 +122,6 @@ This package contains the MinGW Windows cross compiled GTK+ 3 library.
 
 %package -n mingw64-gtk-update-icon-cache
 Summary: Icon theme caching utility
-# gtk-update-icon-cache used to be shipped in the mingw-gtk3 package
-Conflicts: mingw64-gtk3 < 3.22.2
 
 %description -n mingw64-gtk-update-icon-cache
 GTK+ can use the cache files created by gtk-update-icon-cache to avoid a lot of
@@ -148,6 +143,7 @@ autoreconf --install --force
 
 
 %build
+export GLIB_COMPILE_RESOURCES=/usr/bin/glib-compile-resources
 %mingw_configure \
   --disable-cups
 
@@ -260,10 +256,10 @@ fi
 %{mingw32_datadir}/gettext/
 %{mingw32_datadir}/glib-2.0/schemas/org.gtk.exampleapp.gschema.xml
 %{mingw32_datadir}/glib-2.0/schemas/org.gtk.Demo.gschema.xml
-%{mingw32_datadir}/glib-2.0/schemas/org.gtk.Settings.Debug.gschema.xml
 %{mingw32_datadir}/glib-2.0/schemas/org.gtk.Settings.ColorChooser.gschema.xml
-%{mingw32_datadir}/glib-2.0/schemas/org.gtk.Settings.FileChooser.gschema.xml
+%{mingw32_datadir}/glib-2.0/schemas/org.gtk.Settings.Debug.gschema.xml
 %{mingw32_datadir}/glib-2.0/schemas/org.gtk.Settings.EmojiChooser.gschema.xml
+%{mingw32_datadir}/glib-2.0/schemas/org.gtk.Settings.FileChooser.gschema.xml
 %{mingw32_datadir}/gtk-3.0/
 %{mingw32_datadir}/themes/*
 
@@ -314,10 +310,10 @@ fi
 %{mingw64_datadir}/gettext/
 %{mingw64_datadir}/glib-2.0/schemas/org.gtk.exampleapp.gschema.xml
 %{mingw64_datadir}/glib-2.0/schemas/org.gtk.Demo.gschema.xml
-%{mingw64_datadir}/glib-2.0/schemas/org.gtk.Settings.Debug.gschema.xml
 %{mingw64_datadir}/glib-2.0/schemas/org.gtk.Settings.ColorChooser.gschema.xml
-%{mingw64_datadir}/glib-2.0/schemas/org.gtk.Settings.FileChooser.gschema.xml
+%{mingw64_datadir}/glib-2.0/schemas/org.gtk.Settings.Debug.gschema.xml
 %{mingw64_datadir}/glib-2.0/schemas/org.gtk.Settings.EmojiChooser.gschema.xml
+%{mingw64_datadir}/glib-2.0/schemas/org.gtk.Settings.FileChooser.gschema.xml
 %{mingw64_datadir}/gtk-3.0/
 %{mingw64_datadir}/themes/*
 
@@ -327,6 +323,28 @@ fi
 
 
 %changelog
+* Fri Jul 13 2018 Fedora Release Engineering <releng@fedoraproject.org> - 3.22.30-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_29_Mass_Rebuild
+
+* Mon Jul 09 2018 Kalev Lember <klember@redhat.com> - 3.22.30-1
+- Update to 3.22.30
+- Drop ancient obsoletes/conflicts
+
+* Thu Feb 08 2018 Fedora Release Engineering <releng@fedoraproject.org> - 3.22.24-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_28_Mass_Rebuild
+
+* Sun Oct 15 2017 Kalev Lember <klember@redhat.com> - 3.22.24-1
+- Update to 3.22.24
+
+* Tue Aug 22 2017 Kalev Lember <klember@redhat.com> - 3.22.19-1
+- Update to 3.22.19
+
+* Wed Jul 26 2017 Fedora Release Engineering <releng@fedoraproject.org> - 3.22.17-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_27_Mass_Rebuild
+
+* Wed Jul 19 2017 Kalev Lember <klember@redhat.com> - 3.22.17-1
+- Update to 3.22.17
+
 * Wed Jun 21 2017 Kalev Lember <klember@redhat.com> - 3.22.16-1
 - Update to 3.22.16
 
