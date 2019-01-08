@@ -23,6 +23,7 @@ Source2:	VC_redist.x86.exe
 Source3:	VC_redist.x64.exe
 Source4:       	mingw-mono-5.10-config.patch
 Source5:	System.ServiceModel.dll
+Source6:	System.ServiceModel.pdb
 
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:	noarch
@@ -158,7 +159,6 @@ cp -rf -L ../mono-%{ver}-x86/etc/mono/* %{buildroot}%{mingw32_sysconfdir}/mono/
 
 cp -rf -L ../mono-%{ver}-x86/lib/mono/4.0 %{buildroot}%{mingw32_libdir}/mono/
 cp -rf -L ../mono-%{ver}-x86/lib/mono/4.5 %{buildroot}%{mingw32_libdir}/mono/
-cp -f %{SOURCE5} %{buildroot}%{mingw32_libdir}/mono/4.5/
 
 cp -rf -L ../mono-%{ver}-x86/lib/mono/4.0-api %{buildroot}%{mingw32_libdir}/mono/
 cp -rf -L ../mono-%{ver}-x86/lib/mono/4.5-api %{buildroot}%{mingw32_libdir}/mono/
@@ -204,7 +204,6 @@ cp -rf -L ../mono-%{ver}-x64/etc/mono/* %{buildroot}%{mingw64_sysconfdir}/mono/
 
 cp -rf -L ../mono-%{ver}-x64/lib/mono/4.0 %{buildroot}%{mingw64_libdir}/mono/
 cp -rf -L ../mono-%{ver}-x64/lib/mono/4.5 %{buildroot}%{mingw64_libdir}/mono/
-cp -f %{SOURCE5} %{buildroot}%{mingw64_libdir}/mono/4.5/
 
 cp -rf -L ../mono-%{ver}-x64/lib/mono/4.0-api %{buildroot}%{mingw64_libdir}/mono/
 cp -rf -L ../mono-%{ver}-x64/lib/mono/4.5-api %{buildroot}%{mingw64_libdir}/mono/
@@ -387,6 +386,14 @@ install -m 755 %{SOURCE3} %{buildroot}%{mingw64_bindir}/
 %gac_dll System.Xml.Serialization
 %gac_dll WebMatrix.Data
 %gac_dll WindowsBase
+
+cp -f %{SOURCE5} %{buildroot}%{mingw32_libdir}/mono/4.5/
+cp -f %{SOURCE5} %{buildroot}%{mingw32_libdir}/mono/gac/System.ServiceModel/*/
+cp -f %{SOURCE6} %{buildroot}%{mingw32_libdir}/mono/gac/System.ServiceModel/*/
+
+cp -f %{SOURCE5} %{buildroot}%{mingw64_libdir}/mono/4.5/
+cp -f %{SOURCE5} %{buildroot}%{mingw64_libdir}/mono/gac/System.ServiceModel/*/
+cp -f %{SOURCE6} %{buildroot}%{mingw64_libdir}/mono/gac/System.ServiceModel/*/
 
 %clean
 #rm -rf $RPM_BUILD_ROOT
