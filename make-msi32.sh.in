@@ -22,6 +22,3 @@ python createmsi.py GSharpKit.json
 cp GSharpKit-@VERSION@.@VERSION_BUILD@-32.msi $SOURCEDIR/GSharpKit-@VERSION@-x86.msi
 popd
 
-#mv XMedicus@DEMO@-@VERSION@-x86.msi XMedicus@DEMO@-@VERSION@-x86.msi.unsigned
-#osslsigncode sign -pkcs12 xmedicus.p12 -pass xcare -n "XMedicus@DEMO@" -i https://www.xmedicus.com -t http://time.certum.pl -in XMedicus@DEMO@-@VERSION@-x86.msi.unsigned -out XMedicus@DEMO@-@VERSION@-x86.msi && rm XMedicus@DEMO@-@VERSION@-x86.msi.unsigned
-

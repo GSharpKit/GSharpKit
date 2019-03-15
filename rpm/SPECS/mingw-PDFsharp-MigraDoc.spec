@@ -8,14 +8,12 @@
 
 %define debug_package %{nil}
 
-%define libdir /lib
+%define libdir /bin
 %define apiversion 1.50.0.0
 
-%define beta -RC2a
-
 Name:           mingw-PDFsharp-MigraDoc
-Version:        1.50.4845
-Release:        RC2a%{?dist}
+Version:        1.50.5147
+Release:        1%{?dist}
 Summary:        .NET library that easily creates documents and renders them into PDF or RTF.
 
 Group:          Development/Languages
@@ -35,7 +33,6 @@ object model with paragraphs, tables, styles, etc. and renders them into PDF or 
 # Mingw32
 %package -n mingw32-%{mingw_pkg_name}
 Summary:       %{summary}
-Requires:       mingw32-mono-core
 
 %description -n mingw32-%{mingw_pkg_name}
 MigraDoc Foundation - the Open Source .NET library that easily creates documents based on an
@@ -44,7 +41,6 @@ object model with paragraphs, tables, styles, etc. and renders them into PDF or 
 # Mingw64
 %package -n mingw64-%{mingw_pkg_name}
 Summary:       %{summary}
-Requires:       mingw64-mono-core
 
 %description -n mingw64-%{mingw_pkg_name}
 MigraDoc Foundation - the Open Source .NET library that easily creates documents based on an
@@ -52,12 +48,12 @@ object model with paragraphs, tables, styles, etc. and renders them into PDF or 
 
 %prep
 %setup -c %{name}-%{version} -T
-nuget install %{mingw_pkg_name} -Version %{version}%{beta}
+nuget install %{mingw_pkg_name} -Version %{version}
 
 cat > %{mingw_pkg_name}32.pc << \EOF
 prefix=%{mingw32_prefix}
 exec_prefix=${prefix}
-libdir=%{mingw32_prefix}%{libdir}/mono/%{mingw_pkg_name}
+libdir=%{mingw32_prefix}%{libdir}
 
 Name: %{mingw_pkg_name}
 Description: %{mingw_pkg_name} - %{summary}
@@ -70,7 +66,7 @@ EOF
 cat > %{mingw_pkg_name}64.pc << \EOF
 prefix=%{mingw64_prefix}
 exec_prefix=${prefix}
-libdir=%{mingw64_prefix}%{libdir}/mono/%{mingw_pkg_name}
+libdir=%{mingw64_prefix}%{libdir}
 
 Name: %{mingw_pkg_name}
 Description: %{mingw_pkg_name} - %{summary}
@@ -86,21 +82,23 @@ EOF
 %{__rm} -rf %{buildroot}
 
 # Mingw32
-gacutil -i %{mingw_pkg_name}.%{version}%{beta}/lib/net20/MigraDoc.DocumentObjectModel.dll -package %{mingw_pkg_name} -root $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir} -gacdir mono/gac
-gacutil -i %{mingw_pkg_name}.%{version}%{beta}/lib/net20/MigraDoc.Rendering.dll -package %{mingw_pkg_name} -root $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir} -gacdir mono/gac
-gacutil -i %{mingw_pkg_name}.%{version}%{beta}/lib/net20/MigraDoc.RtfRendering.dll -package %{mingw_pkg_name} -root $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir} -gacdir mono/gac
-gacutil -i %{mingw_pkg_name}.%{version}%{beta}/lib/net20/PdfSharp.Charting.dll -package %{mingw_pkg_name} -root $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir} -gacdir mono/gac
-gacutil -i %{mingw_pkg_name}.%{version}%{beta}/lib/net20/PdfSharp.dll -package %{mingw_pkg_name} -root $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir} -gacdir mono/gac
+install -d -m 755 $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir}
+install -m 644 %{mingw_pkg_name}.%{version}/lib/net20/MigraDoc.DocumentObjectModel.dll $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir}
+install -m 644 %{mingw_pkg_name}.%{version}/lib/net20/MigraDoc.Rendering.dll $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir}
+install -m 644 %{mingw_pkg_name}.%{version}/lib/net20/MigraDoc.RtfRendering.dll $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir}
+install -m 644 %{mingw_pkg_name}.%{version}/lib/net20/PdfSharp.Charting.dll $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir}
+install -m 644 %{mingw_pkg_name}.%{version}/lib/net20/PdfSharp.dll $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir}
 
 install -d -m 755 $RPM_BUILD_ROOT%{mingw32_datadir}/pkgconfig/
 install -m 644 %{mingw_pkg_name}32.pc $RPM_BUILD_ROOT%{mingw32_datadir}/pkgconfig/%{mingw_pkg_name}.pc
 
 # Mingw64
-gacutil -i %{mingw_pkg_name}.%{version}%{beta}/lib/net20/MigraDoc.DocumentObjectModel.dll -package %{mingw_pkg_name} -root $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir} -gacdir mono/gac
-gacutil -i %{mingw_pkg_name}.%{version}%{beta}/lib/net20/MigraDoc.Rendering.dll -package %{mingw_pkg_name} -root $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir} -gacdir mono/gac
-gacutil -i %{mingw_pkg_name}.%{version}%{beta}/lib/net20/MigraDoc.RtfRendering.dll -package %{mingw_pkg_name} -root $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir} -gacdir mono/gac
-gacutil -i %{mingw_pkg_name}.%{version}%{beta}/lib/net20/PdfSharp.Charting.dll -package %{mingw_pkg_name} -root $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir} -gacdir mono/gac
-gacutil -i %{mingw_pkg_name}.%{version}%{beta}/lib/net20/PdfSharp.dll -package %{mingw_pkg_name} -root $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir} -gacdir mono/gac
+install -d -m 755 $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir}
+install -m 644 %{mingw_pkg_name}.%{version}/lib/net20/MigraDoc.DocumentObjectModel.dll $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir}
+install -m 644 %{mingw_pkg_name}.%{version}/lib/net20/MigraDoc.Rendering.dll $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir}
+install -m 644 %{mingw_pkg_name}.%{version}/lib/net20/MigraDoc.RtfRendering.dll $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir}
+install -m 644 %{mingw_pkg_name}.%{version}/lib/net20/PdfSharp.Charting.dll $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir}
+install -m 644 %{mingw_pkg_name}.%{version}/lib/net20/PdfSharp.dll $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir}
 
 install -d -m 755 $RPM_BUILD_ROOT%{mingw64_datadir}/pkgconfig/
 install -m 644 %{mingw_pkg_name}64.pc $RPM_BUILD_ROOT%{mingw64_datadir}/pkgconfig/%{mingw_pkg_name}.pc
@@ -111,22 +109,20 @@ install -m 644 %{mingw_pkg_name}64.pc $RPM_BUILD_ROOT%{mingw64_datadir}/pkgconfi
 
 %files -n mingw32-%{mingw_pkg_name}
 %defattr(-,root,root,-)
-%{mingw32_prefix}%{libdir}/mono/gac
-%{mingw32_prefix}%{libdir}/mono/%{mingw_pkg_name}/MigraDoc.DocumentObjectModel.dll
-%{mingw32_prefix}%{libdir}/mono/%{mingw_pkg_name}/MigraDoc.Rendering.dll
-%{mingw32_prefix}%{libdir}/mono/%{mingw_pkg_name}/MigraDoc.RtfRendering.dll
-%{mingw32_prefix}%{libdir}/mono/%{mingw_pkg_name}/PdfSharp.Charting.dll
-%{mingw32_prefix}%{libdir}/mono/%{mingw_pkg_name}/PdfSharp.dll
+%{mingw32_prefix}%{libdir}/MigraDoc.DocumentObjectModel.dll
+%{mingw32_prefix}%{libdir}/MigraDoc.Rendering.dll
+%{mingw32_prefix}%{libdir}/MigraDoc.RtfRendering.dll
+%{mingw32_prefix}%{libdir}/PdfSharp.Charting.dll
+%{mingw32_prefix}%{libdir}/PdfSharp.dll
 %{mingw32_datadir}/pkgconfig/%{mingw_pkg_name}.pc
 
 %files -n mingw64-%{mingw_pkg_name}
 %defattr(-,root,root,-)
-%{mingw64_prefix}%{libdir}/mono/gac
-%{mingw64_prefix}%{libdir}/mono/%{mingw_pkg_name}/MigraDoc.DocumentObjectModel.dll
-%{mingw64_prefix}%{libdir}/mono/%{mingw_pkg_name}/MigraDoc.Rendering.dll
-%{mingw64_prefix}%{libdir}/mono/%{mingw_pkg_name}/MigraDoc.RtfRendering.dll
-%{mingw64_prefix}%{libdir}/mono/%{mingw_pkg_name}/PdfSharp.Charting.dll
-%{mingw64_prefix}%{libdir}/mono/%{mingw_pkg_name}/PdfSharp.dll
+%{mingw64_prefix}%{libdir}/MigraDoc.DocumentObjectModel.dll
+%{mingw64_prefix}%{libdir}/MigraDoc.Rendering.dll
+%{mingw64_prefix}%{libdir}/MigraDoc.RtfRendering.dll
+%{mingw64_prefix}%{libdir}/PdfSharp.Charting.dll
+%{mingw64_prefix}%{libdir}/PdfSharp.dll
 %{mingw64_datadir}/pkgconfig/%{mingw_pkg_name}.pc
 
 %changelog

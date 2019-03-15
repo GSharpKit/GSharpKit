@@ -34,24 +34,6 @@
                 "key_path": "no"
         }
     ],
-    "custom_actions": [
-        {
-                "id": "CertAction",
-                "exe_command": "/C \"[INSTALLDIR]bin\\mono.exe\" \"[INSTALLDIR]bin\\cert-sync.exe\" --quiet \"[INSTALLDIR]bin\\ca-bundle.crt\"",
-                "execute": "immediate",
-                "return": "ignore",
-                "impersonate": "no",
-                "after": "InstallFiles"
-        },
-        {
-                "id": "VCRedist",
-                "exe_command": "/C \"[INSTALLDIR]bin\\VC_redist.@ARCH_SHORT@.exe\" /install /quiet /norestart",
-                "execute": "immediate",
-                "return": "ignore",
-                "impersonate": "no",
-                "after": "InstallFiles"
-        }
-    ],
     "parts": [
         {
          "id": "GSharpKit",

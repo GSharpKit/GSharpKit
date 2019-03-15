@@ -4,7 +4,7 @@
 %global __python %{__python3}
 
 Name:           mingw-glib2
-Version:        2.56.1
+Version:        2.60.0
 Release:        1%{?dist}
 Summary:        MinGW Windows GLib2 library
 
@@ -13,6 +13,7 @@ URL:            http://www.gtk.org
 # first two digits of version
 %global release_version %(echo %{version} | awk -F. '{print $1"."$2}')
 Source0:        http://download.gnome.org/sources/glib/%{release_version}/glib-%{version}.tar.xz
+Source1:	autogen.sh
 
 BuildArch:      noarch
 
@@ -39,6 +40,10 @@ BuildRequires:  gettext
 # Native version required for glib-genmarshal
 BuildRequires:  glib2-devel >= 2.45.3
 BuildRequires:  python3-devel
+# glib starting from 2.57.2 does not ship autoconf scripts anymore
+BuildRequires:  autoconf
+BuildRequires:  automake
+BuildRequires:  libtool
 
 # https://bugzilla.gnome.org/show_bug.cgi?id=674214
 Patch1:         0001-Use-CreateFile-on-Win32-to-make-sure-g_unlink-always.patch
@@ -96,7 +101,10 @@ Static version of the MinGW Windows GLib2 library.
 %patch1 -p1
 %patch5 -p1
 
+install -m 755 %{SOURCE1} .
+
 %build
+NOCONFIGURE=1 ./autogen.sh
 #GLib can't build static and shared libraries in one go, so we build GLib twice
 MINGW_BUILDDIR_SUFFIX=_static %mingw_configure --with-python=%{__python3} --disable-shared --enable-static
 MINGW_BUILDDIR_SUFFIX=_shared %mingw_configure --with-python=%{__python3} --disable-static
@@ -178,6 +186,7 @@ find $RPM_BUILD_ROOT -name "*.la" -delete
 %{mingw32_bindir}/gdbus.exe
 %{mingw32_bindir}/gio.exe
 %{mingw32_bindir}/gio-querymodules.exe
+%{mingw32_bindir}/gio-launch-desktop.exe
 %{mingw32_bindir}/glib-compile-resources.exe
 %{mingw32_bindir}/glib-compile-schemas.exe
 %{mingw32_bindir}/glib-genmarshal
@@ -230,6 +239,7 @@ find $RPM_BUILD_ROOT -name "*.la" -delete
 %{mingw64_bindir}/gdbus.exe
 %{mingw64_bindir}/gio.exe
 %{mingw64_bindir}/gio-querymodules.exe
+%{mingw64_bindir}/gio-launch-desktop.exe
 %{mingw64_bindir}/glib-compile-resources.exe
 %{mingw64_bindir}/glib-compile-schemas.exe
 %{mingw64_bindir}/glib-genmarshal
@@ -278,6 +288,27 @@ find $RPM_BUILD_ROOT -name "*.la" -delete
 
 
 %changelog
+* Fri Sep 21 2018 Kalev Lember <klember@redhat.com> - 2.58.1-1
+- Update to 2.58.1
+
+* Thu Aug 02 2018 Thomas Sailer <t.sailer@alumni.ethz.ch> - 2.57.2-1
+- Update to 2.57.2
+
+* Thu Aug 02 2018 Thomas Sailer <t.sailer@alumni.ethz.ch> - 2.57.1-1
+- Update to 2.57.1
+
+* Fri Jul 13 2018 Fedora Release Engineering <releng@fedoraproject.org> - 2.56.1-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_29_Mass_Rebuild
+
+* Tue Jun 19 2018 Miro Hrončok <mhroncok@redhat.com> - 2.56.1-2
+- Rebuilt for Python 3.7
+
+* Mon May 28 2018 Thomas Sailer <t.sailer@alumni.ethz.ch> - 2.56.1-1
+- Update to 2.56.1
+
+* Thu Feb 08 2018 Fedora Release Engineering <releng@fedoraproject.org> - 2.54.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_28_Mass_Rebuild
+
 * Sun Oct 15 2017 Kalev Lember <klember@redhat.com> - 2.54.1-1
 - Update to 2.54.1
 

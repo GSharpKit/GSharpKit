@@ -8,7 +8,7 @@
 
 %define debug_package %{nil}
 
-%define libdir /lib
+%define libdir /bin
 %define api_version 0.0.0.0
 
 Name:           mingw-OpenMedicus.ServiceStack.EHR.ServiceModel
@@ -29,7 +29,6 @@ ServiceStack access to EHR Healthcare System
 # Mingw32
 %package -n mingw32-%{mingw_pkg_name}
 Summary:       %{summary}
-Requires:       mingw32-mono
 Requires:	mingw32-ServiceStack >= 5.0.2
 
 %description -n mingw32-%{mingw_pkg_name}
@@ -38,7 +37,6 @@ ServiceStack access to EHR Healthcare System
 # Mingw64
 %package -n mingw64-%{mingw_pkg_name}
 Summary:       %{summary}
-Requires:       mingw64-mono
 Requires:	mingw64-ServiceStack >= 5.0.2
 
 %description -n mingw64-%{mingw_pkg_name}
@@ -51,26 +49,26 @@ nuget install %{mingw_pkg_name} -Version %{version}
 cat > %{mingw_pkg_name}32.pc << \EOF
 prefix=%{mingw32_prefix}
 exec_prefix=${prefix}
-libdir=%{mingw32_prefix}%{libdir}/mono
+libdir=%{mingw32_prefix}%{libdir}
 
 Name: %{mingw_pkg_name}
 Description: ServiceStack access to EHR Healthcare System 
 Requires: ServiceStack
 Version: %{api_version}
-Libs: -r:${libdir}/%{mingw_pkg_name}/%{mingw_pkg_name}.dll
+Libs: -r:${libdir}/%{mingw_pkg_name}.dll
 Cflags:
 EOF
 
 cat > %{mingw_pkg_name}64.pc << \EOF
 prefix=%{mingw64_prefix}
 exec_prefix=${prefix}
-libdir=%{mingw64_prefix}%{libdir}/mono
+libdir=%{mingw64_prefix}%{libdir}
 
 Name: %{mingw_pkg_name}
 Description: ServiceStack access to EHR Healthcare System
 Requires: ServiceStack
 Version: %{api_version}
-Libs: -r:${libdir}/%{mingw_pkg_name}/%{mingw_pkg_name}.dll
+Libs: -r:${libdir}/%{mingw_pkg_name}.dll
 Cflags:
 EOF
 
@@ -81,15 +79,15 @@ EOF
 %{__rm} -rf %{buildroot}
 
 # Mingw32
-install -d -m 755 $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir}/mono/gac
-gacutil -i OpenMedicus.ServiceStack.EHR.ServiceModel.%{version}/lib/net461/OpenMedicus.ServiceStack.EHR.ServiceModel.dll -package %{mingw_pkg_name} -root $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir} -gacdir mono/gac
+install -d -m 755 $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir}
+install -m 644 OpenMedicus.ServiceStack.EHR.ServiceModel.%{version}/lib/net461/OpenMedicus.ServiceStack.EHR.ServiceModel.dll $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir}
 
 install -d -m 755 $RPM_BUILD_ROOT%{mingw32_datadir}/pkgconfig/
 install -m 644 OpenMedicus.ServiceStack.EHR.ServiceModel32.pc $RPM_BUILD_ROOT%{mingw32_datadir}/pkgconfig/OpenMedicus.ServiceStack.EHR.ServiceModel.pc
 
 # Mingw64
-install -d -m 755 $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir}/mono/gac
-gacutil -i OpenMedicus.ServiceStack.EHR.ServiceModel.%{version}/lib/net461/OpenMedicus.ServiceStack.EHR.ServiceModel.dll -package %{mingw_pkg_name} -root $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir} -gacdir mono/gac
+install -d -m 755 $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir}
+install -m 644 OpenMedicus.ServiceStack.EHR.ServiceModel.%{version}/lib/net461/OpenMedicus.ServiceStack.EHR.ServiceModel.dll $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir}
 
 install -d -m 755 $RPM_BUILD_ROOT%{mingw64_datadir}/pkgconfig/
 install -m 644 OpenMedicus.ServiceStack.EHR.ServiceModel64.pc $RPM_BUILD_ROOT%{mingw64_datadir}/pkgconfig/OpenMedicus.ServiceStack.EHR.ServiceModel.pc
@@ -100,14 +98,12 @@ install -m 644 OpenMedicus.ServiceStack.EHR.ServiceModel64.pc $RPM_BUILD_ROOT%{m
 
 %files -n mingw32-%{mingw_pkg_name}
 %defattr(-,root,root,-)
-%{mingw32_prefix}%{libdir}/mono/gac
-%{mingw32_prefix}%{libdir}/mono/%{mingw_pkg_name}/OpenMedicus.ServiceStack.EHR.ServiceModel.dll
+%{mingw32_prefix}%{libdir}/OpenMedicus.ServiceStack.EHR.ServiceModel.dll
 %{mingw32_datadir}/pkgconfig/OpenMedicus.ServiceStack.EHR.ServiceModel.pc
 
 %files -n mingw64-%{mingw_pkg_name}
 %defattr(-,root,root,-)
-%{mingw64_prefix}%{libdir}/mono/gac
-%{mingw64_prefix}%{libdir}/mono/%{mingw_pkg_name}/OpenMedicus.ServiceStack.EHR.ServiceModel.dll
+%{mingw64_prefix}%{libdir}/OpenMedicus.ServiceStack.EHR.ServiceModel.dll
 %{mingw64_datadir}/pkgconfig/OpenMedicus.ServiceStack.EHR.ServiceModel.pc
 
 %changelog

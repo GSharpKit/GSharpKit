@@ -6,7 +6,7 @@
 
 %define debug_package %{nil}
 
-%define libdir /lib
+%define libdir /bin
 %define api_version 1.0.0.0
 
 Name:		mingw-Mono.Addins
@@ -17,6 +17,7 @@ Group:		Development/Languages
 License:	MIT
 URL:		http://www.mono-project.com/
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
+Source0:	Mono.Addins.dll
 
 BuildArch: 	noarch
 
@@ -30,8 +31,6 @@ and for creating libraries which extend those applications.
 # Mingw32
 %package -n mingw32-%{mingw_pkg_name}
 Summary:        %{summary}
-Requires:       mingw32-mono-core >= 5.14
-
 Obsoletes:      mingw32-mono-addins
 Provides:       mingw32-mono-addins
 
@@ -42,8 +41,6 @@ and for creating libraries which extend those applications.
 # Mingw64
 %package -n mingw64-%{mingw_pkg_name}
 Summary:        %{summary}
-Requires:       mingw64-mono-core >= 5.14
-
 Obsoletes:      mingw64-mono-addins
 Provides:       mingw64-mono-addins
 
@@ -55,31 +52,31 @@ and for creating libraries which extend those applications.
 %prep
 
 %setup -c %{name}-%{version} -T
-nuget install %{mingw_pkg_name} -Version %{version}
+#nuget install %{mingw_pkg_name} -Version %{version}
 
 cat > mono-addins32.pc << \EOF
 prefix=%{mingw32_prefix}
 exec_prefix=${prefix}
-libdir=%{mingw32_prefix}%{libdir}/mono
+libdir=%{mingw32_prefix}%{libdir}
 
 Name: %{mingw_pkg_name}
 Description: %{summary}
 Requires:
 Version: %{version}
-Libs: -r:${libdir}/%{mingw_pkg_name}/%{mingw_pkg_name}.dll
+Libs: -r:${libdir}/%{mingw_pkg_name}.dll
 Cflags:
 EOF
 
 cat > mono-addins64.pc << \EOF
 prefix=%{mingw64_prefix}
 exec_prefix=${prefix}
-libdir=%{mingw64_prefix}%{libdir}/mono
+libdir=%{mingw64_prefix}%{libdir}
 
 Name: %{mingw_pkg_name}
 Description: %{summary}
 Requires:
 Version: %{version}
-Libs: -r:${libdir}/%{mingw_pkg_name}/%{mingw_pkg_name}.dll
+Libs: -r:${libdir}/%{mingw_pkg_name}.dll
 Cflags:
 EOF
 
@@ -89,15 +86,17 @@ EOF
 %{__rm} -rf %{buildroot}
 
 # Mingw32
-install -d -m 755 $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir}/mono/gac
-gacutil -i %{mingw_pkg_name}.%{version}/lib/net45/%{mingw_pkg_name}.dll -package %{mingw_pkg_name} -root $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir} -gacdir mono/gac
+install -d -m 755 $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir}
+#install -m 644 %{mingw_pkg_name}.%{version}/lib/net45/%{mingw_pkg_name}.dll $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir}
+install -m 644 %{SOURCE0} $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir}
 
 install -d -m 755 $RPM_BUILD_ROOT%{mingw32_datadir}/pkgconfig/
 install -m 644 mono-addins32.pc $RPM_BUILD_ROOT%{mingw32_datadir}/pkgconfig/mono-addins.pc
 
 # Mingw64
-install -d -m 755 $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir}/mono/gac
-gacutil -i %{mingw_pkg_name}.%{version}/lib/net45/%{mingw_pkg_name}.dll -package %{mingw_pkg_name} -root $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir} -gacdir mono/gac
+install -d -m 755 $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir}
+#install -m 644 %{mingw_pkg_name}.%{version}/lib/net45/%{mingw_pkg_name}.dll $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir}
+install -m 644 %{SOURCE0} $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir}
 
 install -d -m 755 $RPM_BUILD_ROOT%{mingw64_datadir}/pkgconfig/
 install -m 644 mono-addins64.pc $RPM_BUILD_ROOT%{mingw64_datadir}/pkgconfig/mono-addins.pc
@@ -107,14 +106,12 @@ install -m 644 mono-addins64.pc $RPM_BUILD_ROOT%{mingw64_datadir}/pkgconfig/mono
 
 %files -n mingw32-%{mingw_pkg_name} 
 %defattr(-,root,root,-)
-%{mingw32_prefix}%{libdir}/mono/gac
-%{mingw32_prefix}%{libdir}/mono/%{mingw_pkg_name}/%{mingw_pkg_name}.dll
+%{mingw32_prefix}%{libdir}/%{mingw_pkg_name}.dll
 %{mingw32_datadir}/pkgconfig/mono-addins.pc
 
 %files -n mingw64-%{mingw_pkg_name}
 %defattr(-,root,root,-)
-%{mingw64_prefix}%{libdir}/mono/gac
-%{mingw64_prefix}%{libdir}/mono/%{mingw_pkg_name}/%{mingw_pkg_name}.dll
+%{mingw64_prefix}%{libdir}/%{mingw_pkg_name}.dll
 %{mingw64_datadir}/pkgconfig/mono-addins.pc
 
 %changelog

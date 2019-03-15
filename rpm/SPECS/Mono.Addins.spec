@@ -8,6 +8,7 @@ Group:		Development/Languages
 License:	MIT
 URL:		https://www.nuget.org/packages/Mono.Addins
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
+Source0:	Mono.Addins
 Prefix:		/usr
 
 BuildArch: 	noarch

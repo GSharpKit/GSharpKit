@@ -1,4 +1,4 @@
-VERSION = 29.1
+VERSION = 29.3
 VERSION_BUILD = 1
 
 msi32: GSharpKit.json.in make-msi32.sh.in
@@ -14,8 +14,9 @@ msi32: GSharpKit.json.in make-msi32.sh.in
 
 sign32: GSharpKit-${VERSION}-x86.msi
 	mv GSharpKit-${VERSION}-x86.msi GSharpKit-${VERSION}-x86.msi.unsigned
-	osslsigncode sign -pkcs12 ~/.pki/gsharpkit.p12 -askpass -n "GSharpKit" -i http://www.gsharpkit.com -t http://time.certum.pl -in GSharpKit-${VERSION}-x86.msi.unsigned -out GSharpKit-${VERSION}-x86.msi && rm GSharpKit-${VERSION}-x86.msi.unsigned
-
+	osslsigncode sign -pkcs12 ~/.pki/gsharpkit.p12 -askpass -n "GSharpKit" -i http://www.gsharpkit.com -t http://time.certum.pl -h sha2 -in GSharpKit-${VERSION}-x86.msi.unsigned -out GSharpKit-${VERSION}-x86.msi && rm GSharpKit-${VERSION}-x86.msi.unsigned
+	mv GSharpKit-${VERSION}-x86.msi GSharpKit-${VERSION}-x86.msi.unsigned
+	osslsigncode sign -pkcs12 ~/.pki/gsharpkit.p12 -askpass -n "GSharpKit" -i http://www.gsharpkit.com -t http://time.certum.pl -nest -h sha512 -in GSharpKit-${VERSION}-x86.msi.unsigned -out GSharpKit-${VERSION}-x86.msi && rm GSharpKit-${VERSION}-x86.msi.unsigned
 
 clean:
 	rm *.msi

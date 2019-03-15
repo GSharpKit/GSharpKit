@@ -10,12 +10,6 @@ echo "Install Framework $FROM"
 
 # BIN directory
 mkdir $TO/bin
-cp $FROM/bin/mono.exe $TO/bin/
-cp $FROM/lib/mono/4.5/cert-sync.exe $TO/bin/
-cp /etc/pki/tls/certs/ca-bundle.crt $TO/bin/
-
-cp $FROM/bin/VC_redist.${ARCH}.exe $TO/bin/
-
 cp $FROM/bin/dbus-daemon.exe $TO/bin/
 cp $FROM/bin/dbus-launch.exe $TO/bin/
 cp $FROM/bin/dbus-send.exe $TO/bin/
@@ -23,7 +17,7 @@ cp $FROM/bin/gdk-pixbuf-query-loaders.exe $TO/bin/
 cp $FROM/bin/gtk-query-immodules-3.0.exe $TO/bin/
 
 cp $FROM/bin/*.dll $TO/bin/
-cp $FROM/lib/*.dll $TO/bin/
+cp $TO/bin/libintl-8.dll $TO/bin/intl.dll
 cp $TO/bin/libsqlite3-0.dll $TO/bin/libsqlite3.dll
 
 cp $FROM/bin/sane-find-scanner.exe $TO/bin/
@@ -34,7 +28,6 @@ cp -r $FROM/etc/dbus-1 $TO/etc/
 touch $TO/etc/dbus-1/session.d/empty
 cp -r $FROM/etc/fonts $TO/etc/
 cp -r $FROM/etc/gtk-3.0 $TO/etc/
-cp -r $FROM/etc/mono $TO/etc/
 cp -r $FROM/etc/pki $TO/etc/
 cp -r $FROM/etc/sane.d $TO/etc/
 
@@ -49,14 +42,6 @@ cp -r $FROM/lib/gtk-3.0 $TO/lib/
 cp -r $FROM/lib/libgphoto2 $TO/lib/
 mv $TO/lib/libgphoto2/print-camera-list.exe $TO/bin/
 cp -r $FROM/lib/libgphoto2_port $TO/lib/
-
-mkdir -p $TO/lib/mono/4.5
-cp -r $FROM/lib/mono/4.5/mscorlib.dll $TO/lib/mono/4.5/
-cp -r $FROM/lib/mono/4.5/Facades $TO/lib/mono/4.5/
-rm -f $TO/lib/mono/4.5/Facades/*.pdb
-cp -r $FROM/lib/mono/gac $TO/lib/mono/
-rm -f $TO/lib/mono/gac/*/*/*.pdb
-rm -f $TO/lib/mono/gac/*/*/*.mdb
 
 # SHARE directory
 mkdir -p $TO/share/glib-2.0

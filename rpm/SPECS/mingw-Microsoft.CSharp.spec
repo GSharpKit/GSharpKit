@@ -8,7 +8,7 @@
 
 %define debug_package %{nil}
 
-%define libdir /lib
+%define libdir /bin
 %define apiversion 4.5.0.0
 
 Name:           mingw-Microsoft.CSharp
@@ -39,7 +39,6 @@ Microsoft.CSharp.RuntimeBinder.CSharpBinderFlags
 # Mingw32
 %package -n mingw32-%{mingw_pkg_name}
 Summary:       %{summary}
-Requires:       mingw32-mono
 
 %description -n mingw32-%{mingw_pkg_name}
 Provides support for compilation and code generation, including dynamic, using the C# language.
@@ -54,7 +53,6 @@ Microsoft.CSharp.RuntimeBinder.CSharpBinderFlags
 # Mingw64
 %package -n mingw64-%{mingw_pkg_name}
 Summary:       %{summary}
-Requires:       mingw64-mono
 
 %description -n mingw64-%{mingw_pkg_name}
 Provides support for compilation and code generation, including dynamic, using the C# language.

@@ -22,7 +22,7 @@ diff --git a/glib/gstdio.c b/glib/gstdio.c
 index 6d763e1..c1d072f 100644
 --- a/glib/gstdio.c
 +++ b/glib/gstdio.c
-@@ -191,6 +191,11 @@ g_open (const gchar *filename,
+@@ -758,6 +758,11 @@
  	int          mode)
  {
  #ifdef G_OS_WIN32
@@ -34,7 +34,7 @@ index 6d763e1..c1d072f 100644
    wchar_t *wfilename = g_utf8_to_utf16 (filename, -1, NULL, NULL, NULL);
    int retval;
    int save_errno;
-@@ -201,12 +206,114 @@ g_open (const gchar *filename,
+@@ -768,12 +773,114 @@
        return -1;
      }
  
@@ -68,7 +68,7 @@ index 6d763e1..c1d072f 100644
 +	  g_free (wfilename);
 +	  return -1;
 +	}
- 
++
 +	dwDesiredAccess |= GENERIC_WRITE;
 +  }
 +  if (flags & _O_RDWR)
@@ -133,7 +133,7 @@ index 6d763e1..c1d072f 100644
 +  }
 +  else
 +    retval = _open_osfhandle((long)hFile, flags);
-+
+ 
 +  if ((-1) != retval)
 +  {
 +    /* We have a valid file handle. Set its translation mode to text or binary, as appropriate */
@@ -152,7 +152,7 @@ index 6d763e1..c1d072f 100644
    return retval;
  #else
    int fd;
-@@ -248,6 +355,8 @@ g_creat (const gchar *filename,
+@@ -821,6 +928,8 @@
  	 int          mode)
  {
  #ifdef G_OS_WIN32
@@ -161,7 +161,7 @@ index 6d763e1..c1d072f 100644
    wchar_t *wfilename = g_utf8_to_utf16 (filename, -1, NULL, NULL, NULL);
    int retval;
    int save_errno;
-@@ -258,12 +367,41 @@ g_creat (const gchar *filename,
+@@ -831,12 +940,41 @@
        return -1;
      }
  
@@ -172,8 +172,7 @@ index 6d763e1..c1d072f 100644
 +    if (! (mode & _S_IWRITE))
 +      dwFlagsAndAttributes  = FILE_ATTRIBUTE_READONLY; /* Sets file to 'read only' after the file gets closed */
 +  }
- 
--  g_free (wfilename);
++
 +  hFile = CreateFileW(wfilename, (GENERIC_READ | GENERIC_WRITE), (FILE_SHARE_READ | FILE_SHARE_DELETE),
 +                                  NULL, CREATE_ALWAYS, dwFlagsAndAttributes, NULL);
 +
@@ -200,22 +199,39 @@ index 6d763e1..c1d072f 100644
 +    retval = _open_osfhandle((long)hFile, _O_RDWR);
  
 +  save_errno = errno;
-+  g_free (wfilename);
+   g_free (wfilename);
+-
    errno = save_errno;
 +
    return retval;
  #else
    return creat (filename, mode);
-@@ -699,33 +837,102 @@ g_fopen (const gchar *filename,
+@@ -1286,36 +1424,102 @@
  	 const gchar *mode)
  {
  #ifdef G_OS_WIN32
 -  wchar_t *wfilename = g_utf8_to_utf16 (filename, -1, NULL, NULL, NULL);
 -  wchar_t *wmode;
+-  gchar   *mode2;
 -  FILE *retval;
 -  int save_errno;
 -
 -  if (wfilename == NULL)
+-    {
+-      errno = EINVAL;
+-      return NULL;
+-    }
+-
+-  mode2 = _g_win32_get_mode_alias (mode);
+-  wmode = g_utf8_to_utf16 (mode2, -1, NULL, NULL, NULL);
+-  g_free (mode2);
+-
+-  if (wmode == NULL)
+-    {
+-      g_free (wfilename);
+-      errno = EINVAL;
+-      return NULL;
+-    }
 +  int   hFile;
 +  int   flags  = 0;
 +  gchar priv_mode[4];
@@ -241,9 +257,7 @@ index 6d763e1..c1d072f 100644
 +    if (('c' == priv_mode[2]) || ('n' == priv_mode[2]))
 +      priv_mode[2] = '\0';
 +    else
-     {
--      errno = EINVAL;
--      return NULL;
++    {
 +      if (0 == strcmp(priv_mode, "a+b"))
 +        flags = _O_RDWR | _O_CREAT | _O_APPEND | _O_BINARY;
 +      else if (0 == strcmp(priv_mode, "a+t"))
@@ -261,21 +275,14 @@ index 6d763e1..c1d072f 100644
 +	    errno = EINVAL;
 +        goto out;
 +	  }
-     }
--
--  wmode = g_utf8_to_utf16 (mode, -1, NULL, NULL, NULL);
--
--  if (wmode == NULL)
++    }
 +  }
 +  if (2 == strlen(priv_mode))
 +  {
 +    if (('c' == priv_mode[1]) || ('n' == priv_mode[1]))
 +      priv_mode[1] = '\0';
 +    else
-     {
--      g_free (wfilename);
--      errno = EINVAL;
--      return NULL;
++    {
 +      if (0 == strcmp(priv_mode, "a+"))
 +        flags = _O_RDWR | _O_CREAT | _O_APPEND;
 +      else if (0 == strcmp(priv_mode, "ab"))
@@ -295,7 +302,7 @@ index 6d763e1..c1d072f 100644
 +	    errno = EINVAL;
 +        goto out;
 +	  }
-     }
++    }
 +  }
 +  if (1 == strlen(priv_mode))
 +  {
@@ -329,6 +336,3 @@ index 6d763e1..c1d072f 100644
    return retval;
  #else
    return fopen (filename, mode);
--- 
-1.7.11.4
-

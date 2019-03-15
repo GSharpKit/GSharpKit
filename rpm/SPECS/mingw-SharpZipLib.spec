@@ -8,7 +8,7 @@
 
 %define debug_package %{nil}
 
-%define libdir /lib
+%define libdir /bin
 
 Name:           mingw-SharpZipLib
 Version:        1.0.0
@@ -35,7 +35,6 @@ BZip2, and Tar written entirely in C# for .NET. It is implemented as an assembly
 # Mingw32
 %package -n mingw32-%{mingw_pkg_name}
 Summary:       %{summary}
-Requires:       mingw32-mono
 
 %description -n mingw32-%{mingw_pkg_name}
 SharpZipLib (#ziplib, formerly NZipLib) is a compression library for Zip, GZip, BZip2.
@@ -43,7 +42,6 @@ SharpZipLib (#ziplib, formerly NZipLib) is a compression library for Zip, GZip, 
 # Mingw64
 %package -n mingw64-%{mingw_pkg_name}
 Summary:       %{summary}
-Requires:       mingw64-mono
 
 %description -n mingw64-%{mingw_pkg_name}
 SharpZipLib (#ziplib, formerly NZipLib) is a compression library for Zip, GZip, BZip2.
@@ -55,26 +53,26 @@ nuget install %{mingw_pkg_name} -Version %{version}
 cat > SharpZipLib32.pc << \EOF
 prefix=%{mingw32_prefix}
 exec_prefix=${prefix}
-libdir=%{mingw32_prefix}%{libdir}/mono
+libdir=%{mingw32_prefix}%{libdir}
 
 Name: SharpZipLib
 Description: %{summary}
 Requires:
 Version: %{version}
-Libs: -r:${libdir}/SharpZipLib/ICSharpCode.SharpZipLib.dll
+Libs: -r:${libdir}ICSharpCode.SharpZipLib.dll
 Cflags:
 EOF
 
 cat > SharpZipLib64.pc << \EOF
 prefix=%{mingw64_prefix}
 exec_prefix=${prefix}
-libdir=%{mingw64_prefix}%{libdir}/mono
+libdir=%{mingw64_prefix}%{libdir}
 
 Name: SharpZipLib
 Description: %{summary}
 Requires:
 Version: %{version}
-Libs: -r:${libdir}/SharpZipLib/ICSharpCode.SharpZipLib.dll
+Libs: -r:${libdir}/ICSharpCode.SharpZipLib.dll
 Cflags:
 EOF
 
@@ -85,15 +83,15 @@ EOF
 %{__rm} -rf %{buildroot}
 
 # Mingw32
-install -d -m 755 $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir}/mono/gac
-gacutil -i SharpZipLib.%{version}/lib/netstandard2.0/ICSharpCode.SharpZipLib.dll -package %{mingw_pkg_name} -root $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir} -gacdir mono/gac
+install -d -m 755 $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir}
+install -m 644 SharpZipLib.%{version}/lib/netstandard2.0/ICSharpCode.SharpZipLib.dll $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir}
 
 install -d -m 755 $RPM_BUILD_ROOT%{mingw32_datadir}/pkgconfig/
 install -m 644 SharpZipLib32.pc $RPM_BUILD_ROOT%{mingw32_datadir}/pkgconfig/SharpZipLib.pc
 
 # Mingw64
-install -d -m 755 $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir}/mono/gac
-gacutil -i SharpZipLib.%{version}/lib/netstandard2.0/ICSharpCode.SharpZipLib.dll -package %{mingw_pkg_name} -root $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir} -gacdir mono/gac
+install -d -m 755 $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir}
+install -m 644 SharpZipLib.%{version}/lib/netstandard2.0/ICSharpCode.SharpZipLib.dll $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir}
 
 install -d -m 755 $RPM_BUILD_ROOT%{mingw64_datadir}/pkgconfig/
 install -m 644 SharpZipLib64.pc $RPM_BUILD_ROOT%{mingw64_datadir}/pkgconfig/SharpZipLib.pc
@@ -104,14 +102,12 @@ install -m 644 SharpZipLib64.pc $RPM_BUILD_ROOT%{mingw64_datadir}/pkgconfig/Shar
 
 %files -n mingw32-%{mingw_pkg_name}
 %defattr(-,root,root,-)
-%{mingw32_prefix}%{libdir}/mono/gac
-%{mingw32_prefix}%{libdir}/mono/SharpZipLib/ICSharpCode.SharpZipLib.dll
+%{mingw32_prefix}%{libdir}/ICSharpCode.SharpZipLib.dll
 %{mingw32_datadir}/pkgconfig/SharpZipLib.pc
 
 %files -n mingw64-%{mingw_pkg_name}
 %defattr(-,root,root,-)
-%{mingw64_prefix}%{libdir}/mono/gac
-%{mingw64_prefix}%{libdir}/mono/SharpZipLib/ICSharpCode.SharpZipLib.dll
+%{mingw64_prefix}%{libdir}/ICSharpCode.SharpZipLib.dll
 %{mingw64_datadir}/pkgconfig/SharpZipLib.pc
 
 

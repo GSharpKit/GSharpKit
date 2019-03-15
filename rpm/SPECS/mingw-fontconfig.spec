@@ -2,16 +2,13 @@
 
 Name:           mingw-fontconfig
 Version:        2.12.6
-Release:        2%{?dist}
+Release:        4%{?dist}
 Summary:        MinGW Windows Fontconfig library
 
 License:        MIT
 URL:            http://fontconfig.org
 Source0:        http://fontconfig.org/release/fontconfig-%{version}.tar.bz2
 Patch0:         fontconfig-no-load-glyph.patch
-Patch1:         fontconfig-2.11.1-roaming-cache.patch
-
-Group:          Development/Libraries
 
 BuildArch:      noarch
 
@@ -29,10 +26,9 @@ BuildRequires:  mingw64-expat
 BuildRequires:  mingw64-freetype
 BuildRequires:  mingw64-win-iconv
 
+BuildRequires:  gperf
 BuildRequires:  pkgconfig
-
-# Needed for the patch
-BuildRequires:  autoconf automake libtool
+BuildRequires:  python3
 
 
 %description
@@ -76,7 +72,7 @@ Static version of the cross compiled Fontconfig library.
 %prep
 %setup -q -n fontconfig-%{version}
 %patch0 -p1
-%patch1 -p1
+
 
 %build
 export MINGW32_CONFIGURE_ARGS="--with-arch=i686"
@@ -154,6 +150,32 @@ rm -rf $RPM_BUILD_ROOT%{mingw64_datadir}/doc
 
 
 %changelog
+* Fri Jul 13 2018 Fedora Release Engineering <releng@fedoraproject.org> - 2.12.6-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_29_Mass_Rebuild
+
+* Thu Feb 08 2018 Fedora Release Engineering <releng@fedoraproject.org> - 2.12.6-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_28_Mass_Rebuild
+
+* Sun Oct 15 2017 Kalev Lember <klember@redhat.com> - 2.12.6-1
+- Update to 2.12.6
+
+* Wed Jul 26 2017 Fedora Release Engineering <releng@fedoraproject.org> - 2.12.1-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_27_Mass_Rebuild
+
+* Fri Feb 10 2017 Fedora Release Engineering <releng@fedoraproject.org> - 2.12.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_26_Mass_Rebuild
+
+* Mon Sep 05 2016 Kalev Lember <klember@redhat.com> - 2.12.1-1
+- Update to 2.12.1
+- Don't set group tags
+
+* Sat May 07 2016 Erik van Pienbroek <epienbro@fedoraproject.org> - 2.11.95-1
+- Update to 2.11.95
+- Add BuildRequires: python3 to fix FTBFS
+
+* Thu Feb 04 2016 Fedora Release Engineering <releng@fedoraproject.org> - 2.11.94-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_24_Mass_Rebuild
+
 * Sun Aug 23 2015 Kalev Lember <klember@redhat.com> - 2.11.94-1
 - Update to 2.11.94
 - Use license macro for COPYING files

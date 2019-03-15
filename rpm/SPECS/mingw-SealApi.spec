@@ -8,7 +8,7 @@
 
 %define debug_package %{nil}
 
-%define libdir /lib
+%define libdir /bin
 %define apiversion 2.0.0.0
 
 Name:           mingw-SealApi
@@ -34,7 +34,6 @@ SealApi for SAML
 # Mingw32
 %package -n mingw32-%{mingw_pkg_name}
 Summary:       %{summary}
-Requires:       mingw32-mono-core
 
 %description -n mingw32-%{mingw_pkg_name}
 SealApi for SAML
@@ -42,7 +41,6 @@ SealApi for SAML
 # Mingw64
 %package -n mingw64-%{mingw_pkg_name}
 Summary:       %{summary}
-Requires:       mingw64-mono-core
 
 %description -n mingw64-%{mingw_pkg_name}
 SealApi for SAML
@@ -61,7 +59,7 @@ Name: %{name}
 Description: %{name} - SealApi for SAML 
 Requires:
 Version: %{version}
-Libs: -r:${libdir}/mono/SealApi/SealApi.dll -r:${libdir}/Microsoft.Web.Services3.dll
+Libs: -r:${libdir}/SealApi.dll -r:${libdir}/Microsoft.Web.Services3.dll
 Cflags:
 EOF
 
@@ -74,7 +72,7 @@ Name: %{name}
 Description: %{name} - SealApi for SAML
 Requires:
 Version: %{version}
-Libs: -r:${libdir}/mono/SealApi/SealApi.dll -r:${libdir}/Microsoft.Web.Services3.dll
+Libs: -r:${libdir}/SealApi.dll -r:${libdir}/Microsoft.Web.Services3.dll
 Cflags:
 EOF
 
@@ -85,18 +83,16 @@ EOF
 %{__rm} -rf %{buildroot}
 
 # Mingw32
-gacutil -i SealApi.%{version}/lib/net461/SealApi.dll -package SealApi -root $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir} -gacdir mono/gac
-
 install -d -m 755 $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir}
+install -m 644 SealApi.%{version}/lib/net461/SealApi.dll $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir}
 install -m 644 Microsoft.Web.Services3.3.0.0.0/lib/net20/Microsoft.Web.Services3.dll $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir}/
 
 install -d -m 755 $RPM_BUILD_ROOT%{mingw32_datadir}/pkgconfig/
 install -m 644 SealApi32.pc $RPM_BUILD_ROOT%{mingw32_datadir}/pkgconfig/SealApi.pc
 
 # Mingw64
-gacutil -i SealApi.%{version}/lib/net461/SealApi.dll -package SealApi -root $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir} -gacdir mono/gac
-
 install -d -m 755 $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir}
+install -m 644 SealApi.%{version}/lib/net461/SealApi.dll $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir}
 install -m 644 Microsoft.Web.Services3.3.0.0.0/lib/net20/Microsoft.Web.Services3.dll $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir}/
 
 install -d -m 755 $RPM_BUILD_ROOT%{mingw64_datadir}/pkgconfig/
@@ -108,15 +104,13 @@ install -m 644 SealApi64.pc $RPM_BUILD_ROOT%{mingw64_datadir}/pkgconfig/SealApi.
 
 %files -n mingw32-%{mingw_pkg_name}
 %defattr(-,root,root,-)
-%{mingw32_prefix}%{libdir}/mono/gac
-%{mingw32_prefix}%{libdir}/mono/SealApi/SealApi.dll
+%{mingw32_prefix}%{libdir}/SealApi.dll
 %{mingw32_prefix}%{libdir}/Microsoft.Web.Services3.dll
 %{mingw32_datadir}/pkgconfig/SealApi.pc
 
 %files -n mingw64-%{mingw_pkg_name}
 %defattr(-,root,root,-)
-%{mingw64_prefix}%{libdir}/mono/gac
-%{mingw64_prefix}%{libdir}/mono/SealApi/SealApi.dll
+%{mingw64_prefix}%{libdir}/SealApi.dll
 %{mingw64_prefix}%{libdir}/Microsoft.Web.Services3.dll
 %{mingw64_datadir}/pkgconfig/SealApi.pc
 

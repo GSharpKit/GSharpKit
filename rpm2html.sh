@@ -124,6 +124,7 @@ gtk-mac-integration-sharp
 )
 
 WIN_BUILD_IN=(
+mono-core
 )
 
 WIN_NA=(

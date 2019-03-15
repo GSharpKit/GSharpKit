@@ -13,10 +13,9 @@ versions using #pragma)
  1 file changed, 14 insertions(+), 8 deletions(-)
 
 diff --git a/glib/glib-init.c b/glib/glib-init.c
-index 0032ee8..dd6ccbf 100644
---- a/glib/glib-init.c
-+++ b/glib/glib-init.c
-@@ -223,12 +223,14 @@ glib_init (void)
+--- a/glib/glib-init.c 2018-08-02 16:09:46.277047195 +0200
++++ b/glib/glib-init.c 2018-08-02 16:10:23.617387056 +0200
+@@ -272,12 +272,14 @@
  
  #if defined (G_OS_WIN32)
  
@@ -33,7 +32,7 @@ index 0032ee8..dd6ccbf 100644
  BOOL WINAPI
  DllMain (HINSTANCE hinstDLL,
           DWORD     fdwReason,
-@@ -238,11 +240,6 @@ DllMain (HINSTANCE hinstDLL,
+@@ -287,13 +289,6 @@
      {
      case DLL_PROCESS_ATTACH:
        glib_dll = hinstDLL;
@@ -42,10 +41,12 @@ index 0032ee8..dd6ccbf 100644
 -      g_thread_win32_init ();
 -#endif
 -      glib_init ();
+-      /* must go after glib_init */
+-      g_console_win32_init ();
        break;
  
      case DLL_THREAD_DETACH:
-@@ -259,7 +256,10 @@ DllMain (HINSTANCE hinstDLL,
+@@ -317,7 +312,10 @@
    return TRUE;
  }
  
@@ -57,7 +58,7 @@ index 0032ee8..dd6ccbf 100644
  
  #ifdef G_DEFINE_CONSTRUCTOR_NEEDS_PRAGMA
  #pragma G_DEFINE_CONSTRUCTOR_PRAGMA_ARGS(glib_init_ctor)
-@@ -269,6 +269,12 @@ G_DEFINE_CONSTRUCTOR(glib_init_ctor)
+@@ -327,7 +325,15 @@
  static void
  glib_init_ctor (void)
  {
@@ -68,7 +69,8 @@ index 0032ee8..dd6ccbf 100644
 +#endif /* defined (THREADS_WIN32) */
 +#endif /* defined (G_OS_WIN32) */
    glib_init ();
++  /* must go after glib_init */
++  g_console_win32_init ();
  }
  
--- 
-1.8.2
+ #else

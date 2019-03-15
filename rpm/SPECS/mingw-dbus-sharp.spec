@@ -4,6 +4,8 @@
 %global mingw_build_win32 1
 %global mingw_build_win64 1
 
+%define libdir /bin
+
 %define debug_package %{nil}
 
 Name:			mingw-dbus-sharp
@@ -29,7 +31,6 @@ Managed C# implementation of DBus
 %package -n mingw32-%{mingw_pkg_name}
 Summary:        %{summary}
 Requires:       mingw32-glib2
-Requires:       mingw32-mono >= 3.8
 
 Obsoletes:	mingw-ndesk-dbus
 
@@ -41,7 +42,6 @@ Managed C# implementation of DBus
 %package -n mingw64-%{mingw_pkg_name}
 Summary:        %{summary}
 Requires:       mingw64-glib2
-Requires:       mingw64-mono >= 3.8
 
 Obsoletes:      mingw-ndesk-dbus
 
@@ -68,22 +68,40 @@ cp src/dbus-sharp.dll build_win64/src/
 rm -rf $RPM_BUILD_ROOT
 %mingw_make install DESTDIR=$RPM_BUILD_ROOT
 
-rm -f $RPM_BUILD_ROOT%{mingw32_libdir}/mono/gac/dbus-sharp/*/*.dll.config
+# Mingw32
+install -d -m 755 $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir}
+install -m 644 $RPM_BUILD_ROOT%{mingw32_libdir}/mono/gac/dbus-sharp/*/*.dll $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir}/
+
+install -d -m 755 $RPM_BUILD_ROOT%{mingw32_datadir}/pkgconfig/
+install -m 644 $RPM_BUILD_ROOT%{mingw32_libdir}/pkgconfig/dbus-sharp-2.0.pc $RPM_BUILD_ROOT%{mingw32_datadir}/pkgconfig/
+sed -i -e 's!/lib!/bin!' $RPM_BUILD_ROOT%{mingw32_datadir}/pkgconfig/dbus-sharp-2.0.pc
+sed -i -e 's!/mono/dbus-sharp-2.0!!' $RPM_BUILD_ROOT%{mingw32_datadir}/pkgconfig/dbus-sharp-2.0.pc
+
+rm -rf $RPM_BUILD_ROOT%{mingw32_libdir}
+
+# Mingw64
+install -d -m 755 $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir}
+install -m 644 $RPM_BUILD_ROOT%{mingw64_libdir}/mono/gac/dbus-sharp/*/*.dll $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir}/
+
+install -d -m 755 $RPM_BUILD_ROOT%{mingw64_datadir}/pkgconfig/
+install -m 644 $RPM_BUILD_ROOT%{mingw64_libdir}/pkgconfig/dbus-sharp-2.0.pc $RPM_BUILD_ROOT%{mingw64_datadir}/pkgconfig/
+sed -i -e 's!/lib!/bin!' $RPM_BUILD_ROOT%{mingw64_datadir}/pkgconfig/dbus-sharp-2.0.pc
+sed -i -e 's!/mono/dbus-sharp-2.0!!' $RPM_BUILD_ROOT%{mingw64_datadir}/pkgconfig/dbus-sharp-2.0.pc
+
+rm -rf $RPM_BUILD_ROOT%{mingw64_libdir}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 %files -n mingw32-%{mingw_pkg_name}
 %defattr(-,root,root,-)
-%{mingw32_libdir}/mono/dbus-sharp-2.0/
-%{mingw32_libdir}/mono/gac/dbus-sharp/
-%{mingw32_libdir}/pkgconfig/dbus-sharp-2.0.pc
+%{mingw32_prefix}%{libdir}/*.dll
+%{mingw32_datadir}/pkgconfig/dbus-sharp-2.0.pc
 
 %files -n mingw64-%{mingw_pkg_name}
 %defattr(-,root,root,-)
-%{mingw64_libdir}/mono/dbus-sharp-2.0/
-%{mingw64_libdir}/mono/gac/dbus-sharp/
-%{mingw64_libdir}/pkgconfig/dbus-sharp-2.0.pc
+%{mingw64_prefix}%{libdir}/*.dll
+%{mingw64_datadir}/pkgconfig/dbus-sharp-2.0.pc
 
 
 %changelog

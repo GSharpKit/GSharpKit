@@ -8,11 +8,11 @@
 
 %define debug_package %{nil}
 
-%define libdir /lib
+%define libdir /bin
 %define apiversion 4.0.0.0
 
 Name:           mingw-Npgsql
-Version:        4.0.4
+Version:        4.0.5
 Release:        1%{?dist}
 Summary:        Postgresql database connectivity for C#
 
@@ -33,8 +33,6 @@ database.
 # Mingw32
 %package -n mingw32-%{mingw_pkg_name}
 Summary:       %{summary}
-Requires:       mingw32-mono-core
-
 Obsoletes:      mingw32-mono-data-npgsql
 Provides:       mingw32-mono-data-npgsql
 
@@ -45,8 +43,6 @@ database.
 # Mingw64
 %package -n mingw64-%{mingw_pkg_name}
 Summary:       %{summary}
-Requires:       mingw64-mono-core
-
 Obsoletes:      mingw64-mono-data-npgsql
 Provides:       mingw64-mono-data-npgsql
 
@@ -68,7 +64,7 @@ Name: Npgsql
 Description: Npgsql - Postgresql database connectivity for C#
 Requires:
 Version: %{version}
-Libs: -r:${libdir}/mono/System.Threading.Tasks.Extensions/System.Threading.Tasks.Extensions.dll -r:${libdir}/mono/Npgsql/Npgsql.dll -r:${libdir}/System.Runtime.CompilerServices.Unsafe.dll
+Libs: -r:${libdir}/System.Threading.Tasks.Extensions.dll -r:${libdir}/System.Runtime.CompilerServices.Unsafe.dll -r:${libdir}/System.Buffers.dll -r:${libdir}/System.Memory.dll -r:${libdir}/System.Numerics.Vectors.dll -r:${libdir}/Npgsql.dll
 Cflags:
 EOF
 
@@ -81,7 +77,7 @@ Name: Npgsql
 Description: Npgsql - Postgresql database connectivity for C#
 Requires:
 Version: %{version}
-Libs: -r:${libdir}/mono/System.Threading.Tasks.Extensions/System.Threading.Tasks.Extensions.dll -r:${libdir}/mono/Npgsql/Npgsql.dll -r:${libdir}/System.Runtime.CompilerServices.Unsafe.dll
+Libs: -r:${libdir}/System.Threading.Tasks.Extensions.dll -r:${libdir}/System.Runtime.CompilerServices.Unsafe.dll -r:${libdir}/System.Buffers.dll -r:${libdir}/System.Memory.dll -r:${libdir}/System.Numerics.Vectors.dll -r:${libdir}/Npgsql.dll
 Cflags:
 EOF
 
@@ -92,23 +88,25 @@ EOF
 %{__rm} -rf %{buildroot}
 
 # Mingw32
-install -d -m 755 $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir}/mono/gac
-gacutil -i Npgsql.%{version}/lib/netstandard2.0/Npgsql.dll -package %{mingw_pkg_name} -root $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir} -gacdir mono/gac
-gacutil -i System.Threading.Tasks.Extensions.4.5.1/lib/netstandard2.0/System.Threading.Tasks.Extensions.dll -package System.Threading.Tasks.Extensions -root $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir} -gacdir mono/gac
-
 install -d -m 755 $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir}
-install -m 644 System.Runtime.CompilerServices.Unsafe.4.5.0/lib/netstandard2.0/System.Runtime.CompilerServices.Unsafe.dll $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir}/
+install -m 644 Npgsql.%{version}/lib/netstandard2.0/Npgsql.dll $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir}
+install -m 644 System.Threading.Tasks.Extensions.4.5.2/lib/netstandard2.0/System.Threading.Tasks.Extensions.dll $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir}
+install -m 644 System.Runtime.CompilerServices.Unsafe.4.5.2/lib/netstandard2.0/System.Runtime.CompilerServices.Unsafe.dll $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir}/
+install -m 644 System.Buffers.4.4.0/lib/netstandard2.0/System.Buffers.dll $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir}/
+install -m 644 System.Numerics.Vectors.4.4.0/lib/netstandard2.0/System.Numerics.Vectors.dll $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir}/
+#install -m 644 System.Memory.4.5.2/lib/netstandard2.0/System.Memory.dll $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir}/
 
 install -d -m 755 $RPM_BUILD_ROOT%{mingw32_datadir}/pkgconfig/
 install -m 644 Npgsql32.pc $RPM_BUILD_ROOT%{mingw32_datadir}/pkgconfig/Npgsql.pc
 
 # Mingw64
-install -d -m 755 $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir}/mono/gac
-gacutil -i Npgsql.%{version}/lib/netstandard2.0/Npgsql.dll -package %{mingw_pkg_name} -root $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir} -gacdir mono/gac
-gacutil -i System.Threading.Tasks.Extensions.4.5.1/lib/netstandard2.0/System.Threading.Tasks.Extensions.dll -package System.Threading.Tasks.Extensions -root $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir} -gacdir mono/gac
-
 install -d -m 755 $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir}
-install -m 644 System.Runtime.CompilerServices.Unsafe.4.5.0/lib/netstandard2.0/System.Runtime.CompilerServices.Unsafe.dll $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir}/
+install -m 644 Npgsql.%{version}/lib/netstandard2.0/Npgsql.dll $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir}
+install -m 644 System.Threading.Tasks.Extensions.4.5.2/lib/netstandard2.0/System.Threading.Tasks.Extensions.dll $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir}
+install -m 644 System.Runtime.CompilerServices.Unsafe.4.5.2/lib/netstandard2.0/System.Runtime.CompilerServices.Unsafe.dll $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir}/
+install -m 644 System.Buffers.4.4.0/lib/netstandard2.0/System.Buffers.dll $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir}/
+install -m 644 System.Numerics.Vectors.4.4.0/lib/netstandard2.0/System.Numerics.Vectors.dll $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir}/
+#install -m 644 System.Memory.4.5.2/lib/netstandard2.0/System.Memory.dll $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir}/
 
 install -d -m 755 $RPM_BUILD_ROOT%{mingw64_datadir}/pkgconfig/
 install -m 644 Npgsql64.pc $RPM_BUILD_ROOT%{mingw64_datadir}/pkgconfig/Npgsql.pc
@@ -119,18 +117,22 @@ install -m 644 Npgsql64.pc $RPM_BUILD_ROOT%{mingw64_datadir}/pkgconfig/Npgsql.pc
 
 %files -n mingw32-%{mingw_pkg_name}
 %defattr(-,root,root,-)
-%{mingw32_prefix}%{libdir}/mono/gac
-%{mingw32_prefix}%{libdir}/mono/Npgsql/Npgsql.dll
-%{mingw32_prefix}%{libdir}/mono/System.Threading.Tasks.Extensions/System.Threading.Tasks.Extensions.dll
+%{mingw32_prefix}%{libdir}/Npgsql.dll
+%{mingw32_prefix}%{libdir}/System.Threading.Tasks.Extensions.dll
 %{mingw32_prefix}%{libdir}/System.Runtime.CompilerServices.Unsafe.dll
+%{mingw32_prefix}%{libdir}/System.Buffers.dll
+#{mingw32_prefix}%{libdir}/System.Memory.dll
+%{mingw32_prefix}%{libdir}/System.Numerics.Vectors.dll
 %{mingw32_datadir}/pkgconfig/Npgsql.pc
 
 %files -n mingw64-%{mingw_pkg_name}
 %defattr(-,root,root,-)
-%{mingw64_prefix}%{libdir}/mono/gac
-%{mingw64_prefix}%{libdir}/mono/Npgsql/Npgsql.dll
-%{mingw64_prefix}%{libdir}/mono/System.Threading.Tasks.Extensions/System.Threading.Tasks.Extensions.dll
+%{mingw64_prefix}%{libdir}/Npgsql.dll
+%{mingw64_prefix}%{libdir}/System.Threading.Tasks.Extensions.dll
 %{mingw64_prefix}%{libdir}/System.Runtime.CompilerServices.Unsafe.dll
+%{mingw64_prefix}%{libdir}/System.Buffers.dll
+#{mingw64_prefix}%{libdir}/System.Memory.dll
+%{mingw64_prefix}%{libdir}/System.Numerics.Vectors.dll
 %{mingw64_datadir}/pkgconfig/Npgsql.pc
 
 

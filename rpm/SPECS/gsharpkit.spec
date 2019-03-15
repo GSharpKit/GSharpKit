@@ -106,7 +106,7 @@
 
 Summary: 		Easy management of applications
 Name: 			GSharpKit
-Version:		29.1
+Version:		29.3
 Release:		1%{?dist}
 License:		GPL
 Group: 			Applications/Desktop
@@ -176,6 +176,7 @@ Requires:		mono-winfxcore >= %{MONO_CORE_VERSION}
 Requires:		Mono.Addins >= %{MONO_ADDINS_VERSION}
 Requires:		dbus-sharp >= %{DBUS_SHARP_VERSION}
 Requires:		dbus-sharp-glib >= %{DBUS_GLIB_SHARP_VERSION}
+Requires:		dbus-sharp-glib-devel >= %{DBUS_GLIB_SHARP_VERSION}
 
 Requires:		libcroco >= %{LIBCROCO_VERSION}
 Requires:		libepoxy >= %{LIBEPOXY_VERSION}
@@ -336,7 +337,7 @@ Requires:		mingw32-twaindsm >= %{TWAIN_DSM_VERSION}
 
 Requires:               mingw32-Microsoft.CSharp >= %{MICROSOFT_CSHARP_VERSION}
 Requires:               mingw32-Mono.Posix.NETStandard >= %{MONO_POSIX_NETSTANDARD_VERSION}
-Requires:               mingw32-mono-core >= %{MONO_CORE_VERSION}
+#Requires:               mingw32-mono-core >= %{MONO_CORE_VERSION}
 Requires:               mingw32-Npgsql >= %{NPGSQL_VERSION}
 Requires:               mingw32-GtkSharp >= %{GTK3_SHARP_VERSION}
 Requires:               mingw32-GdlSharp >= %{GDL_SHARP_VERSION}
@@ -445,7 +446,7 @@ Requires:		mingw64-twaindsm >= %{TWAIN_DSM_VERSION}
 
 Requires:               mingw64-Microsoft.CSharp >= %{MICROSOFT_CSHARP_VERSION}
 Requires:               mingw64-Mono.Posix.NETStandard >= %{MONO_POSIX_NETSTANDARD_VERSION}
-Requires:               mingw64-mono-core >= %{MONO_CORE_VERSION}
+#Requires:               mingw64-mono-core >= %{MONO_CORE_VERSION}
 Requires:               mingw64-Npgsql >= %{NPGSQL_VERSION}
 Requires:               mingw64-GtkSharp >= %{GTK3_SHARP_VERSION}
 Requires:               mingw64-GdlSharp >= %{GDL_SHARP_VERSION}

@@ -6,7 +6,7 @@
 
 %define debug_package %{nil}
 
-%define libdir /lib
+%define libdir /bin
 
 Name:           mingw-GtkSharp
 Version:        3.22.24
@@ -55,7 +55,6 @@ Pango, Gdk.
 Summary:	%{summary}
 Requires:	mingw32-glib2
 Requires:	mingw32-gtk3
-Requires:	mingw32-mono-core >= 3.12
 
 Obsoletes:	mingw32-gtk-sharp3
 Provides:	mingw32-gtk-sharp3
@@ -70,7 +69,6 @@ tools and libraries (corlib, XML, System.Security, ZipLib,
 Summary:        %{summary}
 Requires:       mingw64-glib2
 Requires:       mingw64-gtk3
-Requires:       mingw64-mono-core >= 3.12
 
 Obsoletes:      mingw64-gtk-sharp3
 Provides:       mingw64-gtk-sharp3
@@ -90,26 +88,15 @@ sh build.sh
 %{__rm} -rf $RPM_BUILD_ROOT
 
 # Mingw32
-sn -R BuildOutput/Release/AtkSharp.dll Source/GtkSharp.snk
-gacutil -i BuildOutput/Release/AtkSharp.dll -package %{mingw_pkg_name}-3.0 -root $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir} -gacdir mono/gac
+install -d -m 755 $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir}
 
-sn -R BuildOutput/Release/CairoSharp.dll Source/GtkSharp.snk
-gacutil -i BuildOutput/Release/CairoSharp.dll -package %{mingw_pkg_name}-3.0 -root $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir} -gacdir mono/gac
-
-sn -R BuildOutput/Release/GdkSharp.dll Source/GtkSharp.snk
-gacutil -i BuildOutput/Release/GdkSharp.dll -package %{mingw_pkg_name}-3.0 -root $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir} -gacdir mono/gac
-
-sn -R BuildOutput/Release/GioSharp.dll Source/GtkSharp.snk
-gacutil -i BuildOutput/Release/GioSharp.dll -package %{mingw_pkg_name}-3.0 -root $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir} -gacdir mono/gac
-
-sn -R BuildOutput/Release/GLibSharp.dll Source/GtkSharp.snk
-gacutil -i BuildOutput/Release/GLibSharp.dll -package %{mingw_pkg_name}-3.0 -root $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir} -gacdir mono/gac
-
-sn -R BuildOutput/Release/GtkSharp.dll Source/GtkSharp.snk
-gacutil -i BuildOutput/Release/GtkSharp.dll -package %{mingw_pkg_name}-3.0 -root $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir} -gacdir mono/gac
-
-sn -R BuildOutput/Release/PangoSharp.dll Source/GtkSharp.snk
-gacutil -i BuildOutput/Release/PangoSharp.dll -package %{mingw_pkg_name}-3.0 -root $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir} -gacdir mono/gac
+install -m 644 BuildOutput/Release/AtkSharp.dll $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir}
+install -m 644 BuildOutput/Release/CairoSharp.dll $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir}
+install -m 644 BuildOutput/Release/GdkSharp.dll $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir}
+install -m 644 BuildOutput/Release/GioSharp.dll $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir}
+install -m 644 BuildOutput/Release/GLibSharp.dll $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir}
+install -m 644 BuildOutput/Release/GtkSharp.dll $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir}
+install -m 644 BuildOutput/Release/PangoSharp.dll $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir}
 
 mkdir -p %{buildroot}%{mingw32_prefix}/share/pkgconfig
 install -m 644 %{SOURCE1} %{buildroot}%{mingw32_prefix}/share/pkgconfig/
@@ -124,26 +111,15 @@ cp Source/Libs/*/*Sharp-api.xml %{buildroot}%{mingw32_prefix}/share/gapi-3.0/
 
 
 # Mingw64
-sn -R BuildOutput/Release/AtkSharp.dll Source/GtkSharp.snk
-gacutil -i BuildOutput/Release/AtkSharp.dll -package %{mingw_pkg_name}-3.0 -root $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir} -gacdir mono/gac
+install -d -m 755 $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir}
 
-sn -R BuildOutput/Release/CairoSharp.dll Source/GtkSharp.snk
-gacutil -i BuildOutput/Release/CairoSharp.dll -package %{mingw_pkg_name}-3.0 -root $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir} -gacdir mono/gac
-
-sn -R BuildOutput/Release/GdkSharp.dll Source/GtkSharp.snk
-gacutil -i BuildOutput/Release/GdkSharp.dll -package %{mingw_pkg_name}-3.0 -root $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir} -gacdir mono/gac
-
-sn -R BuildOutput/Release/GioSharp.dll Source/GtkSharp.snk
-gacutil -i BuildOutput/Release/GioSharp.dll -package %{mingw_pkg_name}-3.0 -root $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir} -gacdir mono/gac
-
-sn -R BuildOutput/Release/GLibSharp.dll Source/GtkSharp.snk
-gacutil -i BuildOutput/Release/GLibSharp.dll -package %{mingw_pkg_name}-3.0 -root $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir} -gacdir mono/gac
-
-sn -R BuildOutput/Release/GtkSharp.dll Source/GtkSharp.snk
-gacutil -i BuildOutput/Release/GtkSharp.dll -package %{mingw_pkg_name}-3.0 -root $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir} -gacdir mono/gac
-
-sn -R BuildOutput/Release/PangoSharp.dll Source/GtkSharp.snk
-gacutil -i BuildOutput/Release/PangoSharp.dll -package %{mingw_pkg_name}-3.0 -root $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir} -gacdir mono/gac
+install -m 644 BuildOutput/Release/AtkSharp.dll $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir}
+install -m 644 BuildOutput/Release/CairoSharp.dll $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir}
+install -m 644 BuildOutput/Release/GdkSharp.dll $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir}
+install -m 644 BuildOutput/Release/GioSharp.dll $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir}
+install -m 644 BuildOutput/Release/GLibSharp.dll $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir}
+install -m 644 BuildOutput/Release/GtkSharp.dll $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir}
+install -m 644 BuildOutput/Release/PangoSharp.dll $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir}
 
 mkdir -p %{buildroot}%{mingw64_prefix}/share/pkgconfig
 install -m 644 %{SOURCE1} %{buildroot}%{mingw64_prefix}/share/pkgconfig/
@@ -162,15 +138,13 @@ cp Source/Libs/*/*Sharp-api.xml %{buildroot}%{mingw64_prefix}/share/gapi-3.0/
 
 %files -n mingw32-%{mingw_pkg_name}
 %defattr(-,root,root,-)
-%{mingw32_libdir}/mono/GtkSharp-3.0/*Sharp.dll
-%{mingw32_libdir}/mono/gac/*
+%{mingw32_prefix}%{libdir}/*Sharp.dll
 %{mingw32_datadir}/pkgconfig/*-sharp-3.0.pc
 %{mingw32_datadir}/gapi-3.0
 
 %files -n mingw64-%{mingw_pkg_name}
 %defattr(-,root,root,-)
-%{mingw64_libdir}/mono/GtkSharp-3.0/*Sharp.dll
-%{mingw64_libdir}/mono/gac/*
+%{mingw64_prefix}%{libdir}/*Sharp.dll
 %{mingw64_datadir}/pkgconfig/*-sharp-3.0.pc
 %{mingw64_datadir}/gapi-3.0
 

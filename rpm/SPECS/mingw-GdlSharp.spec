@@ -6,6 +6,7 @@
 
 %define debug_package %{nil}
 
+%define libdir /bin
 %define gtk_version 3.22.6
 
 Name:           mingw-GdlSharp
@@ -89,12 +90,31 @@ make distclean
 %install
 %mingw_make install DESTDIR=$RPM_BUILD_ROOT
 
+# Mingw32
+install -d -m 755 $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir}
+install -m 644 $RPM_BUILD_ROOT%{mingw32_libdir}/mono/gac/gdl-sharp/*/*.dll $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir}/
+
+sed -i -e 's!/lib!/bin!' $RPM_BUILD_ROOT%{mingw32_datadir}/pkgconfig/gdl-sharp-3.pc
+sed -i -e 's!/mono/gdl-sharp!!' $RPM_BUILD_ROOT%{mingw32_datadir}/pkgconfig/gdl-sharp-3.pc
+
+rm -rf $RPM_BUILD_ROOT%{mingw32_libdir}
+
+# Mingw64
+install -d -m 755 $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir}
+install -m 644 $RPM_BUILD_ROOT%{mingw64_libdir}/mono/gac/gdl-sharp/*/*.dll $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir}/
+
+sed -i -e 's!/lib!/bin!' $RPM_BUILD_ROOT%{mingw64_datadir}/pkgconfig/gdl-sharp-3.pc
+sed -i -e 's!/mono/gdl-sharp!!' $RPM_BUILD_ROOT%{mingw64_datadir}/pkgconfig/gdl-sharp-3.pc
+
+rm -rf $RPM_BUILD_ROOT%{mingw64_libdir}
+
+
 %files -n mingw32-GdlSharp
-%{mingw32_libdir}/mono
+%{mingw64_prefix}%{libdir}/*.dll
 %{mingw32_datadir}/pkgconfig/gdl-sharp-3.pc
 
 %files -n mingw64-GdlSharp
-%{mingw64_libdir}/mono
+%{mingw32_prefix}%{libdir}/*.dll
 %{mingw64_datadir}/pkgconfig/gdl-sharp-3.pc
 
 %changelog

@@ -8,7 +8,7 @@
 
 %define debug_package %{nil}
 
-%define libdir /lib
+%define libdir /bin
 %define apiversion 11.0.0.0
 
 Name:           mingw-Newtonsoft.Json
@@ -32,8 +32,6 @@ Json.NET is a popular high-performance JSON framework for .NET
 # Mingw32
 %package -n mingw32-%{mingw_pkg_name}
 Summary:       %{summary}
-Requires:       mingw32-mono
-
 Obsoletes:      mingw32-newtonsoft-json
 Provides:       mingw32-newtonsoft-json
 
@@ -43,8 +41,6 @@ Json.NET is a popular high-performance JSON framework for .NET
 # Mingw64
 %package -n mingw64-%{mingw_pkg_name}
 Summary:       %{summary}
-Requires:       mingw64-mono
-
 Obsoletes:      mingw64-newtonsoft-json
 Provides:       mingw64-newtonsoft-json
 
@@ -58,26 +54,26 @@ nuget install %{mingw_pkg_name} -Version %{version}
 cat > Newtonsoft.Json32.pc << \EOF
 prefix=%{mingw32_prefix}
 exec_prefix=${prefix}
-libdir=%{mingw32_prefix}%{libdir}/mono
+libdir=%{mingw32_prefix}%{libdir}
 
 Name: Newtonsoft.Json
 Description: %{name} - %{summary}
 Requires:
 Version: %{version}
-Libs: -r:${libdir}/Newtonsoft.Json/Newtonsoft.Json.dll
+Libs: -r:${libdir}/Newtonsoft.Json.dll
 Cflags:
 EOF
 
 cat > Newtonsoft.Json64.pc << \EOF
 prefix=%{mingw64_prefix}
 exec_prefix=${prefix}
-libdir=%{mingw64_prefix}%{libdir}/mono
+libdir=%{mingw64_prefix}%{libdir}
 
 Name: Newtonsoft.Json
 Description: %{name} - %{summary}
 Requires:
 Version: %{version}
-Libs: -r:${libdir}/Newtonsoft.Json/Newtonsoft.Json.dll
+Libs: -r:${libdir}/Newtonsoft.Json.dll
 Cflags:
 EOF
 
@@ -88,15 +84,15 @@ EOF
 %{__rm} -rf %{buildroot}
 
 # Mingw32
-install -d -m 755 $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir}/mono/gac
-gacutil -i Newtonsoft.Json.%{version}/lib/netstandard2.0/Newtonsoft.Json.dll -package %{mingw_pkg_name} -root $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir} -gacdir mono/gac
+install -d -m 755 $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir}
+install -m 644 Newtonsoft.Json.%{version}/lib/netstandard2.0/Newtonsoft.Json.dll $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir}
 
 install -d -m 755 $RPM_BUILD_ROOT%{mingw32_datadir}/pkgconfig/
 install -m 644 Newtonsoft.Json32.pc $RPM_BUILD_ROOT%{mingw32_datadir}/pkgconfig/Newtonsoft.Json.pc
 
 # Mingw64
-install -d -m 755 $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir}/mono/gac
-gacutil -i Newtonsoft.Json.%{version}/lib/netstandard2.0/Newtonsoft.Json.dll -package %{mingw_pkg_name} -root $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir} -gacdir mono/gac
+install -d -m 755 $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir}
+install -m 644 Newtonsoft.Json.%{version}/lib/netstandard2.0/Newtonsoft.Json.dll $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir}
 
 install -d -m 755 $RPM_BUILD_ROOT%{mingw64_datadir}/pkgconfig/
 install -m 644 Newtonsoft.Json64.pc $RPM_BUILD_ROOT%{mingw64_datadir}/pkgconfig/Newtonsoft.Json.pc
@@ -107,14 +103,12 @@ install -m 644 Newtonsoft.Json64.pc $RPM_BUILD_ROOT%{mingw64_datadir}/pkgconfig/
 
 %files -n mingw32-%{mingw_pkg_name}
 %defattr(-,root,root,-)
-%{mingw32_prefix}%{libdir}/mono/gac
-%{mingw32_prefix}%{libdir}/mono/Newtonsoft.Json/Newtonsoft.Json.dll
+%{mingw32_prefix}%{libdir}/Newtonsoft.Json.dll
 %{mingw32_datadir}/pkgconfig/Newtonsoft.Json.pc
 
 %files -n mingw64-%{mingw_pkg_name}
 %defattr(-,root,root,-)
-%{mingw64_prefix}%{libdir}/mono/gac
-%{mingw64_prefix}%{libdir}/mono/Newtonsoft.Json/Newtonsoft.Json.dll
+%{mingw64_prefix}%{libdir}/Newtonsoft.Json.dll
 %{mingw64_datadir}/pkgconfig/Newtonsoft.Json.pc
 
 

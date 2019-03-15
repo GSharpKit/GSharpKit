@@ -9,7 +9,7 @@
 %define enable_autoreconf 0
 
 Name:           mingw-gtk3
-Version:        3.24.2
+Version:        3.24.7
 Release:        1%{?dist}
 Summary:        MinGW Windows GTK+ library
 
@@ -49,6 +49,8 @@ BuildRequires:  mingw32-pixman
 BuildRequires:  mingw64-pixman
 BuildRequires:  mingw32-zlib
 BuildRequires:  mingw64-zlib
+BuildRequires:  mingw32-fribidi
+BuildRequires:  mingw64-fribidi
 
 # Native one for msgfmt
 BuildRequires:  gettext

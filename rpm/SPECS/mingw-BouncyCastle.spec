@@ -8,12 +8,12 @@
 
 %define debug_package %{nil}
 
-%define libdir /lib
+%define libdir /bin
 %define apiversion 1.8.0.0
 
 Name:           mingw-BouncyCastle
 Version:        1.8.2
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        BouncyCastle is a Crypto library written in C#
 
 Group:          Development/Languages
@@ -56,7 +56,6 @@ BuildRequires:  nuget
 # Mingw32
 %package -n mingw32-%{mingw_pkg_name}
 Summary:       %{summary}
-Requires:       mingw32-mono
 
 %description -n mingw32-%{mingw_pkg_name}
 - Generation and parsing of PKCS-12 files.
@@ -87,7 +86,6 @@ Requires:       mingw32-mono
 # Mingw64
 %package -n mingw64-%{mingw_pkg_name}
 Summary:       %{summary}
-Requires:       mingw64-mono
 
 %description -n mingw64-%{mingw_pkg_name}
 - Generation and parsing of PKCS-12 files.
@@ -122,26 +120,26 @@ nuget install %{mingw_pkg_name} -Version %{version}
 cat > BouncyCastle32.pc << \EOF
 prefix=%{mingw32_prefix}
 exec_prefix=${prefix}
-libdir=%{mingw32_prefix}%{libdir}/mono
+libdir=%{mingw32_prefix}%{libdir}
 
 Name: BouncyCastle
 Description: %{name} - %{summary}
 Requires:
 Version: %{version}
-Libs: -r:${libdir}/BouncyCastle.Crypto/BouncyCastle.Crypto.dll
+Libs: -r:${libdir}/BouncyCastle.Crypto.dll
 Cflags:
 EOF
 
 cat > BouncyCastle64.pc << \EOF
 prefix=%{mingw64_prefix}
 exec_prefix=${prefix}
-libdir=%{mingw64_prefix}%{libdir}/mono
+libdir=%{mingw64_prefix}%{libdir}
 
 Name: BouncyCastle
 Description: %{name} - %{summary}
 Requires:
 Version: %{version}
-Libs: -r:${libdir}/BouncyCastle.Crypto/BouncyCastle.Crypto.dll
+Libs: -r:${libdir}/BouncyCastle.Crypto.dll
 Cflags:
 EOF
 
@@ -152,15 +150,15 @@ EOF
 %{__rm} -rf %{buildroot}
 
 # Mingw32
-install -d -m 755 $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir}/mono/gac
-gacutil -i BouncyCastle.%{version}/lib/BouncyCastle.Crypto.dll -package %{mingw_pkg_name}.Crypto -root $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir} -gacdir mono/gac
+install -d -m 755 $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir}
+install -m 644 BouncyCastle.%{version}/lib/BouncyCastle.Crypto.dll $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir}
 
 install -d -m 755 $RPM_BUILD_ROOT%{mingw32_datadir}/pkgconfig/
 install -m 644 BouncyCastle32.pc $RPM_BUILD_ROOT%{mingw32_datadir}/pkgconfig/BouncyCastle.pc
 
 # Mingw64
-install -d -m 755 $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir}/mono/gac
-gacutil -i BouncyCastle.%{version}/lib/BouncyCastle.Crypto.dll -package %{mingw_pkg_name}.Crypto -root $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir} -gacdir mono/gac
+install -d -m 755 $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir}
+install -m 644 BouncyCastle.%{version}/lib/BouncyCastle.Crypto.dll $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir}
 
 install -d -m 755 $RPM_BUILD_ROOT%{mingw64_datadir}/pkgconfig/
 install -m 644 BouncyCastle64.pc $RPM_BUILD_ROOT%{mingw64_datadir}/pkgconfig/BouncyCastle.pc
@@ -171,14 +169,12 @@ install -m 644 BouncyCastle64.pc $RPM_BUILD_ROOT%{mingw64_datadir}/pkgconfig/Bou
 
 %files -n mingw32-%{mingw_pkg_name}
 %defattr(-,root,root,-)
-%{mingw32_prefix}%{libdir}/mono/gac
-%{mingw32_prefix}%{libdir}/mono/BouncyCastle.Crypto/BouncyCastle.Crypto.dll
+%{mingw32_prefix}%{libdir}/BouncyCastle.Crypto.dll
 %{mingw32_datadir}/pkgconfig/BouncyCastle.pc
 
 %files -n mingw64-%{mingw_pkg_name}
 %defattr(-,root,root,-)
-%{mingw64_prefix}%{libdir}/mono/gac
-%{mingw64_prefix}%{libdir}/mono/BouncyCastle.Crypto/BouncyCastle.Crypto.dll
+%{mingw64_prefix}%{libdir}/BouncyCastle.Crypto.dll
 %{mingw64_datadir}/pkgconfig/BouncyCastle.pc
 
 

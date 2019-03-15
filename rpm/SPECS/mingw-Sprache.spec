@@ -8,7 +8,7 @@
 
 %define debug_package %{nil}
 
-%define libdir /lib
+%define libdir /bin
 %define apiversion 2.1.2.0
 
 Name:           mingw-Sprache
@@ -32,7 +32,6 @@ Sprache is a simple, lightweight library for constructing parsers directly in C#
 # Mingw32
 %package -n mingw32-%{mingw_pkg_name}
 Summary:       %{summary}
-Requires:       mingw32-mono
 
 %description -n mingw32-%{mingw_pkg_name}
 Sprache is a simple, lightweight library for constructing parsers directly in C# code
@@ -40,7 +39,6 @@ Sprache is a simple, lightweight library for constructing parsers directly in C#
 # Mingw64
 %package -n mingw64-%{mingw_pkg_name}
 Summary:       %{summary}
-Requires:       mingw64-mono
 
 %description -n mingw64-%{mingw_pkg_name}
 Sprache is a simple, lightweight library for constructing parsers directly in C# code
@@ -52,26 +50,26 @@ nuget install %{mingw_pkg_name}.Signed -Version %{version}
 cat > Sprache32.pc << \EOF
 prefix=%{mingw32_prefix}
 exec_prefix=${prefix}
-libdir=%{mingw32_prefix}%{libdir}/mono
+libdir=%{mingw32_prefix}%{libdir}
 
 Name: Sprache
 Description: %{name} - %{summary}
 Requires:
 Version: %{version}
-Libs: -r:${libdir}/Sprache/Sprache.Signed.dll
+Libs: -r:${libdir}/Sprache.Signed.dll
 Cflags:
 EOF
 
 cat > Sprache64.pc << \EOF
 prefix=%{mingw64_prefix}
 exec_prefix=${prefix}
-libdir=%{mingw64_prefix}%{libdir}/mono
+libdir=%{mingw64_prefix}%{libdir}
 
 Name: Sprache
 Description: %{name} - %{summary}
 Requires:
 Version: %{version}
-Libs: -r:${libdir}/Sprache/Sprache.Signed.dll
+Libs: -r:${libdir}/Sprache.Signed.dll
 Cflags:
 EOF
 
@@ -82,15 +80,15 @@ EOF
 %{__rm} -rf %{buildroot}
 
 # Mingw32
-install -d -m 755 $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir}/mono/gac
-gacutil -i Sprache.Signed.%{version}/lib/netstandard2.0/Sprache.Signed.dll -package %{mingw_pkg_name} -root $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir} -gacdir mono/gac
+install -d -m 755 $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir}
+install -m 644 Sprache.Signed.%{version}/lib/netstandard2.0/Sprache.Signed.dll $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir}
 
 install -d -m 755 $RPM_BUILD_ROOT%{mingw32_datadir}/pkgconfig/
 install -m 644 Sprache32.pc $RPM_BUILD_ROOT%{mingw32_datadir}/pkgconfig/Sprache.pc
 
 # Mingw64
-install -d -m 755 $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir}/mono/gac
-gacutil -i Sprache.Signed.%{version}/lib/netstandard2.0/Sprache.Signed.dll -package %{mingw_pkg_name} -root $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir} -gacdir mono/gac
+install -d -m 755 $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir}
+install -m 644 Sprache.Signed.%{version}/lib/netstandard2.0/Sprache.Signed.dll $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir}
 
 install -d -m 755 $RPM_BUILD_ROOT%{mingw64_datadir}/pkgconfig/
 install -m 644 Sprache64.pc $RPM_BUILD_ROOT%{mingw64_datadir}/pkgconfig/Sprache.pc
@@ -101,14 +99,12 @@ install -m 644 Sprache64.pc $RPM_BUILD_ROOT%{mingw64_datadir}/pkgconfig/Sprache.
 
 %files -n mingw32-%{mingw_pkg_name}
 %defattr(-,root,root,-)
-%{mingw32_prefix}%{libdir}/mono/gac
-%{mingw32_prefix}%{libdir}/mono/Sprache/Sprache.Signed.dll
+%{mingw32_prefix}%{libdir}/Sprache.Signed.dll
 %{mingw32_datadir}/pkgconfig/Sprache.pc
 
 %files -n mingw64-%{mingw_pkg_name}
 %defattr(-,root,root,-)
-%{mingw64_prefix}%{libdir}/mono/gac
-%{mingw64_prefix}%{libdir}/mono/Sprache/Sprache.Signed.dll
+%{mingw64_prefix}%{libdir}/Sprache.Signed.dll
 %{mingw64_datadir}/pkgconfig/Sprache.pc
 
 

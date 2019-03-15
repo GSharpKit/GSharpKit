@@ -10,7 +10,7 @@
 
 %define debug_package %{nil}
 
-%define libdir /lib
+%define libdir /bin
 
 Name:           mingw-SharpCamera
 Version:        0.3.7
@@ -33,7 +33,6 @@ C# friendly bindings to SharpCamera.
 # Mingw32
 %package -n mingw32-%{mingw_pkg_name}
 Summary:       %{summary}
-Requires:       mingw32-mono
 Requires:       mingw32-libgphoto2-sharp
 
 %description -n mingw32-%{mingw_pkg_name}
@@ -42,7 +41,6 @@ C# friendly bindings to SharpCamera.
 # Mingw64
 %package -n mingw64-%{mingw_pkg_name}
 Summary:       %{summary}
-Requires:       mingw64-mono
 Requires:       mingw64-libgphoto2-sharp
 
 %description -n mingw64-%{mingw_pkg_name}

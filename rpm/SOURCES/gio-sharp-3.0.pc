@@ -1,7 +1,7 @@
 prefix=@PREFIX@
 exec_prefix=${prefix}
-libdir=${exec_prefix}/lib
-assemblies_dir=${libdir}/mono/GtkSharp-3.0
+libdir=${exec_prefix}/bin
+assemblies_dir=${libdir}
 gapidir=${prefix}/share/gapi-3.0
 
 Name: GIO#

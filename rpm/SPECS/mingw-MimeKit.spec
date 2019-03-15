@@ -8,7 +8,7 @@
 
 %define debug_package %{nil}
 
-%define libdir /lib
+%define libdir /bin
 
 Name:           mingw-MimeKit
 Version:        2.0.7
@@ -34,7 +34,6 @@ It also supports parsing of Unix mbox files.
 # Mingw32
 %package -n mingw32-%{mingw_pkg_name}
 Summary:       %{summary}
-Requires:       mingw32-mono
 Requires:       mingw32-BouncyCastle
 
 %description -n mingw32-%{mingw_pkg_name}
@@ -45,7 +44,6 @@ It also supports parsing of Unix mbox files.
 # Mingw64
 %package -n mingw64-%{mingw_pkg_name}
 Summary:       %{summary}
-Requires:       mingw64-mono
 Requires:       mingw64-BouncyCastle
 
 %description -n mingw64-%{mingw_pkg_name}
@@ -60,26 +58,26 @@ nuget install %{mingw_pkg_name} -Version %{version}
 cat > MimeKit32.pc << \EOF
 prefix=%{mingw32_prefix}
 exec_prefix=${prefix}
-libdir=%{mingw32_prefix}%{libdir}/mono
+libdir=%{mingw32_prefix}%{libdir}
 
 Name: MimeKit
 Description: %{name} - %{summary}
 Requires: BouncyCastle
 Version: %{version}
-Libs: -r:${libdir}/MimeKit/MimeKit.dll
+Libs: -r:${libdir}/MimeKit.dll
 Cflags:
 EOF
 
 cat > MimeKit64.pc << \EOF
 prefix=%{mingw64_prefix}
 exec_prefix=${prefix}
-libdir=%{mingw64_prefix}%{libdir}/mono
+libdir=%{mingw64_prefix}%{libdir}
 
 Name: MimeKit
 Description: %{name} - %{summary}
 Requires: BouncyCastle
 Version: %{version}
-Libs: -r:${libdir}/MimeKit/MimeKit.dll
+Libs: -r:${libdir}/MimeKit.dll
 Cflags:
 EOF
 
@@ -90,15 +88,15 @@ EOF
 %{__rm} -rf %{buildroot}
 
 # Mingw32
-install -d -m 755 $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir}/mono/gac
-gacutil -i MimeKit.%{version}/lib/netstandard2.0/MimeKit.dll -package %{mingw_pkg_name} -root $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir} -gacdir mono/gac
+install -d -m 755 $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir}
+install -m 644 MimeKit.%{version}/lib/netstandard2.0/MimeKit.dll $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir}
 
 install -d -m 755 $RPM_BUILD_ROOT%{mingw32_datadir}/pkgconfig/
 install -m 644 MimeKit32.pc $RPM_BUILD_ROOT%{mingw32_datadir}/pkgconfig/MimeKit.pc
 
 # Mingw64
-install -d -m 755 $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir}/mono/gac
-gacutil -i MimeKit.%{version}/lib/netstandard2.0/MimeKit.dll -package %{mingw_pkg_name} -root $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir} -gacdir mono/gac
+install -d -m 755 $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir}
+install -m 644 MimeKit.%{version}/lib/netstandard2.0/MimeKit.dll $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir}
 
 install -d -m 755 $RPM_BUILD_ROOT%{mingw64_datadir}/pkgconfig/
 install -m 644 MimeKit64.pc $RPM_BUILD_ROOT%{mingw64_datadir}/pkgconfig/MimeKit.pc
@@ -109,14 +107,12 @@ install -m 644 MimeKit64.pc $RPM_BUILD_ROOT%{mingw64_datadir}/pkgconfig/MimeKit.
 
 %files -n mingw32-%{mingw_pkg_name}
 %defattr(-,root,root,-)
-%{mingw32_prefix}%{libdir}/mono/gac
-%{mingw32_prefix}%{libdir}/mono/MimeKit/MimeKit.dll
+%{mingw32_prefix}%{libdir}/MimeKit.dll
 %{mingw32_datadir}/pkgconfig/MimeKit.pc
 
 %files -n mingw64-%{mingw_pkg_name}
 %defattr(-,root,root,-)
-%{mingw64_prefix}%{libdir}/mono/gac
-%{mingw64_prefix}%{libdir}/mono/MimeKit/MimeKit.dll
+%{mingw64_prefix}%{libdir}/MimeKit.dll
 %{mingw64_datadir}/pkgconfig/MimeKit.pc
 
 

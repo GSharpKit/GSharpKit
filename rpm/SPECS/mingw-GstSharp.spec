@@ -4,6 +4,7 @@
 %global mingw_build_win32 1
 %global mingw_build_win64 1
 
+%define libdir /bin
 %define debug_package %{nil}
 
 Name:		mingw-GstSharp
@@ -29,7 +30,6 @@ plugins.
 # Mingw32
 %package -n mingw32-%{mingw_pkg_name}
 Summary:        %{summary}
-Requires:       mingw32-mono-core >= 5.14
 Requires:       mingw32-gstreamer1
 
 Obsoletes:	mingw32-gstreamer1-sharp
@@ -46,7 +46,6 @@ plugins.
 # Mingw64
 %package -n mingw64-%{mingw_pkg_name}
 Summary:        %{summary}
-Requires:       mingw64-mono-core >= 5.14
 Requires:       mingw64-gstreamer1
 
 Obsoletes:      mingw64-gstreamer1-sharp
@@ -67,24 +66,24 @@ nuget install %{mingw_pkg_name} -Version %{version}
 cat > gstreamer-sharp-1.0.pc32 << \EOF
 prefix=%{mingw32_prefix}
 exec_prefix=${prefix}
-libdir=${exec_prefix}/lib
+libdir=${exec_prefix}%{libdir}
 
 Name: %{mingw_pkg_name}
 Description: %{summary} 
 Version: %{version}
-Libs: -r:${libdir}/mono/gstreamer-sharp-1.0/gstreamer-sharp.dll
+Libs: -r:${libdir}/gstreamer-sharp.dll
 Requires: gtk-sharp-3.0
 EOF
 
 cat > gstreamer-sharp-1.0.pc64 << \EOF
 prefix=%{mingw64_prefix}
 exec_prefix=${prefix}
-libdir=${exec_prefix}/lib
+libdir=${exec_prefix}%{libdir}
 
 Name: %{mingw_pkg_name}
 Description: %{summary}
 Version: %{version}
-Libs: -r:${libdir}/mono/gstreamer-sharp-1.0/gstreamer-sharp.dll
+Libs: -r:${libdir}/gstreamer-sharp.dll
 Requires: gtk-sharp-3.0
 EOF
 
@@ -95,15 +94,15 @@ EOF
 %{__rm} -rf $RPM_BUILD_ROOT
 
 # Mingw32
-install -d -m 755 $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir}/mono/gac
-gacutil -i %{mingw_pkg_name}.%{version}/lib/net45/gstreamer-sharp.dll -package gstreamer-sharp-1.0 -root $RPM_BUILD_ROOT%{mingw32_prefix}/lib -gacdir mono/gac
+install -d -m 755 $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir}
+install -m 644 %{mingw_pkg_name}.%{version}/lib/net45/gstreamer-sharp.dll $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir}
 
 install -d -m 755 %{buildroot}%{mingw32_prefix}/share/pkgconfig
 install -m 644 gstreamer-sharp-1.0.pc32 %{buildroot}%{mingw32_prefix}/share/pkgconfig/gstreamer-sharp-1.0.pc
 
 # Mingw64
-install -d -m 755 $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir}/mono/gac
-gacutil -i %{mingw_pkg_name}.%{version}/lib/net45/gstreamer-sharp.dll -package gstreamer-sharp-1.0 -root $RPM_BUILD_ROOT%{mingw64_prefix}/lib -gacdir mono/gac
+install -d -m 755 $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir}
+install -m 644 %{mingw_pkg_name}.%{version}/lib/net45/gstreamer-sharp.dll $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir}
 
 install -d -m 755 %{buildroot}%{mingw64_prefix}/share/pkgconfig
 install -m 644 gstreamer-sharp-1.0.pc64 %{buildroot}%{mingw64_prefix}/share/pkgconfig/gstreamer-sharp-1.0.pc
@@ -114,14 +113,12 @@ rm -rf $RPM_BUILD_ROOT
 
 %files -n mingw32-%{mingw_pkg_name}
 %defattr(-,root,root)
-%{mingw32_prefix}/lib/mono/gac
-%{mingw32_prefix}/lib/mono/gstreamer-sharp-1.0/gstreamer-sharp.dll
+%{mingw32_prefix}%{libdir}/gstreamer-sharp.dll
 %{mingw32_datadir}/pkgconfig/gstreamer-sharp-1.0.pc
 
 %files -n mingw64-%{mingw_pkg_name}
 %defattr(-,root,root)
-%{mingw64_prefix}/lib/mono/gac
-%{mingw64_prefix}/lib/mono/gstreamer-sharp-1.0/gstreamer-sharp.dll
+%{mingw64_prefix}%{libdir}/gstreamer-sharp.dll
 %{mingw64_datadir}/pkgconfig/gstreamer-sharp-1.0.pc
 
 
