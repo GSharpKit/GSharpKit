@@ -11,7 +11,7 @@
 %define libdir /bin
 
 Name:           mingw-ServiceStack
-Version:        5.4.0
+Version:        5.5.0
 Release:        1%{?dist}
 Summary:        ServiceStack webservice framework: Faster, Cleaner, Modern WCF alternative.
 
@@ -24,8 +24,6 @@ BuildArch:	noarch
 
 BuildRequires:  mono-devel
 BuildRequires:  nuget
-
-Requires:	mono-core >= 4.0.0
 
 %description
 A simple and fast alternative to WCF, MVC and Web API in one cohesive framework 
@@ -116,9 +114,6 @@ install -m 644 ServiceStack.Common.%{version}/lib/net45/ServiceStack.Common.dll 
 install -m 644 ServiceStack.Client.%{version}/lib/net45/ServiceStack.Client.dll $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir}
 install -m 644 ServiceStack.Text.%{version}/lib/net45/ServiceStack.Text.dll $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir}
 install -m 644 ServiceStack.Interfaces.%{version}/lib/net45/ServiceStack.Interfaces.dll $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir}
-install -m 644  System.Memory.4.5.1/lib/netstandard2.0/System.Memory.dll $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir}
-install -m 644 System.Buffers.4.4.0/lib/netstandard2.0/System.Buffers.dll $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir}
-install -m 644 System.Numerics.Vectors.4.4.0/lib/netstandard2.0/System.Numerics.Vectors.dll $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir} 
 
 install -d -m 755 $RPM_BUILD_ROOT%{mingw32_datadir}/pkgconfig/
 install -m 644 ServiceStack32.pc $RPM_BUILD_ROOT%{mingw32_datadir}/pkgconfig/ServiceStack.pc
@@ -131,9 +126,6 @@ install -m 644 ServiceStack.Common.%{version}/lib/net45/ServiceStack.Common.dll 
 install -m 644 ServiceStack.Client.%{version}/lib/net45/ServiceStack.Client.dll $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir}
 install -m 644 ServiceStack.Text.%{version}/lib/net45/ServiceStack.Text.dll $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir}
 install -m 644 ServiceStack.Interfaces.%{version}/lib/net45/ServiceStack.Interfaces.dll $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir}
-install -m 644 System.Memory.4.5.1/lib/netstandard2.0/System.Memory.dll $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir}
-install -m 644 System.Buffers.4.4.0/lib/netstandard2.0/System.Buffers.dll $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir}
-install -m 644 System.Numerics.Vectors.4.4.0/lib/netstandard2.0/System.Numerics.Vectors.dll $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir}
 
 install -d -m 755 $RPM_BUILD_ROOT%{mingw64_datadir}/pkgconfig/
 install -m 644 ServiceStack64.pc $RPM_BUILD_ROOT%{mingw64_datadir}/pkgconfig/ServiceStack.pc
@@ -146,9 +138,6 @@ install -m 644 ServiceStack.Interfaces64.pc $RPM_BUILD_ROOT%{mingw64_datadir}/pk
 
 %files -n mingw32-%{mingw_pkg_name}
 %defattr(-,root,root,-)
-%{mingw32_prefix}%{libdir}/System.Numerics.Vectors.dll
-%{mingw32_prefix}%{libdir}/System.Memory.dll
-%{mingw32_prefix}%{libdir}/System.Buffers.dll
 %{mingw32_prefix}%{libdir}/ServiceStack.dll
 %{mingw32_prefix}%{libdir}/ServiceStack.Common.dll
 %{mingw32_prefix}%{libdir}/ServiceStack.Client.dll
@@ -159,9 +148,6 @@ install -m 644 ServiceStack.Interfaces64.pc $RPM_BUILD_ROOT%{mingw64_datadir}/pk
 
 %files -n mingw64-%{mingw_pkg_name}
 %defattr(-,root,root,-)
-%{mingw64_prefix}%{libdir}/System.Numerics.Vectors.dll
-%{mingw64_prefix}%{libdir}/System.Memory.dll
-%{mingw64_prefix}%{libdir}/System.Buffers.dll
 %{mingw64_prefix}%{libdir}/ServiceStack.dll
 %{mingw64_prefix}%{libdir}/ServiceStack.Common.dll
 %{mingw64_prefix}%{libdir}/ServiceStack.Client.dll

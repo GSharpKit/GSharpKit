@@ -94,7 +94,7 @@ install -m 644 System.Threading.Tasks.Extensions.4.5.2/lib/netstandard2.0/System
 install -m 644 System.Runtime.CompilerServices.Unsafe.4.5.2/lib/netstandard2.0/System.Runtime.CompilerServices.Unsafe.dll $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir}/
 install -m 644 System.Buffers.4.4.0/lib/netstandard2.0/System.Buffers.dll $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir}/
 install -m 644 System.Numerics.Vectors.4.4.0/lib/netstandard2.0/System.Numerics.Vectors.dll $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir}/
-#install -m 644 System.Memory.4.5.2/lib/netstandard2.0/System.Memory.dll $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir}/
+install -m 644 System.Memory.4.5.2/lib/netstandard2.0/System.Memory.dll $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir}/
 
 install -d -m 755 $RPM_BUILD_ROOT%{mingw32_datadir}/pkgconfig/
 install -m 644 Npgsql32.pc $RPM_BUILD_ROOT%{mingw32_datadir}/pkgconfig/Npgsql.pc
@@ -106,7 +106,7 @@ install -m 644 System.Threading.Tasks.Extensions.4.5.2/lib/netstandard2.0/System
 install -m 644 System.Runtime.CompilerServices.Unsafe.4.5.2/lib/netstandard2.0/System.Runtime.CompilerServices.Unsafe.dll $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir}/
 install -m 644 System.Buffers.4.4.0/lib/netstandard2.0/System.Buffers.dll $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir}/
 install -m 644 System.Numerics.Vectors.4.4.0/lib/netstandard2.0/System.Numerics.Vectors.dll $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir}/
-#install -m 644 System.Memory.4.5.2/lib/netstandard2.0/System.Memory.dll $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir}/
+install -m 644 System.Memory.4.5.2/lib/netstandard2.0/System.Memory.dll $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir}/
 
 install -d -m 755 $RPM_BUILD_ROOT%{mingw64_datadir}/pkgconfig/
 install -m 644 Npgsql64.pc $RPM_BUILD_ROOT%{mingw64_datadir}/pkgconfig/Npgsql.pc
@@ -121,7 +121,7 @@ install -m 644 Npgsql64.pc $RPM_BUILD_ROOT%{mingw64_datadir}/pkgconfig/Npgsql.pc
 %{mingw32_prefix}%{libdir}/System.Threading.Tasks.Extensions.dll
 %{mingw32_prefix}%{libdir}/System.Runtime.CompilerServices.Unsafe.dll
 %{mingw32_prefix}%{libdir}/System.Buffers.dll
-#{mingw32_prefix}%{libdir}/System.Memory.dll
+%{mingw32_prefix}%{libdir}/System.Memory.dll
 %{mingw32_prefix}%{libdir}/System.Numerics.Vectors.dll
 %{mingw32_datadir}/pkgconfig/Npgsql.pc
 
@@ -131,7 +131,7 @@ install -m 644 Npgsql64.pc $RPM_BUILD_ROOT%{mingw64_datadir}/pkgconfig/Npgsql.pc
 %{mingw64_prefix}%{libdir}/System.Threading.Tasks.Extensions.dll
 %{mingw64_prefix}%{libdir}/System.Runtime.CompilerServices.Unsafe.dll
 %{mingw64_prefix}%{libdir}/System.Buffers.dll
-#{mingw64_prefix}%{libdir}/System.Memory.dll
+%{mingw64_prefix}%{libdir}/System.Memory.dll
 %{mingw64_prefix}%{libdir}/System.Numerics.Vectors.dll
 %{mingw64_datadir}/pkgconfig/Npgsql.pc
 

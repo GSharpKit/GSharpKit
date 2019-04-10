@@ -8,7 +8,7 @@
 %define libdir /lib
 
 Name:           ServiceStack
-Version:        5.4.0
+Version:        5.5.0
 Release:        1%{?dist}
 Summary:        ServiceStack webservice framework: Faster, Cleaner, Modern WCF alternative.
 
@@ -71,11 +71,11 @@ gacutil -i ServiceStack.Client.%{version}/lib/net45/ServiceStack.Client.dll -pac
 gacutil -i ServiceStack.Text.%{version}/lib/net45/ServiceStack.Text.dll -package %{name}.Text -root $RPM_BUILD_ROOT%{_prefix}%{libdir} -gacdir mono/gac
 gacutil -i ServiceStack.Interfaces.%{version}/lib/net45/ServiceStack.Interfaces.dll -package %{name}.Interfaces -root $RPM_BUILD_ROOT%{_prefix}%{libdir} -gacdir mono/gac
 
-gacutil -i System.Memory.4.5.1/lib/netstandard2.0/System.Memory.dll -package System.Memory -root $RPM_BUILD_ROOT%{_prefix}%{libdir} -gacdir mono/gac
-gacutil -i System.Buffers.4.4.0/lib/netstandard2.0/System.Buffers.dll -package System.Buffers -root $RPM_BUILD_ROOT%{_prefix}%{libdir} -gacdir mono/gac
-
-install -d -m 755 $RPM_BUILD_ROOT%{_prefix}%{libdir}
-install -m 644 System.Numerics.Vectors.4.4.0/lib/netstandard2.0/System.Numerics.Vectors.dll $RPM_BUILD_ROOT%{_prefix}%{libdir} 
+# Installed by Npgsql
+#gacutil -i System.Memory.4.5.1/lib/netstandard2.0/System.Memory.dll -package System.Memory -root $RPM_BUILD_ROOT%{_prefix}%{libdir} -gacdir mono/gac
+#gacutil -i System.Buffers.4.4.0/lib/netstandard2.0/System.Buffers.dll -package System.Buffers -root $RPM_BUILD_ROOT%{_prefix}%{libdir} -gacdir mono/gac
+#install -d -m 755 $RPM_BUILD_ROOT%{_prefix}%{libdir}
+#install -m 644 System.Numerics.Vectors.4.4.0/lib/netstandard2.0/System.Numerics.Vectors.dll $RPM_BUILD_ROOT%{_prefix}%{libdir} 
 
 install -d -m 755 $RPM_BUILD_ROOT%{_datadir}/pkgconfig/
 install -m 644 ServiceStack.pc $RPM_BUILD_ROOT%{_datadir}/pkgconfig/
@@ -86,10 +86,7 @@ install -m 644 ServiceStack.Interfaces.pc $RPM_BUILD_ROOT%{_datadir}/pkgconfig/
 
 %files
 %defattr(-,root,root,-)
-%{_prefix}%{libdir}/System.Numerics.Vectors.dll
 %{_prefix}%{libdir}/mono/gac
-%{_prefix}%{libdir}/mono/System.Memory/System.Memory.dll
-%{_prefix}%{libdir}/mono/System.Buffers/System.Buffers.dll
 %{_prefix}%{libdir}/mono/ServiceStack/ServiceStack.dll
 %{_prefix}%{libdir}/mono/ServiceStack.Common/ServiceStack.Common.dll
 %{_prefix}%{libdir}/mono/ServiceStack.Client/ServiceStack.Client.dll

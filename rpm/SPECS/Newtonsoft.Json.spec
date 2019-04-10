@@ -1,11 +1,11 @@
 %global debug_package %{nil}
 
 %define libdir /lib
-%define api_version 11.0.0.0
+%define api_version 12.0.0.0
 
 Name:           Newtonsoft.Json
-Version:        11.0.2
-Release:        3%{?dist}
+Version:        12.0.1
+Release:        1%{?dist}
 Summary:        Json.NET is a popular high-performance JSON framework for .NET
 
 Group:          Development/Languages

@@ -3,6 +3,7 @@
 
 GSharpKit.json
 make-msi32.sh
+make-msi64.sh
 
 # Everything below should be auto-sorted. Edit gitignore.sh to add lines above.
 

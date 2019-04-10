@@ -3,11 +3,9 @@
 %define libdir /lib
 %define apiversion 1.50.0.0
 
-%define beta -RC2a
-
 Name:           PDFsharp-MigraDoc
-Version:        1.50.4845
-Release:        RC2a%{?dist}
+Version:        1.50.5147
+Release:        1%{?dist}
 Summary:        .NET library that easily creates documents and renders them into PDF or RTF.
 
 Group:          Development/Languages
@@ -28,7 +26,7 @@ object model with paragraphs, tables, styles, etc. and renders them into PDF or 
 
 %prep
 %setup -c %{name}-%{version} -T
-nuget install %{name} -Version %{version}%{beta}
+nuget install %{name} -Version %{version}
 
 cat > %{name}.pc << \EOF
 prefix=%{_prefix}
@@ -48,11 +46,11 @@ EOF
 %install
 %{__rm} -rf %{buildroot}
 
-gacutil -i %{name}.%{version}%{beta}/lib/net20/MigraDoc.DocumentObjectModel.dll -package %{name} -root $RPM_BUILD_ROOT%{_prefix}%{libdir} -gacdir mono/gac
-gacutil -i %{name}.%{version}%{beta}/lib/net20/MigraDoc.Rendering.dll -package %{name} -root $RPM_BUILD_ROOT%{_prefix}%{libdir} -gacdir mono/gac
-gacutil -i %{name}.%{version}%{beta}/lib/net20/MigraDoc.RtfRendering.dll -package %{name} -root $RPM_BUILD_ROOT%{_prefix}%{libdir} -gacdir mono/gac
-gacutil -i %{name}.%{version}%{beta}/lib/net20/PdfSharp.Charting.dll -package %{name} -root $RPM_BUILD_ROOT%{_prefix}%{libdir} -gacdir mono/gac
-gacutil -i %{name}.%{version}%{beta}/lib/net20/PdfSharp.dll -package %{name} -root $RPM_BUILD_ROOT%{_prefix}%{libdir} -gacdir mono/gac
+gacutil -i %{name}.%{version}/lib/net20/MigraDoc.DocumentObjectModel.dll -package %{name} -root $RPM_BUILD_ROOT%{_prefix}%{libdir} -gacdir mono/gac
+gacutil -i %{name}.%{version}/lib/net20/MigraDoc.Rendering.dll -package %{name} -root $RPM_BUILD_ROOT%{_prefix}%{libdir} -gacdir mono/gac
+gacutil -i %{name}.%{version}/lib/net20/MigraDoc.RtfRendering.dll -package %{name} -root $RPM_BUILD_ROOT%{_prefix}%{libdir} -gacdir mono/gac
+gacutil -i %{name}.%{version}/lib/net20/PdfSharp.Charting.dll -package %{name} -root $RPM_BUILD_ROOT%{_prefix}%{libdir} -gacdir mono/gac
+gacutil -i %{name}.%{version}/lib/net20/PdfSharp.dll -package %{name} -root $RPM_BUILD_ROOT%{_prefix}%{libdir} -gacdir mono/gac
 
 install -d -m 755 $RPM_BUILD_ROOT%{_datadir}/pkgconfig/
 install -m 644 %{name}.pc $RPM_BUILD_ROOT%{_datadir}/pkgconfig/

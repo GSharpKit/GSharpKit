@@ -1,10 +1,10 @@
 %global debug_package %{nil}
 
 %define libdir /lib
-%define apiversion 4.0.0.0
+%define apiversion 4.1.0.0
 
 Name:           Seal.net
-Version:        4.0.5
+Version:        4.1.0
 Release:        1%{?dist}
 Summary:        Seal.NET er et API som har til formål at lette udviklingen af software som overholder DGWS.
 
@@ -17,8 +17,6 @@ BuildArch:	noarch
 
 BuildRequires:  mono-devel
 BuildRequires:  nuget
-
-Requires:	mono-core >= 4.0.0
 
 Obsoletes:	SealApi
 Provides:	SealApi

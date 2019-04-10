@@ -78,7 +78,7 @@
 %define MONO_CORE_VERSION 5.18.0
 %define MICROSOFT_CSHARP_VERSION 4.5.0
 %define MONO_POSIX_NETSTANDARD_VERSION 1.0.0
-%define NPGSQL_VERSION 4.0.4
+%define NPGSQL_VERSION 4.0.5
 %define MONO_ADDINS_VERSION 1.3.8
 %define GTK3_SHARP_VERSION 3.22.24
 %define GDL_SHARP_VERSION 3.26.0
@@ -86,15 +86,15 @@
 %define DBUS_SHARP_VERSION 2:0.9.2
 %define DBUS_GLIB_SHARP_VERSION 0.6.0
 %define GST_SHARP_VERSION 1.14.2
-%define NEWTONSOFT_JSON_VERSION 11.0.2
+%define NEWTONSOFT_JSON_VERSION 12.0.1
 %define BOUNCY_CASTLE_VERSION 1.8.2
-%define MIMEKIT_VERSION 2.0.7
-%define MAILKIT_VERSION 2.0.7
+%define MIMEKIT_VERSION 2.1.3
+%define MAILKIT_VERSION 2.1.3
 %define GTK_MAC_INTEGRATION_SHARP_VERSION 0.9
-%define SERVICE_STACK_VERSION 5.4.0
-%define REST_SHARP_VERSION 106.5.4
-%define SEALAPI_VERSION 2.0.7
-%define PDFSHARP_MIGRADOC_VERSION 1.50.4845
+%define SERVICE_STACK_VERSION 5.5.0
+%define REST_SHARP_VERSION 106.6.9
+%define SEALAPI_VERSION 4.1.0
+%define PDFSHARP_MIGRADOC_VERSION 1.50.5147
 %define SPRACHE_VERSION 2.2.0
 %define SHARP_ZIP_LIB_VERSION 1.0.0
 %define LIBGPHOTO2_SHARP_VERSION 0.3.2
@@ -214,7 +214,7 @@ Requires:		MimeKit >= %{MIMEKIT_VERSION}
 Requires:		MailKit >= %{MAILKIT_VERSION}
 Requires:		ServiceStack >= %{SERVICE_STACK_VERSION}
 Requires:		RestSharp >= %{REST_SHARP_VERSION}
-Requires:		SealApi >= %{SEALAPI_VERSION}
+Requires:		Seal.net >= %{SEALAPI_VERSION}
 Requires:		Sprache >= %{SPRACHE_VERSION}
 Requires:		PDFsharp-MigraDoc >= %{PDFSHARP_MIGRADOC_VERSION}
 Requires:		SharpZipLib >= %{SHARP_ZIP_LIB_VERSION}
@@ -352,7 +352,7 @@ Requires:               mingw32-MimeKit >= %{MIMEKIT_VERSION}
 Requires:               mingw32-MailKit >= %{MAILKIT_VERSION}
 Requires:		mingw32-ServiceStack >= %{SERVICE_STACK_VERSION}
 Requires:		mingw32-RestSharp >= %{REST_SHARP_VERSION}
-Requires:		mingw32-SealApi >= %{SEALAPI_VERSION}
+Requires:		mingw32-Seal.net >= %{SEALAPI_VERSION}
 Requires:               mingw32-Sprache >= %{SPRACHE_VERSION}
 Requires:               mingw32-PDFsharp-MigraDoc >= %{PDFSHARP_MIGRADOC_VERSION}
 Requires:		mingw32-SharpZipLib >= %{SHARP_ZIP_LIB_VERSION}
@@ -461,7 +461,7 @@ Requires:               mingw64-MimeKit >= %{MIMEKIT_VERSION}
 Requires:               mingw64-MailKit >= %{MAILKIT_VERSION}
 Requires:		mingw64-ServiceStack >= %{SERVICE_STACK_VERSION}
 Requires:		mingw64-RestSharp >= %{REST_SHARP_VERSION}
-Requires:		mingw64-SealApi >= %{SEALAPI_VERSION}
+Requires:		mingw64-Seal.net >= %{SEALAPI_VERSION}
 Requires:               mingw64-Sprache >= %{SPRACHE_VERSION}
 Requires:               mingw64-PDFsharp-MigraDoc >= %{PDFSHARP_MIGRADOC_VERSION}
 Requires:		mingw64-SharpZipLib >= %{SHARP_ZIP_LIB_VERSION}
@@ -656,7 +656,7 @@ Requires:               darwinx-MimeKit >= %{MIMEKIT_VERSION}
 Requires:               darwinx-MailKit >= %{MAILKIT_VERSION}
 Requires:               darwinx-ServiceStack >= %{SERVICE_STACK_VERSION}
 Requires:		darwinx-RestSharp >= %{REST_SHARP_VERSION}
-Requires:		darwinx-SealApi >= %{SEALAPI_VERSION}
+Requires:		darwinx-Seal.net >= %{SEALAPI_VERSION}
 Requires:               darwinx-Sprache >= %{SPRACHE_VERSION}
 Requires:               darwinx-PDFsharp-MigraDoc >= %{PDFSHARP_MIGRADOC_VERSION}
 Requires:		darwinx-SharpZipLib >= %{SHARP_ZIP_LIB_VERSION}

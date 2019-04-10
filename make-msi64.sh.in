@@ -1,0 +1,24 @@
+#!/bin/bash
+
+SOURCEDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+TMPDIR=`mktemp -d -p "/tmp"`
+
+cp createmsi.py $TMPDIR/
+cp LICENSE $TMPDIR/License.rtf
+cp GSharpKit.json $TMPDIR/
+
+# Install to staging
+TMP="$TMPDIR/tmp"
+DIR="$TMPDIR/framework"
+
+mkdir -p $TMPDIR/tmp/usr/x86_64-w64-mingw32/sys-root/mingw
+
+sh make-msi-install.sh /usr/x86_64-w64-mingw32/sys-root/mingw $TMP/usr/x86_64-w64-mingw32/sys-root/mingw x64
+
+mv $TMP/usr/x86_64-w64-mingw32/sys-root/mingw $DIR
+
+pushd $TMPDIR
+python createmsi.py GSharpKit.json
+cp GSharpKit-@VERSION@.@VERSION_BUILD@-64.msi $SOURCEDIR/GSharpKit-@VERSION@-x64.msi
+popd
+

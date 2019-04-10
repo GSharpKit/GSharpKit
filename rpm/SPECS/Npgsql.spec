@@ -6,10 +6,10 @@
 %global debug_package %{nil}
 
 %define libdir /lib
-%define apiversion 4.0.0.0
+%define apiversion 4.0.5.0
 
 Name:           Npgsql
-Version:        4.0.4
+Version:        4.0.5
 Release:        1%{?dist}
 Summary:        Postgresql database connectivity for C#
 
@@ -50,7 +50,7 @@ Name: Npgsql
 Description: Npgsql - Postgresql database connectivity for C#
 Requires:
 Version: %{version}
-Libs: -r:${libdir}/mono/Npgsql/Npgsql.dll -r:${libdir}/mono/System.Threading.Tasks.Extensions/System.Threading.Tasks.Extensions.dll -r:${libdir}/System.Runtime.CompilerServices.Unsafe.dll
+Libs: -r:${libdir}/System.Threading.Tasks.Extensions.dll -r:${libdir}/System.Runtime.CompilerServices.Unsafe.dll -r:${libdir}/System.Buffers.dll -r:${libdir}/System.Memory.dll -r:${libdir}/System.Numerics.Vectors.dll -r:${libdir}/Npgsql.dll
 Cflags:
 EOF
 
@@ -60,10 +60,13 @@ EOF
 %{__rm} -rf %{buildroot}
 
 gacutil -i Npgsql.%{version}/lib/netstandard2.0/Npgsql.dll -package Npgsql -root $RPM_BUILD_ROOT%{_prefix}%{libdir} -gacdir mono/gac
-gacutil -i System.Threading.Tasks.Extensions.4.5.1/lib/netstandard2.0/System.Threading.Tasks.Extensions.dll -package System.Threading.Tasks.Extensions -root $RPM_BUILD_ROOT%{_prefix}%{libdir} -gacdir mono/gac
+gacutil -i System.Threading.Tasks.Extensions.4.5.2/lib/netstandard2.0/System.Threading.Tasks.Extensions.dll -package System.Threading.Tasks.Extensions -root $RPM_BUILD_ROOT%{_prefix}%{libdir} -gacdir mono/gac
+gacutil -i System.Buffers.4.4.0/lib/netstandard2.0/System.Buffers.dll -package System.Buffers -root $RPM_BUILD_ROOT%{_prefix}%{libdir} -gacdir mono/gac
+gacutil -i System.Memory.4.5.2/lib/netstandard2.0/System.Memory.dll -package System.Memory -root $RPM_BUILD_ROOT%{_prefix}%{libdir} -gacdir mono/gac
 
 install -d -m 755 $RPM_BUILD_ROOT%{_prefix}%{libdir}
-install -m 644 System.Runtime.CompilerServices.Unsafe.4.5.0/lib/netstandard2.0/System.Runtime.CompilerServices.Unsafe.dll $RPM_BUILD_ROOT%{_prefix}%{libdir}/
+install -m 644 System.Runtime.CompilerServices.Unsafe.4.5.2/lib/netstandard2.0/System.Runtime.CompilerServices.Unsafe.dll $RPM_BUILD_ROOT%{_prefix}%{libdir}/
+install -m 644 System.Numerics.Vectors.4.4.0/lib/netstandard2.0/System.Numerics.Vectors.dll $RPM_BUILD_ROOT%{_prefix}%{libdir}/
 
 install -d -m 755 $RPM_BUILD_ROOT%{_datadir}/pkgconfig/
 install -m 644 Npgsql.pc $RPM_BUILD_ROOT%{_datadir}/pkgconfig/
@@ -76,6 +79,9 @@ install -m 644 Npgsql.pc $RPM_BUILD_ROOT%{_datadir}/pkgconfig/
 %{_prefix}%{libdir}/mono/gac
 %{_prefix}%{libdir}/mono/Npgsql/Npgsql.dll
 %{_prefix}%{libdir}/mono/System.Threading.Tasks.Extensions/System.Threading.Tasks.Extensions.dll
+%{_prefix}%{libdir}/mono/System.Buffers/System.Buffers.dll
+%{_prefix}%{libdir}/mono/System.Memory/System.Memory.dll
+%{_prefix}%{libdir}/System.Numerics.Vectors.dll
 %{_prefix}%{libdir}/System.Runtime.CompilerServices.Unsafe.dll
 %{_datadir}/pkgconfig/Npgsql.pc
 
