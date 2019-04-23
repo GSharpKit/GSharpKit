@@ -61,7 +61,7 @@ Name: %{mingw_pkg_name}
 Description: %{mingw_pkg_name} - Seal.NET er et API som har til formål at lette udviklingen af software som overholder DGWS.
 Requires:
 Version: %{version}
-Libs: -r:${libdir}/%{name}/Seal.dll -r:${libdir}/%{name}/DgwsTypes.dll
+Libs: -r:${libdir}/Seal.dll -r:${libdir}/DgwsTypes.dll
 Cflags:
 EOF
 
@@ -74,7 +74,7 @@ Name: %{mingw_pkg_name}
 Description: %{mingw_pkg_name} - Seal.NET er et API som har til formål at lette udviklingen af software som overholder DGWS. 
 Requires:
 Version: %{version}
-Libs: -r:${libdir}/%{name}/Seal.dll -r:${libdir}/%{name}/DgwsTypes.dll
+Libs: -r:${libdir}/Seal.dll -r:${libdir}/DgwsTypes.dll
 Cflags:
 EOF
 

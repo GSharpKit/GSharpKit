@@ -9,10 +9,9 @@
 %define debug_package %{nil}
 
 %define libdir /bin
-%define apiversion 12.0.0.0
 
 Name:           mingw-Newtonsoft.Json
-Version:        12.0.1
+Version:        12.0.2
 Release:        1%{?dist}
 Summary:        Json.NET is a popular high-performance JSON framework for .NET
 

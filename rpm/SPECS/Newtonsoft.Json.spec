@@ -1,10 +1,9 @@
 %global debug_package %{nil}
 
 %define libdir /lib
-%define api_version 12.0.0.0
 
 Name:           Newtonsoft.Json
-Version:        12.0.1
+Version:        12.0.2
 Release:        1%{?dist}
 Summary:        Json.NET is a popular high-performance JSON framework for .NET
 
@@ -13,8 +12,6 @@ License:        MIT
 URL:            http://json.codeplex.com/
 Prefix:		/usr
 BuildArch:	noarch
-
-Requires:	mono-core >= 3.0.0
 
 Obsoletes:	newtonsoft-json
 Provides:	newtonsoft-json
@@ -34,7 +31,7 @@ libdir=%{_prefix}%{libdir}/mono
 Name: Newtonsoft.Json
 Description: Json.NET is a popular high-performance JSON framework for .NET
 Requires:
-Version: %{api_version}
+Version: %{version}
 Libs: -r:${libdir}/%{name}/Newtonsoft.Json.dll
 Cflags:
 EOF

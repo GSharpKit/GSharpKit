@@ -6,10 +6,9 @@
 %global debug_package %{nil}
 
 %define libdir /lib
-%define apiversion 4.0.5.0
 
 Name:           Npgsql
-Version:        4.0.5
+Version:        4.0.6
 Release:        1%{?dist}
 Summary:        Postgresql database connectivity for C#
 
@@ -50,7 +49,7 @@ Name: Npgsql
 Description: Npgsql - Postgresql database connectivity for C#
 Requires:
 Version: %{version}
-Libs: -r:${libdir}/System.Threading.Tasks.Extensions.dll -r:${libdir}/System.Runtime.CompilerServices.Unsafe.dll -r:${libdir}/System.Buffers.dll -r:${libdir}/System.Memory.dll -r:${libdir}/System.Numerics.Vectors.dll -r:${libdir}/Npgsql.dll
+Libs: -r:${libdir}/mono/System.Threading.Tasks.Extensions/System.Threading.Tasks.Extensions.dll -r:${libdir}/System.Runtime.CompilerServices.Unsafe.dll -r:${libdir}/mono/System.Buffers/System.Buffers.dll -r:${libdir}/mono/System.Memory/System.Memory.dll -r:${libdir}/System.Numerics.Vectors.dll -r:${libdir}/mono/Npgsql/Npgsql.dll
 Cflags:
 EOF
 

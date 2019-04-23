@@ -11,7 +11,7 @@
 %define libdir /bin
 
 Name:           mingw-MimeKit
-Version:        2.1.3
+Version:        2.1.4
 Release:        1%{?dist}
 Summary:        MimeKit is an Open Source library for creating and parsing MIME, S/MIME and PGP messages.
 

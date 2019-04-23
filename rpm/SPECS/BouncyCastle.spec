@@ -1,7 +1,6 @@
 %global debug_package %{nil}
 
 %define libdir /lib
-%define apiversion 1.8.0.0
 
 Name:           BouncyCastle
 Version:        1.8.2
@@ -47,7 +46,7 @@ Requires:	mono-core >= 4.8.0
 
 %prep
 %setup -c %{name}-%{version} -T
-nuget install %{name} -Version %{version}
+nuget install Portable.%{name} -Version %{version}
 
 cat > %{name}.pc << \EOF
 prefix=%{_prefix}
@@ -68,7 +67,7 @@ EOF
 %{__rm} -rf %{buildroot}
 
 install -d -m 755 $RPM_BUILD_ROOT%{_prefix}%{libdir}/mono/gac
-gacutil -i BouncyCastle.%{version}/lib/BouncyCastle.Crypto.dll -package BouncyCastle.Crypto -root $RPM_BUILD_ROOT%{_prefix}%{libdir} -gacdir mono/gac
+gacutil -i Portable.BouncyCastle.%{version}/lib/netstandard2.0/BouncyCastle.Crypto.dll -package BouncyCastle.Crypto -root $RPM_BUILD_ROOT%{_prefix}%{libdir} -gacdir mono/gac
 
 install -d -m 755 $RPM_BUILD_ROOT%{_datadir}/pkgconfig/
 install -m 644 BouncyCastle.pc $RPM_BUILD_ROOT%{_datadir}/pkgconfig/
