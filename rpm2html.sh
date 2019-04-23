@@ -101,7 +101,7 @@ MimeKit
 MailKit
 ServiceStack
 RestSharp
-SealApi
+Seal.net
 PDFsharp-MigraDoc
 SharpZipLib
 )
