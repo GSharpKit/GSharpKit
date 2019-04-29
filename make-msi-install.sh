@@ -25,7 +25,6 @@ cp $FROM/bin/sane-find-scanner.exe $TO/bin/
 # ETC directory
 mkdir $TO/etc
 cp -r $FROM/etc/dbus-1 $TO/etc/
-touch $TO/etc/dbus-1/session.d/empty
 cp -r $FROM/etc/fonts $TO/etc/
 cp -r $FROM/etc/gtk-3.0 $TO/etc/
 cp -r $FROM/etc/pki $TO/etc/
@@ -44,7 +43,10 @@ mv $TO/lib/libgphoto2/print-camera-list.exe $TO/bin/
 cp -r $FROM/lib/libgphoto2_port $TO/lib/
 
 # SHARE directory
-mkdir -p $TO/share/glib-2.0
+mkdir $TO/share
+cp -r $FROM/share/dbus-1 $TO/share/
+touch $TO/share/dbus-1/session.d/empty
+mkdir $TO/share/glib-2.0
 cp -r $FROM/share/glib-2.0/schemas $TO/share/glib-2.0/
 
 mkdir -p $TO/share/icons/Adwaita
