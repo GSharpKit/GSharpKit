@@ -12,7 +12,7 @@
 
 Name:           mingw-MailKit
 Version:        2.1.4
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        MailKit is an Open Source cross-platform .NET mail-client library.
 
 Group:          Development/Languages
@@ -107,14 +107,14 @@ EOF
 
 # Mingw32
 install -d -m 755 $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir}
-install -m 644 MailKit.%{version}/lib/netstandard2.0/MailKit.dll $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir}
+install -m 644 MailKit.%{version}/lib/net45/MailKit.dll $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir}
 
 install -d -m 755 $RPM_BUILD_ROOT%{mingw32_datadir}/pkgconfig/
 install -m 644 MailKit32.pc $RPM_BUILD_ROOT%{mingw32_datadir}/pkgconfig/MailKit.pc
 
 # Mingw64
 install -d -m 755 $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir}
-install -m 644 MailKit.%{version}/lib/netstandard2.0/MailKit.dll $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir}
+install -m 644 MailKit.%{version}/lib/net45/MailKit.dll $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir}
 
 install -d -m 755 $RPM_BUILD_ROOT%{mingw64_datadir}/pkgconfig/
 install -m 644 MailKit64.pc $RPM_BUILD_ROOT%{mingw64_datadir}/pkgconfig/MailKit.pc
