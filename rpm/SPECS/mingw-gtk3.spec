@@ -6,10 +6,10 @@
 
 # Only enable if using patches that touches configure.ac,
 # Makefile.am or other build system related files
-%define enable_autoreconf 0
+%define enable_autoreconf 1
 
 Name:           mingw-gtk3
-Version:        3.24.7
+Version:        3.24.8
 Release:        1%{?dist}
 Summary:        MinGW Windows GTK+ library
 
@@ -146,11 +146,9 @@ autoreconf --install --force
 
 %build
 export GLIB_COMPILE_RESOURCES=/usr/bin/glib-compile-resources
-%mingw_configure \
-  --disable-cups
+%mingw_configure --disable-cups
 
 %mingw_make %{?_smp_mflags} V=1
-
 
 %install
 %mingw_make install DESTDIR=$RPM_BUILD_ROOT
