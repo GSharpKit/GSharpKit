@@ -4,7 +4,7 @@
 
 Name:           GtkSharp
 Version:        3.22.24
-Release:        30%{?dist}
+Release:        31%{?dist}
 Summary:        GTK+ and GNOME bindings for Mono
 
 Group:          System Environment/Libraries
@@ -15,6 +15,7 @@ Source1:        gdk-sharp-3.0.pc
 Source2:        glib-sharp-3.0.pc
 Source3:        gio-sharp-3.0.pc
 Source4:        gtk-sharp-3.0.pc
+Source5:	GtkSharp.snk
 Source100:	gapi3-codegen
 Source101:	gapi3-fixup
 Source102:	gapi3-parser 
@@ -26,7 +27,9 @@ Source107:	gapi_pp.pl
 Source108:	gapi-3.0.pc
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
-BuildRequires:  mono-devel, libmono-2_0-devel, gtk3-devel, cairo-devel, monodoc, perl-XML-LibXML
+BuildArch:      noarch
+
+BuildRequires:  dotnet-sdk-2.2, gtk3-devel, cairo-devel, perl-XML-LibXML
 BuildRequires:  meson
 
 Obsoletes:	gtk-sharp3
@@ -60,6 +63,8 @@ the GAPI tools and found in Gtk# include Gtk, Atk, Pango, Gdk.
 
 %prep
 %setup -q
+
+cp %{SOURCE5} Source/
 
 # Fix permissions of source files
 find -name '*.c' -exec chmod a-x {} \;
@@ -103,8 +108,6 @@ install -m 644 %{SOURCE2} %{buildroot}%{_prefix}/share/pkgconfig/
 install -m 644 %{SOURCE3} %{buildroot}%{_prefix}/share/pkgconfig/
 install -m 644 %{SOURCE4} %{buildroot}%{_prefix}/share/pkgconfig/
 install -m 644 %{SOURCE108} %{buildroot}%{_prefix}/share/pkgconfig/
-
-sed -i -e 's!@PREFIX@!${pcfiledir}/../..!g' %{buildroot}%{_prefix}/share/pkgconfig/*.pc
 
 mkdir -p %{buildroot}%{_prefix}/share/gapi-3.0
 cp Source/Libs/*/*Sharp-api.xml %{buildroot}%{_prefix}/share/gapi-3.0/

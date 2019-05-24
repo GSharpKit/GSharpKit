@@ -10,17 +10,18 @@
 
 Name:           mingw-GtkSharp
 Version:        3.22.24
-Release:        30%{?dist}
+Release:        31%{?dist}
 Summary:        GTK+ and GNOME bindings for Mono
 
 Group:          System Environment/Libraries
 License:        LGPLv2+
 URL:            https://github.com/GtkSharp/GtkSharp
 Source0:        GtkSharp-%{version}.tar.gz
-Source1:        gdk-sharp-3.0.pc
-Source2:        glib-sharp-3.0.pc
-Source3:        gio-sharp-3.0.pc
-Source4:        gtk-sharp-3.0.pc
+Source1:        mingw-gdk-sharp-3.0.pc
+Source2:        mingw-glib-sharp-3.0.pc
+Source3:        mingw-gio-sharp-3.0.pc
+Source4:        mingw-gtk-sharp-3.0.pc
+Source5:	GtkSharp.snk
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:  redhat-rpm-config
@@ -36,10 +37,8 @@ BuildRequires:  mingw32-glib2
 BuildRequires:  mingw64-glib2
 BuildRequires:	mingw32-gtk3
 BuildRequires:	mingw64-gtk3
-BuildRequires:  mingw32-mono-core >= 3.12
-BuildRequires:  mingw64-mono-core >= 3.12
 
-BuildRequires:  mono-devel >= 3.12
+BuildRequires: dotnet-sdk-2.2 
 
 BuildArch:	noarch
 
@@ -81,6 +80,8 @@ tools and libraries (corlib, XML, System.Security, ZipLib,
 %prep
 %setup -q -n GtkSharp-%{version}
 
+cp %{SOURCE5} Source/
+
 %build
 sh build.sh
 
@@ -99,10 +100,10 @@ install -m 644 BuildOutput/Release/GtkSharp.dll $RPM_BUILD_ROOT%{mingw32_prefix}
 install -m 644 BuildOutput/Release/PangoSharp.dll $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir}
 
 mkdir -p %{buildroot}%{mingw32_prefix}/share/pkgconfig
-install -m 644 %{SOURCE1} %{buildroot}%{mingw32_prefix}/share/pkgconfig/
-install -m 644 %{SOURCE2} %{buildroot}%{mingw32_prefix}/share/pkgconfig/
-install -m 644 %{SOURCE3} %{buildroot}%{mingw32_prefix}/share/pkgconfig/
-install -m 644 %{SOURCE4} %{buildroot}%{mingw32_prefix}/share/pkgconfig/
+install -m 644 %{SOURCE1} %{buildroot}%{mingw32_prefix}/share/pkgconfig/gdk-sharp-3.0.pc
+install -m 644 %{SOURCE2} %{buildroot}%{mingw32_prefix}/share/pkgconfig/glib-sharp-3.0.pc
+install -m 644 %{SOURCE3} %{buildroot}%{mingw32_prefix}/share/pkgconfig/gio-sharp-3.0.pc
+install -m 644 %{SOURCE4} %{buildroot}%{mingw32_prefix}/share/pkgconfig/gtk-sharp-3.0.pc
 
 sed -i -e 's!@PREFIX@!%{mingw32_prefix}!g' %{buildroot}%{mingw32_prefix}/share/pkgconfig/*.pc
 
@@ -122,10 +123,10 @@ install -m 644 BuildOutput/Release/GtkSharp.dll $RPM_BUILD_ROOT%{mingw64_prefix}
 install -m 644 BuildOutput/Release/PangoSharp.dll $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir}
 
 mkdir -p %{buildroot}%{mingw64_prefix}/share/pkgconfig
-install -m 644 %{SOURCE1} %{buildroot}%{mingw64_prefix}/share/pkgconfig/
-install -m 644 %{SOURCE2} %{buildroot}%{mingw64_prefix}/share/pkgconfig/
-install -m 644 %{SOURCE3} %{buildroot}%{mingw64_prefix}/share/pkgconfig/
-install -m 644 %{SOURCE4} %{buildroot}%{mingw64_prefix}/share/pkgconfig/
+install -m 644 %{SOURCE1} %{buildroot}%{mingw64_prefix}/share/pkgconfig/gdk-sharp-3.0.pc
+install -m 644 %{SOURCE2} %{buildroot}%{mingw64_prefix}/share/pkgconfig/glib-sharp-3.0.pc
+install -m 644 %{SOURCE3} %{buildroot}%{mingw64_prefix}/share/pkgconfig/gio-sharp-3.0.pc
+install -m 644 %{SOURCE4} %{buildroot}%{mingw64_prefix}/share/pkgconfig/gtk-sharp-3.0.pc
 
 sed -i -e 's!@PREFIX@!%{mingw64_prefix}!g' %{buildroot}%{mingw64_prefix}/share/pkgconfig/*.pc
 
