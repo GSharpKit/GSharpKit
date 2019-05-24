@@ -1,7 +1,7 @@
-FROM fedora:27
+FROM fedora:@FEDORA_VERSION@
 MAINTAINER Mikkel Kruse Johnsen <mikkel@xmedicus.com>
 
-RUN rpm -Uvh http://yum.gsharpkit.org/gsharpkit/fedora-27-x86_64/RPMS/GSharpKit-release-27.18-1.fc27.noarch.rpm
+RUN rpm -Uvh http://yum.gsharpkit.org/gsharpkit/fedora-@FEDORA_VERSION@-x86_64/RPMS/GSharpKit-release-@VERSION@-@RELEASE@.fc@FEDORA_VERSION@.noarch.rpm
 
 ADD packages/darwinx-*.noarch.rpm /tmp/
 RUN rpm -Uvh --nodeps --ignoreos /tmp/darwinx-*.noarch.rpm && rm -f /tmp/darwinx-*.noarch.rpm

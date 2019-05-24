@@ -1,7 +1,7 @@
 %define MINGW_FILESYSTEM_VERSION 104
-%define BINUTILS_VERSION 2.29
-%define HEADER_CRT_THREAD_VERSION 5.0.2
-%define COMPILER_VERSION 7.3.0
+%define BINUTILS_VERSION 2.30
+%define HEADER_CRT_THREAD_VERSION 5.0.4
+%define COMPILER_VERSION 8.3.0
 %define PKG_CONFIG_VERSION 0.28
 %define TERMCAP_VERSION 1.3.1
 %define ZLIB_VERSION 1.2.8
@@ -9,7 +9,7 @@
 %define GETTEXT_VERSION 0.19.7
 %define LIBFFI_VERSION 3.1
 %define PCRE_VERSION 8.38
-%define GLIB2_VERSION 2.58.1
+%define GLIB2_VERSION 2.58.3
 %define PIXMAN_VERSION 0.34.0
 %define BZIP2_VERSION 1.0.6
 %define FREETYPE_VERSION 2.8
@@ -67,15 +67,15 @@
 %define WEBKITGTK3_VERSION 2.4.11
 %define LIBEXIF_VERSION 0.6.20
 
-%define DBUS_VERSION 1.8.16
-%define DBUS_GLIB_VERSION 0.108
+%define DBUS_VERSION 1.12.12
+%define DBUS_GLIB_VERSION 0.110
 
 %define LIBUSB_VERSION 1.0.22
 %define LIBGPHOTO2_VERSION 2.5.16
 %define SANE_BACKENDS_VERSION 1.0.27
 %define TWAIN_DSM_VERSION 2.3.1
 
-%define MONO_CORE_VERSION 5.18.0
+%define MONO_CORE_VERSION 5.20.1
 %define MICROSOFT_CSHARP_VERSION 4.5.0
 %define MONO_POSIX_NETSTANDARD_VERSION 1.0.0
 %define NPGSQL_VERSION 4.0.6
@@ -106,7 +106,7 @@
 
 Summary: 		Easy management of applications
 Name: 			GSharpKit
-Version:		29.3
+Version:		30.1
 Release:		1%{?dist}
 License:		GPL
 Group: 			Applications/Desktop
@@ -247,7 +247,7 @@ Requires:		meson
 Requires:		gtk-sharp3-devel gtk-sharp3-gapi
 
 Requires:		gnome-sharp
-Requires:		dotnet-sdk-2.1
+Requires:		dotnet-sdk-2.2
 Requires:		msbuild
 Requires:		netstandard
 
@@ -484,6 +484,7 @@ BuildArch:              noarch
 Obsoletes:              appbox-sdk-mingw
 Provides:               appbox-sdk-mingw
 
+Requires:		GSharpKit-sdk
 Requires:		GSharpKit-sdk-mingw32
 Requires:		GSharpKit-sdk-mingw64
 
@@ -711,15 +712,15 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-, root, root)
-#%doc AUTHORS COPYING ChangeLog INSTALL NEWS README TODO LICENSE
-#%attr(0775,root,root) %{_prefix}/bin/gsharpkit
-#%{_libdir}/mono/gsharpkit/GSharpKit.Config.dll
-#%{_libdir}/mono/gsharpkit/GSharpKit.Utils.dll
-#%{_libdir}/mono/gsharpkit/gsharpkit.exe
-#%{_libdir}/mono/gac
-#%{_datadir}/gsharpkit/ui/gsharpkit.xml
-#%{_datadir}/applications/gsharpkit.desktop
-#%{_datadir}/locale
+#doc AUTHORS COPYING ChangeLog INSTALL NEWS README TODO LICENSE
+#attr(0775,root,root) {_prefix}/bin/gsharpkit
+#{_libdir}/mono/gsharpkit/GSharpKit.Config.dll
+#{_libdir}/mono/gsharpkit/GSharpKit.Utils.dll
+#{_libdir}/mono/gsharpkit/gsharpkit.exe
+#{_libdir}/mono/gac
+#{_datadir}/gsharpkit/ui/gsharpkit.xml
+#{_datadir}/applications/gsharpkit.desktop
+#{_datadir}/locale
 
 
 %files release
@@ -732,8 +733,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_sysconfdir}/pki/rpm-gpg/RPM-GPG-KEY-microsoft
 %{_sysconfdir}/yum/pluginconf.d/yum_ignoreos.conf
 %{_datadir}/yum-plugins/yum_ignoreos.py
-%{_datadir}/yum-plugins/yum_ignoreos.pyc
-%{_datadir}/yum-plugins/yum_ignoreos.pyo
+#%{_datadir}/yum-plugins/yum_ignoreos.pyc
+#%{_datadir}/yum-plugins/yum_ignoreos.pyo
 
 
 %files runtime

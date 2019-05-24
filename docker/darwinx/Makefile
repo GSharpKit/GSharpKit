@@ -1,5 +1,4 @@
-FEDORA_VERSION = 27
-VERSION = 27.18
+include ../config
 
 all: pull build tag push
 
@@ -7,6 +6,10 @@ pull:
 	sudo docker pull fedora:${FEDORA_VERSION}
 
 build:
+	cp Dockerfile.in Dockerfile
+	sed -i -e 's!@VERSION@!${VERSION}!g' Dockerfile
+	sed -i -e 's!@RELEASE@!${RELEASE}!g' Dockerfile
+	sed -i -e 's!@FEDORA_VERSION@!${FEDORA_VERSION}!g' Dockerfile
 	sudo docker build --no-cache -t gsharpkit-darwinx .
 
 tag:

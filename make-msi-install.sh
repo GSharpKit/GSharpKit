@@ -33,7 +33,7 @@ cp -r $FROM/etc/sane.d $TO/etc/
 # LIB directory
 mkdir $TO/lib
 cp -r $FROM/lib/enchant $TO/lib/
-cp -r $FROM/lib/engines $TO/lib/
+cp -r $FROM/lib/engines-1_1 $TO/lib/
 cp -r $FROM/lib/gdk-pixbuf-2.0 $TO/lib/
 cp -r $FROM/lib/gio $TO/lib/
 cp -r $FROM/lib/gstreamer-1.0 $TO/lib/

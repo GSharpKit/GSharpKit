@@ -1,6 +1,4 @@
-FEDORA_VERSION = 29
-VERSION = 29.2
-RELEASE = 1
+include ../config
 
 all: pull build tag push
 

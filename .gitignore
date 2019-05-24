@@ -64,6 +64,7 @@ RPMS
 SOURCES.bak
 SRPMS
 docker/darwinx/packages
+docker/darwinx/Dockerfile
 docker/linux/Dockerfile
 docker/mingw/Dockerfile
 rpm/SOURCES/proxy.1
