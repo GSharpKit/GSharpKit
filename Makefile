@@ -1,4 +1,4 @@
-VERSION = 30.3
+VERSION = 30.4
 VERSION_BUILD = 1
 
 msi32: GSharpKit.json.in make-msi32.sh.in
