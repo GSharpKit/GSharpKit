@@ -106,7 +106,7 @@
 
 Summary: 		Easy management of applications
 Name: 			GSharpKit
-Version:		30.1
+Version:		30.3
 Release:		1%{?dist}
 License:		GPL
 Group: 			Applications/Desktop

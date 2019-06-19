@@ -10,7 +10,7 @@
 
 Name:           mingw-GtkSharp
 Version:        3.22.24
-Release:        31%{?dist}
+Release:        33%{?dist}
 Summary:        GTK+ and GNOME bindings for Mono
 
 Group:          System Environment/Libraries
