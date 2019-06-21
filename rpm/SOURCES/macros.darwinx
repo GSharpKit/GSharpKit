@@ -1,7 +1,10 @@
 # RPM macros for Fedora Darwin.
 
-%_darwinx_i686_target     i686-apple-darwin10
-%_darwinx_x86_64_target   x86_64-apple-darwin10
+%__xz                     /usr/local/bin/xz
+%_bindir                  /usr/local/bin
+
+%_darwinx_i686_target     i686-apple-darwin13
+%_darwinx_x86_64_target   x86_64-apple-darwin13
 
 %_darwinx_all_targets     %{_darwinx_x86_64_target}
 %_darwinx_base_target     darwinx
@@ -47,8 +50,6 @@
 %_darwinx_strings         strings
 %_darwinx_strip           strip
 
-%__xz			  /usr/local/bin/xz
-
 %_darwinx_findprovides    %{_cross_findprovides}
 %_darwinx_findrequires    %{_cross_findrequires}
 
@@ -66,7 +67,7 @@
     declare -x $x="$i" ; export $x; \
   done; \
   unset _PREFIX; \
-  MACOSX_DEPLOYMENT_TARGET=10.5; export MACOSX_DEPLOYMENT_TARGET; \
+  MACOSX_DEPLOYMENT_TARGET=10.9; export MACOSX_DEPLOYMENT_TARGET; \
   CC="${DARWINX_CC:-%_darwinx_cc}"; export CC; \
   CFLAGS="${DARWINX_CFLAGS:-%_darwinx_cflags}"; export CFLAGS; \
   CPPFLAGS="${DARWINX_CPPFLAGS:-%_darwinx_cppflags}"; export CPPFLAGS; \
@@ -86,7 +87,7 @@
   unset x i
 
 %_darwinx_pkg_config \
-  PKG_CONFIG_LIBDIR="%{_darwinx_libdir}/pkgconfig:%{_darwinx_datadir}/pkgconfig"; export PKG_CONFIG_LIBDIR; \
+  PKG_CONFIG_LIBDIR="%{_darwinx_libdir}/pkgconfig:%{_darwinx_datadir}/pkgconfig:/Library/GSharpKit/lib/pkgconfig"; export PKG_CONFIG_LIBDIR; \
   unset PKG_CONFIG_PATH; \
   pkg-config
 
@@ -94,7 +95,7 @@
   __darwinx_topdir=.; if ! test -x configure; then __darwinx_topdir=..; fi; \\\
   $__darwinx_topdir/configure \\\
 	--host=%{_darwinx_x86_64_target} \\\
-	--build=%_build \\\
+	--build=%{_darwinx_x86_64_target} \\\
 	--target=%{_darwinx_x86_64_target} \\\
 	--prefix=%{_darwinx_prefix} \\\
 	--exec-prefix=%{_darwinx_exec_prefix} \\\

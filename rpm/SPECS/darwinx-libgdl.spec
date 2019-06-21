@@ -1,5 +1,5 @@
 Name:           darwinx-libgdl
-Version:        3.26.0
+Version:        3.28.0
 Release:        1%{?dist}
 Summary:        Mac OS X GDL library
 
@@ -35,7 +35,7 @@ suites.
 %setup -q -n gdl-%{version}
 
 %build
-%{_darwinx_configure}
+%{_darwinx_configure} --disable-nls
 
 %{_darwinx_make} %{?_smp_mflags} V=1
 

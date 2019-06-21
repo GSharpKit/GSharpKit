@@ -1,6 +1,6 @@
 Name:		darwinx-webkitgtk3-sharp
 Version:	2.4.11
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	.NET bindings for WebKit
 Group:		Development/Languages
 License:	MIT
@@ -15,7 +15,6 @@ BuildRequires:	darwinx-mono-core
 BuildRequires:	darwinx-GtkSharp >= 3.14.0
 
 Requires:  	darwinx-webkitgtk3 >= %{version}
-Requires:  	darwinx-mono-core
 Requires:  	darwinx-GtkSharp >= 3.14.0
 
 %description

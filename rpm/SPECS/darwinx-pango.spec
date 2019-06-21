@@ -1,5 +1,5 @@
 Name:           darwinx-pango
-Version:        1.40.14
+Version:        1.42.4
 Release:        1%{?dist}
 Summary:        Darwin Pango library
 
@@ -21,6 +21,7 @@ BuildRequires:  darwinx-freetype
 BuildRequires:  darwinx-fontconfig
 BuildRequires:  darwinx-cairo >= 1.12
 BuildRequires:  darwinx-harfbuzz
+BuildRequires:  darwinx-fribidi
 BuildRequires:  darwinx-gettext
 BuildRequires:  darwinx-glib2
 BuildRequires:  darwinx-libpng
@@ -109,6 +110,7 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(-,root,root,-)
 %doc COPYING
 %{_darwinx_bindir}/pango-view
+%{_darwinx_bindir}/pango-list
 %{_darwinx_includedir}/pango-1.0/
 %{_darwinx_libdir}/libpango-1.0.0.dylib
 %{_darwinx_libdir}/libpango-1.0.dylib

@@ -1,0 +1,3 @@
+#!/bin/sh
+export PATH=/usr/darwinx/usr/lib/gapi-3.0:$PATH
+mono --debug /usr/darwinx/usr/lib/gapi-3.0/gapi-parser.exe "$@"

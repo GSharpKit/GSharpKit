@@ -1,5 +1,5 @@
 Name:           darwinx-harfbuzz
-Version:        1.4.8
+Version:        2.0.2
 Release:        1%{?dist}
 Summary:        Darwin Text shaping library
 
@@ -59,6 +59,8 @@ make DESTDIR=$RPM_BUILD_ROOT install
 
 rm -rf $RPM_BUILD_ROOT%{_darwinx_datadir}
 
+rm -f $RPM_BUILD_ROOT%{_darwinx_libdir}/cmake/harfbuzz/harfbuzz-config.cmake
+
 %clean
 rm -rf $RPM_BUILD_ROOT
 
@@ -69,6 +71,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_darwinx_bindir}/hb-ot-shape-closure
 %{_darwinx_bindir}/hb-shape
 %{_darwinx_bindir}/hb-view
+%{_darwinx_bindir}/hb-subset
 %{_darwinx_includedir}/harfbuzz
 %{_darwinx_libdir}/libharfbuzz.0.dylib
 %{_darwinx_libdir}/libharfbuzz.dylib
@@ -76,13 +79,18 @@ rm -rf $RPM_BUILD_ROOT
 %{_darwinx_libdir}/libharfbuzz-icu.0.dylib
 %{_darwinx_libdir}/libharfbuzz-icu.dylib
 %{_darwinx_libdir}/libharfbuzz-icu.la
+%{_darwinx_libdir}/libharfbuzz-subset.0.dylib
+%{_darwinx_libdir}/libharfbuzz-subset.dylib
+%{_darwinx_libdir}/libharfbuzz-subset.la
 %{_darwinx_libdir}/pkgconfig/harfbuzz.pc
 %{_darwinx_libdir}/pkgconfig/harfbuzz-icu.pc
+%{_darwinx_libdir}/pkgconfig/harfbuzz-subset.pc
 
 %files static
 %defattr(-,root,root,-)
 %{_darwinx_libdir}/libharfbuzz.a
 %{_darwinx_libdir}/libharfbuzz-icu.a
+%{_darwinx_libdir}/libharfbuzz-subset.a
  
 
 %changelog

@@ -1,12 +1,11 @@
 %global debug_package %{nil}
 
+%define darwinx_pkg_name PDFsharp-MigraDoc
 %define libdir /lib
 
-%define beta -beta5
-
 Name:           darwinx-PDFsharp-MigraDoc
-Version:        1.50.4740
-Release:        beta5%{?dist}
+Version:        1.50.5147
+Release:        1%{?dist}
 Summary:        .NET library that easily creates documents and renders them into PDF or RTF.
 
 Group:          Development/Languages
@@ -16,26 +15,24 @@ Prefix:		/usr
 
 BuildArch:	noarch
 
-Requires:	darwinx-mono-core >= 3.0
-
 %description
 MigraDoc Foundation - the Open Source .NET library that easily creates documents based on an 
 object model with paragraphs, tables, styles, etc. and renders them into PDF or RTF.
 
 %prep
 %setup -c %{name}-%{version} -T
-nuget install PDFsharp-MigraDoc -Version %{version}%{beta}
+nuget install PDFsharp-MigraDoc -Version %{version}
 
 cat > PDFsharp-MigraDoc.pc << \EOF
 prefix=%{_darwinx_prefix}
 exec_prefix=${prefix}
-libdir=%{_darwinx_prefix}%{libdir}/mono
+libdir=%{_darwinx_prefix}%{libdir}
 
 Name: PDFsharp-MigraDoc
 Description: PDFsharp-MigraDoc - %{summary}
 Requires:
 Version: %{version}
-Libs: -r:${libdir}/PDFsharp-MigraDoc/PdfSharp.dll -r:${libdir}/PDFsharp-MigraDoc/PdfSharp.Charting.dll -r:${libdir}/PDFsharp-MigraDoc/MigraDoc.RtfRendering.dll -r:${libdir}/PDFsharp-MigraDoc/MigraDoc.Rendering.dll -r:${libdir}/PDFsharp-MigraDoc/MigraDoc.DocumentObjectModel.dll
+Libs: -r:${libdir}/PdfSharp.dll -r:${libdir}/PdfSharp.Charting.dll -r:${libdir}/MigraDoc.RtfRendering.dll -r:${libdir}/MigraDoc.Rendering.dll -r:${libdir}/MigraDoc.DocumentObjectModel.dll 
 Cflags:
 EOF
 
@@ -44,11 +41,12 @@ EOF
 %install
 %{__rm} -rf %{buildroot}
 
-gacutil -i PDFsharp-MigraDoc.%{version}%{beta}/lib/net20/MigraDoc.DocumentObjectModel.dll -package PDFsharp-MigraDoc -root $RPM_BUILD_ROOT%{_darwinx_prefix}%{libdir} -gacdir mono/gac
-gacutil -i PDFsharp-MigraDoc.%{version}%{beta}/lib/net20/MigraDoc.Rendering.dll -package PDFsharp-MigraDoc -root $RPM_BUILD_ROOT%{_darwinx_prefix}%{libdir} -gacdir mono/gac
-gacutil -i PDFsharp-MigraDoc.%{version}%{beta}/lib/net20/MigraDoc.RtfRendering.dll -package PDFsharp-MigraDoc -root $RPM_BUILD_ROOT%{_darwinx_prefix}%{libdir} -gacdir mono/gac
-gacutil -i PDFsharp-MigraDoc.%{version}%{beta}/lib/net20/PdfSharp.Charting.dll -package PDFsharp-MigraDoc -root $RPM_BUILD_ROOT%{_darwinx_prefix}%{libdir} -gacdir mono/gac
-gacutil -i PDFsharp-MigraDoc.%{version}%{beta}/lib/net20/PdfSharp.dll -package PDFsharp-MigraDoc -root $RPM_BUILD_ROOT%{_darwinx_prefix}%{libdir} -gacdir mono/gac
+install -d -m 755 $RPM_BUILD_ROOT%{_darwinx_prefix}%{libdir}
+install -m 644 %{darwinx_pkg_name}.%{version}/lib/net20/MigraDoc.DocumentObjectModel.dll $RPM_BUILD_ROOT%{_darwinx_prefix}%{libdir}
+install -m 644 %{darwinx_pkg_name}.%{version}/lib/net20/MigraDoc.Rendering.dll $RPM_BUILD_ROOT%{_darwinx_prefix}%{libdir}
+install -m 644 %{darwinx_pkg_name}.%{version}/lib/net20/MigraDoc.RtfRendering.dll $RPM_BUILD_ROOT%{_darwinx_prefix}%{libdir}
+install -m 644 %{darwinx_pkg_name}.%{version}/lib/net20/PdfSharp.Charting.dll $RPM_BUILD_ROOT%{_darwinx_prefix}%{libdir}
+install -m 644 %{darwinx_pkg_name}.%{version}/lib/net20/PdfSharp.dll $RPM_BUILD_ROOT%{_darwinx_prefix}%{libdir}
 
 install -d -m 755 $RPM_BUILD_ROOT%{_darwinx_datadir}/pkgconfig/
 install -m 644 PDFsharp-MigraDoc.pc $RPM_BUILD_ROOT%{_darwinx_datadir}/pkgconfig/
@@ -58,12 +56,11 @@ install -m 644 PDFsharp-MigraDoc.pc $RPM_BUILD_ROOT%{_darwinx_datadir}/pkgconfig
 
 %files
 %defattr(-,root,root,-)
-%{_darwinx_prefix}%{libdir}/mono/gac
-%{_darwinx_prefix}%{libdir}/mono/PDFsharp-MigraDoc/MigraDoc.DocumentObjectModel.dll
-%{_darwinx_prefix}%{libdir}/mono/PDFsharp-MigraDoc/MigraDoc.Rendering.dll
-%{_darwinx_prefix}%{libdir}/mono/PDFsharp-MigraDoc/MigraDoc.RtfRendering.dll
-%{_darwinx_prefix}%{libdir}/mono/PDFsharp-MigraDoc/PdfSharp.Charting.dll
-%{_darwinx_prefix}%{libdir}/mono/PDFsharp-MigraDoc/PdfSharp.dll
+%{_darwinx_prefix}%{libdir}/MigraDoc.DocumentObjectModel.dll
+%{_darwinx_prefix}%{libdir}/MigraDoc.Rendering.dll
+%{_darwinx_prefix}%{libdir}/MigraDoc.RtfRendering.dll
+%{_darwinx_prefix}%{libdir}/PdfSharp.Charting.dll
+%{_darwinx_prefix}%{libdir}/PdfSharp.dll
 %{_darwinx_datadir}/pkgconfig/PDFsharp-MigraDoc.pc
 
 %changelog

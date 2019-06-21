@@ -41,7 +41,7 @@ sed -i '' "s!libgdl-3.so.5!libgdl-3.5.dylib!" out/gdl-sharp.dll.config
 %{_darwinx_make} install DESTDIR=$RPM_BUILD_ROOT
 
 %files -n darwinx-GdlSharp
-%{_darwinx_libdir}/mono
+%{_darwinx_libdir}/GdlSharp.dll
 %{_darwinx_datadir}/pkgconfig/gdl-sharp-3.pc
 
 %changelog

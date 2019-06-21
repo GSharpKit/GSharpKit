@@ -3,7 +3,7 @@
 %define libdir /lib
 
 Name:           darwinx-ServiceStack
-Version:        5.0.2
+Version:        5.5.0
 Release:        1%{?dist}
 Summary:        ServiceStack webservice framework: Faster, Cleaner, Modern WCF alternative.
 
@@ -13,8 +13,6 @@ URL:            https://www.nuget.org/packages/ServiceStack
 Prefix:		/usr
 
 BuildArch:	noarch
-
-Requires:	darwinx-mono-core >= 4.0.0
 
 %description
 A simple and fast alternative to WCF, MVC and Web API in one cohesive framework 
@@ -27,26 +25,26 @@ nuget install ServiceStack -Version %{version}
 cat > ServiceStack.pc << \EOF
 prefix=%{_darwinx_prefix}
 exec_prefix=${prefix}
-libdir=%{_darwinx_prefix}%{libdir}/mono
+libdir=%{_darwinx_prefix}%{libdir}
 
 Name: ServiceStack
 Description: ServiceStack webservice framework: Faster, Cleaner, Modern WCF alternative.
 Requires:
 Version: %{version}
-Libs: -r:${libdir}/ServiceStack/ServiceStack.dll -r:${libdir}/ServiceStack.Common/ServiceStack.Common.dll -r:${libdir}/ServiceStack.Client/ServiceStack.Client.dll -r:${libdir}/ServiceStack.Text/ServiceStack.Text.dll -r:${libdir}/ServiceStack.Interfaces/ServiceStack.Interfaces.dll
+Libs: -r:${libdir}/System.Numerics.Vectors.dll -r:${libdir}/System.Buffers.dll -r:${libdir}/System.Memory.dll -r:${libdir}/ServiceStack.dll -r:${libdir}/ServiceStack.Common.dll -r:${libdir}/ServiceStack.Client.dll -r:${libdir}/ServiceStack.Text.dll -r:${libdir}/ServiceStack.Interfaces.dll 
 Cflags:
 EOF
 
 cat > ServiceStack.Interfaces.pc << \EOF
 prefix=%{_darwinx_prefix}
 exec_prefix=${prefix}
-libdir=%{_darwinx_prefix}%{libdir}/mono
+libdir=%{_darwinx_prefix}%{libdir}
 
 Name: ServiceStack.Interfaces
 Description: Lightweight and implementation-free interfaces for DTO's, providers and adapters.
 Requires:
 Version: %{version}
-Libs: -r:${libdir}/ServiceStack.Interfaces/ServiceStack.Interfaces.dll
+Libs: -r:${libdir}/ServiceStack.Interfaces.dll
 Cflags:
 EOF
 
@@ -56,12 +54,12 @@ EOF
 %install
 %{__rm} -rf %{buildroot}
 
-install -d -m 755 $RPM_BUILD_ROOT%{_darwinx_prefix}%{libdir}/mono/gac
-gacutil -i ServiceStack.%{version}/lib/net45/ServiceStack.dll -package ServiceStack -root $RPM_BUILD_ROOT%{_darwinx_prefix}%{libdir} -gacdir mono/gac
-gacutil -i ServiceStack.Common.%{version}/lib/net45/ServiceStack.Common.dll -package ServiceStack.Common -root $RPM_BUILD_ROOT%{_darwinx_prefix}%{libdir} -gacdir mono/gac
-gacutil -i ServiceStack.Client.%{version}/lib/net45/ServiceStack.Client.dll -package ServiceStack.Client -root $RPM_BUILD_ROOT%{_darwinx_prefix}%{libdir} -gacdir mono/gac
-gacutil -i ServiceStack.Text.%{version}/lib/net45/ServiceStack.Text.dll -package ServiceStack.Text -root $RPM_BUILD_ROOT%{_darwinx_prefix}%{libdir} -gacdir mono/gac
-gacutil -i ServiceStack.Interfaces.%{version}/lib/net45/ServiceStack.Interfaces.dll -package ServiceStack.Interfaces -root $RPM_BUILD_ROOT%{_darwinx_prefix}%{libdir} -gacdir mono/gac
+install -d -m 755 $RPM_BUILD_ROOT%{_darwinx_prefix}%{libdir}
+install -m 644 ServiceStack.%{version}/lib/net45/ServiceStack.dll $RPM_BUILD_ROOT%{_darwinx_prefix}%{libdir}
+install -m 644 ServiceStack.Common.%{version}/lib/net45/ServiceStack.Common.dll $RPM_BUILD_ROOT%{_darwinx_prefix}%{libdir}
+install -m 644 ServiceStack.Client.%{version}/lib/net45/ServiceStack.Client.dll $RPM_BUILD_ROOT%{_darwinx_prefix}%{libdir}
+install -m 644 ServiceStack.Text.%{version}/lib/net45/ServiceStack.Text.dll $RPM_BUILD_ROOT%{_darwinx_prefix}%{libdir}
+install -m 644 ServiceStack.Interfaces.%{version}/lib/net45/ServiceStack.Interfaces.dll $RPM_BUILD_ROOT%{_darwinx_prefix}%{libdir}
 
 install -d -m 755 $RPM_BUILD_ROOT%{_darwinx_datadir}/pkgconfig/
 install -m 644 ServiceStack.pc $RPM_BUILD_ROOT%{_darwinx_datadir}/pkgconfig/
@@ -72,12 +70,12 @@ install -m 644 ServiceStack.Interfaces.pc $RPM_BUILD_ROOT%{_darwinx_datadir}/pkg
 
 %files
 %defattr(-,root,root,-)
-%{_darwinx_prefix}%{libdir}/mono/gac
-%{_darwinx_prefix}%{libdir}/mono/ServiceStack/ServiceStack.dll
-%{_darwinx_prefix}%{libdir}/mono/ServiceStack.Common/ServiceStack.Common.dll
-%{_darwinx_prefix}%{libdir}/mono/ServiceStack.Client/ServiceStack.Client.dll
-%{_darwinx_prefix}%{libdir}/mono/ServiceStack.Text/ServiceStack.Text.dll
-%{_darwinx_prefix}%{libdir}/mono/ServiceStack.Interfaces/ServiceStack.Interfaces.dll
+%{_darwinx_prefix}%{libdir}/ServiceStack.dll
+%{_darwinx_prefix}%{libdir}/ServiceStack.Common.dll
+%{_darwinx_prefix}%{libdir}/ServiceStack.Client.dll
+%{_darwinx_prefix}%{libdir}/ServiceStack.Text.dll
+%{_darwinx_prefix}%{libdir}/ServiceStack.Interfaces.dll
+
 %{_darwinx_datadir}/pkgconfig/ServiceStack.pc
 %{_darwinx_datadir}/pkgconfig/ServiceStack.Interfaces.pc
 

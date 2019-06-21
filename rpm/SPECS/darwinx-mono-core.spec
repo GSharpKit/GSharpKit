@@ -1,9 +1,9 @@
 %global debug_package %{nil}
 
-%define ver 5.10.0
+%define ver 5.20.1
 
 Name:           darwinx-mono-core
-Version:        %{ver}.157
+Version:        %{ver}.19
 Release:        1%{?dist}
 Summary:        A .NET runtime environment
 
@@ -21,9 +21,9 @@ BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildArch:      noarch
 
-BuildRequires:  darwinx-filesystem-base >= 18
+BuildRequires:  darwinx-filesystem-base >= 104
 
-Requires:  	darwinx-filesystem >= 18
+Requires:  	darwinx-filesystem >= 104
 
 %description
 The Mono runtime implements a JIT engine for the ECMA CLI
@@ -51,7 +51,9 @@ rm -rf mcs/class/lib/monolite/*
 %build
 gcc -o monodir %{SOURCE1} -DMONODIR=\"%{_darwinx_prefix}/lib/mono\"
 
-%{_darwinx_configure} --enable-parallel-mark --disable-nls
+#export mono_cv_uscore=no
+#export ac_cv_func_shm_open_working_with_mmap=no
+%{_darwinx_configure} --disable-nls --enable-mcs-build --with-profile4_x=yes
 
 %{_darwinx_make} %{?_smp_mflags} 
 

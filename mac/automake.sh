@@ -4,6 +4,13 @@ NAME=GSharpKit
 PREFIX=/Library/$NAME
 SYMLINK=/Library/$NAME
 
+curl -OL http://ftpmirror.gnu.org/m4/m4-1.4.17.tar.gz
+tar xzf m4-1.4.17.tar.gz
+cd m4-1.4.17
+CFLAGS="-m64 -arch x86_64" CXXFLAGS="-m64 -arch x86_64" LDFLAGS="-arch x86_64" ./configure --prefix=$PREFIX --exec-prefix=$PREFIX
+make
+sudo make install
+
 cd $BUILD_ROOT
 curl -OL http://ftpmirror.gnu.org/autoconf/autoconf-2.69.tar.gz
 tar xzf autoconf-2.69.tar.gz
@@ -46,20 +53,30 @@ make
 sudo make install
 
 cd $BUILD_ROOT
-curl -OL http://ftpmirror.gnu.org/libtool/libtool-2.4.tar.gz
-tar xzf libtool-2.4.tar.gz
-cd libtool-2.4
+curl -OL http://ftpmirror.gnu.org/automake/automake-1.16.1.tar.gz
+tar xzf automake-1.16.1.tar.gz
+cd automake-1.16.1
+CFLAGS="-m64 -arch x86_64" CXXFLAGS="-m64 -arch x86_64" LDFLAGS="-arch x86_64" ./configure --prefix=$PREFIX --exec-prefix=$PREFIX
+make
+sudo make install
+
+cd $BUILD_ROOT
+curl -OL http://ftpmirror.gnu.org/libtool/libtool-2.4.2.tar.gz
+tar xzf libtool-2.4.2.tar.gz
+cd libtool-2.4.2
 CFLAGS="-m64 -arch x86_64" CXXFLAGS="-m64 -arch x86_64" LDFLAGS="-arch x86_64" ./configure --prefix=$PREFIX --exec-prefix=$PREFIX
 make
 sudo make install
 
 sudo ln -sf $SYMLINK/bin/autoconf /usr/local/bin/autoconf
-sudo ln -sf $SYMLINK/bin/automake-1.15 /usr/local/bin/automake
+sudo ln -sf $SYMLINK/bin/automake-1.16 /usr/local/bin/automake
+sudo ln -sf $SYMLINK/bin/automake-1.16 /usr/local/bin/automake-1.16
 sudo ln -sf $SYMLINK/bin/automake-1.15 /usr/local/bin/automake-1.15
 sudo ln -sf $SYMLINK/bin/automake-1.14 /usr/local/bin/automake-1.14
 sudo ln -sf $SYMLINK/bin/automake-1.13 /usr/local/bin/automake-1.13
 sudo ln -sf $SYMLINK/bin/automake-1.11 /usr/local/bin/automake-1.11
-sudo ln -sf $SYMLINK/bin/aclocal-1.15 /usr/local/bin/aclocal
+sudo ln -sf $SYMLINK/bin/aclocal-1.16 /usr/local/bin/aclocal
+sudo ln -sf $SYMLINK/bin/aclocal-1.16 /usr/local/bin/aclocal-1.16
 sudo ln -sf $SYMLINK/bin/aclocal-1.15 /usr/local/bin/aclocal-1.15
 sudo ln -sf $SYMLINK/bin/aclocal-1.14 /usr/local/bin/aclocal-1.14
 sudo ln -sf $SYMLINK/bin/aclocal-1.13 /usr/local/bin/aclocal-1.13

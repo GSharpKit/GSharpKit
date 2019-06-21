@@ -3,11 +3,10 @@
 %define darwinx_pkg_name OpenMedicus.ServiceStack.Master.ServiceModel
 
 %define libdir /lib
-%define api_version 0.0.0.0
 
 Name:           darwinx-OpenMedicus.ServiceStack.Master.ServiceModel
 Version:        1.2.3
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        ServiceStack access to Master Healthcare System
 
 Group:          Development/Languages
@@ -16,8 +15,7 @@ URL:            https://www.nuget.org/packages/OpenMedicus.ServiceStack.Master.S
 Prefix:		/usr
 BuildArch:	noarch
 
-Requires:	darwinx-mono-core >= 3.0.0
-Requires:	darwinx-ServiceStack >= 5.0.2
+Requires:	darwinx-ServiceStack >= 5.5.0
 
 %description
 ServiceStack access to Master Healthcare System
@@ -29,13 +27,13 @@ nuget install %{darwinx_pkg_name} -Version %{version}
 cat > %{darwinx_pkg_name}.pc << \EOF
 prefix=%{_darwinx_prefix}
 exec_prefix=${prefix}
-libdir=%{_darwinx_prefix}%{libdir}/mono
+libdir=%{_darwinx_prefix}%{libdir}
 
 Name: %{darwinx_pkg_name}
 Description: ServiceStack access to Master Healthcare System 
 Requires: ServiceStack
 Version: %{api_version}
-Libs: -r:${libdir}/%{darwinx_pkg_name}/%{darwinx_pkg_name}.dll
+Libs: -r:${libdir}/%{darwinx_pkg_name}.dll
 Cflags:
 EOF
 
@@ -44,8 +42,8 @@ EOF
 %install
 %{__rm} -rf %{buildroot}
 
-install -d -m 755 $RPM_BUILD_ROOT%{_darwinx_prefix}%{libdir}/mono/gac
-gacutil -i OpenMedicus.ServiceStack.Master.ServiceModel.%{version}/lib/net461/OpenMedicus.ServiceStack.Master.ServiceModel.dll -package %{darwinx_pkg_name} -root $RPM_BUILD_ROOT%{_darwinx_prefix}%{libdir} -gacdir mono/gac
+install -d -m 755 $RPM_BUILD_ROOT%{_darwinx_prefix}%{libdir}
+install -m 644 OpenMedicus.ServiceStack.Master.ServiceModel.%{version}/lib/net461/OpenMedicus.ServiceStack.Master.ServiceModel.dll $RPM_BUILD_ROOT%{_darwinx_prefix}%{libdir}
 
 install -d -m 755 $RPM_BUILD_ROOT%{_darwinx_datadir}/pkgconfig/
 install -m 644 OpenMedicus.ServiceStack.Master.ServiceModel.pc $RPM_BUILD_ROOT%{_darwinx_datadir}/pkgconfig/
@@ -55,8 +53,7 @@ install -m 644 OpenMedicus.ServiceStack.Master.ServiceModel.pc $RPM_BUILD_ROOT%{
 
 %files
 %defattr(-,root,root,-)
-%{_darwinx_prefix}%{libdir}/mono/gac
-%{_darwinx_prefix}%{libdir}/mono/%{darwinx_pkg_name}/OpenMedicus.ServiceStack.Master.ServiceModel.dll
+%{_darwinx_prefix}%{libdir}/OpenMedicus.ServiceStack.Master.ServiceModel.dll
 %{_darwinx_datadir}/pkgconfig/OpenMedicus.ServiceStack.Master.ServiceModel.pc
 
 

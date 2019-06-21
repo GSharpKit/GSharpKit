@@ -1,5 +1,5 @@
 Name:           darwinx-atk
-Version:        2.26.1
+Version:        2.28.1
 Release:        1%{?dist}
 Summary:        Cross compiled Atk library
 
@@ -8,6 +8,7 @@ Group:          Development/Libraries
 URL:            http://projects.gnome.org/accessibility/
 Source:         http://ftp.gnome.org/pub/GNOME/sources/atk/2.26/atk-%{version}.tar.xz
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
+Prefix:		/usr
 
 BuildArch:      noarch
 
@@ -53,7 +54,6 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,root,-)
-%doc COPYING
 %{_darwinx_includedir}/atk-1.0
 %{_darwinx_libdir}/libatk-1.0.0.dylib
 %{_darwinx_libdir}/libatk-1.0.dylib

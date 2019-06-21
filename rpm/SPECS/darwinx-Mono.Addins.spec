@@ -1,87 +1,63 @@
-Name:		darwinx-mono-addins
-Version:	1.3.3
+%define libdir /lib
+
+Name:		darwinx-Mono.Addins
+Version:	1.3.8
 Release:	1%{?dist}
 Summary:	Addins for mono
 Group:		Development/Languages
 License:	MIT
 URL:		http://www.mono-project.com/
-Source0:	mono-addins-mono-addins-%{version}.tar.gz	
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
+Source0:	Mono.Addins.dll	
 BuildArch: 	noarch
 
 BuildRequires:  darwinx-filesystem-base >= 18
-BuildRequires:	darwinx-mono-core >= 4.8, autoconf, automake
-BuildRequires:	pkgconfig
 
 Requires:  	darwinx-filesystem >= 18
-Requires:	darwinx-mono-core >= 4.8
+
+Obsoletes:      darwinx-mono-addins
+Provides:       darwinx-mono-addins
 
 %description
 Mono.Addins is a generic framework for creating extensible applications,
 and for creating libraries which extend those applications.
 
 %prep
-%setup -q -n mono-addins-mono-addins-%{version}
+%setup -c %{name}-%{version} -T
+#nuget install Mono.Addins -Version %{version}
 
-#sed -i '' 's!$(prefix)/lib!%{darwinx_libdir}!' configure
+cat > mono-addins.pc << \EOF
+prefix=%{_darwinx_prefix}
+exec_prefix=${prefix}
+libdir=%{_darwinx_prefix}%{libdir}
+
+Name: Mono.Addins
+Description: %{summary}
+Requires:
+Version: %{version}
+Libs: -r:${libdir}/Mono.Addins.dll
+Cflags:
+EOF
 
 %build
-sh autogen.sh --disable-gui
-%{_darwinx_configure} --disable-gui
-
-%{_darwinx_make}
-
-sn -R bin/Mono.Addins.CecilReflector.dll mono-addins.snk
-sn -R bin/Mono.Addins.dll mono-addins.snk
-sn -R bin/Mono.Addins.MSBuild.dll mono-addins.snk
-sn -R bin/Mono.Addins.Setup.dll mono-addins.snk
 
 %install
 %{__rm} -rf %{buildroot}
-%{_darwinx_makeinstall} program_transform_name=""
 
-%{__rm} -f $RPM_BUILD_ROOT%{_darwinx_bindir}/mautil
-%{__mv} $RPM_BUILD_ROOT%{_darwinx_libdir}/mono/mono-addins/mautil.exe $RPM_BUILD_ROOT%{_darwinx_bindir}/
+install -d -m 755 $RPM_BUILD_ROOT%{_darwinx_prefix}%{libdir}
+#install -m 644 Mono.Addins.%{version}/lib/net45/Mono.Addins.dll $RPM_BUILD_ROOT%{_darwinx_prefix}%{libdir}
+install -m 644 %{SOURCE0} $RPM_BUILD_ROOT%{_darwinx_prefix}%{libdir}
+
+install -d -m 755 $RPM_BUILD_ROOT%{_darwinx_datadir}/pkgconfig/
+install -m 644 mono-addins.pc $RPM_BUILD_ROOT%{_darwinx_datadir}/pkgconfig/mono-addins.pc
 
 %clean
 %{__rm} -rf %{buildroot}
 
 %files 
 %defattr(-,root,root,-)
-%{_darwinx_bindir}/mautil.exe
-%{_darwinx_libdir}/mono/mono-addins
-#%{_darwinx_libdir}/mono/gac/Mono.Addins.Gui
-%{_darwinx_libdir}/mono/gac/Mono.Addins.Setup
-%{_darwinx_libdir}/mono/gac/Mono.Addins
-%{_darwinx_libdir}/mono/gac/Mono.Addins.CecilReflector
-%{_darwinx_libdir}/mono/gac/Mono.Addins.MSBuild
-#%{_darwinx_libdir}/mono/gac/policy.0.2.Mono.Addins.Gui
-%{_darwinx_libdir}/mono/gac/policy.0.2.Mono.Addins.Setup
-%{_darwinx_libdir}/mono/gac/policy.0.2.Mono.Addins
-%{_darwinx_libdir}/mono/gac/policy.0.2.Mono.Addins.CecilReflector
-%{_darwinx_libdir}/mono/gac/policy.0.2.Mono.Addins.MSBuild
-#%{_darwinx_libdir}/mono/gac/policy.0.3.Mono.Addins.Gui
-%{_darwinx_libdir}/mono/gac/policy.0.3.Mono.Addins.Setup
-%{_darwinx_libdir}/mono/gac/policy.0.3.Mono.Addins
-%{_darwinx_libdir}/mono/gac/policy.0.3.Mono.Addins.CecilReflector
-%{_darwinx_libdir}/mono/gac/policy.0.3.Mono.Addins.MSBuild
-#%{_darwinx_libdir}/mono/gac/policy.0.4.Mono.Addins.Gui
-%{_darwinx_libdir}/mono/gac/policy.0.4.Mono.Addins.Setup
-%{_darwinx_libdir}/mono/gac/policy.0.4.Mono.Addins
-%{_darwinx_libdir}/mono/gac/policy.0.4.Mono.Addins.CecilReflector
-%{_darwinx_libdir}/mono/gac/policy.0.4.Mono.Addins.MSBuild
-#%{_darwinx_libdir}/mono/gac/policy.0.5.Mono.Addins.Gui
-%{_darwinx_libdir}/mono/gac/policy.0.5.Mono.Addins.Setup
-%{_darwinx_libdir}/mono/gac/policy.0.5.Mono.Addins
-%{_darwinx_libdir}/mono/gac/policy.0.5.Mono.Addins.CecilReflector
-%{_darwinx_libdir}/mono/gac/policy.0.5.Mono.Addins.MSBuild
-#%{_darwinx_libdir}/mono/gac/policy.0.6.Mono.Addins.Gui
-%{_darwinx_libdir}/mono/gac/policy.0.6.Mono.Addins.Setup
-%{_darwinx_libdir}/mono/gac/policy.0.6.Mono.Addins
-%{_darwinx_libdir}/mono/gac/policy.0.6.Mono.Addins.CecilReflector
-%{_darwinx_libdir}/mono/gac/policy.0.6.Mono.Addins.MSBuild
-%{_darwinx_mandir}/man1/mautil.1
-%{_darwinx_libdir}/pkgconfig/mono-addins*
+%{_darwinx_prefix}%{libdir}/Mono.Addins.dll
+%{_darwinx_datadir}/pkgconfig/mono-addins.pc
 
 %changelog
 * Thu Jun 03 2010 Mikkel Kruse Johnsen <mikkel@linet.dk> - 0.5-1

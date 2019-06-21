@@ -1,9 +1,7 @@
 %define debug_package %{nil}
 
-%define _prefix /Library/GSharpKit
-
 Name: 		darwinx-filesystem-base
-Version: 	104
+Version: 	105
 Release: 	1%{?dist}
 Summary: 	Darwin filesystem and environment
 License: 	GPLv2+
@@ -14,6 +12,7 @@ Source1:	macros.dist
 Source2:	darwinx.sh
 Source3:	zlib.pc
 Source4:	sqlite3.pc
+Prefix:         /usr
 
 BuildRoot: 	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch: 	noarch

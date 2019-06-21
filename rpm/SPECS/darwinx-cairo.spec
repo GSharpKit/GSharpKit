@@ -1,5 +1,5 @@
 Name:           darwinx-cairo
-Version:        1.14.12
+Version:        1.16.0
 Release:        1%{?dist}
 Summary:        Darwin Cairo library
 
@@ -95,13 +95,10 @@ rm -rf $RPM_BUILD_ROOT
 %{_darwinx_libdir}/libcairo.2.dylib
 %{_darwinx_libdir}/libcairo.dylib
 %{_darwinx_libdir}/libcairo.la
-%{_darwinx_libdir}/cairo/libcairo-trace.0.dylib
-%{_darwinx_libdir}/cairo/libcairo-trace.dylib
 %{_darwinx_libdir}/cairo/libcairo-trace.la
-%{_darwinx_libdir}/cairo/cairo-fdr.0.so
+%{_darwinx_libdir}/cairo/libcairo-trace.so
 %{_darwinx_libdir}/cairo/cairo-fdr.la
 %{_darwinx_libdir}/cairo/cairo-fdr.so
-%{_darwinx_libdir}/cairo/cairo-sphinx.0.so
 %{_darwinx_libdir}/cairo/cairo-sphinx.la
 %{_darwinx_libdir}/cairo/cairo-sphinx.so
 %{_darwinx_libdir}/libcairo-gobject.2.dylib

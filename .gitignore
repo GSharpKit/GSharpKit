@@ -1,5 +1,6 @@
 *.bak
 *.msi
+*.swp
 
 GSharpKit.json
 make-msi32.sh
@@ -68,3 +69,6 @@ docker/darwinx/Dockerfile
 docker/linux/Dockerfile
 docker/mingw/Dockerfile
 rpm/SOURCES/proxy.1
+mac/m4-1.4.17.tar.gz
+mac/m4-1.4.17/
+

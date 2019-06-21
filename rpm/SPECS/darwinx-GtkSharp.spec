@@ -1,7 +1,9 @@
 %define debug_package %{nil}
 
+%define libdir /lib
+
 Name:           darwinx-GtkSharp
-Version:        3.22.6
+Version:        3.22.24
 Release:        1%{?dist}
 Summary:        GTK+ and GNOME bindings for Mono
 
@@ -9,12 +11,25 @@ Group:          System Environment/Libraries
 License:        LGPLv2+
 URL:            https://github.com/GSharpKit/GtkSharp/releases 
 Source0:        GtkSharp-%{version}.tar.gz
+Source1:        darwinx-gdk-sharp-3.0.pc
+Source2:        darwinx-glib-sharp-3.0.pc
+Source3:        darwinx-gio-sharp-3.0.pc
+Source4:        darwinx-gtk-sharp-3.0.pc
+Source5:        GtkSharp.snk
+Source100:      darwinx-gapi3-codegen
+Source101:      darwinx-gapi3-fixup
+Source102:      darwinx-gapi3-parser
+Source103:      gapi-fixup.exe
+Source104:      gapi-parser.exe
+Source105:      gapi2xml.pl
+Source106:      gapi_codegen.exe
+Source107:      gapi_pp.pl
+Source108:      gapi-3.0.pc
 
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 Requires:	darwinx-filesystem >= 18
 Requires:	darwinx-gtk3 >= %{version}
-Requires: 	darwinx-mono-core >= 4.8
 
 BuildRequires:  darwinx-filesystem-base >= 18
 BuildRequires:  darwinx-mono-core >= 4.8
@@ -30,43 +45,83 @@ is a binding to GTK+, the cross platform user interface
 toolkit used in GNOME. It includes bindings for Gtk, Atk,
 Pango, Gdk. 
 
+%package gapi
+Group:        Development/Languages
+Summary:      Glib and GObject C source parser and C generator for the creation and maintenance of managed bindings for Mono and .NET
+
+%description gapi
+This package provides developer tools for the creation and
+maintenance of managed bindings to native libraries which utilize
+glib and GObject. Some examples of libraries currently bound using
+the GAPI tools and found in Gtk# include Gtk, Atk, Pango, Gdk.
+
 %prep
 %setup -q -n GtkSharp-%{version}
 
+cp %{SOURCE5} Source/
+
 %build
-%{_darwinx_env} ; meson --prefix=%{_darwinx_prefix} --libdir=%{_darwinx_prefix}/lib build/
-ninja -C build/
+sh build.sh
 
 %install
 %{__rm} -rf $RPM_BUILD_ROOT
-DESTDIR=$RPM_BUILD_ROOT ninja -C build/ install
+#DESTDIR=$RPM_BUILD_ROOT ninja -C build/ install
+
+install -d -m 755 $RPM_BUILD_ROOT%{_darwinx_prefix}%{libdir}
+
+install -m 644 BuildOutput/Release/AtkSharp.dll $RPM_BUILD_ROOT%{_darwinx_prefix}%{libdir}
+install -m 644 BuildOutput/Release/CairoSharp.dll $RPM_BUILD_ROOT%{_darwinx_prefix}%{libdir}
+install -m 644 BuildOutput/Release/GdkSharp.dll $RPM_BUILD_ROOT%{_darwinx_prefix}%{libdir}
+install -m 644 BuildOutput/Release/GioSharp.dll $RPM_BUILD_ROOT%{_darwinx_prefix}%{libdir}
+install -m 644 BuildOutput/Release/GLibSharp.dll $RPM_BUILD_ROOT%{_darwinx_prefix}%{libdir}
+install -m 644 BuildOutput/Release/GtkSharp.dll $RPM_BUILD_ROOT%{_darwinx_prefix}%{libdir}
+install -m 644 BuildOutput/Release/PangoSharp.dll $RPM_BUILD_ROOT%{_darwinx_prefix}%{libdir}
+
+mkdir -p %{buildroot}%{_darwinx_prefix}/share/pkgconfig
+install -m 644 %{SOURCE1} %{buildroot}%{_darwinx_prefix}/share/pkgconfig/gdk-sharp-3.0.pc
+install -m 644 %{SOURCE2} %{buildroot}%{_darwinx_prefix}/share/pkgconfig/glib-sharp-3.0.pc
+install -m 644 %{SOURCE3} %{buildroot}%{_darwinx_prefix}/share/pkgconfig/gio-sharp-3.0.pc
+install -m 644 %{SOURCE4} %{buildroot}%{_darwinx_prefix}/share/pkgconfig/gtk-sharp-3.0.pc
+install -m 644 %{SOURCE108} %{buildroot}%{_darwinx_prefix}/share/pkgconfig/
+
+sed -i '' 's!@PREFIX@!%{_darwinx_prefix}!g' %{buildroot}%{_darwinx_prefix}/share/pkgconfig/*.pc
+
+mkdir -p %{buildroot}%{_darwinx_prefix}/share/gapi-3.0
+cp Source/Libs/*/*Sharp-api.xml %{buildroot}%{_darwinx_prefix}/share/gapi-3.0/
+
+mkdir -p %{buildroot}%{_darwinx_prefix}/bin
+install -m 755 %{SOURCE100} %{buildroot}%{_darwinx_prefix}/bin/gapi3-codegen
+install -m 755 %{SOURCE101} %{buildroot}%{_darwinx_prefix}/bin/gapi3-fixup
+install -m 755 %{SOURCE102} %{buildroot}%{_darwinx_prefix}/bin/gapi3-parser
+
+mkdir -p %{buildroot}%{_darwinx_prefix}/lib/gapi-3.0
+install -m 755 %{SOURCE103} %{buildroot}%{_darwinx_prefix}/lib/gapi-3.0/
+install -m 755 %{SOURCE104} %{buildroot}%{_darwinx_prefix}/lib/gapi-3.0/
+install -m 755 %{SOURCE105} %{buildroot}%{_darwinx_prefix}/lib/gapi-3.0/
+install -m 755 %{SOURCE106} %{buildroot}%{_darwinx_prefix}/lib/gapi-3.0/
+install -m 755 %{SOURCE107} %{buildroot}%{_darwinx_prefix}/lib/gapi-3.0/
 
 %clean
 #%{__rm} -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,root,-)
-%{_darwinx_libdir}/mono/gac
-%{_darwinx_libdir}/mono/GtkSharp-3.0
-%{_darwinx_libdir}/mono/atk-sharp/atk-sharp.dll
-%{_darwinx_libdir}/mono/cairo-sharp/cairo-sharp.dll
-%{_darwinx_libdir}/mono/gdk-sharp/gdk-sharp.dll
-%{_darwinx_libdir}/mono/gio-sharp/gio-sharp.dll
-%{_darwinx_libdir}/mono/glib-sharp/glib-sharp.dll
-%{_darwinx_libdir}/mono/gtk-sharp/gtk-sharp.dll
-%{_darwinx_libdir}/mono/pango-sharp/pango-sharp.dll
+%{_darwinx_prefix}%{libdir}/*Sharp.dll
+%{_darwinx_datadir}/pkgconfig/*-sharp-3.0.pc
+
+%files gapi
+%defattr(-,root,root,-)
+%dir %{_darwinx_prefix}/lib/gapi-3.0
 %{_darwinx_bindir}/gapi3-codegen
 %{_darwinx_bindir}/gapi3-fixup
 %{_darwinx_bindir}/gapi3-parser
-%dir %{_darwinx_libdir}/gapi-3.0
-%{_darwinx_libdir}/gapi-3.0/gapi-fixup.exe
-%{_darwinx_libdir}/gapi-3.0/gapi-parser.exe
-%{_darwinx_libdir}/gapi-3.0/gapi2xml.pl
-%{_darwinx_libdir}/gapi-3.0/gapi_codegen.exe
-%{_darwinx_libdir}/gapi-3.0/gapi_pp.pl
-%{_darwinx_datadir}/gapi-3.0/
-%{_darwinx_libdir}/pkgconfig/gapi-3.0.pc
-%{_darwinx_libdir}/pkgconfig/*-sharp-3.0.pc
+%{_darwinx_prefix}/lib/gapi-3.0/gapi_codegen.exe
+%{_darwinx_prefix}/lib/gapi-3.0/gapi-fixup.exe
+%{_darwinx_prefix}/lib/gapi-3.0/gapi-parser.exe
+%{_darwinx_prefix}/lib/gapi-3.0/gapi_pp.pl
+%{_darwinx_prefix}/lib/gapi-3.0/gapi2xml.pl
+%{_darwinx_datadir}/gapi-3.0
+%{_darwinx_prefix}/share/pkgconfig/gapi-3.0.pc
 
 %changelog
 * Tue Feb 24 2009 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 2.12.7-4

@@ -1,6 +1,6 @@
 Name:		darwinx-gtk-mac-integration-sharp
 Version:	2.0.7
-Release:	2%{?dist}
+Release:	3%{?dist}
 Summary:	.NET bindings for GtkOSXApplication
 Group:		Development/Languages
 License:	MIT
@@ -13,7 +13,6 @@ BuildRequires:	darwinx-gtk-mac-integration
 BuildRequires:	darwinx-mono-core
 BuildRequires:	darwinx-GtkSharp
 
-Requires:  	darwinx-mono-core
 Requires:  	darwinx-GtkSharp
 
 Obsoletes:	darwinx-gtkosxapplication-sharp

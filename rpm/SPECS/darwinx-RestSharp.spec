@@ -1,9 +1,10 @@
 %global debug_package %{nil}
 
 %define libdir /lib
+%define platform netstandard2.0
 
 Name:           darwinx-RestSharp
-Version:        105.2.3
+Version:        106.6.9
 Release:        1%{?dist}
 Summary:        Simple REST and HTTP API Client
 Group:          Development/Languages
@@ -16,7 +17,6 @@ BuildArch:	noarch
 BuildRequires:	darwinx-filesystem-base >= 18
 
 Requires:	darwinx-filesystem >= 18
-Requires:	darwinx-mono-core >= 4.8
 Requires:	darwinx-MimeKit
 
 %description
@@ -24,18 +24,18 @@ Simple REST and HTTP API Client
 
 %prep
 %setup -c %{name}-%{version} -T
-nuget install RestSharpSigned -Version %{version}
+nuget install RestSharp -Version %{version}
 
 cat > RestSharp.pc << \EOF
 prefix=%{_darwinx_prefix}
 exec_prefix=${prefix}
-libdir=%{_darwinx_prefix}%{libdir}/mono
+libdir=%{_darwinx_prefix}%{libdir}
 
 Name: RestSharp
 Description: %{summary} 
 Requires: MimeKit 
 Version: %{version}
-Libs: -r:${libdir}/RestSharp/RestSharp.dll
+Libs: -r:${libdir}/RestSharp.dll
 Cflags:
 EOF
 
@@ -43,8 +43,8 @@ EOF
 
 %install
 
-install -d -m 755 $RPM_BUILD_ROOT%{_darwinx_prefix}%{libdir}/mono/gac
-gacutil -i RestSharpSigned.%{version}/lib/net45/RestSharp.dll -package RestSharp -root $RPM_BUILD_ROOT%{_darwinx_prefix}%{libdir} -gacdir mono/gac
+install -d -m 755 $RPM_BUILD_ROOT%{_darwinx_prefix}%{libdir}
+install -m 644 RestSharp.%{version}/lib/%{platform}/RestSharp.dll $RPM_BUILD_ROOT%{_darwinx_prefix}%{libdir}
 
 install -d -m 755 $RPM_BUILD_ROOT%{_darwinx_datadir}/pkgconfig/
 install -m 644 RestSharp.pc $RPM_BUILD_ROOT%{_darwinx_datadir}/pkgconfig/RestSharp.pc
@@ -54,8 +54,7 @@ install -m 644 RestSharp.pc $RPM_BUILD_ROOT%{_darwinx_datadir}/pkgconfig/RestSha
 
 %files
 %defattr(-,root,root,-)
-%{_darwinx_prefix}%{libdir}/mono/gac
-%{_darwinx_prefix}%{libdir}/mono/RestSharp/RestSharp.dll
+%{_darwinx_prefix}%{libdir}/RestSharp.dll
 %{_darwinx_datadir}/pkgconfig/RestSharp.pc
 
 %changelog

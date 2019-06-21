@@ -3,7 +3,7 @@
 %define libdir /lib
 
 Name:           darwinx-MimeKit
-Version:        1.22.0
+Version:        2.1.4
 Release:        1%{?dist}
 Summary:        MimeKit is an Open Source library for creating and parsing MIME, S/MIME and PGP messages
 Group:          Development/Languages
@@ -16,7 +16,6 @@ BuildArch:	noarch
 BuildRequires:	darwinx-filesystem-base >= 18
 
 Requires:	darwinx-filesystem >= 18
-Requires:	darwinx-mono-core >= 4.8
 Requires:	darwinx-BouncyCastle
 
 %description
@@ -30,22 +29,23 @@ nuget install MimeKit -Version %{version}
 cat > MimeKit.pc << \EOF
 prefix=%{_darwinx_prefix}
 exec_prefix=${prefix}
-libdir=%{_darwinx_prefix}%{libdir}/mono
+libdir=%{_darwinx_prefix}%{libdir}
 
 Name: MimeKit
 Description: %{summary} 
 Requires: BouncyCastle
 Version: %{version}
-Libs: -r:${libdir}/MimeKit/MimeKit.dll
+Libs: -r:${libdir}/MimeKit.dll
 Cflags:
 EOF
 
 %build
 
 %install
+%{__rm} -rf %{buildroot}
 
-install -d -m 755 $RPM_BUILD_ROOT%{_darwinx_prefix}%{libdir}/mono/gac
-gacutil -i MimeKit.%{version}/lib/net45/MimeKit.dll -package MimeKit -root $RPM_BUILD_ROOT%{_darwinx_prefix}%{libdir} -gacdir mono/gac
+install -d -m 755 $RPM_BUILD_ROOT%{_darwinx_prefix}%{libdir}
+install -m 644 MimeKit.%{version}/lib/net45/MimeKit.dll $RPM_BUILD_ROOT%{_darwinx_prefix}%{libdir}
 
 install -d -m 755 $RPM_BUILD_ROOT%{_darwinx_datadir}/pkgconfig/
 install -m 644 MimeKit.pc $RPM_BUILD_ROOT%{_darwinx_datadir}/pkgconfig/MimeKit.pc
@@ -55,8 +55,7 @@ install -m 644 MimeKit.pc $RPM_BUILD_ROOT%{_darwinx_datadir}/pkgconfig/MimeKit.p
 
 %files
 %defattr(-,root,root,-)
-%{_darwinx_prefix}%{libdir}/mono/gac
-%{_darwinx_prefix}%{libdir}/mono/MimeKit/MimeKit.dll
+%{_darwinx_prefix}%{libdir}/MimeKit.dll
 %{_darwinx_datadir}/pkgconfig/MimeKit.pc
 
 %changelog

@@ -4,7 +4,7 @@
 
 Name:           darwinx-icu
 Version:        57.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        International Components for Unicode Tools
 
 License:        MIT and UCD and Public Domain
@@ -23,7 +23,7 @@ BuildRequires:  autoconf
 
 # Some build error in libicudata.50.1.2dylib is not linking to libicudata.50.dylib
 # So we provide it here
-Provides:	libicudata.50.dylib
+Provides:	libicudata.57.dylib
 
 %description
 ICU is a set of C and C++ libraries that provides robust and
