@@ -108,7 +108,6 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,root,-)
-%doc COPYING
 %{_darwinx_bindir}/pango-view
 %{_darwinx_bindir}/pango-list
 %{_darwinx_includedir}/pango-1.0/

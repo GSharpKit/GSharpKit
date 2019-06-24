@@ -11,8 +11,8 @@ BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:	noarch
 
 BuildRequires:	darwinx-webkitgtk3 >= %{version}
-BuildRequires:	darwinx-mono-core
 BuildRequires:	darwinx-GtkSharp >= 3.14.0
+BuildRequires:	darwinx-mono-core
 
 Requires:  	darwinx-webkitgtk3 >= %{version}
 Requires:  	darwinx-GtkSharp >= 3.14.0
@@ -32,16 +32,23 @@ autoreconf --verbose --install -I /usr/darwinx/usr/share/aclocal
 
 %install
 %{__rm} -rf %{buildroot}
-%{_darwinx_makeinstall}
+
+mkdir -p $RPM_BUILD_ROOT%{_darwinx_libdir}
+cp sources/webkitgtk3-sharp.dll $RPM_BUILD_ROOT%{_darwinx_libdir}/
+cp sources/webkitgtk3-sharp.dll.config $RPM_BUILD_ROOT%{_darwinx_libdir}/
+
+mkdir -p $RPM_BUILD_ROOT%{_darwinx_datadir}/pkgconfig/
+cp sources/webkitgtk3-sharp-3.0.pc $RPM_BUILD_ROOT%{_darwinx_datadir}/pkgconfig/
+sed -i '' 's!mono/webkitgtk3-sharp-3.0/!!g' $RPM_BUILD_ROOT%{_darwinx_datadir}/pkgconfig/webkitgtk3-sharp-3.0.pc
 
 %clean
 #{__rm} -rf %{buildroot}
 
 %files
 %defattr(-,root,root,-)
-%{_darwinx_libdir}/mono/
+%{_darwinx_libdir}/webkitgtk3-sharp.dll
+%{_darwinx_libdir}/webkitgtk3-sharp.dll.config
 %{_darwinx_datadir}/pkgconfig/webkitgtk3-sharp-3.0.pc
-%{_darwinx_libdir}/monodoc/sources/webkitgtk3-sharp*
 
 %changelog
 * Sat Feb 21 2009 David Nielsen <gnomeuser@gmail.com> - 0.2-1

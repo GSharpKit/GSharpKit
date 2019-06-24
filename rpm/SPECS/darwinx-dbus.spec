@@ -1,5 +1,5 @@
 Name:           darwinx-dbus
-Version:        1.8.16
+Version:        1.12.16
 Release:        1%{?dist}
 Summary:        D-Bus Message Bus System
 
@@ -16,9 +16,9 @@ BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildArch:      noarch
 
-BuildRequires:  darwinx-filesystem-base >= 18
+BuildRequires:  darwinx-filesystem-base >= 106
 
-Requires:  	darwinx-filesystem >= 18
+Requires:  	darwinx-filesystem >= 106
 
 %description
 D-Bus is a message bus system, a simple way for applications to talk to
@@ -61,6 +61,8 @@ rm -rf $RPM_BUILD_ROOT/usr/local
 
 rm -rf $RPM_BUILD_ROOT%{_darwinx_sysconfdir}/rc.d
 rm -rf $RPM_BUILD_ROOT%{_darwinx_datadir}/doc
+rm -rf $RPM_BUILD_ROOT%{_darwinx_datadir}/xml
+rm -rf $RPM_BUILD_ROOT%{_darwinx_libdir}/cmake
 
 mv $RPM_BUILD_ROOT/Library $RPM_BUILD_ROOT%{_darwinx_prefix}
 
@@ -83,12 +85,16 @@ rm -rf $RPM_BUILD_ROOT
 %{_darwinx_bindir}/dbus-daemon
 %{_darwinx_bindir}/dbus-cleanup-sockets
 %{_darwinx_bindir}/dbus-uuidgen
+%{_darwinx_bindir}/dbus-test-tool
+%{_darwinx_bindir}/dbus-update-activation-environment
 %{_darwinx_libexecdir}/dbus-daemon-launch-helper
 %{_darwinx_prefix}/Library/LaunchAgents/org.freedesktop.dbus-session.plist
 %{_darwinx_sysconfdir}/dbus-1/session.conf
-%dir %{_darwinx_sysconfdir}/dbus-1/session.d
+%{_darwinx_datadir}/dbus-1/session.conf
+%dir %{_darwinx_datadir}/dbus-1/session.d
 %{_darwinx_sysconfdir}/dbus-1/system.conf
-%dir %{_darwinx_sysconfdir}/dbus-1/system.d
+%{_darwinx_datadir}/dbus-1/system.conf
+%dir %{_darwinx_datadir}/dbus-1/system.d
 %dir %{_darwinx_datadir}/dbus-1/services
 %dir %{_darwinx_datadir}/dbus-1/system-services
 #%dir %{_darwinx_localstatedir}/lib/dbus

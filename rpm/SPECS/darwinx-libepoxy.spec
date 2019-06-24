@@ -1,5 +1,5 @@
 Name:           darwinx-libepoxy
-Version:        1.4.3
+Version:        1.5.3
 Release:        1%{?dist}
 Summary:        Epoxy is a library for handling OpenGL function pointer management for you.
 

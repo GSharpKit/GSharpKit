@@ -132,6 +132,7 @@ install -p -m0644 %{SOURCE2} %{buildroot}%{_darwinx_sysconfdir}/pki/mono/
 %{_darwinx_bindir}/chktrust
 %{_darwinx_bindir}/crlupdate
 %{_darwinx_bindir}/csc
+%{_darwinx_bindir}/csc-dim
 %{_darwinx_bindir}/csharp
 %{_darwinx_bindir}/csi
 %{_darwinx_bindir}/disco
@@ -141,6 +142,7 @@ install -p -m0644 %{SOURCE2} %{buildroot}%{_darwinx_sysconfdir}/pki/mono/
 %{_darwinx_bindir}/genxs
 %{_darwinx_bindir}/httpcfg
 %{_darwinx_bindir}/ilasm
+%{_darwinx_bindir}/illinkanalyzer
 %{_darwinx_bindir}/installvst
 %{_darwinx_bindir}/lc
 %{_darwinx_bindir}/macpack
@@ -190,9 +192,14 @@ install -p -m0644 %{SOURCE2} %{buildroot}%{_darwinx_sysconfdir}/pki/mono/
 %{_darwinx_mandir}/man1/cccheck.1
 %{_darwinx_mandir}/man1/cert-sync.1
 %{_darwinx_mandir}/man1/mono-profilers.1
+%{_darwinx_mandir}/man1/illinkanalyzer.1
 %{_darwinx_libdir}/libMonoPosixHelper.dylib
 %{_darwinx_libdir}/libMonoSupportW.dylib
 %{_darwinx_libdir}/libmono-btls-shared.dylib
+%{_darwinx_libdir}/libmono-native-compat.0.dylib
+%{_darwinx_libdir}/libmono-native-compat.dylib
+%{_darwinx_libdir}/libmono-native-unified.0.dylib
+%{_darwinx_libdir}/libmono-native-unified.dylib
 
 %dir %{monodir}
 %dir %{monodir}/4.0
@@ -256,6 +263,7 @@ install -p -m0644 %{SOURCE2} %{buildroot}%{_darwinx_sysconfdir}/pki/mono/
 %{monodir}/4.6.2-api/
 %{monodir}/4.7-api/
 %{monodir}/4.7.1-api/
+%{monodir}/4.7.2-api/
 %gac_dll Microsoft.CSharp
 %gac_dll System.Dynamic
 %gac_dll System.Reflection.Context
@@ -288,6 +296,7 @@ install -p -m0644 %{SOURCE2} %{buildroot}%{_darwinx_sysconfdir}/pki/mono/
 %gac_dll System.IO.Compression
 %gac_dll System.Windows
 %{_darwinx_prefix}/lib/mono/4.5/Facades
+%{_darwinx_prefix}/lib/mono/4.5/dim
 %{_darwinx_prefix}/lib/mono/gac/Mono.Cecil/*/Mono.Cecil.*
 %gac_dll Mono.Btls.Interface
 %{monodir}/4.5/al.exe
@@ -334,12 +343,13 @@ install -p -m0644 %{SOURCE2} %{buildroot}%{_darwinx_sysconfdir}/pki/mono/
 %{monodir}/4.5/ikdasm.pdb
 %{monodir}/4.5/ilasm.exe
 %{monodir}/4.5/ilasm.pdb
+%{monodir}/4.5/illinkanalyzer.exe
+%{monodir}/4.5/illinkanalyzer.pdb
 %{monodir}/4.5/installutil.pdb
 %{monodir}/4.5/installvst.exe
 %{monodir}/4.5/installvst.pdb
 %{monodir}/4.5/lc.exe
 %{monodir}/4.5/lc.pdb
-%{monodir}/4.5/linkeranalyzer.pdb
 %{monodir}/4.5/macpack.exe
 %{monodir}/4.5/macpack.pdb
 %{monodir}/4.5/makecert.exe
@@ -358,6 +368,8 @@ install -p -m0644 %{SOURCE2} %{buildroot}%{_darwinx_sysconfdir}/pki/mono/
 %{monodir}/4.5/mono-api-info.pdb
 %{monodir}/4.5/mono-cil-strip.exe
 %{monodir}/4.5/mono-cil-strip.pdb
+%{monodir}/4.5/mono-api-diff.exe
+%{monodir}/4.5/mono-api-diff.pdb
 %{monodir}/4.5/mono-service.exe
 %{monodir}/4.5/mono-service.pdb
 %{monodir}/4.5/mono-shlib-cop.pdb
@@ -422,7 +434,6 @@ install -p -m0644 %{SOURCE2} %{buildroot}%{_darwinx_sysconfdir}/pki/mono/
 %{_darwinx_bindir}/mdbrebase
 %{_darwinx_bindir}/ikdasm
 %{_darwinx_prefix}/lib/mono/4.5/mono-symbolicate.exe
-%{_darwinx_prefix}/lib/mono/4.5/linkeranalyzer.exe
 %{_darwinx_prefix}/lib/mono/4.5/Microsoft.CodeAnalysis.CSharp.Scripting.dll
 %{_darwinx_prefix}/lib/mono/4.5/Microsoft.CodeAnalysis.CSharp.dll
 %{_darwinx_prefix}/lib/mono/4.5/Microsoft.CodeAnalysis.Scripting.dll
@@ -492,6 +503,7 @@ install -p -m0644 %{SOURCE2} %{buildroot}%{_darwinx_sysconfdir}/pki/mono/
 %{_darwinx_includedir}/mono-2.0/mono/metadata/*.h
 %{_darwinx_includedir}/mono-2.0/mono/utils/*.h
 %{_darwinx_includedir}/mono-2.0/mono/cil/opcode.def
+%{_darwinx_datadir}/mono-2.0/mono/eglib/eglib-config.h
 %{monodir}/xbuild-frameworks
 %{monodir}/4.5/browsercaps-updater.exe
 %{monodir}/4.5/ictool.exe
@@ -509,8 +521,7 @@ install -p -m0644 %{SOURCE2} %{buildroot}%{_darwinx_sysconfdir}/pki/mono/
 %{_darwinx_prefix}/lib/mono/4.5/SMDiagnostics.dll
 %{_darwinx_prefix}/lib/mono/gac/SMDiagnostics
 %{_darwinx_datadir}/mono-2.0/mono/cil/cil-opcodes.xml
-%{_darwinx_datadir}/mono-2.0/mono/profiler/mono-profiler-log.suppression
-%{_darwinx_datadir}/mono-2.0/mono/profiler/mono-profiler-coverage.suppression
+	%{_darwinx_datadir}/mono-2.0/mono/profiler/mono-profiler-coverage.suppression
 
 ### files nunit
 %mono_bin nunit-console

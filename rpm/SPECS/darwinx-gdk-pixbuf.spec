@@ -1,5 +1,5 @@
 Name:           darwinx-gdk-pixbuf
-Version:        2.36.11
+Version:        2.36.12
 Release:        1%{?dist}
 Summary:        Cross compiled GDK Pixbuf library
 
@@ -97,7 +97,6 @@ rm -rf $RPM_BUILD_ROOT
 # Darwinx
 %files
 %defattr(-,root,root,-)
-%doc COPYING
 %{_darwinx_bindir}/gdk-pixbuf-pixdata
 %{_darwinx_bindir}/gdk-pixbuf-query-loaders
 %{_darwinx_bindir}/gdk-pixbuf-thumbnailer

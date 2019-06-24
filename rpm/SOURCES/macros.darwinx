@@ -1,7 +1,7 @@
 # RPM macros for Fedora Darwin.
 
 %__xz                     /usr/local/bin/xz
-%_bindir                  /usr/local/bin
+%_bindir                  /usr/bin
 
 %_darwinx_i686_target     i686-apple-darwin13
 %_darwinx_x86_64_target   x86_64-apple-darwin13

@@ -1,6 +1,6 @@
 Name:		darwinx-gtk-mac-integration-sharp
 Version:	2.0.7
-Release:	3%{?dist}
+Release:	4%{?dist}
 Summary:	.NET bindings for GtkOSXApplication
 Group:		Development/Languages
 License:	MIT
@@ -40,15 +40,22 @@ make api
 %install
 %{__rm} -rf %{buildroot}
 
-%{_darwinx_makeinstall}
+#{_darwinx_makeinstall}
+
+mkdir -p $RPM_BUILD_ROOT%{_darwinx_libdir}
+cp sources/gtkosxapplication-sharp.dll $RPM_BUILD_ROOT%{_darwinx_libdir}/
+
+mkdir -p $RPM_BUILD_ROOT%{_darwinx_datadir}/pkgconfig/
+cp sources/gtkosxapplication-sharp-2.0.pc $RPM_BUILD_ROOT%{_darwinx_datadir}/pkgconfig/
+sed -i '' 's!mono/gtkosxapplication-sharp-2.0/!!g' $RPM_BUILD_ROOT%{_darwinx_datadir}/pkgconfig/gtkosxapplication-sharp-2.0.pc
 
 %clean
 %{__rm} -rf %{buildroot}
 
 %files
 %defattr(-,root,root,-)
-%{_darwinx_libdir}/mono/
-%{_darwinx_libdir}/pkgconfig/gtkosxapplication-sharp-2.0.pc
+%{_darwinx_libdir}/gtkosxapplication-sharp.dll
+%{_darwinx_datadir}/pkgconfig/gtkosxapplication-sharp-2.0.pc
 
 %changelog
 * Sat Apr 09 2011 Mikkel Kruse Johnsen <mikkel@linet.dk> - 0.9.7-1

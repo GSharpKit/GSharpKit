@@ -10,7 +10,7 @@
 
 %define debug_package %{nil}
 
-%define libdir /bin
+%define libdir /lib
 
 Name:           mingw-libgphoto2-sharp
 Version:        0.3.2
@@ -33,6 +33,7 @@ C# friendly bindings to libgphoto2.
 # Mingw32
 %package -n mingw32-%{mingw_pkg_name}
 Summary:       %{summary}
+Requires:       mingw32-mono
 Requires:       mingw32-libgphoto2
 
 %description -n mingw32-%{mingw_pkg_name}
@@ -41,6 +42,7 @@ C# friendly bindings to libgphoto2.
 # Mingw64
 %package -n mingw64-%{mingw_pkg_name}
 Summary:       %{summary}
+Requires:       mingw64-mono
 Requires:       mingw64-libgphoto2
 
 %description -n mingw64-%{mingw_pkg_name}

@@ -5,12 +5,12 @@ Summary:        A portable foreign function interface library
 
 License:        LGPLv2+
 Group:          Development/Libraries
-URL:            ftp://sourceware.org/pub/libffi/libffi-%{version}.tar.gz
+URL:            ftp://sourceware.org/pub/libffi
 Source0:        ftp://sourceware.org/pub/libffi/libffi-%{version}.tar.gz
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:      noarch
 
-BuildRequires:  darwinx-filesystem >= 2
+BuildRequires:  darwinx-filesystem >= 106
 BuildRequires:  darwinx-gcc
 BuildRequires:  darwinx-gettext
 

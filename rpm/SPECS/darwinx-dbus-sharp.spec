@@ -1,7 +1,7 @@
 Name:			darwinx-dbus-sharp
 Epoch:			2
 Version:		0.9.2
-Release:		1%{?dist}
+Release:		3%{?dist}
 Summary:		Managed C# implementation of DBus
 License:		MIT
 Group:			System Environment/Libraries
@@ -12,7 +12,6 @@ BuildRoot:		%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch: 		noarch
 
 BuildRequires:		darwinx-mono-core
-Requires:		darwinx-mono-core
 
 Obsoletes:		darwinx-ndesk-dbus
 
@@ -29,16 +28,22 @@ Managed C# implementation of DBus
 
 %install
 rm -rf $RPM_BUILD_ROOT
-%{_darwinx_makeinstall}
+#{_darwinx_makeinstall}
+
+mkdir -p $RPM_BUILD_ROOT%{_darwinx_libdir}
+cp src/dbus-sharp.dll $RPM_BUILD_ROOT%{_darwinx_libdir}/
+
+mkdir -p $RPM_BUILD_ROOT%{_darwinx_datadir}/pkgconfig/
+cp dbus-sharp-2.0.pc $RPM_BUILD_ROOT%{_darwinx_datadir}/pkgconfig/
+sed -i '' 's!mono/dbus-sharp-2.0/!!g' $RPM_BUILD_ROOT%{_darwinx_datadir}/pkgconfig/dbus-sharp-2.0.pc
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,root,-)
-%{_darwinx_libdir}/mono/dbus-sharp-2.0/
-%{_darwinx_libdir}/mono/gac/dbus-sharp/
-%{_darwinx_libdir}/pkgconfig/dbus-sharp-2.0.pc
+%{_darwinx_libdir}/dbus-sharp.dll
+%{_darwinx_datadir}/pkgconfig/dbus-sharp-2.0.pc
 
 %changelog
 * Sat May 30 2009 Xavier Lamien <laxathom@fedoraproject.org> - 0.6-1a-6

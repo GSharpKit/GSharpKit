@@ -3,7 +3,7 @@ URL:		http://www.ndesk.org/DBusSharp
 License:	MIT
 Group:		Development/Libraries
 Version:	0.6.0
-Release:	1%{?dist}
+Release:	3%{?dist}
 Summary:	Provides glib mainloop integration for ndesk-dbus
 Source0:	http://www.ndesk.org/archive/dbus-sharp/dbus-sharp-glib-%{version}.tar.gz
 Patch0:		ndesk-dbus-glib-0.4.2.patch
@@ -12,10 +12,8 @@ BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildArch: 	noarch
 
-BuildRequires:	darwinx-mono-core 
 BuildRequires:	darwinx-dbus-sharp
 
-Requires:  	darwinx-mono-core
 Requires:  	darwinx-dbus-sharp
 
 
@@ -38,18 +36,22 @@ sed -i '' 's|libglib-2.0.so.0|libglib-2.0.0.dylib|g' src/dbus-sharp-glib.dll.con
 
 %install
 rm -rf $RPM_BUILD_ROOT
-%{_darwinx_makeinstall}
+#{_darwinx_makeinstall}
+
+mkdir -p $RPM_BUILD_ROOT%{_darwinx_libdir}
+cp src/dbus-sharp-glib.dll $RPM_BUILD_ROOT%{_darwinx_libdir}/
+
+mkdir -p $RPM_BUILD_ROOT%{_darwinx_datadir}/pkgconfig/
+cp dbus-sharp-glib-2.0.pc $RPM_BUILD_ROOT%{_darwinx_datadir}/pkgconfig/
+sed -i '' 's!mono/dbus-sharp-glib-2.0/!!g' $RPM_BUILD_ROOT%{_darwinx_datadir}/pkgconfig/dbus-sharp-glib-2.0.pc
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,root,-)
-%{_darwinx_libdir}/mono/gac/dbus-sharp-glib/*/*.dll
-%{_darwinx_libdir}/mono/gac/dbus-sharp-glib/*/*.dll.config
-%{_darwinx_libdir}/mono/dbus-sharp-glib-2.0/
-%{_darwinx_libdir}/mono/gac/dbus-sharp-glib/*/*.dll.mdb
-%{_darwinx_libdir}/pkgconfig/dbus-sharp-glib-2.0.pc
+%{_darwinx_libdir}/dbus-sharp-glib.dll
+%{_darwinx_datadir}/pkgconfig/dbus-sharp-glib-2.0.pc
 
 %changelog
 * Sat May 30 2009 Xavier Lamien <laxathom@fedoraproject.org> - 0.4.1-5

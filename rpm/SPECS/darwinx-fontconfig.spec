@@ -62,7 +62,6 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,root,-)
-%doc README ChangeLog
 %{_darwinx_bindir}/fc-cache
 %{_darwinx_bindir}/fc-cat
 %{_darwinx_bindir}/fc-list

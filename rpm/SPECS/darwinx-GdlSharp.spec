@@ -1,6 +1,6 @@
 Name:           darwinx-GdlSharp
 Version:        3.26.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Max OS X GDL library
 
 License:        LGPLv2+
@@ -11,12 +11,10 @@ Source0:        GdlSharp-%{version}.tar.gz
 BuildArch:      noarch
 
 BuildRequires:  darwinx-filesystem-base >= 18
-BuildRequires:  darwinx-mono-core
 BuildRequires:  darwinx-libgdl >= %{version}
 
 Requires:  	darwinx-filesystem >= 18
 Requires:  	darwinx-libgdl >= %{version}
-Requires:	darwinx-mono-core
 
 %description
 GTK+ is a multi-platform toolkit for creating graphical user
@@ -31,17 +29,22 @@ suites.
 mkdir -p m4
 autoreconf  -i --force --warnings=none -I . -I m4
 %{_darwinx_configure}
-
-sed -i '' "s!libgdl-3.so.5!libgdl-3.5.dylib!" out/gdl-sharp.dll.config
-
 %{_darwinx_make} %{?_smp_mflags} V=1
 
 
 %install
-%{_darwinx_make} install DESTDIR=$RPM_BUILD_ROOT
+rm -rf $RPM_BUILD_ROOT
+#{_darwinx_make} install DESTDIR=$RPM_BUILD_ROOT
+
+mkdir -p $RPM_BUILD_ROOT%{_darwinx_libdir}
+cp out/gdl-sharp.dll $RPM_BUILD_ROOT%{_darwinx_libdir}/
+
+mkdir -p $RPM_BUILD_ROOT%{_darwinx_datadir}/pkgconfig/
+cp gdl-sharp-3.pc $RPM_BUILD_ROOT%{_darwinx_datadir}/pkgconfig/
+sed -i '' 's!mono/gdl-sharp/!!g' $RPM_BUILD_ROOT%{_darwinx_datadir}/pkgconfig/gdl-sharp-3.pc
 
 %files -n darwinx-GdlSharp
-%{_darwinx_libdir}/GdlSharp.dll
+%{_darwinx_libdir}/gdl-sharp.dll
 %{_darwinx_datadir}/pkgconfig/gdl-sharp-3.pc
 
 %changelog

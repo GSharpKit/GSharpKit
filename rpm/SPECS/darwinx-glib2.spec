@@ -1,5 +1,5 @@
 Name:           darwinx-glib2
-Version:        2.54.2
+Version:        2.58.3
 Release:        1%{?dist}
 Summary:        Darwin GLib2 library
 
@@ -54,7 +54,7 @@ Static version of the Darwin GLib2 library.
 
 %prep
 %setup -q -n glib-%{version}
-%patch0 -p1
+#patch0 -p1
 %patch1 -p1
 #patch2 -p1
 %patch11 -p1
@@ -62,6 +62,8 @@ Static version of the Darwin GLib2 library.
 #patch13 -p1
 
 %build
+NOCONFIGURE=1 sh autogen.sh
+
 # GLib can't build static and shared libraries in one go, so we
 # build GLib twice here
 mkdir build_static
@@ -130,6 +132,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_darwinx_bindir}/glib-compile-schemas
 %{_darwinx_bindir}/gresource
 %{_darwinx_bindir}/gsettings
+%{_darwinx_bindir}/gio-launch-desktop
 %{_darwinx_includedir}/gio-unix-2.0/
 %{_darwinx_includedir}/glib-2.0/
 %{_darwinx_libdir}/glib-2.0/
@@ -166,6 +169,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_darwinx_datadir}/bash-completion/completions/gresource
 %{_darwinx_datadir}/bash-completion/completions/gsettings
 %{_darwinx_datadir}/bash-completion/completions/gapplication
+%{_darwinx_datadir}/bash-completion/completions/gio
 %{_darwinx_datadir}/gettext/its/gschema.its
 %{_darwinx_datadir}/gettext/its/gschema.loc
 

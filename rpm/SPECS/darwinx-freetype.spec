@@ -76,7 +76,6 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,root,-)
-%doc README ChangeLog
 %{_darwinx_bindir}/freetype-config
 %{_darwinx_includedir}/freetype2
 %{_darwinx_libdir}/libfreetype.6.dylib

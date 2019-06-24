@@ -4,7 +4,7 @@
 #define _target_os	linux
 
 Name: 		darwinx-filesystem
-Version: 	105
+Version: 	107
 Release: 	1%{?dist}
 Summary: 	Darwin filesystem and environment
 License: 	GPLv2+
@@ -51,6 +51,7 @@ Provides:	libcups.2.dylib
 Provides:	libedit.3.dylib 
 Provides:	libsqlite3.dylib 
 Provides:	liblzma.5.dylib
+Provides:	libltdl.7.dylib
 
 %description
 This package contains the base filesystem layout, RPM macros and

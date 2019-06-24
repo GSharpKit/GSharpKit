@@ -1,5 +1,5 @@
 Name:           darwinx-harfbuzz
-Version:        2.0.2
+Version:        2.3.1
 Release:        1%{?dist}
 Summary:        Darwin Text shaping library
 
@@ -67,7 +67,6 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,root,-)
-%doc COPYING
 %{_darwinx_bindir}/hb-ot-shape-closure
 %{_darwinx_bindir}/hb-shape
 %{_darwinx_bindir}/hb-view

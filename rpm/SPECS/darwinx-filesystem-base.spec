@@ -1,7 +1,7 @@
 %define debug_package %{nil}
 
 Name: 		darwinx-filesystem-base
-Version: 	105
+Version: 	107
 Release: 	1%{?dist}
 Summary: 	Darwin filesystem and environment
 License: 	GPLv2+
@@ -12,6 +12,7 @@ Source1:	macros.dist
 Source2:	darwinx.sh
 Source3:	zlib.pc
 Source4:	sqlite3.pc
+Source5:	expat.pc
 Prefix:         /usr
 
 BuildRoot: 	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -53,6 +54,7 @@ mkdir -p $RPM_BUILD_ROOT%{_prefix}/lib/pkgconfig
 
 cp %{SOURCE3} $RPM_BUILD_ROOT%{_prefix}/lib/pkgconfig/
 cp %{SOURCE4} $RPM_BUILD_ROOT%{_prefix}/lib/pkgconfig/
+cp %{SOURCE5} $RPM_BUILD_ROOT%{_prefix}/lib/pkgconfig/
 
 
 %clean
@@ -66,6 +68,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_prefix}/etc/rpm/macros.dist
 %{_prefix}/lib/pkgconfig/zlib.pc
 %{_prefix}/lib/pkgconfig/sqlite3.pc
+%{_prefix}/lib/pkgconfig/expat.pc
 
 %changelog
 * Fri Jan 24 2014 Mikkel Kruse Johnsen <mikkel@xmedicus.com> - 1-1

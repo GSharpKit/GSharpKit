@@ -88,7 +88,6 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,root,-)
-%doc COPYING COPYING-LGPL-2.1 COPYING-MPL-1.1
 %{_darwinx_bindir}/cairo-trace
 %{_darwinx_bindir}/cairo-sphinx
 %{_darwinx_includedir}/cairo/

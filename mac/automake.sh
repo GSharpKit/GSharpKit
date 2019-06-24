@@ -68,6 +68,14 @@ CFLAGS="-m64 -arch x86_64" CXXFLAGS="-m64 -arch x86_64" LDFLAGS="-arch x86_64" .
 make
 sudo make install
 
+cd $BUILD_ROOT
+curl -OL http://mirrors.dotsrc.org/gnu/autoconf-archive/autoconf-archive-2019.01.06.tar.xz
+tar xzf autoconf-archive-2019.01.06.tar.xz
+cd autoconf-archive-2019.01.06
+CFLAGS="-m64 -arch x86_64" CXXFLAGS="-m64 -arch x86_64" LDFLAGS="-arch x86_64" ./configure --prefix=$PREFIX --exec-prefix=$PREFIX
+make
+sudo make install
+
 sudo ln -sf $SYMLINK/bin/autoconf /usr/local/bin/autoconf
 sudo ln -sf $SYMLINK/bin/automake-1.16 /usr/local/bin/automake
 sudo ln -sf $SYMLINK/bin/automake-1.16 /usr/local/bin/automake-1.16
