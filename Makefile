@@ -35,5 +35,12 @@ sign64: GSharpKit-${VERSION}-x64.msi
 	mv GSharpKit-${VERSION}-x64.msi GSharpKit-${VERSION}-x64.msi.unsigned
 	osslsigncode sign -pkcs12 ~/.pki/gsharpkit.p12 -askpass -n "GSharpKit" -i http://www.gsharpkit.com -t http://time.certum.pl -nest -h sha512 -in GSharpKit-${VERSION}-x64.msi.unsigned -out GSharpKit-${VERSION}-x64.msi && rm GSharpKit-${VERSION}-x64.msi.unsigned
 
+pkg: make-pkg.sh.in
+	cp make-pkg.sh.in make-pkg.sh
+	sed -i '' 's!@VERSION@!${VERSION}!g' make-pkg.sh
+	sed -i '' 's!@VERSION_BUILD@!${VERSION_BUILD}!g' make-pkg.sh
+	sh make-pkg.sh
+
+
 clean:
 	rm *.msi

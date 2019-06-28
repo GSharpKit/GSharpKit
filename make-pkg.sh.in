@@ -1,0 +1,21 @@
+#!/bin/bash
+
+SOURCEDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+TMPDIR=`mktemp -d`
+
+# Install to staging
+DIR="$TMPDIR/Library/Frameworks/GSharpKit"
+
+sh make-pkg-install.sh /usr/darwinx/usr $DIR
+
+sed -i '' 's!\/usr\/darwinx!\/Library\/Frameworks\/GSharpKit!' $DIR/etc/dbus-1/session.conf 
+sed -i '' 's!\/usr\/darwinx\/usr!\/Library\/Frameworks\/GSharpKit!' $DIR/share/dbus-1/session.conf 
+
+mkdir -p $TMPDIR/Library/LaunchAgents
+cp /usr/darwinx/usr/Library/LaunchAgents/org.freedesktop.dbus-session.plist $TMPDIR/Library/LaunchAgents/
+sed -i '' 's!\/usr!\/Library\/Frameworks\/GSharpKit!' $TMPDIR/Library/LaunchAgents/org.freedesktop.dbus-session.plist
+
+pkgbuild --root $TMPDIR --install-location / --scripts scripts --version @VERSION@ --identifier org.gsharpkit.Runtime GSharpKit-@VERSION@.pkg
+
+productsign --sign "Developer ID Installer: Xmedicus ApS" -i org.gsharpkit.Runtime GSharpKit-@VERSION@.pkg
+

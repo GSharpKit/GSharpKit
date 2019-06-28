@@ -1,13 +1,13 @@
 Name:           darwinx-dbus
 Version:        1.12.16
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        D-Bus Message Bus System
 
 License:        Dual GPLv2 or AFLv2.1
 Group:          Development/Libraries
 URL:            http://dbus.freedesktop.org/
 Source0:        http://dbus.freedesktop.org/releases/dbus/dbus-%{version}.tar.gz
-Source1:	dbus-install.sh
+#Source1:	dbus-install.sh
 
 Patch0:		dbus-1.6.8-launchctl.patch
 Patch1:		darwinx-dbus-multi-arch.patch
@@ -54,8 +54,7 @@ rm -rf $RPM_BUILD_ROOT
 
 make DESTDIR=$RPM_BUILD_ROOT install
 
-install -m 775 %{SOURCE1} $RPM_BUILD_ROOT%{_darwinx_bindir}/
-
+#install -m 775 %{SOURCE1} $RPM_BUILD_ROOT%{_darwinx_bindir}/
 mv $RPM_BUILD_ROOT/usr/local/bin/dbus-daemon $RPM_BUILD_ROOT%{_darwinx_bindir}/
 rm -rf $RPM_BUILD_ROOT/usr/local
 
@@ -66,8 +65,9 @@ rm -rf $RPM_BUILD_ROOT%{_darwinx_libdir}/cmake
 
 mv $RPM_BUILD_ROOT/Library $RPM_BUILD_ROOT%{_darwinx_prefix}
 
-sed -i '' 's!\/usr\/darwinx!!' $RPM_BUILD_ROOT%{_darwinx_prefix}/Library/LaunchAgents/org.freedesktop.dbus-session.plist
-sed -i '' 's!--session!--config-file=\/etc\/dbus-1\/session.conf!' $RPM_BUILD_ROOT%{_darwinx_prefix}/Library/LaunchAgents/org.freedesktop.dbus-session.plist
+sed -i '' 's!unix:tmpdir=\/tmp!launchd:env=DBUS_LAUNCHD_SESSION_BUS_SOCKET!' $RPM_BUILD_ROOT%{_darwinx_prefix}/share/dbus-1/session.conf 
+sed -i '' 's!\/usr\/local!\/usr!' $RPM_BUILD_ROOT%{_darwinx_prefix}/Library/LaunchAgents/org.freedesktop.dbus-session.plist
+sed -i '' 's!--session!--config-file=\/usr\/share\/dbus-1\/session.conf!' $RPM_BUILD_ROOT%{_darwinx_prefix}/Library/LaunchAgents/org.freedesktop.dbus-session.plist
 sed -i '' 's!false !true!' $RPM_BUILD_ROOT%{_darwinx_prefix}/Library/LaunchAgents/org.freedesktop.dbus-session.plist
 
 %clean
@@ -78,7 +78,7 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(-,root,root)
 %{_darwinx_libdir}/libdbus-1.*.dylib
 %{_darwinx_bindir}/dbus-run-session
-%{_darwinx_bindir}/dbus-install.sh
+#{_darwinx_bindir}/dbus-install.sh
 %{_darwinx_bindir}/dbus-monitor
 %{_darwinx_bindir}/dbus-launch
 %{_darwinx_bindir}/dbus-send

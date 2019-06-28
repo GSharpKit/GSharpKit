@@ -23,7 +23,7 @@ GtkOSXApplication-sharp
 %prep
 %setup -q -n gtk-mac-integration-sharp-%{version}
 
-sed -i -e 's!/usr/darwinx/include!/usr/darwinx/usr/include!' sources/gtkosxapplication-sharp-sources.xml 
+sed -i '' 's!/usr/darwinx/include!/usr/darwinx/usr/include!' sources/gtkosxapplication-sharp-sources.xml 
 
 %build
 sh autogen.sh
@@ -44,10 +44,11 @@ make api
 
 mkdir -p $RPM_BUILD_ROOT%{_darwinx_libdir}
 cp sources/gtkosxapplication-sharp.dll $RPM_BUILD_ROOT%{_darwinx_libdir}/
+cp sources/gtkosxapplication-sharp.dll.config $RPM_BUILD_ROOT%{_darwinx_libdir}/
 
 mkdir -p $RPM_BUILD_ROOT%{_darwinx_datadir}/pkgconfig/
 cp sources/gtkosxapplication-sharp-2.0.pc $RPM_BUILD_ROOT%{_darwinx_datadir}/pkgconfig/
-sed -i '' 's!mono/gtkosxapplication-sharp-2.0/!!g' $RPM_BUILD_ROOT%{_darwinx_datadir}/pkgconfig/gtkosxapplication-sharp-2.0.pc
+sed -i '' 's!mono/gtkosxapplication-sharp/!!g' $RPM_BUILD_ROOT%{_darwinx_datadir}/pkgconfig/gtkosxapplication-sharp-2.0.pc
 
 %clean
 %{__rm} -rf %{buildroot}
@@ -55,6 +56,7 @@ sed -i '' 's!mono/gtkosxapplication-sharp-2.0/!!g' $RPM_BUILD_ROOT%{_darwinx_dat
 %files
 %defattr(-,root,root,-)
 %{_darwinx_libdir}/gtkosxapplication-sharp.dll
+%{_darwinx_libdir}/gtkosxapplication-sharp.dll.config
 %{_darwinx_datadir}/pkgconfig/gtkosxapplication-sharp-2.0.pc
 
 %changelog

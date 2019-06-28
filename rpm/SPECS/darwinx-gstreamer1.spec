@@ -38,7 +38,7 @@ plugins.
 %prep
 %setup -q -n gstreamer-%{version}
 
-sed -i '' 's|BISON_PATH=$ac_cv_path_BISON_PATH|BISON_PATH=/Library/Frameworks/AppBox.framework/Versions/1.0.0/bin/bison|g' configure
+sed -i '' 's|BISON_PATH=$ac_cv_path_BISON_PATH|BISON_PATH=/Library/GSharpKit/bin/bison|g' configure
 
 %build
 %{_darwinx_configure} \

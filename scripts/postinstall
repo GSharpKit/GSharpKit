@@ -1,0 +1,14 @@
+#!/bin/sh
+if [ -f /Library/LaunchAgents/org.freedesktop.dbus-session.plist ]; then
+	launchctl load /Library/LaunchAgents/org.freedesktop.dbus-session.plist
+fi
+
+WD="/Library/Frameworks/GSharpKit"
+
+$WD/bin/gdk-pixbuf-query-loaders $WD/lib/gdk-pixbuf-2.0/2.10.0/loaders/* > $WD/etc/gtk-3.0/gdk-pixbuf.loaders
+$WD/bin/gtk-query-immodules-3.0 $WD/lib/gtk-3.0/3.0.0/immodules/* > $WD/etc/gtk-3.0/gtk.immodules
+
+if [ ! -d /Library/Caches/fontconfig ]; then
+        $WD/bin/fc-cache
+fi
+

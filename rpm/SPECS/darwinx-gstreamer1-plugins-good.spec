@@ -1,7 +1,7 @@
 %define		majorminor	1.0
 
 Name:		darwinx-gstreamer1-plugins-good
-Version: 	1.12.4
+Version: 	1.14.2
 Release: 	1%{?dist}
 Summary: 	GStreamer streaming media framework base plug-ins
 Group: 		Applications/Multimedia
@@ -15,7 +15,7 @@ BuildArch: 	noarch
 Requires:	darwinx-gstreamer1 >= %{version}
 Requires:	darwinx-gstreamer1-plugins-base >= %{version}
 
-BuildRequires:	darwinx-filesystem >= 10
+BuildRequires:	darwinx-filesystem-base >= 108
 BuildRequires:	darwinx-gcc
 BuildRequires:	darwinx-glib2
 BuildRequires:	darwinx-gstreamer1 >= %{version}
@@ -27,6 +27,11 @@ BuildRequires:	pkgconfig
 BuildRequires:	libtool
 
 Obsoletes:	darwinx-gstreamer-plugins-good
+
+Requires:	darwinx-filesystem >= 108
+Requires:  	darwinx-gstreamer1 >= %{version}
+Requires:  	darwinx-gstreamer1-plugins-base >= %{version}
+
 
 %description
 GStreamer is a streaming media framework, based on graphs of filters which

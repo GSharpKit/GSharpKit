@@ -40,6 +40,7 @@ rm -rf $RPM_BUILD_ROOT
 
 mkdir -p $RPM_BUILD_ROOT%{_darwinx_libdir}
 cp src/dbus-sharp-glib.dll $RPM_BUILD_ROOT%{_darwinx_libdir}/
+cp src/dbus-sharp-glib.dll.config $RPM_BUILD_ROOT%{_darwinx_libdir}/
 
 mkdir -p $RPM_BUILD_ROOT%{_darwinx_datadir}/pkgconfig/
 cp dbus-sharp-glib-2.0.pc $RPM_BUILD_ROOT%{_darwinx_datadir}/pkgconfig/
@@ -51,6 +52,7 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(-,root,root,-)
 %{_darwinx_libdir}/dbus-sharp-glib.dll
+%{_darwinx_libdir}/dbus-sharp-glib.dll.config
 %{_darwinx_datadir}/pkgconfig/dbus-sharp-glib-2.0.pc
 
 %changelog

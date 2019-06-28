@@ -38,6 +38,8 @@ rm -rf $RPM_BUILD_ROOT
 
 mkdir -p $RPM_BUILD_ROOT%{_darwinx_libdir}
 cp out/gdl-sharp.dll $RPM_BUILD_ROOT%{_darwinx_libdir}/
+cp out/gdl-sharp.dll.config $RPM_BUILD_ROOT%{_darwinx_libdir}/
+sed -i '' 's!libgdl-3.so.5!libgdl-3.5.dylib!' $RPM_BUILD_ROOT%{_darwinx_libdir}/gdl-sharp.dll.config
 
 mkdir -p $RPM_BUILD_ROOT%{_darwinx_datadir}/pkgconfig/
 cp gdl-sharp-3.pc $RPM_BUILD_ROOT%{_darwinx_datadir}/pkgconfig/
@@ -45,6 +47,7 @@ sed -i '' 's!mono/gdl-sharp/!!g' $RPM_BUILD_ROOT%{_darwinx_datadir}/pkgconfig/gd
 
 %files -n darwinx-GdlSharp
 %{_darwinx_libdir}/gdl-sharp.dll
+%{_darwinx_libdir}/gdl-sharp.dll.config
 %{_darwinx_datadir}/pkgconfig/gdl-sharp-3.pc
 
 %changelog

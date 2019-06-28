@@ -1,5 +1,5 @@
 Name:           darwinx-libtasn1
-Version:        4.12
+Version:        4.13
 Release:        1%{?dist}
 Summary:        The ASN.1 library used in GNUTLS
 License:        GPLv3+ and LGPLv2+
@@ -50,7 +50,6 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,root)
-%doc COPYING
 %{_darwinx_bindir}/asn1Coding
 %{_darwinx_bindir}/asn1Decoding
 %{_darwinx_bindir}/asn1Parser

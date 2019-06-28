@@ -31,6 +31,18 @@ virtual machine (as well as a byte code interpreter, the
 class loader, the garbage collector, threading system and
 metadata access libraries.
 
+%package static
+Summary:        A .NET runtime environment
+Requires:       %{name} = %{version}-%{release}
+Group:          Development/Libraries
+
+%description static
+The Mono runtime implements a JIT engine for the ECMA CLI
+virtual machine (as well as a byte code interpreter, the
+class loader, the garbage collector, threading system and
+metadata access libraries.
+
+
 %define monodir /usr/darwinx/usr/lib/mono
 %define gac_dll(dll)  %{monodir}/gac/%{1} \
   %{monodir}/?.?/%{1}.dll \
@@ -67,7 +79,6 @@ mkdir -p %{buildroot}%{_darwinx_sysconfdir}/pki/mono
 install -p -m0644 %{SOURCE2} %{buildroot}%{_darwinx_sysconfdir}/pki/mono/
 
 %{__rm} %{buildroot}%{_darwinx_libdir}/*.la
-%{__rm} %{buildroot}%{_darwinx_libdir}/*.a
 
 # We put these inside rpm
 %{__rm} %{buildroot}%{_darwinx_bindir}/mono-find-provides
@@ -674,6 +685,8 @@ install -p -m0644 %{SOURCE2} %{buildroot}%{_darwinx_sysconfdir}/pki/mono/
 ### files -n monodoc-devel
 %{_darwinx_libdir}/pkgconfig/monodoc.pc
 
+%files static
+%{_darwinx_libdir}/*.a
 
 %changelog
 * Tue Jan 5 2016 Mikkel Kruse Johnsen <mikkel@xmedicus.com> - 4.2.2.10-1
