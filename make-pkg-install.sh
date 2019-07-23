@@ -25,10 +25,12 @@ cp $FROM/lib/mono/4.5/cert-sync.exe $TO/bin/
 cp $FROM/bin/dbus-daemon $TO/bin/
 cp $FROM/bin/dbus-launch $TO/bin/
 cp $FROM/bin/dbus-send $TO/bin/
+
+cp $FROM/bin/glib-compile-schemas $TO/bin/
 cp $FROM/bin/gdk-pixbuf-query-loaders $TO/bin/
 cp $FROM/bin/gtk-query-immodules-3.0 $TO/bin/
 
-#cp $FROM/bin/sane-find-scanner.exe $TO/bin/i
+#cp $FROM/bin/sane-find-scanner.exe $TO/bin/
 
 # LIB directory
 mkdir -p $TO/lib
@@ -44,18 +46,33 @@ cp -r $FROM/lib/mono/gac $TO/lib/mono/
 rm -f $TO/lib/mono/gac/*/*/*.pdb
 rm -f $TO/lib/mono/gac/*/*/*.mdb
 
-cp -r $FROM/lib/enchant $TO/lib/
+mkdir -p $TO/lib/enchant
+cp -r $FROM/lib/enchant/*.so $TO/lib/enchant/
+
 #cp -r $FROM/lib/engines-1_1 $TO/lib/
+
 cp -r $FROM/lib/gdk-pixbuf-2.0 $TO/lib/
+rm -f $TO/lib/gdk-pixbuf-2.0/2.10.0/loaders/*.a
+
 cp -r $FROM/lib/gio $TO/lib/
+rm -f $TO/lib/gio/modules/*.la
+
 cp -r $FROM/lib/gstreamer-1.0 $TO/lib/
+rm -f $TO/lib/gstreamer-1.0/*.la
+
 cp -r $FROM/lib/gtk-3.0 $TO/lib/
+rm -f $TO/lib/gtk-3.0/3.0.0/immodules/*.a
+rm -f $TO/lib/gtk-3.0/3.0.0/immodules/*.la
+rm -f $TO/lib/gtk-3.0/3.0.0/printbackends/*.a
+rm -f $TO/lib/gtk-3.0/3.0.0/printbackends/*.la
+
 cp -r $FROM/lib/libgphoto2 $TO/lib/
 cp -r $FROM/lib/libgphoto2_port $TO/lib/
 
 # SHARE directory
 mkdir -p $TO/share
 cp -r $FROM/share/dbus-1 $TO/share/
+
 mkdir $TO/share/glib-2.0
 cp -r $FROM/share/glib-2.0/schemas $TO/share/glib-2.0/
 
