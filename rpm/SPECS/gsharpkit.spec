@@ -32,7 +32,7 @@
 %define GDK_PIXBUF_VERSION 2.36.11
 %define GTK3_VERSION 3.24.1
 %define GTK3_ADWAITA_VERSION 3.26.0
-%define GDL_VERSION 3.28.0
+%define GDL_VERSION 3.26.0
 
 %define NSIS_VERSION 3.03
 
@@ -46,7 +46,7 @@
 %define P11_KIT_VERSION 0.23.7
 %define LIBTASN1_VERSION 4.13
 %define READLINE_VERSION 6.2
-%define GNUTLS_VERSION 3.6.3
+%define GNUTLS_VERSION 3.5.16
 %define OPENSSL_VERSION 1.0.2
 %define GLIB_NETWORKING_VERSION 2.54.0
 
@@ -59,7 +59,7 @@
 
 %define LIBOGG_VERSION 1.3.2
 %define LIBVORBIS_VERSION 1.3.5
-%define LIBWEBP_VERSION 1.0.0
+%define LIBWEBP_VERSION 0.6.1
 %define GSTREAMER1_VERSION 1.14.1
 %define GSTREAMER1_PLUGINS_BASE_VERSION 1.14.1
 %define GSTREAMER1_PLUGINS_GOOD_VERSION 1.14.1
@@ -106,7 +106,7 @@
 
 Summary: 		Easy management of applications
 Name: 			GSharpKit
-Version:		30.3
+Version:		30.4
 Release:		1%{?dist}
 License:		GPL
 Group: 			Applications/Desktop
@@ -633,13 +633,13 @@ Requires:               darwinx-webkitgtk3 >= %{WEBKITGTK3_VERSION}
 Requires:               darwinx-dbus >= %{DBUS_VERSION}
 Requires:               darwinx-dbus-glib >= %{DBUS_GLIB_VERSION}
 
-Requires:		darwinx-libusbx >= %{LIBUSB_VERSION}
-Requires:		darwinx-libexif >= %{LIBEXIF_VERSION}
+#Requires:		darwinx-libusbx >= %{LIBUSB_VERSION}
+#Requires:		darwinx-libexif >= %{LIBEXIF_VERSION}
 Requires:		darwinx-libgphoto2 >= %{LIBGPHOTO2_VERSION}
-Requires:		darwinx-sane-backends >= %{SANE_BACKENDS_VERSION}
+#Requires:		darwinx-sane-backends >= %{SANE_BACKENDS_VERSION}
 #Requires:		darwinx-twaindsm >= %{TWAIN_DSM_VERSION} # Uses Twain.Framework on macOS
 
-Requires:               darwinx-Microsoft.CSharp >= %{MICROSOFT_CSHARP_VERSION}
+#Requires:               darwinx-Microsoft.CSharp >= %{MICROSOFT_CSHARP_VERSION}
 Requires:               darwinx-Mono.Posix.NETStandard >= %{MONO_POSIX_NETSTANDARD_VERSION}
 Requires:               darwinx-mono-core >= %{MONO_CORE_VERSION}
 Requires:               darwinx-Npgsql >= %{NPGSQL_VERSION}
@@ -660,9 +660,9 @@ Requires:		darwinx-RestSharp >= %{REST_SHARP_VERSION}
 Requires:		darwinx-Seal.net >= %{SEALAPI_VERSION}
 Requires:               darwinx-Sprache >= %{SPRACHE_VERSION}
 Requires:               darwinx-PDFsharp-MigraDoc >= %{PDFSHARP_MIGRADOC_VERSION}
-Requires:		darwinx-SharpZipLib >= %{SHARP_ZIP_LIB_VERSION}
+#Requires:		darwinx-SharpZipLib >= %{SHARP_ZIP_LIB_VERSION}
 Requires:		darwinx-libgphoto2-sharp >= %{LIBGPHOTO2_SHARP_VERSION}
-Requires:		darwinx-SharpCamera >= %{SHARP_CAMERA_VERSION}
+#Requires:		darwinx-SharpCamera >= %{SHARP_CAMERA_VERSION}
 Requires:               darwinx-OpenMedicus.ServiceStack.EHR.ServiceModel >= %{OPENMEDICUS_SERVICESTACK_EHR_SERVICEMODEL_VERSION}
 Requires:               darwinx-OpenMedicus.ServiceStack.Clinic.ServiceModel >= %{OPENMEDICUS_SERVICESTACK_CLINIC_SERVICEMODEL_VERSION}
 Requires:               darwinx-OpenMedicus.ServiceStack.Master.ServiceModel >= %{OPENMEDICUS_SERVICESTACK_MASTER_SERVICEMODEL_VERSION}
