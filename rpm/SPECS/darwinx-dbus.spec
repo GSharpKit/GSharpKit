@@ -1,6 +1,6 @@
 Name:           darwinx-dbus
 Version:        1.12.16
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        D-Bus Message Bus System
 
 License:        Dual GPLv2 or AFLv2.1
@@ -45,7 +45,7 @@ echo "lt_cv_deplibs_check_method='pass_all'" >>%{_darwinx_cache}
 	--enable-checks \
 	--enable-asserts \
 	--enable-launchd \
-	--with-dbus-daemondir=/usr/local/bin
+	--with-dbus-daemondir=/Library/Frameworks/GSharpKit/bin
 make %{?_smp_mflags} || make
 
 
@@ -55,8 +55,8 @@ rm -rf $RPM_BUILD_ROOT
 make DESTDIR=$RPM_BUILD_ROOT install
 
 #install -m 775 %{SOURCE1} $RPM_BUILD_ROOT%{_darwinx_bindir}/
-mv $RPM_BUILD_ROOT/usr/local/bin/dbus-daemon $RPM_BUILD_ROOT%{_darwinx_bindir}/
-rm -rf $RPM_BUILD_ROOT/usr/local
+mv $RPM_BUILD_ROOT/Library/Frameworks/GSharpKit/bin/dbus-daemon $RPM_BUILD_ROOT%{_darwinx_bindir}/
+rm -rf $RPM_BUILD_ROOT/Library/Frameworks
 
 rm -rf $RPM_BUILD_ROOT%{_darwinx_sysconfdir}/rc.d
 rm -rf $RPM_BUILD_ROOT%{_darwinx_datadir}/doc

@@ -1,6 +1,7 @@
 #!/bin/sh
 if [ -f /Library/LaunchAgents/org.freedesktop.dbus-session.plist ]; then
-	launchctl load /Library/LaunchAgents/org.freedesktop.dbus-session.plist
+	INSTALLER_USER=$(stat -f '%Su' $HOME)
+	sudo -u $INSTALLER_USER launchctl load -w /Library/LaunchAgents/org.freedesktop.dbus-session.plist
 fi
 
 WD="/Library/Frameworks/GSharpKit"

@@ -1,5 +1,6 @@
 #!/bin/sh
 if [ -f /Library/LaunchAgents/org.freedesktop.dbus-session.plist ]; then
-	launchctl unload /Library/LaunchAgents/org.freedesktop.dbus-session.plist
+	INSTALLER_USER=$(stat -f '%Su' $HOME)
+        sudo -u $INSTALLER_USER launchctl unload -w /Library/LaunchAgents/org.freedesktop.dbus-session.plist
 fi
 
