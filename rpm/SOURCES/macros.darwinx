@@ -31,7 +31,7 @@
 
 %_darwinx_cppflags        -Wall -I%{_darwinx_includedir}
 %_darwinx_cflags          %{_darwinx_cppflags}
-%_darwinx_ldflags         -L%{_darwinx_libdir}
+%_darwinx_ldflags         -L%{_darwinx_libdir} -headerpad_max_install_names
 
 %_darwinx_cc              gcc
 %_darwinx_cxx             g++

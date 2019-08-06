@@ -1,6 +1,6 @@
 Name:           darwinx-gdk-pixbuf
 Version:        2.36.12
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Cross compiled GDK Pixbuf library
 
 License:        LGPLv2+
@@ -23,7 +23,7 @@ Patch4:         gdk-pixbuf-prevent-libtool-intl-warning.patch
 
 BuildArch:      noarch
 
-BuildRequires:  darwinx-filesystem-base >= 18
+BuildRequires:  darwinx-filesystem-base >= 109
 BuildRequires:  darwinx-sdk
 BuildRequires:  darwinx-gcc
 
@@ -35,7 +35,7 @@ BuildRequires:  darwinx-libtiff
 
 BuildRequires:  pkgconfig
 
-Requires:       darwinx-filesystem >= 18
+Requires:       darwinx-filesystem >= 109
 Requires:  	darwinx-glib2
 Requires:  	darwinx-jasper
 Requires:  	darwinx-libjpeg-turbo

@@ -7,6 +7,7 @@ TMPDIR=`mktemp -d`
 DIR="$TMPDIR/Library/Frameworks/GSharpKit"
 
 sh make-pkg-install.sh /usr/darwinx/usr $DIR
+echo "@VERSION@" > $DIR/version
 
 sed -i '' 's!\/usr\/darwinx!\/Library\/Frameworks\/GSharpKit!' $DIR/etc/dbus-1/session.conf 
 sed -i '' 's!\/usr\/darwinx\/usr!\/Library\/Frameworks\/GSharpKit!' $DIR/share/dbus-1/session.conf 
@@ -15,7 +16,18 @@ mkdir -p $TMPDIR/Library/LaunchAgents
 cp /usr/darwinx/usr/Library/LaunchAgents/org.freedesktop.dbus-session.plist $TMPDIR/Library/LaunchAgents/
 sed -i '' 's!\/usr!\/Library\/Frameworks\/GSharpKit!' $TMPDIR/Library/LaunchAgents/org.freedesktop.dbus-session.plist
 
+find $TMPDIR -type f -iname "*.dylib" -exec sh rewitelibs.sh {} \; 
+find $TMPDIR -type f -iname "*.so" -exec sh rewitelibs.sh {} \; 
+find $TMPDIR/Library/Frameworks/GSharpKit/bin/ -type f -iname "*" ! -path "*.exe" -exec sh rewitelibs.sh {} \; 
+
+# This will prevent postscript from running
+find $TMPDIR -type f -iname "*.dylib" -exec codesign --deep -s "Developer ID Application: Xmedicus ApS" -i com.xmedicus.xmedicus -f {} \;
+find $TMPDIR -type f -iname "*.so" -exec codesign --deep -s "Developer ID Application: Xmedicus ApS" -i com.xmedicus.xmedicus -f {} \;
+codesign --deep -s "Developer ID Application: Xmedicus ApS" -i com.xmedicus.xmedicus -f $TMPDIR/Library/Frameworks/GSharpKit/bin/*
+
 pkgbuild --root $TMPDIR --install-location / --scripts scripts --version @VERSION@ --identifier org.gsharpkit.Runtime GSharpKit-@VERSION@.pkg
 
-productsign --sign "Developer ID Installer: Xmedicus ApS" -i org.gsharpkit.Runtime GSharpKit-@VERSION@.pkg
+mv GSharpKit-@VERSION@.pkg GSharpKit-@VERSION@.pkg.unsigned
+productsign --sign "Developer ID Installer: Xmedicus ApS" GSharpKit-@VERSION@.pkg.unsigned GSharpKit-@VERSION@.pkg
+rm GSharpKit-@VERSION@.pkg.unsigned
 

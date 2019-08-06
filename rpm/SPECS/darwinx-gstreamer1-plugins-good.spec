@@ -2,7 +2,7 @@
 
 Name:		darwinx-gstreamer1-plugins-good
 Version: 	1.14.2
-Release: 	1%{?dist}
+Release: 	2%{?dist}
 Summary: 	GStreamer streaming media framework base plug-ins
 Group: 		Applications/Multimedia
 License: 	LGPLv2+
@@ -15,7 +15,7 @@ BuildArch: 	noarch
 Requires:	darwinx-gstreamer1 >= %{version}
 Requires:	darwinx-gstreamer1-plugins-base >= %{version}
 
-BuildRequires:	darwinx-filesystem-base >= 108
+BuildRequires:	darwinx-filesystem-base >= 109
 BuildRequires:	darwinx-gcc
 BuildRequires:	darwinx-glib2
 BuildRequires:	darwinx-gstreamer1 >= %{version}
@@ -28,7 +28,7 @@ BuildRequires:	libtool
 
 Obsoletes:	darwinx-gstreamer-plugins-good
 
-Requires:	darwinx-filesystem >= 108
+Requires:	darwinx-filesystem >= 109
 Requires:  	darwinx-gstreamer1 >= %{version}
 Requires:  	darwinx-gstreamer1-plugins-base >= %{version}
 

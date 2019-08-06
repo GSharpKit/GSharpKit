@@ -1,6 +1,6 @@
 Name:           darwinx-glib2
 Version:        2.58.3
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Darwin GLib2 library
 
 License:        LGPLv2+
@@ -25,7 +25,7 @@ Patch13:	glib-2.50.3-appkit.patch
 
 BuildArch:      noarch
 
-BuildRequires:  darwinx-filesystem >= 18
+BuildRequires:  darwinx-filesystem >= 109
 BuildRequires:  darwinx-gcc
 BuildRequires:  darwinx-odcctools
 BuildRequires:  darwinx-sdk

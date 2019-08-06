@@ -14,13 +14,13 @@ cp -r $FROM/etc/fonts $TO/etc/
 cp -r $FROM/etc/gtk-3.0 $TO/etc/
 cp -r $FROM/etc/mono $TO/etc/
 cp -r $FROM/etc/pki $TO/etc/
+cp ca-bundle.crt $TO/etc/pki/
 #cp -r $FROM/etc/sane.d $TO/etc/
 
 # BIN directory
 mkdir -p $TO/bin
 cp $FROM/bin/mono $TO/bin/
 cp $FROM/lib/mono/4.5/cert-sync.exe $TO/bin/
-#cp /etc/pki/tls/certs/ca-bundle.crt $TO/bin/
 
 cp $FROM/bin/dbus-daemon $TO/bin/
 cp $FROM/bin/dbus-launch $TO/bin/
@@ -30,13 +30,15 @@ cp $FROM/bin/glib-compile-schemas $TO/bin/
 cp $FROM/bin/gdk-pixbuf-query-loaders $TO/bin/
 cp $FROM/bin/gtk-query-immodules-3.0 $TO/bin/
 
+cp $FROM/bin/fc-cache $TO/bin/
+
 #cp $FROM/bin/sane-find-scanner.exe $TO/bin/
 
 # LIB directory
 mkdir -p $TO/lib
 cp $FROM/lib/*.dll $TO/lib/
 cp $FROM/lib/*.dll.config $TO/lib/
-cp $FROM/lib/*.dylib $TO/lib/
+cp -a $FROM/lib/*.dylib $TO/lib/
  
 mkdir -p $TO/lib/mono/4.5
 cp -r $FROM/lib/mono/4.5/mscorlib.dll $TO/lib/mono/4.5/
@@ -53,6 +55,7 @@ cp -r $FROM/lib/enchant/*.so $TO/lib/enchant/
 
 cp -r $FROM/lib/gdk-pixbuf-2.0 $TO/lib/
 rm -f $TO/lib/gdk-pixbuf-2.0/2.10.0/loaders/*.a
+rm -f $TO/lib/gdk-pixbuf-2.0/2.10.0/loaders/*.la
 
 cp -r $FROM/lib/gio $TO/lib/
 rm -f $TO/lib/gio/modules/*.la

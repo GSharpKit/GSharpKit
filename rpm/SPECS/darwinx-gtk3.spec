@@ -1,6 +1,6 @@
 Name:           darwinx-gtk3
 Version:        3.24.8
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Darwin Gtk3 library
 
 License:        LGPLv2+
@@ -14,7 +14,7 @@ BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildArch:      noarch
 
-BuildRequires:  darwinx-filesystem-base >= 18
+BuildRequires:  darwinx-filesystem-base >= 109
 BuildRequires:  darwinx-gcc
 BuildRequires:  darwinx-odcctools
 BuildRequires:  darwinx-sdk
@@ -71,9 +71,7 @@ Static version of the Darwin Gtk3 library.
     --enable-static \
     --enable-quartz-backend \
     --enable-quartz-relocation \
-    --enable-cups \
-    --enable-test-print-backend \
-    --enable-packagekit=no
+    --enable-cups
 V=99 %{_darwinx_make} %{?_smp_mflags}
 
 
@@ -139,8 +137,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_darwinx_libdir}/gtk-3.0/3.0.0/printbackends/libprintbackend-file.so
 %{_darwinx_libdir}/gtk-3.0/3.0.0/printbackends/libprintbackend-lpr.la
 %{_darwinx_libdir}/gtk-3.0/3.0.0/printbackends/libprintbackend-lpr.so
-%{_darwinx_libdir}/gtk-3.0/3.0.0/printbackends/libprintbackend-test.la
-%{_darwinx_libdir}/gtk-3.0/3.0.0/printbackends/libprintbackend-test.so
+#{_darwinx_libdir}/gtk-3.0/3.0.0/printbackends/libprintbackend-test.la
+#{_darwinx_libdir}/gtk-3.0/3.0.0/printbackends/libprintbackend-test.so
 %{_darwinx_libdir}/libgailutil-3.0.dylib
 %{_darwinx_libdir}/libgailutil-3.dylib
 %{_darwinx_libdir}/libgailutil-3.la
@@ -182,7 +180,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_darwinx_libdir}/gtk-3.0/3.0.0/printbackends/libprintbackend-cups.a
 %{_darwinx_libdir}/gtk-3.0/3.0.0/printbackends/libprintbackend-file.a
 %{_darwinx_libdir}/gtk-3.0/3.0.0/printbackends/libprintbackend-lpr.a
-%{_darwinx_libdir}/gtk-3.0/3.0.0/printbackends/libprintbackend-test.a
+#{_darwinx_libdir}/gtk-3.0/3.0.0/printbackends/libprintbackend-test.a
 %{_darwinx_libdir}/libgailutil-3.a
 %{_darwinx_libdir}/libgdk-3.a
 %{_darwinx_libdir}/libgtk-3.a
