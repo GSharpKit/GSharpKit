@@ -1,0 +1,45 @@
+Binary files gtk+-3.24.8.orig/gtk/.gtkmain.c.swp and gtk+-3.24.8/gtk/.gtkmain.c.swp differ
+diff -Nur gtk+-3.24.8.orig/gtk/gtkquartz.c gtk+-3.24.8/gtk/gtkquartz.c
+--- gtk+-3.24.8.orig/gtk/gtkquartz.c	2019-04-10 21:30:43.000000000 +0200
++++ gtk+-3.24.8/gtk/gtkquartz.c	2019-08-07 08:31:58.000000000 +0200
+@@ -345,19 +345,27 @@
+ 
+   if (path == NULL)
+     {
+-      NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+-      gchar *resource_path = g_strdup ([[[NSBundle mainBundle] resourcePath] UTF8String]);
+-      gchar *base;
+-      [pool drain];
+-
+-      base = g_path_get_basename (resource_path);
+-      if (strcmp (base, "bin") == 0)
+-	path = g_path_get_dirname (resource_path);
+-      else
+-	path = strdup (resource_path);
+-
+-      g_free (resource_path);
+-      g_free (base);
++       char *p = getenv ("GTK_BUNDLE_PATH");
++       if (p != NULL)
++         {
++           path = g_strdup (p);
++         }
++       else
++         {
++	   NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
++	   gchar *resource_path = g_strdup ([[[NSBundle mainBundle] resourcePath] UTF8String]);
++	   gchar *base;
++	   [pool drain];
++
++           base = g_path_get_basename (resource_path);
++           if (strcmp (base, "bin") == 0)
++	     path = g_path_get_dirname (resource_path);
++	   else
++	     path = strdup (resource_path);
++
++           g_free (resource_path);
++           g_free (base);
++	 }
+     }
+ 
+   return path;
