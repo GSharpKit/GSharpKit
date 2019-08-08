@@ -25,9 +25,9 @@ find $TMPDIR -type f -iname "*.dylib" -exec codesign --deep -s "Developer ID App
 find $TMPDIR -type f -iname "*.so" -exec codesign --deep -s "Developer ID Application: Xmedicus ApS" -i com.xmedicus.xmedicus -f {} \;
 codesign --deep -s "Developer ID Application: Xmedicus ApS" -i com.xmedicus.xmedicus -f $TMPDIR/Library/Frameworks/GSharpKit/bin/*
 
-pkgbuild --root $TMPDIR --install-location / --scripts scripts --version @VERSION@ --identifier org.gsharpkit.Runtime GSharpKit-@VERSION@.pkg
+pkgbuild --root $TMPDIR --install-location / --scripts scripts --version @VERSION@ --identifier org.gsharpkit.Runtime GSharpKit-@VERSION@-x64.pkg
 
-mv GSharpKit-@VERSION@.pkg GSharpKit-@VERSION@.pkg.unsigned
-productsign --sign "Developer ID Installer: Xmedicus ApS" GSharpKit-@VERSION@.pkg.unsigned GSharpKit-@VERSION@.pkg
-rm GSharpKit-@VERSION@.pkg.unsigned
+mv GSharpKit-@VERSION@-x64.pkg GSharpKit-@VERSION@-x64.pkg.unsigned
+productsign --sign "Developer ID Installer: Xmedicus ApS" GSharpKit-@VERSION@-x64.pkg.unsigned GSharpKit-@VERSION@-x64.pkg
+rm GSharpKit-@VERSION@-x64.pkg.unsigned
 
