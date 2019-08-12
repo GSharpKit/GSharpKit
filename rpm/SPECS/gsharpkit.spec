@@ -78,7 +78,8 @@
 %define MONO_CORE_VERSION 5.20.1
 %define MICROSOFT_CSHARP_VERSION 4.5.0
 %define MONO_POSIX_NETSTANDARD_VERSION 1.0.0
-%define NPGSQL_VERSION 4.0.6
+%define MONO_DATA_SQLITE_VERSION 1.0.61
+%define NPGSQL_VERSION 4.0.8
 %define MONO_ADDINS_VERSION 1.3.8
 %define GTK3_SHARP_VERSION 3.22.24
 %define GDL_SHARP_VERSION 3.26.0
@@ -87,12 +88,12 @@
 %define DBUS_GLIB_SHARP_VERSION 0.6.0
 %define GST_SHARP_VERSION 1.14.2
 %define NEWTONSOFT_JSON_VERSION 12.0.2
-%define BOUNCY_CASTLE_VERSION 1.8.2
-%define MIMEKIT_VERSION 2.1.4
-%define MAILKIT_VERSION 2.1.4
+%define BOUNCY_CASTLE_VERSION 1.8.5
+%define MIMEKIT_VERSION 2.2.0
+%define MAILKIT_VERSION 2.2.0
 %define GTK_MAC_INTEGRATION_SHARP_VERSION 0.9
-%define SERVICE_STACK_VERSION 5.5.0
-%define REST_SHARP_VERSION 106.6.9
+%define SERVICE_STACK_VERSION 5.6.0
+%define REST_SHARP_VERSION 106.6.10
 %define SEALAPI_VERSION 4.1.0
 %define PDFSHARP_MIGRADOC_VERSION 1.50.5147
 %define SPRACHE_VERSION 2.2.0
@@ -106,7 +107,7 @@
 
 Summary: 		Easy management of applications
 Name: 			GSharpKit
-Version:		30.4
+Version:		30.5
 Release:		1%{?dist}
 License:		GPL
 Group: 			Applications/Desktop
@@ -167,6 +168,7 @@ Requires:		mono-data >= %{MONO_CORE_VERSION}
 Requires:		mono-data-sqlite >= %{MONO_CORE_VERSION}
 Requires:		Microsoft.CSharp >= %{MICROSOFT_CSHARP_VERSION}
 Requires:		Mono.Posix.NETStandard >= %{MONO_POSIX_NETSTANDARD_VERSION}
+Requires:		Mono.Data.Sqlite >= %{MONO_DATA_SQLITE_VERSION}
 Requires:		Npgsql >= %{NPGSQL_VERSION}
 Requires:		mono-web >= %{MONO_CORE_VERSION}
 Requires:		mono-wcf >= %{MONO_CORE_VERSION}
@@ -337,6 +339,7 @@ Requires:		mingw32-twaindsm >= %{TWAIN_DSM_VERSION}
 
 Requires:               mingw32-Microsoft.CSharp >= %{MICROSOFT_CSHARP_VERSION}
 Requires:               mingw32-Mono.Posix.NETStandard >= %{MONO_POSIX_NETSTANDARD_VERSION}
+Requires:               mingw32-Mono.Data.Sqlite >= %{MONO_DATA_SQLITE_VERSION}
 #Requires:               mingw32-mono-core >= %{MONO_CORE_VERSION}
 Requires:               mingw32-Npgsql >= %{NPGSQL_VERSION}
 Requires:               mingw32-GtkSharp >= %{GTK3_SHARP_VERSION}
@@ -446,6 +449,7 @@ Requires:		mingw64-twaindsm >= %{TWAIN_DSM_VERSION}
 
 Requires:               mingw64-Microsoft.CSharp >= %{MICROSOFT_CSHARP_VERSION}
 Requires:               mingw64-Mono.Posix.NETStandard >= %{MONO_POSIX_NETSTANDARD_VERSION}
+Requires:               mingw64-Mono.Data.Sqlite >= %{MONO_DATA_SQLITE_VERSION}
 #Requires:               mingw64-mono-core >= %{MONO_CORE_VERSION}
 Requires:               mingw64-Npgsql >= %{NPGSQL_VERSION}
 Requires:               mingw64-GtkSharp >= %{GTK3_SHARP_VERSION}
@@ -641,6 +645,7 @@ Requires:		darwinx-libgphoto2 >= %{LIBGPHOTO2_VERSION}
 
 #Requires:               darwinx-Microsoft.CSharp >= %{MICROSOFT_CSHARP_VERSION}
 Requires:               darwinx-Mono.Posix.NETStandard >= %{MONO_POSIX_NETSTANDARD_VERSION}
+Requires:               darwinx-Mono.Data.Sqlite >= %{MONO_DATA_SQLITE_VERSION}
 Requires:               darwinx-mono-core >= %{MONO_CORE_VERSION}
 Requires:               darwinx-Npgsql >= %{NPGSQL_VERSION}
 Requires:               darwinx-GtkSharp >= %{GTK3_SHARP_VERSION}
