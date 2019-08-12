@@ -18,3 +18,8 @@ tag:
 push:
 	sudo docker push gsharpkit/gsharpkit-darwinx:${VERSION}
 
+download:
+	rm -rf packages/*
+	cd packages/
+	scp gsharpkit@gimli.xmedicus.com:/home/gsharpkit/GSharpKit/Fedora30-x86_64/framework/darwinx-*.noarch.rpm .
+
