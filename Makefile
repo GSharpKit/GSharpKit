@@ -1,15 +1,14 @@
-VERSION = 30.4
-VERSION_BUILD = 1
+include config
 
 msi32: GSharpKit.json.in make-msi32.sh.in
 	cp GSharpKit.json.in GSharpKit.json
 	sed -i -e 's!@VERSION@!${VERSION}!g' GSharpKit.json
-	sed -i -e 's!@VERSION_BUILD@!${VERSION_BUILD}!g' GSharpKit.json
+	sed -i -e 's!@RELEASE@!${RELEASE}!g' GSharpKit.json
 	sed -i -e 's!@ARCH_NO@!32!g' GSharpKit.json
 	sed -i -e 's!@ARCH_SHORT@!x86!g' GSharpKit.json
 	cp make-msi32.sh.in make-msi32.sh
 	sed -i -e 's!@VERSION@!${VERSION}!g' make-msi32.sh
-	sed -i -e 's!@VERSION_BUILD@!${VERSION_BUILD}!g' make-msi32.sh
+	sed -i -e 's!@RELEASE@!${RELEASE}!g' make-msi32.sh
 	sh make-msi32.sh
 
 sign32: GSharpKit-${VERSION}-x86.msi
@@ -21,12 +20,12 @@ sign32: GSharpKit-${VERSION}-x86.msi
 msi64: GSharpKit.json.in make-msi64.sh.in
 	cp GSharpKit.json.in GSharpKit.json
 	sed -i -e 's!@VERSION@!${VERSION}!g' GSharpKit.json
-	sed -i -e 's!@VERSION_BUILD@!${VERSION_BUILD}!g' GSharpKit.json
+	sed -i -e 's!@RELEASE@!${RELEASE}!g' GSharpKit.json
 	sed -i -e 's!@ARCH_NO@!64!g' GSharpKit.json
 	sed -i -e 's!@ARCH_SHORT@!x64!g' GSharpKit.json
 	cp make-msi64.sh.in make-msi64.sh
 	sed -i -e 's!@VERSION@!${VERSION}!g' make-msi64.sh
-	sed -i -e 's!@VERSION_BUILD@!${VERSION_BUILD}!g' make-msi64.sh
+	sed -i -e 's!@RELEASE@!${RELEASE}!g' make-msi64.sh
 	sh make-msi64.sh
 
 sign64: GSharpKit-${VERSION}-x64.msi
@@ -38,7 +37,7 @@ sign64: GSharpKit-${VERSION}-x64.msi
 pkg: make-pkg.sh.in
 	cp make-pkg.sh.in make-pkg.sh
 	sed -i '' 's!@VERSION@!${VERSION}!g' make-pkg.sh
-	sed -i '' 's!@VERSION_BUILD@!${VERSION_BUILD}!g' make-pkg.sh
+	sed -i '' 's!@RELEASE@!${RELEASE}!g' make-pkg.sh
 	sh make-pkg.sh
 
 

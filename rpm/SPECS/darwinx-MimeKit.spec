@@ -3,7 +3,7 @@
 %define libdir /lib
 
 Name:           darwinx-MimeKit
-Version:        2.1.4
+Version:        2.2.0
 Release:        1%{?dist}
 Summary:        MimeKit is an Open Source library for creating and parsing MIME, S/MIME and PGP messages
 Group:          Development/Languages

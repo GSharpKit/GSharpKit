@@ -19,6 +19,6 @@ mv $TMP/usr/x86_64-w64-mingw32/sys-root/mingw $DIR
 
 pushd $TMPDIR
 python createmsi.py GSharpKit.json
-cp GSharpKit-@VERSION@.@VERSION_BUILD@-64.msi $SOURCEDIR/GSharpKit-@VERSION@-x64.msi
+cp GSharpKit-@VERSION@.@RELEASE@-64.msi $SOURCEDIR/GSharpKit-@VERSION@-x64.msi
 popd
 

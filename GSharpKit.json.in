@@ -1,6 +1,6 @@
 {
     "upgrade_guid": "67246d64-b0ee-11e8-af4d-708bcda85715",
-    "version": "@VERSION@.@VERSION_BUILD@",
+    "version": "@VERSION@.@RELEASE@",
     "product_name": "GSharpKit",
     "manufacturer": "XMedicus Systems ApS",
     "name": "GSharpKit",
@@ -13,6 +13,8 @@
     "major_upgrade": {
         "AllowDowngrades": "yes",
         "IgnoreRemoveFailure": "yes"
+    },
+    "custom_actions": {
     },
     "registry_entries": [
     	{

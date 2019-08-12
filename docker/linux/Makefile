@@ -1,4 +1,4 @@
-include ../config
+include ../../config
 
 all: pull build tag push
 

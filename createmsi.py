@@ -251,7 +251,7 @@ class PackageGenerator:
         if self.custom_actions is not None:
             install_execute_sequence = ET.SubElement(product, 'InstallExecuteSequence')
             ET.SubElement(install_execute_sequence, 'RemoveExistingProducts', {
-                'After': 'InstallFinalize'
+                'Before': 'CostInitialize'
             })
             ET.SubElement(product, 'Property', {
                 'Id': 'cmd',
@@ -325,7 +325,7 @@ class PackageGenerator:
             })
 
     def path_to_id(self, pathname):
-            return pathname.replace('\\', '_').replace('/', '_').replace('#', '_').replace('-', '_')                                                                                                   
+            return pathname.replace('\\', '_').replace('/', '_').replace('#', '_').replace('-', '_')
     def create_xml(self, nodes, current_dir, parent_xml_node, staging_dir):
         cur_node = nodes[current_dir]
         if cur_node.files:

@@ -4,7 +4,7 @@
 %define platform netstandard2.0
 
 Name:           darwinx-RestSharp
-Version:        106.6.9
+Version:        106.6.10
 Release:        1%{?dist}
 Summary:        Simple REST and HTTP API Client
 Group:          Development/Languages
