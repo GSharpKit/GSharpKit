@@ -19,7 +19,8 @@ push:
 	sudo docker push gsharpkit/gsharpkit-darwinx:${VERSION}
 
 download:
+	-mkdir packages
 	rm -rf packages/*
-	cd packages/
-	scp gsharpkit@gimli.xmedicus.com:/home/gsharpkit/GSharpKit/Fedora30-x86_64/framework/darwinx-*.noarch.rpm .
+	scp gsharpkit@gimli.xmedicus.com:/home/gsharpkit/GSharpKit/Fedora30-x86_64/framework/darwinx-*.noarch.rpm packages/
+	rm -f packages/darwinx-filesystem-base-*
 
