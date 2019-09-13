@@ -11,7 +11,7 @@
 %define libdir /bin
 
 Name:           mingw-Npgsql
-Version:        4.0.8
+Version:        4.0.10
 Release:        1%{?dist}
 Summary:        Postgresql database connectivity for C#
 

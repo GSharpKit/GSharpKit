@@ -30,7 +30,7 @@
 %define LIBEPOXY_VERSION 1.4.3
 %define LIBRSVG2_VERSION 2.40.19
 %define GDK_PIXBUF_VERSION 2.36.11
-%define GTK3_VERSION 3.24.1
+%define GTK3_VERSION 3.24.11
 %define GTK3_ADWAITA_VERSION 3.26.0
 %define GDL_VERSION 3.26.0
 
@@ -75,11 +75,11 @@
 %define SANE_BACKENDS_VERSION 1.0.27
 %define TWAIN_DSM_VERSION 2.3.1
 
-%define MONO_CORE_VERSION 5.20.1
+%define MONO_CORE_VERSION 6.0.0
 %define MICROSOFT_CSHARP_VERSION 4.5.0
 %define MONO_POSIX_NETSTANDARD_VERSION 1.0.0
 %define MONO_DATA_SQLITE_VERSION 1.0.61
-%define NPGSQL_VERSION 4.0.8
+%define NPGSQL_VERSION 4.0.10
 %define MONO_ADDINS_VERSION 1.3.8
 %define GTK3_SHARP_VERSION 3.22.24
 %define GDL_SHARP_VERSION 3.26.0
@@ -107,7 +107,7 @@
 
 Summary: 		Easy management of applications
 Name: 			GSharpKit
-Version:		30.5
+Version:		30.6
 Release:		1%{?dist}
 License:		GPL
 Group: 			Applications/Desktop
@@ -705,6 +705,7 @@ cp %{SOURCE13} $RPM_BUILD_ROOT%{_sysconfdir}/pki/rpm-gpg/
 
 mkdir -p $RPM_BUILD_ROOT%{_sysconfdir}/rpm
 cp %{SOURCE5} $RPM_BUILD_ROOT%{_sysconfdir}/rpm/
+sed -i -e 's! -headerpad_max_install_names!!g' $RPM_BUILD_ROOT%{_sysconfdir}/rpm/macros.darwinx
 
 mkdir -p $RPM_BUILD_ROOT%{_bindir}
 cp %{SOURCE6} $RPM_BUILD_ROOT%{_bindir}/

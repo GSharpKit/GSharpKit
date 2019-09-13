@@ -1,0 +1,152 @@
+From d3ae4b1d30ff92f295eac791554448244bc644fe Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Sebastian=20Dr=C3=B6ge?= <sebastian@centricular.com>
+Date: Wed, 14 Aug 2019 22:37:00 +0300
+Subject: [PATCH] GSettingsBackend - Fix thread-safety during destruction of
+ GSettings instances while notifications are emitted
+
+g_settings_backend_watch() uses a weak notify for keeping track of
+the target. There's an explanation why this is supposed to be safe but
+that explanation is wrong.
+
+The following could happen before:
+
+1. We have the target stored in the watch list
+2. The last reference to the target is dropped in thread A and we end up
+   in g_settings_backend_watch_weak_notify() right before the mutex
+3. g_settings_backend_dispatch_signal() is called from another thread B
+   and gets the mutex before 2.
+4. g_weak_ref_init() is called on the target from thread B, which at
+   this point has a reference count of exactly one (see g_object_unref()
+   where it calls the weak notifies)
+5. Thread A continues at 3. and drops the last reference and destroys
+   the object. Now the GWeakRef from 4. points to a destroyed object. Note
+   that GWeakRefs would be cleared before the weak notifies are called
+6. At some later point another thread g_weak_ref_get() is called by
+   g_settings_backend_invoke_closure() and accesses an already destroyed
+   object with refcount 0 from the GWeakRef created in 4. by thread B (or
+   worse, already freed memory that was reused).
+
+Solve this by actually storing a GWeakRef of the target in the watch
+list and only access the target behind it via the GWeakRef API, and then
+pass a strong reference to the notification dispatch code.
+
+The weak notify is only used to remove the (potentially with empty
+GWeakRef) target from the list of watches and the only place that
+compares the target by pointer instead of going through the GWeakRef
+API.
+
+Fixes https://gitlab.gnome.org/GNOME/glib/issues/1870
+---
+ gio/gsettingsbackend.c | 41 ++++++++++++++++++++++++-----------------
+ 1 file changed, 24 insertions(+), 17 deletions(-)
+
+diff --git a/gio/gsettingsbackend.c b/gio/gsettingsbackend.c
+index 18026ae562..f53a023928 100644
+--- a/gio/gsettingsbackend.c
++++ b/gio/gsettingsbackend.c
+@@ -122,7 +122,13 @@ is_path (const gchar *path)
+ 
+ struct _GSettingsBackendWatch
+ {
+-  GObject                       *target;
++  /* Always access the target via the weak reference */
++  GWeakRef                       target;
++  /* The pointer is only for comparison from the weak notify,
++   * at which point the target might already be close to
++   * destroyed. It's not safe to use it for anything anymore
++   * at that point */
++  GObject                       *target_ptr;
+   const GSettingsListenerVTable *vtable;
+   GMainContext                  *context;
+   GSettingsBackendWatch         *next;
+@@ -137,7 +143,7 @@ struct _GSettingsBackendClosure
+                     gchar            **names);
+ 
+   GMainContext      *context;
+-  GWeakRef          *target_ref;
++  GObject           *target;
+   GSettingsBackend  *backend;
+   gchar             *name;
+   gpointer           origin_tag;
+@@ -154,11 +160,12 @@ g_settings_backend_watch_weak_notify (gpointer  data,
+   /* search and remove */
+   g_mutex_lock (&backend->priv->lock);
+   for (ptr = &backend->priv->watches; *ptr; ptr = &(*ptr)->next)
+-    if ((*ptr)->target == where_the_object_was)
++    if ((*ptr)->target_ptr == where_the_object_was)
+       {
+         GSettingsBackendWatch *tmp = *ptr;
+ 
+         *ptr = tmp->next;
++        g_weak_ref_clear (&tmp->target);
+         g_slice_free (GSettingsBackendWatch, tmp);
+ 
+         g_mutex_unlock (&backend->priv->lock);
+@@ -208,9 +215,10 @@ g_settings_backend_watch (GSettingsBackend              *backend,
+    * GSettings object in a thread other than the one that is doing the
+    * dispatching is as follows:
+    *
+-   *  1) hold a thread-safe GWeakRef on the GSettings during an outstanding
++   *  1) hold a strong reference on the GSettings during an outstanding
+    *     dispatch.  This ensures that the delivery is always possible while
+-   *     the GSettings object is alive.
++   *     the GSettings object is alive, and if this was the last reference
++   *     then it will be dropped from the dispatch thread.
+    *
+    *  2) hold a weak reference on the GSettings at other times.  This
+    *     allows us to receive early notification of pending destruction
+@@ -235,7 +243,8 @@ g_settings_backend_watch (GSettingsBackend              *backend,
+   watch = g_slice_new (GSettingsBackendWatch);
+   watch->context = context;
+   watch->vtable = vtable;
+-  watch->target = target;
++  g_weak_ref_init (&watch->target, target);
++  watch->target_ptr = target;
+   g_object_weak_ref (target, g_settings_backend_watch_weak_notify, backend);
+ 
+   /* linked list prepend */
+@@ -260,20 +269,14 @@ static gboolean
+ g_settings_backend_invoke_closure (gpointer user_data)
+ {
+   GSettingsBackendClosure *closure = user_data;
+-  GObject *target = g_weak_ref_get (closure->target_ref);
+ 
+-  if (target)
+-    {
+-      closure->function (target, closure->backend, closure->name,
+-                         closure->origin_tag, closure->names);
+-      g_object_unref (target);
+-    }
++  closure->function (closure->target, closure->backend, closure->name,
++                     closure->origin_tag, closure->names);
+ 
+   if (closure->context)
+     g_main_context_unref (closure->context);
+   g_object_unref (closure->backend);
+-  g_weak_ref_clear (closure->target_ref);
+-  g_free (closure->target_ref);
++  g_object_unref (closure->target);
+   g_strfreev (closure->names);
+   g_free (closure->name);
+ 
+@@ -304,14 +307,18 @@ g_settings_backend_dispatch_signal (GSettingsBackend    *backend,
+   for (watch = backend->priv->watches; watch; watch = watch->next)
+     {
+       GSettingsBackendClosure *closure;
++      GObject *target = g_weak_ref_get (&watch->target);
++
++      /* If the target was destroyed in the meantime, just skip it here */
++      if (!target)
++        continue;
+ 
+       closure = g_slice_new (GSettingsBackendClosure);
+       closure->context = watch->context;
+       if (closure->context)
+         g_main_context_ref (closure->context);
+       closure->backend = g_object_ref (backend);
+-      closure->target_ref = g_new (GWeakRef, 1);
+-      g_weak_ref_init (closure->target_ref, watch->target);
++      closure->target = g_steal_pointer (&target);
+       closure->function = G_STRUCT_MEMBER (void *, watch->vtable,
+                                            function_offset);
+       closure->name = g_strdup (name);

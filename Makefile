@@ -1,5 +1,7 @@
 include config
 
+msi: msi32 msi64 sign32 sign64
+
 msi32: GSharpKit.json.in make-msi32.sh.in
 	cp GSharpKit.json.in GSharpKit.json
 	sed -i -e 's!@VERSION@!${VERSION}!g' GSharpKit.json

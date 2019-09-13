@@ -1,11 +1,15 @@
+# This package depends on automagic byte compilation
+# https://fedoraproject.org/wiki/Changes/No_more_automagic_Python_bytecompilation_phase_2
+%global _python_bytecompile_extra 1
+
 %?mingw_package_header
 
 # See https://fedoraproject.org/wiki/Packaging:Python_Appendix#Manual_byte_compilation
 %global __python %{__python3}
 
 Name:           mingw-glib2
-Version:        2.60.0
-Release:        1%{?dist}
+Version:        2.58.3
+Release:        3%{?dist}
 Summary:        MinGW Windows GLib2 library
 
 License:        LGPLv2+
@@ -13,7 +17,6 @@ URL:            http://www.gtk.org
 # first two digits of version
 %global release_version %(echo %{version} | awk -F. '{print $1"."$2}')
 Source0:        http://download.gnome.org/sources/glib/%{release_version}/glib-%{version}.tar.xz
-Source1:	autogen.sh
 
 BuildArch:      noarch
 
@@ -54,6 +57,10 @@ Patch1:         0001-Use-CreateFile-on-Win32-to-make-sure-g_unlink-always.patch
 # http://lists.fedoraproject.org/pipermail/mingw/2013-March/006469.html
 # https://bugzilla.gnome.org/show_bug.cgi?id=698118
 Patch5:         glib-prefer-constructors-over-DllMain.patch
+
+# GSettingsBackend - Fix thread-safety during destruction of
+# GSettings instances while notifications are emitted
+Patch6:		gsettings-thread-safe.patch
 
 %description
 MinGW Windows Glib2 library.
@@ -100,8 +107,7 @@ Static version of the MinGW Windows GLib2 library.
 %setup -q -n glib-%{version}
 %patch1 -p1
 %patch5 -p1
-
-install -m 755 %{SOURCE1} .
+%patch6 -p1
 
 %build
 NOCONFIGURE=1 ./autogen.sh
@@ -288,6 +294,15 @@ find $RPM_BUILD_ROOT -name "*.la" -delete
 
 
 %changelog
+* Fri Feb 01 2019 Fedora Release Engineering <releng@fedoraproject.org> - 2.58.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_30_Mass_Rebuild
+
+* Tue Jan 22 2019 Kalev Lember <klember@redhat.com> - 2.58.3-1
+- Update to 2.58.3
+
+* Tue Jan 08 2019 Kalev Lember <klember@redhat.com> - 2.58.2-1
+- Update to 2.58.2
+
 * Fri Sep 21 2018 Kalev Lember <klember@redhat.com> - 2.58.1-1
 - Update to 2.58.1
 
