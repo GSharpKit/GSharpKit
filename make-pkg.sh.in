@@ -21,9 +21,9 @@ find $TMPDIR -type f -iname "*.so" -exec sh rewitelibs.sh {} \;
 find $TMPDIR/Library/Frameworks/GSharpKit/bin/ -type f -iname "*" ! -path "*.exe" -exec sh rewitelibs.sh {} \; 
 
 # This will prevent postscript from running
-find $TMPDIR -type f -iname "*.dylib" -exec codesign --deep -s "Developer ID Application: Xmedicus ApS" -i com.xmedicus.xmedicus -f {} \;
-find $TMPDIR -type f -iname "*.so" -exec codesign --deep -s "Developer ID Application: Xmedicus ApS" -i com.xmedicus.xmedicus -f {} \;
-codesign --deep -s "Developer ID Application: Xmedicus ApS" -i com.xmedicus.xmedicus -f $TMPDIR/Library/Frameworks/GSharpKit/bin/*
+find $TMPDIR -type f -iname "*.dylib" -exec codesign --deep --entitlements Entitlements.plist -s "Developer ID Application: Xmedicus ApS" -i com.xmedicus.xmedicus -f {} \;
+find $TMPDIR -type f -iname "*.so" -exec codesign --deep --entitlements Entitlements.plist -s "Developer ID Application: Xmedicus ApS" -i com.xmedicus.xmedicus -f {} \;
+codesign --deep --entitlements Entitlements.plist -s "Developer ID Application: Xmedicus ApS" -i com.xmedicus.xmedicus -f $TMPDIR/Library/Frameworks/GSharpKit/bin/*
 
 pkgbuild --root $TMPDIR --install-location / --scripts scripts --version @VERSION@ --identifier org.gsharpkit.Runtime GSharpKit-@VERSION@-x64.pkg
 

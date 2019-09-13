@@ -8,7 +8,7 @@
 %define libdir /lib
 
 Name:           darwinx-Npgsql
-Version:        4.0.8
+Version:        4.0.10
 Release:        1%{?dist}
 Summary:        Postgresql database connectivity for C#
 Group:          Development/Languages

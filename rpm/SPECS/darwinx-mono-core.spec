@@ -3,7 +3,7 @@
 %define ver 6.0.0
 
 Name:           darwinx-mono-core
-Version:        %{ver}.319
+Version:        %{ver}.327
 Release:        1%{?dist}
 Summary:        A .NET runtime environment
 
@@ -55,16 +55,9 @@ metadata access libraries.
 %prep
 %setup -q -n mono-%{version}
 
-sed -i '' 's!$mono_libdir/!!g' data/config.in
-
-# Remove prebuilt binaries
-rm -rf mcs/class/lib/monolite/*
-
 %build
 gcc -o monodir %{SOURCE1} -DMONODIR=\"%{_darwinx_prefix}/lib/mono\"
 
-#export mono_cv_uscore=no
-#export ac_cv_func_shm_open_working_with_mmap=no
 %{_darwinx_configure} --disable-nls --enable-mcs-build --with-profile4_x=yes
 
 %{_darwinx_make} %{?_smp_mflags} 
@@ -131,7 +124,6 @@ install -p -m0644 %{SOURCE2} %{buildroot}%{_darwinx_sysconfdir}/pki/mono/
 %{_darwinx_bindir}/mono-gdb.py
 %{_darwinx_bindir}/mono-symbolicate
 %{_darwinx_bindir}/mono-package-runtime
-%{_darwinx_bindir}/monograph
 %{_darwinx_bindir}/sgen-grep-binprot
 %{_darwinx_bindir}/al
 %{_darwinx_bindir}/caspol
@@ -143,7 +135,6 @@ install -p -m0644 %{SOURCE2} %{buildroot}%{_darwinx_sysconfdir}/pki/mono/
 %{_darwinx_bindir}/chktrust
 %{_darwinx_bindir}/crlupdate
 %{_darwinx_bindir}/csc
-%{_darwinx_bindir}/csc-dim
 %{_darwinx_bindir}/csharp
 %{_darwinx_bindir}/csi
 %{_darwinx_bindir}/disco
@@ -307,7 +298,6 @@ install -p -m0644 %{SOURCE2} %{buildroot}%{_darwinx_sysconfdir}/pki/mono/
 %gac_dll System.IO.Compression
 %gac_dll System.Windows
 %{_darwinx_prefix}/lib/mono/4.5/Facades
-%{_darwinx_prefix}/lib/mono/4.5/dim
 %{_darwinx_prefix}/lib/mono/gac/Mono.Cecil/*/Mono.Cecil.*
 %gac_dll Mono.Btls.Interface
 %{monodir}/4.5/al.exe
@@ -394,7 +384,6 @@ install -p -m0644 %{SOURCE2} %{buildroot}%{_darwinx_sysconfdir}/pki/mono/
 %{monodir}/4.5/mozroots.exe
 %{monodir}/4.5/mozroots.pdb
 %{monodir}/4.5/mscorlib.pdb
-%{monodir}/4.5/nunit-console.pdb
 %{monodir}/4.5/pdb2mdb.exe
 %{monodir}/4.5/pdb2mdb.pdb
 %{monodir}/4.5/permview.exe
@@ -428,6 +417,9 @@ install -p -m0644 %{SOURCE2} %{buildroot}%{_darwinx_sysconfdir}/pki/mono/
 %{monodir}/4.5/System.Reflection.Metadata.dll
 %{monodir}/4.5/VBCSCompiler.exe
 %{monodir}/4.5/VBCSCompiler.exe.config
+%{monodir}/4.5/System.Memory.dll
+%{monodir}/4.5/System.Runtime.CompilerServices.Unsafe.dll
+%{monodir}/4.5/System.Threading.Tasks.Extensions.dll
 
 ### files devel
 %{_darwinx_sysconfdir}/pki/mono/
@@ -532,23 +524,7 @@ install -p -m0644 %{SOURCE2} %{buildroot}%{_darwinx_sysconfdir}/pki/mono/
 %{_darwinx_prefix}/lib/mono/4.5/SMDiagnostics.dll
 %{_darwinx_prefix}/lib/mono/gac/SMDiagnostics
 %{_darwinx_datadir}/mono-2.0/mono/cil/cil-opcodes.xml
-	%{_darwinx_datadir}/mono-2.0/mono/profiler/mono-profiler-coverage.suppression
-
-### files nunit
-%mono_bin nunit-console
-%{_darwinx_bindir}/nunit-console2
-%{_darwinx_bindir}/nunit-console4
-%gac_dll nunit.core
-%gac_dll nunit.framework
-%gac_dll nunit.util
-%gac_dll nunit.mocks
-%gac_dll nunit-console-runner
-%gac_dll nunit.core.extensions
-%gac_dll nunit.core.interfaces
-%gac_dll nunit.framework.extensions
-
-### %files nunit-devel
-%{_darwinx_libdir}/pkgconfig/mono-nunit.pc
+%{_darwinx_datadir}/mono-2.0/mono/profiler/mono-profiler-coverage.suppression
 
 ### files locale-extras
 %gac_dll I18N.MidEast

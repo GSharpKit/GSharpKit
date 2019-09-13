@@ -1,6 +1,6 @@
 Name:           darwinx-glib2
 Version:        2.58.3
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Darwin GLib2 library
 
 License:        LGPLv2+
@@ -11,17 +11,13 @@ BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 Summary:        Cross compiled GLib2 library
 
-Patch0:		glib-2.48.2-disable-assert.patch
-
 # https://bugzilla.gnome.org/show_bug.cgi?id=675516
 Patch1:         0001-Don-t-start-a-DBus-server-when-built-as-static-lib.patch
-
-Patch2:		remove-gcocoanotificationbackend.patch
 
 Patch11:        glib-fix-compilation-on-osx.patch
 Patch12:	glib-2.34.1-isreg.patch
 
-Patch13:	glib-2.50.3-appkit.patch
+Patch14:	gsettings-thread-safe.patch
 
 BuildArch:      noarch
 
@@ -54,12 +50,10 @@ Static version of the Darwin GLib2 library.
 
 %prep
 %setup -q -n glib-%{version}
-#patch0 -p1
 %patch1 -p1
-#patch2 -p1
 %patch11 -p1
 %patch12 -p1
-#patch13 -p1
+%patch14 -p1
 
 %build
 NOCONFIGURE=1 sh autogen.sh

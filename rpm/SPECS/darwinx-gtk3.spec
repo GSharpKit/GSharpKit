@@ -1,6 +1,6 @@
 Name:           darwinx-gtk3
-Version:        3.24.8
-Release:        3%{?dist}
+Version:        3.24.11
+Release:        1%{?dist}
 Summary:        Darwin Gtk3 library
 
 License:        LGPLv2+
@@ -63,10 +63,11 @@ Static version of the Darwin Gtk3 library.
 
 # Regenerate the configure script
 #AUTOMAKE_OPTIONS=subdir-objects autoreconf --verbose --install -I /usr/darwinx/usr/share/aclocal
-#{_darwinx_env} aclocal
-#{_darwinx_env} automake --add-missing
-#{_darwinx_env} autoreconf
 #{_darwinx_env} libtoolize
+#{_darwinx_env} aclocal
+#{_darwinx_env} autoheader
+#{_darwinx_env} automake
+#{_darwinx_env} autoreconf
 
 %build
 %{_darwinx_configure} \
@@ -75,7 +76,6 @@ Static version of the Darwin Gtk3 library.
     --enable-quartz-relocation \
     --enable-cups
 V=99 %{_darwinx_make} %{?_smp_mflags}
-
 
 %install
 rm -rf $RPM_BUILD_ROOT
