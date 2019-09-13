@@ -3,7 +3,7 @@
 %define ver 6.0.0
 
 Name:           darwinx-mono-core
-Version:        %{ver}.327
+Version:        %{ver}.334
 Release:        1%{?dist}
 Summary:        A .NET runtime environment
 
