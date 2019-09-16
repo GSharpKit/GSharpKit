@@ -19,6 +19,7 @@ cp $FROM/bin/gtk-query-immodules-3.0.exe $TO/bin/
 cp $FROM/bin/*.dll $TO/bin/
 cp $TO/bin/libintl-8.dll $TO/bin/intl.dll
 cp $TO/bin/libsqlite3-0.dll $TO/bin/libsqlite3.dll
+cp $TO/bin/libsqlite3-0.dll $TO/bin/sqlite3.dll
 
 cp $FROM/bin/sane-find-scanner.exe $TO/bin/
 
