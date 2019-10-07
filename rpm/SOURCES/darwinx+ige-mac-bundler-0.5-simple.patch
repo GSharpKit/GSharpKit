@@ -1,0 +1,74 @@
+diff -Nur ige-mac-bundler-0.5.orig/bundler/bundler.py ige-mac-bundler-0.5/bundler/bundler.py
+--- ige-mac-bundler-0.5.orig/bundler/bundler.py	2008-06-02 10:42:54.000000000 +0200
++++ ige-mac-bundler-0.5/bundler/bundler.py	2019-09-17 14:24:45.175313358 +0200
+@@ -231,7 +231,7 @@
+                                         update=1,
+                                         verbose=1,
+                                         dry_run=0)
+-                else:
++                elif not os.path.islink(globbed_source):                	    
+                     #print "file: %s => %s" % (globbed_source, dest)
+                     shutil.copy(globbed_source, dest)
+             except EnvironmentError, e:
+@@ -243,6 +243,19 @@
+                     print "Error when copying file: " + globbed_source
+                     sys.exit(1)
+ 
++        for globbed_source in glob.glob(source):
++            try:
++                if os.path.islink(globbed_source):
++                	    #print "symlink: %s => %s" % (os.path.join(dest, os.path.basename(globbed_source)), os.path.basename(os.readlink(globbed_source)))
++                    os.symlink(os.path.basename(os.readlink(globbed_source)), os.path.join(dest, os.path.basename(globbed_source)))
++            except EnvironmentError, e:
++                if e.errno == errno.ENOENT:
++                    print "Warning, source file missing: " + globbed_source
++                elif e.errno == errno.EEXIST:
++                    print "Warning, path already exits: " + dest
++                else:
++                    print "Error when copying file: " + globbed_source
++                    sys.exit(1)
+         return dest
+ 
+     # Lists all the binaries copied in so far. Used in the library
+@@ -443,7 +456,7 @@
+         self.copy_plist()
+ 
+         # Note: could move this to xml file...
+-        self.copy_path(Path("${prefix}/lib/charset.alias"))
++        #self.copy_path(Path("${prefix}/lib/charset.alias"))
+ 
+         # Data
+         for path in self.project.get_data():
+@@ -466,18 +479,18 @@
+ 
+         # Additional binaries (executables, libraries, modules)
+         self.copy_binaries(self.project.get_binaries())
+-        self.resolve_library_dependencies()
++        #self.resolve_library_dependencies()
+ 
+         # Frameworks
+         frameworks = self.project.get_frameworks()
+         for path in frameworks:
+             self.copy_path(path)
+ 
+-        self.copy_icon_themes()
++        #self.copy_icon_themes()
+ 
+-        self.create_pango_setup()
+-        self.create_gtk_immodules_setup()
+-        self.create_gdk_pixbuf_loaders_setup()
++        #self.create_pango_setup()
++        #self.create_gtk_immodules_setup()
++        #self.create_gdk_pixbuf_loaders_setup()
+ 
+         if meta.run_install_name_tool:
+             self.run_install_name_tool()
+diff -Nur ige-mac-bundler-0.5.orig/ige-mac-bundler.in ige-mac-bundler-0.5/ige-mac-bundler.in
+--- ige-mac-bundler-0.5.orig/ige-mac-bundler.in	2008-04-27 08:46:18.000000000 +0200
++++ ige-mac-bundler-0.5/ige-mac-bundler.in	2019-09-17 14:30:13.861031248 +0200
+@@ -1,4 +1,4 @@
+-#!/usr/bin/env python
++#!/usr/bin/env python2
+ import sys
+ sys.path.insert(0, '@PATH@')
+ 
