@@ -17,6 +17,7 @@ Source1:        monodir.c
 # sn -k mono.snk
 # You should not regenerate this unless you have a really, really, really good reason.
 Source2:        mono.snk
+Patch0:		mono-6.0.0-spawn.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildArch:      noarch
@@ -54,6 +55,7 @@ metadata access libraries.
 
 %prep
 %setup -q -n mono-%{version}
+%patch0 -p1
 
 %build
 gcc -o monodir %{SOURCE1} -DMONODIR=\"%{_darwinx_prefix}/lib/mono\"

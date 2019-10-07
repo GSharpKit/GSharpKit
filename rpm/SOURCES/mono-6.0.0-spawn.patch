@@ -1,0 +1,96 @@
+diff -Nur mono-6.0.0.334.orig/mono/metadata/w32process-unix.c mono-6.0.0.334/mono/metadata/w32process-unix.c
+--- mono-6.0.0.334.orig/mono/metadata/w32process-unix.c	2019-09-12 21:13:05.000000000 +0200
++++ mono-6.0.0.334/mono/metadata/w32process-unix.c	2019-09-17 11:16:40.000000000 +0200
+@@ -13,6 +13,7 @@
+ #include <config.h>
+ #include <glib.h>
+ 
++#include <spawn.h>
+ #include <stdio.h>
+ #include <string.h>
+ #include <pthread.h>
+@@ -1847,56 +1848,17 @@
+ 		mono_trace (G_LOG_LEVEL_DEBUG, MONO_TRACE_IO_LAYER_PROCESS, "%s: new process startup not synchronized. We may not notice if the newly created process exits immediately.", __func__);
+ 	}
+ 
+-	switch (pid = fork ()) {
+-	case -1: /* Error */ {
+-		mono_w32error_set_last (ERROR_OUTOFMEMORY);
+-		ret = FALSE;
+-		break;
+-	}
+-	case 0: /* Child */ {
+-		if (startup_pipe [0] != -1) {
+-			/* Wait until the parent has updated it's internal data */
+-			ssize_t _i G_GNUC_UNUSED = read (startup_pipe [0], &dummy, 1);
+-			mono_trace (G_LOG_LEVEL_DEBUG, MONO_TRACE_IO_LAYER_PROCESS, "%s: child: parent has completed its setup", __func__);
+-			close (startup_pipe [0]);
+-			close (startup_pipe [1]);
+-		}
+-
+-		/* should we detach from the process group? */
+-
+-		/* Connect stdin, stdout and stderr */
+-		dup2 (in_fd, 0);
+-		dup2 (out_fd, 1);
+-		dup2 (err_fd, 2);
+-
+-		/* Close this child's file handles. */
+-		close_my_fds ();
+-
+-#ifdef DEBUG_ENABLED
+-		mono_trace (G_LOG_LEVEL_DEBUG, MONO_TRACE_IO_LAYER_PROCESS, "%s: exec()ing [%s] in dir [%s]", __func__, cmd,
+-			   dir == NULL?".":dir);
+-		for (i = 0; argv[i] != NULL; i++)
+-			g_message ("arg %" G_GUINT32_FORMAT ": [%s]", i, argv[i]);
+-
+-		for (i = 0; env_strings[i] != NULL; i++)
+-			g_message ("env %" G_GUINT32_FORMAT ": [%s]", i, env_strings[i]);
+-#endif
+-
+-		/* set cwd */
+-		if (dir != NULL && chdir (dir) == -1) {
+-			/* set error */
+-			_exit (-1);
+-		}
+-
+-		/* exec */
+-		execve (argv[0], argv, env_strings);
++	posix_spawnattr_t  a;
++	posix_spawnattr_init(&a);
+ 
+-		/* set error */
+-		_exit (-1);
+-
+-		break;
++        pid_t spid;
++        int status = 0;
++        if (posix_spawn(&spid, argv[0], NULL, &a, argv, env_strings) > 0)
++	{
++        	waitpid(spid, &status, 0);
+ 	}
+-	default: /* Parent */ {
++	else
++	{
+ 		MonoW32Handle *handle_data;
+ 		MonoW32HandleProcess process_handle;
+ 
+@@ -1923,7 +1885,7 @@
+ 
+ 			mono_w32error_set_last (ERROR_OUTOFMEMORY);
+ 			ret = FALSE;
+-			break;
++			goto free_strings;
+ 		}
+ 
+ 		if (!mono_w32handle_lookup_and_ref (handle, &handle_data))
+@@ -1948,9 +1910,6 @@
+ 		}
+ 
+ 		mono_w32handle_unref (handle_data);
+-
+-		break;
+-	}
+ 	}
+ 
+ 	if (startup_pipe [1] != -1) {
