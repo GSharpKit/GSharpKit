@@ -24,3 +24,5 @@ download:
 	scp gsharpkit@gimli.xmedicus.com:/home/gsharpkit/GSharpKit/Fedora30-x86_64/framework/darwinx-*.noarch.rpm packages/
 	rm -f packages/darwinx-filesystem-base-*
 
+update:
+	sudo rpm -Fvh --ignoreos packages/*.rpm
