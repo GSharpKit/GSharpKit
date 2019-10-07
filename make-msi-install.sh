@@ -20,6 +20,7 @@ cp $FROM/bin/*.dll $TO/bin/
 cp $TO/bin/libintl-8.dll $TO/bin/intl.dll
 cp $TO/bin/libsqlite3-0.dll $TO/bin/libsqlite3.dll
 cp $TO/bin/libsqlite3-0.dll $TO/bin/sqlite3.dll
+cp $TO/bin/libgphoto2-sharp.dll $TO/bin/libgphoto2.dll
 
 cp $FROM/bin/sane-find-scanner.exe $TO/bin/
 
