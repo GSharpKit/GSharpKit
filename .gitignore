@@ -8,6 +8,7 @@ make-msi64.sh
 
 GSharpKit-*.pkg
 make-pkg.sh
+make-pkg-notarize.sh
 
 # Everything below should be auto-sorted. Edit gitignore.sh to add lines above.
 

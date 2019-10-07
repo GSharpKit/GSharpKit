@@ -1,0 +1,5 @@
+#!/bin/bash
+
+echo "Notarizing"
+xcrun altool --notarize-app --primary-bundle-id "com.xmedicus.xmedicus" --username "mikkel@xmedicus.com" --password "@keychain:notarize" --asc-provider GN4P8U89Y6 --file GSharpKit-@VERSION@-x64.pkg
+
