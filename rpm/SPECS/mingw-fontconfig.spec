@@ -2,7 +2,7 @@
 
 Name:           mingw-fontconfig
 Version:        2.12.6
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        MinGW Windows Fontconfig library
 
 License:        MIT
