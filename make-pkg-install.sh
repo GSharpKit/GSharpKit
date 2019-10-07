@@ -38,6 +38,10 @@ cp $FROM/bin/fc-cache $TO/bin/
 mkdir -p $TO/lib
 cp $FROM/lib/*.dll $TO/lib/
 cp $FROM/lib/*.dll.config $TO/lib/
+
+# Hack to make gphoto work.
+cp $TO/lib/libgphoto2-sharp.dll $TO/lib/libgphoto2.dll
+
 cp -a $FROM/lib/*.dylib $TO/lib/
  
 mkdir -p $TO/lib/mono/4.5
