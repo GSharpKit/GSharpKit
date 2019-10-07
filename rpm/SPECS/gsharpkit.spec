@@ -79,7 +79,7 @@
 %define MICROSOFT_CSHARP_VERSION 4.5.0
 %define MONO_POSIX_NETSTANDARD_VERSION 1.0.0
 %define MONO_DATA_SQLITE_VERSION 1.0.61
-%define NPGSQL_VERSION 4.0.10
+%define NPGSQL_VERSION 4.1.1
 %define MONO_ADDINS_VERSION 1.3.8
 %define GTK3_SHARP_VERSION 3.22.24
 %define GDL_SHARP_VERSION 3.26.0
@@ -107,7 +107,7 @@
 
 Summary: 		Easy management of applications
 Name: 			GSharpKit
-Version:		30.6
+Version:		30.7
 Release:		1%{?dist}
 License:		GPL
 Group: 			Applications/Desktop

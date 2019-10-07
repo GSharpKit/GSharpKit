@@ -11,7 +11,7 @@
 %define libdir /bin
 
 Name:           mingw-Npgsql
-Version:        4.0.10
+Version:        4.1.1
 Release:        1%{?dist}
 Summary:        Postgresql database connectivity for C#
 
@@ -89,11 +89,14 @@ EOF
 # Mingw32
 install -d -m 755 $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir}
 install -m 644 Npgsql.%{version}/lib/netstandard2.0/Npgsql.dll $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir}
-install -m 644 System.Threading.Tasks.Extensions.4.5.2/lib/netstandard2.0/System.Threading.Tasks.Extensions.dll $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir}
-install -m 644 System.Runtime.CompilerServices.Unsafe.4.5.2/lib/netstandard2.0/System.Runtime.CompilerServices.Unsafe.dll $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir}/
-install -m 644 System.Buffers.4.4.0/lib/netstandard2.0/System.Buffers.dll $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir}/
-install -m 644 System.Numerics.Vectors.4.4.0/lib/netstandard2.0/System.Numerics.Vectors.dll $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir}/
+install -m 644 System.Threading.Tasks.Extensions.4.5.3/lib/netstandard2.0/System.Threading.Tasks.Extensions.dll $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir}
+install -m 644 System.Text.Json.4.6.0/lib/netstandard2.0/System.Text.Json.dll $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir}
+install -m 644 System.Buffers.4.5.0/lib/netstandard2.0/System.Buffers.dll $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir}/
 install -m 644 System.Memory.4.5.3/lib/netstandard2.0/System.Memory.dll $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir}/
+install -m 644 Microsoft.Bcl.AsyncInterfaces.1.0.0/lib/netstandard2.0/Microsoft.Bcl.AsyncInterfaces.dll $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir}/ 
+install -m 644 System.Text.Encodings.Web.4.6.0/lib/netstandard2.0/System.Text.Encodings.Web.dll $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir}/
+install -m 644 System.Runtime.CompilerServices.Unsafe.4.6.0/lib/netstandard2.0/System.Runtime.CompilerServices.Unsafe.dll $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir}/
+install -m 644 System.Numerics.Vectors.4.5.0/lib/netstandard2.0/System.Numerics.Vectors.dll $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir}/
 
 install -d -m 755 $RPM_BUILD_ROOT%{mingw32_datadir}/pkgconfig/
 install -m 644 Npgsql32.pc $RPM_BUILD_ROOT%{mingw32_datadir}/pkgconfig/Npgsql.pc
@@ -101,11 +104,14 @@ install -m 644 Npgsql32.pc $RPM_BUILD_ROOT%{mingw32_datadir}/pkgconfig/Npgsql.pc
 # Mingw64
 install -d -m 755 $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir}
 install -m 644 Npgsql.%{version}/lib/netstandard2.0/Npgsql.dll $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir}
-install -m 644 System.Threading.Tasks.Extensions.4.5.2/lib/netstandard2.0/System.Threading.Tasks.Extensions.dll $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir}
-install -m 644 System.Runtime.CompilerServices.Unsafe.4.5.2/lib/netstandard2.0/System.Runtime.CompilerServices.Unsafe.dll $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir}/
-install -m 644 System.Buffers.4.4.0/lib/netstandard2.0/System.Buffers.dll $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir}/
-install -m 644 System.Numerics.Vectors.4.4.0/lib/netstandard2.0/System.Numerics.Vectors.dll $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir}/
+install -m 644 System.Threading.Tasks.Extensions.4.5.3/lib/netstandard2.0/System.Threading.Tasks.Extensions.dll $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir}
+install -m 644 System.Text.Json.4.6.0/lib/netstandard2.0/System.Text.Json.dll $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir}
+install -m 644 System.Buffers.4.5.0/lib/netstandard2.0/System.Buffers.dll $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir}/
 install -m 644 System.Memory.4.5.3/lib/netstandard2.0/System.Memory.dll $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir}/
+install -m 644 Microsoft.Bcl.AsyncInterfaces.1.0.0/lib/netstandard2.0/Microsoft.Bcl.AsyncInterfaces.dll $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir}/
+install -m 644 System.Text.Encodings.Web.4.6.0/lib/netstandard2.0/System.Text.Encodings.Web.dll $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir}/
+install -m 644 System.Runtime.CompilerServices.Unsafe.4.6.0/lib/netstandard2.0/System.Runtime.CompilerServices.Unsafe.dll $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir}/
+install -m 644 System.Numerics.Vectors.4.5.0/lib/netstandard2.0/System.Numerics.Vectors.dll $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir}/
 
 install -d -m 755 $RPM_BUILD_ROOT%{mingw64_datadir}/pkgconfig/
 install -m 644 Npgsql64.pc $RPM_BUILD_ROOT%{mingw64_datadir}/pkgconfig/Npgsql.pc
@@ -118,9 +124,12 @@ install -m 644 Npgsql64.pc $RPM_BUILD_ROOT%{mingw64_datadir}/pkgconfig/Npgsql.pc
 %defattr(-,root,root,-)
 %{mingw32_prefix}%{libdir}/Npgsql.dll
 %{mingw32_prefix}%{libdir}/System.Threading.Tasks.Extensions.dll
-%{mingw32_prefix}%{libdir}/System.Runtime.CompilerServices.Unsafe.dll
+%{mingw32_prefix}%{libdir}/System.Text.Json.dll
 %{mingw32_prefix}%{libdir}/System.Buffers.dll
 %{mingw32_prefix}%{libdir}/System.Memory.dll
+%{mingw32_prefix}%{libdir}/Microsoft.Bcl.AsyncInterfaces.dll
+%{mingw32_prefix}%{libdir}/System.Text.Encodings.Web.dll
+%{mingw32_prefix}%{libdir}/System.Runtime.CompilerServices.Unsafe.dll
 %{mingw32_prefix}%{libdir}/System.Numerics.Vectors.dll
 %{mingw32_datadir}/pkgconfig/Npgsql.pc
 
@@ -128,14 +137,20 @@ install -m 644 Npgsql64.pc $RPM_BUILD_ROOT%{mingw64_datadir}/pkgconfig/Npgsql.pc
 %defattr(-,root,root,-)
 %{mingw64_prefix}%{libdir}/Npgsql.dll
 %{mingw64_prefix}%{libdir}/System.Threading.Tasks.Extensions.dll
-%{mingw64_prefix}%{libdir}/System.Runtime.CompilerServices.Unsafe.dll
+%{mingw64_prefix}%{libdir}/System.Text.Json.dll
 %{mingw64_prefix}%{libdir}/System.Buffers.dll
 %{mingw64_prefix}%{libdir}/System.Memory.dll
+%{mingw64_prefix}%{libdir}/Microsoft.Bcl.AsyncInterfaces.dll
+%{mingw64_prefix}%{libdir}/System.Text.Encodings.Web.dll
+%{mingw64_prefix}%{libdir}/System.Runtime.CompilerServices.Unsafe.dll
 %{mingw64_prefix}%{libdir}/System.Numerics.Vectors.dll
 %{mingw64_datadir}/pkgconfig/Npgsql.pc
 
 
 %changelog
+* Mon Oct 7 2019 Mikkel Kruse Johnsen <mikkel@xmedicus.com> - 4.1.1-1
+- Update to 4.1.1
+
 * Fri Aug 3 2018 Mikkel Kruse Johnsen <mikkel@xmedicus.com> - 4.0.2-1
 - Update to 4.0.2
 
