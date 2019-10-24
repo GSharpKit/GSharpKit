@@ -107,6 +107,7 @@ class PackageGenerator:
             'Languages': '1033',
             'Compressed': 'yes',
             'SummaryCodepage': '1252',
+            'InstallScope': 'perMachine',
         })
 
         if self.major_upgrade is not None:
@@ -251,7 +252,8 @@ class PackageGenerator:
         if self.custom_actions is not None:
             install_execute_sequence = ET.SubElement(product, 'InstallExecuteSequence')
             ET.SubElement(install_execute_sequence, 'RemoveExistingProducts', {
-                'Before': 'CostInitialize'
+                'Before': 'CostInitialize',
+                'Sequence': '701'
             })
             ET.SubElement(product, 'Property', {
                 'Id': 'cmd',
