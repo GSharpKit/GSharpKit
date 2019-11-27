@@ -4,7 +4,7 @@
 
 Name:           System.ServiceModel.WCF
 Version:        4.6.0
-Release:        2%{?dist}
+Release:        1%{?dist}
 Summary:        WCF libraries
 
 Group:          Development/Languages
@@ -16,12 +16,17 @@ BuildArch:	noarch
 Provides:	mono(System.ServiceModel.Syndication) = 4.0.0.0
 Provides:	mono(System.Security.Cryptography.Xml) = 4.0.1.0
 Provides:	mono(System.Security.Cryptography.Pkcs) = 4.0.3.2
+Provides:	mono(System.Security.AccessControl) = 4.1.1.0
+Provides:	mono(System.Security.Principal.Windows) = 4.1.1.0
+
 
 %description
 Provides the common types used by all of the WCF libraries.
 Provides the types that permit SOAP messages to be exchanged using Http (example: BasicHttpBinding).
 Provides the types that permit SOAP messages to be exchanged using TCP (example: NetTcpBinding).
 Provides the types that permit 2-way ("duplex") exchanges of messages.
+
+dotnet tool install --global dotnet-svcutil
 
 %prep
 %setup -c %{name}-%{version} -T
@@ -54,6 +59,11 @@ EOF
 
 %install
 %{__rm} -rf %{buildroot}
+
+rm -rf System.Security.AccessControl.4.5.0
+rm -rf System.Security.Cryptography.Xml.4.5.0
+rm -rf System.Security.Permissions.4.5.0
+rm -rf System.Security.Principal.Windows.4.5.0
 
 install -d -m 755 $RPM_BUILD_ROOT%{_prefix}%{libdir}
 find */lib/netstandard2.0/ -iname "*.dll" -exec install -m 644 {} $RPM_BUILD_ROOT%{_prefix}%{libdir}/ \;
