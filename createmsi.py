@@ -51,6 +51,7 @@ class PackageGenerator:
         self.desktop_shortcut = jsondata.get('desktop_shortcut', None)
         self.main_xml = self.basename + '.wxs'
         self.main_o = self.basename + '.wixobj'
+        self.install_scope = jsondata['install_scope']
         if 'arch' in jsondata:
             self.arch = jsondata['arch']
         else:
@@ -106,9 +107,10 @@ class PackageGenerator:
             'InstallerVersion': '500',
             'Languages': '1033',
             'Compressed': 'yes',
-            'SummaryCodepage': '1252',
-            'InstallScope': 'perMachine',
+            'SummaryCodepage': '1252'
         })
+        if self.install_scope != '':
+            package.set('InstallScope', self.install_scope)
 
         if self.major_upgrade is not None:
             majorupgrade = ET.SubElement(product, 'MajorUpgrade', {})

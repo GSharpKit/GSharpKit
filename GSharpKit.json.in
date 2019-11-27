@@ -10,6 +10,7 @@
     "license_file": "License.rtf",
     "arch": @ARCH_NO@,
     "need_msvcrt": false,
+    "install_scope": "@INSTALL_SCOPE@",
     "major_upgrade": {
         "AllowDowngrades": "yes",
         "IgnoreRemoveFailure": "yes"

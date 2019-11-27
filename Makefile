@@ -8,6 +8,7 @@ msi32: GSharpKit.json.in make-msi32.sh.in
 	sed -i -e 's!@RELEASE@!${RELEASE}!g' GSharpKit.json
 	sed -i -e 's!@ARCH_NO@!32!g' GSharpKit.json
 	sed -i -e 's!@ARCH_SHORT@!x86!g' GSharpKit.json
+	sed -i -e 's!@INSTALL_SCOPE@!!g' GSharpKit.json
 	cp make-msi32.sh.in make-msi32.sh
 	sed -i -e 's!@VERSION@!${VERSION}!g' make-msi32.sh
 	sed -i -e 's!@RELEASE@!${RELEASE}!g' make-msi32.sh
@@ -25,6 +26,7 @@ msi64: GSharpKit.json.in make-msi64.sh.in
 	sed -i -e 's!@RELEASE@!${RELEASE}!g' GSharpKit.json
 	sed -i -e 's!@ARCH_NO@!64!g' GSharpKit.json
 	sed -i -e 's!@ARCH_SHORT@!x64!g' GSharpKit.json
+	sed -i -e 's!@INSTALL_SCOPE@!perMachine!g' GSharpKit.json
 	cp make-msi64.sh.in make-msi64.sh
 	sed -i -e 's!@VERSION@!${VERSION}!g' make-msi64.sh
 	sed -i -e 's!@RELEASE@!${RELEASE}!g' make-msi64.sh
