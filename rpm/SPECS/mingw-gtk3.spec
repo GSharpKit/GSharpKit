@@ -1,4 +1,4 @@
-%?mingw_package_header
+%{?mingw_package_header}
 
 %global bin_version 3.0.0
 # first two digits of version
@@ -6,10 +6,10 @@
 
 # Only enable if using patches that touches configure.ac,
 # Makefile.am or other build system related files
-%define enable_autoreconf 1
+%define enable_autoreconf 0
 
 Name:           mingw-gtk3
-Version:        3.24.11
+Version:        3.24.20
 Release:        1%{?dist}
 Summary:        MinGW Windows GTK+ library
 
@@ -49,8 +49,6 @@ BuildRequires:  mingw32-pixman
 BuildRequires:  mingw64-pixman
 BuildRequires:  mingw32-zlib
 BuildRequires:  mingw64-zlib
-BuildRequires:  mingw32-fribidi
-BuildRequires:  mingw64-fribidi
 
 # Native one for msgfmt
 BuildRequires:  gettext
@@ -134,7 +132,7 @@ applications, the overall memory consumption is reduced as well.
 This package contains the MinGW Windows cross compiled gtk-update-icon-cache.
 
 
-%?mingw_debug_package
+%{?mingw_debug_package}
 
 
 %prep
@@ -145,10 +143,11 @@ autoreconf --install --force
 
 
 %build
-export GLIB_COMPILE_RESOURCES=/usr/bin/glib-compile-resources
-%mingw_configure --disable-cups
+%mingw_configure \
+  --disable-cups
 
-%mingw_make %{?_smp_mflags} V=1
+%mingw_make %{?_smp_mflags} V=1 GLIB_COMPILE_RESOURCES=glib-compile-resources
+
 
 %install
 %mingw_make install DESTDIR=$RPM_BUILD_ROOT
@@ -323,6 +322,30 @@ fi
 
 
 %changelog
+* Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.24.13-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
+
+* Thu Nov 28 2019 Sandro Mani <manisandro@gmail.com> - 3.24.13-1
+- Update to 3.24.13
+
+* Tue Oct 08 2019 Sandro Mani <manisandro@gmail.com> - 3.24.12-2
+- Rebuild (Changes/Mingw32GccDwarf2)
+
+* Fri Oct 04 2019 Sandro Mani <manisandro@gmail.com> - 3.24.12-1
+- Update to 3.24.12
+
+* Mon Sep 23 2019 Sandro Mani <manisandro@gmail.com> - 3.24.11-1
+- Update to 3.24.11
+
+* Thu Aug 29 2019 Sandro Mani <manisandro@gmail.com> - 3.24.10-1
+- Update to 3.24.10
+
+* Thu Jul 25 2019 Fedora Release Engineering <releng@fedoraproject.org> - 3.22.30-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_31_Mass_Rebuild
+
+* Fri Feb 01 2019 Fedora Release Engineering <releng@fedoraproject.org> - 3.22.30-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_30_Mass_Rebuild
+
 * Fri Jul 13 2018 Fedora Release Engineering <releng@fedoraproject.org> - 3.22.30-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_29_Mass_Rebuild
 

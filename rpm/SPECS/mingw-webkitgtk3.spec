@@ -32,6 +32,14 @@ Patch1:         webkitgtk-2.4.3-gcc-asm.all.patch
 # https://bugs.webkit.org/show_bug.cgi?id=143563
 Patch2:         webkitgtk-2.4.11-print-windows-scaled.patch
 
+Patch3:		webkitgtk-2.4.11-cast_uchar.patch
+
+Patch4:		webkitgtk-2.4.11-semicolon.patch
+
+Patch5:		webkitgtk-2.4.11-js.patch
+
+Patch6:		webkitgtk-2.4.11-inline.patch
+
 BuildArch:      noarch
 
 BuildRequires:  bison
@@ -127,6 +135,10 @@ This is the MinGW port of WebKitGTK+ for GTK+ 3.
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1
+%patch4 -p1
+%patch5 -p1
+%patch6 -p1
 
 
 %build
@@ -144,8 +156,8 @@ This is the MinGW port of WebKitGTK+ for GTK+ 3.
                         --disable-webkit2                       \
                         --disable-gtk-doc-html
 
-%mingw_make %{?_smp_mflags} V=1
-
+#mingw_make %{?_smp_mflags} V=1
+%mingw_make V=1
 
 %install
 %mingw_make install DESTDIR=%{buildroot}

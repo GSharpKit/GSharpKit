@@ -1,0 +1,77 @@
+diff -Nur webkitgtk-2.4.11.orig/Source/JavaScriptCore/runtime/ArgumentsIteratorConstructor.cpp webkitgtk-2.4.11/Source/JavaScriptCore/runtime/ArgumentsIteratorConstructor.cpp
+--- webkitgtk-2.4.11.orig/Source/JavaScriptCore/runtime/ArgumentsIteratorConstructor.cpp	2016-04-10 08:48:36.000000000 +0200
++++ webkitgtk-2.4.11/Source/JavaScriptCore/runtime/ArgumentsIteratorConstructor.cpp	2020-06-03 08:12:18.622510088 +0200
+@@ -31,6 +31,7 @@
+ #include "JSCJSValueInlines.h"
+ #include "JSCellInlines.h"
+ #include "JSGlobalObject.h"
++#include "StructureInlines.h"
+ 
+ namespace JSC {
+ 
+diff -Nur webkitgtk-2.4.11.orig/Source/JavaScriptCore/runtime/JSPromiseFunctions.cpp webkitgtk-2.4.11/Source/JavaScriptCore/runtime/JSPromiseFunctions.cpp
+--- webkitgtk-2.4.11.orig/Source/JavaScriptCore/runtime/JSPromiseFunctions.cpp	2016-04-10 08:48:36.000000000 +0200
++++ webkitgtk-2.4.11/Source/JavaScriptCore/runtime/JSPromiseFunctions.cpp	2020-06-03 20:15:01.930826919 +0200
+@@ -35,6 +35,7 @@
+ #include "JSPromiseConstructor.h"
+ #include "JSPromiseDeferred.h"
+ #include "NumberObject.h"
++#include "StructureInlines.h"
+ 
+ namespace JSC {
+ 
+diff -Nur webkitgtk-2.4.11.orig/Source/JavaScriptCore/runtime/MapConstructor.cpp webkitgtk-2.4.11/Source/JavaScriptCore/runtime/MapConstructor.cpp
+--- webkitgtk-2.4.11.orig/Source/JavaScriptCore/runtime/MapConstructor.cpp	2016-04-10 08:48:36.000000000 +0200
++++ webkitgtk-2.4.11/Source/JavaScriptCore/runtime/MapConstructor.cpp	2020-06-03 20:11:35.279557410 +0200
+@@ -32,6 +32,7 @@
+ #include "JSGlobalObject.h"
+ #include "JSMap.h"
+ #include "MapPrototype.h"
++#include "StructureInlines.h"
+ 
+ namespace JSC {
+ 
+diff -Nur webkitgtk-2.4.11.orig/Source/JavaScriptCore/runtime/MapIteratorConstructor.cpp webkitgtk-2.4.11/Source/JavaScriptCore/runtime/MapIteratorConstructor.cpp
+--- webkitgtk-2.4.11.orig/Source/JavaScriptCore/runtime/MapIteratorConstructor.cpp	2016-04-10 08:48:36.000000000 +0200
++++ webkitgtk-2.4.11/Source/JavaScriptCore/runtime/MapIteratorConstructor.cpp	2020-06-03 20:12:00.110994290 +0200
+@@ -31,6 +31,7 @@
+ #include "JSGlobalObject.h"
+ #include "JSMapIterator.h"
+ #include "MapIteratorPrototype.h"
++#include "StructureInlines.h"
+ 
+ namespace JSC {
+ 
+diff -Nur webkitgtk-2.4.11.orig/Source/JavaScriptCore/runtime/SetConstructor.cpp webkitgtk-2.4.11/Source/JavaScriptCore/runtime/SetConstructor.cpp
+--- webkitgtk-2.4.11.orig/Source/JavaScriptCore/runtime/SetConstructor.cpp	2016-04-10 08:48:36.000000000 +0200
++++ webkitgtk-2.4.11/Source/JavaScriptCore/runtime/SetConstructor.cpp	2020-06-03 20:12:25.934408682 +0200
+@@ -33,6 +33,7 @@
+ #include "JSSet.h"
+ #include "MapData.h"
+ #include "SetPrototype.h"
++#include "StructureInlines.h"
+ 
+ namespace JSC {
+ 
+diff -Nur webkitgtk-2.4.11.orig/Source/JavaScriptCore/runtime/SetIteratorConstructor.cpp webkitgtk-2.4.11/Source/JavaScriptCore/runtime/SetIteratorConstructor.cpp
+--- webkitgtk-2.4.11.orig/Source/JavaScriptCore/runtime/SetIteratorConstructor.cpp	2016-04-10 08:48:36.000000000 +0200
++++ webkitgtk-2.4.11/Source/JavaScriptCore/runtime/SetIteratorConstructor.cpp	2020-06-03 20:12:48.557895632 +0200
+@@ -31,6 +31,7 @@
+ #include "JSGlobalObject.h"
+ #include "JSSetIterator.h"
+ #include "SetIteratorPrototype.h"
++#include "StructureInlines.h"
+ 
+ namespace JSC {
+ 
+diff -Nur webkitgtk-2.4.11.orig/Source/JavaScriptCore/runtime/WeakMapConstructor.cpp webkitgtk-2.4.11/Source/JavaScriptCore/runtime/WeakMapConstructor.cpp
+--- webkitgtk-2.4.11.orig/Source/JavaScriptCore/runtime/WeakMapConstructor.cpp	2016-04-10 08:48:36.000000000 +0200
++++ webkitgtk-2.4.11/Source/JavaScriptCore/runtime/WeakMapConstructor.cpp	2020-06-03 20:14:28.587614213 +0200
+@@ -30,6 +30,7 @@
+ #include "JSCellInlines.h"
+ #include "JSGlobalObject.h"
+ #include "JSWeakMap.h"
++#include "StructureInlines.h"
+ #include "WeakMapPrototype.h"
+ 
+ namespace JSC {

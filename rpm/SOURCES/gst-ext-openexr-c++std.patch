@@ -1,0 +1,24 @@
+diff -rupN gst-plugins-bad-1.14.2/ext/openexr/Makefile.am gst-plugins-bad-1.14.2-new/ext/openexr/Makefile.am
+--- gst-plugins-bad-1.14.2/ext/openexr/Makefile.am	2018-03-23 21:45:15.000000000 +0100
++++ gst-plugins-bad-1.14.2-new/ext/openexr/Makefile.am	2019-11-13 19:08:40.282922215 +0100
+@@ -6,7 +6,7 @@ libgstopenexr_la_CFLAGS = \
+ 	$(OPENEXR_CFLAGS)
+ libgstopenexr_la_CXXFLAGS = \
+ 	$(GST_PLUGINS_BASE_CFLAGS) $(GST_BASE_CFLAGS) $(GST_CXXFLAGS) \
+-	$(OPENEXR_CFLAGS) -std=c++98
++	$(OPENEXR_CFLAGS)
+ libgstopenexr_la_LIBADD = \
+ 	$(GST_PLUGINS_BASE_LIBS) -lgstvideo-$(GST_API_VERSION) \
+ 	$(GST_BASE_LIBS) $(GST_LIBS) $(OPENEXR_LIBS)
+diff -rupN gst-plugins-bad-1.14.2/ext/openexr/Makefile.in gst-plugins-bad-1.14.2-new/ext/openexr/Makefile.in
+--- gst-plugins-bad-1.14.2/ext/openexr/Makefile.in	2018-07-23 13:09:04.000000000 +0200
++++ gst-plugins-bad-1.14.2-new/ext/openexr/Makefile.in	2019-11-13 19:10:44.830707939 +0100
+@@ -762,7 +762,7 @@ libgstopenexr_la_CFLAGS = \
+ 
+ libgstopenexr_la_CXXFLAGS = \
+ 	$(GST_PLUGINS_BASE_CFLAGS) $(GST_BASE_CFLAGS) $(GST_CXXFLAGS) \
+-	$(OPENEXR_CFLAGS) -std=c++98
++	$(OPENEXR_CFLAGS)
+ 
+ libgstopenexr_la_LIBADD = \
+ 	$(GST_PLUGINS_BASE_LIBS) -lgstvideo-$(GST_API_VERSION) \

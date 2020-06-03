@@ -8,8 +8,8 @@
 %global __python %{__python3}
 
 Name:           mingw-glib2
-Version:        2.58.3
-Release:        3%{?dist}
+Version:        2.64.3
+Release:        1%{?dist}
 Summary:        MinGW Windows GLib2 library
 
 License:        LGPLv2+
@@ -20,7 +20,11 @@ Source0:        http://download.gnome.org/sources/glib/%{release_version}/glib-%
 
 BuildArch:      noarch
 
-BuildRequires:  mingw32-filesystem >= 95
+BuildRequires:  meson
+BuildRequires:  gcc
+BuildRequires:  gcc-c++
+
+BuildRequires:  mingw32-filesystem >= 107
 BuildRequires:  mingw32-gcc
 BuildRequires:  mingw32-binutils
 BuildRequires:  mingw32-win-iconv
@@ -29,7 +33,7 @@ BuildRequires:  mingw32-libffi
 BuildRequires:  mingw32-pcre
 BuildRequires:  mingw32-zlib
 
-BuildRequires:  mingw64-filesystem >= 95
+BuildRequires:  mingw64-filesystem >= 107
 BuildRequires:  mingw64-gcc
 BuildRequires:  mingw64-binutils
 BuildRequires:  mingw64-win-iconv
@@ -43,10 +47,6 @@ BuildRequires:  gettext
 # Native version required for glib-genmarshal
 BuildRequires:  glib2-devel >= 2.45.3
 BuildRequires:  python3-devel
-# glib starting from 2.57.2 does not ship autoconf scripts anymore
-BuildRequires:  autoconf
-BuildRequires:  automake
-BuildRequires:  libtool
 
 # https://bugzilla.gnome.org/show_bug.cgi?id=674214
 Patch1:         0001-Use-CreateFile-on-Win32-to-make-sure-g_unlink-always.patch
@@ -56,11 +56,11 @@ Patch1:         0001-Use-CreateFile-on-Win32-to-make-sure-g_unlink-always.patch
 # http://lists.fedoraproject.org/pipermail/mingw/2013-March/006429.html
 # http://lists.fedoraproject.org/pipermail/mingw/2013-March/006469.html
 # https://bugzilla.gnome.org/show_bug.cgi?id=698118
-Patch5:         glib-prefer-constructors-over-DllMain.patch
+#Patch5:         glib-prefer-constructors-over-DllMain.patch
 
-# GSettingsBackend - Fix thread-safety during destruction of
-# GSettings instances while notifications are emitted
-Patch6:		gsettings-thread-safe.patch
+# Backport proposed fix for CVE-2020-6750
+# https://gitlab.gnome.org/GNOME/glib/merge_requests/1339
+#Patch6:         CVE-2020-6750.patch
 
 %description
 MinGW Windows Glib2 library.
@@ -104,28 +104,14 @@ Static version of the MinGW Windows GLib2 library.
 
 
 %prep
-%setup -q -n glib-%{version}
-%patch1 -p1
-%patch5 -p1
-%patch6 -p1
+%autosetup -p1 -n glib-%{version}
 
 %build
-NOCONFIGURE=1 ./autogen.sh
-#GLib can't build static and shared libraries in one go, so we build GLib twice
-MINGW_BUILDDIR_SUFFIX=_static %mingw_configure --with-python=%{__python3} --disable-shared --enable-static
-MINGW_BUILDDIR_SUFFIX=_shared %mingw_configure --with-python=%{__python3} --disable-static
-
-MINGW_BUILDDIR_SUFFIX=_static %mingw_make %{?_smp_mflags} V=1
-MINGW_BUILDDIR_SUFFIX=_shared %mingw_make %{?_smp_mflags} V=1
-
+%mingw_meson --default-library=both
+%mingw_ninja
 
 %install
-MINGW_BUILDDIR_SUFFIX=_static %mingw_make install DESTDIR=$RPM_BUILD_ROOT/build_static
-MINGW_BUILDDIR_SUFFIX=_shared %mingw_make install DESTDIR=$RPM_BUILD_ROOT
-
-# Move the static libraries to the right location
-mv $RPM_BUILD_ROOT/build_static%{mingw32_libdir}/*.a $RPM_BUILD_ROOT%{mingw32_libdir}
-mv $RPM_BUILD_ROOT/build_static%{mingw64_libdir}/*.a $RPM_BUILD_ROOT%{mingw64_libdir}
+%mingw_ninja_install
 
 # There's a small difference in the file glibconfig.h between the
 # shared and the static build:
@@ -149,8 +135,6 @@ mv $RPM_BUILD_ROOT/build_static%{mingw64_libdir}/*.a $RPM_BUILD_ROOT%{mingw64_li
 # and -DGOBJECT_STATIC_COMPILATION to their CFLAGS to avoid compile failures
 
 # Drop the folder which was temporary used for installing the static bits
-rm -rf $RPM_BUILD_ROOT/build_static
-
 rm -f $RPM_BUILD_ROOT/%{mingw32_libdir}/charset.alias
 rm -f $RPM_BUILD_ROOT/%{mingw64_libdir}/charset.alias
 
@@ -192,7 +176,6 @@ find $RPM_BUILD_ROOT -name "*.la" -delete
 %{mingw32_bindir}/gdbus.exe
 %{mingw32_bindir}/gio.exe
 %{mingw32_bindir}/gio-querymodules.exe
-%{mingw32_bindir}/gio-launch-desktop.exe
 %{mingw32_bindir}/glib-compile-resources.exe
 %{mingw32_bindir}/glib-compile-schemas.exe
 %{mingw32_bindir}/glib-genmarshal
@@ -203,6 +186,7 @@ find $RPM_BUILD_ROOT -name "*.la" -delete
 %{mingw32_bindir}/gsettings.exe
 %{mingw32_bindir}/gspawn-win32-helper-console.exe
 %{mingw32_bindir}/gspawn-win32-helper.exe
+%{mingw32_bindir}/gtester-report
 %{mingw32_bindir}/libgio-2.0-0.dll
 %{mingw32_bindir}/libglib-2.0-0.dll
 %{mingw32_bindir}/libgmodule-2.0-0.dll
@@ -211,8 +195,6 @@ find $RPM_BUILD_ROOT -name "*.la" -delete
 %{mingw32_includedir}/glib-2.0/
 %{mingw32_includedir}/gio-win32-2.0/
 %{mingw32_libdir}/glib-2.0/
-%dir %{mingw32_libdir}/gio/
-%dir %{mingw32_libdir}/gio/modules/
 %{mingw32_libdir}/libgio-2.0.dll.a
 %{mingw32_libdir}/libglib-2.0.dll.a
 %{mingw32_libdir}/libgmodule-2.0.dll.a
@@ -245,7 +227,6 @@ find $RPM_BUILD_ROOT -name "*.la" -delete
 %{mingw64_bindir}/gdbus.exe
 %{mingw64_bindir}/gio.exe
 %{mingw64_bindir}/gio-querymodules.exe
-%{mingw64_bindir}/gio-launch-desktop.exe
 %{mingw64_bindir}/glib-compile-resources.exe
 %{mingw64_bindir}/glib-compile-schemas.exe
 %{mingw64_bindir}/glib-genmarshal
@@ -256,6 +237,7 @@ find $RPM_BUILD_ROOT -name "*.la" -delete
 %{mingw64_bindir}/gsettings.exe
 %{mingw64_bindir}/gspawn-win64-helper-console.exe
 %{mingw64_bindir}/gspawn-win64-helper.exe
+%{mingw64_bindir}/gtester-report
 %{mingw64_bindir}/libgio-2.0-0.dll
 %{mingw64_bindir}/libglib-2.0-0.dll
 %{mingw64_bindir}/libgmodule-2.0-0.dll
@@ -264,8 +246,6 @@ find $RPM_BUILD_ROOT -name "*.la" -delete
 %{mingw64_includedir}/glib-2.0/
 %{mingw64_includedir}/gio-win32-2.0/
 %{mingw64_libdir}/glib-2.0/
-%dir %{mingw64_libdir}/gio/
-%dir %{mingw64_libdir}/gio/modules/
 %{mingw64_libdir}/libgio-2.0.dll.a
 %{mingw64_libdir}/libglib-2.0.dll.a
 %{mingw64_libdir}/libgmodule-2.0.dll.a
@@ -294,6 +274,42 @@ find $RPM_BUILD_ROOT -name "*.la" -delete
 
 
 %changelog
+* Tue Feb 11 2020 Sandro Mani <manisandro@gmail.com> - 2.63.5-2
+- Backport proposed patch for CVE-2020-6750
+
+* Mon Feb 03 2020 Sandro Mani <manisandro@gmail.com> - 2.63.5-1
+- Update to 2.63.5
+
+* Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.63.4-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
+
+* Fri Jan 24 2020 Sandro Mani <manisandro@gmail.com> - 2.63.4-1
+- Update to 2.63.4
+
+* Mon Dec 16 2019 Sandro Mani <manisandro@gmail.com> - 2.63.3-1
+- Update to 2.63.3
+
+* Tue Dec 03 2019 Sandro Mani <manisandro@gmail.com> - 2.63.2-1
+- Update to 2.63.2
+
+* Tue Oct 08 2019 Sandro Mani <manisandro@gmail.com> - 2.63.0-2
+- Rebuild (Changes/Mingw32GccDwarf2)
+
+* Fri Oct 04 2019 Sandro Mani <manisandro@gmail.com> - 2.63.0-1
+- Update to 2.63.0
+
+* Mon Sep 16 2019 Sandro Mani <manisandro@gmail.com> - 2.62.0-1
+- Update to 2.62.0
+
+* Wed Sep 04 2019 Sandro Mani <manisandro@gmail.com> - 2.61.3-1
+- Update to 2.61.3
+
+* Thu Aug 15 2019 Fabiano Fidêncio <fidencio@redhat.com> - 2.61.2-1
+- Update to 2.61.2
+
+* Thu Jul 25 2019 Fedora Release Engineering <releng@fedoraproject.org> - 2.58.3-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_31_Mass_Rebuild
+
 * Fri Feb 01 2019 Fedora Release Engineering <releng@fedoraproject.org> - 2.58.3-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_30_Mass_Rebuild
 

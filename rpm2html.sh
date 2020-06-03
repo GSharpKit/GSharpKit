@@ -74,12 +74,10 @@ opus
 gstreamer1
 gstreamer1-plugins-base
 gstreamer1-plugins-good
-gstreamer1-plugins-bad
+gstreamer1-plugins-bad-free
 libusbx
 libexif
 libgphoto2
-sane-backends
-twaindsm
 webkitgtk3
 dbus
 dbus-glib
@@ -212,7 +210,7 @@ for i in ${NAMES[@]}; do
 	FOUND=0
         for k in "${!RPMS[@]}"
         do
-               	if [[ mingw32-$i == $k ]]; then
+		if [[ mingw64-$i == $k ]]; then
 			STR="$STR, ${RPMS[$k]}"
 			FOUND=1
 			break
