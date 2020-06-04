@@ -1,5 +1,5 @@
 #!/bin/bash
-WD=/usr/darwinx/usr
+WD=/Library/Frameworks/GSharpKit
 
 bundle=$WD
 bundle_contents="$bundle"

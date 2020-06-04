@@ -15,4 +15,6 @@ sh automake.sh
 sh bison.sh
 sh xz.sh
 sh cmake.sh
+sh ninja.sh
+sh meson.sh
 
