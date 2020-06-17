@@ -8,7 +8,7 @@
 %define libdir /lib
 
 Name:           Npgsql
-Version:        4.1.1
+Version:        4.1.3.1
 Release:        1%{?dist}
 Summary:        Postgresql database connectivity for C#
 
@@ -22,8 +22,8 @@ BuildArch:	noarch
 BuildRequires:  mono-devel
 BuildRequires:  nuget
 
-Requires:	mono-core >= 5.0.0
-Requires:	mono-data >= 5.0.0
+Requires:	mono-core >= 6.8.0
+Requires:	mono-data >= 6.8.0
 
 Obsoletes:	mono-data-postgresql
 Obsoletes:	mono-data-npgsql

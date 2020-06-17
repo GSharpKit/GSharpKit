@@ -11,7 +11,7 @@
 %define libdir /bin
 
 Name:           mingw-ServiceStack
-Version:        5.6.0
+Version:        5.9.0
 Release:        1%{?dist}
 Summary:        ServiceStack webservice framework: Faster, Cleaner, Modern WCF alternative.
 

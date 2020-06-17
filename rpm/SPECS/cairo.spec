@@ -11,7 +11,7 @@
 
 Name:		cairo
 Version:	1.16.0
-Release:	4%{?dist}
+Release:	9%{?dist}
 Summary:	A 2D graphics library
 
 License:	LGPLv2 or MPLv1.1
@@ -25,6 +25,12 @@ Patch4:         0001-Set-default-LCD-filter-to-FreeType-s-default.patch
 
 # https://gitlab.freedesktop.org/cairo/cairo/merge_requests/5
 Patch5:         0001-ft-Use-FT_Done_MM_Var-instead-of-free-when-available.patch
+
+# https://github.com/matthiasclasen/cairo/commit/79ad01724161502e8d9d2bd384ff1f0174e5df6e
+Patch6:         cairo-composite_color_glyphs.patch
+
+# https://bugzilla.redhat.com/show_bug.cgi?id=1817958
+Patch7:         0001-cff-Allow-empty-array-of-operands-for-certain-operat.patch
 
 BuildRequires:  gcc
 BuildRequires: pkgconfig
@@ -176,6 +182,22 @@ find $RPM_BUILD_ROOT -name '*.la' -delete
 %{_libdir}/cairo/
 
 %changelog
+* Fri Apr 24 2020 Marek Kasik <mkasik@redhat.com> - 1.16.0-8
+- Allow empty array of operands for certain operators in CFF fonts
+- Resolves: #1817958
+
+* Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.16.0-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
+
+* Wed Jul 24 2019 Fedora Release Engineering <releng@fedoraproject.org> - 1.16.0-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_31_Mass_Rebuild
+
+* Mon Jun 03 2019 Kalev Lember <klember@redhat.com> - 1.16.0-5
+- Fix a thinko in composite_color_glyphs
+
+* Thu Jan 31 2019 Fedora Release Engineering <releng@fedoraproject.org> - 1.16.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_30_Mass_Rebuild
+
 * Fri Dec  7 2018 Marek Kasik <mkasik@redhat.com> - 1.16.0-3
 - Use FT_Done_MM_Var instead of free when available in
 - cairo_ft_apply_variations

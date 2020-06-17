@@ -34,6 +34,7 @@ pango
 atk
 jasper
 libxml2
+libpsl
 libcroco
 libepoxy
 gdk-pixbuf
@@ -41,7 +42,6 @@ librsvg2
 gtk3
 libgdl
 adwaita-icon-theme
-nsis
 ige-mac-bundler
 gtk-mac-integration
 libgpg-error
@@ -77,22 +77,22 @@ gstreamer1-plugins-good
 gstreamer1-plugins-bad-free
 libusbx
 libexif
-libgphoto2
 webkitgtk3
 dbus
 dbus-glib
 mono-core
-Npgsql
-GtkSharp
-GdlSharp
-gtk-mac-integration-sharp
-Mono.Addins
-webkitgtk3-sharp
+Mono.Data.Sqlite
+Mono.Posix.NETStandard
 dbus-sharp
 dbus-sharp-glib
+GtkSharp
+GdlSharp
 GstSharp
-libgphoto2-sharp
-SharpCamera
+webkitgtk3-sharp
+gtk-mac-integration-sharp
+Microsoft.CSharp
+Npgsql
+Mono.Addins
 Newtonsoft.Json
 BouncyCastle
 MimeKit
@@ -101,7 +101,7 @@ ServiceStack
 RestSharp
 Seal.net
 PDFsharp-MigraDoc
-SharpZipLib
+Sprache
 )
 
 LIN_BUILD_IN=(
@@ -117,7 +117,6 @@ LIN_NA=(
 gtk-mac-integration
 winpthreads
 win-iconv
-nsis
 gtk-mac-integration-sharp
 )
 
@@ -156,7 +155,7 @@ twaindsm
 MAC_NA=(
 winpthreads
 win-iconv
-nsis
+ige-mac-bundler
 gtk-mac-integration-sharp
 )
 

@@ -9,8 +9,8 @@
 %define libdir /bin
 
 Name:           mingw-GtkSharp
-Version:        3.22.24
-Release:        33%{?dist}
+Version:        3.22.25.98
+Release:        1%{?dist}
 Summary:        GTK+ and GNOME bindings for Mono
 
 Group:          System Environment/Libraries
@@ -81,6 +81,14 @@ tools and libraries (corlib, XML, System.Security, ZipLib,
 %setup -q -n GtkSharp-%{version}
 
 cp %{SOURCE5} Source/
+
+sed -i -e 's!</PackageTags>!</PackageTags><SignAssembly>true</SignAssembly><AssemblyOriginatorKeyFile>../../GtkSharp.snk</AssemblyOriginatorKeyFile>!g' Source/Libs/GtkSharp/GtkSharp.csproj
+sed -i -e 's!</PackageTags>!</PackageTags><SignAssembly>true</SignAssembly><AssemblyOriginatorKeyFile>../../GtkSharp.snk</AssemblyOriginatorKeyFile>!g' Source/Libs//GdkSharp/GdkSharp.csproj
+sed -i -e 's!</PackageTags>!</PackageTags><SignAssembly>true</SignAssembly><AssemblyOriginatorKeyFile>../../GtkSharp.snk</AssemblyOriginatorKeyFile>!g' Source/Libs//GioSharp/GioSharp.csproj
+sed -i -e 's!</PackageTags>!</PackageTags><SignAssembly>true</SignAssembly><AssemblyOriginatorKeyFile>../../GtkSharp.snk</AssemblyOriginatorKeyFile>!g' Source/Libs//GLibSharp/GLibSharp.csproj
+sed -i -e 's!</PackageTags>!</PackageTags><SignAssembly>true</SignAssembly><AssemblyOriginatorKeyFile>../../GtkSharp.snk</AssemblyOriginatorKeyFile>!g' Source/Libs//PangoSharp/PangoSharp.csproj
+sed -i -e 's!</PackageTags>!</PackageTags><SignAssembly>true</SignAssembly><AssemblyOriginatorKeyFile>../../GtkSharp.snk</AssemblyOriginatorKeyFile>!g' Source/Libs//CairoSharp/CairoSharp.csproj
+sed -i -e 's!</PackageTags>!</PackageTags><SignAssembly>true</SignAssembly><AssemblyOriginatorKeyFile>../../GtkSharp.snk</AssemblyOriginatorKeyFile>!g' Source/Libs//AtkSharp/AtkSharp.csproj
 
 %build
 sh build.sh

@@ -23,8 +23,6 @@ BuildArch:      noarch
 
 BuildRequires:  mingw32-filesystem >= 98
 BuildRequires:  mingw64-filesystem >= 98
-BuildRequires:  mingw32-mono-core
-BuildRequires:  mingw64-mono-core
 BuildRequires:	mingw32-gtk3 >= %{gtk_version}
 BuildRequires:	mingw64-gtk3 >= %{gtk_version}
 BuildRequires:  mingw32-libgdl >= %{version}

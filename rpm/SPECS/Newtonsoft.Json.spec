@@ -3,7 +3,7 @@
 %define libdir /lib
 
 Name:           Newtonsoft.Json
-Version:        12.0.2
+Version:        12.0.3
 Release:        1%{?dist}
 Summary:        Json.NET is a popular high-performance JSON framework for .NET
 

@@ -13,7 +13,7 @@ BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:	webkitgtk3-devel >= %{version}
 BuildRequires:	mono-devel
 BuildRequires:	GtkSharp-gapi >= 3.12.0
-#BuildRequires:	monodoc-devel
+BuildRequires:	monodoc-devel
 
 Obsoletes:	webkit-sharp
 Provides:	webkit-sharp = %{version}-%{release}

@@ -1,7 +1,7 @@
 %define debug_package %{nil}
 
 Name:		GstSharp
-Version: 	1.14.2
+Version: 	1.16.0
 Release: 	1%{?dist}
 Summary: 	GStreamer streaming media framework runtime
 Group: 		Applications/Multimedia

@@ -26,7 +26,7 @@ BuildRequires:	webkitgtk3-devel
 BuildRequires:	mono-devel
 BuildRequires:	gtk-sharp3-devel
 BuildRequires:	gtk-sharp3-gapi
-#BuildRequires:	monodoc-devel
+BuildRequires:	monodoc-devel
 
 %description
 WebKit-sharp is .NET bindings for the WebKit rendering engine.

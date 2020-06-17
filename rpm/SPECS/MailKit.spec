@@ -3,7 +3,7 @@
 %define libdir /lib
 
 Name:           MailKit
-Version:        2.2.0
+Version:        2.7.0
 Release:        1%{?dist}
 Summary:        MailKit is an Open Source cross-platform .NET mail-client library.
 
@@ -16,7 +16,7 @@ BuildArch:	noarch
 
 BuildRequires:  nuget
 
-Requires:	BouncyCastle >= 1.8.5
+Requires:	BouncyCastle >= 1.8.6
 Requires:	MimeKit >= %{version}
 
 %description

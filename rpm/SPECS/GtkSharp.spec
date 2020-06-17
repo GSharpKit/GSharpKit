@@ -3,7 +3,7 @@
 %define libdir /lib
 
 Name:           GtkSharp
-Version:        3.22.24
+Version:        3.22.25.98
 Release:        33%{?dist}
 Summary:        GTK+ and GNOME bindings for Mono
 
@@ -67,7 +67,16 @@ the GAPI tools and found in Gtk# include Gtk, Atk, Pango, Gdk.
 cp %{SOURCE5} Source/
 
 # Fix permissions of source files
-find -name '*.c' -exec chmod a-x {} \;
+#find -name '*.c' -exec chmod a-x {} \;
+
+sed -i -e 's!</PackageTags>!</PackageTags><SignAssembly>true</SignAssembly><AssemblyOriginatorKeyFile>../../GtkSharp.snk</AssemblyOriginatorKeyFile>!g' Source/Libs/GtkSharp/GtkSharp.csproj
+sed -i -e 's!</PackageTags>!</PackageTags><SignAssembly>true</SignAssembly><AssemblyOriginatorKeyFile>../../GtkSharp.snk</AssemblyOriginatorKeyFile>!g' Source/Libs//GdkSharp/GdkSharp.csproj
+sed -i -e 's!</PackageTags>!</PackageTags><SignAssembly>true</SignAssembly><AssemblyOriginatorKeyFile>../../GtkSharp.snk</AssemblyOriginatorKeyFile>!g' Source/Libs//GioSharp/GioSharp.csproj
+sed -i -e 's!</PackageTags>!</PackageTags><SignAssembly>true</SignAssembly><AssemblyOriginatorKeyFile>../../GtkSharp.snk</AssemblyOriginatorKeyFile>!g' Source/Libs//GLibSharp/GLibSharp.csproj
+sed -i -e 's!</PackageTags>!</PackageTags><SignAssembly>true</SignAssembly><AssemblyOriginatorKeyFile>../../GtkSharp.snk</AssemblyOriginatorKeyFile>!g' Source/Libs//PangoSharp/PangoSharp.csproj
+sed -i -e 's!</PackageTags>!</PackageTags><SignAssembly>true</SignAssembly><AssemblyOriginatorKeyFile>../../GtkSharp.snk</AssemblyOriginatorKeyFile>!g' Source/Libs//CairoSharp/CairoSharp.csproj
+sed -i -e 's!</PackageTags>!</PackageTags><SignAssembly>true</SignAssembly><AssemblyOriginatorKeyFile>../../GtkSharp.snk</AssemblyOriginatorKeyFile>!g' Source/Libs//AtkSharp/AtkSharp.csproj
+
 
 %build
 sh build.sh

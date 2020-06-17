@@ -1,14 +1,14 @@
 %?mingw_package_header
 
 Name:           mingw-dbus
-Version:        1.12.12
+Version:        1.13.16
 Release:        1%{?dist}
 Summary:        MinGW Windows port of D-Bus
 
 License:        GPLv2+ or AFL
 Group:          Development/Libraries
 URL:            http://www.freedesktop.org/wiki/Software/dbus
-Source0:        http://dbus.freedesktop.org/releases/dbus/dbus-%{version}.tar.gz
+Source0:        http://dbus.freedesktop.org/releases/dbus/dbus-%{version}.tar.xz
 
 BuildArch:      noarch
 
@@ -110,6 +110,7 @@ rm -rf $RPM_BUILD_ROOT%{mingw64_libdir}/cmake
 %{mingw32_bindir}/dbus-monitor.exe
 %{mingw32_bindir}/dbus-send.exe
 %{mingw32_bindir}/dbus-test-tool.exe
+%{mingw32_bindir}/dbus-run-session.exe
 %{mingw32_bindir}/dbus-update-activation-environment.exe
 %{mingw32_bindir}/libdbus-1-3.dll
 %{mingw32_libdir}/libdbus-1.dll.a
@@ -131,6 +132,7 @@ rm -rf $RPM_BUILD_ROOT%{mingw64_libdir}/cmake
 %{mingw64_bindir}/dbus-monitor.exe
 %{mingw64_bindir}/dbus-send.exe
 %{mingw64_bindir}/dbus-test-tool.exe
+%{mingw64_bindir}/dbus-run-session.exe
 %{mingw64_bindir}/dbus-update-activation-environment.exe
 %{mingw64_bindir}/libdbus-1-3.dll
 %{mingw64_libdir}/libdbus-1.dll.a
