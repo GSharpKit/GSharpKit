@@ -1,5 +1,5 @@
 Name:           darwinx-libvorbis
-Version:        1.3.5
+Version:        1.3.6
 Release:        1%{?dist}
 Summary:        The Vorbis General Audio Compression Codec.
 License:        BSD

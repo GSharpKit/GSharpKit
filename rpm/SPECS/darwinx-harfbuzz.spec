@@ -1,12 +1,12 @@
 Name:           darwinx-harfbuzz
-Version:        2.3.1
+Version:        2.6.5
 Release:        1%{?dist}
 Summary:        Darwin Text shaping library
 
 License:        LGPLv2+
 Group:          Development/Libraries
 URL:            http://freedesktop.org/wiki/Software/HarfBuzz
-Source0:        http://www.freedesktop.org/software/harfbuzz/release/harfbuzz-%{version}.tar.bz2
+Source0:        http://www.freedesktop.org/software/harfbuzz/release/harfbuzz-%{version}.tar.xz
 
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 

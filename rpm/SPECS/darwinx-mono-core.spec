@@ -1,9 +1,9 @@
 %global debug_package %{nil}
 
-%define ver 6.0.0
+%define ver 6.8.0
 
 Name:           darwinx-mono-core
-Version:        %{ver}.334
+Version:        %{ver}.123
 Release:        1%{?dist}
 Summary:        A .NET runtime environment
 
@@ -44,7 +44,7 @@ class loader, the garbage collector, threading system and
 metadata access libraries.
 
 
-%define monodir /usr/darwinx/usr/lib/mono
+%define monodir %{_darwinx_libdir}/mono
 %define gac_dll(dll)  %{monodir}/gac/%{1} \
   %{monodir}/?.?/%{1}.dll \
   %{nil}
@@ -180,6 +180,8 @@ install -p -m0644 %{SOURCE2} %{buildroot}%{_darwinx_sysconfdir}/pki/mono/
 %{_darwinx_bindir}/dmcs
 %{_darwinx_bindir}/mono-heapviz
 %{_darwinx_bindir}/mprof-report
+%{_darwinx_bindir}/aprofutil
+%{_darwinx_bindir}/mono-hang-watchdog
 %{_darwinx_mandir}/man1/certmgr.1
 %{_darwinx_mandir}/man1/chktrust.1
 %{_darwinx_mandir}/man1/gacutil.1
@@ -197,6 +199,7 @@ install -p -m0644 %{SOURCE2} %{buildroot}%{_darwinx_sysconfdir}/pki/mono/
 %{_darwinx_mandir}/man1/cert-sync.1
 %{_darwinx_mandir}/man1/mono-profilers.1
 %{_darwinx_mandir}/man1/illinkanalyzer.1
+%{_darwinx_mandir}/man1/aprofutil.1
 %{_darwinx_libdir}/libMonoPosixHelper.dylib
 %{_darwinx_libdir}/libMonoSupportW.dylib
 %{_darwinx_libdir}/libmono-btls-shared.dylib
@@ -268,6 +271,7 @@ install -p -m0644 %{SOURCE2} %{buildroot}%{_darwinx_sysconfdir}/pki/mono/
 %{monodir}/4.7-api/
 %{monodir}/4.7.1-api/
 %{monodir}/4.7.2-api/
+%{monodir}/4.8-api/
 %gac_dll Microsoft.CSharp
 %gac_dll System.Dynamic
 %gac_dll System.Reflection.Context
@@ -415,6 +419,8 @@ install -p -m0644 %{SOURCE2} %{buildroot}%{_darwinx_sysconfdir}/pki/mono/
 %{monodir}/4.5/xbuild.pdb
 %{monodir}/4.5/xsd.exe
 %{monodir}/4.5/xsd.pdb
+%{monodir}/4.5/aprofutil.exe
+%{monodir}/4.5/aprofutil.pdb
 %{monodir}/4.5/System.Collections.Immutable.dll
 %{monodir}/4.5/System.Reflection.Metadata.dll
 %{monodir}/4.5/VBCSCompiler.exe

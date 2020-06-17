@@ -3,7 +3,7 @@
 %define libdir /lib
 
 Name:           darwinx-BouncyCastle
-Version:        1.8.5
+Version:        1.8.6.7
 Release:        1%{?dist}
 Summary:        BouncyCastle is a Crypto library written i C#
 

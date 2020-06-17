@@ -2,9 +2,8 @@
 BUILD_ROOT=~/GSharpKitBuild
 
 NAME=GSharpKit
-VERSION=1.0.0
-PREFIX=/Library/Frameworks/$NAME.framework/Versions/$VERSION
-SYMLINK=/Library/Frameworks/$NAME.framework/Versions/Current
+PREFIX=/Library/$NAME
+SYMLINK=/Library/$NAME
 
 URL=https://launchpad.net/intltool/trunk/0.50.2/+download
 

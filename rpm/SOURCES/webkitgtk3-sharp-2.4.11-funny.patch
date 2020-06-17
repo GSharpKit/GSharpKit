@@ -1,0 +1,24 @@
+diff -Nur webkitgtk3-sharp-2.4.11.orig/samples/Makefile.am webkitgtk3-sharp-2.4.11/samples/Makefile.am
+--- webkitgtk3-sharp-2.4.11.orig/samples/Makefile.am	2018-10-12 12:08:05.000000000 +0200
++++ webkitgtk3-sharp-2.4.11/samples/Makefile.am	2020-06-15 11:54:26.000000000 +0200
+@@ -11,7 +11,7 @@
+ 
+ CLEANFILES = $(TARGETS) $(DEBUGS) $(assembly)
+ 
+-references=-r:../sources/$(assembly) -pkg:gtk-sharp-3.0
++references=-r:../sources/$(assembly) `darwinx-pkg-config --libs gtk-sharp-3.0`
+ 
+ all: $(TARGETS)
+ 
+diff -Nur webkitgtk3-sharp-2.4.11.orig/samples/Makefile.in webkitgtk3-sharp-2.4.11/samples/Makefile.in
+--- webkitgtk3-sharp-2.4.11.orig/samples/Makefile.in	2018-10-12 12:08:05.000000000 +0200
++++ webkitgtk3-sharp-2.4.11/samples/Makefile.in	2020-06-15 11:54:51.000000000 +0200
+@@ -245,7 +245,7 @@
+ DEBUGS = $(addsuffix .mdb, $(TARGETS))
+ assembly = $(ASSEMBLY_NAME).dll
+ CLEANFILES = $(TARGETS) $(DEBUGS) $(assembly)
+-references = -r:../sources/$(assembly) -pkg:gtk-sharp-3.0
++references = -r:../sources/$(assembly) `darwinx-pkg-config --libs gtk-sharp-3.0`
+ all: all-am
+ 
+ .SUFFIXES:

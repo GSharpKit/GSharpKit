@@ -1,11 +1,12 @@
 Name:           darwinx-libogg
-Version:        1.3.3
+Version:        1.3.4
 Release:        1%{?dist}
 Summary:        The Ogg bitstream file format library
 License:        BSD
 Group:          Development/Libraries
 URL:            http://www.xiph.org/downloads/
 Source:         http://downloads.xiph.org/releases/ogg/libogg-%{version}.tar.xz
+Patch0:		libogg-1.3.4-types.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildArch:      noarch
@@ -19,7 +20,7 @@ Ogg bitstreams
 
 %prep
 %setup -q -n libogg-%{version}
-
+%patch0 -p1
 
 %build
 %{_darwinx_configure}

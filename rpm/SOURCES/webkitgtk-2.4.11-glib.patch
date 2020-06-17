@@ -1,0 +1,18 @@
+diff -Nur webkitgtk-2.4.11.orig/Source/autotools/FindDependencies.m4 webkitgtk-2.4.11/Source/autotools/FindDependencies.m4
+--- webkitgtk-2.4.11.orig/Source/autotools/FindDependencies.m4	2016-04-10 08:48:38.000000000 +0200
++++ webkitgtk-2.4.11/Source/autotools/FindDependencies.m4	2020-06-11 12:50:40.000000000 +0200
+@@ -92,10 +92,10 @@
+ 
+ # Check for glib and required utilities. This macro is named as if it interacts
+ # with automake, but it doesn't. Thus it doesn't need to be in the automake section.
+-AM_PATH_GLIB_2_0(glib_required_version, :, :, gmodule gobject gthread gio)
+-if test -z "$GLIB_GENMARSHAL" || test -z "$GLIB_MKENUMS"; then
+-    AC_MSG_ERROR([You need the GLib dev tools in your path])
+-fi
++#AM_PATH_GLIB_2_0(glib_required_version, :, :, gmodule gobject gthread gio)
++#if test -z "$GLIB_GENMARSHAL" || test -z "$GLIB_MKENUMS"; then
++#    AC_MSG_ERROR([You need the GLib dev tools in your path])
++#fi
+ 
+ # GResources
+ GLIB_COMPILE_RESOURCES=`$PKG_CONFIG --variable glib_compile_resources gio-2.0`

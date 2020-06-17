@@ -1,11 +1,11 @@
 Name:           darwinx-libxslt
-Version:        1.1.32
+Version:        1.1.34
 Release:        1%{?dist}
 Summary:        libxslt is the official PNG reference library.
 
 License:        LGPLv2+
 Group:          Development/Libraries
-URL:            http://prdownloads.sourceforge.net/libxslt/
+URL:            ftp://xmlsoft.org/libxslt/
 Source0:        libxslt-%{version}.tar.gz
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:      noarch

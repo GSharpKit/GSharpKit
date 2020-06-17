@@ -1,12 +1,12 @@
 Name:           darwinx-pango
-Version:        1.42.4
+Version:        1.44.7
 Release:        1%{?dist}
 Summary:        Darwin Pango library
 
 License:        LGPLv2+
 Group:          Development/Libraries
 URL:            http://www.pango.org
-Source0:        http://download.gnome.org/sources/pango/1.40/pango-%{version}.tar.xz
+Source0:        http://download.gnome.org/sources/pango/1.44/pango-%{version}.tar.xz
 
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
@@ -55,46 +55,18 @@ Static version of the Darwin Pango library.
 %prep
 %setup -q -n pango-%{version}
 
-sed -i '' "s!SUBDIRS = pango pango-view examples docs tools tests build!SUBDIRS = pango pango-view docs tools build!" Makefile.in 
-
 %build
-# Pango can't build static and shared libraries in one go, so we
-# build Pango twice here
-mkdir build_static
-pushd build_static
-%{_darwinx_configure} \
-        --enable-static \
-        --disable-shared \
-        CFLAGS="$CFLAGS -DGLIB_STATIC_COMPILATION -DGOBJECT_STATIC_COMPILATION"
+%darwinx_meson \
+    --default-library=both \
+    -Dgtk_doc=false \
+    -Dintrospection=false \
+    -Dinstall-tests=false \
+    -Duse_fontconfig=true
 
-    make %{?_smp_mflags}
-popd
-
-mkdir build_shared
-pushd build_shared
-%{_darwinx_configure} \
-        --disable-static
-    make %{?_smp_mflags}
-popd
+%darwinx_meson_build
 
 %install
-rm -rf $RPM_BUILD_ROOT
-
-# First install all the files belonging to the shared build
-make -C build_shared DESTDIR=$RPM_BUILD_ROOT install
-
-# Install all the files from the static build in a seperate folder
-# and move the static libraries to the right location
-make -C build_static DESTDIR=$RPM_BUILD_ROOT/build_static install
-mv $RPM_BUILD_ROOT/build_static%{_darwinx_libdir}/*.a $RPM_BUILD_ROOT%{_darwinx_libdir}
-
-# Manually merge the libtool files
-sed -i '' s/"old_library=''"/"old_library='libpango-1.0.a'"/ $RPM_BUILD_ROOT%{_darwinx_libdir}/libpango-1.0.la
-sed -i '' s/"old_library=''"/"old_library='libpangocairo-1.0.a'"/ $RPM_BUILD_ROOT%{_darwinx_libdir}/libpangocairo-1.0.la
-sed -i '' s/"old_library=''"/"old_library='libpangoft2-1.0.a'"/ $RPM_BUILD_ROOT%{_darwinx_libdir}/libpangoft2-1.0.la
-
-# Drop the folder which was temporary used for installing the static bits
-rm -rf $RPM_BUILD_ROOT/build_static
+%darwinx_meson_install
 
 # Drop unnecessary and duplicate files
 rm -f $RPM_BUILD_ROOT%{_darwinx_libdir}/charset.alias
@@ -113,13 +85,10 @@ rm -rf $RPM_BUILD_ROOT
 %{_darwinx_includedir}/pango-1.0/
 %{_darwinx_libdir}/libpango-1.0.0.dylib
 %{_darwinx_libdir}/libpango-1.0.dylib
-%{_darwinx_libdir}/libpango-1.0.la
 %{_darwinx_libdir}/libpangocairo-1.0.0.dylib
 %{_darwinx_libdir}/libpangocairo-1.0.dylib
-%{_darwinx_libdir}/libpangocairo-1.0.la
 %{_darwinx_libdir}/libpangoft2-1.0.0.dylib
 %{_darwinx_libdir}/libpangoft2-1.0.dylib
-%{_darwinx_libdir}/libpangoft2-1.0.la
 %{_darwinx_libdir}/pkgconfig/pango.pc
 %{_darwinx_libdir}/pkgconfig/pangocairo.pc
 %{_darwinx_libdir}/pkgconfig/pangoft2.pc

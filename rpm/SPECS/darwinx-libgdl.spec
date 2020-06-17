@@ -1,12 +1,12 @@
 Name:           darwinx-libgdl
-Version:        3.28.0
+Version:        3.34.0
 Release:        1%{?dist}
 Summary:        Mac OS X GDL library
 
 License:        LGPLv2+
 Group:          Development/Libraries
 URL:            http://www.gtk.org
-Source0:        http://download.gnome.org/sources/gdl/3.20/gdl-%{version}.tar.xz
+Source0:        http://download.gnome.org/sources/gdl/3.34/gdl-%{version}.tar.xz
 
 BuildArch:      noarch
 
@@ -44,7 +44,6 @@ suites.
 %{_darwinx_make} install DESTDIR=$RPM_BUILD_ROOT
 
 rm -f $RPM_BUILD_ROOT%{_darwinx_libdir}/*.la
-rm -rf $RPM_BUILD_ROOT%{_darwinx_libdir}/locale
 rm -rf $RPM_BUILD_ROOT%{_darwinx_datadir}/gtk-doc
 
 %files -n darwinx-libgdl
@@ -63,7 +62,7 @@ rm -rf $RPM_BUILD_ROOT%{_darwinx_datadir}/gtk-doc
 %{_darwinx_includedir}/libgdl-3.0/gdl/gdl.h
 %{_darwinx_includedir}/libgdl-3.0/gdl/libgdltypebuiltins.h
 %{_darwinx_libdir}/pkgconfig/gdl-3.0.pc
-%{_darwinx_datadir}/locale
+#{_darwinx_datadir}/locale
 
 %changelog
 * Tue Nov 04 2014 Mikkel Kruse Johnsen <mikkel@xmedicus.com> - 3.12.0-1

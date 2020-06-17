@@ -1,5 +1,5 @@
 Name:           darwinx-pcre
-Version:        8.39
+Version:        8.44
 Release:        1%{?dist}
 Summary:        Perl-compatible regular expression library
 

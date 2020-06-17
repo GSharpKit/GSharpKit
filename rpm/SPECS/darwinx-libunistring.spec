@@ -1,12 +1,12 @@
 Name:           darwinx-libunistring
-Version:        0.9.8
+Version:        0.9.10
 Release:        1%{?dist}
 Summary:        This library provides functions for manipulating Unicode strings.
 
 License:        GPLv3+ and LGPLv2+
 Group:          Development/Libraries
 URL:            https://www.gnu.org/software/libunistring/
-Source0:        libunistring-%{version}.tar.xz
+Source0:        libunistring-%{version}.tar.gz
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildArch:      noarch

@@ -145,10 +145,6 @@ sudo chmod 777 $PREFIX/var/tmp
 sudo chmod 777 $PREFIX/var/lib
 sudo chmod 777 $PREFIX/var/lib/rpm
 
-export PATH="/Library/Frameworks/GSharpKit.framework/Versions/Current/bin:$PATH"
-export DYLD_LIBRARY_PATH="/Library/Frameworks/GSharpKit.framework/Versions/Current/lib:$DYLD_LIBRARY_PATH"
-export DYLD_FALLBACK_LIBRARY_PATH="/Library/Frameworks/GSharpKit.framework/Versions/Current/lib:$DYLD_FALLBACK_LIBRARY_PATH"
-
 sudo ln -sf $SYMLINK/bin/rpm /usr/local/bin/rpm
 sudo ln -sf $SYMLINK/bin/rpm2cpio /usr/local/bin/rpm2cpio
 sudo ln -sf $SYMLINK/bin/rpmbuild /usr/local/bin/rpmbuild

@@ -1,5 +1,5 @@
 Name:           darwinx-gettext
-Version:        0.19.7
+Version:        0.20.2
 Release:        1%{?dist}
 Summary:        Darwin Gettext library
 
@@ -62,7 +62,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_darwinx_libdir}/libasprintf.a
 %{_darwinx_libdir}/libgettextpo.a
 %{_darwinx_libdir}/libintl.a
-
+%{_darwinx_libdir}/libtextstyle.a
 
 %changelog
 * Wed Jul 20 2016 Mikkel Kruse Johnsen <mikkel@xmedicus.com> - 0.19.7-1

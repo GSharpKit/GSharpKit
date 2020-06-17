@@ -1,5 +1,5 @@
 Name:           darwinx-libcroco
-Version:        0.6.12
+Version:        0.6.13
 Release:        1%{?dist}
 Summary:        Libcroco
 

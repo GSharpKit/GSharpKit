@@ -1,12 +1,12 @@
 Name:           darwinx-fontconfig
-Version:        2.12.6
+Version:        2.13.92
 Release:        1%{?dist}
 Summary:        Darwin Font configuration and customization library
 
 License:        LGPLv2+
 Group:          Development/Libraries
 URL:            http://fontconfig.org
-Source0:        http://www.freedesktop.org/software/fontconfig/release/fontconfig-%{version}.tar.bz2
+Source0:        http://www.freedesktop.org/software/fontconfig/release/fontconfig-%{version}.tar.xz
 
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
@@ -56,12 +56,17 @@ rm -rf $RPM_BUILD_ROOT
 # First install all the files belonging to the shared build
 make DESTDIR=$RPM_BUILD_ROOT install
 
+# Delete gettext and locale
+rm -rf $RPM_BUILD_ROOT%{_darwinx_datadir}/gettext
+rm -rf $RPM_BUILD_ROOT%{_darwinx_datadir}/locale
+
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 
 %files
 %defattr(-,root,root,-)
+%doc README ChangeLog
 %{_darwinx_bindir}/fc-cache
 %{_darwinx_bindir}/fc-cat
 %{_darwinx_bindir}/fc-list
@@ -70,6 +75,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_darwinx_bindir}/fc-query
 %{_darwinx_bindir}/fc-scan
 %{_darwinx_bindir}/fc-validate
+%{_darwinx_bindir}/fc-conflist
 %{_darwinx_sysconfdir}/fonts
 %{_darwinx_includedir}/fontconfig
 %{_darwinx_libdir}/libfontconfig.1.dylib

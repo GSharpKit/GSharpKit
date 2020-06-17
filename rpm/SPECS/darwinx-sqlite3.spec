@@ -1,7 +1,7 @@
-%define ver 3200100
+%define ver 3320200
 
 Name:           darwinx-sqlite3
-Version:        3.20.1.0
+Version:        3.32.2
 Release:        1%{?dist}
 Summary:        SQL database engine.
 
@@ -56,6 +56,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_darwinx_includedir}/
 
 %changelog
-* Thu May  9 2013 Mikkel Kruse Johnsen <mikkel@structura-it.dk> - 2.6-1
+* Thu May  9 2013 Mikkel Kruse Johnsen <mikkel@xmedicus.com> - 3.20-1
 - Initial RPM release.
 

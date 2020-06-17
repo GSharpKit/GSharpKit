@@ -5,7 +5,7 @@
 #automake
 
 Name:		darwinx-gtk-mac-integration
-Version:	2.0.7
+Version:	2.1.3
 Release:	1%{?dist}
 Summary:	Darwin API to integrate GTK+ OS X applications with the Mac desktop
 
@@ -13,7 +13,6 @@ License:	LGPLv2
 Group:		Development/Libraries
 URL:		http://sourceforge.net/projects/gtk-osx/files/
 Source0:	gtk-mac-integration-%{version}.tar.gz
-Patch0:		gtk-mac-integration-2.0.7-glib-autogen.patch
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildArch:	noarch
@@ -39,13 +38,20 @@ Static version of the Darwin Gtk-Mac-Integration library.
 
 
 %prep
-%setup -q -n gtk-mac-integration-%{version}
-%patch0 -p1
+%setup -q -n gtk-mac-integration-gtk-mac-integration-%{version}
+
+sed -i '' 's!gtkdocize!#gtkdocize!g' autogen.sh
+sed -i '' 's!GTK_DOC_CHECK!#GTK_DOC_CHECK!g' configure.ac
+sed -i '' 's!    docs/Makefile!!g' configure.ac
+sed -i '' 's!    docs/reference/Makefile!!g' configure.ac
+sed -i '' 's!docs !!g' Makefile.am
+sed -i '' 's!enable-gtk-doc!disable-gtk-doc!g' Makefile.am
+sed -i '' 's!gtk-doc.make!!g' Makefile.am
 
 %build
 %{_darwinx_env}
-sh autogen.sh --enable-static --enable-shared --enable-python=no --with-gtk=gtk+-3.0 
-%{_darwinx_configure} --enable-static --enable-shared --enable-python=no --with-gtk=gtk+-3.0 
+sh autogen.sh --enable-static --enable-shared --enable-python=no --with-gtk3 --enable-introspection=no 
+%{_darwinx_configure} --enable-static --enable-shared --enable-python=no --with-gtk3 --enable-introspection=no
 %{_darwinx_make} %{?_smp_mflags} V=99
 
 
@@ -60,13 +66,13 @@ rm -rf $RPM_BUILD_ROOT
 
 %files 
 %defattr(-,root,root,-)
-%{_darwinx_includedir}/gtkmacintegration-gtk3/
+%{_darwinx_includedir}/gtkmacintegration/
 %{_darwinx_libdir}/libgtkmacintegration-gtk3.2.dylib
 %{_darwinx_libdir}/libgtkmacintegration-gtk3.dylib
 %{_darwinx_libdir}/libgtkmacintegration-gtk3.la
-%dir %{_darwinx_datadir}/strings
-%{_darwinx_datadir}/strings/*
 %{_darwinx_libdir}/pkgconfig/gtk-mac-integration-gtk3.pc
+%{_darwinx_libdir}/pkgconfig/gtk-mac-integration.pc
+%{_darwinx_datadir}/locale
 
 %files static
 %defattr(-,root,root,-)

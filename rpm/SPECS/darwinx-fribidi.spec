@@ -1,9 +1,9 @@
 Name: 		darwinx-fribidi
 Summary: 	Library implementing the Unicode Bidirectional Algorithm
-Version: 	1.0.5
+Version: 	1.0.9
 Release: 	1%{?dist}
 URL: 		http://fribidi.org
-Source: 	hhttps://github.com/fribidi/fribidi/release/fribidi-%{version}.tar.bz2
+Source: 	https://github.com/fribidi/fribidi/release/fribidi-%{version}.tar.xz
 License: 	LGPLv2+ and UCD
 Group: 		System Environment/Libraries
 BuildArch:      noarch

@@ -1,6 +1,7 @@
 # RPM macros for Fedora Darwin.
 
 %__xz                     /usr/local/bin/xz
+%__cmake                  /usr/local/bin/cmake
 %_bindir                  /usr/bin
 
 %_darwinx_i686_target     i686-apple-darwin13
@@ -25,6 +26,7 @@
 %_darwinx_sharedstatedir  %{_darwinx_prefix}/com
 %_darwinx_localstatedir   %{_darwinx_prefix}/var
 %_darwinx_includedir      %{_darwinx_prefix}/include
+%_darwinx_aclocal_path    /Library/GSharpKit/share/aclocal:/Library/Frameworks/GSharpKit/share/aclocal
 
 # Build macros.
 #%_darwinx_host            %{_darwinx_target}
@@ -71,6 +73,7 @@
   CC="${DARWINX_CC:-%_darwinx_cc}"; export CC; \
   CFLAGS="${DARWINX_CFLAGS:-%_darwinx_cflags}"; export CFLAGS; \
   CPPFLAGS="${DARWINX_CPPFLAGS:-%_darwinx_cppflags}"; export CPPFLAGS; \
+  ACLOCAL_PATH="${DARWINX_ACLOCAL_PATH:-%_darwinx_aclocal_path}"; export ACLOCAL_PATH; \
   if [ -x "%{_bindir}/%{_darwinx_cxx}" ]; then \
     CXX="${DARWINX_CXX:-%_darwinx_cxx}"; export CXX; \
     CXXFLAGS="${DARWINX_CXXFLAGS:-%_darwinx_cflags}"; export CXXFLAGS; \
@@ -147,7 +150,7 @@
   install
 
 %_darwinx_cmake %{_darwinx_env} ; \
-  __darwinx_topdir=.; if ! test -x CMakeLists.txt; then __darwinx_topdir=..; fi; \\\
+  __darwinx_topdir=.; if test -f ../CMakeLists.txt; then __darwinx_topdir=..; fi; \\\
   %__cmake \\\
 	-DCMAKE_VERBOSE_MAKEFILE=ON \\\
 	-DCMAKE_INSTALL_PREFIX:PATH=%{_darwinx_prefix} \\\
@@ -158,7 +161,8 @@
 	-DSHARE_INSTALL_PREFIX:PATH=%{_darwinx_datadir} \\\
 	%{?_cmake_skip_rpath} \\\
 	-DBUILD_SHARED_LIBS:BOOL=ON \\\
-	-DCMAKE_TOOLCHAIN_FILE=/usr/share/cross/toolchain-darwinx.cmake \\\
+	-DBUILD_STATIC_LIBS:BOOL=ON \\\
+	-DCMAKE_TOOLCHAIN_FILE=/Library/GSharpKit/share/cross/toolchain-darwinx.cmake \\\
 	$* $__darwinx_topdir
 
 %_darwinx_description This is the cross-compiled version of this library / tool.\

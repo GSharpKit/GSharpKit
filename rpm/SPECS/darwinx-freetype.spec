@@ -1,12 +1,12 @@
 Name:           darwinx-freetype
-Version:        2.8.1
+Version:        2.10.2
 Release:        1%{?dist}
 Summary:        Darwin A free and portable font rendering engine
 
 License:        LGPLv2+
 Group:          Development/Libraries
 URL:            http://www.freetype.org
-Source0:        http://sourceforge.net/projects/freetype/files/freetype2/2.6.2/freetype-%{version}.tar.bz2
+Source0:        http://sourceforge.net/projects/freetype/files/freetype2/2.10.2/freetype-%{version}.tar.xz
 Source1:	freetype2.pc
 Patch0:		freetype-2.5.0-freetype-config.patch
 
@@ -20,6 +20,7 @@ BuildRequires:  darwinx-sdk
 BuildRequires:  darwinx-odcctools
 
 BuildRequires:  darwinx-glib2
+BuildRequires:  darwinx-libpng
 BuildRequires:  pkgconfig
 
 Requires:  	darwinx-glib2
@@ -50,7 +51,7 @@ text-rendering library.
 
 %prep
 %setup -q -n freetype-%{version}
-%patch0 -p1
+#patch0 -p1
 
 %build
 %{_darwinx_configure} \
@@ -76,14 +77,15 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,root,-)
-%{_darwinx_bindir}/freetype-config
+%doc README ChangeLog
+#{_darwinx_bindir}/freetype-config
 %{_darwinx_includedir}/freetype2
 %{_darwinx_libdir}/libfreetype.6.dylib
 %{_darwinx_libdir}/libfreetype.dylib
 %{_darwinx_libdir}/libfreetype.la
 %{_darwinx_libdir}/pkgconfig/freetype2.pc
 %{_darwinx_datadir}/aclocal/freetype2.m4
-%{_darwinx_mandir}/man1/freetype-config.1
+#{_darwinx_mandir}/man1/freetype-config.1
 
 %files static
 %defattr(-,root,root,-)

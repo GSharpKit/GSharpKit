@@ -1,5 +1,5 @@
 Name:           darwinx-libxml2
-Version:        2.9.7
+Version:        2.9.10
 Release:        1%{?dist}
 Summary:        libxml2 is the official PNG reference library.
 
@@ -42,7 +42,7 @@ rm -rf $RPM_BUILD_ROOT
 make DESTDIR=$RPM_BUILD_ROOT install
 
 rm -rf $RPM_BUILD_ROOT%{_darwinx_datadir}
-rm -rf $RPM_BUILD_ROOT/Library
+rm -rf $RPM_BUILD_ROOT/Library/Python
 
 %clean
 rm -rf $RPM_BUILD_ROOT

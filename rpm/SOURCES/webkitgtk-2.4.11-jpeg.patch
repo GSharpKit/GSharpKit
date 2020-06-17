@@ -1,0 +1,37 @@
+diff -Nur webkitgtk-2.4.11.orig/Source/autotools/FindDependencies.m4 webkitgtk-2.4.11/Source/autotools/FindDependencies.m4
+--- webkitgtk-2.4.11.orig/Source/autotools/FindDependencies.m4	2016-04-10 08:48:38.000000000 +0200
++++ webkitgtk-2.4.11/Source/autotools/FindDependencies.m4	2020-06-11 11:16:12.000000000 +0200
+@@ -1,10 +1,21 @@
+ PKG_PROG_PKG_CONFIG
+ 
+ # Check for libjpeg the way Gtk does it.
+-AC_CHECK_LIB(jpeg, jpeg_destroy_decompress, jpeg_ok=yes, jpeg_ok=no AC_MSG_ERROR([JPEG library (libjpeg) not found]))
+-if test "$jpeg_ok" = yes; then
+-    AC_MSG_CHECKING([for jpeglib])
+-    AC_TRY_CPP([
++AC_MSG_CHECKING(for libturbojpeg)
++if $PKG_CONFIG --exists libturbojpeg ; then
++     AC_MSG_RESULT(yes)
++     JPEG_LIBS=`$PKG_CONFIG --libs libturbojpeg`
++     jpeg_ok=yes
++     break
++else
++     AC_MSG_RESULT(no)
++     jpeg_ok=no
++fi
++if test "$jpeg_ok" != yes; then
++    AC_CHECK_LIB(jpeg, jpeg_destroy_decompress, jpeg_ok=yes, jpeg_ok=no AC_MSG_ERROR([JPEG library (libjpeg) not found]))
++    if test "$jpeg_ok" = yes; then
++       AC_MSG_CHECKING([for jpeglib])
++       AC_TRY_CPP([
+ #include <stdio.h>
+ #undef PACKAGE
+ #undef VERSION
+@@ -19,6 +30,7 @@
+         AC_MSG_ERROR([JPEG library (libjpeg) not found])
+     fi
+ fi
++fi
+ AC_SUBST([JPEG_LIBS])
+ 
+ # Check for libpng the way Gtk+ does it.

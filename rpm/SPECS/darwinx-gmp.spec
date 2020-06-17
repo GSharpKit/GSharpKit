@@ -1,5 +1,5 @@
 Name:           darwinx-gmp
-Version:        6.1.2
+Version:        6.2.0
 Release:        1%{?dist}
 Summary:        A GNU arbitrary precision library
 License:        LGPLv3+
@@ -56,6 +56,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_darwinx_libdir}/libgmp.10.dylib
 %{_darwinx_libdir}/libgmp.dylib
 %{_darwinx_libdir}/libgmp.la
+%{_darwinx_libdir}/pkgconfig/gmp.pc
 
 %changelog
 * Thu May  9 2013 Mikkel Kruse Johnsen <mikkel@xmedicus.com> - 6.0.0-1

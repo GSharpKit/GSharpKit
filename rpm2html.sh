@@ -36,8 +36,8 @@ jasper
 libxml2
 libcroco
 libepoxy
-librsvg2
 gdk-pixbuf
+librsvg2
 gtk3
 libgdl
 adwaita-icon-theme

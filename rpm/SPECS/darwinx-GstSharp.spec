@@ -3,7 +3,7 @@
 %define libdir /lib
 
 Name:		darwinx-GstSharp
-Version: 	1.14.2
+Version: 	1.16.0
 Release: 	1%{?dist}
 Summary: 	GStreamer streaming media framework runtime
 Group: 		Applications/Multimedia
@@ -42,7 +42,6 @@ EOF
 %install
 %{__rm} -rf $RPM_BUILD_ROOT
 
-# Mingw32
 install -d -m 755 $RPM_BUILD_ROOT%{darwinx_prefix}%{libdir}
 install -m 644 %{darwinx_pkg_name}.%{version}/lib/net45/gstreamer-sharp.dll $RPM_BUILD_ROOT%{darwinx_prefix}%{libdir}
 

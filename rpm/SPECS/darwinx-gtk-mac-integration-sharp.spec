@@ -23,7 +23,7 @@ GtkOSXApplication-sharp
 %prep
 %setup -q -n gtk-mac-integration-sharp-%{version}
 
-sed -i '' 's!/usr/darwinx/include!/usr/darwinx/usr/include!' sources/gtkosxapplication-sharp-sources.xml 
+sed -i '' 's!/usr/darwinx/usr/include/gtkmacintegration-gtk3!/Library/Frameworks/GSharpKit/include/gtkmacintegration!' sources/gtkosxapplication-sharp-sources.xml 
 
 %build
 sh autogen.sh
@@ -31,7 +31,7 @@ sh autogen.sh
 
 cp %{SOURCE1} sources/
 
-sed -i '' "s!CSC = /usr/darwinx/usr/bin/mcs!CSC=/usr/darwinx/usr/bin/mcs -keyfile:xcare.pub!" sources/Makefile
+sed -i '' "s!CSC = /usr/darwinx/usr/bin/mcs!CSC=/Library/Frameworks/GSharpKit/bin/mcs -keyfile:xcare.pub!" sources/Makefile
 
 cd sources
 make api

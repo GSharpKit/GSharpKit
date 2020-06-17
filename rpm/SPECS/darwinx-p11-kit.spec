@@ -1,12 +1,12 @@
 Name:           darwinx-p11-kit
-Version:        0.23.9
+Version:        0.23.20
 Release:        1%{?dist}
 Summary:        Library for loading and sharing PKCS#11 modules
 
 License:        GPLv3+ and LGPLv2+
 Group:          Development/Libraries
-URL:            https://github.com/p11-glue/p11-kit/releases/download/0.23.9/
-Source0:        p11-kit-%{version}.tar.gz
+URL:            https://github.com/p11-glue/p11-kit/releases/download/0.23.20/
+Source0:        p11-kit-%{version}.tar.xz
 Patch0:		p11-kit-0.18.1-free.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
@@ -33,7 +33,7 @@ such a way that they're discoverable.
 
 %prep
 %setup -q -n p11-kit-%{version}
-%patch0 -p1
+#patch0 -p1
 
 %build
 %{_darwinx_configure} \

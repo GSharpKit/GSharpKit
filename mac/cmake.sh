@@ -12,3 +12,5 @@ cd cmake-3.17.3
 make
 sudo make install
 sudo ln -sf $SYMLINK/bin/cmake /usr/local/bin/cmake
+sudo mkdir -p $PREFIX/share/cross
+sudo cp toolchain-darwinx.cmake $PREFIX/share/cross/

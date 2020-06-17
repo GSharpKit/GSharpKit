@@ -1,5 +1,5 @@
 Name:           darwinx-pixman
-Version:        0.38.0
+Version:        0.40.0
 Release:        1%{?dist}
 Summary:        Pixman is a low-level software library for pixel manipulation
 

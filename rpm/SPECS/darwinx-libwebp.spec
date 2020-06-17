@@ -1,5 +1,5 @@
 Name:           darwinx-libwebp
-Version:        0.6.1
+Version:        1.1.0
 Release:        1%{?dist}
 Summary:        Library and tools for the WebP graphics format
 License:        BSD
@@ -24,8 +24,8 @@ images more efficiently.
 %setup -q -n libwebp-%{version}
 
 %build
-sh autogen.sh
-%{_darwinx_configure} --disable-static --disable-assembly
+#sh autogen.sh
+%{_darwinx_configure} --disable-static --disable-assembly  --enable-libwebpdecoder
 %{_darwinx_make} %{?_smp_mflags}
 
 %install
@@ -47,7 +47,15 @@ rm -rf $RPM_BUILD_ROOT
 %{_darwinx_libdir}/libwebp.*.dylib
 %{_darwinx_libdir}/libwebp.dylib
 %{_darwinx_libdir}/libwebp.la
+%{_darwinx_libdir}/libwebpdecoder.*.dylib
+%{_darwinx_libdir}/libwebpdecoder.dylib
+%{_darwinx_libdir}/libwebpdecoder.la
+%{_darwinx_libdir}/libwebpdemux.*.dylib
+%{_darwinx_libdir}/libwebpdemux.dylib
+%{_darwinx_libdir}/libwebpdemux.la
 %{_darwinx_libdir}/pkgconfig/libwebp.pc
+%{_darwinx_libdir}/pkgconfig/libwebpdecoder.pc
+%{_darwinx_libdir}/pkgconfig/libwebpdemux.pc
 
 %changelog
 * Thu May  9 2013 Mikkel Kruse Johnsen <mikkel@xmedicus.com> - 0.4.2-1

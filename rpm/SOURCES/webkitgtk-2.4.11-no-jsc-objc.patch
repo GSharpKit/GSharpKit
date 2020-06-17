@@ -1,0 +1,15 @@
+diff -Nur webkitgtk-2.4.11.orig/Source/JavaScriptCore/API/JSBase.h webkitgtk-2.4.11/Source/JavaScriptCore/API/JSBase.h
+--- webkitgtk-2.4.11.orig/Source/JavaScriptCore/API/JSBase.h	2016-04-10 08:48:36.000000000 +0200
++++ webkitgtk-2.4.11/Source/JavaScriptCore/API/JSBase.h	2020-06-15 12:22:43.000000000 +0200
+@@ -142,9 +142,9 @@
+ /* Enable the Objective-C API for platforms with a modern runtime. */
+ #if !defined(JSC_OBJC_API_ENABLED)
+ #ifndef JSC_OBJC_API_AVAILABLE_MAC_OS_X_1080
+-#define JSC_OBJC_API_ENABLED (defined(__clang__) && defined(__APPLE__) && ((defined(__MAC_OS_X_VERSION_MIN_REQUIRED) && __MAC_OS_X_VERSION_MIN_REQUIRED >= 1090 && !defined(__i386__)) || (defined(TARGET_OS_IPHONE) && TARGET_OS_IPHONE)))
++#define JSC_OBJC_API_ENABLED 0
+ #else
+-#define JSC_OBJC_API_ENABLED (defined(__clang__) && defined(__APPLE__) && ((defined(__MAC_OS_X_VERSION_MIN_REQUIRED) && __MAC_OS_X_VERSION_MIN_REQUIRED >= 1080 && !defined(__i386__)) || (defined(TARGET_OS_IPHONE) && TARGET_OS_IPHONE)))
++#define JSC_OBJC_API_ENABLED 0
+ #endif
+ #endif
+ 

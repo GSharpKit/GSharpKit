@@ -1,5 +1,5 @@
 Name:           darwinx-libepoxy
-Version:        1.5.3
+Version:        1.5.4
 Release:        1%{?dist}
 Summary:        Epoxy is a library for handling OpenGL function pointer management for you.
 
@@ -40,15 +40,18 @@ Static version of the libepoxy library.
 %setup -q -n libepoxy-%{version}
 
 %build
-#NOCONFIGURE=1 sh autogen.sh
-%{_darwinx_configure} --enable-static
-make %{?_smp_mflags}
+%darwinx_meson \
+    --default-library=both \
+    -Ddocs=false \
+    -Dglx=no \
+    -Degl=no \
+    -Dx11=false \
+    -Dtests=false
 
+%darwinx_meson_build
 
 %install
-rm -rf $RPM_BUILD_ROOT
-
-make DESTDIR=$RPM_BUILD_ROOT install
+%darwinx_meson_install
 
 rm -rf $RPM_BUILD_ROOT%{_darwinx_datadir}
 
@@ -59,7 +62,6 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(-,root,root)
 %{_darwinx_libdir}/libepoxy.dylib
 %{_darwinx_libdir}/libepoxy.*.dylib
-%{_darwinx_libdir}/libepoxy.la
 %{_darwinx_libdir}/pkgconfig/epoxy.pc
 %{_darwinx_includedir}/epoxy/common.h
 %{_darwinx_includedir}/epoxy/gl.h

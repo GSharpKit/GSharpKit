@@ -16,6 +16,13 @@ Patch1:		webkitgtk-2.2.6-plugin.patch
 Patch2:		webkitgtk-2.4.9-icu.patch 
 Patch3:		webkitgtk-2.2.6-idl.patch
 Patch4:		webkitgtk-2.2.6-gstreamer.patch
+Patch5:		webkitgtk-2.4.11-jpeg.patch
+
+Patch10:	webkitgtk-2.4.11-cast_uchar.patch
+Patch11:	webkitgtk-2.4.11-semicolon.patch
+Patch12:	webkitgtk-2.4.11-js.patch
+Patch13:	webkitgtk-2.4.11-inline.patch
+Patch14:	webkitgtk-2.4.11-no-jsc-objc.patch
 
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
@@ -63,8 +70,16 @@ as well as the sample GtkLauncher tool.
 %patch2 -p1
 %patch3 -p1
 %patch4 -p0
+%patch5 -p1
 
-autoreconf --verbose --install -I Source/autotools -I /usr/darwinx/usr/share/aclocal
+%patch10 -p1
+%patch11 -p1
+%patch12 -p1
+%patch13 -p1
+%patch14 -p1
+
+%{_darwinx_env}
+autoreconf --verbose --install -I Source/autotools
 
 mkdir -p DerivedSources/InjectedBundle
 mkdir -p DerivedSources/webkit
@@ -79,7 +94,7 @@ sed -i '' 's!#define USE_ACCELERATE_FFT 1!#define USE_ACCELERATE_FFT 0!g' Source
 
 %build
 #DARWINX_CFLAGS="-Qunused-arguments" DARWINX_CXXFLAGS="-pthread -std=c++11 -Wno-c++11-compat -Wno-error=c++11-narrowing -ftemplate-depth=256 -stdlib=libc++ -Wno-c++11-extensions -Qunused-arguments" DARWINX_CPPFLAGS="-DGTEST_HAS_TR1_TUPLE=0" DARWINX_LDFLAGS="-stdlib=libc++"
-DARWINX_CXXFLAGS="-std=c++11 -Wno-c++11-compat -Wno-error=c++11-narrowing -ftemplate-depth=256 -stdlib=libc++" DARWINX_CPPFLAGS="-DGTEST_HAS_TR1_TUPLE=0" DARWINX_LDFLAGS="-stdlib=libc++" %{_darwinx_configure} \
+DARWINX_CXXFLAGS="-std=c++11 -Wno-c++11-compat -Wno-error=c++11-narrowing -ftemplate-depth=256 -stdlib=libc++" DARWINX_CPPFLAGS="-DGTEST_HAS_TR1_TUPLE=0 -I/Library/Frameworks/GSharpKit/include" DARWINX_LDFLAGS="-stdlib=libc++" %{_darwinx_configure} \
 	--enable-quartz-target			\
 	--with-gtk=3.0                          \
 	--disable-accelerated-compositing       \

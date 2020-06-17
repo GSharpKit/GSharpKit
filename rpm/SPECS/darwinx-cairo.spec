@@ -16,7 +16,7 @@ BuildRequires:  darwinx-gcc
 BuildRequires:  darwinx-sdk
 BuildRequires:  darwinx-odcctools
 BuildRequires:  darwinx-freetype
-BuildRequires:  darwinx-fontconfig
+#BuildRequires:  darwinx-fontconfig
 BuildRequires:  darwinx-libpng
 BuildRequires:  pkgconfig
 
@@ -88,6 +88,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,root,-)
+%doc COPYING COPYING-LGPL-2.1 COPYING-MPL-1.1
 %{_darwinx_bindir}/cairo-trace
 %{_darwinx_bindir}/cairo-sphinx
 %{_darwinx_includedir}/cairo/

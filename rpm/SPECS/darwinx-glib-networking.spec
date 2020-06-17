@@ -1,5 +1,5 @@
 Name:           darwinx-glib-networking
-Version:        2.54.1
+Version:        2.64.3
 Release:        1%{?dist}
 Summary:        Networking support for GLib 
 
@@ -33,18 +33,12 @@ implementation.
 #%patch0 -p1
 
 %build
-%{_darwinx_configure} \
-	--disable-static \
-	--disable-nls \
-	--without-ca-certificates \
-	--disable-gtk-doc
+%darwinx_meson --default-library=both -Dgnutls=enabled -Dopenssl=disabled -Dlibproxy=disabled -Dgnome_proxy=disabled
 
-%{_darwinx_make} %{?_smp_mflags}
+%darwinx_meson_build
 
 %install
-rm -rf $RPM_BUILD_ROOT
-
-make DESTDIR=$RPM_BUILD_ROOT install
+%darwinx_meson_install
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -53,7 +47,7 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(-,root,root)
 %doc COPYING
 %{_darwinx_libdir}/gio/modules/libgiognutls.so
-%{_darwinx_libdir}/gio/modules/libgiognutls.la
+%{_darwinx_datadir}/locale
 
 %changelog
 * Thu May  9 2013 Mikkel Kruse Johnsen <mikkel@xmedicus.com> - 2.36.1-1

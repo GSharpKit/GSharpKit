@@ -1,7 +1,7 @@
-%define		majorminor	1.0
+%define		api_version	1.0
 
 Name:		darwinx-gstreamer1
-Version: 	1.14.2
+Version: 	1.16.2
 Release: 	1%{?dist}
 Summary: 	GStreamer streaming media framework runtime
 
@@ -62,61 +62,63 @@ rm -rf $RPM_BUILD_ROOT%{_darwinx_mandir}
 
 # Remove gtk documentation.
 rm -rf $RPM_BUILD_ROOT%{_darwinx_datadir}/gtk-doc
+rm -fr $RPM_BUILD_ROOT%{_darwinx_datadir}/gdb
+rm -fr $RPM_BUILD_ROOT%{_darwinx_datadir}/gstreamer-%{api_version}/gdb
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-, root, root, -)
-%{_darwinx_libdir}/libgstreamer-%{majorminor}.0.dylib
-%{_darwinx_libdir}/libgstbase-%{majorminor}.0.dylib
-%{_darwinx_libdir}/libgstcontroller-%{majorminor}.0.dylib
-%{_darwinx_libdir}/libgstnet-%{majorminor}.0.dylib
-%{_darwinx_libdir}/libgstcheck-%{majorminor}.0.dylib
+%{_darwinx_libdir}/libgstreamer-%{api_version}.0.dylib
+%{_darwinx_libdir}/libgstbase-%{api_version}.0.dylib
+%{_darwinx_libdir}/libgstcontroller-%{api_version}.0.dylib
+%{_darwinx_libdir}/libgstnet-%{api_version}.0.dylib
+%{_darwinx_libdir}/libgstcheck-%{api_version}.0.dylib
 
-%{_darwinx_libdir}/libgstreamer-%{majorminor}.dylib
-%{_darwinx_libdir}/libgstbase-%{majorminor}.dylib
-%{_darwinx_libdir}/libgstcontroller-%{majorminor}.dylib
-%{_darwinx_libdir}/libgstnet-%{majorminor}.dylib
-%{_darwinx_libdir}/libgstcheck-%{majorminor}.dylib
+%{_darwinx_libdir}/libgstreamer-%{api_version}.dylib
+%{_darwinx_libdir}/libgstbase-%{api_version}.dylib
+%{_darwinx_libdir}/libgstcontroller-%{api_version}.dylib
+%{_darwinx_libdir}/libgstnet-%{api_version}.dylib
+%{_darwinx_libdir}/libgstcheck-%{api_version}.dylib
 
-%{_darwinx_libdir}/libgstreamer-%{majorminor}.la
-%{_darwinx_libdir}/libgstbase-%{majorminor}.la
-%{_darwinx_libdir}/libgstcontroller-%{majorminor}.la
-%{_darwinx_libdir}/libgstnet-%{majorminor}.la
-%{_darwinx_libdir}/libgstcheck-%{majorminor}.la
+%{_darwinx_libdir}/libgstreamer-%{api_version}.la
+%{_darwinx_libdir}/libgstbase-%{api_version}.la
+%{_darwinx_libdir}/libgstcontroller-%{api_version}.la
+%{_darwinx_libdir}/libgstnet-%{api_version}.la
+%{_darwinx_libdir}/libgstcheck-%{api_version}.la
 
-%dir %{_darwinx_libdir}/gstreamer-%{majorminor}
-%{_darwinx_libdir}/gstreamer-%{majorminor}/libgstcoreelements.la
-%{_darwinx_libdir}/gstreamer-%{majorminor}/libgstcoreelements.so
+%dir %{_darwinx_libdir}/gstreamer-%{api_version}
+%{_darwinx_libdir}/gstreamer-%{api_version}/libgstcoreelements.la
+%{_darwinx_libdir}/gstreamer-%{api_version}/libgstcoreelements.so
 
-%{_darwinx_libdir}/gstreamer-%{majorminor}/libgstcoretracers.la
-%{_darwinx_libdir}/gstreamer-%{majorminor}/libgstcoretracers.so
+%{_darwinx_libdir}/gstreamer-%{api_version}/libgstcoretracers.la
+%{_darwinx_libdir}/gstreamer-%{api_version}/libgstcoretracers.so
 
-%dir %{_darwinx_includedir}/gstreamer-%{majorminor}
-%dir %{_darwinx_includedir}/gstreamer-%{majorminor}/gst
-%{_darwinx_includedir}/gstreamer-%{majorminor}/gst/*.h
-%{_darwinx_includedir}/gstreamer-%{majorminor}/gst/base
-%{_darwinx_includedir}/gstreamer-%{majorminor}/gst/check
-%{_darwinx_includedir}/gstreamer-%{majorminor}/gst/controller
-%{_darwinx_includedir}/gstreamer-%{majorminor}/gst/net
+%dir %{_darwinx_includedir}/gstreamer-%{api_version}
+%dir %{_darwinx_includedir}/gstreamer-%{api_version}/gst
+%{_darwinx_includedir}/gstreamer-%{api_version}/gst/*.h
+%{_darwinx_includedir}/gstreamer-%{api_version}/gst/base
+%{_darwinx_includedir}/gstreamer-%{api_version}/gst/check
+%{_darwinx_includedir}/gstreamer-%{api_version}/gst/controller
+%{_darwinx_includedir}/gstreamer-%{api_version}/gst/net
 
-%{_darwinx_datadir}/aclocal/gst-element-check-%{majorminor}.m4
+%{_darwinx_datadir}/aclocal/gst-element-check-%{api_version}.m4
 
-%{_darwinx_libdir}/pkgconfig/gstreamer-%{majorminor}.pc
-%{_darwinx_libdir}/pkgconfig/gstreamer-base-%{majorminor}.pc
-%{_darwinx_libdir}/pkgconfig/gstreamer-controller-%{majorminor}.pc
-%{_darwinx_libdir}/pkgconfig/gstreamer-check-%{majorminor}.pc
-%{_darwinx_libdir}/pkgconfig/gstreamer-net-%{majorminor}.pc
+%{_darwinx_libdir}/pkgconfig/gstreamer-%{api_version}.pc
+%{_darwinx_libdir}/pkgconfig/gstreamer-base-%{api_version}.pc
+%{_darwinx_libdir}/pkgconfig/gstreamer-controller-%{api_version}.pc
+%{_darwinx_libdir}/pkgconfig/gstreamer-check-%{api_version}.pc
+%{_darwinx_libdir}/pkgconfig/gstreamer-net-%{api_version}.pc
 
 %{_darwinx_datadir}/locale/
 %{_darwinx_datadir}/bash-completion/
 
-%{_darwinx_bindir}/gst-inspect-%{majorminor}
-%{_darwinx_bindir}/gst-launch-%{majorminor}
-%{_darwinx_bindir}/gst-typefind-%{majorminor}
-%{_darwinx_bindir}/gst-stats-%{majorminor}
-%{_darwinx_libexecdir}/gstreamer-%{majorminor}/gst-plugin-scanner
+%{_darwinx_bindir}/gst-inspect-%{api_version}
+%{_darwinx_bindir}/gst-launch-%{api_version}
+%{_darwinx_bindir}/gst-typefind-%{api_version}
+%{_darwinx_bindir}/gst-stats-%{api_version}
+%{_darwinx_libexecdir}/gstreamer-%{api_version}/gst-plugin-scanner
 %{_darwinx_libexecdir}/gstreamer-1.0/gst-ptp-helper
 %{_darwinx_libexecdir}/gstreamer-1.0/gst-completion-helper
 
@@ -295,7 +297,7 @@ rm -rf $RPM_BUILD_ROOT
 
 * Thu Dec 01 2005 Thomas Vander Stichele <thomas at apestaart dot org>
 - 0.9.7-0.gst.1
-- new release, with 0.10 majorminor
+- new release, with 0.10 api_version
 - removed compprep and complete
 - added plugins docs
 - renamed libgstcorelements, libgstcoreindexers
@@ -437,7 +439,7 @@ rm -rf $RPM_BUILD_ROOT
 - Add gthread scheduler
 
 * Sat Dec 07 2002 Thomas Vander Stichele <thomas at apestaart dot org>
-- define majorminor and use it everywhere
+- define api_version and use it everywhere
 - full parallel installability
 
 * Tue Nov 05 2002 Christian Schaller <Uraeus@linuxrising.org>

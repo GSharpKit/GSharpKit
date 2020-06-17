@@ -1,7 +1,6 @@
 #!/bin/bash
 NAME=GSharpKit
-VERSION=1.0.0
-PREFIX=/Library/Frameworks/$NAME.framework/Versions/$VERSION
+PREFIX=/Library/Frameworks/$NAME
 
 sudo install_name_tool -change @executable_path/libssl3.dylib $PREFIX/lib/libssl3.dylib $PREFIX/lib/libssl3.dylib
 sudo install_name_tool -change @executable_path/libnss3.dylib $PREFIX/lib/libnss3.dylib $PREFIX/lib/libssl3.dylib

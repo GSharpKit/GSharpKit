@@ -1,12 +1,12 @@
 Name:           darwinx-glib2
-Version:        2.58.3
-Release:        3%{?dist}
+Version:        2.64.3
+Release:        1%{?dist}
 Summary:        Darwin GLib2 library
 
 License:        LGPLv2+
 Group:          Development/Libraries
 URL:            http://www.gtk.org
-Source0:        http://download.gnome.org/sources/glib/2.50/glib-%{version}.tar.xz
+Source0:        http://download.gnome.org/sources/glib/2.64/glib-%{version}.tar.xz
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 Summary:        Cross compiled GLib2 library
@@ -50,52 +50,32 @@ Static version of the Darwin GLib2 library.
 
 %prep
 %setup -q -n glib-%{version}
-%patch1 -p1
-%patch11 -p1
-%patch12 -p1
-%patch14 -p1
+#patch1 -p1
+#patch11 -p1
+#patch12 -p1
+#patch14 -p1
 
 %build
-NOCONFIGURE=1 sh autogen.sh
+%darwinx_meson \
+    --default-library=both \
+    -Dman=false \
+    -Ddtrace=false \
+    -Dsystemtap=true \
+    -Dgtk_doc=false \
+    -Dfam=false \
+    -Dinstalled_tests=false
 
-# GLib can't build static and shared libraries in one go, so we
-# build GLib twice here
-mkdir build_static
-pushd build_static
-        %{_darwinx_configure} --disable-shared --enable-static --disable-fam
-        V=99 make %{?_smp_mflags}
-popd
-
-mkdir build_shared
-pushd build_shared
-        %{_darwinx_configure} --disable-static --disable-fam
-        V=99 make %{?_smp_mflags}
-popd
-
+%darwinx_meson_build
 
 %install
-rm -rf $RPM_BUILD_ROOT
-
-# First install all the files belonging to the shared build
-make -C build_shared DESTDIR=$RPM_BUILD_ROOT install
-
-# Install all the files from the static build in a seperate folder
-# and move the static libraries to the right location
-make -C build_static DESTDIR=$RPM_BUILD_ROOT/build_static install
-mv $RPM_BUILD_ROOT/build_static%{_darwinx_libdir}/*.a $RPM_BUILD_ROOT%{_darwinx_libdir}
+%darwinx_meson_install
 
 # Manually merge the libtool files
-sed -i '' -e s/"old_library=''"/"old_library='libgio-2.0.a'"/ $RPM_BUILD_ROOT%{_darwinx_libdir}/libgio-2.0.la
-sed -i '' -e s/"old_library=''"/"old_library='libglib-2.0.a'"/ $RPM_BUILD_ROOT%{_darwinx_libdir}/libglib-2.0.la
-sed -i '' -e s/"old_library=''"/"old_library='libgobject-2.0.a'"/ $RPM_BUILD_ROOT%{_darwinx_libdir}/libgobject-2.0.la
-sed -i '' -e s/"old_library=''"/"old_library='libgmodule-2.0.a'"/ $RPM_BUILD_ROOT%{_darwinx_libdir}/libgmodule-2.0.la
-sed -i '' -e s/"old_library=''"/"old_library='libgthread-2.0.a'"/ $RPM_BUILD_ROOT%{_darwinx_libdir}/libgthread-2.0.la
-
-# Drop the folder which was temporary used for installing the static bits
-rm -rf $RPM_BUILD_ROOT/build_static
-
-# First install all the files belonging to the shared build
-make DESTDIR=$RPM_BUILD_ROOT install
+#sed -i '' -e s/"old_library=''"/"old_library='libgio-2.0.a'"/ $RPM_BUILD_ROOT%{_darwinx_libdir}/libgio-2.0.la
+#sed -i '' -e s/"old_library=''"/"old_library='libglib-2.0.a'"/ $RPM_BUILD_ROOT%{_darwinx_libdir}/libglib-2.0.la
+#sed -i '' -e s/"old_library=''"/"old_library='libgobject-2.0.a'"/ $RPM_BUILD_ROOT%{_darwinx_libdir}/libgobject-2.0.la
+#sed -i '' -e s/"old_library=''"/"old_library='libgmodule-2.0.a'"/ $RPM_BUILD_ROOT%{_darwinx_libdir}/libgmodule-2.0.la
+#sed -i '' -e s/"old_library=''"/"old_library='libgthread-2.0.a'"/ $RPM_BUILD_ROOT%{_darwinx_libdir}/libgthread-2.0.la
 
 rm -f $RPM_BUILD_ROOT%{_darwinx_libdir}/charset.alias
 
@@ -126,26 +106,26 @@ rm -rf $RPM_BUILD_ROOT
 %{_darwinx_bindir}/glib-compile-schemas
 %{_darwinx_bindir}/gresource
 %{_darwinx_bindir}/gsettings
-%{_darwinx_bindir}/gio-launch-desktop
+#{_darwinx_bindir}/gio-launch-desktop
 %{_darwinx_includedir}/gio-unix-2.0/
 %{_darwinx_includedir}/glib-2.0/
 %{_darwinx_libdir}/glib-2.0/
-#%{_darwinx_libdir}/gdbus-2.0/
+#{_darwinx_libdir}/gdbus-2.0/
 %{_darwinx_libdir}/libgio-2.0.0.dylib
 %{_darwinx_libdir}/libgio-2.0.dylib
-%{_darwinx_libdir}/libgio-2.0.la
+#{_darwinx_libdir}/libgio-2.0.la
 %{_darwinx_libdir}/libglib-2.0.0.dylib
 %{_darwinx_libdir}/libglib-2.0.dylib
-%{_darwinx_libdir}/libglib-2.0.la
+#{_darwinx_libdir}/libglib-2.0.la
 %{_darwinx_libdir}/libgmodule-2.0.0.dylib
 %{_darwinx_libdir}/libgmodule-2.0.dylib
-%{_darwinx_libdir}/libgmodule-2.0.la
+#{_darwinx_libdir}/libgmodule-2.0.la
 %{_darwinx_libdir}/libgobject-2.0.0.dylib
 %{_darwinx_libdir}/libgobject-2.0.dylib
-%{_darwinx_libdir}/libgobject-2.0.la
+#{_darwinx_libdir}/libgobject-2.0.la
 %{_darwinx_libdir}/libgthread-2.0.0.dylib
 %{_darwinx_libdir}/libgthread-2.0.dylib
-%{_darwinx_libdir}/libgthread-2.0.la
+#{_darwinx_libdir}/libgthread-2.0.la
 %{_darwinx_libdir}/pkgconfig/gio-2.0.pc
 %{_darwinx_libdir}/pkgconfig/gio-unix-2.0.pc
 %{_darwinx_libdir}/pkgconfig/glib-2.0.pc
@@ -170,7 +150,6 @@ rm -rf $RPM_BUILD_ROOT
 %files static
 %defattr(-,root,root,-)
 %{_darwinx_libdir}/libgio-2.0.a
-%{_darwinx_libdir}/libgio-2.0.la
 %{_darwinx_libdir}/libglib-2.0.a
 %{_darwinx_libdir}/libgmodule-2.0.a
 %{_darwinx_libdir}/libgobject-2.0.a

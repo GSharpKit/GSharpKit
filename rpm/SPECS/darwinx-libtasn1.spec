@@ -1,5 +1,5 @@
 Name:           darwinx-libtasn1
-Version:        4.13
+Version:        4.16.0
 Release:        1%{?dist}
 Summary:        The ASN.1 library used in GNUTLS
 License:        GPLv3+ and LGPLv2+
@@ -28,15 +28,25 @@ A library that provides Abstract Syntax Notation One (ASN.1, as specified
 by the X.680 ITU-T recommendation) parsing and structures management, and
 Distinguished Encoding Rules (DER, as per X.690) encoding and decoding functions.
 
+%package static
+Summary:        The ASN.1 library used in GNUTLS
+Requires:       %{name} = %{version}-%{release}
+Group:          Development/Libraries
+
+%description static
+A library that provides Abstract Syntax Notation One (ASN.1, as specified
+by the X.680 ITU-T recommendation) parsing and structures management, and
+Distinguished Encoding Rules (DER, as per X.690) encoding and decoding functions.
 
 %prep
 %setup -q -n libtasn1-%{version}
 
+#sed -i '' 's!_GL_EXTERN_INLINE!static!g' lib/gl/c-ctype.c
+
 %build
-%{_darwinx_configure} \
-  --disable-static \
-  --disable-gtk-doc
-%{_darwinx_make} %{?_smp_mflags}
+%global _darwinx_cflags %{_darwinx_cflags} -DC_CTYPE_INLINE=static
+%{_darwinx_configure} --disable-gtk-doc --disable-dependency-tracking --disable-silent-rules --disable-ld-version-script
+%{_darwinx_make}
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -58,6 +68,10 @@ rm -rf $RPM_BUILD_ROOT
 %{_darwinx_libdir}/libtasn1.dylib
 %{_darwinx_libdir}/libtasn1.la
 %{_darwinx_libdir}/pkgconfig/libtasn1.pc
+
+%files static
+%defattr(-,root,root)
+%{_darwinx_libdir}/libtasn1.a
 
 %changelog
 * Fri Oct  9 2009 Erik van Pienbroek <epienbro@fedoraproject.org> - 2.6.4-3

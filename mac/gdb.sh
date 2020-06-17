@@ -1,9 +1,8 @@
 BUILD_ROOT=~/GSharpKitBuild
 
 NAME=GSharpKit
-VERSION=1.0.0
-PREFIX=/Library/Frameworks/$NAME.framework/Versions/$VERSION
-SYMLINK=/Library/Frameworks/$NAME.framework/Versions/Current
+PREFIX=/Library/Frameworks/$NAME
+SYMLINK=/Library/Frameworks/$NAME
 
 cd $BUILD_ROOT
 #curl -OL http://ftp.gnu.org/gnu/gdb/gdb-7.6.tar.gz

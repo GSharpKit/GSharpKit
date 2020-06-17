@@ -1,10 +1,10 @@
 %define debug_package %{nil}
 
-%global underscore_version 57_1
+%global underscore_version 67_1
 
 Name:           darwinx-icu
-Version:        57.1
-Release:        2%{?dist}
+Version:        67.1
+Release:        1%{?dist}
 Summary:        International Components for Unicode Tools
 
 License:        MIT and UCD and Public Domain
@@ -23,7 +23,7 @@ BuildRequires:  autoconf
 
 # Some build error in libicudata.50.1.2dylib is not linking to libicudata.50.dylib
 # So we provide it here
-Provides:	libicudata.57.dylib
+Provides:	libicudata.67.dylib
 
 %description
 ICU is a set of C and C++ libraries that provides robust and
@@ -56,9 +56,10 @@ Static version of the ICU library.
 
 %build
 pushd source
-%{_darwinx_configure} \
-        --enable-shared --enable-static \
-        --with-data-packaging=library
+DARWINX_CXXFLAGS="-std=c++11 -Wno-c++11-compat -Wno-error=c++11-narrowing -ftemplate-depth=256 -stdlib=libc++" DARWINX_LDFLAGS="-stdlib=libc++" %{_darwinx_configure} \
+        --enable-static --disable-samples --disable-tests --with-library-bits=64
+
+#--with-data-packaging=library
 
 %{_darwinx_make} %{?_smp_mflags}
 popd
@@ -100,22 +101,18 @@ rm -fr $RPM_BUILD_ROOT%{_darwinx_libdir}/icu/pkgdata.inc
 %{_darwinx_sbindir}/gennorm2
 %{_darwinx_sbindir}/gensprep
 %{_darwinx_sbindir}/icupkg
+%{_darwinx_sbindir}/escapesrc
 
 %{_darwinx_libdir}/libicuio*.dylib
 %{_darwinx_libdir}/libicuuc*.dylib
-%{_darwinx_libdir}/libicule*.dylib
 %{_darwinx_libdir}/libicui18n*.dylib
 %{_darwinx_libdir}/libicutu*.dylib
 %{_darwinx_libdir}/libicudata*.dylib
-%{_darwinx_libdir}/libiculx*.dylib
 %{_darwinx_libdir}/libicutest*.dylib
 
 %{_darwinx_libdir}/pkgconfig/icu-i18n.pc
 %{_darwinx_libdir}/pkgconfig/icu-io.pc
-%{_darwinx_libdir}/pkgconfig/icu-le.pc
-%{_darwinx_libdir}/pkgconfig/icu-lx.pc
 %{_darwinx_libdir}/pkgconfig/icu-uc.pc
-%{_darwinx_includedir}/layout
 %{_darwinx_includedir}/unicode
 %{_darwinx_libdir}/icu
 %{_darwinx_datadir}/icu
@@ -124,8 +121,6 @@ rm -fr $RPM_BUILD_ROOT%{_darwinx_libdir}/icu/pkgdata.inc
 %{_darwinx_libdir}/libicudata.a
 %{_darwinx_libdir}/libicui18n.a
 %{_darwinx_libdir}/libicuio.a
-%{_darwinx_libdir}/libicule.a
-%{_darwinx_libdir}/libiculx.a
 %{_darwinx_libdir}/libicutest.a
 %{_darwinx_libdir}/libicutu.a
 %{_darwinx_libdir}/libicuuc.a
