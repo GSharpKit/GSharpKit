@@ -143,8 +143,8 @@ This is the MinGW port of WebKitGTK+ for GTK+ 3.
 
 %build
 # lower debug level to prevent memory exhaustion by linker
-%global mingw32_cflags %(echo %{mingw32_cflags} | sed 's/-g /-g1 /')
-%global mingw64_cflags %(echo %{mingw64_cflags} | sed 's/-g /-g1 /')
+%global mingw32_cflags %(echo %{mingw32_cflags} | sed 's/-g /-g1 /') -fpermissive
+%global mingw64_cflags %(echo %{mingw64_cflags} | sed 's/-g /-g1 /') -fpermissive
 
 %mingw_configure                                                \
                         --enable-win32-target                   \
