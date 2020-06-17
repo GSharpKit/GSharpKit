@@ -3,7 +3,7 @@
 %define libdir /lib
 
 Name:           darwinx-GtkSharp
-Version:        3.22.24
+Version:        3.22.25.98
 Release:        1%{?dist}
 Summary:        GTK+ and GNOME bindings for Mono
 
@@ -60,30 +60,19 @@ the GAPI tools and found in Gtk# include Gtk, Atk, Pango, Gdk.
 
 cp %{SOURCE5} Source/
 
-sed -i '' 's!0.25.0!0.38.2!g' tools/packages.config
-
-#sed -i '' 's!libc!\/usr\/lib\/libc.dylib!g' Source/Libs/Shared/FuncLoader.cs
-
-#sed -i '' 's!libglib-2.0.0.dylib!\/Library\/Frameworks\/GSharpKit\/lib\/libglib-2.0.0.dylib!g' Source/Libs/Shared/GLibrary.cs
-#sed -i '' 's!libgobject-2.0.0.dylib!\/Library\/Frameworks\/GSharpKit\/lib\/libgobject-2.0.0.dylib!g' Source/Libs/Shared/GLibrary.cs
-#sed -i '' 's!libcairo.2.dylib!\/Library\/Frameworks\/GSharpKit\/lib\/libcairo.2.dylib!g' Source/Libs/Shared/GLibrary.cs
-#sed -i '' 's!libgio-2.0.0.dylib!\/Library\/Frameworks\/GSharpKit\/lib\/libgio-2.0.0.dylib!g' Source/Libs/Shared/GLibrary.cs
-#sed -i '' 's!libatk-1.0.0.dylib!\/Library\/Frameworks\/GSharpKit\/lib\/libatk-1.0.0.dylib!g' Source/Libs/Shared/GLibrary.cs
-#sed -i '' 's!libpango-1.0.0.dylib!\/Library\/Frameworks\/GSharpKit\/lib\/libpango-1.0.0.dylib!g' Source/Libs/Shared/GLibrary.cs
-#sed -i '' 's!libgdk-3.0.dylib!\/Library\/Frameworks\/GSharpKit\/lib\/libgdk-3.0.dylib!g' Source/Libs/Shared/GLibrary.cs
-#sed -i '' 's!libgdk_pixbuf-2.0.dylib!\/Library\/Frameworks\/GSharpKit\/lib\/libgdk_pixbuf-2.0.dylib!g' Source/Libs/Shared/GLibrary.cs
-#sed -i '' 's!libgtk-3.0.dylib!\/Library\/Frameworks\/GSharpKit\/lib\/libgtk-3.0.dylib!g' Source/Libs/Shared/GLibrary.cs
-#sed -i '' 's!libpangocairo-1.0.0.dylib!\/Library\/Frameworks\/GSharpKit\/lib\/libpangocairo-1.0.0.dylib!g' Source/Libs/Shared/GLibrary.cs
-
-#sed -i '' 's!DllImport (\\"!DllImport (\\"\/Library\/Frameworks\/GSharpKit\/!g' Source/Tools/GapiCodegen/GObjectVM.cs
-#sed -i '' 's!DllImport (\\"!DllImport (\\"\/Library\/Frameworks\/GSharpKit\/!g' Source/Tools/GapiCodegen/FieldBase.cs
+sed -i '' 's!</PackageTags>!</PackageTags><SignAssembly>true</SignAssembly><AssemblyOriginatorKeyFile>../../GtkSharp.snk</AssemblyOriginatorKeyFile>!g' Source/Libs/GtkSharp/GtkSharp.csproj
+sed -i '' 's!</PackageTags>!</PackageTags><SignAssembly>true</SignAssembly><AssemblyOriginatorKeyFile>../../GtkSharp.snk</AssemblyOriginatorKeyFile>!g' Source/Libs//GdkSharp/GdkSharp.csproj
+sed -i '' 's!</PackageTags>!</PackageTags><SignAssembly>true</SignAssembly><AssemblyOriginatorKeyFile>../../GtkSharp.snk</AssemblyOriginatorKeyFile>!g' Source/Libs//GioSharp/GioSharp.csproj
+sed -i '' 's!</PackageTags>!</PackageTags><SignAssembly>true</SignAssembly><AssemblyOriginatorKeyFile>../../GtkSharp.snk</AssemblyOriginatorKeyFile>!g' Source/Libs//GLibSharp/GLibSharp.csproj
+sed -i '' 's!</PackageTags>!</PackageTags><SignAssembly>true</SignAssembly><AssemblyOriginatorKeyFile>../../GtkSharp.snk</AssemblyOriginatorKeyFile>!g' Source/Libs//PangoSharp/PangoSharp.csproj
+sed -i '' 's!</PackageTags>!</PackageTags><SignAssembly>true</SignAssembly><AssemblyOriginatorKeyFile>../../GtkSharp.snk</AssemblyOriginatorKeyFile>!g' Source/Libs//CairoSharp/CairoSharp.csproj
+sed -i '' 's!</PackageTags>!</PackageTags><SignAssembly>true</SignAssembly><AssemblyOriginatorKeyFile>../../GtkSharp.snk</AssemblyOriginatorKeyFile>!g' Source/Libs//AtkSharp/AtkSharp.csproj
 
 %build
 CAKE_SETTINGS_SKIPVERIFICATION=true sh build.sh
 
 %install
 %{__rm} -rf $RPM_BUILD_ROOT
-#DESTDIR=$RPM_BUILD_ROOT ninja -C build/ install
 
 install -d -m 755 $RPM_BUILD_ROOT%{_darwinx_prefix}%{libdir}
 
