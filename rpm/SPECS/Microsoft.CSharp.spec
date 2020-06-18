@@ -1,10 +1,10 @@
 %global debug_package %{nil}
 
 %define libdir /lib
-%define api_version 4.5.0.0
+%define api_version 4.7.0.0
 
 Name:           Microsoft.CSharp
-Version:        4.5.0
+Version:        4.7.0
 Release:        1%{?dist}
 Summary:        Provides support for compilation and code generation, including dynamic, using the C# language.
 

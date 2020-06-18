@@ -5,7 +5,7 @@ URL:		http://www.ndesk.org/DBusSharp
 License:	MIT
 Group:		Development/Libraries
 Version:	0.6.0
-Release:	5%{?dist}
+Release:	7%{?dist}
 Summary:	Provides glib mainloop integration for dbus-sharp
 Source0:	https://github.com/mono/dbus-sharp-glib/releases/dbus-sharp-glib-%{pkg_version}.tar.gz
 #Patch0:	dbus-sharp-glib-0.6-nosystembus.patch

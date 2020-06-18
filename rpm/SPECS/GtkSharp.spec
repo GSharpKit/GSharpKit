@@ -4,7 +4,7 @@
 
 Name:           GtkSharp
 Version:        3.22.25.98
-Release:        33%{?dist}
+Release:        1%{?dist}
 Summary:        GTK+ and GNOME bindings for Mono
 
 Group:          System Environment/Libraries
