@@ -244,9 +244,9 @@ Requires:		meson
 Requires:		gtk-sharp3-devel gtk-sharp3-gapi
 
 Requires:		gnome-sharp
-Requires:		dotnet-sdk-2.2
+Requires:		dotnet-sdk-2.2 dotnet-sdk-3.1
 Requires:		msbuild
-Requires:		netstandard
+Requires:		netstandard netstandard-targeting-pack-2.1
 
 
 %description sdk

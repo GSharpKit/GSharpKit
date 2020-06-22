@@ -20,9 +20,9 @@ cp $FROM/bin/*.dll $TO/bin/
 cp $TO/bin/libintl-8.dll $TO/bin/intl.dll
 cp $TO/bin/libsqlite3-0.dll $TO/bin/libsqlite3.dll
 cp $TO/bin/libsqlite3-0.dll $TO/bin/sqlite3.dll
-cp $TO/bin/libgphoto2-sharp.dll $TO/bin/libgphoto2.dll
+#cp $TO/bin/libgphoto2-sharp.dll $TO/bin/libgphoto2.dll
 
-cp $FROM/bin/sane-find-scanner.exe $TO/bin/
+#cp $FROM/bin/sane-find-scanner.exe $TO/bin/
 
 # ETC directory
 mkdir $TO/etc
@@ -30,7 +30,7 @@ cp -r $FROM/etc/dbus-1 $TO/etc/
 cp -r $FROM/etc/fonts $TO/etc/
 cp -r $FROM/etc/gtk-3.0 $TO/etc/
 cp -r $FROM/etc/pki $TO/etc/
-cp -r $FROM/etc/sane.d $TO/etc/
+#cp -r $FROM/etc/sane.d $TO/etc/
 
 # LIB directory
 mkdir $TO/lib
@@ -40,9 +40,9 @@ cp -r $FROM/lib/gdk-pixbuf-2.0 $TO/lib/
 cp -r $FROM/lib/gio $TO/lib/
 cp -r $FROM/lib/gstreamer-1.0 $TO/lib/
 cp -r $FROM/lib/gtk-3.0 $TO/lib/
-cp -r $FROM/lib/libgphoto2 $TO/lib/
-mv $TO/lib/libgphoto2/print-camera-list.exe $TO/bin/
-cp -r $FROM/lib/libgphoto2_port $TO/lib/
+#cp -r $FROM/lib/libgphoto2 $TO/lib/
+#mv $TO/lib/libgphoto2/print-camera-list.exe $TO/bin/
+#cp -r $FROM/lib/libgphoto2_port $TO/lib/
 
 # SHARE directory
 mkdir $TO/share
