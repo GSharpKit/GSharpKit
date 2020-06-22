@@ -50,7 +50,7 @@ Provides:	libbz2.1.0.dylib
 Provides:	libc++.1.dylib
 Provides:	libcups.2.dylib
 Provides:	libedit.3.dylib 
-Provides:	libsqlite3.dylib 
+#Provides:	libsqlite3.dylib 
 Provides:	liblzma.5.dylib
 Provides:	libltdl.7.dylib
 

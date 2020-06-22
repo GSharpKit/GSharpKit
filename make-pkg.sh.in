@@ -6,19 +6,19 @@ TMPDIR=`mktemp -d`
 # Install to staging
 DIR="$TMPDIR/Library/Frameworks/GSharpKit"
 
-sh make-pkg-install.sh /usr/darwinx/usr $DIR
+sh make-pkg-install.sh /Library/Frameworks/GSharpKit $DIR
 echo "@VERSION@" > $DIR/version
 
 sed -i '' 's!\/usr\/darwinx!\/Library\/Frameworks\/GSharpKit!' $DIR/etc/dbus-1/session.conf 
 sed -i '' 's!\/usr\/darwinx\/usr!\/Library\/Frameworks\/GSharpKit!' $DIR/share/dbus-1/session.conf 
 
 mkdir -p $TMPDIR/Library/LaunchAgents
-cp /usr/darwinx/usr/Library/LaunchAgents/org.freedesktop.dbus-session.plist $TMPDIR/Library/LaunchAgents/
-sed -i '' 's!\/usr!\/Library\/Frameworks\/GSharpKit!' $TMPDIR/Library/LaunchAgents/org.freedesktop.dbus-session.plist
+cp /Library/LaunchAgents/org.freedesktop.dbus-session.plist $TMPDIR/Library/LaunchAgents/
+#sed -i '' 's!\/usr!\/Library\/Frameworks\/GSharpKit!' $TMPDIR/Library/LaunchAgents/org.freedesktop.dbus-session.plist
 
-find $TMPDIR -type f -iname "*.dylib" -exec sh rewitelibs.sh {} \; 
-find $TMPDIR -type f -iname "*.so" -exec sh rewitelibs.sh {} \; 
-find $TMPDIR/Library/Frameworks/GSharpKit/bin/ -type f -iname "*" ! -path "*.exe" -exec sh rewitelibs.sh {} \; 
+#find $TMPDIR -type f -iname "*.dylib" -exec sh rewitelibs.sh {} \; 
+#find $TMPDIR -type f -iname "*.so" -exec sh rewitelibs.sh {} \; 
+#find $TMPDIR/Library/Frameworks/GSharpKit/bin/ -type f -iname "*" ! -path "*.exe" -exec sh rewitelibs.sh {} \; 
 
 # This will prevent postscript from running
 find $TMPDIR -type f -iname "*.dylib" -exec codesign --deep --entitlements Entitlements.plist -s "Developer ID Application: Xmedicus ApS" -i com.xmedicus.xmedicus -f {} \;

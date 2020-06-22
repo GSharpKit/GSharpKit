@@ -16,7 +16,7 @@ BuildRequires:	darwinx-gcc
 BuildRequires:	darwinx-glib2
 BuildRequires:	darwinx-gnutls
 BuildRequires:	darwinx-glib-networking
-BuildRequires:	darwinx-sqlite3
+BuildRequires:	darwinx-sqlite
 BuildRequires:	darwinx-libpsl
 
 Requires:	pkgconfig

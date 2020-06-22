@@ -53,6 +53,13 @@ Requires:       %{name} = %{version}-%{release}
 %description static
 Static version of the Darwin Gtk3 library.
 
+%package -n darwinx-gtk-update-icon-cache
+Summary:        Static version of the Darwin Gtk3 library
+Requires:       %{name} = %{version}-%{release}
+
+%description -n darwinx-gtk-update-icon-cache
+Static version of the Darwin Gtk3 library.
+
 
 %prep
 %setup -q -n gtk+-%{version}
@@ -99,7 +106,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_darwinx_bindir}/gtk3-widget-factory
 %{_darwinx_bindir}/gtk-launch
 %{_darwinx_bindir}/gtk-query-immodules-3.0
-%{_darwinx_bindir}/gtk-update-icon-cache
 %{_darwinx_bindir}/gtk-encode-symbolic-svg
 %{_darwinx_bindir}/gtk3-icon-browser
 %{_darwinx_bindir}/gtk-builder-tool
@@ -186,6 +192,10 @@ rm -rf $RPM_BUILD_ROOT
 %{_darwinx_libdir}/libgailutil-3.a
 %{_darwinx_libdir}/libgdk-3.a
 %{_darwinx_libdir}/libgtk-3.a
+
+%files -n darwinx-gtk-update-icon-cache
+%defattr(-,root,root,-)
+%{_darwinx_bindir}/gtk-update-icon-cache
 
 
 %changelog

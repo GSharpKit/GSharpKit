@@ -32,15 +32,13 @@ cp $FROM/bin/gtk-query-immodules-3.0 $TO/bin/
 
 cp $FROM/bin/fc-cache $TO/bin/
 
-#cp $FROM/bin/sane-find-scanner.exe $TO/bin/
-
 # LIB directory
 mkdir -p $TO/lib
 cp $FROM/lib/*.dll $TO/lib/
 cp $FROM/lib/*.dll.config $TO/lib/
 
 # Hack to make gphoto work.
-cp $TO/lib/libgphoto2-sharp.dll $TO/lib/libgphoto2.dll
+#cp $TO/lib/libgphoto2-sharp.dll $TO/lib/libgphoto2.dll
 
 cp -a $FROM/lib/*.dylib $TO/lib/
  
@@ -73,8 +71,8 @@ rm -f $TO/lib/gtk-3.0/3.0.0/immodules/*.la
 rm -f $TO/lib/gtk-3.0/3.0.0/printbackends/*.a
 rm -f $TO/lib/gtk-3.0/3.0.0/printbackends/*.la
 
-cp -r $FROM/lib/libgphoto2 $TO/lib/
-cp -r $FROM/lib/libgphoto2_port $TO/lib/
+#cp -r $FROM/lib/libgphoto2 $TO/lib/
+#cp -r $FROM/lib/libgphoto2_port $TO/lib/
 
 # SHARE directory
 mkdir -p $TO/share
