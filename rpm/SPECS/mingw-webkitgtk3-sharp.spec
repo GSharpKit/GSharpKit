@@ -19,13 +19,16 @@ Source0:        webkitgtk3-sharp-%{version}.tar.xz
 BuildArch:	noarch
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
-BuildRequires:	mingw32-webkitgtk3
-BuildRequires:	mingw64-webkitgtk3
+BuildRequires:	GSharpKit-sdk-mingw32-devel
+BuildRequires:	GSharpKit-sdk-mingw64-devel
+
+BuildRequires:  mingw32-webkitgtk3
+BuildRequires:  mingw64-webkitgtk3
 
 BuildRequires:	webkitgtk3-devel
-BuildRequires:	mono-devel
 BuildRequires:	gtk-sharp3-devel
 BuildRequires:	gtk-sharp3-gapi
+BuildRequires:	mono-devel
 BuildRequires:	monodoc-devel
 
 %description

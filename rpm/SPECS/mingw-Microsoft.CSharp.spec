@@ -9,10 +9,10 @@
 %define debug_package %{nil}
 
 %define libdir /bin
-%define apiversion 4.5.0.0
+%define apiversion 4.7.0.0
 
 Name:           mingw-Microsoft.CSharp
-Version:        4.5.0
+Version:        4.7.0
 Release:        1%{?dist}
 Summary:        Provides support for compilation and code generation, including dynamic, using the C# language.
 

@@ -121,6 +121,7 @@ Source10:		mono-centos7.repo
 Source11:		RPM-GPG-KEY-xamarin
 Source12:		microsoft-prod.repo
 Source13:		RPM-GPG-KEY-microsoft
+Source14:		mingw-mono.pc
 URL:			http://www.gsharpkit.com
 Vendor:			GSharpKit
 Packager:		Mikkel Kruse Johnsen <mikkel@gsharpkit.com>
@@ -703,6 +704,12 @@ cp %{SOURCE7} $RPM_BUILD_ROOT%{_bindir}/
 cp %{SOURCE8} $RPM_BUILD_ROOT%{_bindir}/
 cp %{SOURCE9} $RPM_BUILD_ROOT%{_bindir}/
 
+mkdir -p $RPM_BUILD_ROOT/usr/i686-w64-mingw32/sys-root/mingw/share/pkgconfig/
+cp %{SOURCE14} $RPM_BUILD_ROOT/usr/i686-w64-mingw32/sys-root/mingw/share/pkgconfig/mono.pc
+
+mkdir -p $RPM_BUILD_ROOT/usr/x86_64-w64-mingw32/sys-root/mingw/share/pkgconfig/
+cp %{SOURCE14} $RPM_BUILD_ROOT/usr/x86_64-w64-mingw32/sys-root/mingw/share/pkgconfig/mono.pc
+
 %clean
 rm -rf $RPM_BUILD_ROOT
 
@@ -755,11 +762,11 @@ rm -rf $RPM_BUILD_ROOT
 
 %files sdk-mingw32-devel
 %defattr(-, root, root)
-
+/usr/i686-w64-mingw32/sys-root/mingw/share/pkgconfig/mono.pc
 
 %files sdk-mingw64-devel
 %defattr(-, root, root)
-
+/usr/x86_64-w64-mingw32/sys-root/mingw/share/pkgconfig/mono.pc
 
 %files sdk-mingw-devel
 %defattr(-, root, root)
