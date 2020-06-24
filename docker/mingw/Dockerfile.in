@@ -6,4 +6,5 @@ RUN rpm -Uvh http://yum.gsharpkit.org/gsharpkit/fedora-@FEDORA_VERSION@-x86_64/R
 RUN dnf -y --exclude darwinx* install sudo hunspell-da hunspell-en-GB hunspell-en-US python msitools mono-core-6.8.0.123 mono-extras-6.8.0.123 mono-locale-extras-6.8.0.123 mono-data-6.8.0.123 mono-data-sqlite-6.8.0.123 mono-web-6.8.0.123 mono-wcf-6.8.0.123 mono-mvc-6.8.0.123 mono-winfxcore-6.8.0.123 GSharpKit-sdk GSharpKit-sdk-mingw-devel GSharpKit-sdk-mingw && dnf clean all && rm -rf /var/cache/dnf
 
 RUN mkdir /usr/i686-w64-mingw32/sys-root/mingw/share/myspell ; cp /usr/share/myspell/da_DK.aff /usr/share/myspell/da_DK.dic /usr/share/myspell/en_GB.aff /usr/share/myspell/en_GB.dic /usr/share/myspell/en_US.aff /usr/share/myspell/en_US.dic /usr/i686-w64-mingw32/sys-root/mingw/share/myspell/
+RUN mkdir /usr/x86_64-w64-mingw32/sys-root/mingw/share/myspell ; cp /usr/share/myspell/da_DK.aff /usr/share/myspell/da_DK.dic /usr/share/myspell/en_GB.aff /usr/share/myspell/en_GB.dic /usr/share/myspell/en_US.aff /usr/share/myspell/en_US.dic /usr/x86_64-w64-mingw32/sys-root/mingw/share/myspell/
 
