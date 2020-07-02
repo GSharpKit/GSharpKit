@@ -1,0 +1,538 @@
+diff -Nur GtkSharp-3.22.25.98.orig/Source/GtkSharp.sln GtkSharp-3.22.25.98/Source/GtkSharp.sln
+--- GtkSharp-3.22.25.98.orig/Source/GtkSharp.sln	2020-05-29 09:44:49.000000000 +0200
++++ GtkSharp-3.22.25.98/Source/GtkSharp.sln	2020-07-02 16:22:17.683859529 +0200
+@@ -1,145 +1,139 @@
+-Microsoft Visual Studio Solution File, Format Version 12.00
+-# Visual Studio Version 16
+-VisualStudioVersion = 16.0.29424.173
+-MinimumVisualStudioVersion = 15.0.26124.0
+-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libs", "Libs", "{CCEA1235-D75F-4919-83F6-16793B11BEF5}"
+-EndProject
+-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GLibSharp", "Libs\GLibSharp\GLibSharp.csproj", "{B29673A7-EBEA-41F4-9F22-D72B333042A2}"
+-EndProject
+-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PangoSharp", "Libs\PangoSharp\PangoSharp.csproj", "{D3E99527-1FEC-4DC7-8083-85E7C338E287}"
+-EndProject
+-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CairoSharp", "Libs\CairoSharp\CairoSharp.csproj", "{92C67E4C-8FDE-463B-BEB9-CB09970887DD}"
+-EndProject
+-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AtkSharp", "Libs\AtkSharp\AtkSharp.csproj", "{12A721AA-8E7F-459A-A62D-F7372350E5F1}"
+-EndProject
+-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GdkSharp", "Libs\GdkSharp\GdkSharp.csproj", "{E6D83259-6389-4768-B0A0-A649892DFE62}"
+-EndProject
+-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GioSharp", "Libs\GioSharp\GioSharp.csproj", "{B4B26375-BED5-4000-A38F-899FF1672B47}"
+-EndProject
+-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GtkSharp", "Libs\GtkSharp\GtkSharp.csproj", "{04597E0B-375D-4E08-A16C-EE5FF3937B73}"
+-EndProject
+-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Samples", "Samples\Samples.csproj", "{A5667C9B-5D29-4FB6-B548-D1317A2CEF90}"
+-EndProject
+-Global
+-	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+-		Debug|Any CPU = Debug|Any CPU
+-		Debug|x64 = Debug|x64
+-		Debug|x86 = Debug|x86
+-		Release|Any CPU = Release|Any CPU
+-		Release|x64 = Release|x64
+-		Release|x86 = Release|x86
+-	EndGlobalSection
+-	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+-		{B29673A7-EBEA-41F4-9F22-D72B333042A2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+-		{B29673A7-EBEA-41F4-9F22-D72B333042A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+-		{B29673A7-EBEA-41F4-9F22-D72B333042A2}.Debug|x64.ActiveCfg = Debug|Any CPU
+-		{B29673A7-EBEA-41F4-9F22-D72B333042A2}.Debug|x64.Build.0 = Debug|Any CPU
+-		{B29673A7-EBEA-41F4-9F22-D72B333042A2}.Debug|x86.ActiveCfg = Debug|Any CPU
+-		{B29673A7-EBEA-41F4-9F22-D72B333042A2}.Debug|x86.Build.0 = Debug|Any CPU
+-		{B29673A7-EBEA-41F4-9F22-D72B333042A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+-		{B29673A7-EBEA-41F4-9F22-D72B333042A2}.Release|Any CPU.Build.0 = Release|Any CPU
+-		{B29673A7-EBEA-41F4-9F22-D72B333042A2}.Release|x64.ActiveCfg = Release|Any CPU
+-		{B29673A7-EBEA-41F4-9F22-D72B333042A2}.Release|x64.Build.0 = Release|Any CPU
+-		{B29673A7-EBEA-41F4-9F22-D72B333042A2}.Release|x86.ActiveCfg = Release|Any CPU
+-		{B29673A7-EBEA-41F4-9F22-D72B333042A2}.Release|x86.Build.0 = Release|Any CPU
+-		{D3E99527-1FEC-4DC7-8083-85E7C338E287}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+-		{D3E99527-1FEC-4DC7-8083-85E7C338E287}.Debug|Any CPU.Build.0 = Debug|Any CPU
+-		{D3E99527-1FEC-4DC7-8083-85E7C338E287}.Debug|x64.ActiveCfg = Debug|Any CPU
+-		{D3E99527-1FEC-4DC7-8083-85E7C338E287}.Debug|x64.Build.0 = Debug|Any CPU
+-		{D3E99527-1FEC-4DC7-8083-85E7C338E287}.Debug|x86.ActiveCfg = Debug|Any CPU
+-		{D3E99527-1FEC-4DC7-8083-85E7C338E287}.Debug|x86.Build.0 = Debug|Any CPU
+-		{D3E99527-1FEC-4DC7-8083-85E7C338E287}.Release|Any CPU.ActiveCfg = Release|Any CPU
+-		{D3E99527-1FEC-4DC7-8083-85E7C338E287}.Release|Any CPU.Build.0 = Release|Any CPU
+-		{D3E99527-1FEC-4DC7-8083-85E7C338E287}.Release|x64.ActiveCfg = Release|Any CPU
+-		{D3E99527-1FEC-4DC7-8083-85E7C338E287}.Release|x64.Build.0 = Release|Any CPU
+-		{D3E99527-1FEC-4DC7-8083-85E7C338E287}.Release|x86.ActiveCfg = Release|Any CPU
+-		{D3E99527-1FEC-4DC7-8083-85E7C338E287}.Release|x86.Build.0 = Release|Any CPU
+-		{92C67E4C-8FDE-463B-BEB9-CB09970887DD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+-		{92C67E4C-8FDE-463B-BEB9-CB09970887DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+-		{92C67E4C-8FDE-463B-BEB9-CB09970887DD}.Debug|x64.ActiveCfg = Debug|Any CPU
+-		{92C67E4C-8FDE-463B-BEB9-CB09970887DD}.Debug|x64.Build.0 = Debug|Any CPU
+-		{92C67E4C-8FDE-463B-BEB9-CB09970887DD}.Debug|x86.ActiveCfg = Debug|Any CPU
+-		{92C67E4C-8FDE-463B-BEB9-CB09970887DD}.Debug|x86.Build.0 = Debug|Any CPU
+-		{92C67E4C-8FDE-463B-BEB9-CB09970887DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+-		{92C67E4C-8FDE-463B-BEB9-CB09970887DD}.Release|Any CPU.Build.0 = Release|Any CPU
+-		{92C67E4C-8FDE-463B-BEB9-CB09970887DD}.Release|x64.ActiveCfg = Release|Any CPU
+-		{92C67E4C-8FDE-463B-BEB9-CB09970887DD}.Release|x64.Build.0 = Release|Any CPU
+-		{92C67E4C-8FDE-463B-BEB9-CB09970887DD}.Release|x86.ActiveCfg = Release|Any CPU
+-		{92C67E4C-8FDE-463B-BEB9-CB09970887DD}.Release|x86.Build.0 = Release|Any CPU
+-		{12A721AA-8E7F-459A-A62D-F7372350E5F1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+-		{12A721AA-8E7F-459A-A62D-F7372350E5F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+-		{12A721AA-8E7F-459A-A62D-F7372350E5F1}.Debug|x64.ActiveCfg = Debug|Any CPU
+-		{12A721AA-8E7F-459A-A62D-F7372350E5F1}.Debug|x64.Build.0 = Debug|Any CPU
+-		{12A721AA-8E7F-459A-A62D-F7372350E5F1}.Debug|x86.ActiveCfg = Debug|Any CPU
+-		{12A721AA-8E7F-459A-A62D-F7372350E5F1}.Debug|x86.Build.0 = Debug|Any CPU
+-		{12A721AA-8E7F-459A-A62D-F7372350E5F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+-		{12A721AA-8E7F-459A-A62D-F7372350E5F1}.Release|Any CPU.Build.0 = Release|Any CPU
+-		{12A721AA-8E7F-459A-A62D-F7372350E5F1}.Release|x64.ActiveCfg = Release|Any CPU
+-		{12A721AA-8E7F-459A-A62D-F7372350E5F1}.Release|x64.Build.0 = Release|Any CPU
+-		{12A721AA-8E7F-459A-A62D-F7372350E5F1}.Release|x86.ActiveCfg = Release|Any CPU
+-		{12A721AA-8E7F-459A-A62D-F7372350E5F1}.Release|x86.Build.0 = Release|Any CPU
+-		{E6D83259-6389-4768-B0A0-A649892DFE62}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+-		{E6D83259-6389-4768-B0A0-A649892DFE62}.Debug|Any CPU.Build.0 = Debug|Any CPU
+-		{E6D83259-6389-4768-B0A0-A649892DFE62}.Debug|x64.ActiveCfg = Debug|Any CPU
+-		{E6D83259-6389-4768-B0A0-A649892DFE62}.Debug|x64.Build.0 = Debug|Any CPU
+-		{E6D83259-6389-4768-B0A0-A649892DFE62}.Debug|x86.ActiveCfg = Debug|Any CPU
+-		{E6D83259-6389-4768-B0A0-A649892DFE62}.Debug|x86.Build.0 = Debug|Any CPU
+-		{E6D83259-6389-4768-B0A0-A649892DFE62}.Release|Any CPU.ActiveCfg = Release|Any CPU
+-		{E6D83259-6389-4768-B0A0-A649892DFE62}.Release|Any CPU.Build.0 = Release|Any CPU
+-		{E6D83259-6389-4768-B0A0-A649892DFE62}.Release|x64.ActiveCfg = Release|Any CPU
+-		{E6D83259-6389-4768-B0A0-A649892DFE62}.Release|x64.Build.0 = Release|Any CPU
+-		{E6D83259-6389-4768-B0A0-A649892DFE62}.Release|x86.ActiveCfg = Release|Any CPU
+-		{E6D83259-6389-4768-B0A0-A649892DFE62}.Release|x86.Build.0 = Release|Any CPU
+-		{B4B26375-BED5-4000-A38F-899FF1672B47}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+-		{B4B26375-BED5-4000-A38F-899FF1672B47}.Debug|Any CPU.Build.0 = Debug|Any CPU
+-		{B4B26375-BED5-4000-A38F-899FF1672B47}.Debug|x64.ActiveCfg = Debug|Any CPU
+-		{B4B26375-BED5-4000-A38F-899FF1672B47}.Debug|x64.Build.0 = Debug|Any CPU
+-		{B4B26375-BED5-4000-A38F-899FF1672B47}.Debug|x86.ActiveCfg = Debug|Any CPU
+-		{B4B26375-BED5-4000-A38F-899FF1672B47}.Debug|x86.Build.0 = Debug|Any CPU
+-		{B4B26375-BED5-4000-A38F-899FF1672B47}.Release|Any CPU.ActiveCfg = Release|Any CPU
+-		{B4B26375-BED5-4000-A38F-899FF1672B47}.Release|Any CPU.Build.0 = Release|Any CPU
+-		{B4B26375-BED5-4000-A38F-899FF1672B47}.Release|x64.ActiveCfg = Release|Any CPU
+-		{B4B26375-BED5-4000-A38F-899FF1672B47}.Release|x64.Build.0 = Release|Any CPU
+-		{B4B26375-BED5-4000-A38F-899FF1672B47}.Release|x86.ActiveCfg = Release|Any CPU
+-		{B4B26375-BED5-4000-A38F-899FF1672B47}.Release|x86.Build.0 = Release|Any CPU
+-		{04597E0B-375D-4E08-A16C-EE5FF3937B73}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+-		{04597E0B-375D-4E08-A16C-EE5FF3937B73}.Debug|Any CPU.Build.0 = Debug|Any CPU
+-		{04597E0B-375D-4E08-A16C-EE5FF3937B73}.Debug|x64.ActiveCfg = Debug|Any CPU
+-		{04597E0B-375D-4E08-A16C-EE5FF3937B73}.Debug|x64.Build.0 = Debug|Any CPU
+-		{04597E0B-375D-4E08-A16C-EE5FF3937B73}.Debug|x86.ActiveCfg = Debug|Any CPU
+-		{04597E0B-375D-4E08-A16C-EE5FF3937B73}.Debug|x86.Build.0 = Debug|Any CPU
+-		{04597E0B-375D-4E08-A16C-EE5FF3937B73}.Release|Any CPU.ActiveCfg = Release|Any CPU
+-		{04597E0B-375D-4E08-A16C-EE5FF3937B73}.Release|Any CPU.Build.0 = Release|Any CPU
+-		{04597E0B-375D-4E08-A16C-EE5FF3937B73}.Release|x64.ActiveCfg = Release|Any CPU
+-		{04597E0B-375D-4E08-A16C-EE5FF3937B73}.Release|x64.Build.0 = Release|Any CPU
+-		{04597E0B-375D-4E08-A16C-EE5FF3937B73}.Release|x86.ActiveCfg = Release|Any CPU
+-		{04597E0B-375D-4E08-A16C-EE5FF3937B73}.Release|x86.Build.0 = Release|Any CPU
+-		{A5667C9B-5D29-4FB6-B548-D1317A2CEF90}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+-		{A5667C9B-5D29-4FB6-B548-D1317A2CEF90}.Debug|Any CPU.Build.0 = Debug|Any CPU
+-		{A5667C9B-5D29-4FB6-B548-D1317A2CEF90}.Debug|x64.ActiveCfg = Debug|Any CPU
+-		{A5667C9B-5D29-4FB6-B548-D1317A2CEF90}.Debug|x64.Build.0 = Debug|Any CPU
+-		{A5667C9B-5D29-4FB6-B548-D1317A2CEF90}.Debug|x86.ActiveCfg = Debug|Any CPU
+-		{A5667C9B-5D29-4FB6-B548-D1317A2CEF90}.Debug|x86.Build.0 = Debug|Any CPU
+-		{A5667C9B-5D29-4FB6-B548-D1317A2CEF90}.Release|Any CPU.ActiveCfg = Release|Any CPU
+-		{A5667C9B-5D29-4FB6-B548-D1317A2CEF90}.Release|Any CPU.Build.0 = Release|Any CPU
+-		{A5667C9B-5D29-4FB6-B548-D1317A2CEF90}.Release|x64.ActiveCfg = Release|Any CPU
+-		{A5667C9B-5D29-4FB6-B548-D1317A2CEF90}.Release|x64.Build.0 = Release|Any CPU
+-		{A5667C9B-5D29-4FB6-B548-D1317A2CEF90}.Release|x86.ActiveCfg = Release|Any CPU
+-		{A5667C9B-5D29-4FB6-B548-D1317A2CEF90}.Release|x86.Build.0 = Release|Any CPU
+-	EndGlobalSection
+-	GlobalSection(SolutionProperties) = preSolution
+-		HideSolutionNode = FALSE
+-	EndGlobalSection
+-	GlobalSection(NestedProjects) = preSolution
+-		{B29673A7-EBEA-41F4-9F22-D72B333042A2} = {CCEA1235-D75F-4919-83F6-16793B11BEF5}
+-		{D3E99527-1FEC-4DC7-8083-85E7C338E287} = {CCEA1235-D75F-4919-83F6-16793B11BEF5}
+-		{92C67E4C-8FDE-463B-BEB9-CB09970887DD} = {CCEA1235-D75F-4919-83F6-16793B11BEF5}
+-		{12A721AA-8E7F-459A-A62D-F7372350E5F1} = {CCEA1235-D75F-4919-83F6-16793B11BEF5}
+-		{E6D83259-6389-4768-B0A0-A649892DFE62} = {CCEA1235-D75F-4919-83F6-16793B11BEF5}
+-		{B4B26375-BED5-4000-A38F-899FF1672B47} = {CCEA1235-D75F-4919-83F6-16793B11BEF5}
+-		{04597E0B-375D-4E08-A16C-EE5FF3937B73} = {CCEA1235-D75F-4919-83F6-16793B11BEF5}
+-	EndGlobalSection
+-	GlobalSection(ExtensibilityGlobals) = postSolution
+-		SolutionGuid = {DA4DD75D-B6C8-4836-AF84-B5FF538D9D86}
+-	EndGlobalSection
+-EndGlobal
++Microsoft Visual Studio Solution File, Format Version 12.00
++# Visual Studio Version 16
++VisualStudioVersion = 16.0.29424.173
++MinimumVisualStudioVersion = 15.0.26124.0
++Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libs", "Libs", "{CCEA1235-D75F-4919-83F6-16793B11BEF5}"
++EndProject
++Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GLibSharp", "Libs\GLibSharp\GLibSharp.csproj", "{B29673A7-EBEA-41F4-9F22-D72B333042A2}"
++EndProject
++Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PangoSharp", "Libs\PangoSharp\PangoSharp.csproj", "{D3E99527-1FEC-4DC7-8083-85E7C338E287}"
++EndProject
++Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CairoSharp", "Libs\CairoSharp\CairoSharp.csproj", "{92C67E4C-8FDE-463B-BEB9-CB09970887DD}"
++EndProject
++Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AtkSharp", "Libs\AtkSharp\AtkSharp.csproj", "{12A721AA-8E7F-459A-A62D-F7372350E5F1}"
++EndProject
++Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GdkSharp", "Libs\GdkSharp\GdkSharp.csproj", "{E6D83259-6389-4768-B0A0-A649892DFE62}"
++EndProject
++Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GioSharp", "Libs\GioSharp\GioSharp.csproj", "{B4B26375-BED5-4000-A38F-899FF1672B47}"
++EndProject
++Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GtkSharp", "Libs\GtkSharp\GtkSharp.csproj", "{04597E0B-375D-4E08-A16C-EE5FF3937B73}"
++EndProject
++Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Samples", "Samples\Samples.csproj", "{A5667C9B-5D29-4FB6-B548-D1317A2CEF90}"
++EndProject
++Global
++	GlobalSection(SolutionConfigurationPlatforms) = preSolution
++		Debug|Any CPU = Debug|Any CPU
++		Debug|x64 = Debug|x64
++		Debug|x86 = Debug|x86
++		Release|Any CPU = Release|Any CPU
++		Release|x64 = Release|x64
++		Release|x86 = Release|x86
++	EndGlobalSection
++	GlobalSection(ProjectConfigurationPlatforms) = postSolution
++		{B29673A7-EBEA-41F4-9F22-D72B333042A2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
++		{B29673A7-EBEA-41F4-9F22-D72B333042A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
++		{B29673A7-EBEA-41F4-9F22-D72B333042A2}.Debug|x64.ActiveCfg = Debug|Any CPU
++		{B29673A7-EBEA-41F4-9F22-D72B333042A2}.Debug|x64.Build.0 = Debug|Any CPU
++		{B29673A7-EBEA-41F4-9F22-D72B333042A2}.Debug|x86.ActiveCfg = Debug|Any CPU
++		{B29673A7-EBEA-41F4-9F22-D72B333042A2}.Debug|x86.Build.0 = Debug|Any CPU
++		{B29673A7-EBEA-41F4-9F22-D72B333042A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
++		{B29673A7-EBEA-41F4-9F22-D72B333042A2}.Release|Any CPU.Build.0 = Release|Any CPU
++		{B29673A7-EBEA-41F4-9F22-D72B333042A2}.Release|x64.ActiveCfg = Release|Any CPU
++		{B29673A7-EBEA-41F4-9F22-D72B333042A2}.Release|x64.Build.0 = Release|Any CPU
++		{B29673A7-EBEA-41F4-9F22-D72B333042A2}.Release|x86.ActiveCfg = Release|Any CPU
++		{B29673A7-EBEA-41F4-9F22-D72B333042A2}.Release|x86.Build.0 = Release|Any CPU
++		{D3E99527-1FEC-4DC7-8083-85E7C338E287}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
++		{D3E99527-1FEC-4DC7-8083-85E7C338E287}.Debug|Any CPU.Build.0 = Debug|Any CPU
++		{D3E99527-1FEC-4DC7-8083-85E7C338E287}.Debug|x64.ActiveCfg = Debug|Any CPU
++		{D3E99527-1FEC-4DC7-8083-85E7C338E287}.Debug|x64.Build.0 = Debug|Any CPU
++		{D3E99527-1FEC-4DC7-8083-85E7C338E287}.Debug|x86.ActiveCfg = Debug|Any CPU
++		{D3E99527-1FEC-4DC7-8083-85E7C338E287}.Debug|x86.Build.0 = Debug|Any CPU
++		{D3E99527-1FEC-4DC7-8083-85E7C338E287}.Release|Any CPU.ActiveCfg = Release|Any CPU
++		{D3E99527-1FEC-4DC7-8083-85E7C338E287}.Release|Any CPU.Build.0 = Release|Any CPU
++		{D3E99527-1FEC-4DC7-8083-85E7C338E287}.Release|x64.ActiveCfg = Release|Any CPU
++		{D3E99527-1FEC-4DC7-8083-85E7C338E287}.Release|x64.Build.0 = Release|Any CPU
++		{D3E99527-1FEC-4DC7-8083-85E7C338E287}.Release|x86.ActiveCfg = Release|Any CPU
++		{D3E99527-1FEC-4DC7-8083-85E7C338E287}.Release|x86.Build.0 = Release|Any CPU
++		{92C67E4C-8FDE-463B-BEB9-CB09970887DD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
++		{92C67E4C-8FDE-463B-BEB9-CB09970887DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
++		{92C67E4C-8FDE-463B-BEB9-CB09970887DD}.Debug|x64.ActiveCfg = Debug|Any CPU
++		{92C67E4C-8FDE-463B-BEB9-CB09970887DD}.Debug|x64.Build.0 = Debug|Any CPU
++		{92C67E4C-8FDE-463B-BEB9-CB09970887DD}.Debug|x86.ActiveCfg = Debug|Any CPU
++		{92C67E4C-8FDE-463B-BEB9-CB09970887DD}.Debug|x86.Build.0 = Debug|Any CPU
++		{92C67E4C-8FDE-463B-BEB9-CB09970887DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
++		{92C67E4C-8FDE-463B-BEB9-CB09970887DD}.Release|Any CPU.Build.0 = Release|Any CPU
++		{92C67E4C-8FDE-463B-BEB9-CB09970887DD}.Release|x64.ActiveCfg = Release|Any CPU
++		{92C67E4C-8FDE-463B-BEB9-CB09970887DD}.Release|x64.Build.0 = Release|Any CPU
++		{92C67E4C-8FDE-463B-BEB9-CB09970887DD}.Release|x86.ActiveCfg = Release|Any CPU
++		{92C67E4C-8FDE-463B-BEB9-CB09970887DD}.Release|x86.Build.0 = Release|Any CPU
++		{12A721AA-8E7F-459A-A62D-F7372350E5F1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
++		{12A721AA-8E7F-459A-A62D-F7372350E5F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
++		{12A721AA-8E7F-459A-A62D-F7372350E5F1}.Debug|x64.ActiveCfg = Debug|Any CPU
++		{12A721AA-8E7F-459A-A62D-F7372350E5F1}.Debug|x64.Build.0 = Debug|Any CPU
++		{12A721AA-8E7F-459A-A62D-F7372350E5F1}.Debug|x86.ActiveCfg = Debug|Any CPU
++		{12A721AA-8E7F-459A-A62D-F7372350E5F1}.Debug|x86.Build.0 = Debug|Any CPU
++		{12A721AA-8E7F-459A-A62D-F7372350E5F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
++		{12A721AA-8E7F-459A-A62D-F7372350E5F1}.Release|Any CPU.Build.0 = Release|Any CPU
++		{12A721AA-8E7F-459A-A62D-F7372350E5F1}.Release|x64.ActiveCfg = Release|Any CPU
++		{12A721AA-8E7F-459A-A62D-F7372350E5F1}.Release|x64.Build.0 = Release|Any CPU
++		{12A721AA-8E7F-459A-A62D-F7372350E5F1}.Release|x86.ActiveCfg = Release|Any CPU
++		{12A721AA-8E7F-459A-A62D-F7372350E5F1}.Release|x86.Build.0 = Release|Any CPU
++		{E6D83259-6389-4768-B0A0-A649892DFE62}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
++		{E6D83259-6389-4768-B0A0-A649892DFE62}.Debug|Any CPU.Build.0 = Debug|Any CPU
++		{E6D83259-6389-4768-B0A0-A649892DFE62}.Debug|x64.ActiveCfg = Debug|Any CPU
++		{E6D83259-6389-4768-B0A0-A649892DFE62}.Debug|x64.Build.0 = Debug|Any CPU
++		{E6D83259-6389-4768-B0A0-A649892DFE62}.Debug|x86.ActiveCfg = Debug|Any CPU
++		{E6D83259-6389-4768-B0A0-A649892DFE62}.Debug|x86.Build.0 = Debug|Any CPU
++		{E6D83259-6389-4768-B0A0-A649892DFE62}.Release|Any CPU.ActiveCfg = Release|Any CPU
++		{E6D83259-6389-4768-B0A0-A649892DFE62}.Release|Any CPU.Build.0 = Release|Any CPU
++		{E6D83259-6389-4768-B0A0-A649892DFE62}.Release|x64.ActiveCfg = Release|Any CPU
++		{E6D83259-6389-4768-B0A0-A649892DFE62}.Release|x64.Build.0 = Release|Any CPU
++		{E6D83259-6389-4768-B0A0-A649892DFE62}.Release|x86.ActiveCfg = Release|Any CPU
++		{E6D83259-6389-4768-B0A0-A649892DFE62}.Release|x86.Build.0 = Release|Any CPU
++		{B4B26375-BED5-4000-A38F-899FF1672B47}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
++		{B4B26375-BED5-4000-A38F-899FF1672B47}.Debug|Any CPU.Build.0 = Debug|Any CPU
++		{B4B26375-BED5-4000-A38F-899FF1672B47}.Debug|x64.ActiveCfg = Debug|Any CPU
++		{B4B26375-BED5-4000-A38F-899FF1672B47}.Debug|x64.Build.0 = Debug|Any CPU
++		{B4B26375-BED5-4000-A38F-899FF1672B47}.Debug|x86.ActiveCfg = Debug|Any CPU
++		{B4B26375-BED5-4000-A38F-899FF1672B47}.Debug|x86.Build.0 = Debug|Any CPU
++		{B4B26375-BED5-4000-A38F-899FF1672B47}.Release|Any CPU.ActiveCfg = Release|Any CPU
++		{B4B26375-BED5-4000-A38F-899FF1672B47}.Release|Any CPU.Build.0 = Release|Any CPU
++		{B4B26375-BED5-4000-A38F-899FF1672B47}.Release|x64.ActiveCfg = Release|Any CPU
++		{B4B26375-BED5-4000-A38F-899FF1672B47}.Release|x64.Build.0 = Release|Any CPU
++		{B4B26375-BED5-4000-A38F-899FF1672B47}.Release|x86.ActiveCfg = Release|Any CPU
++		{B4B26375-BED5-4000-A38F-899FF1672B47}.Release|x86.Build.0 = Release|Any CPU
++		{04597E0B-375D-4E08-A16C-EE5FF3937B73}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
++		{04597E0B-375D-4E08-A16C-EE5FF3937B73}.Debug|Any CPU.Build.0 = Debug|Any CPU
++		{04597E0B-375D-4E08-A16C-EE5FF3937B73}.Debug|x64.ActiveCfg = Debug|Any CPU
++		{04597E0B-375D-4E08-A16C-EE5FF3937B73}.Debug|x64.Build.0 = Debug|Any CPU
++		{04597E0B-375D-4E08-A16C-EE5FF3937B73}.Debug|x86.ActiveCfg = Debug|Any CPU
++		{04597E0B-375D-4E08-A16C-EE5FF3937B73}.Debug|x86.Build.0 = Debug|Any CPU
++		{04597E0B-375D-4E08-A16C-EE5FF3937B73}.Release|Any CPU.ActiveCfg = Release|Any CPU
++		{04597E0B-375D-4E08-A16C-EE5FF3937B73}.Release|Any CPU.Build.0 = Release|Any CPU
++		{04597E0B-375D-4E08-A16C-EE5FF3937B73}.Release|x64.ActiveCfg = Release|Any CPU
++		{04597E0B-375D-4E08-A16C-EE5FF3937B73}.Release|x64.Build.0 = Release|Any CPU
++		{04597E0B-375D-4E08-A16C-EE5FF3937B73}.Release|x86.ActiveCfg = Release|Any CPU
++		{04597E0B-375D-4E08-A16C-EE5FF3937B73}.Release|x86.Build.0 = Release|Any CPU
++		{A5667C9B-5D29-4FB6-B548-D1317A2CEF90}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
++		{A5667C9B-5D29-4FB6-B548-D1317A2CEF90}.Debug|x64.ActiveCfg = Debug|Any CPU
++		{A5667C9B-5D29-4FB6-B548-D1317A2CEF90}.Debug|x86.ActiveCfg = Debug|Any CPU
++		{A5667C9B-5D29-4FB6-B548-D1317A2CEF90}.Release|Any CPU.ActiveCfg = Release|Any CPU
++		{A5667C9B-5D29-4FB6-B548-D1317A2CEF90}.Release|x64.ActiveCfg = Release|Any CPU
++		{A5667C9B-5D29-4FB6-B548-D1317A2CEF90}.Release|x86.ActiveCfg = Release|Any CPU
++	EndGlobalSection
++	GlobalSection(SolutionProperties) = preSolution
++		HideSolutionNode = FALSE
++	EndGlobalSection
++	GlobalSection(NestedProjects) = preSolution
++		{B29673A7-EBEA-41F4-9F22-D72B333042A2} = {CCEA1235-D75F-4919-83F6-16793B11BEF5}
++		{D3E99527-1FEC-4DC7-8083-85E7C338E287} = {CCEA1235-D75F-4919-83F6-16793B11BEF5}
++		{92C67E4C-8FDE-463B-BEB9-CB09970887DD} = {CCEA1235-D75F-4919-83F6-16793B11BEF5}
++		{12A721AA-8E7F-459A-A62D-F7372350E5F1} = {CCEA1235-D75F-4919-83F6-16793B11BEF5}
++		{E6D83259-6389-4768-B0A0-A649892DFE62} = {CCEA1235-D75F-4919-83F6-16793B11BEF5}
++		{B4B26375-BED5-4000-A38F-899FF1672B47} = {CCEA1235-D75F-4919-83F6-16793B11BEF5}
++		{04597E0B-375D-4E08-A16C-EE5FF3937B73} = {CCEA1235-D75F-4919-83F6-16793B11BEF5}
++	EndGlobalSection
++	GlobalSection(ExtensibilityGlobals) = postSolution
++		SolutionGuid = {DA4DD75D-B6C8-4836-AF84-B5FF538D9D86}
++	EndGlobalSection
++EndGlobal
+diff -Nur GtkSharp-3.22.25.98.orig/Source/Libs/AtkSharp/AtkSharp.csproj GtkSharp-3.22.25.98/Source/Libs/AtkSharp/AtkSharp.csproj
+--- GtkSharp-3.22.25.98.orig/Source/Libs/AtkSharp/AtkSharp.csproj	2020-05-29 09:44:49.000000000 +0200
++++ GtkSharp-3.22.25.98/Source/Libs/AtkSharp/AtkSharp.csproj	2020-07-02 16:22:17.683859529 +0200
+@@ -6,7 +6,7 @@
+     <PackageProjectUrl>https://github.com/GtkSharp/GtkSharp</PackageProjectUrl>
+     <RepositoryUrl>https://github.com/GtkSharp/GtkSharp</RepositoryUrl>
+     <Description>AtkSharp is a C# wrapper for the Atk library.</Description>
+-    <PackageTags>atk;atksharp;atk-sharp;wrapper</PackageTags>
++    <PackageTags>atk;atksharp;atk-sharp;wrapper</PackageTags><SignAssembly>true</SignAssembly><AssemblyOriginatorKeyFile>../../GtkSharp.snk</AssemblyOriginatorKeyFile>
+   </PropertyGroup>
+   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+     <OutputPath>..\..\..\BuildOutput\Debug</OutputPath>
+diff -Nur GtkSharp-3.22.25.98.orig/Source/Libs/CairoSharp/CairoSharp.csproj GtkSharp-3.22.25.98/Source/Libs/CairoSharp/CairoSharp.csproj
+--- GtkSharp-3.22.25.98.orig/Source/Libs/CairoSharp/CairoSharp.csproj	2020-05-29 09:44:49.000000000 +0200
++++ GtkSharp-3.22.25.98/Source/Libs/CairoSharp/CairoSharp.csproj	2020-07-02 16:22:17.683859529 +0200
+@@ -6,7 +6,7 @@
+     <PackageProjectUrl>https://github.com/GtkSharp/GtkSharp</PackageProjectUrl>
+     <RepositoryUrl>https://github.com/GtkSharp/GtkSharp</RepositoryUrl>
+     <Description>CairoSharp is a C# wrapper for the Cairo library.</Description>
+-    <PackageTags>cairo;cairosharp;cairo-sharp;wrapper</PackageTags>
++    <PackageTags>cairo;cairosharp;cairo-sharp;wrapper</PackageTags><SignAssembly>true</SignAssembly><AssemblyOriginatorKeyFile>../../GtkSharp.snk</AssemblyOriginatorKeyFile>
+   </PropertyGroup>
+   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+     <OutputPath>..\..\..\BuildOutput\Debug</OutputPath>
+diff -Nur GtkSharp-3.22.25.98.orig/Source/Libs/GdkSharp/GdkSharp.csproj GtkSharp-3.22.25.98/Source/Libs/GdkSharp/GdkSharp.csproj
+--- GtkSharp-3.22.25.98.orig/Source/Libs/GdkSharp/GdkSharp.csproj	2020-05-29 09:44:49.000000000 +0200
++++ GtkSharp-3.22.25.98/Source/Libs/GdkSharp/GdkSharp.csproj	2020-07-02 16:22:17.683859529 +0200
+@@ -6,7 +6,7 @@
+     <PackageProjectUrl>https://github.com/GtkSharp/GtkSharp</PackageProjectUrl>
+     <RepositoryUrl>https://github.com/GtkSharp/GtkSharp</RepositoryUrl>
+     <Description>GdkSharp is a C# wrapper for the Gdk library.</Description>
+-    <PackageTags>gdk;gdksharp;gdk-sharp;wrapper</PackageTags>
++    <PackageTags>gdk;gdksharp;gdk-sharp;wrapper</PackageTags><SignAssembly>true</SignAssembly><AssemblyOriginatorKeyFile>../../GtkSharp.snk</AssemblyOriginatorKeyFile>
+   </PropertyGroup>
+   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+     <OutputPath>..\..\..\BuildOutput\Debug</OutputPath>
+diff -Nur GtkSharp-3.22.25.98.orig/Source/Libs/GioSharp/GioSharp.csproj GtkSharp-3.22.25.98/Source/Libs/GioSharp/GioSharp.csproj
+--- GtkSharp-3.22.25.98.orig/Source/Libs/GioSharp/GioSharp.csproj	2020-05-29 09:44:49.000000000 +0200
++++ GtkSharp-3.22.25.98/Source/Libs/GioSharp/GioSharp.csproj	2020-07-02 16:22:17.684859507 +0200
+@@ -6,7 +6,7 @@
+     <PackageProjectUrl>https://github.com/GtkSharp/GtkSharp</PackageProjectUrl>
+     <RepositoryUrl>https://github.com/GtkSharp/GtkSharp</RepositoryUrl>
+     <Description>GioSharp is a C# wrapper for the Gio library.</Description>
+-    <PackageTags>gio;giosharp;gio-sharp;wrapper</PackageTags>
++    <PackageTags>gio;giosharp;gio-sharp;wrapper</PackageTags><SignAssembly>true</SignAssembly><AssemblyOriginatorKeyFile>../../GtkSharp.snk</AssemblyOriginatorKeyFile>
+   </PropertyGroup>
+   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+     <OutputPath>..\..\..\BuildOutput\Debug</OutputPath>
+diff -Nur GtkSharp-3.22.25.98.orig/Source/Libs/GLibSharp/GLibSharp.csproj GtkSharp-3.22.25.98/Source/Libs/GLibSharp/GLibSharp.csproj
+--- GtkSharp-3.22.25.98.orig/Source/Libs/GLibSharp/GLibSharp.csproj	2020-05-29 09:44:49.000000000 +0200
++++ GtkSharp-3.22.25.98/Source/Libs/GLibSharp/GLibSharp.csproj	2020-07-02 16:22:17.683859529 +0200
+@@ -6,7 +6,7 @@
+     <PackageProjectUrl>https://github.com/GtkSharp/GtkSharp</PackageProjectUrl>
+     <RepositoryUrl>https://github.com/GtkSharp/GtkSharp</RepositoryUrl>
+     <Description>GLibSharp is a C# wrapper for the GLib library.</Description>
+-    <PackageTags>glib;glibsharp;glib-sharp;wrapper</PackageTags>
++    <PackageTags>glib;glibsharp;glib-sharp;wrapper</PackageTags><SignAssembly>true</SignAssembly><AssemblyOriginatorKeyFile>../../GtkSharp.snk</AssemblyOriginatorKeyFile>
+   </PropertyGroup>
+   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+     <OutputPath>..\..\..\BuildOutput\Debug</OutputPath>
+diff -Nur GtkSharp-3.22.25.98.orig/Source/Libs/GtkSharp/GtkSharp.csproj GtkSharp-3.22.25.98/Source/Libs/GtkSharp/GtkSharp.csproj
+--- GtkSharp-3.22.25.98.orig/Source/Libs/GtkSharp/GtkSharp.csproj	2020-05-29 09:44:49.000000000 +0200
++++ GtkSharp-3.22.25.98/Source/Libs/GtkSharp/GtkSharp.csproj	2020-07-02 16:22:17.684859507 +0200
+@@ -8,7 +8,7 @@
+     <PackageProjectUrl>https://github.com/GtkSharp/GtkSharp</PackageProjectUrl>
+     <RepositoryUrl>https://github.com/GtkSharp/GtkSharp</RepositoryUrl>
+     <Description>GtkSharp is a C# wrapper for the Gtk library.</Description>
+-    <PackageTags>gtk;gtksharp;gtk-sharp;wrapper</PackageTags>
++    <PackageTags>gtk;gtksharp;gtk-sharp;wrapper</PackageTags><SignAssembly>true</SignAssembly><AssemblyOriginatorKeyFile>../../GtkSharp.snk</AssemblyOriginatorKeyFile>
+   </PropertyGroup>
+ 
+   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+diff -Nur GtkSharp-3.22.25.98.orig/Source/Libs/PangoSharp/PangoSharp.csproj GtkSharp-3.22.25.98/Source/Libs/PangoSharp/PangoSharp.csproj
+--- GtkSharp-3.22.25.98.orig/Source/Libs/PangoSharp/PangoSharp.csproj	2020-05-29 09:44:49.000000000 +0200
++++ GtkSharp-3.22.25.98/Source/Libs/PangoSharp/PangoSharp.csproj	2020-07-02 16:22:17.684859507 +0200
+@@ -6,7 +6,7 @@
+     <PackageProjectUrl>https://github.com/GtkSharp/GtkSharp</PackageProjectUrl>
+     <RepositoryUrl>https://github.com/GtkSharp/GtkSharp</RepositoryUrl>
+     <Description>PangoSharp is a C# wrapper for the Pango library.</Description>
+-    <PackageTags>pango;pangosharp;pango-sharp;wrapper</PackageTags>
++    <PackageTags>pango;pangosharp;pango-sharp;wrapper</PackageTags><SignAssembly>true</SignAssembly><AssemblyOriginatorKeyFile>../../GtkSharp.snk</AssemblyOriginatorKeyFile>
+   </PropertyGroup>
+   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+     <OutputPath>..\..\..\BuildOutput\Debug</OutputPath>
+diff -Nur GtkSharp-3.22.25.98.orig/Source/Tools/GapiCodegen/CallbackGen.cs GtkSharp-3.22.25.98/Source/Tools/GapiCodegen/CallbackGen.cs
+--- GtkSharp-3.22.25.98.orig/Source/Tools/GapiCodegen/CallbackGen.cs	2020-05-29 09:44:49.000000000 +0200
++++ GtkSharp-3.22.25.98/Source/Tools/GapiCodegen/CallbackGen.cs	2020-07-02 16:22:17.684859507 +0200
+@@ -208,7 +208,7 @@
+ 			sw.WriteLine ("\tusing System.Runtime.InteropServices;");
+ 			sw.WriteLine ();
+ 			sw.WriteLine ("#region Autogenerated code");
+-			//sw.WriteLine ("\t[UnmanagedFunctionPointer (CallingConvention.Cdecl)]");
++			sw.WriteLine ("\t[UnmanagedFunctionPointer (CallingConvention.Cdecl)]");
+ 			sw.WriteLine ("\tinternal delegate " + retval.MarshalType + " " + wrapper + "(" + parms.ImportSignature + ");");
+ 			sw.WriteLine ();
+ 			GenInvoker (gen_info, sw);
+diff -Nur GtkSharp-3.22.25.98.orig/Source/Tools/GapiCodegen/Ctor.cs GtkSharp-3.22.25.98/Source/Tools/GapiCodegen/Ctor.cs
+--- GtkSharp-3.22.25.98.orig/Source/Tools/GapiCodegen/Ctor.cs	2020-05-29 09:44:49.000000000 +0200
++++ GtkSharp-3.22.25.98/Source/Tools/GapiCodegen/Ctor.cs	2020-07-02 16:22:17.685859485 +0200
+@@ -65,8 +65,7 @@
+ 
+ 		void GenerateImport (StreamWriter sw)
+ 		{
+-            sw.WriteLine("\t\t[UnmanagedFunctionPointer (CallingConvention.Cdecl)]");
+-            sw.WriteLine("\t\tdelegate IntPtr d_{0}({1});", CName, Parameters.ImportSignature);
++			sw.WriteLine("\t\tdelegate IntPtr d_{0}({1});", CName, Parameters.ImportSignature);
+             sw.WriteLine("\t\tstatic d_{0} {0} = FuncLoader.LoadFunction<d_{0}>(FuncLoader.GetProcAddress(GLibrary.Load({1}), \"{0}\"));", CName, LibraryName);
+             sw.WriteLine();
+ 		}
+diff -Nur GtkSharp-3.22.25.98.orig/Source/Tools/GapiCodegen/EnumGen.cs GtkSharp-3.22.25.98/Source/Tools/GapiCodegen/EnumGen.cs
+--- GtkSharp-3.22.25.98.orig/Source/Tools/GapiCodegen/EnumGen.cs	2020-05-29 09:44:49.000000000 +0200
++++ GtkSharp-3.22.25.98/Source/Tools/GapiCodegen/EnumGen.cs	2020-07-02 16:22:17.685859485 +0200
+@@ -19,8 +19,6 @@
+ // Boston, MA 02111-1307, USA.
+ 
+ 
+-using System.Runtime.InteropServices;
+-
+ namespace GtkSharp.Generation {
+ 
+ 	using System;
+@@ -115,11 +113,11 @@
+ 				sw.WriteLine (member);
+ 
+ 			sw.WriteLine ("\t}");
++
+ 			if (Elem.HasAttribute ("gtype")) {
+ 				sw.WriteLine ();
+ 				sw.WriteLine ("\tinternal class " + Name + "GType {");
+                 var funcname = Elem.GetAttribute("gtype");
+-                sw.WriteLine ("\t\t[UnmanagedFunctionPointer (CallingConvention.Cdecl)]");
+                 sw.WriteLine ("\t\tdelegate IntPtr d_" + funcname + "();");
+ 				sw.WriteLine ("\t\tstatic d_" + funcname + " " + funcname + " = FuncLoader.LoadFunction<d_" + funcname + ">(FuncLoader.GetProcAddress(GLibrary.Load(" + LibraryName + "), \"" + funcname + "\"));");
+ 				sw.WriteLine ();
+diff -Nur GtkSharp-3.22.25.98.orig/Source/Tools/GapiCodegen/Method.cs GtkSharp-3.22.25.98/Source/Tools/GapiCodegen/Method.cs
+--- GtkSharp-3.22.25.98.orig/Source/Tools/GapiCodegen/Method.cs	2020-05-29 09:44:49.000000000 +0200
++++ GtkSharp-3.22.25.98/Source/Tools/GapiCodegen/Method.cs	2020-07-02 16:22:17.685859485 +0200
+@@ -192,9 +192,7 @@
+ 			import_sig += !IsStatic && Parameters.Count > 0 ? ", " : "";
+ 			import_sig += Parameters.ImportSignature.ToString();
+ 
+-            sw.WriteLine("\t\t[UnmanagedFunctionPointer (CallingConvention.Cdecl)]");
+-
+-            if (retval.MarshalType.StartsWith("[return:"))
++			if (retval.MarshalType.StartsWith("[return:"))
+ 				sw.WriteLine("\t\tdelegate " + retval.CSType + " d_" + CName + "(" + import_sig + ");");
+ 			else
+                 sw.WriteLine("\t\tdelegate " + retval.MarshalType + " d_" + CName + "(" + import_sig + ");");
+diff -Nur GtkSharp-3.22.25.98.orig/Source/Tools/Tools.sln GtkSharp-3.22.25.98/Source/Tools/Tools.sln
+--- GtkSharp-3.22.25.98.orig/Source/Tools/Tools.sln	2020-05-29 09:44:49.000000000 +0200
++++ GtkSharp-3.22.25.98/Source/Tools/Tools.sln	2020-07-02 16:22:17.685859485 +0200
+@@ -1,50 +1,48 @@
+-Microsoft Visual Studio Solution File, Format Version 12.00
+-# Visual Studio Version 16
+-VisualStudioVersion = 16.0.29306.81
+-MinimumVisualStudioVersion = 15.0.26124.0
+-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GapiCodegen", "GapiCodegen\GapiCodegen.csproj", "{2CA6614A-F064-4136-ABDE-2DFB37E0F12B}"
+-EndProject
+-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GapiFixup", "GapiFixup\GapiFixup.csproj", "{DC7A0B5F-448F-4978-849B-3038D9B9C285}"
+-EndProject
+-Global
+-	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+-		Debug|Any CPU = Debug|Any CPU
+-		Debug|x64 = Debug|x64
+-		Debug|x86 = Debug|x86
+-		Release|Any CPU = Release|Any CPU
+-		Release|x64 = Release|x64
+-		Release|x86 = Release|x86
+-	EndGlobalSection
+-	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+-		{2CA6614A-F064-4136-ABDE-2DFB37E0F12B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+-		{2CA6614A-F064-4136-ABDE-2DFB37E0F12B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+-		{2CA6614A-F064-4136-ABDE-2DFB37E0F12B}.Debug|x64.ActiveCfg = Debug|Any CPU
+-		{2CA6614A-F064-4136-ABDE-2DFB37E0F12B}.Debug|x64.Build.0 = Debug|Any CPU
+-		{2CA6614A-F064-4136-ABDE-2DFB37E0F12B}.Debug|x86.ActiveCfg = Debug|Any CPU
+-		{2CA6614A-F064-4136-ABDE-2DFB37E0F12B}.Debug|x86.Build.0 = Debug|Any CPU
+-		{2CA6614A-F064-4136-ABDE-2DFB37E0F12B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+-		{2CA6614A-F064-4136-ABDE-2DFB37E0F12B}.Release|Any CPU.Build.0 = Release|Any CPU
+-		{2CA6614A-F064-4136-ABDE-2DFB37E0F12B}.Release|x64.ActiveCfg = Release|Any CPU
+-		{2CA6614A-F064-4136-ABDE-2DFB37E0F12B}.Release|x64.Build.0 = Release|Any CPU
+-		{2CA6614A-F064-4136-ABDE-2DFB37E0F12B}.Release|x86.ActiveCfg = Release|Any CPU
+-		{2CA6614A-F064-4136-ABDE-2DFB37E0F12B}.Release|x86.Build.0 = Release|Any CPU
+-		{DC7A0B5F-448F-4978-849B-3038D9B9C285}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+-		{DC7A0B5F-448F-4978-849B-3038D9B9C285}.Debug|Any CPU.Build.0 = Debug|Any CPU
+-		{DC7A0B5F-448F-4978-849B-3038D9B9C285}.Debug|x64.ActiveCfg = Debug|Any CPU
+-		{DC7A0B5F-448F-4978-849B-3038D9B9C285}.Debug|x64.Build.0 = Debug|Any CPU
+-		{DC7A0B5F-448F-4978-849B-3038D9B9C285}.Debug|x86.ActiveCfg = Debug|Any CPU
+-		{DC7A0B5F-448F-4978-849B-3038D9B9C285}.Debug|x86.Build.0 = Debug|Any CPU
+-		{DC7A0B5F-448F-4978-849B-3038D9B9C285}.Release|Any CPU.ActiveCfg = Release|Any CPU
+-		{DC7A0B5F-448F-4978-849B-3038D9B9C285}.Release|Any CPU.Build.0 = Release|Any CPU
+-		{DC7A0B5F-448F-4978-849B-3038D9B9C285}.Release|x64.ActiveCfg = Release|Any CPU
+-		{DC7A0B5F-448F-4978-849B-3038D9B9C285}.Release|x64.Build.0 = Release|Any CPU
+-		{DC7A0B5F-448F-4978-849B-3038D9B9C285}.Release|x86.ActiveCfg = Release|Any CPU
+-		{DC7A0B5F-448F-4978-849B-3038D9B9C285}.Release|x86.Build.0 = Release|Any CPU
+-	EndGlobalSection
+-	GlobalSection(SolutionProperties) = preSolution
+-		HideSolutionNode = FALSE
+-	EndGlobalSection
+-	GlobalSection(ExtensibilityGlobals) = postSolution
+-		SolutionGuid = {35C3162B-E475-42D4-8ACE-5A81617CDDA9}
+-	EndGlobalSection
+-EndGlobal
++
++Microsoft Visual Studio Solution File, Format Version 12.00
++# Visual Studio 15
++VisualStudioVersion = 15.0.26124.0
++MinimumVisualStudioVersion = 15.0.26124.0
++Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GapiCodegen", "GapiCodegen\GapiCodegen.csproj", "{2CA6614A-F064-4136-ABDE-2DFB37E0F12B}"
++EndProject
++Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GapiFixup", "GapiFixup\GapiFixup.csproj", "{DC7A0B5F-448F-4978-849B-3038D9B9C285}"
++EndProject
++Global
++	GlobalSection(SolutionConfigurationPlatforms) = preSolution
++		Debug|Any CPU = Debug|Any CPU
++		Debug|x64 = Debug|x64
++		Debug|x86 = Debug|x86
++		Release|Any CPU = Release|Any CPU
++		Release|x64 = Release|x64
++		Release|x86 = Release|x86
++	EndGlobalSection
++	GlobalSection(SolutionProperties) = preSolution
++		HideSolutionNode = FALSE
++	EndGlobalSection
++	GlobalSection(ProjectConfigurationPlatforms) = postSolution
++		{2CA6614A-F064-4136-ABDE-2DFB37E0F12B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
++		{2CA6614A-F064-4136-ABDE-2DFB37E0F12B}.Debug|Any CPU.Build.0 = Debug|Any CPU
++		{2CA6614A-F064-4136-ABDE-2DFB37E0F12B}.Debug|x64.ActiveCfg = Debug|x64
++		{2CA6614A-F064-4136-ABDE-2DFB37E0F12B}.Debug|x64.Build.0 = Debug|x64
++		{2CA6614A-F064-4136-ABDE-2DFB37E0F12B}.Debug|x86.ActiveCfg = Debug|x86
++		{2CA6614A-F064-4136-ABDE-2DFB37E0F12B}.Debug|x86.Build.0 = Debug|x86
++		{2CA6614A-F064-4136-ABDE-2DFB37E0F12B}.Release|Any CPU.ActiveCfg = Release|Any CPU
++		{2CA6614A-F064-4136-ABDE-2DFB37E0F12B}.Release|Any CPU.Build.0 = Release|Any CPU
++		{2CA6614A-F064-4136-ABDE-2DFB37E0F12B}.Release|x64.ActiveCfg = Release|x64
++		{2CA6614A-F064-4136-ABDE-2DFB37E0F12B}.Release|x64.Build.0 = Release|x64
++		{2CA6614A-F064-4136-ABDE-2DFB37E0F12B}.Release|x86.ActiveCfg = Release|x86
++		{2CA6614A-F064-4136-ABDE-2DFB37E0F12B}.Release|x86.Build.0 = Release|x86
++		{DC7A0B5F-448F-4978-849B-3038D9B9C285}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
++		{DC7A0B5F-448F-4978-849B-3038D9B9C285}.Debug|Any CPU.Build.0 = Debug|Any CPU
++		{DC7A0B5F-448F-4978-849B-3038D9B9C285}.Debug|x64.ActiveCfg = Debug|x64
++		{DC7A0B5F-448F-4978-849B-3038D9B9C285}.Debug|x64.Build.0 = Debug|x64
++		{DC7A0B5F-448F-4978-849B-3038D9B9C285}.Debug|x86.ActiveCfg = Debug|x86
++		{DC7A0B5F-448F-4978-849B-3038D9B9C285}.Debug|x86.Build.0 = Debug|x86
++		{DC7A0B5F-448F-4978-849B-3038D9B9C285}.Release|Any CPU.ActiveCfg = Release|Any CPU
++		{DC7A0B5F-448F-4978-849B-3038D9B9C285}.Release|Any CPU.Build.0 = Release|Any CPU
++		{DC7A0B5F-448F-4978-849B-3038D9B9C285}.Release|x64.ActiveCfg = Release|x64
++		{DC7A0B5F-448F-4978-849B-3038D9B9C285}.Release|x64.Build.0 = Release|x64
++		{DC7A0B5F-448F-4978-849B-3038D9B9C285}.Release|x86.ActiveCfg = Release|x86
++		{DC7A0B5F-448F-4978-849B-3038D9B9C285}.Release|x86.Build.0 = Release|x86
++	EndGlobalSection
++EndGlobal
