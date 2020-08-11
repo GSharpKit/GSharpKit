@@ -55,4 +55,5 @@ notarize: make-pkg-notarize.sh.in GSharpKit-${VERSION}-x64.pkg
 	sh make-pkg-notarize.sh
 
 clean:
-	rm *.msi
+	-rm -f *.msi
+	-rm -f *.pkg

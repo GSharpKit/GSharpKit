@@ -3,7 +3,7 @@
 %define libdir /lib
 
 Name:           darwinx-MimeKit
-Version:        2.8.0
+Version:        2.9.1
 Release:        1%{?dist}
 Summary:        MimeKit is an Open Source library for creating and parsing MIME, S/MIME and PGP messages
 Group:          Development/Languages
@@ -45,7 +45,7 @@ EOF
 %{__rm} -rf %{buildroot}
 
 install -d -m 755 $RPM_BUILD_ROOT%{_darwinx_prefix}%{libdir}
-install -m 644 MimeKit.%{version}/lib/net45/MimeKit.dll $RPM_BUILD_ROOT%{_darwinx_prefix}%{libdir}
+install -m 644 MimeKit.%{version}/lib/net47/MimeKit.dll $RPM_BUILD_ROOT%{_darwinx_prefix}%{libdir}
 
 install -d -m 755 $RPM_BUILD_ROOT%{_darwinx_datadir}/pkgconfig/
 install -m 644 MimeKit.pc $RPM_BUILD_ROOT%{_darwinx_datadir}/pkgconfig/MimeKit.pc

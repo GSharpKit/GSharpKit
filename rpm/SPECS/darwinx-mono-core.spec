@@ -1,9 +1,9 @@
 %global debug_package %{nil}
 
-%define ver 6.8.0
+%define ver 6.10.0
 
 Name:           darwinx-mono-core
-Version:        %{ver}.123
+Version:        %{ver}.104
 Release:        1%{?dist}
 Summary:        A .NET runtime environment
 
@@ -89,10 +89,6 @@ install -p -m0644 %{SOURCE2} %{buildroot}%{_darwinx_sysconfdir}/pki/mono/
 %{__rm} -rf %{buildroot}%{monodir}/gac/Mono.Security.Win32
 %{__rm} -rf %{buildroot}%{monodir}/4.0/Mono.Security.Win32.dll
 %{__rm} -rf %{buildroot}%{monodir}/4.5/Mono.Security.Win32.dll
-%{__rm} %{buildroot}%{_darwinx_datadir}/libgc-mono/README*
-%{__rm} %{buildroot}%{_darwinx_datadir}/libgc-mono/barrett_diagram
-%{__rm} %{buildroot}%{_darwinx_datadir}/libgc-mono/*.html
-%{__rm} %{buildroot}%{_darwinx_datadir}/libgc-mono/gc.man
 %{__rm} -f %{buildroot}%{monodir}/4.5/mcs.exe.so
 %{__rm} -rf %{buildroot}%{monodir}/xbuild/Microsoft
 %{__rm} -f %{buildroot}%{monodir}/4.0/mscorlib.dll.dylib

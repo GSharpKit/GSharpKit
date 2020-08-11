@@ -8,7 +8,7 @@
 %define libdir /lib
 
 Name:           darwinx-Npgsql
-Version:        4.1.3.1
+Version:        4.1.4
 Release:        1%{?dist}
 Summary:        Postgresql database connectivity for C#
 Group:          Development/Languages
@@ -53,7 +53,7 @@ install -m 644 System.Threading.Tasks.Extensions.4.5.3/lib/netstandard2.0/System
 install -m 644 System.Text.Json.4.6.0/lib/netstandard2.0/System.Text.Json.dll $RPM_BUILD_ROOT%{_darwinx_prefix}%{libdir}
 install -m 644 System.Buffers.4.5.0/lib/netstandard2.0/System.Buffers.dll $RPM_BUILD_ROOT%{_darwinx_prefix}%{libdir}/
 install -m 644 System.Memory.4.5.3/lib/netstandard2.0/System.Memory.dll $RPM_BUILD_ROOT%{_darwinx_prefix}%{libdir}/
-install -m 644 Microsoft.Bcl.AsyncInterfaces.1.0.0/lib/netstandard2.0/Microsoft.Bcl.AsyncInterfaces.dll $RPM_BUILD_ROOT%{_darwinx_prefix}%{libdir}/
+install -m 644 Microsoft.Bcl.AsyncInterfaces.1.1.0/lib/netstandard2.0/Microsoft.Bcl.AsyncInterfaces.dll $RPM_BUILD_ROOT%{_darwinx_prefix}%{libdir}/
 install -m 644 System.Text.Encodings.Web.4.6.0/lib/netstandard2.0/System.Text.Encodings.Web.dll $RPM_BUILD_ROOT%{_darwinx_prefix}%{libdir}/
 install -m 644 System.Runtime.CompilerServices.Unsafe.4.6.0/lib/netstandard2.0/System.Runtime.CompilerServices.Unsafe.dll $RPM_BUILD_ROOT%{_darwinx_prefix}%{libdir}/
 install -m 644 System.Numerics.Vectors.4.5.0/lib/netstandard2.0/System.Numerics.Vectors.dll $RPM_BUILD_ROOT%{_darwinx_prefix}%{libdir}/
