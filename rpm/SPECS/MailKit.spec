@@ -3,7 +3,7 @@
 %define libdir /lib
 
 Name:           MailKit
-Version:        2.7.0
+Version:        2.8.0
 Release:        1%{?dist}
 Summary:        MailKit is an Open Source cross-platform .NET mail-client library.
 
@@ -16,7 +16,6 @@ BuildArch:	noarch
 
 BuildRequires:  nuget
 
-Requires:	BouncyCastle >= 1.8.6
 Requires:	MimeKit >= %{version}
 
 %description
@@ -55,7 +54,7 @@ EOF
 %{__rm} -rf %{buildroot}
 
 install -d -m 755 $RPM_BUILD_ROOT%{_prefix}%{libdir}/mono/gac
-gacutil -i MailKit.%{version}/lib/net45/MailKit.dll -package %{name} -root $RPM_BUILD_ROOT%{_prefix}%{libdir} -gacdir mono/gac
+gacutil -i MailKit.%{version}/lib/net47/MailKit.dll -package %{name} -root $RPM_BUILD_ROOT%{_prefix}%{libdir} -gacdir mono/gac
 
 install -d -m 755 $RPM_BUILD_ROOT%{_datadir}/pkgconfig/
 install -m 644 %{name}.pc $RPM_BUILD_ROOT%{_datadir}/pkgconfig/

@@ -11,7 +11,7 @@
 %define libdir /bin
 
 Name:           mingw-BouncyCastle
-Version:        1.8.6.7
+Version:        1.8.5
 Release:        1%{?dist}
 Summary:        BouncyCastle is a Crypto library written in C#
 

@@ -8,7 +8,7 @@
 %define libdir /lib
 
 Name:           Npgsql
-Version:        4.1.3.1
+Version:        4.1.4
 Release:        1%{?dist}
 Summary:        Postgresql database connectivity for C#
 
@@ -63,7 +63,7 @@ gacutil -i System.Threading.Tasks.Extensions.4.5.3/lib/netstandard2.0/System.Thr
 gacutil -i System.Text.Json.4.6.0/lib/netstandard2.0/System.Text.Json.dll -package System.Text.Json -root $RPM_BUILD_ROOT%{_prefix}%{libdir} -gacdir mono/gac
 gacutil -i System.Buffers.4.5.0/lib/netstandard2.0/System.Buffers.dll -package System.Buffers -root $RPM_BUILD_ROOT%{_prefix}%{libdir} -gacdir mono/gac
 gacutil -i System.Memory.4.5.3/lib/netstandard2.0/System.Memory.dll -package System.Memory -root $RPM_BUILD_ROOT%{_prefix}%{libdir} -gacdir mono/gac
-gacutil -i Microsoft.Bcl.AsyncInterfaces.1.0.0/lib/netstandard2.0/Microsoft.Bcl.AsyncInterfaces.dll -package Microsoft.Bcl.AsyncInterfaces -root $RPM_BUILD_ROOT%{_prefix}%{libdir} -gacdir mono/gac
+gacutil -i Microsoft.Bcl.AsyncInterfaces.1.1.0/lib/netstandard2.0/Microsoft.Bcl.AsyncInterfaces.dll -package Microsoft.Bcl.AsyncInterfaces -root $RPM_BUILD_ROOT%{_prefix}%{libdir} -gacdir mono/gac
 gacutil -i System.Text.Encodings.Web.4.6.0/lib/netstandard2.0/System.Text.Encodings.Web.dll -package System.Text.Encodings.Web -root $RPM_BUILD_ROOT%{_prefix}%{libdir} -gacdir mono/gac
 
 install -d -m 755 $RPM_BUILD_ROOT%{_prefix}%{libdir}

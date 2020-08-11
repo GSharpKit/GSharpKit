@@ -3,7 +3,7 @@
 %define libdir /lib
 
 Name:           MimeKit
-Version:        2.8.0
+Version:        2.9.1
 Release:        1%{?dist}
 Summary:        MimeKit is an Open Source library for creating and parsing MIME, S/MIME and PGP messages.
 
@@ -16,7 +16,7 @@ BuildArch:	noarch
 
 BuildRequires:  nuget
 
-Requires:	BouncyCastle >= 1.8.6
+Requires:	BouncyCastle >= 1.8.5
 
 Provides:       mono(System.Text.Encoding.CodePages)
 
@@ -48,7 +48,7 @@ EOF
 %{__rm} -rf %{buildroot}
 
 install -d -m 755 $RPM_BUILD_ROOT%{_prefix}%{libdir}/mono/gac
-gacutil -i MimeKit.%{version}/lib/net45/MimeKit.dll -package %{name} -root $RPM_BUILD_ROOT%{_prefix}%{libdir} -gacdir mono/gac
+gacutil -i MimeKit.%{version}/lib/net47/MimeKit.dll -package %{name} -root $RPM_BUILD_ROOT%{_prefix}%{libdir} -gacdir mono/gac
 
 install -d -m 755 $RPM_BUILD_ROOT%{_datadir}/pkgconfig/
 install -m 644 %{name}.pc $RPM_BUILD_ROOT%{_datadir}/pkgconfig/

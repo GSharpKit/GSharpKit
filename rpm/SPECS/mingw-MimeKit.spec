@@ -11,7 +11,7 @@
 %define libdir /bin
 
 Name:           mingw-MimeKit
-Version:        2.8.0
+Version:        2.9.1
 Release:        1%{?dist}
 Summary:        MimeKit is an Open Source library for creating and parsing MIME, S/MIME and PGP messages.
 
@@ -89,14 +89,14 @@ EOF
 
 # Mingw32
 install -d -m 755 $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir}
-install -m 644 MimeKit.%{version}/lib/net45/MimeKit.dll $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir}
+install -m 644 MimeKit.%{version}/lib/net47/MimeKit.dll $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir}
 
 install -d -m 755 $RPM_BUILD_ROOT%{mingw32_datadir}/pkgconfig/
 install -m 644 MimeKit32.pc $RPM_BUILD_ROOT%{mingw32_datadir}/pkgconfig/MimeKit.pc
 
 # Mingw64
 install -d -m 755 $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir}
-install -m 644 MimeKit.%{version}/lib/net45/MimeKit.dll $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir}
+install -m 644 MimeKit.%{version}/lib/net47/MimeKit.dll $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir}
 
 install -d -m 755 $RPM_BUILD_ROOT%{mingw64_datadir}/pkgconfig/
 install -m 644 MimeKit64.pc $RPM_BUILD_ROOT%{mingw64_datadir}/pkgconfig/MimeKit.pc

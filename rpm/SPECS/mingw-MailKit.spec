@@ -11,7 +11,7 @@
 %define libdir /bin
 
 Name:           mingw-MailKit
-Version:        2.7.0
+Version:        2.8.0
 Release:        1%{?dist}
 Summary:        MailKit is an Open Source cross-platform .NET mail-client library.
 
@@ -40,7 +40,6 @@ BuildRequires:  nuget
 # Mingw32
 %package -n mingw32-%{mingw_pkg_name}
 Summary:       %{summary}
-Requires:       mingw32-BouncyCastle
 Requires:       mingw32-MimeKit
 
 %description -n mingw32-%{mingw_pkg_name}
@@ -56,7 +55,6 @@ Requires:       mingw32-MimeKit
 # Mingw64
 %package -n mingw64-%{mingw_pkg_name}
 Summary:       %{summary}
-Requires:       mingw64-BouncyCastle
 Requires:       mingw64-MimeKit
 
 %description -n mingw64-%{mingw_pkg_name}
@@ -107,14 +105,14 @@ EOF
 
 # Mingw32
 install -d -m 755 $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir}
-install -m 644 MailKit.%{version}/lib/net45/MailKit.dll $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir}
+install -m 644 MailKit.%{version}/lib/net47/MailKit.dll $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir}
 
 install -d -m 755 $RPM_BUILD_ROOT%{mingw32_datadir}/pkgconfig/
 install -m 644 MailKit32.pc $RPM_BUILD_ROOT%{mingw32_datadir}/pkgconfig/MailKit.pc
 
 # Mingw64
 install -d -m 755 $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir}
-install -m 644 MailKit.%{version}/lib/net45/MailKit.dll $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir}
+install -m 644 MailKit.%{version}/lib/net47/MailKit.dll $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir}
 
 install -d -m 755 $RPM_BUILD_ROOT%{mingw64_datadir}/pkgconfig/
 install -m 644 MailKit64.pc $RPM_BUILD_ROOT%{mingw64_datadir}/pkgconfig/MailKit.pc

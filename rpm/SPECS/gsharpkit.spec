@@ -75,7 +75,7 @@
 #define SANE_BACKENDS_VERSION 1.0.27
 #define TWAIN_DSM_VERSION 2.3.1
 
-%define MONO_CORE_VERSION 6.8.0.123
+%define MONO_CORE_VERSION 6.10.0.104
 %define MONO_DATA_SQLITE_VERSION 1.0.61
 %define MONO_POSIX_NETSTANDARD_VERSION 1.0.0
 %define DBUS_SHARP_VERSION 2:0.9.2
@@ -87,12 +87,12 @@
 %define GTK_MAC_INTEGRATION_SHARP_VERSION 2.0.7
 
 %define MICROSOFT_CSHARP_VERSION 4.5.0
-%define NPGSQL_VERSION 4.1.3.1
+%define NPGSQL_VERSION 4.1.4
 %define MONO_ADDINS_VERSION 1.3.8
 %define NEWTONSOFT_JSON_VERSION 12.0.3
-%define BOUNCY_CASTLE_VERSION 1.8.6
-%define MIMEKIT_VERSION 2.8.0
-%define MAILKIT_VERSION 2.7.0
+%define BOUNCY_CASTLE_VERSION 1.8.5
+%define MIMEKIT_VERSION 2.9.1
+%define MAILKIT_VERSION 2.8.0
 %define SERVICE_STACK_VERSION 5.9.0
 %define REST_SHARP_VERSION 106.11.4
 %define SEALAPI_VERSION 4.1.0
@@ -104,7 +104,7 @@
 
 Summary: 		Easy management of applications
 Name: 			GSharpKit
-Version:		32.2
+Version:		32.3
 Release:		1%{?dist}
 License:		GPL
 Group: 			Applications/Desktop
