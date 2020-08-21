@@ -16,6 +16,7 @@ mkdir -p $TMPDIR/tmp/usr/i686-w64-mingw32/sys-root/mingw
 sh make-msi-install.sh /usr/i686-w64-mingw32/sys-root/mingw $TMP/usr/i686-w64-mingw32/sys-root/mingw x86
 
 mv $TMP/usr/i686-w64-mingw32/sys-root/mingw $DIR
+sed -i -e 's!<\!--<auth>EXTERNAL</auth>-->!<auth>EXTERNAL</auth>!g' $DIR/share/dbus-1/session.conf
 
 pushd $TMPDIR
 python createmsi.py GSharpKit.json
