@@ -1,0 +1,12 @@
+diff -Nur webkitgtk-2.4.11.orig/Source/WTF/wtf/gobject/GlibUtilities.cpp webkitgtk-2.4.11.uchar/Source/WTF/wtf/gobject/GlibUtilities.cpp
+--- webkitgtk-2.4.11.orig/Source/WTF/wtf/gobject/GlibUtilities.cpp	2016-04-10 08:48:36.000000000 +0200
++++ webkitgtk-2.4.11.uchar/Source/WTF/wtf/gobject/GlibUtilities.cpp	2020-06-02 22:11:50.004773195 +0200
+@@ -59,7 +59,7 @@
+     if (!length || (length == MAX_PATH && GetLastError() == ERROR_INSUFFICIENT_BUFFER))
+         return CString();
+ 
+-    String path(buffer, length);
++    String path(reinterpret_cast<const UChar*>(buffer), length);
+     return path.utf8();
+ }
+ #endif
