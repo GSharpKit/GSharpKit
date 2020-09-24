@@ -9,7 +9,7 @@
 %define enable_autoreconf 0
 
 Name:           mingw-gtk3
-Version:        3.24.20
+Version:        3.24.23
 Release:        1%{?dist}
 Summary:        MinGW Windows GTK+ library
 
