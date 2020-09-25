@@ -1,9 +1,9 @@
 %global debug_package %{nil}
 
-%define ver 6.10.0
+%define ver 6.12.0
 
 Name:           darwinx-mono-core
-Version:        %{ver}.104
+Version:        %{ver}.90
 Release:        1%{?dist}
 Summary:        A .NET runtime environment
 
@@ -55,7 +55,7 @@ metadata access libraries.
 
 %prep
 %setup -q -n mono-%{version}
-%patch0 -p1
+#patch0 -p1
 
 %build
 gcc -o monodir %{SOURCE1} -DMONODIR=\"%{_darwinx_prefix}/lib/mono\"
