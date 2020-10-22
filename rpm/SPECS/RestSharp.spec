@@ -1,3 +1,5 @@
+%define _binary_payload w2.xzdio
+
 %define debug_package %{nil}
 
 %define platform net45

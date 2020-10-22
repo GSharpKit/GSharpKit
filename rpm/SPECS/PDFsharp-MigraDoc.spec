@@ -1,3 +1,5 @@
+%define _binary_payload w2.xzdio
+
 %global debug_package %{nil}
 
 %define libdir /lib

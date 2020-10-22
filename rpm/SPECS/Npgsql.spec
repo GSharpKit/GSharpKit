@@ -3,6 +3,8 @@
 #sudo certmgr -ssl -m https://nugetgallery.blob.core.windows.net
 #sudo certmgr -ssl -m https://nuget.org
 
+%define _binary_payload w2.xzdio
+
 %global debug_package %{nil}
 
 %define libdir /lib
