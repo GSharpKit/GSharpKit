@@ -1,11 +1,12 @@
 Name:           darwinx-cairo
 Version:        1.16.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Darwin Cairo library
 
 License:        LGPLv2 or MPLv1.1
 URL:            http://cairographics.org
 Source0:        http://cairographics.org/releases/cairo-%{version}.tar.xz
+Patch0:		cairo-surface.patch
 Group:          Development/Libraries
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
@@ -40,6 +41,7 @@ Static version of the Darwin Cairo library.
 
 %prep
 %setup -q -n cairo-%{version}
+%patch0 -p1
 
 
 %build
