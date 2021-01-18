@@ -87,7 +87,7 @@
 %define GTK_MAC_INTEGRATION_SHARP_VERSION 2.0.7
 
 %define MICROSOFT_CSHARP_VERSION 4.5.0
-%define NPGSQL_VERSION 4.1.4
+%define NPGSQL_VERSION 4.1.7
 %define MONO_ADDINS_VERSION 1.3.8
 %define NEWTONSOFT_JSON_VERSION 12.0.3
 %define BOUNCY_CASTLE_VERSION 1.8.5
@@ -104,7 +104,7 @@
 
 Summary: 		Easy management of applications
 Name: 			GSharpKit
-Version:		32.4
+Version:		32.5
 Release:		1%{?dist}
 License:		GPL
 Group: 			Applications/Desktop
@@ -498,6 +498,7 @@ BuildArch:              noarch
 Obsoletes:              appbox-sdk-mingw-devel
 Provides:               appbox-sdk-mingw-devel
 
+Requires:		GSharpKit-sdk-mingw
 Requires:               GSharpKit-sdk-mingw32-devel
 Requires:               GSharpKit-sdk-mingw64-devel
 
@@ -513,10 +514,10 @@ BuildArch:              noarch
 Obsoletes:              appbox-mingw32-devel
 Provides:               appbox-mingw32-devel
 
-
 Requires:               GSharpKit-sdk-mingw32
 
 Requires:		redhat-rpm-config rpm-build
+Requires:		mingw-w64-tools
 Requires:		msitools
 Requires:		osslsigncode
 Requires:		hunspell-da
@@ -546,6 +547,7 @@ Provides:               appbox-sdk-mingw64-devel
 Requires:		GSharpKit-sdk-mingw64
 
 Requires:               redhat-rpm-config rpm-build
+Requires:		mingw-w64-tools
 Requires:		msitools
 Requires:		osslsigncode
 Requires:		hunspell-da

@@ -10,7 +10,7 @@
 %define libdir /lib
 
 Name:           Npgsql
-Version:        4.1.4
+Version:        4.1.7
 Release:        1%{?dist}
 Summary:        Postgresql database connectivity for C#
 
@@ -21,18 +21,9 @@ Prefix:		/usr
 
 BuildArch:	noarch
 
-BuildRequires:  mono-devel
 BuildRequires:  nuget
 
-Requires:	mono-core >= 6.8.0
-Requires:	mono-data >= 6.8.0
-
-Obsoletes:	mono-data-postgresql
-Obsoletes:	mono-data-npgsql
-
-Provides:	mono-data-postgresql
-Provides:	mono-data-npgsql
-Provides:	mono(System.Threading.Tasks.Extensions) = 4.2.0.0
+#Provides:	mono(System.Threading.Tasks.Extensions) = 4.2.0.0
 
 %description
 This package contains the ADO.NET Data provider for the PostgreSQL
@@ -51,7 +42,7 @@ Name: Npgsql
 Description: Npgsql - Postgresql database connectivity for C#
 Requires:
 Version: %{version}
-Libs: -r:${libdir}/mono/System.Threading.Tasks.Extensions/System.Threading.Tasks.Extensions.dll -r:${libdir}/System.Runtime.CompilerServices.Unsafe.dll -r:${libdir}/mono/System.Buffers/System.Buffers.dll -r:${libdir}/mono/System.Memory/System.Memory.dll -r:${libdir}/System.Numerics.Vectors.dll -r:${libdir}/mono/Npgsql/Npgsql.dll
+Libs: -r:${libdir}/System.Threading.Tasks.Extensions.dll -r:${libdir}/System.Runtime.CompilerServices.Unsafe.dll -r:${libdir}/System.Buffers.dll -r:${libdir}/System.Memory.dll -r:${libdir}/System.Numerics.Vectors.dll -r:${libdir}/Npgsql.dll -r:${libdir}/Microsoft.Bcl.AsyncInterfaces.dll
 Cflags:
 EOF
 
@@ -60,15 +51,16 @@ EOF
 %install
 %{__rm} -rf %{buildroot}
 
-gacutil -i Npgsql.%{version}/lib/netstandard2.0/Npgsql.dll -package Npgsql -root $RPM_BUILD_ROOT%{_prefix}%{libdir} -gacdir mono/gac
-gacutil -i System.Threading.Tasks.Extensions.4.5.3/lib/netstandard2.0/System.Threading.Tasks.Extensions.dll -package System.Threading.Tasks.Extensions -root $RPM_BUILD_ROOT%{_prefix}%{libdir} -gacdir mono/gac
-gacutil -i System.Text.Json.4.6.0/lib/netstandard2.0/System.Text.Json.dll -package System.Text.Json -root $RPM_BUILD_ROOT%{_prefix}%{libdir} -gacdir mono/gac
-gacutil -i System.Buffers.4.5.0/lib/netstandard2.0/System.Buffers.dll -package System.Buffers -root $RPM_BUILD_ROOT%{_prefix}%{libdir} -gacdir mono/gac
-gacutil -i System.Memory.4.5.3/lib/netstandard2.0/System.Memory.dll -package System.Memory -root $RPM_BUILD_ROOT%{_prefix}%{libdir} -gacdir mono/gac
-gacutil -i Microsoft.Bcl.AsyncInterfaces.1.1.0/lib/netstandard2.0/Microsoft.Bcl.AsyncInterfaces.dll -package Microsoft.Bcl.AsyncInterfaces -root $RPM_BUILD_ROOT%{_prefix}%{libdir} -gacdir mono/gac
-gacutil -i System.Text.Encodings.Web.4.6.0/lib/netstandard2.0/System.Text.Encodings.Web.dll -package System.Text.Encodings.Web -root $RPM_BUILD_ROOT%{_prefix}%{libdir} -gacdir mono/gac
-
 install -d -m 755 $RPM_BUILD_ROOT%{_prefix}%{libdir}
+
+install -m 644 Npgsql.%{version}/lib/netstandard2.0/Npgsql.dll $RPM_BUILD_ROOT%{_prefix}%{libdir}/
+install -m 644 System.Threading.Tasks.Extensions.4.5.3/lib/netstandard2.0/System.Threading.Tasks.Extensions.dll $RPM_BUILD_ROOT%{_prefix}%{libdir}/
+install -m 644 System.Text.Json.4.6.0/lib/netstandard2.0/System.Text.Json.dll $RPM_BUILD_ROOT%{_prefix}%{libdir}/
+install -m 644 System.Buffers.4.5.0/lib/netstandard2.0/System.Buffers.dll $RPM_BUILD_ROOT%{_prefix}%{libdir}/
+install -m 644 System.Memory.4.5.3/lib/netstandard2.0/System.Memory.dll $RPM_BUILD_ROOT%{_prefix}%{libdir}/
+install -m 644 Microsoft.Bcl.AsyncInterfaces.1.1.0/lib/netstandard2.0/Microsoft.Bcl.AsyncInterfaces.dll $RPM_BUILD_ROOT%{_prefix}%{libdir}/
+install -m 644 System.Text.Encodings.Web.4.6.0/lib/netstandard2.0/System.Text.Encodings.Web.dll $RPM_BUILD_ROOT%{_prefix}%{libdir}/
+
 install -m 644 System.Runtime.CompilerServices.Unsafe.4.6.0/lib/netstandard2.0/System.Runtime.CompilerServices.Unsafe.dll $RPM_BUILD_ROOT%{_prefix}%{libdir}/
 install -m 644 System.Numerics.Vectors.4.5.0/lib/netstandard2.0/System.Numerics.Vectors.dll $RPM_BUILD_ROOT%{_prefix}%{libdir}/
 
@@ -80,14 +72,13 @@ install -m 644 Npgsql.pc $RPM_BUILD_ROOT%{_datadir}/pkgconfig/
 
 %files
 %defattr(-,root,root,-)
-%{_prefix}%{libdir}/mono/gac
-%{_prefix}%{libdir}/mono/Npgsql/Npgsql.dll
-%{_prefix}%{libdir}/mono/System.Threading.Tasks.Extensions/System.Threading.Tasks.Extensions.dll
-%{_prefix}%{libdir}/mono/System.Text.Json/System.Text.Json.dll
-%{_prefix}%{libdir}/mono/System.Buffers/System.Buffers.dll
-%{_prefix}%{libdir}/mono/System.Memory/System.Memory.dll
-%{_prefix}%{libdir}/mono/Microsoft.Bcl.AsyncInterfaces/Microsoft.Bcl.AsyncInterfaces.dll
-%{_prefix}%{libdir}/mono/System.Text.Encodings.Web/System.Text.Encodings.Web.dll
+%{_prefix}%{libdir}/Npgsql.dll
+%{_prefix}%{libdir}/System.Threading.Tasks.Extensions.dll
+%{_prefix}%{libdir}/System.Text.Json.dll
+%{_prefix}%{libdir}/System.Buffers.dll
+%{_prefix}%{libdir}/System.Memory.dll
+%{_prefix}%{libdir}/Microsoft.Bcl.AsyncInterfaces.dll
+%{_prefix}%{libdir}/System.Text.Encodings.Web.dll
 %{_prefix}%{libdir}/System.Numerics.Vectors.dll
 %{_prefix}%{libdir}/System.Runtime.CompilerServices.Unsafe.dll
 %{_datadir}/pkgconfig/Npgsql.pc

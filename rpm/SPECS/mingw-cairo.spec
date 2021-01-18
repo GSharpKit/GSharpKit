@@ -2,7 +2,7 @@
 
 Name:           mingw-cairo
 Version:        1.16.0
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        MinGW Windows Cairo library
 
 License:        LGPLv2 or MPLv1.1
@@ -10,9 +10,11 @@ URL:            http://cairographics.org
 Source0:        http://cairographics.org/snapshots/cairo-%{version}.tar.xz
 Group:          Development/Libraries
 
+Patch0:         cairo-surface.patch
+
 # Backported upstream patches to add API required by gtk3
-#Patch0:         0001-win32-Add-cairo-API-to-set-up-a-Win32-surface-for-an.patch
-#Patch1:         0002-win32-Add-a-win32-boilerplate-that-uses-a-real-windo.patch
+#Patch1:         0001-win32-Add-cairo-API-to-set-up-a-Win32-surface-for-an.patch
+#Patch2:         0002-win32-Add-a-win32-boilerplate-that-uses-a-real-windo.patch
 
 BuildArch:      noarch
 
@@ -90,8 +92,9 @@ Static version of the MinGW Windows Cairo library.
 
 %prep
 %setup -q -n cairo-%{version}
-#patch0 -p1
+%patch0 -p1
 #patch1 -p1
+#patch2 -p1
 
 
 %build

@@ -11,7 +11,7 @@
 
 Name:           ServiceStack
 Version:        5.9.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        ServiceStack webservice framework: Faster, Cleaner, Modern WCF alternative.
 
 Group:          Development/Languages
@@ -43,7 +43,7 @@ Name: ServiceStack
 Description: ServiceStack webservice framework: Faster, Cleaner, Modern WCF alternative.
 Requires:
 Version: %{version}
-Libs: -r:${libdir}/System.Numerics.Vectors.dll -r:${libdir}/mono/System.Buffers/System.Buffers.dll -r:${libdir}/mono/System.Memory/System.Memory.dll -r:${libdir}/mono/ServiceStack/ServiceStack.dll -r:${libdir}/mono/ServiceStack.Common/ServiceStack.Common.dll -r:${libdir}/mono/ServiceStack.Client/ServiceStack.Client.dll -r:${libdir}/mono/ServiceStack.Text/ServiceStack.Text.dll -r:${libdir}/mono/ServiceStack.Interfaces/ServiceStack.Interfaces.dll
+Libs: -r:${libdir}/System.Numerics.Vectors.dll -r:${libdir}/System.Buffers.dll -r:${libdir}/System.Memory.dll -r:${libdir}/mono/ServiceStack/ServiceStack.dll -r:${libdir}/mono/ServiceStack.Common/ServiceStack.Common.dll -r:${libdir}/mono/ServiceStack.Client/ServiceStack.Client.dll -r:${libdir}/mono/ServiceStack.Text/ServiceStack.Text.dll -r:${libdir}/mono/ServiceStack.Interfaces/ServiceStack.Interfaces.dll
 Cflags:
 EOF
 

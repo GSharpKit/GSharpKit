@@ -11,13 +11,13 @@
 
 Name:		cairo
 Version:	1.16.0
-Release:	9%{?dist}
+Release:	10%{?dist}
 Summary:	A 2D graphics library
 
 License:	LGPLv2 or MPLv1.1
 URL:		http://cairographics.org
 Source0:	http://cairographics.org/releases/%{name}-%{version}.tar.xz
-
+Patch0:         cairo-surface.patch
 Patch3:         cairo-multilib.patch
 
 # https://gitlab.freedesktop.org/cairo/cairo/merge_requests/1
