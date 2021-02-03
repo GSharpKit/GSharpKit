@@ -3,7 +3,7 @@
 %global         api_version     1.0
 
 Name:           mingw-gstreamer1-plugins-bad-free
-Version:        1.16.2
+Version:        1.18.3
 Release:        1%{?dist}
 Summary:        Cross compiled GStreamer1 plug-ins "bad"
 
@@ -11,7 +11,7 @@ Summary:        Cross compiled GStreamer1 plug-ins "bad"
 License:        LGPLv2+ and LGPLv2
 URL:            http://gstreamer.freedesktop.org/
 # The source is:
-# http://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-%{version}.tar.xz
+# http://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-{version}.tar.xz
 # modified with gst1-p-bad-cleanup.sh from SOURCE1
 Source0:        gst-plugins-bad-free-%{version}.tar.xz
 Source1:        gst-p-bad-cleanup.sh
@@ -110,35 +110,12 @@ well enough, or the code is not of good enough quality.
 %prep
 %autosetup -p1 -n gst-plugins-bad-%{version}
 
-
 %build
-#   chromaprint was enabled in the !mingw package in 6eadf04
-#   openal, openjpeg, ofa, webp were enabled in the !mingw package in c609b28
-#   there are mingw-openjpeg and mingw-webp packages available
-#   uvch264 was enabled in the !mingw package in fcee991
-#   curl and winks are disabled only in the mingw package
-%mingw_configure \
-    --disable-silent-rules --disable-fatal-warnings \
-    --with-package-name="Fedora Mingw GStreamer-plugins-bad package" \
-    --with-package-origin="http://download.fedoraproject.org" \
-    --disable-examples \
-    --enable-debug --disable-static --disable-gtk-doc --enable-experimental \
-    --disable-dts --disable-faac --disable-faad --disable-nas \
-    --disable-mimic --disable-libmms --disable-mpeg2enc --disable-mplex \
-    --disable-neon --disable-rtmp --disable-xvid \
-    --disable-flite --disable-mpg123 --disable-sbc --disable-opencv \
-    --disable-spandsp --disable-voamrwbenc --disable-x265 \
-    --disable-chromaprint \
-    --disable-openal --disable-openjpeg --disable-ofa --disable-webp \
-    --disable-uvch264 \
-    --disable-curl \
-    --disable-winks
-
-%mingw_make %{?_smp_mflags}
-
+%mingw_meson --default-library=shared
+%mingw_ninja
 
 %install
-%mingw_make install DESTDIR=$RPM_BUILD_ROOT
+%mingw_ninja_install
 
 # Clean out files that should not be part of the rpm.
 rm -f $RPM_BUILD_ROOT%{mingw32_libdir}/gstreamer-%{api_version}/*.a
@@ -154,10 +131,13 @@ find $RPM_BUILD_ROOT -name '*.la' -delete
 %license COPYING
 %doc AUTHORS README REQUIREMENTS
 
+# exe
+%{mingw32_bindir}/gst-transcoder-1.0.exe
+%{mingw32_bindir}/playout.exe
+
 # libraries
 %{mingw32_bindir}/libgstadaptivedemux-1.0-0.dll
 %{mingw32_bindir}/libgstbadaudio-1.0-0.dll
-#{mingw32_bindir}/libgstbadvideo-1.0-0.dll
 %{mingw32_bindir}/libgstbasecamerabinsrc-1.0-0.dll
 %{mingw32_bindir}/libgstcodecparsers-1.0-0.dll
 %{mingw32_bindir}/libgstinsertbin-1.0-0.dll
@@ -168,6 +148,8 @@ find $RPM_BUILD_ROOT -name '*.la' -delete
 %{mingw32_bindir}/libgsturidownloader-1.0-0.dll
 %{mingw32_bindir}/libgstwebrtc-1.0-0.dll
 %{mingw32_bindir}/libgstsctp-1.0-0.dll
+%{mingw32_bindir}/libgstcodecs-1.0-0.dll
+%{mingw32_bindir}/libgsttranscoder-1.0-0.dll
 
 
 # bad plugins
@@ -187,9 +169,7 @@ find $RPM_BUILD_ROOT -name '*.la' -delete
 %{mingw32_libdir}/gstreamer-%{api_version}/libgstbz2.dll
 %{mingw32_libdir}/gstreamer-%{api_version}/libgstcamerabin.dll
 %{mingw32_libdir}/gstreamer-%{api_version}/libgstcoloreffects.dll
-#{mingw32_libdir}/gstreamer-%{api_version}/libgstcompositor.dll
 %{mingw32_libdir}/gstreamer-%{api_version}/libgstd3d.dll
-%{mingw32_libdir}/gstreamer-%{api_version}/libgstdashdemux.dll
 %{mingw32_libdir}/gstreamer-%{api_version}/libgstdebugutilsbad.dll
 %{mingw32_libdir}/gstreamer-%{api_version}/libgstdecklink.dll
 %{mingw32_libdir}/gstreamer-%{api_version}/libgstdirectsoundsrc.dll
@@ -220,7 +200,6 @@ find $RPM_BUILD_ROOT -name '*.la' -delete
 %{mingw32_libdir}/gstreamer-%{api_version}/libgstmxf.dll
 %{mingw32_libdir}/gstreamer-%{api_version}/libgstnetsim.dll
 %{mingw32_libdir}/gstreamer-%{api_version}/libgstopenexr.dll
-#{mingw32_libdir}/gstreamer-%{api_version}/libgstopenglmixers.dll
 %{mingw32_libdir}/gstreamer-%{api_version}/libgstopusparse.dll
 %{mingw32_libdir}/gstreamer-%{api_version}/libgstpcapparse.dll
 %{mingw32_libdir}/gstreamer-%{api_version}/libgstpnm.dll
@@ -233,7 +212,6 @@ find $RPM_BUILD_ROOT -name '*.la' -delete
 %{mingw32_libdir}/gstreamer-%{api_version}/libgstsmooth.dll
 %{mingw32_libdir}/gstreamer-%{api_version}/libgstsmoothstreaming.dll
 %{mingw32_libdir}/gstreamer-%{api_version}/libgstspeed.dll
-#%{mingw32_libdir}/gstreamer-%{api_version}/libgststereo.dll
 %{mingw32_libdir}/gstreamer-%{api_version}/libgstsubenc.dll
 %{mingw32_libdir}/gstreamer-%{api_version}/libgsttimecode.dll
 %{mingw32_libdir}/gstreamer-%{api_version}/libgstttmlsubs.dll
@@ -245,9 +223,24 @@ find $RPM_BUILD_ROOT -name '*.la' -delete
 %{mingw32_libdir}/gstreamer-%{api_version}/libgstwasapi.dll
 %{mingw32_libdir}/gstreamer-%{api_version}/libgstwinscreencap.dll
 %{mingw32_libdir}/gstreamer-%{api_version}/libgsty4mdec.dll
-%{mingw32_libdir}/gstreamer-%{api_version}/libgstyadif.dll
 %{mingw32_libdir}/gstreamer-%{api_version}/libgstclosedcaption.dll
 %{mingw32_libdir}/gstreamer-%{api_version}/libgstrsvg.dll
+%{mingw32_libdir}/gstreamer-%{api_version}/libgstd3d11.dll
+%{mingw32_libdir}/gstreamer-%{api_version}/libgstdash.dll
+%{mingw32_libdir}/gstreamer-%{api_version}/libgstdvbsubenc.dll
+%{mingw32_libdir}/gstreamer-%{api_version}/libgstdvbsuboverlay.dll
+%{mingw32_libdir}/gstreamer-%{api_version}/libgstdvdspu.dll
+%{mingw32_libdir}/gstreamer-%{api_version}/libgstipcpipeline.dll
+%{mingw32_libdir}/gstreamer-%{api_version}/libgstnvcodec.dll
+%{mingw32_libdir}/gstreamer-%{api_version}/libgstrist.dll
+%{mingw32_libdir}/gstreamer-%{api_version}/libgstrtmp2.dll
+%{mingw32_libdir}/gstreamer-%{api_version}/libgstrtpmanagerbad.dll
+%{mingw32_libdir}/gstreamer-%{api_version}/libgstsctp.dll
+%{mingw32_libdir}/gstreamer-%{api_version}/libgstsiren.dll
+%{mingw32_libdir}/gstreamer-%{api_version}/libgstswitchbin.dll
+%{mingw32_libdir}/gstreamer-%{api_version}/libgsttranscode.dll
+%{mingw32_libdir}/gstreamer-%{api_version}/libgstwebp.dll
+%{mingw32_libdir}/gstreamer-%{api_version}/libgstwinks.dll
 
 # %files devel
 # plugin helper library headers
@@ -260,13 +253,12 @@ find $RPM_BUILD_ROOT -name '*.la' -delete
 %{mingw32_includedir}/gstreamer-%{api_version}/gst/mpegts/
 %{mingw32_includedir}/gstreamer-%{api_version}/gst/player/
 %{mingw32_includedir}/gstreamer-%{api_version}/gst/uridownloader/
-#{mingw32_includedir}/gstreamer-%{api_version}/gst/video/
 %{mingw32_includedir}/gstreamer-%{api_version}/gst/webrtc/
 %{mingw32_includedir}/gstreamer-%{api_version}/gst/sctp/
+%{mingw32_includedir}/gstreamer-%{api_version}/gst/transcoder/
 
 %{mingw32_libdir}/libgstadaptivedemux-1.0.dll.a
 %{mingw32_libdir}/libgstbadaudio-1.0.dll.a
-#{mingw32_libdir}/libgstbadvideo-1.0.dll.a
 %{mingw32_libdir}/libgstbasecamerabinsrc-1.0.dll.a
 %{mingw32_libdir}/libgstcodecparsers-1.0.dll.a
 %{mingw32_libdir}/libgstinsertbin-1.0.dll.a
@@ -277,9 +269,10 @@ find $RPM_BUILD_ROOT -name '*.la' -delete
 %{mingw32_libdir}/libgsturidownloader-1.0.dll.a
 %{mingw32_libdir}/libgstwebrtc-1.0.dll.a
 %{mingw32_libdir}/libgstsctp-1.0.dll.a
+%{mingw32_libdir}/libgstcodecs-1.0.dll.a
+%{mingw32_libdir}/libgsttranscoder-1.0.dll.a
 
 %{mingw32_libdir}/pkgconfig/gstreamer-bad-audio-1.0.pc
-#{mingw32_libdir}/pkgconfig/gstreamer-bad-video-1.0.pc
 %{mingw32_libdir}/pkgconfig/gstreamer-codecparsers-1.0.pc
 %{mingw32_libdir}/pkgconfig/gstreamer-insertbin-1.0.pc
 %{mingw32_libdir}/pkgconfig/gstreamer-mpegts-1.0.pc
@@ -287,19 +280,24 @@ find $RPM_BUILD_ROOT -name '*.la' -delete
 %{mingw32_libdir}/pkgconfig/gstreamer-plugins-bad-1.0.pc
 %{mingw32_libdir}/pkgconfig/gstreamer-webrtc-1.0.pc
 %{mingw32_libdir}/pkgconfig/gstreamer-sctp-1.0.pc
+%{mingw32_libdir}/pkgconfig/gstreamer-photography-1.0.pc
+%{mingw32_libdir}/pkgconfig/gstreamer-transcoder-1.0.pc
 
 %{mingw32_datadir}/gstreamer-1.0/presets/GstFreeverb.prs
 
+%dir %{mingw32_datadir}/gstreamer-%{api_version}/encoding-profiles
+%{mingw32_datadir}/gstreamer-%{api_version}/encoding-profiles/
 
 # Mingw64
 %files -n mingw64-gstreamer1-plugins-bad-free -f mingw64-gstreamer1-plugins-bad-free.lang
-%license COPYING
-%doc AUTHORS README REQUIREMENTS
+
+# exe
+%{mingw64_bindir}/gst-transcoder-1.0.exe
+%{mingw64_bindir}/playout.exe
 
 # libraries
 %{mingw64_bindir}/libgstadaptivedemux-1.0-0.dll
 %{mingw64_bindir}/libgstbadaudio-1.0-0.dll
-#{mingw64_bindir}/libgstbadvideo-1.0-0.dll
 %{mingw64_bindir}/libgstbasecamerabinsrc-1.0-0.dll
 %{mingw64_bindir}/libgstcodecparsers-1.0-0.dll
 %{mingw64_bindir}/libgstinsertbin-1.0-0.dll
@@ -310,7 +308,8 @@ find $RPM_BUILD_ROOT -name '*.la' -delete
 %{mingw64_bindir}/libgsturidownloader-1.0-0.dll
 %{mingw64_bindir}/libgstwebrtc-1.0-0.dll
 %{mingw64_bindir}/libgstsctp-1.0-0.dll
-
+%{mingw64_bindir}/libgstcodecs-1.0-0.dll
+%{mingw64_bindir}/libgsttranscoder-1.0-0.dll
 
 # bad plugins
 %dir %{mingw64_libdir}/gstreamer-%{api_version}
@@ -329,9 +328,7 @@ find $RPM_BUILD_ROOT -name '*.la' -delete
 %{mingw64_libdir}/gstreamer-%{api_version}/libgstbz2.dll
 %{mingw64_libdir}/gstreamer-%{api_version}/libgstcamerabin.dll
 %{mingw64_libdir}/gstreamer-%{api_version}/libgstcoloreffects.dll
-#{mingw64_libdir}/gstreamer-%{api_version}/libgstcompositor.dll
 %{mingw64_libdir}/gstreamer-%{api_version}/libgstd3d.dll
-%{mingw64_libdir}/gstreamer-%{api_version}/libgstdashdemux.dll
 %{mingw64_libdir}/gstreamer-%{api_version}/libgstdebugutilsbad.dll
 %{mingw64_libdir}/gstreamer-%{api_version}/libgstdecklink.dll
 %{mingw64_libdir}/gstreamer-%{api_version}/libgstdirectsoundsrc.dll
@@ -362,7 +359,6 @@ find $RPM_BUILD_ROOT -name '*.la' -delete
 %{mingw64_libdir}/gstreamer-%{api_version}/libgstmxf.dll
 %{mingw64_libdir}/gstreamer-%{api_version}/libgstnetsim.dll
 %{mingw64_libdir}/gstreamer-%{api_version}/libgstopenexr.dll
-#{mingw64_libdir}/gstreamer-%{api_version}/libgstopenglmixers.dll
 %{mingw64_libdir}/gstreamer-%{api_version}/libgstopusparse.dll
 %{mingw64_libdir}/gstreamer-%{api_version}/libgstpcapparse.dll
 %{mingw64_libdir}/gstreamer-%{api_version}/libgstpnm.dll
@@ -375,7 +371,6 @@ find $RPM_BUILD_ROOT -name '*.la' -delete
 %{mingw64_libdir}/gstreamer-%{api_version}/libgstsmooth.dll
 %{mingw64_libdir}/gstreamer-%{api_version}/libgstsmoothstreaming.dll
 %{mingw64_libdir}/gstreamer-%{api_version}/libgstspeed.dll
-#{mingw64_libdir}/gstreamer-%{api_version}/libgststereo.dll
 %{mingw64_libdir}/gstreamer-%{api_version}/libgstsubenc.dll
 %{mingw64_libdir}/gstreamer-%{api_version}/libgsttimecode.dll
 %{mingw64_libdir}/gstreamer-%{api_version}/libgstttmlsubs.dll
@@ -387,9 +382,24 @@ find $RPM_BUILD_ROOT -name '*.la' -delete
 %{mingw64_libdir}/gstreamer-%{api_version}/libgstwasapi.dll
 %{mingw64_libdir}/gstreamer-%{api_version}/libgstwinscreencap.dll
 %{mingw64_libdir}/gstreamer-%{api_version}/libgsty4mdec.dll
-%{mingw64_libdir}/gstreamer-%{api_version}/libgstyadif.dll
 %{mingw64_libdir}/gstreamer-%{api_version}/libgstclosedcaption.dll
 %{mingw64_libdir}/gstreamer-%{api_version}/libgstrsvg.dll
+%{mingw64_libdir}/gstreamer-%{api_version}/libgstd3d11.dll
+%{mingw64_libdir}/gstreamer-%{api_version}/libgstdash.dll
+%{mingw64_libdir}/gstreamer-%{api_version}/libgstdvbsubenc.dll
+%{mingw64_libdir}/gstreamer-%{api_version}/libgstdvbsuboverlay.dll
+%{mingw64_libdir}/gstreamer-%{api_version}/libgstdvdspu.dll
+%{mingw64_libdir}/gstreamer-%{api_version}/libgstipcpipeline.dll
+%{mingw64_libdir}/gstreamer-%{api_version}/libgstnvcodec.dll
+%{mingw64_libdir}/gstreamer-%{api_version}/libgstrist.dll
+%{mingw64_libdir}/gstreamer-%{api_version}/libgstrtmp2.dll
+%{mingw64_libdir}/gstreamer-%{api_version}/libgstrtpmanagerbad.dll
+%{mingw64_libdir}/gstreamer-%{api_version}/libgstsctp.dll
+%{mingw64_libdir}/gstreamer-%{api_version}/libgstsiren.dll
+%{mingw64_libdir}/gstreamer-%{api_version}/libgstswitchbin.dll
+%{mingw64_libdir}/gstreamer-%{api_version}/libgsttranscode.dll
+%{mingw64_libdir}/gstreamer-%{api_version}/libgstwebp.dll
+%{mingw64_libdir}/gstreamer-%{api_version}/libgstwinks.dll
 
 # %files devel
 # plugin helper library headers
@@ -402,13 +412,12 @@ find $RPM_BUILD_ROOT -name '*.la' -delete
 %{mingw64_includedir}/gstreamer-%{api_version}/gst/mpegts/
 %{mingw64_includedir}/gstreamer-%{api_version}/gst/player/
 %{mingw64_includedir}/gstreamer-%{api_version}/gst/uridownloader/
-#{mingw64_includedir}/gstreamer-%{api_version}/gst/video/
 %{mingw64_includedir}/gstreamer-%{api_version}/gst/webrtc/
 %{mingw64_includedir}/gstreamer-%{api_version}/gst/sctp/
+%{mingw64_includedir}/gstreamer-%{api_version}/gst/transcoder/
 
 %{mingw64_libdir}/libgstadaptivedemux-1.0.dll.a
 %{mingw64_libdir}/libgstbadaudio-1.0.dll.a
-#{mingw64_libdir}/libgstbadvideo-1.0.dll.a
 %{mingw64_libdir}/libgstbasecamerabinsrc-1.0.dll.a
 %{mingw64_libdir}/libgstcodecparsers-1.0.dll.a
 %{mingw64_libdir}/libgstinsertbin-1.0.dll.a
@@ -419,9 +428,10 @@ find $RPM_BUILD_ROOT -name '*.la' -delete
 %{mingw64_libdir}/libgsturidownloader-1.0.dll.a
 %{mingw64_libdir}/libgstwebrtc-1.0.dll.a
 %{mingw64_libdir}/libgstsctp-1.0.dll.a
+%{mingw64_libdir}/libgstcodecs-1.0.dll.a
+%{mingw64_libdir}/libgsttranscoder-1.0.dll.a
 
 %{mingw64_libdir}/pkgconfig/gstreamer-bad-audio-1.0.pc
-#{mingw64_libdir}/pkgconfig/gstreamer-bad-video-1.0.pc
 %{mingw64_libdir}/pkgconfig/gstreamer-codecparsers-1.0.pc
 %{mingw64_libdir}/pkgconfig/gstreamer-insertbin-1.0.pc
 %{mingw64_libdir}/pkgconfig/gstreamer-mpegts-1.0.pc
@@ -429,9 +439,13 @@ find $RPM_BUILD_ROOT -name '*.la' -delete
 %{mingw64_libdir}/pkgconfig/gstreamer-plugins-bad-1.0.pc
 %{mingw64_libdir}/pkgconfig/gstreamer-webrtc-1.0.pc
 %{mingw64_libdir}/pkgconfig/gstreamer-sctp-1.0.pc
+%{mingw64_libdir}/pkgconfig/gstreamer-photography-1.0.pc
+%{mingw64_libdir}/pkgconfig/gstreamer-transcoder-1.0.pc
 
 %{mingw64_datadir}/gstreamer-1.0/presets/GstFreeverb.prs
 
+%dir %{mingw64_datadir}/gstreamer-%{api_version}/encoding-profiles
+%{mingw64_datadir}/gstreamer-%{api_version}/encoding-profiles/
 
 %changelog
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.14.2-8

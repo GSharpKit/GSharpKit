@@ -2,7 +2,7 @@
 %define api_version 1.0.0.999
 
 Name:		SharpZipLib
-Version:	1.0.0
+Version:	1.3.1
 Release:	1%{?dist}
 Summary:	SharpZipLib (#ziplib, formerly NZipLib) is a compression library for Zip, GZip, BZip2
 Group:		Development/Languages
@@ -29,13 +29,13 @@ nuget install %{name} -Version %{version}
 cat > %{name}.pc << \EOF
 prefix=%{_prefix}
 exec_prefix=${prefix}
-libdir=%{_prefix}%{libdir}/mono
+libdir=%{_prefix}%{libdir}
 
 Name: %{name}
 Description: %{summary}
 Requires:
 Version: %{api_version}
-Libs: -r:${libdir}/%{name}/ICSharpCode.%{name}.dll
+Libs: -r:${libdir}/ICSharpCode.%{name}.dll
 Cflags:
 EOF
 
@@ -44,8 +44,8 @@ EOF
 %install
 %{__rm} -rf %{buildroot}
 
-install -d -m 755 $RPM_BUILD_ROOT%{_prefix}%{libdir}/mono/gac
-gacutil -i %{name}.%{version}/lib/netstandard2.0/ICSharpCode.%{name}.dll -package %{name} -root $RPM_BUILD_ROOT%{_prefix}%{libdir} -gacdir mono/gac
+install -d -m 755 $RPM_BUILD_ROOT%{_prefix}%{libdir}
+install -m 644 %{name}.%{version}/lib/netstandard2.0/ICSharpCode.%{name}.dll $RPM_BUILD_ROOT%{_prefix}%{libdir}
 
 install -d -m 755 $RPM_BUILD_ROOT%{_datadir}/pkgconfig/
 install -m 644 %{name}.pc $RPM_BUILD_ROOT%{_datadir}/pkgconfig/
@@ -54,8 +54,7 @@ install -m 644 %{name}.pc $RPM_BUILD_ROOT%{_datadir}/pkgconfig/
 
 %files
 %defattr(-,root,root,-)
-%{_prefix}%{libdir}/mono/gac
-%{_prefix}%{libdir}/mono/%{name}/ICSharpCode.%{name}.dll
+%{_prefix}%{libdir}/ICSharpCode.%{name}.dll
 %{_datadir}/pkgconfig/%{name}.pc
 
 %changelog

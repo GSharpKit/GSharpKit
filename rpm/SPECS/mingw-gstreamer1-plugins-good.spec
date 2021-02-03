@@ -3,7 +3,7 @@
 %global         api_version     1.0
 
 Name:           mingw-gstreamer1-plugins-good
-Version:        1.16.2
+Version:        1.18.3
 Release:        1%{?dist}
 Summary:        Cross compiled GStreamer1 plug-ins good
 
@@ -109,28 +109,12 @@ good quality and under the LGPL license.
 %prep
 %setup -q -n gst-plugins-good-%{version}
 
-
 %build
-%mingw_configure \
-    --with-package-name='Fedora Mingw gstreamer1-plugins-good package' \
-    --with-package-origin='http://download.fedora.redhat.com/fedora' \
-    --enable-experimental \
-    --disable-examples \
-    --disable-gtk-doc \
-    --disable-monoscope \
-    --disable-aalib \
-    --disable-libcaca \
-    --with-default-visualizer=autoaudiosink \
-    --disable-shout2 \
-    --disable-taglib \
-    --disable-flac \
-    --disable-jack
-
-%mingw_make %{?_smp_mflags}
-
+%mingw_meson --default-library=shared
+%mingw_ninja
 
 %install
-%mingw_make install DESTDIR=$RPM_BUILD_ROOT
+%mingw_ninja_install
 
 # Clean out files that should not be part of the rpm.
 rm -f $RPM_BUILD_ROOT%{mingw32_libdir}/gstreamer-%{api_version}/*.la
@@ -139,7 +123,6 @@ rm -f $RPM_BUILD_ROOT%{mingw32_libdir}/gstreamer-%{api_version}/*.a
 rm -f $RPM_BUILD_ROOT%{mingw64_libdir}/gstreamer-%{api_version}/*.a
 
 %mingw_find_lang gstreamer1-plugins-good --all-name
-
 
 # Mingw32
 %files -n mingw32-gstreamer1-plugins-good -f mingw32-gstreamer1-plugins-good.lang
@@ -199,7 +182,7 @@ rm -f $RPM_BUILD_ROOT%{mingw64_libdir}/gstreamer-%{api_version}/*.a
 %{mingw32_libdir}/gstreamer-%{api_version}/libgstwavpack.dll
 %{mingw32_libdir}/gstreamer-%{api_version}/libgstwavparse.dll
 %{mingw32_libdir}/gstreamer-%{api_version}/libgsty4menc.dll
-
+%{mingw32_libdir}/gstreamer-%{api_version}/libgstmonoscope.dll
 
 # gstreamer1-plugins with external dependencies but in the main package
 %{mingw32_libdir}/gstreamer-%{api_version}/libgstcairo.dll
@@ -268,6 +251,7 @@ rm -f $RPM_BUILD_ROOT%{mingw64_libdir}/gstreamer-%{api_version}/*.a
 %{mingw64_libdir}/gstreamer-%{api_version}/libgstwavpack.dll
 %{mingw64_libdir}/gstreamer-%{api_version}/libgstwavparse.dll
 %{mingw64_libdir}/gstreamer-%{api_version}/libgsty4menc.dll
+%{mingw64_libdir}/gstreamer-%{api_version}/libgstmonoscope.dll
 
 
 # gstreamer1-plugins with external dependencies but in the main package

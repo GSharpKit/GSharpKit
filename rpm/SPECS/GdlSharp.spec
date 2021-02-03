@@ -1,12 +1,12 @@
 Name:           GdlSharp
-Version:        3.26.0
-Release:        3%{?dist}
+Version:        3.34.0
+Release:        1%{?dist}
 Summary:        GDL library
 
 License:        LGPLv2+
 Group:          Development/Libraries
 URL:            https://github.com/openmedicus/gdl-sharp
-Source0:        GdlSharp-%{version}.tar.gz
+Source0:        GdlSharp-%{version}.tar.xz
 
 BuildArch:      noarch
 
@@ -36,7 +36,8 @@ make %{?_smp_mflags} V=1
 make install DESTDIR=$RPM_BUILD_ROOT
 
 %files
-%{_prefix}/lib/mono
+%{_prefix}/lib/gdl-sharp.dll
+%{_prefix}/lib/gdl-sharp.dll.config
 %{_datadir}/pkgconfig/gdl-sharp-3.pc
 
 %changelog

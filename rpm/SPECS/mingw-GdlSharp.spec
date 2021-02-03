@@ -7,17 +7,17 @@
 %define debug_package %{nil}
 
 %define libdir /bin
-%define gtk_version 3.22.6
+%define gtk_version 3.24.20
 
 Name:           mingw-GdlSharp
-Version:        3.26.0
-Release:        3%{?dist}
+Version:        3.34.0
+Release:        1%{?dist}
 Summary:        MinGW Windows GDL library
 
 License:        LGPLv2+
 Group:          Development/Libraries
 URL:            https://github.com/gsharpkit/GdlSharp
-Source0:        GdlSharp-%{version}.tar.gz
+Source0:        GdlSharp-%{version}.tar.xz
 
 BuildArch:      noarch
 
@@ -84,27 +84,35 @@ make distclean
 
 %mingw_make %{?_smp_mflags} V=1
 
+mv out/gdl-sharp.dll.config.in out/gdl-sharp.dll.config
 
 %install
 %mingw_make install DESTDIR=$RPM_BUILD_ROOT
 
+mv $RPM_BUILD_ROOT%{mingw32_prefix}/lib $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir}
+rm $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir}/gdl-sharp.dll.config
+
+mv $RPM_BUILD_ROOT%{mingw64_prefix}/lib $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir}
+rm $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir}/gdl-sharp.dll.config
+
+
 # Mingw32
-install -d -m 755 $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir}
-install -m 644 $RPM_BUILD_ROOT%{mingw32_libdir}/mono/gac/gdl-sharp/*/*.dll $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir}/
+#install -d -m 755 $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir}
+#install -m 644 $RPM_BUILD_ROOT%{mingw32_libdir}/mono/gac/gdl-sharp/*/*.dll $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir}/
 
-sed -i -e 's!/lib!/bin!' $RPM_BUILD_ROOT%{mingw32_datadir}/pkgconfig/gdl-sharp-3.pc
-sed -i -e 's!/mono/gdl-sharp!!' $RPM_BUILD_ROOT%{mingw32_datadir}/pkgconfig/gdl-sharp-3.pc
+#sed -i -e 's!/lib!/bin!' $RPM_BUILD_ROOT%{mingw32_datadir}/pkgconfig/gdl-sharp-3.pc
+#sed -i -e 's!/mono/gdl-sharp!!' $RPM_BUILD_ROOT%{mingw32_datadir}/pkgconfig/gdl-sharp-3.pc
 
-rm -rf $RPM_BUILD_ROOT%{mingw32_libdir}
+#rm -rf $RPM_BUILD_ROOT%{mingw32_libdir}
 
 # Mingw64
-install -d -m 755 $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir}
-install -m 644 $RPM_BUILD_ROOT%{mingw64_libdir}/mono/gac/gdl-sharp/*/*.dll $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir}/
+#install -d -m 755 $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir}
+#install -m 644 $RPM_BUILD_ROOT%{mingw64_libdir}/mono/gac/gdl-sharp/*/*.dll $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir}/
 
-sed -i -e 's!/lib!/bin!' $RPM_BUILD_ROOT%{mingw64_datadir}/pkgconfig/gdl-sharp-3.pc
-sed -i -e 's!/mono/gdl-sharp!!' $RPM_BUILD_ROOT%{mingw64_datadir}/pkgconfig/gdl-sharp-3.pc
+#sed -i -e 's!/lib!/bin!' $RPM_BUILD_ROOT%{mingw64_datadir}/pkgconfig/gdl-sharp-3.pc
+#sed -i -e 's!/mono/gdl-sharp!!' $RPM_BUILD_ROOT%{mingw64_datadir}/pkgconfig/gdl-sharp-3.pc
 
-rm -rf $RPM_BUILD_ROOT%{mingw64_libdir}
+#rm -rf $RPM_BUILD_ROOT%{mingw64_libdir}
 
 
 %files -n mingw32-GdlSharp

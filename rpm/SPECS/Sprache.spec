@@ -1,7 +1,7 @@
 %global debug_package %{nil}
 
 %define libdir /lib
-%define api_version 2.1.2.0
+%define api_version 2.2.0.0
 
 Name:           Sprache
 Version:        2.2.0
@@ -14,8 +14,6 @@ URL:            http://json.codeplex.com/
 Prefix:		/usr
 BuildArch:	noarch
 
-Requires:	mono-core >= 5.14.0
-
 %description
 Sprache is a simple, lightweight library for constructing parsers directly in C# code
 
@@ -26,13 +24,13 @@ nuget install %{name}.Signed -Version %{version}
 cat > %{name}.pc << \EOF
 prefix=%{_prefix}
 exec_prefix=${prefix}
-libdir=%{_prefix}%{libdir}/mono
+libdir=%{_prefix}%{libdir}
 
 Name: %{name}
 Description: Sprache is a simple, lightweight library for constructing parsers directly in C# code
 Requires:
 Version: %{api_version}
-Libs: -r:${libdir}/%{name}/%{name}.Signed.dll
+Libs: -r:${libdir}/%{name}.Signed.dll
 Cflags:
 EOF
 
@@ -41,8 +39,8 @@ EOF
 %install
 %{__rm} -rf %{buildroot}
 
-install -d -m 755 $RPM_BUILD_ROOT%{_prefix}%{libdir}/mono/gac
-gacutil -i %{name}.Signed.%{version}/lib/netstandard2.0/%{name}.Signed.dll -package %{name} -root $RPM_BUILD_ROOT%{_prefix}%{libdir} -gacdir mono/gac
+install -d -m 755 $RPM_BUILD_ROOT%{_prefix}%{libdir}
+install -m 644 %{name}.Signed.%{version}/lib/netstandard2.0/%{name}.Signed.dll $RPM_BUILD_ROOT%{_prefix}%{libdir}/
 
 install -d -m 755 $RPM_BUILD_ROOT%{_datadir}/pkgconfig/
 install -m 644 %{name}.pc $RPM_BUILD_ROOT%{_datadir}/pkgconfig/
@@ -52,8 +50,7 @@ install -m 644 %{name}.pc $RPM_BUILD_ROOT%{_datadir}/pkgconfig/
 
 %files
 %defattr(-,root,root,-)
-%{_prefix}%{libdir}/mono/gac
-%{_prefix}%{libdir}/mono/%{name}/%{name}.Signed.dll
+%{_prefix}%{libdir}/%{name}.Signed.dll
 %{_datadir}/pkgconfig/%{name}.pc
 
 

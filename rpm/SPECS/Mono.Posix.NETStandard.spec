@@ -16,8 +16,6 @@ URL:            https://www.nuget.org/packages/Mono.Posix.NETStandard
 Prefix:		/usr
 BuildArch:	noarch
 
-Requires:	mono-core >= 5.0.0
-
 %description
 Provides functionality to access Posix/Unix features
 

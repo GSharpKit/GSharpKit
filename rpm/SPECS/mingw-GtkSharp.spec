@@ -9,8 +9,8 @@
 %define libdir /bin
 
 Name:           mingw-GtkSharp
-Version:        3.22.25.98
-Release:        2%{?dist}
+Version:        3.24.24.4
+Release:        1%{?dist}
 Summary:        GTK+ and GNOME bindings for Mono
 
 Group:          System Environment/Libraries
@@ -21,9 +21,6 @@ Source1:        mingw-gdk-sharp-3.0.pc
 Source2:        mingw-glib-sharp-3.0.pc
 Source3:        mingw-gio-sharp-3.0.pc
 Source4:        mingw-gtk-sharp-3.0.pc
-Source5:	GtkSharp.snk
-
-Patch0:		revert-cdecl.patch
 
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
@@ -41,7 +38,7 @@ BuildRequires:  mingw64-glib2
 BuildRequires:	mingw32-gtk3
 BuildRequires:	mingw64-gtk3
 
-BuildRequires: dotnet-sdk-2.2 
+BuildRequires: dotnet-sdk-5.0 
 
 BuildArch:	noarch
 
@@ -82,17 +79,8 @@ tools and libraries (corlib, XML, System.Security, ZipLib,
 
 %prep
 %setup -q -n GtkSharp-%{version}
-%patch0 -p1
 
-cp %{SOURCE5} Source/
-
-#sed -i -e 's!</PackageTags>!</PackageTags><SignAssembly>true</SignAssembly><AssemblyOriginatorKeyFile>../../GtkSharp.snk</AssemblyOriginatorKeyFile>!g' Source/Libs/GtkSharp/GtkSharp.csproj
-#sed -i -e 's!</PackageTags>!</PackageTags><SignAssembly>true</SignAssembly><AssemblyOriginatorKeyFile>../../GtkSharp.snk</AssemblyOriginatorKeyFile>!g' Source/Libs//GdkSharp/GdkSharp.csproj
-#sed -i -e 's!</PackageTags>!</PackageTags><SignAssembly>true</SignAssembly><AssemblyOriginatorKeyFile>../../GtkSharp.snk</AssemblyOriginatorKeyFile>!g' Source/Libs//GioSharp/GioSharp.csproj
-#sed -i -e 's!</PackageTags>!</PackageTags><SignAssembly>true</SignAssembly><AssemblyOriginatorKeyFile>../../GtkSharp.snk</AssemblyOriginatorKeyFile>!g' Source/Libs//GLibSharp/GLibSharp.csproj
-#sed -i -e 's!</PackageTags>!</PackageTags><SignAssembly>true</SignAssembly><AssemblyOriginatorKeyFile>../../GtkSharp.snk</AssemblyOriginatorKeyFile>!g' Source/Libs//PangoSharp/PangoSharp.csproj
-#sed -i -e 's!</PackageTags>!</PackageTags><SignAssembly>true</SignAssembly><AssemblyOriginatorKeyFile>../../GtkSharp.snk</AssemblyOriginatorKeyFile>!g' Source/Libs//CairoSharp/CairoSharp.csproj
-#sed -i -e 's!</PackageTags>!</PackageTags><SignAssembly>true</SignAssembly><AssemblyOriginatorKeyFile>../../GtkSharp.snk</AssemblyOriginatorKeyFile>!g' Source/Libs//AtkSharp/AtkSharp.csproj
+sed -i -e 's!netcoreapp3.1!netcoreapp5.0!g' Source/Samples/Samples.csproj
 
 %build
 sh build.sh
@@ -118,6 +106,7 @@ install -m 644 %{SOURCE3} %{buildroot}%{mingw32_prefix}/share/pkgconfig/gio-shar
 install -m 644 %{SOURCE4} %{buildroot}%{mingw32_prefix}/share/pkgconfig/gtk-sharp-3.0.pc
 
 sed -i -e 's!@PREFIX@!%{mingw32_prefix}!g' %{buildroot}%{mingw32_prefix}/share/pkgconfig/*.pc
+sed -i -e 's!@VERSION@!%{version}!g' %{buildroot}%{mingw32_prefix}/share/pkgconfig/*.pc
 
 mkdir -p %{buildroot}%{mingw32_prefix}/share/gapi-3.0
 cp Source/Libs/*/*Sharp-api.xml %{buildroot}%{mingw32_prefix}/share/gapi-3.0/
@@ -141,6 +130,7 @@ install -m 644 %{SOURCE3} %{buildroot}%{mingw64_prefix}/share/pkgconfig/gio-shar
 install -m 644 %{SOURCE4} %{buildroot}%{mingw64_prefix}/share/pkgconfig/gtk-sharp-3.0.pc
 
 sed -i -e 's!@PREFIX@!%{mingw64_prefix}!g' %{buildroot}%{mingw64_prefix}/share/pkgconfig/*.pc
+sed -i -e 's!@VERSION@!%{version}!g' %{buildroot}%{mingw64_prefix}/share/pkgconfig/*.pc
 
 mkdir -p %{buildroot}%{mingw64_prefix}/share/gapi-3.0
 cp Source/Libs/*/*Sharp-api.xml %{buildroot}%{mingw64_prefix}/share/gapi-3.0/

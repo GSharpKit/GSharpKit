@@ -3,7 +3,7 @@
 %define libdir /lib
 
 Name:           MailKit
-Version:        2.8.0
+Version:        2.10.1
 Release:        1%{?dist}
 Summary:        MailKit is an Open Source cross-platform .NET mail-client library.
 
@@ -38,13 +38,13 @@ nuget install %{name} -Version %{version}
 cat > %{name}.pc << \EOF
 prefix=%{_prefix}
 exec_prefix=${prefix}
-libdir=%{_prefix}%{libdir}/mono
+libdir=%{_prefix}%{libdir}
 
 Name: %{name}
 Description: %{name} - %{summary}
 Requires: MimeKit
 Version: %{version}
-Libs: -r:${libdir}/%{name}/MailKit.dll
+Libs: -r:${libdir}/MailKit.dll
 Cflags:
 EOF
 
@@ -53,8 +53,8 @@ EOF
 %install
 %{__rm} -rf %{buildroot}
 
-install -d -m 755 $RPM_BUILD_ROOT%{_prefix}%{libdir}/mono/gac
-gacutil -i MailKit.%{version}/lib/net47/MailKit.dll -package %{name} -root $RPM_BUILD_ROOT%{_prefix}%{libdir} -gacdir mono/gac
+install -d -m 755 $RPM_BUILD_ROOT%{_prefix}%{libdir}
+install -m 644 MailKit.%{version}/lib/netstandard2.0/MailKit.dll $RPM_BUILD_ROOT%{_prefix}%{libdir}
 
 install -d -m 755 $RPM_BUILD_ROOT%{_datadir}/pkgconfig/
 install -m 644 %{name}.pc $RPM_BUILD_ROOT%{_datadir}/pkgconfig/
@@ -64,11 +64,12 @@ install -m 644 %{name}.pc $RPM_BUILD_ROOT%{_datadir}/pkgconfig/
 
 %files
 %defattr(-,root,root,-)
-%{_prefix}%{libdir}/mono/gac
-%{_prefix}%{libdir}/mono/%{name}/MailKit.dll
+%{_prefix}%{libdir}/MailKit.dll
 %{_datadir}/pkgconfig/%{name}.pc
 
 %changelog
+* Fri Dec 11 2020 Mikkel Kruse Johnsen <mikkel@xmedicus.com> - 2.10.0-1
+- Updated to netstandard2.0
 * Fri Aug 17 2018 Mikkel Kruse Johnsen <mikkel@xmedicus.com> - 2.0.6-1
 - Update to 2.0.6
 * Thu Aug 02 2018 Mikkel Kruse Johnsen <mikkel@xmedicus.com> - 2.0.5-1

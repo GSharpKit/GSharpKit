@@ -6,7 +6,7 @@ gapidir=${prefix}/share/gapi-3.0
 
 Name: Gtk#
 Description: Gtk# - GNOME .NET Binding
-Version: 3.22.24
+Version: @VERSION@
 Cflags: -I:${gapidir}/CairoSharp-api.xml -I:${gapidir}/PangoSharp-api.xml -I:${gapidir}/AtkSharp-api.xml -I:${gapidir}/GtkSharp-api.xml
-Libs: -r:Facades/netstandard.dll -r:${libdir}/mono/GtkSharp-3.0/CairoSharp.dll -r:${libdir}/mono/GtkSharp-3.0/PangoSharp.dll -r:${libdir}/mono/GtkSharp-3.0/AtkSharp.dll  -r:${libdir}/mono/GtkSharp-3.0/GtkSharp.dll
+Libs: -r:Facades/netstandard.dll -r:${libdir}/CairoSharp.dll -r:${libdir}/PangoSharp.dll -r:${libdir}/AtkSharp.dll  -r:${libdir}/GtkSharp.dll
 Requires: glib-sharp-3.0 gio-sharp-3.0 gdk-sharp-3.0

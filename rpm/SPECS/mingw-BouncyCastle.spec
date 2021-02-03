@@ -11,7 +11,7 @@
 %define libdir /bin
 
 Name:           mingw-BouncyCastle
-Version:        1.8.5
+Version:        1.8.8
 Release:        1%{?dist}
 Summary:        BouncyCastle is a Crypto library written in C#
 
@@ -150,14 +150,14 @@ EOF
 
 # Mingw32
 install -d -m 755 $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir}
-install -m 644 Portable.BouncyCastle.%{version}/lib/net40/BouncyCastle.Crypto.dll $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir}
+install -m 644 Portable.BouncyCastle.%{version}/lib/netstandard2.0/BouncyCastle.Crypto.dll $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir}
 
 install -d -m 755 $RPM_BUILD_ROOT%{mingw32_datadir}/pkgconfig/
 install -m 644 BouncyCastle32.pc $RPM_BUILD_ROOT%{mingw32_datadir}/pkgconfig/BouncyCastle.pc
 
 # Mingw64
 install -d -m 755 $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir}
-install -m 644 Portable.BouncyCastle.%{version}/lib/net40/BouncyCastle.Crypto.dll $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir}
+install -m 644 Portable.BouncyCastle.%{version}/lib/netstandard2.0/BouncyCastle.Crypto.dll $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir}
 
 install -d -m 755 $RPM_BUILD_ROOT%{mingw64_datadir}/pkgconfig/
 install -m 644 BouncyCastle64.pc $RPM_BUILD_ROOT%{mingw64_datadir}/pkgconfig/BouncyCastle.pc

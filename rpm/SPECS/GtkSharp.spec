@@ -3,7 +3,7 @@
 %define libdir /lib
 
 Name:           GtkSharp
-Version:        3.22.25.98
+Version:        3.24.24.4
 Release:        1%{?dist}
 Summary:        GTK+ and GNOME bindings for Mono
 
@@ -15,7 +15,6 @@ Source1:        gdk-sharp-3.0.pc
 Source2:        glib-sharp-3.0.pc
 Source3:        gio-sharp-3.0.pc
 Source4:        gtk-sharp-3.0.pc
-Source5:	GtkSharp.snk
 Source100:	gapi3-codegen
 Source101:	gapi3-fixup
 Source102:	gapi3-parser 
@@ -29,7 +28,7 @@ BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildArch:      noarch
 
-BuildRequires:  dotnet-sdk-2.2, gtk3-devel, cairo-devel, perl-XML-LibXML
+BuildRequires:  dotnet-sdk-5.0, gtk3-devel, cairo-devel, perl-XML-LibXML
 BuildRequires:  meson
 
 Obsoletes:	gtk-sharp3
@@ -64,19 +63,7 @@ the GAPI tools and found in Gtk# include Gtk, Atk, Pango, Gdk.
 %prep
 %setup -q
 
-cp %{SOURCE5} Source/
-
-# Fix permissions of source files
-#find -name '*.c' -exec chmod a-x {} \;
-
-sed -i -e 's!</PackageTags>!</PackageTags><SignAssembly>true</SignAssembly><AssemblyOriginatorKeyFile>../../GtkSharp.snk</AssemblyOriginatorKeyFile>!g' Source/Libs/GtkSharp/GtkSharp.csproj
-sed -i -e 's!</PackageTags>!</PackageTags><SignAssembly>true</SignAssembly><AssemblyOriginatorKeyFile>../../GtkSharp.snk</AssemblyOriginatorKeyFile>!g' Source/Libs//GdkSharp/GdkSharp.csproj
-sed -i -e 's!</PackageTags>!</PackageTags><SignAssembly>true</SignAssembly><AssemblyOriginatorKeyFile>../../GtkSharp.snk</AssemblyOriginatorKeyFile>!g' Source/Libs//GioSharp/GioSharp.csproj
-sed -i -e 's!</PackageTags>!</PackageTags><SignAssembly>true</SignAssembly><AssemblyOriginatorKeyFile>../../GtkSharp.snk</AssemblyOriginatorKeyFile>!g' Source/Libs//GLibSharp/GLibSharp.csproj
-sed -i -e 's!</PackageTags>!</PackageTags><SignAssembly>true</SignAssembly><AssemblyOriginatorKeyFile>../../GtkSharp.snk</AssemblyOriginatorKeyFile>!g' Source/Libs//PangoSharp/PangoSharp.csproj
-sed -i -e 's!</PackageTags>!</PackageTags><SignAssembly>true</SignAssembly><AssemblyOriginatorKeyFile>../../GtkSharp.snk</AssemblyOriginatorKeyFile>!g' Source/Libs//CairoSharp/CairoSharp.csproj
-sed -i -e 's!</PackageTags>!</PackageTags><SignAssembly>true</SignAssembly><AssemblyOriginatorKeyFile>../../GtkSharp.snk</AssemblyOriginatorKeyFile>!g' Source/Libs//AtkSharp/AtkSharp.csproj
-
+sed -i -e 's!netcoreapp3.1!netcoreapp5.0!g' Source/Samples/Samples.csproj
 
 %build
 sh build.sh
@@ -90,26 +77,14 @@ sh build.sh
 %install
 %{__rm} -rf $RPM_BUILD_ROOT
 
-sn -R BuildOutput/Release/AtkSharp.dll Source/GtkSharp.snk
-gacutil -i BuildOutput/Release/AtkSharp.dll -package %{name}-3.0 -root $RPM_BUILD_ROOT%{_prefix}%{libdir} -gacdir mono/gac
-
-sn -R BuildOutput/Release/CairoSharp.dll Source/GtkSharp.snk
-gacutil -i BuildOutput/Release/CairoSharp.dll -package %{name}-3.0 -root $RPM_BUILD_ROOT%{_prefix}%{libdir} -gacdir mono/gac
-
-sn -R BuildOutput/Release/GdkSharp.dll Source/GtkSharp.snk
-gacutil -i BuildOutput/Release/GdkSharp.dll -package %{name}-3.0 -root $RPM_BUILD_ROOT%{_prefix}%{libdir} -gacdir mono/gac
-
-sn -R BuildOutput/Release/GioSharp.dll Source/GtkSharp.snk
-gacutil -i BuildOutput/Release/GioSharp.dll -package %{name}-3.0 -root $RPM_BUILD_ROOT%{_prefix}%{libdir} -gacdir mono/gac
-
-sn -R BuildOutput/Release/GLibSharp.dll Source/GtkSharp.snk
-gacutil -i BuildOutput/Release/GLibSharp.dll -package %{name}-3.0 -root $RPM_BUILD_ROOT%{_prefix}%{libdir} -gacdir mono/gac
-
-sn -R BuildOutput/Release/GtkSharp.dll Source/GtkSharp.snk
-gacutil -i BuildOutput/Release/GtkSharp.dll -package %{name}-3.0 -root $RPM_BUILD_ROOT%{_prefix}%{libdir} -gacdir mono/gac
-
-sn -R BuildOutput/Release/PangoSharp.dll Source/GtkSharp.snk
-gacutil -i BuildOutput/Release/PangoSharp.dll -package %{name}-3.0 -root $RPM_BUILD_ROOT%{_prefix}%{libdir} -gacdir mono/gac
+install -d -m 755 $RPM_BUILD_ROOT%{_prefix}%{libdir}
+install -m 644 BuildOutput/Release/AtkSharp.dll $RPM_BUILD_ROOT%{_prefix}%{libdir}
+install -m 644 BuildOutput/Release/CairoSharp.dll $RPM_BUILD_ROOT%{_prefix}%{libdir}/
+install -m 644 BuildOutput/Release/GdkSharp.dll $RPM_BUILD_ROOT%{_prefix}%{libdir}/
+install -m 644 BuildOutput/Release/GioSharp.dll $RPM_BUILD_ROOT%{_prefix}%{libdir}/
+install -m 644 BuildOutput/Release/GLibSharp.dll $RPM_BUILD_ROOT%{_prefix}%{libdir}/
+install -m 644 BuildOutput/Release/GtkSharp.dll $RPM_BUILD_ROOT%{_prefix}%{libdir}/
+install -m 644 BuildOutput/Release/PangoSharp.dll $RPM_BUILD_ROOT%{_prefix}%{libdir}/
 
 mkdir -p %{buildroot}%{_prefix}/share/pkgconfig
 install -m 644 %{SOURCE1} %{buildroot}%{_prefix}/share/pkgconfig/
@@ -117,6 +92,8 @@ install -m 644 %{SOURCE2} %{buildroot}%{_prefix}/share/pkgconfig/
 install -m 644 %{SOURCE3} %{buildroot}%{_prefix}/share/pkgconfig/
 install -m 644 %{SOURCE4} %{buildroot}%{_prefix}/share/pkgconfig/
 install -m 644 %{SOURCE108} %{buildroot}%{_prefix}/share/pkgconfig/
+
+sed -i -e 's!@VERSION@!%{version}!g' %{buildroot}%{_prefix}/share/pkgconfig/*.pc 
 
 mkdir -p %{buildroot}%{_prefix}/share/gapi-3.0
 cp Source/Libs/*/*Sharp-api.xml %{buildroot}%{_prefix}/share/gapi-3.0/
@@ -141,10 +118,7 @@ install -m 755 %{SOURCE107} %{buildroot}%{_prefix}/lib/gapi-3.0/
 
 %files
 %defattr(-,root,root,-)
-%{_prefix}/lib/mono/gac
-%{_prefix}/lib/mono/GtkSharp-3.0
-%{_prefix}/lib/mono/gac/*Sharp/*/*.dll
-%{_prefix}/lib/mono/gac/*Sharp/*/*.pdb
+%{_prefix}/lib/*Sharp.dll
 %{_prefix}/share/pkgconfig/*-sharp-3.0.pc
 
 %files gapi

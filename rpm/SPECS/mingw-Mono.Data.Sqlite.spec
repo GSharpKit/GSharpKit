@@ -11,7 +11,7 @@
 %define libdir /bin
 
 Name:           mingw-Mono.Data.Sqlite
-Version:        1.0.61
+Version:        1.0.61.1
 Release:        1%{?dist}
 Summary:        Mono.Data.Sqlite to any Xamarin or Windows .NET app. 
 
@@ -50,7 +50,7 @@ Supports Xamarin.Android, Xamarin.iOS, Windows 8, Windows Desktop and Windows Ph
 
 %prep
 %setup -c %{name}-%{version} -T
-nuget install %{mingw_pkg_name} -Version %{version}
+nuget install %{mingw_pkg_name}.Core -Version %{version}
 
 cat > Mono.Data.Sqlite32.pc << \EOF
 prefix=%{mingw32_prefix}
@@ -84,14 +84,14 @@ EOF
 
 # Mingw32
 install -d -m 755 $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir}
-install -m 644 Mono.Data.Sqlite.%{version}/lib/net40/Mono.Data.Sqlite.dll $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir}
+install -m 644 Mono.Data.Sqlite.Core.%{version}/lib/netstandard2.0/Mono.Data.Sqlite.dll $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir}
 
 install -d -m 755 $RPM_BUILD_ROOT%{mingw32_datadir}/pkgconfig/
 install -m 644 Mono.Data.Sqlite32.pc $RPM_BUILD_ROOT%{mingw32_datadir}/pkgconfig/Mono.Data.Sqlite.pc
 
 # Mingw64
 install -d -m 755 $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir}
-install -m 644 Mono.Data.Sqlite.%{version}/lib/net40/Mono.Data.Sqlite.dll $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir}
+install -m 644 Mono.Data.Sqlite.Core.%{version}/lib/netstandard2.0/Mono.Data.Sqlite.dll $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir}
 
 install -d -m 755 $RPM_BUILD_ROOT%{mingw64_datadir}/pkgconfig/
 install -m 644 Mono.Data.Sqlite64.pc $RPM_BUILD_ROOT%{mingw64_datadir}/pkgconfig/Mono.Data.Sqlite.pc

@@ -6,7 +6,7 @@ gapidir=${prefix}/share/gapi-3.0
 
 Name: Gdk#
 Description: Gdk# - GDK .NET Binding
-Version: 3.22.24
+Version: @VERSION@
 Cflags: -I:${gapidir}/GdkSharp-api.xml
-Libs: -r:Facades/netstandard.dll -r:${libdir}/mono/GtkSharp-3.0/GdkSharp.dll
+Libs: -r:Facades/netstandard.dll -r:${libdir}/GdkSharp.dll
 Requires: glib-sharp-3.0

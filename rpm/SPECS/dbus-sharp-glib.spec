@@ -1,3 +1,9 @@
+%define _binary_payload w2.xzdio
+
+%global debug_package %{nil}
+
+%define libdir /lib
+
 %define pkg_version 0.6
 
 Name:		dbus-sharp-glib
@@ -35,6 +41,8 @@ dbus-sharp-glib provides glib mainloop integration for dbus-sharp
 #patch0 -p1
 %patch1 -p1
 
+sed -i -e 's!libglib-2.0-0.dll!libglib-2.0.so.0!g' src/GLib.IO.cs 
+
 %build
 sh autogen.sh
 ./configure --prefix=%{prefix}
@@ -44,9 +52,14 @@ make
 rm -rf $RPM_BUILD_ROOT
 make install DESTDIR=$RPM_BUILD_ROOT
 
-mkdir -p $RPM_BUILD_ROOT%{_datadir}/pkgconfig
+install -d -m 755 $RPM_BUILD_ROOT%{_datadir}/pkgconfig
 mv $RPM_BUILD_ROOT%{prefix}/lib/pkgconfig/* $RPM_BUILD_ROOT%{_datadir}/pkgconfig/
+sed -i -e 's!mono/dbus-sharp-glib-2.0/!!g' $RPM_BUILD_ROOT%{_datadir}/pkgconfig/dbus-sharp-glib-2.0.pc
 rm -rf $RPM_BUILD_ROOT%{prefix}/lib/pkgconfig
+
+install -d -m 755 $RPM_BUILD_ROOT%{_prefix}%{libdir}
+mv $RPM_BUILD_ROOT%{prefix}/lib/mono/gac/dbus-sharp-glib/*/*.dll $RPM_BUILD_ROOT%{_prefix}%{libdir}/
+rm -rf $RPM_BUILD_ROOT%{prefix}/lib/mono
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -54,8 +67,7 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(-,root,root,-)
 %doc COPYING
-%{prefix}/lib/mono/gac/dbus-sharp-glib/
-%{prefix}/lib/mono/dbus-sharp-glib-2.0/
+%{prefix}/lib/dbus-sharp-glib.dll
 %{_datadir}/pkgconfig/dbus-sharp-glib-2.0.pc
 
 %changelog

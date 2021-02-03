@@ -1,52 +1,54 @@
 %define libdir /lib
 
 Name:		Mono.Addins
-Version:	1.3.8
+Version:	1.3.9
 Release:	1%{?dist}
 Summary:	Addins for mono
 Group:		Development/Languages
 License:	MIT
 URL:		https://www.nuget.org/packages/Mono.Addins
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
+Source0:	Mono.Addins-%{version}.tar.xz
 Prefix:		/usr
 
 BuildArch: 	noarch
 
-Requires:	mono-core >= 5.14.0
-
 Obsoletes:	mono-addins
 Provides:	mono-addins
 
-BuildRequires:	nuget
+#BuildRequires:	nuget
 
 %description
 Mono.Addins is a generic framework for creating extensible applications,
 and for creating libraries which extend those applications.
 
 %prep
-%setup -c %{name}-%{version} -T
-nuget install %{name} -Version %{version}
+%setup -q -n %{name}-%{version}
+#nuget install %{name} -Version %{version}
 
 cat > mono-addins.pc << \EOF
 prefix=%{_prefix}
 exec_prefix=${prefix}
-libdir=%{_prefix}%{libdir}/mono
+libdir=%{_prefix}%{libdir}
 
 Name: %{name}
 Description: %{summary}
 Requires:
 Version: %{version}
-Libs: -r:${libdir}/%{name}/%{name}.dll
+Libs: -r:${libdir}/%{name}.dll
 Cflags:
 EOF
 
 %build
+nuget restore
+cd Mono.Addins
+msbuild /p:Configuration=Release Mono.Addins.csproj 
 
 %install
 %{__rm} -rf %{buildroot}
 
-install -d -m 755 $RPM_BUILD_ROOT%{_prefix}%{libdir}/mono/gac
-gacutil -i %{name}.%{version}/lib/net45/%{name}.dll -package %{name} -root $RPM_BUILD_ROOT%{_prefix}%{libdir} -gacdir mono/gac
+install -d -m 755 $RPM_BUILD_ROOT%{_prefix}%{libdir}
+install -m 644 bin/netstandard2.0/%{name}.dll $RPM_BUILD_ROOT%{_prefix}%{libdir}
 
 install -d -m 755 $RPM_BUILD_ROOT%{_datadir}/pkgconfig/
 install -m 644 mono-addins.pc $RPM_BUILD_ROOT%{_datadir}/pkgconfig/
@@ -55,8 +57,7 @@ install -m 644 mono-addins.pc $RPM_BUILD_ROOT%{_datadir}/pkgconfig/
 
 %files
 %defattr(-,root,root,-)
-%{_prefix}%{libdir}/mono/gac
-%{_prefix}%{libdir}/mono/%{name}/%{name}.dll
+%{_prefix}%{libdir}/%{name}.dll
 %{_datadir}/pkgconfig/mono-addins.pc
 
 %changelog

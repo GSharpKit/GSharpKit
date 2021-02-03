@@ -8,8 +8,8 @@
 %define debug_package %{nil}
 
 Name:		mingw-webkitgtk3-sharp
-Version:	2.4.11
-Release:	2%{?dist}
+Version:	2.4.12
+Release:	1%{?dist}
 Summary:	.NET bindings for WebKit
 Group:		Development/Languages
 License:	MIT
@@ -19,8 +19,8 @@ Source0:        webkitgtk3-sharp-%{version}.tar.xz
 BuildArch:	noarch
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
-BuildRequires:	GSharpKit-sdk-mingw32-devel
-BuildRequires:	GSharpKit-sdk-mingw64-devel
+#BuildRequires:	GSharpKit-sdk-mingw32-devel
+#BuildRequires:	GSharpKit-sdk-mingw64-devel
 
 BuildRequires:  mingw32-webkitgtk3
 BuildRequires:  mingw64-webkitgtk3
@@ -75,22 +75,16 @@ MINGW64_PKG_CONFIG=/usr/pkg-config %mingw64_configure
 
 
 # Mingw32
-install -d -m 755 $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir}
-install -m 644 $RPM_BUILD_ROOT%{mingw32_libdir}/mono/gac/webkitgtk3-sharp/*/*.dll $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir}/
+mv $RPM_BUILD_ROOT%{mingw32_prefix}/lib $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir}
 
 sed -i -e 's!/usr/i686-w64-mingw32/sys-root/mingw/lib!/usr/i686-w64-mingw32/sys-root/mingw/bin!' $RPM_BUILD_ROOT%{mingw32_datadir}/pkgconfig/webkitgtk3-sharp-3.0.pc
 sed -i -e 's!/mono/webkitgtk3-sharp!!' $RPM_BUILD_ROOT%{mingw32_datadir}/pkgconfig/webkitgtk3-sharp-3.0.pc
 
-rm -rf $RPM_BUILD_ROOT%{mingw32_libdir}
-
 # Mingw64
-install -d -m 755 $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir}
-install -m 644 $RPM_BUILD_ROOT%{mingw64_libdir}/mono/gac/webkitgtk3-sharp/*/*.dll $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir}/
+mv $RPM_BUILD_ROOT%{mingw64_prefix}/lib $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir}
 
 sed -i -e 's!/usr/x86_64-w64-mingw32/sys-root/mingw/lib!/usr/x86_64-w64-mingw32/sys-root/mingw/bin!' $RPM_BUILD_ROOT%{mingw64_datadir}/pkgconfig/webkitgtk3-sharp-3.0.pc
 sed -i -e 's!/mono/webkitgtk3-sharp!!' $RPM_BUILD_ROOT%{mingw64_datadir}/pkgconfig/webkitgtk3-sharp-3.0.pc
-
-rm -rf $RPM_BUILD_ROOT%{mingw64_libdir}
 
 %clean
 %{__rm} -rf %{buildroot}

@@ -1,30 +1,30 @@
-%define MINGW_FILESYSTEM_VERSION 113
-%define BINUTILS_VERSION 2.32
-%define HEADER_CRT_THREAD_VERSION 6.0.0
-%define COMPILER_VERSION 9.2.1
+%define MINGW_FILESYSTEM_VERSION 116
+%define BINUTILS_VERSION 2.34
+%define HEADER_CRT_THREAD_VERSION 7.0.0
+%define COMPILER_VERSION 10.2.1
 %define PKG_CONFIG_VERSION 0.28
 %define TERMCAP_VERSION 1.3.1
 %define ZLIB_VERSION 1.2.11
 %define ICONV_VERSION 0.0.8
-%define GETTEXT_VERSION 0.20.1
+%define GETTEXT_VERSION 0.20.2
 %define LIBFFI_VERSION 3.1
 %define PCRE_VERSION 8.43
 %define GLIB2_VERSION 2.64.3
-%define PIXMAN_VERSION 0.38.4
+%define PIXMAN_VERSION 0.40.0
 %define BZIP2_VERSION 1.0.8
-%define FREETYPE_VERSION 2.10.1
+%define FREETYPE_VERSION 2.10.2
 %define EXPAT_VERSION 2.2.8
 %define FONTCONFIG_VERSION 2.13.1
 %define LIBPNG_VERSION 1.6.37
 %define LIBJPEG_TURBO_VERSION 1.5.3
 %define LIBTIFF_VERSION 4.0.9
 %define CAIRO_VERSION 1.16.0
-%define ICU_VERSION 65.1
-%define HARFBUZZ_VERSION 2.6.4
-%define FRIBIDI_VERSION 1.0.8
+%define ICU_VERSION 67.1
+%define HARFBUZZ_VERSION 2.6.8
+%define FRIBIDI_VERSION 1.0.10
 %define PANGO_VERSION 1.44.7
-%define ATK_VERSION 2.34.1
-%define JASPER_VERSION 1.900.29
+%define ATK_VERSION 2.36.0
+%define JASPER_VERSION 2.0.24
 %define LIBXML2_VERSION 2.9.10
 %define LIBPSL_VERSION 0.21.0
 %define LIBCROCO_VERSION 0.6.12
@@ -46,28 +46,28 @@
 %define LIBTASN1_VERSION 4.16.0
 %define READLINE_VERSION 8.0
 %define LIBUNISTRING_VERSION 0.9.10
-%define GNUTLS_VERSION 3.5.16
+%define GNUTLS_VERSION 3.6.15
 %define OPENSSL_VERSION 1.1.1
 %define GLIB_NETWORKING_VERSION 2.64.3
 
-%define LIBXSLT_VERSION 1.1.33
-%define SQLITE_VERSION 3.31.1
-%define LIBSOUP_VERSION 2.70.0
+%define LIBXSLT_VERSION 1.1.34
+%define SQLITE_VERSION 3.34.0
+%define LIBSOUP_VERSION 2.71.1
 
 %define HUNSPELL_VERSION 1.7.0
 %define ENCHANT_VERSION 1.6.0
 
 %define LIBOGG_VERSION 1.3.3
 %define LIBVORBIS_VERSION 1.3.6
-%define LIBWEBP_VERSION 1.1.0
-%define GSTREAMER1_VERSION 1.16.2
-%define GSTREAMER1_PLUGINS_BASE_VERSION 1.16.2
-%define GSTREAMER1_PLUGINS_GOOD_VERSION 1.16.2
-%define GSTREAMER1_PLUGINS_BAD_VERSION 1.16.2
-%define WEBKITGTK3_VERSION 2.4.11
+%define LIBWEBP_VERSION 1.2.0
+%define GSTREAMER1_VERSION 1.18.2
+%define GSTREAMER1_PLUGINS_BASE_VERSION 1.18.2
+%define GSTREAMER1_PLUGINS_GOOD_VERSION 1.18.2
+%define GSTREAMER1_PLUGINS_BAD_VERSION 1.18.2
+%define WEBKITGTK3_VERSION 2.4.12
 #define LIBEXIF_VERSION 0.6.20
 
-%define DBUS_VERSION 1.12.12
+%define DBUS_VERSION 1.12.20
 %define DBUS_GLIB_VERSION 0.110
 
 #define LIBUSB_VERSION 1.0.22
@@ -75,28 +75,30 @@
 #define SANE_BACKENDS_VERSION 1.0.27
 #define TWAIN_DSM_VERSION 2.3.1
 
-%define MONO_CORE_VERSION 6.12.0.90
-%define MONO_DATA_SQLITE_VERSION 1.0.61
+%define MONO_CORE_VERSION 6.12.0.107
+%define MONO_DATA_SQLITE_VERSION 1.0.61.1
 %define MONO_POSIX_NETSTANDARD_VERSION 1.0.0
 %define DBUS_SHARP_VERSION 2:0.9.2
 %define DBUS_GLIB_SHARP_VERSION 0.6.0
-%define GTK3_SHARP_VERSION 3.22.25.98
-%define GDL_SHARP_VERSION 3.26.0
-%define GST_SHARP_VERSION 1.16.0
-%define WEBKITGTK3_SHARP_VERSION 2.4.11
+%define GTK3_SHARP_VERSION 3.24.20
+%define GDL_SHARP_VERSION 3.34.0
+%define GST_SHARP_VERSION 1.18.0
+%define WEBKITGTK3_SHARP_VERSION 2.4.12
 %define GTK_MAC_INTEGRATION_SHARP_VERSION 2.0.7
 
-%define MICROSOFT_CSHARP_VERSION 4.5.0
-%define NPGSQL_VERSION 4.1.7
-%define MONO_ADDINS_VERSION 1.3.8
+%define SYSTEM_RUNTIME_CACHING_VERSION 5.0.0
+%define SYSTEM_COMPONENTMODEL_ANNOTATIONS_VERSION 5.0.0
+%define MICROSOFT_CSHARP_VERSION 4.7.0
+%define NPGSQL_VERSION 5.0.4
+%define MONO_ADDINS_VERSION 1.3.9
 %define NEWTONSOFT_JSON_VERSION 12.0.3
-%define BOUNCY_CASTLE_VERSION 1.8.5
-%define MIMEKIT_VERSION 2.9.1
-%define MAILKIT_VERSION 2.8.0
-%define SERVICE_STACK_VERSION 5.9.0
-%define REST_SHARP_VERSION 106.11.4
+%define BOUNCY_CASTLE_VERSION 1.8.8
+%define MIMEKIT_VERSION 2.10.1
+%define MAILKIT_VERSION 2.10.1
+%define SERVICE_STACK_VERSION 5.10.4
+%define REST_SHARP_VERSION 106.11.7
 %define SEALAPI_VERSION 4.1.0
-%define PDFSHARP_MIGRADOC_VERSION 1.50.5147
+%define PDFSHARP_MIGRADOC_VERSION 1.51.15
 %define SPRACHE_VERSION 2.2.0
 #define SHARP_ZIP_LIB_VERSION 1.0.0
 #define LIBGPHOTO2_SHARP_VERSION 0.3.2
@@ -104,7 +106,7 @@
 
 Summary: 		Easy management of applications
 Name: 			GSharpKit
-Version:		32.5
+Version:		33.0
 Release:		1%{?dist}
 License:		GPL
 Group: 			Applications/Desktop
@@ -164,6 +166,8 @@ Requires:		mono-extras >= %{MONO_CORE_VERSION}
 Requires:		mono-locale-extras >= %{MONO_CORE_VERSION}
 Requires:		mono-data >= %{MONO_CORE_VERSION}
 Requires:		mono-data-sqlite >= %{MONO_CORE_VERSION}
+Requires:		System.Runtime.Caching >= %{SYSTEM_RUNTIME_CACHING_VERSION}
+Requires:		System.ComponentModel.Annotations >= %{SYSTEM_COMPONENTMODEL_ANNOTATIONS_VERSION}
 Requires:		Microsoft.CSharp >= %{MICROSOFT_CSHARP_VERSION}
 Requires:		Mono.Posix.NETStandard >= %{MONO_POSIX_NETSTANDARD_VERSION}
 Requires:		Mono.Data.Sqlite >= %{MONO_DATA_SQLITE_VERSION}
@@ -178,7 +182,7 @@ Requires:		dbus-sharp >= %{DBUS_SHARP_VERSION}
 Requires:		dbus-sharp-glib >= %{DBUS_GLIB_SHARP_VERSION}
 Requires:		dbus-sharp-glib-devel >= %{DBUS_GLIB_SHARP_VERSION}
 
-Requires:		libcroco >= %{LIBCROCO_VERSION}
+#Requires:		libcroco >= %{LIBCROCO_VERSION}
 Requires:		libepoxy >= %{LIBEPOXY_VERSION}
 Requires:		librsvg2 >= %{LIBRSVG2_VERSION}
 Requires:		gtk3 >= %{GTK3_VERSION}
@@ -207,7 +211,7 @@ Requires:		gstreamer1 => %{GSTREAMER1_VERSION}
 Requires:		gstreamer1-plugins-base >= %{GSTREAMER1_PLUGINS_BASE_VERSION}
 Requires:		gstreamer1-plugins-good >= %{GSTREAMER1_PLUGINS_GOOD_VERSION}
 Requires:		gstreamer1-plugins-bad-free >= %{GSTREAMER1_PLUGINS_BAD_VERSION}
-Requires:		GstSharp >= %{GST_SHARP_VERSION}
+#Requires:		GstSharp >= %{GST_SHARP_VERSION}
 Requires:		Newtonsoft.Json >= %{NEWTONSOFT_JSON_VERSION}
 Requires:		BouncyCastle >= %{BOUNCY_CASTLE_VERSION}
 Requires:		MimeKit >= %{MIMEKIT_VERSION}
@@ -216,7 +220,7 @@ Requires:		ServiceStack >= %{SERVICE_STACK_VERSION}
 Requires:		RestSharp >= %{REST_SHARP_VERSION}
 Requires:		Seal.net >= %{SEALAPI_VERSION}
 Requires:		Sprache >= %{SPRACHE_VERSION}
-Requires:		PDFsharp-MigraDoc >= %{PDFSHARP_MIGRADOC_VERSION}
+Requires:		PdfSharp.MigraDoc >= %{PDFSHARP_MIGRADOC_VERSION}
 #Requires:		SharpZipLib >= %{SHARP_ZIP_LIB_VERSION}
 #Requires:		libgphoto2-sharp >= %{LIBGPHOTO2_SHARP_VERSION}
 #Requires:		SharpCamera >= %{SHARP_CAMERA_VERSION}
@@ -243,8 +247,7 @@ Requires:		meson
 
 Requires:		gtk-sharp3-devel gtk-sharp3-gapi
 
-Requires:		gnome-sharp
-Requires:		dotnet-sdk-2.2 dotnet-sdk-3.1
+Requires:		dotnet-sdk-5.0
 Requires:		msbuild
 Requires:		netstandard netstandard-targeting-pack-2.1
 
@@ -334,6 +337,8 @@ Requires:               mingw32-dbus-glib >= %{DBUS_GLIB_VERSION}
 #Requires:		mingw32-sane-backends >= %{SANE_BACKENDS_VERSION}
 #Requires:		mingw32-twaindsm >= %{TWAIN_DSM_VERSION}
 
+Requires:               mingw32-System.Runtime.Caching >= %{SYSTEM_RUNTIME_CACHING_VERSION}
+Requires:               mingw32-System.ComponentModel.Annotations >= %{SYSTEM_COMPONENTMODEL_ANNOTATIONS_VERSION}
 Requires:               mingw32-Microsoft.CSharp >= %{MICROSOFT_CSHARP_VERSION}
 Requires:               mingw32-Mono.Posix.NETStandard >= %{MONO_POSIX_NETSTANDARD_VERSION}
 Requires:               mingw32-Mono.Data.Sqlite >= %{MONO_DATA_SQLITE_VERSION}
@@ -345,7 +350,7 @@ Requires:               mingw32-Mono.Addins >= %{MONO_ADDINS_VERSION}
 Requires:               mingw32-webkitgtk3-sharp >= %{WEBKITGTK3_SHARP_VERSION}
 Requires:               mingw32-dbus-sharp >= %{DBUS_SHARP_VERSION}
 Requires:               mingw32-dbus-sharp-glib >= %{DBUS_GLIB_SHARP_VERSION}
-Requires:		mingw32-GstSharp >= %{GST_SHARP_VERSION}
+#Requires:		mingw32-GstSharp >= %{GST_SHARP_VERSION}
 Requires:		mingw32-Newtonsoft.Json >= %{NEWTONSOFT_JSON_VERSION}
 Requires:               mingw32-BouncyCastle >= %{BOUNCY_CASTLE_VERSION}
 Requires:               mingw32-MimeKit >= %{MIMEKIT_VERSION}
@@ -354,7 +359,7 @@ Requires:		mingw32-ServiceStack >= %{SERVICE_STACK_VERSION}
 Requires:		mingw32-RestSharp >= %{REST_SHARP_VERSION}
 Requires:		mingw32-Seal.net >= %{SEALAPI_VERSION}
 Requires:               mingw32-Sprache >= %{SPRACHE_VERSION}
-Requires:               mingw32-PDFsharp-MigraDoc >= %{PDFSHARP_MIGRADOC_VERSION}
+Requires:               mingw32-PdfSharp.MigraDoc >= %{PDFSHARP_MIGRADOC_VERSION}
 #Requires:		mingw32-SharpZipLib >= %{SHARP_ZIP_LIB_VERSION}
 #Requires:		mingw32-libgphoto2-sharp >= %{LIBGPHOTO2_SHARP_VERSION}
 #Requires:		mingw32-SharpCamera >= %{SHARP_CAMERA_VERSION}
@@ -443,6 +448,8 @@ Requires:               mingw64-dbus-glib >= %{DBUS_GLIB_VERSION}
 #Requires:		mingw64-sane-backends >= %{SANE_BACKENDS_VERSION}
 #Requires:		mingw64-twaindsm >= %{TWAIN_DSM_VERSION}
 
+Requires:               mingw64-System.Runtime.Caching >= %{SYSTEM_RUNTIME_CACHING_VERSION}
+Requires:               mingw64-System.ComponentModel.Annotations >= %{SYSTEM_COMPONENTMODEL_ANNOTATIONS_VERSION}
 Requires:               mingw64-Microsoft.CSharp >= %{MICROSOFT_CSHARP_VERSION}
 Requires:               mingw64-Mono.Posix.NETStandard >= %{MONO_POSIX_NETSTANDARD_VERSION}
 Requires:               mingw64-Mono.Data.Sqlite >= %{MONO_DATA_SQLITE_VERSION}
@@ -454,7 +461,7 @@ Requires:               mingw64-Mono.Addins >= %{MONO_ADDINS_VERSION}
 Requires:               mingw64-webkitgtk3-sharp >= %{WEBKITGTK3_SHARP_VERSION}
 Requires:               mingw64-dbus-sharp >= %{DBUS_SHARP_VERSION}
 Requires:               mingw64-dbus-sharp-glib >= %{DBUS_GLIB_SHARP_VERSION}
-Requires:               mingw64-GstSharp >= %{GST_SHARP_VERSION}
+#Requires:               mingw64-GstSharp >= %{GST_SHARP_VERSION}
 Requires:               mingw64-Newtonsoft.Json >= %{NEWTONSOFT_JSON_VERSION}
 Requires:               mingw64-BouncyCastle >= %{BOUNCY_CASTLE_VERSION}
 Requires:               mingw64-MimeKit >= %{MIMEKIT_VERSION}
@@ -463,7 +470,7 @@ Requires:		mingw64-ServiceStack >= %{SERVICE_STACK_VERSION}
 Requires:		mingw64-RestSharp >= %{REST_SHARP_VERSION}
 Requires:		mingw64-Seal.net >= %{SEALAPI_VERSION}
 Requires:               mingw64-Sprache >= %{SPRACHE_VERSION}
-Requires:               mingw64-PDFsharp-MigraDoc >= %{PDFSHARP_MIGRADOC_VERSION}
+Requires:               mingw64-PdfSharp.MigraDoc >= %{PDFSHARP_MIGRADOC_VERSION}
 #Requires:		mingw64-SharpZipLib >= %{SHARP_ZIP_LIB_VERSION}
 #Requires:		mingw64-libgphoto2-sharp >= %{LIBGPHOTO2_SHARP_VERSION}
 #Requires:		mingw64-SharpCamera >= %{SHARP_CAMERA_VERSION}
@@ -639,7 +646,9 @@ Requires:               darwinx-dbus-glib >= %{DBUS_GLIB_VERSION}
 #Requires:		darwinx-sane-backends >= %{SANE_BACKENDS_VERSION}
 #Requires:		darwinx-twaindsm >= %{TWAIN_DSM_VERSION} # Uses Twain.Framework on macOS
 
-#Requires:               darwinx-Microsoft.CSharp >= %{MICROSOFT_CSHARP_VERSION}
+Requires:               darwinx-System.Runtime.Caching >= %{SYSTEM_RUNTIME_CACHING_VERSION}
+Requires:               darwinx-System.ComponentModel.Annotations >= %{SYSTEM_COMPONENTMODEL_ANNOTATIONS_VERSION}
+Requires:               darwinx-Microsoft.CSharp >= %{MICROSOFT_CSHARP_VERSION}
 Requires:               darwinx-Mono.Posix.NETStandard >= %{MONO_POSIX_NETSTANDARD_VERSION}
 Requires:               darwinx-Mono.Data.Sqlite >= %{MONO_DATA_SQLITE_VERSION}
 Requires:               darwinx-mono-core >= %{MONO_CORE_VERSION}
@@ -651,7 +660,7 @@ Requires:               darwinx-Mono.Addins >= %{MONO_ADDINS_VERSION}
 Requires:               darwinx-webkitgtk3-sharp >= %{WEBKITGTK3_SHARP_VERSION}
 Requires:               darwinx-dbus-sharp >= %{DBUS_SHARP_VERSION}
 Requires:               darwinx-dbus-sharp-glib >= %{DBUS_GLIB_SHARP_VERSION}
-Requires:               darwinx-GstSharp >= %{GST_SHARP_VERSION}
+#Requires:               darwinx-GstSharp >= %{GST_SHARP_VERSION}
 Requires:               darwinx-Newtonsoft.Json >= %{NEWTONSOFT_JSON_VERSION}
 Requires:               darwinx-BouncyCastle >= %{BOUNCY_CASTLE_VERSION}
 Requires:               darwinx-MimeKit >= %{MIMEKIT_VERSION}
@@ -660,7 +669,7 @@ Requires:               darwinx-ServiceStack >= %{SERVICE_STACK_VERSION}
 Requires:		darwinx-RestSharp >= %{REST_SHARP_VERSION}
 Requires:		darwinx-Seal.net >= %{SEALAPI_VERSION}
 Requires:               darwinx-Sprache >= %{SPRACHE_VERSION}
-Requires:               darwinx-PDFsharp-MigraDoc >= %{PDFSHARP_MIGRADOC_VERSION}
+Requires:               darwinx-PdfSharp.MigraDoc >= %{PDFSHARP_MIGRADOC_VERSION}
 #Requires:		darwinx-SharpZipLib >= %{SHARP_ZIP_LIB_VERSION}
 #Requires:		darwinx-libgphoto2-sharp >= %{LIBGPHOTO2_SHARP_VERSION}
 #Requires:		darwinx-SharpCamera >= %{SHARP_CAMERA_VERSION}
@@ -722,7 +731,6 @@ rm -rf $RPM_BUILD_ROOT
 #{_libdir}/mono/gsharpkit/GSharpKit.Config.dll
 #{_libdir}/mono/gsharpkit/GSharpKit.Utils.dll
 #{_libdir}/mono/gsharpkit/gsharpkit.exe
-#{_libdir}/mono/gac
 #{_datadir}/gsharpkit/ui/gsharpkit.xml
 #{_datadir}/applications/gsharpkit.desktop
 #{_datadir}/locale

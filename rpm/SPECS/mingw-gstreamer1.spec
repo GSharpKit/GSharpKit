@@ -3,7 +3,7 @@
 %global api_version 1.0
 
 Name:           mingw-gstreamer1
-Version:        1.16.2
+Version:        1.18.3
 Release:        1%{?dist}
 Summary:        MinGW Windows Streaming-Media Framework Runtime
 
@@ -70,25 +70,12 @@ installing new plug-ins.
 %prep
 %setup -q -n gstreamer-%{version}
 
-
 %build
-%mingw_configure                                                       \
-    --with-package-name='Fedora MinGW GStreamer package'               \
-    --with-package-origin='http://download.fedoraproject.org'          \
-    --enable-shared                                                    \
-    --disable-static                                                   \
-    --disable-gtk-doc                                                  \
-    --enable-debug                                                     \
-    --disable-fatal-warnings                                           \
-    --disable-silent-rules                                             \
-    --disable-tests                                                    \
-    --disable-examples
-
-%mingw_make %{?_smp_mflags}
-
+%mingw_meson --default-library=shared
+%mingw_ninja
 
 %install
-%mingw_make install DESTDIR=$RPM_BUILD_ROOT
+%mingw_ninja_install
 
 rm -f $RPM_BUILD_ROOT%{mingw32_libdir}/gstreamer-%{api_version}/*.dll.a
 rm -f $RPM_BUILD_ROOT%{mingw32_libdir}/gstreamer-%{api_version}/*.la
@@ -106,29 +93,15 @@ rm -f $RPM_BUILD_ROOT%{mingw64_mandir}/man1/*gst*
 rm -fr $RPM_BUILD_ROOT%{mingw64_datadir}/gdb
 rm -fr $RPM_BUILD_ROOT%{mingw64_datadir}/gstreamer-%{api_version}/gdb
 
-# Remove silly target prefix from binaries
-for prefixed_file in $RPM_BUILD_ROOT%{mingw32_bindir}/%{mingw32_target}-*.exe \
-                     $RPM_BUILD_ROOT%{mingw64_bindir}/%{mingw64_target}-*.exe \
-                     $RPM_BUILD_ROOT%{mingw32_libexecdir}/*/%{mingw32_target}-*.exe \
-                     $RPM_BUILD_ROOT%{mingw64_libexecdir}/*/%{mingw64_target}-*.exe
-do
-    f=$(echo $prefixed_file | sed -e 's/%{mingw32_target}-//' \
-                                  -e 's/%{mingw64_target}-//')
-    mv $prefixed_file $f
-done
-
 %mingw_find_lang gstreamer-%{api_version}
 
 
 # Win32
 %files -n mingw32-gstreamer1 -f mingw32-gstreamer-%{api_version}.lang
-%license COPYING
-
 %dir %{mingw32_includedir}/gstreamer-%{api_version}
 %{mingw32_includedir}/gstreamer-%{api_version}/gst
 
 %dir %{mingw32_libexecdir}/gstreamer-%{api_version}
-%{mingw32_libexecdir}/gstreamer-%{api_version}/gst-completion-helper.exe
 %{mingw32_libexecdir}/gstreamer-%{api_version}/gst-plugin-scanner.exe
 
 %dir %{mingw32_libdir}/gstreamer-%{api_version}/
@@ -137,34 +110,33 @@ done
 %{mingw32_libdir}/libgstcontroller-%{api_version}.dll.a
 %{mingw32_libdir}/libgstnet-%{api_version}.dll.a
 %{mingw32_libdir}/libgstreamer-%{api_version}.dll.a
+%{mingw32_libdir}/libgstcheck-%{api_version}.dll.a
 %{mingw32_libdir}/pkgconfig/gstreamer-%{api_version}.pc
 %{mingw32_libdir}/pkgconfig/gstreamer-base-%{api_version}.pc
 %{mingw32_libdir}/pkgconfig/gstreamer-controller-%{api_version}.pc
 %{mingw32_libdir}/pkgconfig/gstreamer-net-%{api_version}.pc
+%{mingw32_libdir}/pkgconfig/gstreamer-check-%{api_version}.pc
 
 %{mingw32_bindir}/gst-inspect-%{api_version}.exe
 %{mingw32_bindir}/gst-launch-%{api_version}.exe
 %{mingw32_bindir}/gst-stats-%{api_version}.exe
 %{mingw32_bindir}/gst-typefind-%{api_version}.exe
+%{mingw32_bindir}/gst-tester-%{api_version}.exe
 
 %{mingw32_bindir}/libgstbase-%{api_version}-0.dll
 %{mingw32_bindir}/libgstcontroller-%{api_version}-0.dll
 %{mingw32_bindir}/libgstnet-%{api_version}-0.dll
 %{mingw32_bindir}/libgstreamer-%{api_version}-0.dll
+%{mingw32_bindir}/libgstcheck-%{api_version}-0.dll
 
 %{mingw32_datadir}/aclocal/gst-element-check-%{api_version}.m4
-%{mingw32_datadir}/bash-completion/
-
 
 # Win64
 %files -n mingw64-gstreamer1 -f mingw64-gstreamer-%{api_version}.lang
-%license COPYING
-
 %dir %{mingw64_includedir}/gstreamer-%{api_version}
 %{mingw64_includedir}/gstreamer-%{api_version}/gst
 
 %dir %{mingw64_libexecdir}/gstreamer-%{api_version}
-%{mingw64_libexecdir}/gstreamer-%{api_version}/gst-completion-helper.exe
 %{mingw64_libexecdir}/gstreamer-%{api_version}/gst-plugin-scanner.exe
 
 %dir %{mingw64_libdir}/gstreamer-%{api_version}/
@@ -173,23 +145,26 @@ done
 %{mingw64_libdir}/libgstcontroller-%{api_version}.dll.a
 %{mingw64_libdir}/libgstnet-%{api_version}.dll.a
 %{mingw64_libdir}/libgstreamer-%{api_version}.dll.a
+%{mingw64_libdir}/libgstcheck-%{api_version}.dll.a
 %{mingw64_libdir}/pkgconfig/gstreamer-%{api_version}.pc
 %{mingw64_libdir}/pkgconfig/gstreamer-base-%{api_version}.pc
 %{mingw64_libdir}/pkgconfig/gstreamer-controller-%{api_version}.pc
 %{mingw64_libdir}/pkgconfig/gstreamer-net-%{api_version}.pc
+%{mingw64_libdir}/pkgconfig/gstreamer-check-%{api_version}.pc
 
 %{mingw64_bindir}/gst-inspect-%{api_version}.exe
 %{mingw64_bindir}/gst-launch-%{api_version}.exe
 %{mingw64_bindir}/gst-stats-%{api_version}.exe
 %{mingw64_bindir}/gst-typefind-%{api_version}.exe
+%{mingw64_bindir}/gst-tester-%{api_version}.exe
 
 %{mingw64_bindir}/libgstbase-%{api_version}-0.dll
 %{mingw64_bindir}/libgstcontroller-%{api_version}-0.dll
 %{mingw64_bindir}/libgstnet-%{api_version}-0.dll
 %{mingw64_bindir}/libgstreamer-%{api_version}-0.dll
+%{mingw64_bindir}/libgstcheck-%{api_version}-0.dll
 
 %{mingw64_datadir}/aclocal/gst-element-check-%{api_version}.m4
-%{mingw64_datadir}/bash-completion/
 
 
 %changelog

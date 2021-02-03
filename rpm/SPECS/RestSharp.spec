@@ -2,11 +2,10 @@
 
 %define debug_package %{nil}
 
-%define platform net45
 %define libdir /lib
 
 Name:		RestSharp
-Version: 	106.11.4
+Version: 	106.11.7
 Release: 	1%{?dist}
 Summary: 	Simple REST and HTTP API Client
 Group: 		System Environment/Libraries
@@ -30,7 +29,7 @@ nuget install %{name} -Version %{version}
 cat > RestSharp.pc << \EOF
 prefix=%{_prefix}
 exec_prefix=${prefix}
-libdir=%{libdir}/mono/RestSharp
+libdir=%{libdir}
 
 Name: RestSharp
 Description: Simple REST and HTTP API Client
@@ -45,8 +44,8 @@ EOF
 %install  
 rm -rf $RPM_BUILD_ROOT
 
-install -d -m 755 $RPM_BUILD_ROOT%{_prefix}%{libdir}/mono/gac
-gacutil -i RestSharp.%{version}/lib/netstandard2.0/RestSharp.dll -package RestSharp -root $RPM_BUILD_ROOT%{_prefix}%{libdir} -gacdir mono/gac
+install -d -m 755 $RPM_BUILD_ROOT%{_prefix}%{libdir}
+install -m 644 RestSharp.%{version}/lib/netstandard2.0/RestSharp.dll $RPM_BUILD_ROOT%{_prefix}%{libdir}
 
 install -d -m 755 $RPM_BUILD_ROOT%{_datadir}/RestSharp
 install -m 664 %{SOURCE0} $RPM_BUILD_ROOT%{_datadir}/RestSharp/License
@@ -60,8 +59,7 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(-, root, root, -)
 %{_datadir}/RestSharp/License
-%{_prefix}%{libdir}/mono/gac
-%{_prefix}%{libdir}/mono/RestSharp/RestSharp.dll
+%{_prefix}%{libdir}/RestSharp.dll
 %{_datadir}/pkgconfig/RestSharp.pc
 
 %changelog

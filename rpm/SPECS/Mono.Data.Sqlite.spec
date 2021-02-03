@@ -3,7 +3,7 @@
 %define libdir /lib
 
 Name:           Mono.Data.Sqlite
-Version:        1.0.61
+Version:        1.0.61.1
 Release:        1%{?dist}
 Summary:        Mono.Data.Sqlite to any Xamarin or Windows .NET app 
 
@@ -22,7 +22,7 @@ Supports Xamarin.Android, Xamarin.iOS, Windows 8, Windows Desktop and Windows Ph
 
 %prep
 %setup -c %{name}-%{version} -T
-nuget install %{name} -Version %{version}
+nuget install %{name}.Core -Version %{version}
 
 cat > %{name}.pc << \EOF
 prefix=%{_prefix}
@@ -41,8 +41,8 @@ EOF
 %install
 %{__rm} -rf %{buildroot}
 
-install -d -m 755 $RPM_BUILD_ROOT%{_prefix}%{libdir}/mono/gac
-install -m 644 %{name}.%{version}/lib/net40/Mono.Data.Sqlite.dll $RPM_BUILD_ROOT%{_prefix}%{libdir}
+install -d -m 755 $RPM_BUILD_ROOT%{_prefix}%{libdir}
+install -m 644 %{name}.Core.%{version}/lib/netstandard2.0/Mono.Data.Sqlite.dll $RPM_BUILD_ROOT%{_prefix}%{libdir}
 
 install -d -m 755 $RPM_BUILD_ROOT%{_datadir}/pkgconfig/
 install -m 644 %{name}.pc $RPM_BUILD_ROOT%{_datadir}/pkgconfig/

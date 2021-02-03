@@ -3,7 +3,7 @@
 %global         api_version      1.0
 
 Name:    mingw-gstreamer1-plugins-base
-Version: 1.16.2
+Version: 1.18.3
 Release: 1%{?dist}
 Summary: Cross compiled GStreamer1 media framework base plug-ins
 
@@ -96,21 +96,11 @@ This package contains a set of well-maintained base plug-ins.
 
 
 %build
-%mingw_configure                                                        \
-    --with-package-name='Fedora MinGW GStreamer-plugins-base package'   \
-    --with-package-origin='http://download.fedoraproject.org'           \
-    --enable-experimental                                               \
-    --disable-fatal-warnings                                            \
-    --disable-silent-rules                                              \
-    --disable-gtk-doc                                                   \
-    --enable-orc                                                        \
-    --disable-static
-
-%mingw_make %{?_smp_mflags}
-
+%mingw_meson --default-library=shared
+%mingw_ninja
 
 %install
-%mingw_make install DESTDIR=$RPM_BUILD_ROOT
+%mingw_ninja_install
 
 # Clean out files that should not be part of the rpm.
 rm -f $RPM_BUILD_ROOT%{mingw32_libdir}/gstreamer-%{api_version}/*.a
@@ -125,22 +115,14 @@ rm -rf $RPM_BUILD_ROOT%{mingw64_datadir}/gtk-doc
 # Drop all .la files
 find $RPM_BUILD_ROOT -name "*.la" -delete
 
-mv $RPM_BUILD_ROOT%{mingw32_bindir}/%{mingw32_target}-gst-discoverer-%{api_version}.exe \
-   $RPM_BUILD_ROOT%{mingw32_bindir}/gst-discoverer-%{api_version}.exe
-
-mv $RPM_BUILD_ROOT%{mingw64_bindir}/%{mingw64_target}-gst-discoverer-%{api_version}.exe \
-   $RPM_BUILD_ROOT%{mingw64_bindir}/gst-discoverer-%{api_version}.exe
-
 %mingw_find_lang gst-plugins-base-%{api_version}
-
 
 # Win32
 %files -n mingw32-gstreamer1-plugins-base -f mingw32-gst-plugins-base-%{api_version}.lang
 %license COPYING
 %doc AUTHORS README REQUIREMENTS
-
-%{mingw32_bindir}/%{mingw32_target}-gst-device-monitor-%{api_version}.exe
-%{mingw32_bindir}/%{mingw32_target}-gst-play-%{api_version}.exe
+%{mingw32_bindir}/gst-device-monitor-%{api_version}.exe
+%{mingw32_bindir}/gst-play-%{api_version}.exe
 %{mingw32_bindir}/gst-discoverer-%{api_version}.exe
 %{mingw32_bindir}/libgstallocators-%{api_version}-0.dll
 %{mingw32_bindir}/libgstapp-%{api_version}-0.dll
@@ -154,8 +136,10 @@ mv $RPM_BUILD_ROOT%{mingw64_bindir}/%{mingw64_target}-gst-discoverer-%{api_versi
 %{mingw32_bindir}/libgstsdp-%{api_version}-0.dll
 %{mingw32_bindir}/libgsttag-%{api_version}-0.dll
 %{mingw32_bindir}/libgstvideo-%{api_version}-0.dll
+%{mingw32_bindir}/libgraphene-%{api_version}-0.dll
 
 %{mingw32_includedir}/gstreamer-%{api_version}/
+%{mingw32_includedir}/graphene-%{api_version}/
 
 %{mingw32_libdir}/gstreamer-%{api_version}/*.dll
 %{mingw32_libdir}/gstreamer-%{api_version}/include
@@ -171,6 +155,9 @@ mv $RPM_BUILD_ROOT%{mingw64_bindir}/%{mingw64_target}-gst-discoverer-%{api_versi
 %{mingw32_libdir}/libgstsdp-%{api_version}.dll.a
 %{mingw32_libdir}/libgsttag-%{api_version}.dll.a
 %{mingw32_libdir}/libgstvideo-%{api_version}.dll.a
+%{mingw32_libdir}/libgraphene-%{api_version}.dll.a
+
+%{mingw32_libdir}/graphene-%{api_version}/include/graphene-config.h
 
 %{mingw32_libdir}/pkgconfig/*.pc
 
@@ -178,11 +165,8 @@ mv $RPM_BUILD_ROOT%{mingw64_bindir}/%{mingw64_target}-gst-discoverer-%{api_versi
 
 # Win64
 %files -n mingw64-gstreamer1-plugins-base -f mingw64-gst-plugins-base-%{api_version}.lang
-%license COPYING
-%doc AUTHORS README REQUIREMENTS
-
-%{mingw64_bindir}/%{mingw64_target}-gst-device-monitor-%{api_version}.exe
-%{mingw64_bindir}/%{mingw64_target}-gst-play-%{api_version}.exe
+%{mingw64_bindir}/gst-device-monitor-%{api_version}.exe
+%{mingw64_bindir}/gst-play-%{api_version}.exe
 %{mingw64_bindir}/gst-discoverer-%{api_version}.exe
 %{mingw64_bindir}/libgstallocators-%{api_version}-0.dll
 %{mingw64_bindir}/libgstapp-%{api_version}-0.dll
@@ -196,8 +180,10 @@ mv $RPM_BUILD_ROOT%{mingw64_bindir}/%{mingw64_target}-gst-discoverer-%{api_versi
 %{mingw64_bindir}/libgstsdp-%{api_version}-0.dll
 %{mingw64_bindir}/libgsttag-%{api_version}-0.dll
 %{mingw64_bindir}/libgstvideo-%{api_version}-0.dll
+%{mingw64_bindir}/libgraphene-%{api_version}-0.dll
 
 %{mingw64_includedir}/gstreamer-%{api_version}/
+%{mingw64_includedir}/graphene-%{api_version}/
 
 %{mingw64_libdir}/gstreamer-%{api_version}/*.dll
 %{mingw64_libdir}/gstreamer-%{api_version}/include
@@ -213,6 +199,9 @@ mv $RPM_BUILD_ROOT%{mingw64_bindir}/%{mingw64_target}-gst-discoverer-%{api_versi
 %{mingw64_libdir}/libgstsdp-%{api_version}.dll.a
 %{mingw64_libdir}/libgsttag-%{api_version}.dll.a
 %{mingw64_libdir}/libgstvideo-%{api_version}.dll.a
+%{mingw64_libdir}/libgraphene-%{api_version}.dll.a
+
+%{mingw64_libdir}/graphene-%{api_version}/include/graphene-config.h
 
 %{mingw64_libdir}/pkgconfig/*.pc
 

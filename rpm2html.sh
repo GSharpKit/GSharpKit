@@ -83,6 +83,7 @@ webkitgtk3
 dbus
 dbus-glib
 mono-core
+Microsoft.CSharp
 Mono.Data.Sqlite
 Mono.Posix.NETStandard
 dbus-sharp
@@ -92,7 +93,6 @@ GdlSharp
 GstSharp
 webkitgtk3-sharp
 gtk-mac-integration-sharp
-Microsoft.CSharp
 Npgsql
 Mono.Addins
 Newtonsoft.Json
@@ -102,7 +102,7 @@ MailKit
 ServiceStack
 RestSharp
 Seal.net
-PDFsharp-MigraDoc
+PdfSharp.MigraDoc
 Sprache
 )
 

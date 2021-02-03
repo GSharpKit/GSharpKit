@@ -10,8 +10,8 @@
 %define libdir /lib
 
 Name:           ServiceStack
-Version:        5.9.0
-Release:        2%{?dist}
+Version:        5.10.4
+Release:        1%{?dist}
 Summary:        ServiceStack webservice framework: Faster, Cleaner, Modern WCF alternative.
 
 Group:          Development/Languages
@@ -32,7 +32,7 @@ for all your services and web apps that's intuitive and Easy to use!
 
 %prep
 %setup -c %{name}-%{version} -T
-nuget install %{name} -Version %{version}
+nuget install %{name}.Core -Version %{version}
 
 cat > ServiceStack.pc << \EOF
 prefix=%{_prefix}
@@ -43,7 +43,7 @@ Name: ServiceStack
 Description: ServiceStack webservice framework: Faster, Cleaner, Modern WCF alternative.
 Requires:
 Version: %{version}
-Libs: -r:${libdir}/System.Numerics.Vectors.dll -r:${libdir}/System.Buffers.dll -r:${libdir}/System.Memory.dll -r:${libdir}/mono/ServiceStack/ServiceStack.dll -r:${libdir}/mono/ServiceStack.Common/ServiceStack.Common.dll -r:${libdir}/mono/ServiceStack.Client/ServiceStack.Client.dll -r:${libdir}/mono/ServiceStack.Text/ServiceStack.Text.dll -r:${libdir}/mono/ServiceStack.Interfaces/ServiceStack.Interfaces.dll
+Libs: -r:${libdir}/System.Numerics.Vectors.dll -r:${libdir}/System.Buffers.dll -r:${libdir}/System.Memory.dll -r:${libdir}/ServiceStack.dll -r:${libdir}/ServiceStack.Common.dll -r:${libdir}/ServiceStack.Client.dll -r:${libdir}/ServiceStack.Text.dll -r:${libdir}/ServiceStack.Interfaces.dll
 Cflags:
 EOF
 
@@ -56,7 +56,7 @@ Name: ServiceStack.Interfaces
 Description: Lightweight and implementation-free interfaces for DTO's, providers and adapters.
 Requires:
 Version: %{version}
-Libs: -r:${libdir}/mono/ServiceStack.Interfaces/ServiceStack.Interfaces.dll
+Libs: -r:${libdir}/ServiceStack.Interfaces.dll
 Cflags:
 EOF
 
@@ -66,18 +66,12 @@ EOF
 %install
 %{__rm} -rf %{buildroot}
 
-install -d -m 755 $RPM_BUILD_ROOT%{_prefix}%{libdir}/mono/gac
-gacutil -i ServiceStack.%{version}/lib/net45/ServiceStack.dll -package %{name} -root $RPM_BUILD_ROOT%{_prefix}%{libdir} -gacdir mono/gac
-gacutil -i ServiceStack.Common.%{version}/lib/net45/ServiceStack.Common.dll -package %{name}.Common -root $RPM_BUILD_ROOT%{_prefix}%{libdir} -gacdir mono/gac
-gacutil -i ServiceStack.Client.%{version}/lib/net45/ServiceStack.Client.dll -package %{name}.Client -root $RPM_BUILD_ROOT%{_prefix}%{libdir} -gacdir mono/gac
-gacutil -i ServiceStack.Text.%{version}/lib/net45/ServiceStack.Text.dll -package %{name}.Text -root $RPM_BUILD_ROOT%{_prefix}%{libdir} -gacdir mono/gac
-gacutil -i ServiceStack.Interfaces.%{version}/lib/net45/ServiceStack.Interfaces.dll -package %{name}.Interfaces -root $RPM_BUILD_ROOT%{_prefix}%{libdir} -gacdir mono/gac
-
-# Installed by Npgsql
-#gacutil -i System.Memory.4.5.1/lib/netstandard2.0/System.Memory.dll -package System.Memory -root $RPM_BUILD_ROOT%{_prefix}%{libdir} -gacdir mono/gac
-#gacutil -i System.Buffers.4.4.0/lib/netstandard2.0/System.Buffers.dll -package System.Buffers -root $RPM_BUILD_ROOT%{_prefix}%{libdir} -gacdir mono/gac
-#install -d -m 755 $RPM_BUILD_ROOT%{_prefix}%{libdir}
-#install -m 644 System.Numerics.Vectors.4.4.0/lib/netstandard2.0/System.Numerics.Vectors.dll $RPM_BUILD_ROOT%{_prefix}%{libdir} 
+install -d -m 755 $RPM_BUILD_ROOT%{_prefix}%{libdir}
+install -m 644 ServiceStack.Core.%{version}/lib/netstandard2.0/ServiceStack.dll $RPM_BUILD_ROOT%{_prefix}%{libdir}/
+install -m 644 ServiceStack.Common.Core.%{version}/lib/netstandard2.0/ServiceStack.Common.dll $RPM_BUILD_ROOT%{_prefix}%{libdir}/
+install -m 644 ServiceStack.Client.Core.%{version}/lib/netstandard2.0/ServiceStack.Client.dll $RPM_BUILD_ROOT%{_prefix}%{libdir}/
+install -m 644 ServiceStack.Text.Core.%{version}/lib/netstandard2.0/ServiceStack.Text.dll $RPM_BUILD_ROOT%{_prefix}%{libdir}/
+install -m 644 ServiceStack.Interfaces.Core.%{version}/lib/netstandard2.0/ServiceStack.Interfaces.dll $RPM_BUILD_ROOT%{_prefix}%{libdir}/
 
 install -d -m 755 $RPM_BUILD_ROOT%{_datadir}/pkgconfig/
 install -m 644 ServiceStack.pc $RPM_BUILD_ROOT%{_datadir}/pkgconfig/
@@ -88,12 +82,11 @@ install -m 644 ServiceStack.Interfaces.pc $RPM_BUILD_ROOT%{_datadir}/pkgconfig/
 
 %files
 %defattr(-,root,root,-)
-%{_prefix}%{libdir}/mono/gac
-%{_prefix}%{libdir}/mono/ServiceStack/ServiceStack.dll
-%{_prefix}%{libdir}/mono/ServiceStack.Common/ServiceStack.Common.dll
-%{_prefix}%{libdir}/mono/ServiceStack.Client/ServiceStack.Client.dll
-%{_prefix}%{libdir}/mono/ServiceStack.Text/ServiceStack.Text.dll
-%{_prefix}%{libdir}/mono/ServiceStack.Interfaces/ServiceStack.Interfaces.dll
+%{_prefix}%{libdir}/ServiceStack.dll
+%{_prefix}%{libdir}/ServiceStack.Common.dll
+%{_prefix}%{libdir}/ServiceStack.Client.dll
+%{_prefix}%{libdir}/ServiceStack.Text.dll
+%{_prefix}%{libdir}/ServiceStack.Interfaces.dll
 %{_datadir}/pkgconfig/ServiceStack.pc
 %{_datadir}/pkgconfig/ServiceStack.Interfaces.pc
 

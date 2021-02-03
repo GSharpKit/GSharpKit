@@ -34,13 +34,13 @@ nuget install %{name} -Version %{version}
 cat > %{name}.pc << \EOF
 prefix=%{_prefix}
 exec_prefix=${prefix}
-libdir=%{_prefix}%{libdir}/mono
+libdir=%{_prefix}%{libdir}
 
 Name: %{name}
 Description: %{name} - %{summary}
 Requires:
 Version: %{version}
-Libs: -r:${libdir}/%{name}/Seal.dll -r:${libdir}/%{name}/DgwsTypes.dll
+Libs: -r:${libdir}/Seal.dll -r:${libdir}/DgwsTypes.dll
 Cflags:
 EOF
 
@@ -49,8 +49,9 @@ EOF
 %install
 %{__rm} -rf %{buildroot}
 
-gacutil -i %{name}.%{version}/lib/net462/DgwsTypes.dll -package %{name} -root $RPM_BUILD_ROOT%{_prefix}%{libdir} -gacdir mono/gac
-gacutil -i %{name}.%{version}/lib/net462/Seal.dll -package %{name} -root $RPM_BUILD_ROOT%{_prefix}%{libdir} -gacdir mono/gac
+install -d -m 755 $RPM_BUILD_ROOT%{_prefix}%{libdir}
+install -m 644 %{name}.%{version}/lib/net462/DgwsTypes.dll $RPM_BUILD_ROOT%{_prefix}%{libdir}
+install -m 644 %{name}.%{version}/lib/net462/Seal.dll $RPM_BUILD_ROOT%{_prefix}%{libdir}
 
 install -d -m 755 $RPM_BUILD_ROOT%{_datadir}/pkgconfig/
 install -m 644 %{name}.pc $RPM_BUILD_ROOT%{_datadir}/pkgconfig/
@@ -60,9 +61,8 @@ install -m 644 %{name}.pc $RPM_BUILD_ROOT%{_datadir}/pkgconfig/
 
 %files
 %defattr(-,root,root,-)
-%{_prefix}%{libdir}/mono/gac
-%{_prefix}%{libdir}/mono/%{name}/Seal.dll
-%{_prefix}%{libdir}/mono/%{name}/DgwsTypes.dll
+%{_prefix}%{libdir}/Seal.dll
+%{_prefix}%{libdir}/DgwsTypes.dll
 %{_datadir}/pkgconfig/%{name}.pc
 
 %changelog

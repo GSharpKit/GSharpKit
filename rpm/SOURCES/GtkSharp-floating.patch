@@ -1,0 +1,1239 @@
+From c48c6bb7968c8074aceaeca7f3b25c0f6f6c043a Mon Sep 17 00:00:00 2001
+From: Justin Kim <justin.kim@collabora.com>
+Date: Tue, 30 Jan 2018 01:09:23 +0900
+Subject: [PATCH 01/12] Object: Fix string leakages
+
+---
+ Source/Libs/GLibSharp/Object.cs | 19 +++++++++++++++++--
+ 1 file changed, 17 insertions(+), 2 deletions(-)
+
+diff --git a/Source/Libs/GLibSharp/Object.cs b/Source/Libs/GLibSharp/Object.cs
+index 8f3306cab..cd67854bc 100644
+--- a/Source/Libs/GLibSharp/Object.cs
++++ b/Source/Libs/GLibSharp/Object.cs
+@@ -511,6 +511,7 @@ public static void OverrideProperty (IntPtr oclass, uint property_id, string nam
+ 		{
+ 			IntPtr native_name = GLib.Marshaller.StringToPtrGStrdup (name);
+ 			g_object_class_override_property (oclass, property_id, native_name);
++			GLib.Marshaller.Free (native_name);	
+ 		}
+ 
+ 		[Obsolete ("Use OverrideProperty(oclass,property_id,name)")]
+@@ -527,7 +528,14 @@ static IntPtr FindClassProperty (GLib.Object o, string name)
+ 		{
+ 			IntPtr gobjectclass = Marshal.ReadIntPtr (o.Handle);
+ 			IntPtr native_name = GLib.Marshaller.StringToPtrGStrdup (name);
+-			return g_object_class_find_property (gobjectclass, native_name);
++			try
++			{
++				return g_object_class_find_property (gobjectclass, native_name);
++			}
++			finally
++			{
++				GLib.Marshaller.Free (native_name);
++			}
+ 		}
+ 		[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+ 		delegate IntPtr d_g_object_interface_find_property(IntPtr klass, IntPtr name);
+@@ -537,7 +545,14 @@ static IntPtr FindInterfaceProperty (GType type, string name)
+ 		{
+ 			IntPtr g_iface = type.GetDefaultInterfacePtr ();
+ 			IntPtr native_name = GLib.Marshaller.StringToPtrGStrdup (name);
+-			return g_object_interface_find_property (g_iface, native_name);
++			try
++			{
++				return g_object_interface_find_property (g_iface, native_name);
++			}
++			finally
++			{
++				GLib.Marshaller.Free (native_name);
++			}
+ 		}
+ 		[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+ 		delegate void d_g_object_class_install_property(IntPtr klass, uint prop_id, IntPtr param_spec);
+
+From d908c16b70ed3b8e7faf49d2d7f89f20cc5c406a Mon Sep 17 00:00:00 2001
+From: Thibault Saunier <tsaunier@gnome.org>
+Date: Thu, 30 Nov 2017 21:59:07 -0300
+Subject: [PATCH 02/12] Do not check padding ABI offset correctness
+
+As it will break the test build as soon as the padding
+starts actually being used.
+---
+ Source/Libs/GtkSharp/GtkSharp.metadata  | 4 ++++
+ Source/Libs/Shared/Gapi.xsd             | 2 ++
+ Source/Tools/GapiCodegen/ClassBase.cs   | 3 +++
+ Source/Tools/GapiCodegen/StructField.cs | 4 ++--
+ 4 files changed, 11 insertions(+), 2 deletions(-)
+
+diff --git a/Source/Libs/GtkSharp/GtkSharp.metadata b/Source/Libs/GtkSharp/GtkSharp.metadata
+index e6043c8c9..c41bef366 100644
+--- a/Source/Libs/GtkSharp/GtkSharp.metadata
++++ b/Source/Libs/GtkSharp/GtkSharp.metadata
+@@ -1002,4 +1002,8 @@
+   <move-node path="/api/namespace/class[@cname='GtkGlobal']/method[@name='PaintVline']">/api/namespace/object[@cname='GtkStyle']</move-node>
+   <remove-node path="/api/namespace/struct[@cname='IconSize']" />
+   <remove-node path="/api/namespace/struct[@cname='Range']" />
++
++	<!-- Mark reserved fields as padding -->
++	<attr path="//*[contains(@cname, 'gtk_reserved')]" name="padding">true</attr>
++	<attr path="//*[contains(@vm, 'gtk_reserved')]" name="padding">true</attr>
+ </metadata>
+diff --git a/Source/Libs/Shared/Gapi.xsd b/Source/Libs/Shared/Gapi.xsd
+index 592595a63..7ef1b8bc3 100644
+--- a/Source/Libs/Shared/Gapi.xsd
++++ b/Source/Libs/Shared/Gapi.xsd
+@@ -182,6 +182,7 @@
+             <xs:element name="method" maxOccurs="unbounded" minOccurs="0">
+                 <xs:complexType>
+                     <xs:attribute name="vm" type="xs:string" use="optional"/>
++                    <xs:attribute name="padding" type="xs:string" use="optional"/>
+                     <xs:attribute name="signal_vm" type="xs:string" use="optional"/>
+                 </xs:complexType>
+             </xs:element>
+@@ -211,6 +212,7 @@
+ 	<xs:complexType name="fieldType">
+         <xs:attribute name="name" type="xs:string"/>
+         <xs:attribute name="cname" type="xs:string"/>
++        <xs:attribute name="padding" type="xs:boolean" use="optional"/>
+         <xs:attribute name="type" type="xs:string"/>
+         <xs:attribute name="array" type="xs:boolean" use="optional"/>
+         <xs:attribute name="array_len" type="xs:positiveInteger" use="optional"/>
+diff --git a/Source/Tools/GapiCodegen/ClassBase.cs b/Source/Tools/GapiCodegen/ClassBase.cs
+index 0d2812114..375a79a74 100644
+--- a/Source/Tools/GapiCodegen/ClassBase.cs
++++ b/Source/Tools/GapiCodegen/ClassBase.cs
+@@ -252,8 +252,11 @@ public abstract class ClassBase : GenBase {
+ 				var field = _fields[i];
+ 				next = _fields.Count > i +1 ? _fields[i + 1] : null;
+ 
++
+ 				prev = field.Generate(gen_info, "\t\t\t\t\t", prev, next, cs_parent_struct,
+ 						field_alignment_structures_writer);
++				if (field.IsPadding)
++					continue;
+ 				var union = field as UnionABIField;
+ 				if (union == null && gen_info.CAbiWriter != null && !field.IsBitfield) {
+ 					gen_info.AbiWriter.WriteLine("\t\t\tConsole.WriteLine(\"\\\"{0}.{3}\\\": \\\"\" + {1}.{2}." + info_name + ".GetFieldOffset(\"{3}\") + \"\\\"\");", structname, NS, Name, field.CName);
+diff --git a/Source/Tools/GapiCodegen/StructField.cs b/Source/Tools/GapiCodegen/StructField.cs
+index a90ce2943..9fdb330f2 100644
+--- a/Source/Tools/GapiCodegen/StructField.cs
++++ b/Source/Tools/GapiCodegen/StructField.cs
+@@ -152,8 +152,8 @@ public class StructField : FieldBase {
+ 
+ 		public bool IsPadding {
+ 			get {
+-				if (elem.GetAttributeAsBoolean ("is-padding"))
+-					return elem.GetAttributeAsBoolean ("is-padding");
++				if (elem.GetAttributeAsBoolean ("padding"))
++					return elem.GetAttributeAsBoolean ("padding");
+ 
+ 				return (elem.GetAttribute ("access") == "private" && (
+ 					CName.StartsWith ("dummy") || CName.StartsWith ("padding")));
+
+From 01486c693473f24673f78d0372aa42cc6110ef5d Mon Sep 17 00:00:00 2001
+From: Thibault Saunier <tsaunier@igalia.com>
+Date: Mon, 29 Jan 2018 14:07:35 -0300
+Subject: [PATCH 03/12] generator: Fix accessing EqualityName for GArray*s
+
+---
+ Source/Tools/GapiCodegen/StructField.cs | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/Source/Tools/GapiCodegen/StructField.cs b/Source/Tools/GapiCodegen/StructField.cs
+index 9fdb330f2..9503f5ed4 100644
+--- a/Source/Tools/GapiCodegen/StructField.cs
++++ b/Source/Tools/GapiCodegen/StructField.cs
+@@ -89,7 +89,9 @@ public class StructField : FieldBase {
+ 				string wrapped_name = SymbolTable.Table.MangleName (CName);
+ 				IGeneratable gen = table [CType];
+ 
+-				if (IsArray || gen is IAccessor)
++				if (IsArray && IsNullTermArray)
++					return StudlyName + "Ptr";
++				else if (IsArray || gen is IAccessor)
+ 					return Access == "public" ? StudlyName : Name;
+ 				else if (IsBitfield)
+ 					return Name;
+
+From a7426a99105117ec967fb3c82105ee08c4a8ec3e Mon Sep 17 00:00:00 2001
+From: Thibault Saunier <tsaunier@igalia.com>
+Date: Mon, 29 Jan 2018 15:27:51 -0300
+Subject: [PATCH 04/12] glib: Handle GValue containing GType
+
+---
+ Source/Libs/GLibSharp/Value.cs | 37 +++++++++++++++++++++-------------
+ 1 file changed, 23 insertions(+), 14 deletions(-)
+
+diff --git a/Source/Libs/GLibSharp/Value.cs b/Source/Libs/GLibSharp/Value.cs
+index dbd2a95bc..6c7271bae 100644
+--- a/Source/Libs/GLibSharp/Value.cs
++++ b/Source/Libs/GLibSharp/Value.cs
+@@ -6,7 +6,7 @@
+ // Copyright (c) 2003-2004 Novell, Inc.
+ //
+ // This program is free software; you can redistribute it and/or
+-// modify it under the terms of version 2 of the Lesser GNU General 
++// modify it under the terms of version 2 of the Lesser GNU General
+ // Public License as published by the Free Software Foundation.
+ //
+ // This program is distributed in the hope that it will be useful,
+@@ -76,12 +76,12 @@ public Value (int val) : this (GType.Int)
+ 
+ 		public Value (uint val) : this (GType.UInt)
+ 		{
+-			g_value_set_uint (ref this, val); 
++			g_value_set_uint (ref this, val);
+ 		}
+ 
+ 		public Value (ushort val) : this (GType.UInt)
+ 		{
+-			g_value_set_uint (ref this, val); 
++			g_value_set_uint (ref this, val);
+ 		}
+ 
+ 		public Value (long val) : this (GType.Int64)
+@@ -107,7 +107,7 @@ public Value (double val) : this (GType.Double)
+ 		public Value (string val) : this (GType.String)
+ 		{
+ 			IntPtr native_val = GLib.Marshaller.StringToPtrGStrdup (val);
+-			g_value_set_string (ref this, native_val); 
++			g_value_set_string (ref this, native_val);
+ 			GLib.Marshaller.Free (native_val);
+ 		}
+ 
+@@ -118,7 +118,7 @@ public Value (ValueArray val) : this (ValueArray.GType)
+ 
+ 		public Value (IntPtr val) : this (GType.Pointer)
+ 		{
+-			g_value_set_pointer (ref this, val); 
++			g_value_set_pointer (ref this, val);
+ 		}
+ 
+ 		public Value (Variant variant) : this (GType.Variant)
+@@ -179,7 +179,7 @@ public Value (string[] val) : this (new GLib.GType (g_strv_get_type ()))
+ 			Marshal.FreeHGlobal (native_array);
+ 		}
+ 
+-		public void Dispose () 
++		public void Dispose ()
+ 		{
+ 			g_value_unset (ref this);
+ 		}
+@@ -254,6 +254,12 @@ public void Init (GLib.GType gtype)
+ 			return g_value_get_double (ref val);
+ 		}
+ 
++		public static explicit operator GLib.GType (Value val)
++		{
++			return g_value_get_gtype (ref val);
++		}
++
++
+ 		public static explicit operator string (Value val)
+ 		{
+ 			IntPtr str = g_value_get_string (ref val);
+@@ -309,7 +315,7 @@ public void Init (GLib.GType gtype)
+ 		object ToRegisteredType () {
+ 			Type t = GLib.GType.LookupType (type);
+ 			ConstructorInfo ci = null;
+-			
++
+ 			try {
+ 				while (ci == null && t != null) {
+ 					if (!t.IsAbstract)
+@@ -323,14 +329,14 @@ public void Init (GLib.GType gtype)
+ 
+ 			if (ci == null)
+ 				throw new Exception ("Unknown type " + new GType (type).ToString ());
+-			
++
+ 			return ci.Invoke (new object[] {this});
+ 		}
+ 
+ 		void FromRegisteredType (object val) {
+ 			Type t = GLib.GType.LookupType (type);
+ 			MethodInfo mi = null;
+-			
++
+ 			try {
+ 				while (mi == null && t != null) {
+ 					mi = t.GetMethod ("SetGValue", new Type[] { Type.GetType ("GLib.Value&") });
+@@ -342,10 +348,10 @@ public void Init (GLib.GType gtype)
+ 			} catch (Exception) {
+ 				mi = null;
+ 			}
+-			
++
+ 			if (mi == null)
+ 				throw new Exception ("Unknown type " + new GType (type).ToString ());
+-			
++
+ 			object[] parameters = new object[] { this };
+ 			mi.Invoke (val, parameters);
+ 			this = (GLib.Value) parameters[0];
+@@ -410,7 +416,7 @@ void SetULongForPlatform (ulong val)
+ 		object ToEnum ()
+ 		{
+ 			Type t = GType.LookupType (type);
+-			
++
+ 			if (t == null) {
+ 				if (HoldsFlags)
+ 					return g_value_get_flags (ref this);
+@@ -606,7 +612,7 @@ void InitForProperty (GType gtype, string name)
+ 
+ 			if (spec_ptr == IntPtr.Zero)
+ 				throw new Exception (String.Format ("No property with name '{0}' in type '{1}'", name, gtype.ToString()));
+-			
++
+ 			ParamSpec spec = new ParamSpec (spec_ptr);
+ 			g_value_init (ref this, spec.ValueType.Val);
+ 		}
+@@ -685,7 +691,7 @@ void InitForProperty (GType gtype, string name)
+ 		[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+ 		delegate void d_g_value_set_variant(ref Value val, IntPtr data);
+ 		static d_g_value_set_variant g_value_set_variant = FuncLoader.LoadFunction<d_g_value_set_variant>(FuncLoader.GetProcAddress(GLibrary.Load(Library.GObject), "g_value_set_variant"));
+-		
++
+ 		[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+ 		delegate bool d_g_value_get_boolean(ref Value val);
+ 		static d_g_value_get_boolean g_value_get_boolean = FuncLoader.LoadFunction<d_g_value_get_boolean>(FuncLoader.GetProcAddress(GLibrary.Load(Library.GObject), "g_value_get_boolean"));
+@@ -705,6 +711,9 @@ void InitForProperty (GType gtype, string name)
+ 		delegate float d_g_value_get_float(ref Value val);
+ 		static d_g_value_get_float g_value_get_float = FuncLoader.LoadFunction<d_g_value_get_float>(FuncLoader.GetProcAddress(GLibrary.Load(Library.GObject), "g_value_get_float"));
+ 		[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
++		delegate IntPtr d_g_value_get_gtype(ref Value val);
++		static d_g_value_get_type g_value_get_gtype = FuncLoader.LoadFunction<d_g_value_get_variant>(FuncLoader.GetProcAddress(GLibrary.Load(Library.GObject), "g_value_get_gtype"));
++		[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+ 		delegate int d_g_value_get_int(ref Value val);
+ 		static d_g_value_get_int g_value_get_int = FuncLoader.LoadFunction<d_g_value_get_int>(FuncLoader.GetProcAddress(GLibrary.Load(Library.GObject), "g_value_get_int"));
+ 		[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+
+From 9ab664aac6fdd9350dae2d01e582e94bda352852 Mon Sep 17 00:00:00 2001
+From: Thibault Saunier <tsaunier@igalia.com>
+Date: Tue, 13 Mar 2018 09:56:11 -0300
+Subject: [PATCH 05/12] generator: Add a way to force constructors to be names
+
+In some cases (GstEvent) unnamed constructors make no sense
+---
+ Source/Tools/GapiCodegen/ClassBase.cs | 12 +++++++++++-
+ Source/Tools/GapiCodegen/Ctor.cs      |  1 +
+ 2 files changed, 12 insertions(+), 1 deletion(-)
+
+diff --git a/Source/Tools/GapiCodegen/ClassBase.cs b/Source/Tools/GapiCodegen/ClassBase.cs
+index 375a79a74..0ff0bb58d 100644
+--- a/Source/Tools/GapiCodegen/ClassBase.cs
++++ b/Source/Tools/GapiCodegen/ClassBase.cs
+@@ -46,6 +46,12 @@ public abstract class ClassBase : GenBase {
+ 		private Dictionary<string, Ctor> clash_map;
+ 		private bool deprecated = false;
+ 		private bool isabstract = false;
++		public bool nameConstructors {
++			get {
++				return Elem.GetAttributeAsBoolean("name_constructors");
++			}
++		}
++
+ 
+ 		public IDictionary<string, Method> Methods {
+ 			get {
+@@ -563,7 +569,11 @@ private void InitializeCtors ()
+ 			clash_map = new Dictionary<string, Ctor>();
+ 
+ 			foreach (Ctor ctor in ctors) {
+-				if (clash_map.ContainsKey (ctor.Signature.Types)) {
++				if (nameConstructors) {
++					ctor.IsStatic = true;
++					if (Parent != null && Parent.HasStaticCtor (ctor.StaticName))
++						ctor.Modifiers = "new ";
++				} else if (clash_map.ContainsKey (ctor.Signature.Types)) {
+ 					Ctor clash = clash_map [ctor.Signature.Types];
+ 					Ctor alter = ctor.Preferred ? clash : ctor;
+ 					alter.IsStatic = true;
+diff --git a/Source/Tools/GapiCodegen/Ctor.cs b/Source/Tools/GapiCodegen/Ctor.cs
+index 8acde2a42..d2c04963f 100644
+--- a/Source/Tools/GapiCodegen/Ctor.cs
++++ b/Source/Tools/GapiCodegen/Ctor.cs
+@@ -38,6 +38,7 @@ public Ctor (XmlElement elem, ClassBase implementor) : base (elem, implementor)
+ 			preferred = elem.GetAttributeAsBoolean ("preferred");
+ 			if (implementor is ObjectGen)
+ 				needs_chaining = true;
++
+ 			name = implementor.Name;
+ 		}
+ 
+
+From 8349f25501d78da1ac3db456cc5ba6aee65be253 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Olivier=20Cr=C3=AAte?= <olivier.crete@collabora.com>
+Date: Fri, 25 Jan 2019 14:02:35 -0500
+Subject: [PATCH 06/12] ValueArray: Create copy when receiving pointer
+
+The "ref" operation of GValueArray is a copy, so we don't have a
+choice.
+---
+ Source/Libs/GLibSharp/ValueArray.cs | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/Source/Libs/GLibSharp/ValueArray.cs b/Source/Libs/GLibSharp/ValueArray.cs
+index b98abf9e0..b3848894e 100644
+--- a/Source/Libs/GLibSharp/ValueArray.cs
++++ b/Source/Libs/GLibSharp/ValueArray.cs
+@@ -43,7 +43,7 @@ public ValueArray (uint n_preallocs)
+ 
+ 		public ValueArray (IntPtr raw)
+ 		{
+-			handle = raw;
++			handle = g_value_array_copy (raw);
+ 		}
+ 		
+ 		~ValueArray ()
+
+From 075bb7df87c5a9e733ddb0ae5660701c700306c0 Mon Sep 17 00:00:00 2001
+From: Thibault Saunier <tsaunier@igalia.com>
+Date: Mon, 25 Feb 2019 12:30:03 -0300
+Subject: [PATCH 07/12] generator: Trim type "const " the same way as "const-"
+ as both are valid
+
+---
+ Source/Tools/GapiCodegen/SymbolTable.cs | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/Source/Tools/GapiCodegen/SymbolTable.cs b/Source/Tools/GapiCodegen/SymbolTable.cs
+index e412c044d..0e1cdc92d 100644
+--- a/Source/Tools/GapiCodegen/SymbolTable.cs
++++ b/Source/Tools/GapiCodegen/SymbolTable.cs
+@@ -232,6 +232,7 @@ private string Trim(string type)
+ 				return trim_type;
+ 			
+ 			if (trim_type.StartsWith("const-")) return trim_type.Substring(6);
++			if (trim_type.StartsWith("const ")) return trim_type.Substring(6);
+ 			return trim_type;
+ 		}
+ 
+
+From d16d362bd2ff7cfedd3c1d877876eff30e6b7888 Mon Sep 17 00:00:00 2001
+From: Thibault Saunier <tsaunier@igalia.com>
+Date: Fri, 16 Oct 2020 09:41:55 -0300
+Subject: [PATCH 08/12] Revert "Attempt minimal changes to obtain proper
+ disposing."
+
+This reverts commit 2e1882d31ea655dd04a39eefd6889d8a9e7643cd.
+---
+ Source/Libs/GLibSharp/InitiallyUnowned.cs | 45 ++++++++++++++++
+ Source/Libs/GLibSharp/Object.cs           | 62 ++---------------------
+ Source/Libs/GLibSharp/ToggleRef.cs        |  7 +--
+ Source/Libs/GtkSharp/Widget.cs            | 12 ++---
+ Source/Tools/GapiCodegen/Ctor.cs          |  5 +-
+ 5 files changed, 57 insertions(+), 74 deletions(-)
+
+diff --git a/Source/Libs/GLibSharp/InitiallyUnowned.cs b/Source/Libs/GLibSharp/InitiallyUnowned.cs
+index 049f1b093..af0c43c34 100644
+--- a/Source/Libs/GLibSharp/InitiallyUnowned.cs
++++ b/Source/Libs/GLibSharp/InitiallyUnowned.cs
+@@ -21,10 +21,55 @@
+ namespace GLib {
+ 
+ 	using System;
++	using System.Runtime.InteropServices;
+ 
+ 	public class InitiallyUnowned : Object {
+ 
+ 		protected InitiallyUnowned (IntPtr raw) : base (raw) {}
++
++		public new static GLib.GType GType {
++			get {
++				return GType.Object;
++			}
++		}
++
++		delegate void d_g_object_ref_sink(IntPtr raw);
++		static d_g_object_ref_sink g_object_ref_sink = FuncLoader.LoadFunction<d_g_object_ref_sink>(FuncLoader.GetProcAddress(GLibrary.Load(Library.GObject), "g_object_ref_sink"));
++
++		protected override IntPtr Raw {
++			get {
++				return base.Raw;
++			}
++			set {
++				if (value != IntPtr.Zero)
++					g_object_ref_sink (value);
++				base.Raw = value;
++			}
++		}
++
++		delegate bool d_g_object_is_floating(IntPtr raw);
++		static d_g_object_is_floating g_object_is_floating = FuncLoader.LoadFunction<d_g_object_is_floating>(FuncLoader.GetProcAddress(GLibrary.Load(Library.GObject), "g_object_is_floating"));
++
++		delegate void d_g_object_force_floating(IntPtr raw);
++		static d_g_object_force_floating g_object_force_floating = FuncLoader.LoadFunction<d_g_object_force_floating>(FuncLoader.GetProcAddress(GLibrary.Load(Library.GObject), "g_object_force_floating"));
++
++		delegate void d_g_object_unref(IntPtr raw);
++		static d_g_object_unref g_object_unref = FuncLoader.LoadFunction<d_g_object_unref>(FuncLoader.GetProcAddress(GLibrary.Load(Library.GObject), "g_object_unref"));
++
++		public bool IsFloating {
++			get {
++				return g_object_is_floating (Handle);
++			}
++			set {
++			  	if (value == true) {
++					if (!IsFloating)
++						g_object_force_floating (Handle);
++				} else {
++					g_object_ref_sink (Handle);
++					g_object_unref (Handle);
++				}
++			}
++		}
+ 	}
+ }
+ 
+diff --git a/Source/Libs/GLibSharp/Object.cs b/Source/Libs/GLibSharp/Object.cs
+index cd67854bc..97ce7ae1f 100644
+--- a/Source/Libs/GLibSharp/Object.cs
++++ b/Source/Libs/GLibSharp/Object.cs
+@@ -28,11 +28,9 @@ namespace GLib {
+ 	using System.Collections.Generic;
+ 	using System.Reflection;
+ 	using System.Runtime.InteropServices;
+-	using System.Linq;
+ 
+ 	public class Object : IWrapper, IDisposable {
+ 
+-		protected internal bool owned;
+ 		IntPtr handle;
+ 		ToggleRef tref;
+ 		bool disposed = false;
+@@ -40,50 +38,6 @@ public class Object : IWrapper, IDisposable {
+ 		static Dictionary<IntPtr, ToggleRef> Objects = new Dictionary<IntPtr, ToggleRef>();
+ 		static Dictionary<IntPtr, Dictionary<IntPtr, GLib.Value>> PropertiesToSet = new Dictionary<IntPtr, Dictionary<IntPtr, GLib.Value>>();
+ 
+-		static readonly List<long> IgnoreAddresses = new List<long> ();
+-		static readonly Dictionary<long, string> ConstructionTraces = new Dictionary<long, string> ();
+-
+-		public static void PrintHeldObjects ()
+-		{
+-			Console.WriteLine ($"---- BEGIN HELD OBJECTS ({Objects.Count - IgnoreAddresses.Count}) [Total: {Objects.Count}]----:");
+-			lock (Objects)
+-			{
+-				foreach (var obj in Objects)
+-				{
+-					if (IgnoreAddresses.Contains (obj.Key.ToInt64 ()))
+-						continue;
+-
+-					Console.WriteLine (obj.Key.ToInt64 () + " -> " + obj.Value.Target.GetType ());
+-					if (ConstructionTraces.ContainsKey (obj.Key.ToInt64 ()))
+-						Console.WriteLine (" AT: " + ConstructionTraces[obj.Key.ToInt64 ()].Split (Environment.NewLine.ToCharArray ()).FirstOrDefault (x => x.Contains ("OpenMedicus"))); //Aggregate((x,y) => x + Environment.NewLine + y)
+-				}
+-			}
+-
+-			Console.WriteLine ($"---- END HELD OBJECTS ({Objects.Count - IgnoreAddresses.Count}) [Total: {Objects.Count}]----:");
+-		}
+-
+-		public static void SetIgnore ()
+-		{
+-			IgnoreAddresses.Clear ();
+-			lock (Objects)
+-			{
+-				foreach (var address in Objects)
+-					IgnoreAddresses.Add (address.Key.ToInt64 ());
+-			}
+-		}
+-
+-		static bool traceConstruction = true;
+-
+-		public bool TraceConstruction
+-		{
+-			get => traceConstruction;
+-			set
+-			{
+-				ConstructionTraces.Clear ();
+-				traceConstruction = value;
+-			}
+-		}
+-
+ 		~Object ()
+ 		{
+ 			if (WarnOnFinalize)
+@@ -111,11 +65,10 @@ protected virtual void Dispose (bool disposing)
+ 				}
+ 			}
+ 
+-//			Console.WriteLine ("Disposed " + GetType() + " " + RefCount);
+ 			handle = IntPtr.Zero;
+ 			if (tref == null)
+ 				return;
+-
++			
+ 			if (disposing)
+ 				tref.Dispose ();
+ 			else
+@@ -132,16 +85,6 @@ protected virtual void Dispose (bool disposing)
+ 			signals = null;
+ 		}
+ 
+-		public void FreeSignals ()
+-		{
+-			if (signals != null) {
+-				var copy = signals.Values;
+-				signals = null;
+-				foreach (Signal s in copy)
+-					s.Free ();
+-			}
+-		}
+-
+ 		public static bool WarnOnFinalize { get; set; }
+ 		[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+ 		delegate IntPtr d_g_object_ref(IntPtr raw);
+@@ -190,6 +133,9 @@ public static Object GetObject(IntPtr o, bool owned_ref)
+ 				return obj;
+ 			}
+ 
++			if (!owned_ref)
++				g_object_ref (o);
++
+ 			obj = GLib.ObjectManager.CreateObject(o); 
+ 			if (obj == null) {
+ 				g_object_unref (o);
+diff --git a/Source/Libs/GLibSharp/ToggleRef.cs b/Source/Libs/GLibSharp/ToggleRef.cs
+index a60e4349c..20517ac99 100644
+--- a/Source/Libs/GLibSharp/ToggleRef.cs
++++ b/Source/Libs/GLibSharp/ToggleRef.cs
+@@ -38,8 +38,7 @@ public ToggleRef (GLib.Object target)
+ 			gch = GCHandle.Alloc (this);
+ 			reference = target;
+ 			g_object_add_toggle_ref (target.Handle, ToggleNotifyCallback, (IntPtr) gch);
+-			if (target.owned && !(target is InitiallyUnowned))
+-				g_object_unref (target.Handle);
++			g_object_unref (target.Handle);
+ 		}
+ 
+ 		public IntPtr Handle {
+@@ -67,9 +66,7 @@ public void Dispose ()
+ 		}
+ 
+   		void Free ()
+-		{
+-			Target?.FreeSignals ();
+-
++  		{
+ 			if (hardened)
+ 				g_object_unref (handle);
+ 			else
+diff --git a/Source/Libs/GtkSharp/Widget.cs b/Source/Libs/GtkSharp/Widget.cs
+index 1a49a7e87..845495fba 100644
+--- a/Source/Libs/GtkSharp/Widget.cs
++++ b/Source/Libs/GtkSharp/Widget.cs
+@@ -391,16 +391,11 @@ protected override void Dispose (bool disposing)
+ 		{
+ 			if (Handle == IntPtr.Zero)
+ 				return;
+-
+-			if (disposing)
+-				gtk_widget_destroy (Handle);
+-
+ 			InternalDestroyed -= NativeDestroyHandler;
+-
+ 			base.Dispose (disposing);
+ 		}
+ 
+-		protected override IntPtr Raw {
++	protected override IntPtr Raw {
+ 			get {
+ 				return base.Raw;
+ 			}
+@@ -414,9 +409,12 @@ protected override void Dispose (bool disposing)
+ 		delegate void d_gtk_widget_destroy(IntPtr raw);
+ 		static d_gtk_widget_destroy gtk_widget_destroy = FuncLoader.LoadFunction<d_gtk_widget_destroy>(FuncLoader.GetProcAddress(GLibrary.Load(Library.Gtk), "gtk_widget_destroy"));
+ 
+-		[Obsolete("Use Dispose")]
+ 		public virtual void Destroy ()
+ 		{
++			if (Handle == IntPtr.Zero)
++				return;
++			gtk_widget_destroy (Handle);
++			InternalDestroyed -= NativeDestroyHandler;
+ 		}
+ 	}
+ }
+diff --git a/Source/Tools/GapiCodegen/Ctor.cs b/Source/Tools/GapiCodegen/Ctor.cs
+index d2c04963f..4c2fa1f0a 100644
+--- a/Source/Tools/GapiCodegen/Ctor.cs
++++ b/Source/Tools/GapiCodegen/Ctor.cs
+@@ -150,10 +150,7 @@ public void Generate (GenerationInfo gen_info)
+ 					sw.WriteLine ("\t\t\t}");
+ 				}
+ 	
+-				Body.Initialize(gen_info, false, false, "");
+-				if (container_type is ObjectGen) {
+-					sw.WriteLine ("\t\t\towned = true;");
+-				}
++				Body.Initialize(gen_info, false, false, ""); 
+ 				sw.WriteLine("\t\t\t{0} = {1}({2});", container_type.AssignToName, CName, Body.GetCallString (false));
+ 				Body.Finish (sw, "");
+ 				Body.HandleException (sw, "");
+
+From 0c8d2deb335932b09d9a7aabcbfe251c4d629cca Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Sebastian=20Dr=C3=B6ge?= <sebastian@centricular.com>
+Date: Tue, 28 Jan 2020 12:49:29 +0200
+Subject: [PATCH 09/12] Use correct GType for GLib.InitiallyUnowned
+
+It's not the same type as GLib.Object but a subclass thereof.
+---
+ Source/Libs/GLibSharp/InitiallyUnowned.cs | 7 ++++++-
+ Source/Libs/GLibSharp/Value.cs            | 4 ++--
+ Source/Libs/GtkSourceSharp/Buffer.cs      | 1 -
+ 3 files changed, 8 insertions(+), 4 deletions(-)
+
+diff --git a/Source/Libs/GLibSharp/InitiallyUnowned.cs b/Source/Libs/GLibSharp/InitiallyUnowned.cs
+index af0c43c34..156f867b7 100644
+--- a/Source/Libs/GLibSharp/InitiallyUnowned.cs
++++ b/Source/Libs/GLibSharp/InitiallyUnowned.cs
+@@ -27,9 +27,14 @@ public class InitiallyUnowned : Object {
+ 
+ 		protected InitiallyUnowned (IntPtr raw) : base (raw) {}
+ 
++		delegate IntPtr d_g_initially_unowned_get_type ();
++		static d_g_initially_unowned_get_type g_initially_unowned_get_type = FuncLoader.LoadFunction<d_g_initially_unowned_get_type>(FuncLoader.GetProcAddress(GLibrary.Load(Library.GObject), "g_initially_unowned_get_type"));
++
+ 		public new static GLib.GType GType {
+ 			get {
+-				return GType.Object;
++				IntPtr raw_ret = g_initially_unowned_get_type();
++				GLib.GType ret = new GLib.GType(raw_ret);
++				return ret;
+ 			}
+ 		}
+ 
+diff --git a/Source/Libs/GLibSharp/Value.cs b/Source/Libs/GLibSharp/Value.cs
+index 6c7271bae..8b86c6bee 100644
+--- a/Source/Libs/GLibSharp/Value.cs
++++ b/Source/Libs/GLibSharp/Value.cs
+@@ -711,8 +711,8 @@ void InitForProperty (GType gtype, string name)
+ 		delegate float d_g_value_get_float(ref Value val);
+ 		static d_g_value_get_float g_value_get_float = FuncLoader.LoadFunction<d_g_value_get_float>(FuncLoader.GetProcAddress(GLibrary.Load(Library.GObject), "g_value_get_float"));
+ 		[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+-		delegate IntPtr d_g_value_get_gtype(ref Value val);
+-		static d_g_value_get_type g_value_get_gtype = FuncLoader.LoadFunction<d_g_value_get_variant>(FuncLoader.GetProcAddress(GLibrary.Load(Library.GObject), "g_value_get_gtype"));
++		delegate GLib.GType d_g_value_get_gtype(ref Value val);
++		static d_g_value_get_gtype g_value_get_gtype = FuncLoader.LoadFunction<d_g_value_get_gtype>(FuncLoader.GetProcAddress(GLibrary.Load(Library.GObject), "g_value_get_gtype"));
+ 		[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+ 		delegate int d_g_value_get_int(ref Value val);
+ 		static d_g_value_get_int g_value_get_int = FuncLoader.LoadFunction<d_g_value_get_int>(FuncLoader.GetProcAddress(GLibrary.Load(Library.GObject), "g_value_get_int"));
+diff --git a/Source/Libs/GtkSourceSharp/Buffer.cs b/Source/Libs/GtkSourceSharp/Buffer.cs
+index daf62c0b5..4f46b6ccd 100644
+--- a/Source/Libs/GtkSourceSharp/Buffer.cs
++++ b/Source/Libs/GtkSourceSharp/Buffer.cs
+@@ -5,7 +5,6 @@ public partial class Buffer : Gtk.TextBuffer
+     {
+         public Buffer() : base(IntPtr.Zero)
+         {
+-            owned = true;
+             Raw = gtk_source_buffer_new(IntPtr.Zero);
+         }
+     }
+
+From b58235b3151b7ba496cd431f5a2c708b34e02af3 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Sebastian=20Dr=C3=B6ge?= <sebastian@centricular.com>
+Date: Tue, 28 Jan 2020 12:50:17 +0200
+Subject: [PATCH 10/12] Ensure to sink floating references passed unowned to
+ GetObject() and to not increase their reference count
+
+The API contract between GObject-Introspection and bindings is that
+functions returning transfer-none floating references pass a reference
+to the bindings that should be taken ownership of by sinking it. Not
+doing so is wrong and will lead to memory leaks or double frees.
+
+Previously we would not distinguish this case and simply increment the
+reference count. In addition we would then sink the floating reference
+when the Object.Raw field is set later for InitiallyUnowned subclasses.
+
+Remove that last part and instead check directly in Object.Raw.set if we
+get a floating reference and if so simply sink it here and take
+ownership of it. The general assumption of Object.Raw.set is that it
+gets passed a reference that it should take ownership of.
+
+So in summary:
+1) GetObject() would only increase the reference count of unowned,
+   non-floating references so that we own it. For unowned, floating
+   references it assumes ownership of the reference.
+2) Raw.set assumes ownership of the reference passed to it and if it
+   happens to be a floating reference then it will first sink it.
+
+Also warn if we get a floating, owned reference passed to GetObject() as
+that case is not allowed by GObject-Introspection and would cause the
+reference to be leaked.
+
+This fixes a memory leak with functions returning unowned, floating
+references and with functions returning owned, non-floating references
+of InitiallyUnowned subclasses. And at the same time keeps constructors
+for InitiallyUnowned subclasses working correctly without leaks.
+
+See https://gitlab.freedesktop.org/gstreamer/gstreamer-sharp/issues/31
+---
+ Source/Libs/GLibSharp/InitiallyUnowned.cs | 17 +++------
+ Source/Libs/GLibSharp/Object.cs           | 43 ++++++++++++++++++-----
+ 2 files changed, 39 insertions(+), 21 deletions(-)
+
+diff --git a/Source/Libs/GLibSharp/InitiallyUnowned.cs b/Source/Libs/GLibSharp/InitiallyUnowned.cs
+index 156f867b7..8d3283952 100644
+--- a/Source/Libs/GLibSharp/InitiallyUnowned.cs
++++ b/Source/Libs/GLibSharp/InitiallyUnowned.cs
+@@ -5,7 +5,7 @@
+ // Copyright (c) 2004-2005 Novell, Inc.
+ //
+ // This program is free software; you can redistribute it and/or
+-// modify it under the terms of version 2 of the Lesser GNU General 
++// modify it under the terms of version 2 of the Lesser GNU General
+ // Public License as published by the Free Software Foundation.
+ //
+ // This program is distributed in the hope that it will be useful,
+@@ -38,26 +38,19 @@ public class InitiallyUnowned : Object {
+ 			}
+ 		}
+ 
++		[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+ 		delegate void d_g_object_ref_sink(IntPtr raw);
+ 		static d_g_object_ref_sink g_object_ref_sink = FuncLoader.LoadFunction<d_g_object_ref_sink>(FuncLoader.GetProcAddress(GLibrary.Load(Library.GObject), "g_object_ref_sink"));
+ 
+-		protected override IntPtr Raw {
+-			get {
+-				return base.Raw;
+-			}
+-			set {
+-				if (value != IntPtr.Zero)
+-					g_object_ref_sink (value);
+-				base.Raw = value;
+-			}
+-		}
+-
++		[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+ 		delegate bool d_g_object_is_floating(IntPtr raw);
+ 		static d_g_object_is_floating g_object_is_floating = FuncLoader.LoadFunction<d_g_object_is_floating>(FuncLoader.GetProcAddress(GLibrary.Load(Library.GObject), "g_object_is_floating"));
+ 
++		[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+ 		delegate void d_g_object_force_floating(IntPtr raw);
+ 		static d_g_object_force_floating g_object_force_floating = FuncLoader.LoadFunction<d_g_object_force_floating>(FuncLoader.GetProcAddress(GLibrary.Load(Library.GObject), "g_object_force_floating"));
+ 
++		[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+ 		delegate void d_g_object_unref(IntPtr raw);
+ 		static d_g_object_unref g_object_unref = FuncLoader.LoadFunction<d_g_object_unref>(FuncLoader.GetProcAddress(GLibrary.Load(Library.GObject), "g_object_unref"));
+ 
+diff --git a/Source/Libs/GLibSharp/Object.cs b/Source/Libs/GLibSharp/Object.cs
+index 97ce7ae1f..3ab7f12f1 100644
+--- a/Source/Libs/GLibSharp/Object.cs
++++ b/Source/Libs/GLibSharp/Object.cs
+@@ -8,7 +8,7 @@
+ // Copyright (c) 2013 Andres G. Aragoneses
+ //
+ // This program is free software; you can redistribute it and/or
+-// modify it under the terms of version 2 of the Lesser GNU General 
++// modify it under the terms of version 2 of the Lesser GNU General
+ // Public License as published by the Free Software Foundation.
+ //
+ // This program is distributed in the hope that it will be useful,
+@@ -68,7 +68,7 @@ protected virtual void Dispose (bool disposing)
+ 			handle = IntPtr.Zero;
+ 			if (tref == null)
+ 				return;
+-			
++
+ 			if (disposing)
+ 				tref.Dispose ();
+ 			else
+@@ -92,7 +92,10 @@ protected virtual void Dispose (bool disposing)
+ 		[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+ 		delegate void d_g_object_unref(IntPtr raw);
+ 		static d_g_object_unref g_object_unref = FuncLoader.LoadFunction<d_g_object_unref>(FuncLoader.GetProcAddress(GLibrary.Load(Library.GObject), "g_object_unref"));
+-		
++		[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
++		delegate bool d_g_object_is_floating(IntPtr raw);
++		static d_g_object_is_floating g_object_is_floating = FuncLoader.LoadFunction<d_g_object_is_floating>(FuncLoader.GetProcAddress(GLibrary.Load(Library.GObject), "g_object_is_floating"));
++
+ 		public static Object TryGetObject (IntPtr o)
+ 		{
+ 			if (o == IntPtr.Zero)
+@@ -133,15 +136,26 @@ public static Object GetObject(IntPtr o, bool owned_ref)
+ 				return obj;
+ 			}
+ 
+-			if (!owned_ref)
++			bool unexpected_owned_floating = false;
++			// If we don't get an owned reference here then we need to increase the
++			// reference count as CreateObject() always takes an owned reference.
++			// If we get a floating reference passed, however, then we assume that
++			// we actually own it and have to sink the floating reference, which
++			// will happen in the setter for Raw later.
++			if (!owned_ref && !g_object_is_floating(o))
+ 				g_object_ref (o);
++			else if (owned_ref && g_object_is_floating(o))
++				unexpected_owned_floating = true;
+ 
+-			obj = GLib.ObjectManager.CreateObject(o); 
++			obj = GLib.ObjectManager.CreateObject(o);
+ 			if (obj == null) {
+ 				g_object_unref (o);
+ 				return null;
+ 			}
+ 
++			if (unexpected_owned_floating)
++				Console.Error.WriteLine ("Unexpected owned floating reference of " + obj.GetType() + " instance. This will be leaked");
++
+ 			return obj;
+ 		}
+ 
+@@ -457,7 +471,7 @@ public static void OverrideProperty (IntPtr oclass, uint property_id, string nam
+ 		{
+ 			IntPtr native_name = GLib.Marshaller.StringToPtrGStrdup (name);
+ 			g_object_class_override_property (oclass, property_id, native_name);
+-			GLib.Marshaller.Free (native_name);	
++			GLib.Marshaller.Free (native_name);
+ 		}
+ 
+ 		[Obsolete ("Use OverrideProperty(oclass,property_id,name)")]
+@@ -641,6 +655,10 @@ struct GParameter {
+ 		delegate IntPtr d_g_object_newv(IntPtr gtype, int n_params, GParameter[] parms);
+ 		static d_g_object_newv g_object_newv = FuncLoader.LoadFunction<d_g_object_newv>(FuncLoader.GetProcAddress(GLibrary.Load(Library.GObject), "g_object_newv"));
+ 
++		[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
++		delegate void d_g_object_ref_sink(IntPtr raw);
++		static d_g_object_ref_sink g_object_ref_sink = FuncLoader.LoadFunction<d_g_object_ref_sink>(FuncLoader.GetProcAddress(GLibrary.Load(Library.GObject), "g_object_ref_sink"));
++
+ 		protected virtual void CreateNativeObject (string[] names, GLib.Value[] vals)
+ 		{
+ 			GType gtype = LookupGType ();
+@@ -682,6 +700,13 @@ protected virtual void CreateNativeObject (string[] names, GLib.Value[] vals)
+ 						}
+ 					}
+ 
++					// All references that we get here are assumed to be owned by us. If we
++					// get a floating reference then we should take ownership of it by
++					// sinking it.
++					if (value != IntPtr.Zero && g_object_is_floating(value)) {
++						g_object_ref_sink(value);
++					}
++
+ 					handle = value;
+ 					if (value != IntPtr.Zero) {
+ 						tref = new ToggleRef (this);
+@@ -689,7 +714,7 @@ protected virtual void CreateNativeObject (string[] names, GLib.Value[] vals)
+ 					}
+ 				}
+ 			}
+-		}	
++		}
+ 
+ 		public static GLib.GType GType {
+ 			get { return GType.Object; }
+@@ -742,10 +767,10 @@ public override int GetHashCode ()
+ 
+ 		System.Collections.Hashtable data;
+ 		public System.Collections.Hashtable Data {
+-			get { 
++			get {
+ 				if (data == null)
+ 					data = new System.Collections.Hashtable ();
+-				
++
+ 				return data;
+ 			}
+ 		}
+
+From 07fffe610e904c0f978f0a0b2d5ef110ad0de7d9 Mon Sep 17 00:00:00 2001
+From: Midhun Mohan <mdihunmsd@live.com>
+Date: Tue, 18 Feb 2020 11:36:54 +0000
+Subject: [PATCH 11/12] Changing timeout_add and idle_add to _full.
+
+---
+ Source/Libs/GLibSharp/Idle.cs    | 4 +++-
+ Source/Libs/GLibSharp/Timeout.cs | 4 +++-
+ 2 files changed, 6 insertions(+), 2 deletions(-)
+
+diff --git a/Source/Libs/GLibSharp/Idle.cs b/Source/Libs/GLibSharp/Idle.cs
+index 773b983ed..9dda13518 100644
+--- a/Source/Libs/GLibSharp/Idle.cs
++++ b/Source/Libs/GLibSharp/Idle.cs
+@@ -78,7 +78,9 @@ public static uint Add (IdleHandler hndlr)
+ 			IdleProxy p = new IdleProxy (hndlr);
+ 			lock (p)
+ 			{
+-				p.ID = g_idle_add ((IdleHandlerInternal) p.proxy_handler, IntPtr.Zero);
++				var gch = GCHandle.Alloc(p);
++				var userData = GCHandle.ToIntPtr(gch);
++				p.ID = g_idle_add_full (0, (IdleHandlerInternal) p.proxy_handler, userData, DestroyHelper.NotifyHandler);
+ 				Source.AddSourceHandler (p.ID, p);
+ 			}
+ 
+diff --git a/Source/Libs/GLibSharp/Timeout.cs b/Source/Libs/GLibSharp/Timeout.cs
+index cdb988d6d..2b48d66e1 100644
+--- a/Source/Libs/GLibSharp/Timeout.cs
++++ b/Source/Libs/GLibSharp/Timeout.cs
+@@ -73,7 +73,9 @@ public static uint Add (uint interval, TimeoutHandler hndlr)
+ 			TimeoutProxy p = new TimeoutProxy (hndlr);
+ 			lock (p)
+ 			{
+-				p.ID = g_timeout_add (interval, (TimeoutHandlerInternal) p.proxy_handler, IntPtr.Zero);
++				var gch = GCHandle.Alloc(p);
++				var userData = GCHandle.ToIntPtr(gch);
++				p.ID = g_timeout_add_full (0, interval, (TimeoutHandlerInternal) p.proxy_handler, userData, DestroyHelper.NotifyHandler);
+ 				Source.AddSourceHandler (p.ID, p);
+ 			}
+ 
+
+From 2aa251229364ba8cec269ab57f217f0862eadbef Mon Sep 17 00:00:00 2001
+From: Midhun Mohan <mdihunmsd@live.com>
+Date: Tue, 18 Feb 2020 12:57:21 +0000
+Subject: [PATCH 12/12] Cleanup of sourceproxy Dictionary and its usages
+
+---
+ Source/Libs/GLibSharp/Idle.cs    | 31 ++++---------------
+ Source/Libs/GLibSharp/Source.cs  | 51 ++------------------------------
+ Source/Libs/GLibSharp/Timeout.cs | 34 +++++++++------------
+ 3 files changed, 21 insertions(+), 95 deletions(-)
+
+diff --git a/Source/Libs/GLibSharp/Idle.cs b/Source/Libs/GLibSharp/Idle.cs
+index 9dda13518..bbdde15f4 100644
+--- a/Source/Libs/GLibSharp/Idle.cs
++++ b/Source/Libs/GLibSharp/Idle.cs
+@@ -10,7 +10,7 @@
+ // Copyright (c) 2009 Novell, Inc.
+ //
+ // This program is free software; you can redistribute it and/or
+-// modify it under the terms of version 2 of the Lesser GNU General 
++// modify it under the terms of version 2 of the Lesser GNU General
+ // Public License as published by the Free Software Foundation.
+ //
+ // This program is distributed in the hope that it will be useful,
+@@ -64,14 +64,14 @@ public bool Handler ()
+ 				return false;
+ 			}
+ 		}
+-		
++
+ 		private Idle ()
+ 		{
+ 		}
+-		
++
+ 		[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+-		delegate uint d_g_idle_add(IdleHandlerInternal d, IntPtr data);
+-		static d_g_idle_add g_idle_add = FuncLoader.LoadFunction<d_g_idle_add>(FuncLoader.GetProcAddress(GLibrary.Load(Library.GLib), "g_idle_add"));
++		delegate uint d_g_idle_add_full(int priority, IdleHandlerInternal d, IntPtr data, DestroyNotify notify);
++		static d_g_idle_add_full g_idle_add_full = FuncLoader.LoadFunction<d_g_idle_add_full>(FuncLoader.GetProcAddress(GLibrary.Load(Library.GLib), "g_idle_add_full"));
+ 
+ 		public static uint Add (IdleHandler hndlr)
+ 		{
+@@ -81,36 +81,15 @@ public static uint Add (IdleHandler hndlr)
+ 				var gch = GCHandle.Alloc(p);
+ 				var userData = GCHandle.ToIntPtr(gch);
+ 				p.ID = g_idle_add_full (0, (IdleHandlerInternal) p.proxy_handler, userData, DestroyHelper.NotifyHandler);
+-				Source.AddSourceHandler (p.ID, p);
+ 			}
+ 
+ 			return p.ID;
+ 		}
+-		[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+-		delegate uint d_g_idle_add_full(int priority, IdleHandlerInternal d, IntPtr data, DestroyNotify notify);
+-		static d_g_idle_add_full g_idle_add_full = FuncLoader.LoadFunction<d_g_idle_add_full>(FuncLoader.GetProcAddress(GLibrary.Load(Library.GLib), "g_idle_add_full"));
+-
+-		public static uint Add (IdleHandler hndlr, Priority priority)
+-		{
+-			IdleProxy p = new IdleProxy (hndlr);
+-			lock (p)
+-			{
+-				p.ID = g_idle_add_full ((int)priority, (IdleHandlerInternal)p.proxy_handler, IntPtr.Zero, null);
+-				Source.AddSourceHandler (p.ID, p);
+-			}
+ 
+-			return p.ID;
+-		}
+-		
+ 		public static void Remove (uint id)
+ 		{
+ 			Source.Remove (id);
+ 		}
+-
+-		public static bool Remove (IdleHandler hndlr)
+-		{
+-			return Source.RemoveSourceHandler (hndlr);
+-		}
+ 	}
+ }
+ 
+diff --git a/Source/Libs/GLibSharp/Source.cs b/Source/Libs/GLibSharp/Source.cs
+index df362894c..3449102f9 100644
+--- a/Source/Libs/GLibSharp/Source.cs
++++ b/Source/Libs/GLibSharp/Source.cs
+@@ -5,7 +5,7 @@
+ // Copyright (c) 2002 Mike Kestner
+ //
+ // This program is free software; you can redistribute it and/or
+-// modify it under the terms of version 2 of the Lesser GNU General 
++// modify it under the terms of version 2 of the Lesser GNU General
+ // Public License as published by the Free Software Foundation.
+ //
+ // This program is distributed in the hope that it will be useful,
+@@ -62,7 +62,6 @@ protected virtual void Dispose (bool disposing)
+ 
+ 		internal void Remove ()
+ 		{
+-			Source.RemoveSourceHandler (ID);
+ 			real_handler = null;
+ 			proxy_handler = null;
+ 		}
+@@ -70,8 +69,6 @@ internal void Remove ()
+ 
+ 	public partial class Source : GLib.Opaque {
+ 
+-		private static IDictionary<uint, SourceProxy> source_handlers = new Dictionary<uint, SourceProxy> ();
+-
+ 		private Source () {}
+ 
+ 		public Source(IntPtr raw) : base(raw) {}
+@@ -110,57 +107,13 @@ public bool Handler ()
+ 			GLib.Timeout.Add (50, new GLib.TimeoutHandler (info.Handler));
+ 		}
+ 
+-		internal static void AddSourceHandler (uint id, SourceProxy proxy)
+-		{
+-			lock (Source.source_handlers) {
+-				source_handlers [id] = proxy;
+-			}
+-		}
+-
+-		internal static void RemoveSourceHandler (uint id)
+-		{
+-			lock (Source.source_handlers) {
+-				source_handlers.Remove (id);
+-			}
+-		}
+-
+-		internal static bool RemoveSourceHandler (Delegate hndlr)
+-		{
+-			bool result = false;
+-			List<uint> keys = new List<uint> ();
+-
+-			lock (source_handlers) {
+-				foreach (uint code in source_handlers.Keys) {
+-					var p = Source.source_handlers [code];
+-
+-					if (p != null && p.real_handler == hndlr) {
+-						keys.Add (code);
+-						result = g_source_remove (code);
+-					}
+-				}
+-
+-				foreach (var key in keys) {
+-					Source.RemoveSourceHandler (key);
+-				}
+-			}
+-
+-			return result;
+-		}
+ 		[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+ 		delegate bool d_g_source_remove(uint tag);
+ 		static d_g_source_remove g_source_remove = FuncLoader.LoadFunction<d_g_source_remove>(FuncLoader.GetProcAddress(GLibrary.Load(Library.GLib), "g_source_remove"));
+ 
+ 		public static bool Remove (uint tag)
+ 		{
+-			// g_source_remove always returns true, so we follow that
+-			bool ret = true;
+-
+-			lock (Source.source_handlers) {
+-				if (source_handlers.Remove (tag)) {
+-					ret = g_source_remove (tag);
+-				}
+-			}
+-			return ret;
++			return g_source_remove (tag);
+ 		}
+ 		[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+ 		delegate IntPtr d_g_source_get_type();
+diff --git a/Source/Libs/GLibSharp/Timeout.cs b/Source/Libs/GLibSharp/Timeout.cs
+index 2b48d66e1..8e17e464d 100644
+--- a/Source/Libs/GLibSharp/Timeout.cs
++++ b/Source/Libs/GLibSharp/Timeout.cs
+@@ -8,7 +8,7 @@
+ // Copyright (c) 2009 Novell, Inc.
+ //
+ // This program is free software; you can redistribute it and/or
+-// modify it under the terms of version 2 of the Lesser GNU General 
++// modify it under the terms of version 2 of the Lesser GNU General
+ // Public License as published by the Free Software Foundation.
+ //
+ // This program is distributed in the hope that it will be useful,
+@@ -62,12 +62,12 @@ public bool Handler ()
+ 				return false;
+ 			}
+ 		}
+-		
+-		private Timeout () {} 
+-		[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+-		delegate uint d_g_timeout_add(uint interval, TimeoutHandlerInternal d, IntPtr data);
+-		static d_g_timeout_add g_timeout_add = FuncLoader.LoadFunction<d_g_timeout_add>(FuncLoader.GetProcAddress(GLibrary.Load(Library.GLib), "g_timeout_add"));
+ 
++		private Timeout () {}
++
++		[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
++		delegate uint d_g_timeout_add_full(int priority, uint interval, TimeoutHandlerInternal d, IntPtr data, DestroyNotify notify);
++		static d_g_timeout_add_full g_timeout_add_full = FuncLoader.LoadFunction<d_g_timeout_add_full>(FuncLoader.GetProcAddress(GLibrary.Load(Library.GLib), "g_timeout_add_full"));
+ 		public static uint Add (uint interval, TimeoutHandler hndlr)
+ 		{
+ 			TimeoutProxy p = new TimeoutProxy (hndlr);
+@@ -76,37 +76,36 @@ public static uint Add (uint interval, TimeoutHandler hndlr)
+ 				var gch = GCHandle.Alloc(p);
+ 				var userData = GCHandle.ToIntPtr(gch);
+ 				p.ID = g_timeout_add_full (0, interval, (TimeoutHandlerInternal) p.proxy_handler, userData, DestroyHelper.NotifyHandler);
+-				Source.AddSourceHandler (p.ID, p);
+ 			}
+ 
+ 			return p.ID;
+ 		}
+-		[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+-		delegate uint d_g_timeout_add_full(int priority, uint interval, TimeoutHandlerInternal d, IntPtr data, DestroyNotify notify);
+-		static d_g_timeout_add_full g_timeout_add_full = FuncLoader.LoadFunction<d_g_timeout_add_full>(FuncLoader.GetProcAddress(GLibrary.Load(Library.GLib), "g_timeout_add_full"));
+ 
+ 		public static uint Add (uint interval, TimeoutHandler hndlr, Priority priority)
+ 		{
+ 			TimeoutProxy p = new TimeoutProxy (hndlr);
+ 			lock (p)
+ 			{
++				var gch = GCHandle.Alloc(p);
++				var userData = GCHandle.ToIntPtr(gch);
+ 				p.ID = g_timeout_add_full ((int)priority, interval, (TimeoutHandlerInternal) p.proxy_handler, IntPtr.Zero, null);
+-				Source.AddSourceHandler (p.ID, p);
+ 			}
+ 
+ 			return p.ID;
+ 		}
++
+ 		[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+-		delegate uint d_g_timeout_add_seconds(uint interval, TimeoutHandlerInternal d, IntPtr data);
+-		static d_g_timeout_add_seconds g_timeout_add_seconds = FuncLoader.LoadFunction<d_g_timeout_add_seconds>(FuncLoader.GetProcAddress(GLibrary.Load(Library.GLib), "g_timeout_add_seconds"));
++		delegate uint d_g_timeout_add_seconds_full(int priority, uint interval, TimeoutHandlerInternal d, IntPtr data, DestroyNotify notify);
++		static d_g_timeout_add_seconds_full g_timeout_add_seconds_full = FuncLoader.LoadFunction<d_g_timeout_add_seconds_full>(FuncLoader.GetProcAddress(GLibrary.Load(Library.GLib), "g_timeout_add_seconds_full"));
+ 
+ 		public static uint AddSeconds (uint interval, TimeoutHandler hndlr)
+ 		{
+ 			TimeoutProxy p = new TimeoutProxy (hndlr);
+ 			lock (p)
+ 			{
+-				p.ID = g_timeout_add_seconds (interval, (TimeoutHandlerInternal) p.proxy_handler, IntPtr.Zero);
+-				Source.AddSourceHandler (p.ID, p);
++				var gch = GCHandle.Alloc(p);
++				var userData = GCHandle.ToIntPtr(gch);
++				p.ID = g_timeout_add_seconds_full (0, interval, (TimeoutHandlerInternal) p.proxy_handler, userData, DestroyHelper.NotifyHandler);
+ 			}
+ 
+ 			return p.ID;
+@@ -116,11 +115,6 @@ public static void Remove (uint id)
+ 		{
+ 			Source.Remove (id);
+ 		}
+-
+-		public static bool Remove (TimeoutHandler hndlr)
+-		{
+-			return Source.RemoveSourceHandler (hndlr);
+-		}
+ 	}
+ }
+ 

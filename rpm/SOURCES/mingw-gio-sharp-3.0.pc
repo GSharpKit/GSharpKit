@@ -6,7 +6,7 @@ gapidir=${prefix}/share/gapi-3.0
 
 Name: GIO#
 Description: GIO# - GIO .NET Binding
-Version: 3.22.24
+Version: @VERSION@
 Cflags: -I:${gapidir}/GioSharp-api.xml
 Libs: -r:Facades/netstandard.dll -r:${assemblies_dir}/GioSharp.dll
 Requires: glib-sharp-3.0

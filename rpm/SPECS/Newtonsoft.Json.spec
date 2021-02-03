@@ -28,13 +28,13 @@ nuget install %{name} -Version %{version}
 cat > Newtonsoft.Json.pc << \EOF
 prefix=%{_prefix}
 exec_prefix=${prefix}
-libdir=%{_prefix}%{libdir}/mono
+libdir=%{_prefix}%{libdir}
 
 Name: Newtonsoft.Json
 Description: Json.NET is a popular high-performance JSON framework for .NET
 Requires:
 Version: %{version}
-Libs: -r:${libdir}/%{name}/Newtonsoft.Json.dll
+Libs: -r:${libdir}/Newtonsoft.Json.dll
 Cflags:
 EOF
 
@@ -43,8 +43,8 @@ EOF
 %install
 %{__rm} -rf %{buildroot}
 
-install -d -m 755 $RPM_BUILD_ROOT%{_prefix}%{libdir}/mono/gac
-gacutil -i Newtonsoft.Json.%{version}/lib/netstandard2.0/Newtonsoft.Json.dll -package %{name} -root $RPM_BUILD_ROOT%{_prefix}%{libdir} -gacdir mono/gac
+install -d -m 755 $RPM_BUILD_ROOT%{_prefix}%{libdir}
+install -m 644 Newtonsoft.Json.%{version}/lib/netstandard2.0/Newtonsoft.Json.dll $RPM_BUILD_ROOT%{_prefix}%{libdir}
 
 install -d -m 755 $RPM_BUILD_ROOT%{_datadir}/pkgconfig/
 install -m 644 Newtonsoft.Json.pc $RPM_BUILD_ROOT%{_datadir}/pkgconfig/
@@ -54,8 +54,7 @@ install -m 644 Newtonsoft.Json.pc $RPM_BUILD_ROOT%{_datadir}/pkgconfig/
 
 %files
 %defattr(-,root,root,-)
-%{_prefix}%{libdir}/mono/gac
-%{_prefix}%{libdir}/mono/%{name}/Newtonsoft.Json.dll
+%{_prefix}%{libdir}/Newtonsoft.Json.dll
 %{_datadir}/pkgconfig/Newtonsoft.Json.pc
 
 

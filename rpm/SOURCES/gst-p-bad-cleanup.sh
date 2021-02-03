@@ -108,6 +108,11 @@ videosignal
 vmnc
 yadif
 y4m
+dvbsubenc
+rist
+rtmp2
+switchbin
+transcode
 "
 
 NOT_ALLOWED="

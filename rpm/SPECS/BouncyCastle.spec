@@ -3,7 +3,7 @@
 %define libdir /lib
 
 Name:           BouncyCastle
-Version:        1.8.5
+Version:        1.8.8
 Release:        1%{?dist}
 Summary:        BouncyCastle is a Crypto library written in C# 
 
@@ -15,8 +15,6 @@ Prefix:		/usr
 BuildArch:	noarch
 
 BuildRequires:  nuget
-
-Requires:	mono-core >= 4.8.0
 
 %description
 - Generation and parsing of PKCS-12 files.
@@ -51,7 +49,7 @@ nuget install Portable.%{name} -Version %{version}
 cat > %{name}.pc << \EOF
 prefix=%{_prefix}
 exec_prefix=${prefix}
-libdir=%{_prefix}%{libdir}/mono/BouncyCastle.Crypto
+libdir=%{_prefix}%{libdir}
 
 Name: %{name}
 Description: %{name} - %{summary}
@@ -66,8 +64,8 @@ EOF
 %install
 %{__rm} -rf %{buildroot}
 
-install -d -m 755 $RPM_BUILD_ROOT%{_prefix}%{libdir}/mono/gac
-gacutil -i Portable.BouncyCastle.%{version}/lib/net40/BouncyCastle.Crypto.dll -package BouncyCastle.Crypto -root $RPM_BUILD_ROOT%{_prefix}%{libdir} -gacdir mono/gac
+install -d -m 755 $RPM_BUILD_ROOT%{_prefix}%{libdir}
+install -m 644 Portable.BouncyCastle.%{version}/lib/netstandard2.0/BouncyCastle.Crypto.dll $RPM_BUILD_ROOT%{_prefix}%{libdir}
 
 install -d -m 755 $RPM_BUILD_ROOT%{_datadir}/pkgconfig/
 install -m 644 BouncyCastle.pc $RPM_BUILD_ROOT%{_datadir}/pkgconfig/
@@ -77,10 +75,11 @@ install -m 644 BouncyCastle.pc $RPM_BUILD_ROOT%{_datadir}/pkgconfig/
 
 %files
 %defattr(-,root,root,-)
-%{_prefix}%{libdir}/mono/gac
-%{_prefix}%{libdir}/mono/BouncyCastle.Crypto/BouncyCastle.Crypto.dll
+%{_prefix}%{libdir}/BouncyCastle.Crypto.dll
 %{_datadir}/pkgconfig/BouncyCastle.pc
 
 %changelog
+* Fri Dec 11 2020 Mikkel Kruse Johnsen <mikkel@xmedicus.com> - 1.8.8-1
+- Updated to netstandard2.0
 * Mon Aug 18 2017 Mikkel Kruse Johnsen <mikkel@xmedicus.com> - 1.8.1-1
 - Initial version

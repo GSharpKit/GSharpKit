@@ -1,7 +1,7 @@
 %?mingw_package_header
 
 Name:           mingw-dbus
-Version:        1.13.16
+Version:        1.13.18
 Release:        1%{?dist}
 Summary:        MinGW Windows port of D-Bus
 
