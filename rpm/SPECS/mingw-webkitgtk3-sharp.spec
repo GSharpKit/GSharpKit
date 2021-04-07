@@ -58,6 +58,9 @@ WebKit-sharp is .NET bindings for the WebKit rendering engine.
 %prep
 %setup -q -n webkitgtk3-sharp-%{version}
 
+sed -i -e 's!webkitgtk-3.0!libwebkitgtk-3.0-0.dll!g' sources/webkitgtk3-sharp-sources.xml
+sed -i -e 's!webkitgtk-3.0!libwebkitgtk-3.0-0.dll!g' sources/webkitgtk3-sharp-api.raw
+
 %build
 sh autogen.sh --prefix=/usr
 make distclean

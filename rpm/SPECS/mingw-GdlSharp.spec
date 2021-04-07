@@ -89,38 +89,22 @@ mv out/gdl-sharp.dll.config.in out/gdl-sharp.dll.config
 %install
 %mingw_make install DESTDIR=$RPM_BUILD_ROOT
 
+# Mingw32
 mv $RPM_BUILD_ROOT%{mingw32_prefix}/lib $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir}
 rm $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir}/gdl-sharp.dll.config
-
-mv $RPM_BUILD_ROOT%{mingw64_prefix}/lib $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir}
-rm $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir}/gdl-sharp.dll.config
-
-
-# Mingw32
-#install -d -m 755 $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir}
-#install -m 644 $RPM_BUILD_ROOT%{mingw32_libdir}/mono/gac/gdl-sharp/*/*.dll $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir}/
-
-#sed -i -e 's!/lib!/bin!' $RPM_BUILD_ROOT%{mingw32_datadir}/pkgconfig/gdl-sharp-3.pc
-#sed -i -e 's!/mono/gdl-sharp!!' $RPM_BUILD_ROOT%{mingw32_datadir}/pkgconfig/gdl-sharp-3.pc
-
-#rm -rf $RPM_BUILD_ROOT%{mingw32_libdir}
+sed -i -e 's!/lib!/bin!' $RPM_BUILD_ROOT%{mingw32_datadir}/pkgconfig/gdl-sharp-3.pc
 
 # Mingw64
-#install -d -m 755 $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir}
-#install -m 644 $RPM_BUILD_ROOT%{mingw64_libdir}/mono/gac/gdl-sharp/*/*.dll $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir}/
-
-#sed -i -e 's!/lib!/bin!' $RPM_BUILD_ROOT%{mingw64_datadir}/pkgconfig/gdl-sharp-3.pc
-#sed -i -e 's!/mono/gdl-sharp!!' $RPM_BUILD_ROOT%{mingw64_datadir}/pkgconfig/gdl-sharp-3.pc
-
-#rm -rf $RPM_BUILD_ROOT%{mingw64_libdir}
-
+mv $RPM_BUILD_ROOT%{mingw64_prefix}/lib $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir}
+rm $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir}/gdl-sharp.dll.config
+sed -i -e 's!/lib!/bin!' $RPM_BUILD_ROOT%{mingw64_datadir}/pkgconfig/gdl-sharp-3.pc
 
 %files -n mingw32-GdlSharp
-%{mingw64_prefix}%{libdir}/*.dll
+%{mingw32_prefix}%{libdir}/*.dll
 %{mingw32_datadir}/pkgconfig/gdl-sharp-3.pc
 
 %files -n mingw64-GdlSharp
-%{mingw32_prefix}%{libdir}/*.dll
+%{mingw64_prefix}%{libdir}/*.dll
 %{mingw64_datadir}/pkgconfig/gdl-sharp-3.pc
 
 %changelog
