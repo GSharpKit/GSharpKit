@@ -3,7 +3,7 @@
 %define libdir /lib
 
 Name:           darwinx-ServiceStack
-Version:        5.9.0
+Version:        5.10.4
 Release:        1%{?dist}
 Summary:        ServiceStack webservice framework: Faster, Cleaner, Modern WCF alternative.
 
@@ -20,7 +20,7 @@ for all your services and web apps that's intuitive and Easy to use!
 
 %prep
 %setup -c %{name}-%{version} -T
-nuget install ServiceStack -Version %{version}
+nuget install ServiceStack.Core -Version %{version}
 
 cat > ServiceStack.pc << \EOF
 prefix=%{_darwinx_prefix}
@@ -55,11 +55,11 @@ EOF
 %{__rm} -rf %{buildroot}
 
 install -d -m 755 $RPM_BUILD_ROOT%{_darwinx_prefix}%{libdir}
-install -m 644 ServiceStack.%{version}/lib/net45/ServiceStack.dll $RPM_BUILD_ROOT%{_darwinx_prefix}%{libdir}
-install -m 644 ServiceStack.Common.%{version}/lib/net45/ServiceStack.Common.dll $RPM_BUILD_ROOT%{_darwinx_prefix}%{libdir}
-install -m 644 ServiceStack.Client.%{version}/lib/net45/ServiceStack.Client.dll $RPM_BUILD_ROOT%{_darwinx_prefix}%{libdir}
-install -m 644 ServiceStack.Text.%{version}/lib/net45/ServiceStack.Text.dll $RPM_BUILD_ROOT%{_darwinx_prefix}%{libdir}
-install -m 644 ServiceStack.Interfaces.%{version}/lib/net45/ServiceStack.Interfaces.dll $RPM_BUILD_ROOT%{_darwinx_prefix}%{libdir}
+install -m 644 ServiceStack.Core.%{version}/lib/netstandard2.0/ServiceStack.dll $RPM_BUILD_ROOT%{_darwinx_prefix}%{libdir}
+install -m 644 ServiceStack.Common.Core.%{version}/lib/netstandard2.0/ServiceStack.Common.dll $RPM_BUILD_ROOT%{_darwinx_prefix}%{libdir}
+install -m 644 ServiceStack.Client.Core.%{version}/lib/netstandard2.0/ServiceStack.Client.dll $RPM_BUILD_ROOT%{_darwinx_prefix}%{libdir}
+install -m 644 ServiceStack.Text.Core.%{version}/lib/netstandard2.0/ServiceStack.Text.dll $RPM_BUILD_ROOT%{_darwinx_prefix}%{libdir}
+install -m 644 ServiceStack.Interfaces.Core.%{version}/lib/netstandard2.0/ServiceStack.Interfaces.dll $RPM_BUILD_ROOT%{_darwinx_prefix}%{libdir}
 
 install -d -m 755 $RPM_BUILD_ROOT%{_darwinx_datadir}/pkgconfig/
 install -m 644 ServiceStack.pc $RPM_BUILD_ROOT%{_darwinx_datadir}/pkgconfig/

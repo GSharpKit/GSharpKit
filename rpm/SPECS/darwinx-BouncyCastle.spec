@@ -3,7 +3,7 @@
 %define libdir /lib
 
 Name:           darwinx-BouncyCastle
-Version:        1.8.5
+Version:        1.8.8
 Release:        1%{?dist}
 Summary:        BouncyCastle is a Crypto library written i C#
 
@@ -40,7 +40,7 @@ EOF
 %{__rm} -rf %{buildroot}
 
 install -d -m 755 $RPM_BUILD_ROOT%{_darwinx_prefix}%{libdir}
-install -m 644 Portable.BouncyCastle.%{version}/lib/net40/BouncyCastle.Crypto.dll $RPM_BUILD_ROOT%{_darwinx_prefix}%{libdir}
+install -m 644 Portable.BouncyCastle.%{version}/lib/netstandard2.0/BouncyCastle.Crypto.dll $RPM_BUILD_ROOT%{_darwinx_prefix}%{libdir}
 
 install -d -m 755 $RPM_BUILD_ROOT%{_darwinx_datadir}/pkgconfig/
 install -m 644 BouncyCastle.pc $RPM_BUILD_ROOT%{_darwinx_datadir}/pkgconfig/

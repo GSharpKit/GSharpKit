@@ -8,7 +8,7 @@
 %define libdir /lib
 
 Name:           darwinx-Npgsql
-Version:        4.1.7
+Version:        5.0.4
 Release:        1%{?dist}
 Summary:        Postgresql database connectivity for C#
 Group:          Development/Languages
@@ -29,6 +29,12 @@ database.
 %prep
 %setup -c %{name}-%{version} -T
 nuget install Npgsql -Version %{version}
+nuget install Microsoft.Bcl.AsyncInterfaces -Version 1.1.0
+nuget install System.Memory -Version 4.5.3
+nuget install System.Buffers -Version 4.4.0
+nuget install System.Text.Json -Version 4.6.0
+nuget install System.Threading.Channels -Version 4.7.0
+nuget install System.Threading.Tasks.Extensions -Version 4.5.3
 
 cat > Npgsql.pc << \EOF
 prefix=%{_darwinx_prefix}
@@ -39,23 +45,25 @@ Name: Npgsql
 Description: Npgsql - Postgresql database connectivity for C#
 Requires:
 Version: %{version}
-Libs: -r:${libdir}/System.Threading.Tasks.Extensions.dll -r:${libdir}/System.Runtime.CompilerServices.Unsafe.dll -r:${libdir}/System.Buffers.dll -r:${libdir}/System.Memory.dll -r:${libdir}/System.Numerics.Vectors.dll -r:${libdir}/Npgsql.dll 
+Libs: -r:${libdir}/Npgsql.dll -r:${libdir}/Microsoft.Bcl.AsyncInterfaces.dll -r:${libdir}/System.Memory.dll -r:${libdir}/System.Text.Json.dll -r:${libdir}/System.Threading.Channels.dll -r:${libdir}/System.Threading.Tasks.Extensions.dll -r:${libdir}/System.Runtime.CompilerServices.Unsafe.dll
 Cflags:
 EOF
 
 %build
 
 %install
+%{__rm} -rf %{buildroot}
 
 install -d -m 755 $RPM_BUILD_ROOT%{_darwinx_prefix}%{libdir}
-install -m 644 Npgsql.%{version}/lib/netstandard2.0/Npgsql.dll $RPM_BUILD_ROOT%{_darwinx_prefix}%{libdir}
-install -m 644 System.Threading.Tasks.Extensions.4.5.3/lib/netstandard2.0/System.Threading.Tasks.Extensions.dll $RPM_BUILD_ROOT%{_darwinx_prefix}%{libdir}
-install -m 644 System.Text.Json.4.6.0/lib/netstandard2.0/System.Text.Json.dll $RPM_BUILD_ROOT%{_darwinx_prefix}%{libdir}
-install -m 644 System.Buffers.4.5.0/lib/netstandard2.0/System.Buffers.dll $RPM_BUILD_ROOT%{_darwinx_prefix}%{libdir}/
-install -m 644 System.Memory.4.5.3/lib/netstandard2.0/System.Memory.dll $RPM_BUILD_ROOT%{_darwinx_prefix}%{libdir}/
+install -m 644 Npgsql.%{version}/lib/netstandard2.0/Npgsql.dll $RPM_BUILD_ROOT%{_darwinx_prefix}%{libdir}/
 install -m 644 Microsoft.Bcl.AsyncInterfaces.1.1.0/lib/netstandard2.0/Microsoft.Bcl.AsyncInterfaces.dll $RPM_BUILD_ROOT%{_darwinx_prefix}%{libdir}/
-install -m 644 System.Text.Encodings.Web.4.6.0/lib/netstandard2.0/System.Text.Encodings.Web.dll $RPM_BUILD_ROOT%{_darwinx_prefix}%{libdir}/
+install -m 644 System.Memory.4.5.3/lib/netstandard2.0/System.Memory.dll $RPM_BUILD_ROOT%{_darwinx_prefix}%{libdir}/
+install -m 644 System.Text.Json.4.6.0/lib/netstandard2.0/System.Text.Json.dll $RPM_BUILD_ROOT%{_darwinx_prefix}%{libdir}/
+install -m 644 System.Threading.Channels.4.7.0/lib/netstandard2.0/System.Threading.Channels.dll $RPM_BUILD_ROOT%{_darwinx_prefix}%{libdir}/
+install -m 644 System.Threading.Tasks.Extensions.4.5.3/lib/netstandard2.0/System.Threading.Tasks.Extensions.dll $RPM_BUILD_ROOT%{_darwinx_prefix}%{libdir}/
 install -m 644 System.Runtime.CompilerServices.Unsafe.4.6.0/lib/netstandard2.0/System.Runtime.CompilerServices.Unsafe.dll $RPM_BUILD_ROOT%{_darwinx_prefix}%{libdir}/
+install -m 644 System.Text.Encodings.Web.4.6.0/lib/netstandard2.0/System.Text.Encodings.Web.dll $RPM_BUILD_ROOT%{_darwinx_prefix}%{libdir}/
+install -m 644 System.Buffers.4.4.0/lib/netstandard2.0/System.Buffers.dll $RPM_BUILD_ROOT%{_darwinx_prefix}%{libdir}/
 install -m 644 System.Numerics.Vectors.4.5.0/lib/netstandard2.0/System.Numerics.Vectors.dll $RPM_BUILD_ROOT%{_darwinx_prefix}%{libdir}/
 
 install -d -m 755 $RPM_BUILD_ROOT%{_darwinx_datadir}/pkgconfig/
@@ -67,13 +75,14 @@ install -m 644 Npgsql.pc $RPM_BUILD_ROOT%{_darwinx_datadir}/pkgconfig/Npgsql.pc
 %files
 %defattr(-,root,root,-)
 %{_darwinx_prefix}%{libdir}/Npgsql.dll
-%{_darwinx_prefix}%{libdir}/System.Threading.Tasks.Extensions.dll
-%{_darwinx_prefix}%{libdir}/System.Text.Json.dll
-%{_darwinx_prefix}%{libdir}/System.Buffers.dll
-%{_darwinx_prefix}%{libdir}/System.Memory.dll
 %{_darwinx_prefix}%{libdir}/Microsoft.Bcl.AsyncInterfaces.dll
-%{_darwinx_prefix}%{libdir}/System.Text.Encodings.Web.dll
+%{_darwinx_prefix}%{libdir}/System.Memory.dll
+%{_darwinx_prefix}%{libdir}/System.Text.Json.dll
+%{_darwinx_prefix}%{libdir}/System.Threading.Channels.dll
+%{_darwinx_prefix}%{libdir}/System.Threading.Tasks.Extensions.dll
 %{_darwinx_prefix}%{libdir}/System.Runtime.CompilerServices.Unsafe.dll
+%{_darwinx_prefix}%{libdir}/System.Text.Encodings.Web.dll
+%{_darwinx_prefix}%{libdir}/System.Buffers.dll
 %{_darwinx_prefix}%{libdir}/System.Numerics.Vectors.dll
 %{_darwinx_datadir}/pkgconfig/Npgsql.pc
 

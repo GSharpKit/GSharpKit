@@ -27,6 +27,9 @@ WebKit-sharp is .NET bindings for the WebKit rendering engine.
 
 sed -i '' 's!name="webkitgtk-3.0"!name="libwebkitgtk-3.0.0.dylib"!g' sources/webkitgtk3-sharp-sources.xml
 
+sed -i '' 's!\[assembly: AssemblyDelaySign(false)\]!!g' sources/AssemblyInfo.cs.in
+sed -i '' 's!\[assembly: AssemblyKeyFile("@ASSEMBLY_NAME@.snk")\]!!g' sources/AssemblyInfo.cs.in
+
 %build
 autoreconf --verbose --install -I /Library/Frameworks/GSharpKit/share/aclocal
 %{_darwinx_configure}

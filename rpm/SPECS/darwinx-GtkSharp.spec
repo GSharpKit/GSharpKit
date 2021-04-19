@@ -3,7 +3,7 @@
 %define libdir /lib
 
 Name:           darwinx-GtkSharp
-Version:        3.22.25.98
+Version:        3.24.24.34
 Release:        1%{?dist}
 Summary:        GTK+ and GNOME bindings for Mono
 
@@ -58,15 +58,7 @@ the GAPI tools and found in Gtk# include Gtk, Atk, Pango, Gdk.
 %prep
 %setup -q -n GtkSharp-%{version}
 
-cp %{SOURCE5} Source/
-
-sed -i '' 's!</PackageTags>!</PackageTags><SignAssembly>true</SignAssembly><AssemblyOriginatorKeyFile>../../GtkSharp.snk</AssemblyOriginatorKeyFile>!g' Source/Libs/GtkSharp/GtkSharp.csproj
-sed -i '' 's!</PackageTags>!</PackageTags><SignAssembly>true</SignAssembly><AssemblyOriginatorKeyFile>../../GtkSharp.snk</AssemblyOriginatorKeyFile>!g' Source/Libs//GdkSharp/GdkSharp.csproj
-sed -i '' 's!</PackageTags>!</PackageTags><SignAssembly>true</SignAssembly><AssemblyOriginatorKeyFile>../../GtkSharp.snk</AssemblyOriginatorKeyFile>!g' Source/Libs//GioSharp/GioSharp.csproj
-sed -i '' 's!</PackageTags>!</PackageTags><SignAssembly>true</SignAssembly><AssemblyOriginatorKeyFile>../../GtkSharp.snk</AssemblyOriginatorKeyFile>!g' Source/Libs//GLibSharp/GLibSharp.csproj
-sed -i '' 's!</PackageTags>!</PackageTags><SignAssembly>true</SignAssembly><AssemblyOriginatorKeyFile>../../GtkSharp.snk</AssemblyOriginatorKeyFile>!g' Source/Libs//PangoSharp/PangoSharp.csproj
-sed -i '' 's!</PackageTags>!</PackageTags><SignAssembly>true</SignAssembly><AssemblyOriginatorKeyFile>../../GtkSharp.snk</AssemblyOriginatorKeyFile>!g' Source/Libs//CairoSharp/CairoSharp.csproj
-sed -i '' 's!</PackageTags>!</PackageTags><SignAssembly>true</SignAssembly><AssemblyOriginatorKeyFile>../../GtkSharp.snk</AssemblyOriginatorKeyFile>!g' Source/Libs//AtkSharp/AtkSharp.csproj
+sed -i -e 's!netcoreapp3.1!netcoreapp5.0!g' Source/Samples/Samples.csproj
 
 %build
 CAKE_SETTINGS_SKIPVERIFICATION=true sh build.sh

@@ -3,7 +3,7 @@
 %define libdir /lib
 
 Name:           darwinx-MailKit
-Version:        2.8.0
+Version:        2.10.1
 Release:        1%{?dist}
 Summary:        MailKit is an Open Source cross-platform .NET mail-client library.
 Group:          Development/Languages
@@ -45,7 +45,7 @@ EOF
 %{__rm} -rf %{buildroot}
 
 install -d -m 755 $RPM_BUILD_ROOT%{_darwinx_prefix}%{libdir}
-install -m 644 MailKit.%{version}/lib/net47/MailKit.dll $RPM_BUILD_ROOT%{_darwinx_prefix}%{libdir}
+install -m 644 MailKit.%{version}/lib/netstandard2.0/MailKit.dll $RPM_BUILD_ROOT%{_darwinx_prefix}%{libdir}
 
 install -d -m 755 $RPM_BUILD_ROOT%{_darwinx_datadir}/pkgconfig/
 install -m 644 MailKit.pc $RPM_BUILD_ROOT%{_darwinx_datadir}/pkgconfig/MailKit.pc

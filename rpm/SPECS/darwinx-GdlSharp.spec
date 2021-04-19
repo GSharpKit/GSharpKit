@@ -1,12 +1,12 @@
 Name:           darwinx-GdlSharp
-Version:        3.26.0
-Release:        2%{?dist}
+Version:        3.34.0
+Release:        1%{?dist}
 Summary:        Max OS X GDL library
 
 License:        LGPLv2+
 Group:          Development/Libraries
 URL:            https://github.com/GSharpKit/GdlSharp/releases
-Source0:        GdlSharp-%{version}.tar.gz
+Source0:        GdlSharp-%{version}.tar.xz
 
 BuildArch:      noarch
 
@@ -24,6 +24,8 @@ suites.
 
 %prep
 %setup -q -n GdlSharp-%{version}
+
+sed -i '' 's!${NETSTANDARD_REFERENCE_DIR}!/Library/Frameworks/Mono.framework/Versions/Current/lib/mono/4.8-api/!g' configure.ac
 
 %build
 mkdir -p m4

@@ -2,12 +2,13 @@
 
 %global darwinx_pkg_name Mono.Data.Sqlite
 
+%define pkg_name Mono.Data.Sqlite.Core
 %define debug_package %{nil}
 
 %define libdir /lib
 
 Name:           darwinx-Mono.Data.Sqlite
-Version:        1.0.61
+Version:        1.0.61.1
 Release:        1%{?dist}
 Summary:        Mono.Data.Sqlite to any Xamarin or Windows .NET app. 
 
@@ -24,7 +25,7 @@ Supports Xamarin.Android, Xamarin.iOS, Windows 8, Windows Desktop and Windows Ph
 
 %prep
 %setup -c %{name}-%{version} -T
-nuget install %{darwinx_pkg_name} -Version %{version}
+nuget install %{pkg_name} -Version %{version}
 
 cat > Mono.Data.Sqlite.pc << \EOF
 prefix=%{darwinx_prefix}
@@ -45,7 +46,7 @@ EOF
 
 # Mingw32
 install -d -m 755 $RPM_BUILD_ROOT%{darwinx_prefix}%{libdir}
-install -m 644 Mono.Data.Sqlite.%{version}/lib/net40/Mono.Data.Sqlite.dll $RPM_BUILD_ROOT%{darwinx_prefix}%{libdir}
+install -m 644 %{pkg_name}.%{version}/lib/netstandard2.0/Mono.Data.Sqlite.dll $RPM_BUILD_ROOT%{darwinx_prefix}%{libdir}
 
 install -d -m 755 $RPM_BUILD_ROOT%{darwinx_datadir}/pkgconfig/
 install -m 644 Mono.Data.Sqlite.pc $RPM_BUILD_ROOT%{darwinx_datadir}/pkgconfig/Mono.Data.Sqlite.pc

@@ -5,7 +5,6 @@ Summary:	.NET bindings for GtkOSXApplication
 Group:		Development/Languages
 License:	MIT
 Source0:	gtk-mac-integration-sharp-%{version}.tar.xz
-Source1:	xcare.pub
 BuildArch:	noarch
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
@@ -28,10 +27,6 @@ sed -i '' 's!/usr/darwinx/usr/include/gtkmacintegration-gtk3!/Library/Frameworks
 %build
 sh autogen.sh
 %{_darwinx_configure}
-
-cp %{SOURCE1} sources/
-
-sed -i '' "s!CSC = /usr/darwinx/usr/bin/mcs!CSC=/Library/Frameworks/GSharpKit/bin/mcs -keyfile:xcare.pub!" sources/Makefile
 
 cd sources
 make api

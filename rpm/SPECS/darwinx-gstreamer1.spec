@@ -1,7 +1,7 @@
 %define		api_version	1.0
 
 Name:		darwinx-gstreamer1
-Version: 	1.16.2
+Version: 	1.18.4
 Release: 	1%{?dist}
 Summary: 	GStreamer streaming media framework runtime
 
@@ -38,21 +38,22 @@ plugins.
 %prep
 %setup -q -n gstreamer-%{version}
 
-sed -i '' 's|BISON_PATH=$ac_cv_path_BISON_PATH|BISON_PATH=/Library/GSharpKit/bin/bison|g' configure
 
 %build
-%{_darwinx_configure} \
-  --with-package-name='Fedora gstreamer package' \
-  --with-package-origin='http://download.fedora.redhat.com/fedora' \
-  --disable-gtk-doc \
-  --disable-benchmarks \
-  --disable-tests \
-  --disable-examples
+%darwinx_meson \
+    --default-library=both \
+    -Dman=disabled \
+    -Ddtrace=false \
+    -Dsystemtap=true \
+    -Dgtk_doc=disabled \
+    -Dgst_debug=false \
+    -Dlibunwind=disabled \
+    -Dlibdw=disabled
 
-%{_darwinx_make} %{?_smp_mflags} V=99
+%darwinx_meson_build
 
-%install  
-rm -rf $RPM_BUILD_ROOT
+%install
+%darwinx_meson_install
 
 # Install doc temporarily later will be removed
 make install DESTDIR=$RPM_BUILD_ROOT program_transform_name=""

@@ -11,9 +11,6 @@ Group:          Development/Languages
 License:        MIT
 URL:            https://www.nuget.org/packages/Mono.Posix.NETStandard
 
-Source0:	libMonoPosixHelper.dylib
-Source1:	darwinx-Mono.Posix.dll
-
 Prefix:		/usr
 BuildArch:	noarch
 
@@ -43,8 +40,6 @@ EOF
 %{__rm} -rf %{buildroot}
 
 install -d -m 755 $RPM_BUILD_ROOT%{darwinx_prefix}%{libdir}
-#install -m 644 %{SOURCE0} $RPM_BUILD_ROOT%{darwinx_prefix}%{libdir}/libMonoPosixHelper.dylib
-install -m 644 %{SOURCE1} $RPM_BUILD_ROOT%{darwinx_prefix}%{libdir}/Mono.Posix.dll
 install -m 644 Mono.Posix.NETStandard.%{version}/ref/netstandard2.0/Mono.Posix.NETStandard.dll $RPM_BUILD_ROOT%{darwinx_prefix}%{libdir}/
 
 install -d -m 755 $RPM_BUILD_ROOT%{darwinx_datadir}/pkgconfig/
@@ -55,8 +50,6 @@ install -m 644 Mono.Posix.NETStandard.pc $RPM_BUILD_ROOT%{darwinx_datadir}/pkgco
 
 %files -n darwinx-%{darwinx_pkg_name}
 %defattr(-,root,root,-)
-#{darwinx_prefix}%{libdir}/libMonoPosixHelper.dylib
-%{darwinx_prefix}%{libdir}/Mono.Posix.dll
 %{darwinx_prefix}%{libdir}/Mono.Posix.NETStandard.dll
 %{darwinx_datadir}/pkgconfig/Mono.Posix.NETStandard.pc
 
