@@ -86,6 +86,9 @@ mono-core
 Microsoft.CSharp
 Mono.Data.Sqlite
 Mono.Posix.NETStandard
+System.ComponentModel.Annotations
+System.DirectoryServices
+System.Runtime.Caching
 dbus-sharp
 dbus-sharp-glib
 GtkSharp
@@ -124,6 +127,7 @@ gtk-mac-integration-sharp
 
 WIN_BUILD_IN=(
 mono-core
+System.DirectoryServices
 )
 
 WIN_NA=(

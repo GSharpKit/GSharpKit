@@ -24,8 +24,9 @@ push:
 download:
 	-mkdir packages
 	rm -rf packages/*
-	scp gsharpkit@gimli.xmedicus.com:/home/gsharpkit/GSharpKit/Fedora32-x86_64/framework/darwinx-*.noarch.rpm packages/
+	scp gsharpkit@gimli.xmedicus.com:/home/gsharpkit/GSharpKit/Fedora${FEDORA_VERSION}-x86_64/framework/darwinx-*.noarch.rpm packages/
+	scp gsharpkit@gimli.xmedicus.com:/home/gsharpkit/GSharpKit/Fedora${FEDORA_VERSION}-x86_64/framework/ige-mac-bundler-0.5*.noarch.rpm packages/
 	rm -f packages/darwinx-filesystem-base-*
 
 update:
-	sudo rpm -Fvh --ignoreos packages/*.rpm
+	sudo rpm -Uvh --force --ignoreos packages/*.rpm
