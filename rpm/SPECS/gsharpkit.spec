@@ -341,7 +341,7 @@ Requires:               mingw32-dbus-glib >= %{DBUS_GLIB_VERSION}
 
 Requires:               mingw32-System.Runtime.Caching >= %{SYSTEM_RUNTIME_CACHING_VERSION}
 Requires:               mingw32-System.ComponentModel.Annotations >= %{SYSTEM_COMPONENTMODEL_ANNOTATIONS_VERSION}
-#Requires:               mingw32-System.DirectoryServices >= %{SYSTEM_DIRECTORY_SERVICES}
+Requires:               mingw32-System.DirectoryServices >= %{SYSTEM_DIRECTORY_SERVICES}
 Requires:               mingw32-Microsoft.CSharp >= %{MICROSOFT_CSHARP_VERSION}
 Requires:               mingw32-Mono.Posix.NETStandard >= %{MONO_POSIX_NETSTANDARD_VERSION}
 Requires:               mingw32-Mono.Data.Sqlite >= %{MONO_DATA_SQLITE_VERSION}
@@ -453,7 +453,7 @@ Requires:               mingw64-dbus-glib >= %{DBUS_GLIB_VERSION}
 
 Requires:               mingw64-System.Runtime.Caching >= %{SYSTEM_RUNTIME_CACHING_VERSION}
 Requires:               mingw64-System.ComponentModel.Annotations >= %{SYSTEM_COMPONENTMODEL_ANNOTATIONS_VERSION}
-#Requires:               mingw64-System.DirectoryServices >= %{SYSTEM_DIRECTORY_SERVICES}
+Requires:               mingw64-System.DirectoryServices >= %{SYSTEM_DIRECTORY_SERVICES}
 Requires:               mingw64-Microsoft.CSharp >= %{MICROSOFT_CSHARP_VERSION}
 Requires:               mingw64-Mono.Posix.NETStandard >= %{MONO_POSIX_NETSTANDARD_VERSION}
 Requires:               mingw64-Mono.Data.Sqlite >= %{MONO_DATA_SQLITE_VERSION}

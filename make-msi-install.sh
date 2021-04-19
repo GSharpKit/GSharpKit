@@ -63,3 +63,9 @@ cp -r $FROM/share/locale/da $TO/share/locale/
 cp -r $FROM/share/locale/sv $TO/share/locale/
 
 cp -r $FROM/share/myspell $TO/share/
+
+# REMOVE FOR BUILDIN
+rm -f $TO/bin/System.DirectoryServices.AccountManagement.dll
+rm -f $TO/bin/System.DirectoryServices.dll
+rm -f $TO/bin/System.Security.Principal.Windows.dll
+
