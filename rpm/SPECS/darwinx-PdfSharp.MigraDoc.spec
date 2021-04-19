@@ -35,7 +35,7 @@ Name: PdfSharp.MigraDoc
 Description: PdfSharp.MigraDoc - %{summary}
 Requires:
 Version: %{version}
-Libs: -r:${libdir}/PdfSharp.dll -r:${libdir}/PdfSharp.Charting.dll -r:${libdir}/MigraDoc.RtfRendering.dll -r:${libdir}/MigraDoc.Rendering.dll -r:${libdir}/MigraDoc.DocumentObjectModel.dll 
+Libs: -r:${libdir}/PdfSharp.dll -r:${libdir}/PdfSharp.Charting.dll -r:${libdir}/MigraDoc.Rendering.dll -r:${libdir}/MigraDoc.DocumentObjectModel.dll -r:${libdir}/System.Drawing.Common.dll -r:${libdir}/System.Resources.Extensions.dll
 Cflags:
 EOF
 
