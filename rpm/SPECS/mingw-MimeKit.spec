@@ -54,6 +54,11 @@ It also supports parsing of Unix mbox files.
 %prep
 %setup -c %{name}-%{version} -T
 nuget install %{mingw_pkg_name} -Version %{version}
+nuget install System.Text.Encoding.CodePages -Version 4.4.0
+nuget install System.Data.DataSetExtensions -Version 4.5.0
+nuget install System.Reflection.TypeExtensions -Version 4.4.0
+nuget install System.Security.Cryptography.Pkcs -Version 4.7.0
+
 
 cat > MimeKit32.pc << \EOF
 prefix=%{mingw32_prefix}
@@ -89,14 +94,20 @@ EOF
 
 # Mingw32
 install -d -m 755 $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir}
-install -m 644 MimeKit.%{version}/lib/netstandard2.0/MimeKit.dll $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir}
+find */lib/netstandard2.0/ -iname "*.dll" -exec install -m 644 {} $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir}/ \;
+
+rm $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir}/BouncyCastle.Crypto.dll
+rm $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir}/System.Buffers.dll
 
 install -d -m 755 $RPM_BUILD_ROOT%{mingw32_datadir}/pkgconfig/
 install -m 644 MimeKit32.pc $RPM_BUILD_ROOT%{mingw32_datadir}/pkgconfig/MimeKit.pc
 
 # Mingw64
 install -d -m 755 $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir}
-install -m 644 MimeKit.%{version}/lib/netstandard2.0/MimeKit.dll $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir}
+find */lib/netstandard2.0/ -iname "*.dll" -exec install -m 644 {} $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir}/ \;
+
+rm $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir}/BouncyCastle.Crypto.dll
+rm $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir}/System.Buffers.dll
 
 install -d -m 755 $RPM_BUILD_ROOT%{mingw64_datadir}/pkgconfig/
 install -m 644 MimeKit64.pc $RPM_BUILD_ROOT%{mingw64_datadir}/pkgconfig/MimeKit.pc
@@ -107,12 +118,12 @@ install -m 644 MimeKit64.pc $RPM_BUILD_ROOT%{mingw64_datadir}/pkgconfig/MimeKit.
 
 %files -n mingw32-%{mingw_pkg_name}
 %defattr(-,root,root,-)
-%{mingw32_prefix}%{libdir}/MimeKit.dll
+%{mingw32_prefix}%{libdir}/*.dll
 %{mingw32_datadir}/pkgconfig/MimeKit.pc
 
 %files -n mingw64-%{mingw_pkg_name}
 %defattr(-,root,root,-)
-%{mingw64_prefix}%{libdir}/MimeKit.dll
+%{mingw64_prefix}%{libdir}/*.dll
 %{mingw64_datadir}/pkgconfig/MimeKit.pc
 
 

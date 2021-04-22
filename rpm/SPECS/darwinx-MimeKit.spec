@@ -25,6 +25,11 @@ and mobile platforms. It also supports parsing of Unix mbox files.
 %prep
 %setup -c %{name}-%{version} -T
 nuget install MimeKit -Version %{version}
+nuget install System.Text.Encoding.CodePages -Version 4.4.0
+nuget install System.Data.DataSetExtensions -Version 4.5.0
+nuget install System.Reflection.TypeExtensions -Version 4.4.0
+nuget install System.Security.Cryptography.Pkcs -Version 4.7.0
+
 
 cat > MimeKit.pc << \EOF
 prefix=%{_darwinx_prefix}
@@ -45,7 +50,10 @@ EOF
 %{__rm} -rf %{buildroot}
 
 install -d -m 755 $RPM_BUILD_ROOT%{_darwinx_prefix}%{libdir}
-install -m 644 MimeKit.%{version}/lib/netstandard2.0/MimeKit.dll $RPM_BUILD_ROOT%{_darwinx_prefix}%{libdir}
+find */lib/netstandard2.0/ -iname "*.dll" -exec install -m 644 {} $RPM_BUILD_ROOT%{_darwinx_prefix}%{libdir}/ \;
+
+rm $RPM_BUILD_ROOT%{_darwinx_prefix}%{libdir}/BouncyCastle.Crypto.dll
+rm $RPM_BUILD_ROOT%{_darwinx_prefix}%{libdir}/System.Buffers.dll
 
 install -d -m 755 $RPM_BUILD_ROOT%{_darwinx_datadir}/pkgconfig/
 install -m 644 MimeKit.pc $RPM_BUILD_ROOT%{_darwinx_datadir}/pkgconfig/MimeKit.pc
@@ -55,7 +63,7 @@ install -m 644 MimeKit.pc $RPM_BUILD_ROOT%{_darwinx_datadir}/pkgconfig/MimeKit.p
 
 %files
 %defattr(-,root,root,-)
-%{_darwinx_prefix}%{libdir}/MimeKit.dll
+%{_darwinx_prefix}%{libdir}/*.dll
 %{_darwinx_datadir}/pkgconfig/MimeKit.pc
 
 %changelog

@@ -18,8 +18,6 @@ BuildRequires:  nuget
 
 Requires:	BouncyCastle >= 1.8.8
 
-Provides:       mono(System.Text.Encoding.CodePages)
-
 %description
 MimeKit is an Open Source library for creating and parsing MIME, 
 S/MIME and PGP messages on desktop and mobile platforms. 
@@ -28,6 +26,10 @@ It also supports parsing of Unix mbox files.
 %prep
 %setup -c %{name}-%{version} -T
 nuget install %{name} -Version %{version}
+nuget install System.Text.Encoding.CodePages -Version 4.4.0
+nuget install System.Data.DataSetExtensions -Version 4.5.0
+nuget install System.Reflection.TypeExtensions -Version 4.4.0
+nuget install System.Security.Cryptography.Pkcs -Version 4.7.0
 
 cat > %{name}.pc << \EOF
 prefix=%{_prefix}
@@ -48,7 +50,10 @@ EOF
 %{__rm} -rf %{buildroot}
 
 install -d -m 755 $RPM_BUILD_ROOT%{_prefix}%{libdir}
-install -m 644 MimeKit.%{version}/lib/netstandard2.0/MimeKit.dll $RPM_BUILD_ROOT%{_prefix}%{libdir}
+find */lib/netstandard2.0/ -iname "*.dll" -exec install -m 644 {} $RPM_BUILD_ROOT%{_prefix}%{libdir}/ \;
+
+rm $RPM_BUILD_ROOT%{_prefix}%{libdir}/BouncyCastle.Crypto.dll
+rm $RPM_BUILD_ROOT%{_prefix}%{libdir}/System.Buffers.dll
 
 install -d -m 755 $RPM_BUILD_ROOT%{_datadir}/pkgconfig/
 install -m 644 %{name}.pc $RPM_BUILD_ROOT%{_datadir}/pkgconfig/
@@ -58,7 +63,7 @@ install -m 644 %{name}.pc $RPM_BUILD_ROOT%{_datadir}/pkgconfig/
 
 %files
 %defattr(-,root,root,-)
-%{_prefix}%{libdir}/MimeKit.dll
+%{_prefix}%{libdir}/*.dll
 %{_datadir}/pkgconfig/%{name}.pc
 
 %changelog
