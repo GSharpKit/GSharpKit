@@ -60,10 +60,10 @@
 %define LIBOGG_VERSION 1.3.3
 %define LIBVORBIS_VERSION 1.3.6
 %define LIBWEBP_VERSION 1.1.0
-%define GSTREAMER1_VERSION 1.16.2
-%define GSTREAMER1_PLUGINS_BASE_VERSION 1.16.2
-%define GSTREAMER1_PLUGINS_GOOD_VERSION 1.16.2
-%define GSTREAMER1_PLUGINS_BAD_VERSION 1.16.2
+%define GSTREAMER1_VERSION 1.18.2
+%define GSTREAMER1_PLUGINS_BASE_VERSION 1.18.2
+%define GSTREAMER1_PLUGINS_GOOD_VERSION 1.18.2
+%define GSTREAMER1_PLUGINS_BAD_VERSION 1.18.2
 %define WEBKITGTK3_VERSION 2.4.11
 #define LIBEXIF_VERSION 0.6.20
 
@@ -82,20 +82,20 @@
 %define DBUS_GLIB_SHARP_VERSION 0.6.0
 %define GTK3_SHARP_VERSION 3.24.20
 %define GDL_SHARP_VERSION 3.34.0
-%define GST_SHARP_VERSION 1.18.0
+%define GST_SHARP_VERSION 1.18.2
 %define WEBKITGTK3_SHARP_VERSION 2.4.11
 %define GTK_MAC_INTEGRATION_SHARP_VERSION 2.0.7
 
 %define SYSTEM_RUNTIME_CACHING_VERSION 5.0.0
 %define SYSTEM_COMPONENTMODEL_ANNOTATIONS_VERSION 5.0.0
 %define MICROSOFT_CSHARP_VERSION 4.7.0
-%define NPGSQL_VERSION 5.0.4
+%define NPGSQL_VERSION 5.0.5
 %define MONO_ADDINS_VERSION 1.3.9
-%define NEWTONSOFT_JSON_VERSION 12.0.3
-%define BOUNCY_CASTLE_VERSION 1.8.8
-%define MIMEKIT_VERSION 2.10.1
-%define MAILKIT_VERSION 2.10.1
-%define SERVICE_STACK_VERSION 5.10.4
+%define NEWTONSOFT_JSON_VERSION 13.0.1
+%define BOUNCY_CASTLE_VERSION 1.8.10
+%define MIMEKIT_VERSION 2.12.0
+%define MAILKIT_VERSION 2.12.0
+%define SERVICE_STACK_VERSION 5.11.0
 %define REST_SHARP_VERSION 106.11.7
 %define SEALAPI_VERSION 4.1.0
 %define PDFSHARP_MIGRADOC_VERSION 1.51.15
@@ -211,7 +211,7 @@ Requires:		gstreamer1 => %{GSTREAMER1_VERSION}
 Requires:		gstreamer1-plugins-base >= %{GSTREAMER1_PLUGINS_BASE_VERSION}
 Requires:		gstreamer1-plugins-good >= %{GSTREAMER1_PLUGINS_GOOD_VERSION}
 Requires:		gstreamer1-plugins-bad-free >= %{GSTREAMER1_PLUGINS_BAD_VERSION}
-#Requires:		GstSharp >= %{GST_SHARP_VERSION}
+Requires:		GstSharp >= %{GST_SHARP_VERSION}
 Requires:		Newtonsoft.Json >= %{NEWTONSOFT_JSON_VERSION}
 Requires:		BouncyCastle >= %{BOUNCY_CASTLE_VERSION}
 Requires:		MimeKit >= %{MIMEKIT_VERSION}
@@ -350,7 +350,7 @@ Requires:               mingw32-Mono.Addins >= %{MONO_ADDINS_VERSION}
 Requires:               mingw32-webkitgtk3-sharp >= %{WEBKITGTK3_SHARP_VERSION}
 Requires:               mingw32-dbus-sharp >= %{DBUS_SHARP_VERSION}
 Requires:               mingw32-dbus-sharp-glib >= %{DBUS_GLIB_SHARP_VERSION}
-#Requires:		mingw32-GstSharp >= %{GST_SHARP_VERSION}
+Requires:		mingw32-GstSharp >= %{GST_SHARP_VERSION}
 Requires:		mingw32-Newtonsoft.Json >= %{NEWTONSOFT_JSON_VERSION}
 Requires:               mingw32-BouncyCastle >= %{BOUNCY_CASTLE_VERSION}
 Requires:               mingw32-MimeKit >= %{MIMEKIT_VERSION}
@@ -461,7 +461,7 @@ Requires:               mingw64-Mono.Addins >= %{MONO_ADDINS_VERSION}
 Requires:               mingw64-webkitgtk3-sharp >= %{WEBKITGTK3_SHARP_VERSION}
 Requires:               mingw64-dbus-sharp >= %{DBUS_SHARP_VERSION}
 Requires:               mingw64-dbus-sharp-glib >= %{DBUS_GLIB_SHARP_VERSION}
-#Requires:               mingw64-GstSharp >= %{GST_SHARP_VERSION}
+Requires:               mingw64-GstSharp >= %{GST_SHARP_VERSION}
 Requires:               mingw64-Newtonsoft.Json >= %{NEWTONSOFT_JSON_VERSION}
 Requires:               mingw64-BouncyCastle >= %{BOUNCY_CASTLE_VERSION}
 Requires:               mingw64-MimeKit >= %{MIMEKIT_VERSION}
@@ -660,7 +660,7 @@ Requires:               darwinx-Mono.Addins >= %{MONO_ADDINS_VERSION}
 Requires:               darwinx-webkitgtk3-sharp >= %{WEBKITGTK3_SHARP_VERSION}
 Requires:               darwinx-dbus-sharp >= %{DBUS_SHARP_VERSION}
 Requires:               darwinx-dbus-sharp-glib >= %{DBUS_GLIB_SHARP_VERSION}
-#Requires:               darwinx-GstSharp >= %{GST_SHARP_VERSION}
+Requires:               darwinx-GstSharp >= %{GST_SHARP_VERSION}
 Requires:               darwinx-Newtonsoft.Json >= %{NEWTONSOFT_JSON_VERSION}
 Requires:               darwinx-BouncyCastle >= %{BOUNCY_CASTLE_VERSION}
 Requires:               darwinx-MimeKit >= %{MIMEKIT_VERSION}

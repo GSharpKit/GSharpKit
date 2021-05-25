@@ -11,7 +11,7 @@
 %define libdir /bin
 
 Name:           mingw-Newtonsoft.Json
-Version:        12.0.3
+Version:        13.0.1
 Release:        1%{?dist}
 Summary:        Json.NET is a popular high-performance JSON framework for .NET
 

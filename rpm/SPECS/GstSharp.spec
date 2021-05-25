@@ -1,7 +1,9 @@
 %define debug_package %{nil}
 
+%define libdir /lib
+
 Name:		GstSharp
-Version: 	1.16.0
+Version: 	1.18.2
 Release: 	1%{?dist}
 Summary: 	GStreamer streaming media framework runtime
 Group: 		Applications/Multimedia
@@ -10,20 +12,20 @@ URL:		https://www.nuget.org/packages/GstSharp/
 BuildRoot: 	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Prefix:		/usr
 BuildArch:	noarch
+Source:		gstreamer-sharp-%{version}.tar.xz
 BuildRequires:	nuget
 
-Requires:       mono-core >= 5.14
+Requires:       mono-core >= 6.12
 Requires:       gstreamer1
 Requires:       gstreamer1-plugins-base
+
+BuildRequires:	gst-editing-services-devel gstreamer1-plugins-bad-free-devel
 
 Obsoletes:	gstreamer1-sharp
 Provides:	gstreamer1-sharp
 
 Obsoletes:	gstreamer1-sharp-devel
 Provides:	gstreamer1-sharp-devel
-
-Provides:	mono(gio-sharp) = 3.0.0.0
-Provides:	mono(glib-sharp) = 3.0.0.0
 
 %description
 GStreamer is a streaming media framework, based on graphs of filters which
@@ -34,28 +36,39 @@ types or processing capabilities can be added simply by installing new
 plugins.
 
 %prep
-%setup -c %{name}-%{version} -T
-nuget install %{name} -Version %{version}
+%setup -q -n gstreamer-sharp-%{version}
 
 cat > gstreamer-sharp-1.0.pc << \EOF
 prefix=%{_prefix}
 exec_prefix=${prefix}
-libdir=${exec_prefix}/lib/mono
+libdir=${exec_prefix}/lib
 
 Name: %{name}
 Description: %{summary}
 Version: %{version}
-Libs: -r:${libdir}/gstreamer-sharp-1.0/gstreamer-sharp.dll
-Requires: gtk-sharp-3.0
+Libs: -r:${libdir}/gstreamer-sharp.dll
+Requires: glib-sharp-3.0
 EOF
 
 %build
+meson . build
+
+cp /usr/lib/AtkSharp.dll build/subprojects/gtk-sharp/
+cp /usr/lib/CairoSharp.dll build/subprojects/gtk-sharp/
+cp /usr/lib/GLibSharp.dll build/subprojects/gtk-sharp/
+cp /usr/lib/GdkSharp.dll build/subprojects/gtk-sharp/
+cp /usr/lib/GioSharp.dll build/subprojects/gtk-sharp/
+cp /usr/lib/GtkSharp.dll build/subprojects/gtk-sharp/
+cp /usr/lib/PangoSharp.dll build/subprojects/gtk-sharp/
+
+ninja -C build || true
 
 %install
 %{__rm} -rf $RPM_BUILD_ROOT
 
-install -d -m 755 $RPM_BUILD_ROOT%{_prefix}%{libdir}/mono/gac
-gacutil -i %{name}.%{version}/lib/net45/gstreamer-sharp.dll -package gstreamer-sharp-1.0 -root $RPM_BUILD_ROOT%{_prefix}/lib -gacdir mono/gac
+install -d -m 755 $RPM_BUILD_ROOT%{_prefix}%{libdir}
+install -m 644 build/sources/gstreamer-sharp.dll $RPM_BUILD_ROOT%{_prefix}%{libdir}
+install -m 644 build/sources/gstreamer-sharp.dll.config $RPM_BUILD_ROOT%{_prefix}%{libdir}
 
 install -d -m 755 %{buildroot}%{_prefix}/share/pkgconfig
 install -m 644 gstreamer-sharp-1.0.pc %{buildroot}%{_prefix}/share/pkgconfig
@@ -65,8 +78,8 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,root)
-%{_prefix}/lib/mono/gac
-%{_prefix}/lib/mono/gstreamer-sharp-1.0/gstreamer-sharp.dll
+%{_prefix}/lib/gstreamer-sharp.dll
+%{_prefix}/lib/gstreamer-sharp.dll.config
 %{_datadir}/pkgconfig/gstreamer-sharp-1.0.pc
 
 %changelog

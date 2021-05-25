@@ -8,7 +8,7 @@
 %define debug_package %{nil}
 
 Name:		mingw-GstSharp
-Version: 	1.16.0
+Version: 	1.18.2
 Release: 	1%{?dist}
 Summary: 	GStreamer streaming media framework runtime
 Group: 		Applications/Multimedia
@@ -16,6 +16,7 @@ License: 	LGPLv2+
 URL:		http://gstreamer.freedesktop.org/
 BuildRoot: 	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Prefix:		/usr
+Source:         gstreamer-sharp-%{version}.tar.xz
 BuildArch:	noarch
 BuildRequires:	nuget
 
@@ -60,8 +61,7 @@ types or processing capabilities can be added simply by installing new
 plugins.
 
 %prep
-%setup -c %{name}-%{version} -T
-nuget install %{mingw_pkg_name} -Version %{version}
+%setup -q -n gstreamer-sharp-%{version}
 
 cat > gstreamer-sharp-1.0.pc32 << \EOF
 prefix=%{mingw32_prefix}
@@ -69,10 +69,10 @@ exec_prefix=${prefix}
 libdir=${exec_prefix}%{libdir}
 
 Name: %{mingw_pkg_name}
-Description: %{summary} 
+Description: %{summary}
 Version: %{version}
 Libs: -r:${libdir}/gstreamer-sharp.dll
-Requires: gtk-sharp-3.0
+Requires: glib-sharp-3.0
 EOF
 
 cat > gstreamer-sharp-1.0.pc64 << \EOF
@@ -84,25 +84,35 @@ Name: %{mingw_pkg_name}
 Description: %{summary}
 Version: %{version}
 Libs: -r:${libdir}/gstreamer-sharp.dll
-Requires: gtk-sharp-3.0
+Requires: glib-sharp-3.0
 EOF
 
-
 %build
+meson . build
+
+cp /usr/lib/AtkSharp.dll build/subprojects/gtk-sharp/
+cp /usr/lib/CairoSharp.dll build/subprojects/gtk-sharp/
+cp /usr/lib/GLibSharp.dll build/subprojects/gtk-sharp/
+cp /usr/lib/GdkSharp.dll build/subprojects/gtk-sharp/
+cp /usr/lib/GioSharp.dll build/subprojects/gtk-sharp/
+cp /usr/lib/GtkSharp.dll build/subprojects/gtk-sharp/
+cp /usr/lib/PangoSharp.dll build/subprojects/gtk-sharp/
+
+ninja -C build || true
 
 %install
 %{__rm} -rf $RPM_BUILD_ROOT
 
 # Mingw32
 install -d -m 755 $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir}
-install -m 644 %{mingw_pkg_name}.%{version}/lib/net45/gstreamer-sharp.dll $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir}
+install -m 644 build/sources/gstreamer-sharp.dll $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir}
 
 install -d -m 755 %{buildroot}%{mingw32_prefix}/share/pkgconfig
 install -m 644 gstreamer-sharp-1.0.pc32 %{buildroot}%{mingw32_prefix}/share/pkgconfig/gstreamer-sharp-1.0.pc
 
 # Mingw64
 install -d -m 755 $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir}
-install -m 644 %{mingw_pkg_name}.%{version}/lib/net45/gstreamer-sharp.dll $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir}
+install -m 644 build/sources/gstreamer-sharp.dll $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir}
 
 install -d -m 755 %{buildroot}%{mingw64_prefix}/share/pkgconfig
 install -m 644 gstreamer-sharp-1.0.pc64 %{buildroot}%{mingw64_prefix}/share/pkgconfig/gstreamer-sharp-1.0.pc

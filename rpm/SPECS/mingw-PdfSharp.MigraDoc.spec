@@ -51,6 +51,8 @@ object model with paragraphs, tables, styles, etc. and renders them into PDF or 
 %prep
 %setup -c %{name}-%{version} -T
 nuget install %{mingw_pkg_name}.Standard -Version %{version}
+nuget install System.Drawing.Common -Version 5.0.2
+nuget install System.Resources.Extensions -Version 5.0.0
 
 cat > %{mingw_pkg_name}32.pc << \EOF
 prefix=%{mingw32_prefix}
@@ -89,8 +91,8 @@ install -m 644 PdfSharp.MigraDoc.Standard.DocumentObjectModel.%{version}/lib/net
 install -m 644 PdfSharp.MigraDoc.Standard.%{version}/lib/netstandard2.0/MigraDoc.Rendering.dll $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir}
 install -m 644 PDFSharp.Standard.Charting.%{version}/lib/netstandard2.0/PdfSharp.Charting.dll $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir}
 install -m 644 PDFSharp.Standard.%{version}/lib/netstandard2.0/PdfSharp.dll $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir}
-install -m 644 System.Drawing.Common.4.5.0/lib/netstandard2.0/System.Drawing.Common.dll $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir}
-install -m 644 System.Resources.Extensions.4.6.0/lib/netstandard2.0/System.Resources.Extensions.dll $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir}
+install -m 644 System.Drawing.Common.5.0.2/lib/netstandard2.0/System.Drawing.Common.dll $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir}
+install -m 644 System.Resources.Extensions.5.0.0/lib/netstandard2.0/System.Resources.Extensions.dll $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir}
 
 install -d -m 755 $RPM_BUILD_ROOT%{mingw32_datadir}/pkgconfig/
 install -m 644 %{mingw_pkg_name}32.pc $RPM_BUILD_ROOT%{mingw32_datadir}/pkgconfig/%{mingw_pkg_name}.pc
@@ -101,8 +103,8 @@ install -m 644 PdfSharp.MigraDoc.Standard.DocumentObjectModel.%{version}/lib/net
 install -m 644 PdfSharp.MigraDoc.Standard.%{version}/lib/netstandard2.0/MigraDoc.Rendering.dll $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir}
 install -m 644 PDFSharp.Standard.Charting.%{version}/lib/netstandard2.0/PdfSharp.Charting.dll $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir}
 install -m 644 PDFSharp.Standard.%{version}/lib/netstandard2.0/PdfSharp.dll $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir}
-install -m 644 System.Drawing.Common.4.5.0/lib/netstandard2.0/System.Drawing.Common.dll $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir}
-install -m 644 System.Resources.Extensions.4.6.0/lib/netstandard2.0/System.Resources.Extensions.dll $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir}
+install -m 644 System.Drawing.Common.5.0.2/lib/netstandard2.0/System.Drawing.Common.dll $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir}
+install -m 644 System.Resources.Extensions.5.0.0/lib/netstandard2.0/System.Resources.Extensions.dll $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir}
 
 install -d -m 755 $RPM_BUILD_ROOT%{mingw64_datadir}/pkgconfig/
 install -m 644 %{mingw_pkg_name}64.pc $RPM_BUILD_ROOT%{mingw64_datadir}/pkgconfig/%{mingw_pkg_name}.pc
