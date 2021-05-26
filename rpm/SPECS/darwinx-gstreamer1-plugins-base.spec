@@ -42,28 +42,39 @@ This package contains a set of well-maintained base plug-ins.
 %prep
 %setup -q -n gst-plugins-base-%{version}
 
-#%patch1 -p1 -b .rpm-provides
-
 %build
-%{_darwinx_configure} \
-  --with-package-name='Fedora gstreamer package' \
-  --with-package-origin='http://download.fedora.redhat.com/fedora' \
-  --disable-gtk-doc \
-  --enable-debug \
-  --disable-tests \
-  --disable-examples \
-  --disable-x \
-  --disable-xvideo \
-  --disable-zlib \
-  --enable-vorbis
+%darwinx_meson \
+    --default-library=shared \
+    -Dman=disabled \
+    -Ddtrace=false \
+    -Dsystemtap=true \
+    -Ddoc=disabled \
+    -Dgtk_doc=disabled \
+    -Dgst_debug=false \
+    -Dtests=disabled \
+    -Dexamples=disabled \
+    -Dlibunwind=disabled \
+    -Dlibdw=disabled \
+    -Ddbghelp=disabled \
+    -Dintrospection=disabled \
+    -Dbash-completion=disabled \
+    -Dx11=disabled \
+    -Dorc=disabled \
+    -Dtremor=disabled \
+    -Dtheora=disabled \
+    -Dopus=disabled \
+    -Dalsa=disabled \
+    -Dcdparanoia=disabled \
+    -Dlibvisual=disabled \
+    -Dgl-graphene=disabled \
+    -Diso-codes=disabled
 
-%{_darwinx_make} %{?_smp_mflags}
+%darwinx_meson_build
 
-%install  
+%install
 rm -rf $RPM_BUILD_ROOT
 
-# Install doc temporarily later will be removed
-%{_darwinx_makeinstall} program_transform_name=""
+%darwinx_meson_install
 
 # Remove manpages.
 rm -rf $RPM_BUILD_ROOT%{_darwinx_mandir}

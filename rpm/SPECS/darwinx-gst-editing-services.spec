@@ -1,14 +1,14 @@
 %define		majorminor	1.0
 
 Name:		darwinx-gst-editing-services
-Version: 	1.12.4
+Version: 	1.18.4
 Release: 	1%{?dist}
 Summary: 	This is a high-level library for facilitating the creation of audio/video non-linear editors.
 
 Group: 		Applications/Multimedia
 License: 	LGPLv2+
 URL:		http://gstreamer.freedesktop.org/
-Source0: 	https://github.com/GStreamer/gst-editing-services/releases/gst-editing-services-%{version}.tar.gz
+Source0: 	https://github.com/GStreamer/gst-editing-services/releases/gst-editing-services-%{version}.tar.xz
 BuildRoot: 	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildArch: noarch
@@ -29,15 +29,16 @@ non-linear editors.
 %setup -q -n gst-editing-services-%{version}
 
 %build
-%{_darwinx_env} ; meson --prefix=%{_darwinx_prefix} --libdir=%{_darwinx_prefix}/lib build/
-ninja -C build/
+%darwinx_meson \
+    --default-library=shared \
+    --auto-features=auto
 
-%install  
+%darwinx_meson_build
+
+%install
 rm -rf $RPM_BUILD_ROOT
 
-# Install doc temporarily later will be removed
-make install DESTDIR=$RPM_BUILD_ROOT program_transform_name=""
-
+%darwinx_meson_install
 # Remove manpages.
 rm -rf $RPM_BUILD_ROOT%{_darwinx_mandir}
 
@@ -49,6 +50,10 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-, root, root, -)
+%{_darwinx_bindir}
+%{_darwinx_libdir}
+%{_darwinx_datadir}
+%{_darwinx_includedir}
 
 %changelog
 * Mon Jan  8 2018 Mikkel Kruse Johnsen <mikkel@xmedicus.com>

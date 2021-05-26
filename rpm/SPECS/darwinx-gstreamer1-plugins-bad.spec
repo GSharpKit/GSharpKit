@@ -44,29 +44,18 @@ This package contains a set of well-maintained base plug-ins.
 %setup -q -n gst-plugins-bad-%{version}
 
 %build
-%{_darwinx_configure} \
-  --with-package-name='Fedora gstreamer package' \
-  --with-package-origin='http://download.fedora.redhat.com/fedora' \
-  --disable-x \
-  --disable-xvideo \
-  --disable-gtk-doc \
-  --enable-debug \
-  --disable-tests \
-  --disable-examples \
-  --disable-shout2 \
-  --disable-shout2test \
-  --disable-jpeg \
-  --disable-goom \
-  --disable-cocoa \
-  --disable-apple_media
+%darwinx_meson \
+    --default-library=shared \
+    --auto-features=auto \
+    -Ddoc=disabled \
+    -Dtests=disabled \
+    -Dexamples=disabled \
+    -Ddtls=disabled
 
-%{_darwinx_make} OBJC=%{_darwinx-cc} %{?_smp_mflags}
-
-%install  
+%install
 rm -rf $RPM_BUILD_ROOT
 
-# Install doc temporarily later will be removed
-%{_darwinx_makeinstall}
+%darwinx_meson_install
 
 # Remove manpages.
 rm -rf $RPM_BUILD_ROOT%{_darwinx_mandir}
@@ -82,6 +71,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-, root, root, -)
+%{_darwinx_bindir}
 %{_darwinx_libdir}
 %{_darwinx_datadir}
 %{_darwinx_includedir}

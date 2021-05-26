@@ -41,22 +41,25 @@ plugins.
 
 %build
 %darwinx_meson \
-    --default-library=both \
+    --default-library=shared \
     -Dman=disabled \
     -Ddtrace=false \
     -Dsystemtap=true \
+    -Ddoc=disabled \
     -Dgtk_doc=disabled \
     -Dgst_debug=false \
     -Dlibunwind=disabled \
-    -Dlibdw=disabled
+    -Dlibdw=disabled \
+    -Ddbghelp=disabled \
+    -Dintrospection=disabled \
+    -Dbash-completion=disabled
 
 %darwinx_meson_build
 
 %install
-%darwinx_meson_install
+rm -rf $RPM_BUILD_ROOT
 
-# Install doc temporarily later will be removed
-make install DESTDIR=$RPM_BUILD_ROOT program_transform_name=""
+%darwinx_meson_install
 
 # Remove manpages.
 rm -rf $RPM_BUILD_ROOT%{_darwinx_mandir}
@@ -83,18 +86,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_darwinx_libdir}/libgstnet-%{api_version}.dylib
 %{_darwinx_libdir}/libgstcheck-%{api_version}.dylib
 
-%{_darwinx_libdir}/libgstreamer-%{api_version}.la
-%{_darwinx_libdir}/libgstbase-%{api_version}.la
-%{_darwinx_libdir}/libgstcontroller-%{api_version}.la
-%{_darwinx_libdir}/libgstnet-%{api_version}.la
-%{_darwinx_libdir}/libgstcheck-%{api_version}.la
-
 %dir %{_darwinx_libdir}/gstreamer-%{api_version}
-%{_darwinx_libdir}/gstreamer-%{api_version}/libgstcoreelements.la
-%{_darwinx_libdir}/gstreamer-%{api_version}/libgstcoreelements.so
-
-%{_darwinx_libdir}/gstreamer-%{api_version}/libgstcoretracers.la
-%{_darwinx_libdir}/gstreamer-%{api_version}/libgstcoretracers.so
+%{_darwinx_libdir}/gstreamer-%{api_version}/libgstcoreelements.dylib
+%{_darwinx_libdir}/gstreamer-%{api_version}/libgstcoretracers.dylib
 
 %dir %{_darwinx_includedir}/gstreamer-%{api_version}
 %dir %{_darwinx_includedir}/gstreamer-%{api_version}/gst
@@ -113,15 +107,17 @@ rm -rf $RPM_BUILD_ROOT
 %{_darwinx_libdir}/pkgconfig/gstreamer-net-%{api_version}.pc
 
 %{_darwinx_datadir}/locale/
-%{_darwinx_datadir}/bash-completion/
 
 %{_darwinx_bindir}/gst-inspect-%{api_version}
 %{_darwinx_bindir}/gst-launch-%{api_version}
 %{_darwinx_bindir}/gst-typefind-%{api_version}
 %{_darwinx_bindir}/gst-stats-%{api_version}
+%{_darwinx_bindir}/gst-tester-%{api_version}
 %{_darwinx_libexecdir}/gstreamer-%{api_version}/gst-plugin-scanner
 %{_darwinx_libexecdir}/gstreamer-1.0/gst-ptp-helper
-%{_darwinx_libexecdir}/gstreamer-1.0/gst-completion-helper
+%{_darwinx_libexecdir}/gstreamer-1.0/gst-hotdoc-plugins-scanner
+%{_darwinx_libexecdir}/gstreamer-1.0/gst-plugins-doc-cache-generator
+
 
 %changelog
 * Sun Jul  5 2009 - Levente Farkas <lfarkas@lfarkas.org> - 0.10.23-3
