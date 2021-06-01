@@ -47,7 +47,7 @@ plugins.
     -Dsystemtap=true \
     -Ddoc=disabled \
     -Dgtk_doc=disabled \
-    -Dgst_debug=false \
+    -Dgst_debug=true \
     -Dlibunwind=disabled \
     -Dlibdw=disabled \
     -Ddbghelp=disabled \
