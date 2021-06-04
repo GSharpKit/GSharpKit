@@ -69,3 +69,6 @@ rm -f $TO/bin/System.DirectoryServices.AccountManagement.dll
 rm -f $TO/bin/System.DirectoryServices.dll
 rm -f $TO/bin/System.Security.Principal.Windows.dll
 
+# HACK: Override System.Drawing.Common.dll
+cp -f dll/System.Drawing.Common.dll $TO/bin/
+ 
