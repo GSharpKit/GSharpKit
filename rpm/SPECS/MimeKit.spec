@@ -1,5 +1,7 @@
 %global debug_package %{nil}
 
+%define _binary_payload w2.xzdio
+
 %define libdir /lib
 
 Name:           MimeKit
