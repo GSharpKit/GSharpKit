@@ -89,7 +89,7 @@
 %define SYSTEM_RUNTIME_CACHING_VERSION 5.0.0
 %define SYSTEM_COMPONENTMODEL_ANNOTATIONS_VERSION 5.0.0
 %define MICROSOFT_CSHARP_VERSION 4.7.0
-%define NPGSQL_VERSION 5.0.5
+%define NPGSQL_VERSION 5.0.7
 %define MONO_ADDINS_VERSION 1.3.9
 %define NEWTONSOFT_JSON_VERSION 13.0.1
 %define BOUNCY_CASTLE_VERSION 1.8.10
@@ -106,7 +106,7 @@
 
 Summary: 		Easy management of applications
 Name: 			GSharpKit
-Version:		33.2
+Version:		33.3
 Release:		1%{?dist}
 License:		GPL
 Group: 			Applications/Desktop
