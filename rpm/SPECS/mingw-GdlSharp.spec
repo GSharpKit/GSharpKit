@@ -18,7 +18,7 @@ License:        LGPLv2+
 Group:          Development/Libraries
 URL:            https://github.com/gsharpkit/GdlSharp
 Source0:        GdlSharp-%{version}.tar.xz
-Patch0:		gdl-sharp-ref.patch
+Patch0:		mingw-gdl-sharp-ref.patch
 
 BuildArch:      noarch
 
