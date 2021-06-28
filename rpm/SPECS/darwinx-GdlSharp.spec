@@ -1,12 +1,13 @@
 Name:           darwinx-GdlSharp
 Version:        3.34.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Max OS X GDL library
 
 License:        LGPLv2+
 Group:          Development/Libraries
 URL:            https://github.com/GSharpKit/GdlSharp/releases
 Source0:        GdlSharp-%{version}.tar.xz
+Patch0:         gdl-sharp-ref.patch
 
 BuildArch:      noarch
 
@@ -25,12 +26,18 @@ suites.
 %prep
 %setup -q -n GdlSharp-%{version}
 
-sed -i '' 's!${NETSTANDARD_REFERENCE_DIR}!/Library/Frameworks/Mono.framework/Versions/Current/lib/mono/4.8-api/!g' configure.ac
+sed -i '' 's!${NETSTANDARD_REFERENCE_DIR}!/Library/Frameworks/GSharpKit/lib/mono/xbuild-frameworks/.NETStandard/netstandard2.0!g' configure.ac
 
 %build
 mkdir -p m4
 autoreconf  -i --force --warnings=none -I . -I m4
 %{_darwinx_configure}
+%{_darwinx_make} %{?_smp_mflags} V=1
+
+rm out/gdl-sharp.dll
+pushd sources/generated/Gdl
+patch -p0 Dock.cs < %{PATCH0}
+popd
 %{_darwinx_make} %{?_smp_mflags} V=1
 
 
