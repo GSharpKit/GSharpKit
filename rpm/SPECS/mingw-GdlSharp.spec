@@ -11,13 +11,14 @@
 
 Name:           mingw-GdlSharp
 Version:        3.34.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        MinGW Windows GDL library
 
 License:        LGPLv2+
 Group:          Development/Libraries
 URL:            https://github.com/gsharpkit/GdlSharp
 Source0:        GdlSharp-%{version}.tar.xz
+Patch0:		gdl-sharp-ref.patch
 
 BuildArch:      noarch
 
@@ -82,6 +83,11 @@ sh autogen.sh --prefix=/usr
 make distclean
 %mingw_configure
 
+%mingw_make %{?_smp_mflags} V=1
+
+rm out/gdl-sharp.dll
+patch -p0 build_win64/sources/generated/Gdl/Dock.cs < %{PATCH0}
+patch -p0 build_win32/sources/generated/Gdl/Dock.cs < %{PATCH0}
 %mingw_make %{?_smp_mflags} V=1
 
 mv out/gdl-sharp.dll.config.in out/gdl-sharp.dll.config
