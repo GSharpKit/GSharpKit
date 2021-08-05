@@ -9,7 +9,7 @@
 %define libdir /bin
 
 Name:           mingw-GtkSharp
-Version:        3.24.24.34
+Version:        3.24.24.35
 Release:        1%{?dist}
 Summary:        GTK+ and GNOME bindings for Mono
 
@@ -79,8 +79,20 @@ tools and libraries (corlib, XML, System.Security, ZipLib,
 
 %prep
 %setup -q -n GtkSharp-%{version}
-
-sed -i -e 's!netcoreapp3.1!netcoreapp5.0!g' Source/Samples/Samples.csproj
+rm -rf BuildOutput/*
+rm -rf Source/Samples/obj
+rm -rf Source/Libs/GtkSourceSharp/obj
+rm -rf Source/Libs/GioSharp/obj
+rm -rf Source/Libs/CairoSharp/obj
+rm -rf Source/Libs/GtkSharp/obj
+rm -rf Source/Libs/GdkSharp/obj
+rm -rf Source/Libs/PangoSharp/obj
+rm -rf Source/Libs/GLibSharp/obj
+rm -rf Source/Libs/AtkSharp/obj
+rm -rf Source/Libs/WebkitGtkSharp/obj
+rm -rf Source/Tools/GapiCodegen/obj
+rm -rf Source/Tools/GapiFixup/obj
+rm -rf Source/Addins/MonoDevelop.GtkSharp.Addin/obj
 
 %build
 sh build.sh
