@@ -1,8 +1,16 @@
-%global debug_package %{nil}
+%?mingw_package_header
 
-%define libdir /lib
+%global __strip /bin/true
 
-Name:           System.Common
+%global mingw_pkg_name System.Common
+%global mingw_build_win32 0
+%global mingw_build_win64 1
+
+%define debug_package %{nil}
+
+%define libdir /bin
+
+Name:           mingw-System.Common
 Version:        1.0.0
 Release:        1%{?dist}
 Summary:        System Common libraries
@@ -14,6 +22,13 @@ Prefix:		/usr
 BuildArch:	noarch
 
 %description
+System Common libraries
+
+# Mingw64
+%package -n mingw64-%{mingw_pkg_name}
+Summary:       %{summary}
+
+%description -n mingw64-%{mingw_pkg_name}
 System Common libraries
 
 %prep
@@ -33,9 +48,9 @@ nuget install System.Threading.Channels -Version 5.0.0
 nuget install System.Threading.Tasks.Extensions -Version 4.5.4
 
 cat > System.Common.pc << \EOF
-prefix=%{_prefix}
+prefix=%{mingw64_prefix}
 exec_prefix=${prefix}
-libdir=%{_prefix}%{libdir}
+libdir=%{mingw64_prefix}%{libdir}
 
 Name: System.Common
 Description: System.Common
@@ -52,19 +67,19 @@ EOF
 
 rm -rf System.Runtime.CompilerServices.Unsafe.4.5.3
 
-install -d -m 755 $RPM_BUILD_ROOT%{_prefix}%{libdir}
-find */lib/netstandard2.0/ -iname "*.dll" -exec install -m 644 {} $RPM_BUILD_ROOT%{_prefix}%{libdir}/ \;
+install -d -m 755 $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir}
+find */lib/netstandard2.0/ -iname "*.dll" -exec install -m 644 {} $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir}/ \;
 
-install -d -m 755 $RPM_BUILD_ROOT%{_datadir}/pkgconfig/
-install -m 644 System.Common.pc $RPM_BUILD_ROOT%{_datadir}/pkgconfig/
+install -d -m 755 $RPM_BUILD_ROOT%{mingw64_datadir}/pkgconfig/
+install -m 644 System.Common.pc $RPM_BUILD_ROOT%{mingw64_datadir}/pkgconfig/
 
 %clean
 #%{__rm} -rf %{buildroot}
 
-%files
+%files -n mingw64-%{mingw_pkg_name}
 %defattr(-,root,root,-)
-%{_prefix}%{libdir}/*.dll
-%{_datadir}/pkgconfig/System.Common.pc
+%{mingw64_prefix}%{libdir}/*.dll
+%{mingw64_datadir}/pkgconfig/System.Common.pc
 
 %changelog
 * Thu Aug 26 2021 Mikkel Kruse Johnsen <mikkel@xmedicus.com> - 1.0.0

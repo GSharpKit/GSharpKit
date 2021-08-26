@@ -3,7 +3,7 @@
 %global __strip /bin/true
 
 %global mingw_pkg_name MimeKit
-%global mingw_build_win32 1
+%global mingw_build_win32 0
 %global mingw_build_win64 1
 
 %define debug_package %{nil}
@@ -11,7 +11,7 @@
 %define libdir /bin
 
 Name:           mingw-MimeKit
-Version:        2.12.0
+Version:        2.15.0
 Release:        1%{?dist}
 Summary:        MimeKit is an Open Source library for creating and parsing MIME, S/MIME and PGP messages.
 
@@ -31,20 +31,13 @@ MimeKit is an Open Source library for creating and parsing MIME,
 S/MIME and PGP messages on desktop and mobile platforms.
 It also supports parsing of Unix mbox files.
 
-# Mingw32
-%package -n mingw32-%{mingw_pkg_name}
-Summary:       %{summary}
-Requires:       mingw32-BouncyCastle
-
-%description -n mingw32-%{mingw_pkg_name}
-MimeKit is an Open Source library for creating and parsing MIME,
-S/MIME and PGP messages on desktop and mobile platforms.
-It also supports parsing of Unix mbox files.
-
 # Mingw64
 %package -n mingw64-%{mingw_pkg_name}
-Summary:       %{summary}
+Summary:	%{summary}
+Requires:       mingw64-System.Common >= 1.0.0
+Requires:       mingw64-System.Security >= 5.0.0
 Requires:       mingw64-BouncyCastle
+
 
 %description -n mingw64-%{mingw_pkg_name}
 MimeKit is an Open Source library for creating and parsing MIME,
@@ -54,33 +47,15 @@ It also supports parsing of Unix mbox files.
 %prep
 %setup -c %{name}-%{version} -T
 nuget install %{mingw_pkg_name} -Version %{version}
-nuget install System.Text.Encoding.CodePages -Version 4.4.0
-nuget install System.Data.DataSetExtensions -Version 4.5.0
-nuget install System.Reflection.TypeExtensions -Version 4.4.0
-nuget install System.Security.Cryptography.Pkcs -Version 4.7.0
 
-
-cat > MimeKit32.pc << \EOF
-prefix=%{mingw32_prefix}
-exec_prefix=${prefix}
-libdir=%{mingw32_prefix}%{libdir}
-
-Name: MimeKit
-Description: %{name} - %{summary}
-Requires: BouncyCastle
-Version: %{version}
-Libs: -r:${libdir}/MimeKit.dll
-Cflags:
-EOF
-
-cat > MimeKit64.pc << \EOF
+cat > MimeKit.pc << \EOF
 prefix=%{mingw64_prefix}
 exec_prefix=${prefix}
 libdir=%{mingw64_prefix}%{libdir}
 
 Name: MimeKit
 Description: %{name} - %{summary}
-Requires: BouncyCastle
+Requires: System.Common System.Security BouncyCastle
 Version: %{version}
 Libs: -r:${libdir}/MimeKit.dll
 Cflags:
@@ -92,16 +67,6 @@ EOF
 %install
 %{__rm} -rf %{buildroot}
 
-# Mingw32
-install -d -m 755 $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir}
-find */lib/netstandard2.0/ -iname "*.dll" -exec install -m 644 {} $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir}/ \;
-
-rm $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir}/BouncyCastle.Crypto.dll
-rm $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir}/System.Buffers.dll
-
-install -d -m 755 $RPM_BUILD_ROOT%{mingw32_datadir}/pkgconfig/
-install -m 644 MimeKit32.pc $RPM_BUILD_ROOT%{mingw32_datadir}/pkgconfig/MimeKit.pc
-
 # Mingw64
 install -d -m 755 $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir}
 find */lib/netstandard2.0/ -iname "*.dll" -exec install -m 644 {} $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir}/ \;
@@ -110,16 +75,11 @@ rm $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir}/BouncyCastle.Crypto.dll
 rm $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir}/System.Buffers.dll
 
 install -d -m 755 $RPM_BUILD_ROOT%{mingw64_datadir}/pkgconfig/
-install -m 644 MimeKit64.pc $RPM_BUILD_ROOT%{mingw64_datadir}/pkgconfig/MimeKit.pc
+install -m 644 MimeKit.pc $RPM_BUILD_ROOT%{mingw64_datadir}/pkgconfig/
 
 
 %clean
 #%{__rm} -rf %{buildroot}
-
-%files -n mingw32-%{mingw_pkg_name}
-%defattr(-,root,root,-)
-%{mingw32_prefix}%{libdir}/*.dll
-%{mingw32_datadir}/pkgconfig/MimeKit.pc
 
 %files -n mingw64-%{mingw_pkg_name}
 %defattr(-,root,root,-)

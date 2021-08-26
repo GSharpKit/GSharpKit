@@ -38,7 +38,7 @@ libdir=%{_prefix}%{libdir}
 
 Name: %{name}
 Description: %{name} - %{summary}
-Requires: System.Common BouncyCastle
+Requires: System.Common System.Security BouncyCastle
 Version: %{version}
 Libs: -r:${libdir}/MimeKit.dll
 Cflags:

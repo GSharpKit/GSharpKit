@@ -86,18 +86,20 @@
 %define WEBKITGTK3_SHARP_VERSION 2.4.11
 %define GTK_MAC_INTEGRATION_SHARP_VERSION 2.0.7
 
+%define SYSTEM_COMMON_VERSION 1.0.0
+%define SYSTEM_SECURITY_VERSION 5.0.0
 %define SYSTEM_RUNTIME_CACHING_VERSION 5.0.0
 %define SYSTEM_COMPONENTMODEL_ANNOTATIONS_VERSION 5.0.0
+%define SYSTEM_SERVICEMODEL_VERSION 4.8.1
 %define MICROSOFT_CSHARP_VERSION 4.7.0
 %define NPGSQL_VERSION 5.0.7
 %define MONO_ADDINS_VERSION 1.3.9
 %define NEWTONSOFT_JSON_VERSION 13.0.1
 %define BOUNCY_CASTLE_VERSION 1.8.10
-%define MIMEKIT_VERSION 2.12.0
-%define MAILKIT_VERSION 2.12.0
-%define SERVICE_STACK_VERSION 5.11.0
+%define MIMEKIT_VERSION 2.15.0
+%define MAILKIT_VERSION 2.15.0
+%define SERVICE_STACK_VERSION 5.12.0
 %define REST_SHARP_VERSION 106.11.7
-%define SEALAPI_VERSION 4.1.0
 %define PDFSHARP_MIGRADOC_VERSION 1.51.15
 %define SPRACHE_VERSION 2.2.0
 #define SHARP_ZIP_LIB_VERSION 1.0.0
@@ -166,6 +168,9 @@ Requires:		mono-extras >= %{MONO_CORE_VERSION}
 Requires:		mono-locale-extras >= %{MONO_CORE_VERSION}
 Requires:		mono-data >= %{MONO_CORE_VERSION}
 Requires:		mono-data-sqlite >= %{MONO_CORE_VERSION}
+Requires:		System.Common >= %{SYSTEM_COMMON_VERSION}
+Requires:		System.Security >= %{SYSTEM_SECURITY_VERSION}
+Requires:		System.ServiceModel >= %{SYSTEM_SERVICEMODEL_VERSION}
 Requires:		System.Runtime.Caching >= %{SYSTEM_RUNTIME_CACHING_VERSION}
 Requires:		System.ComponentModel.Annotations >= %{SYSTEM_COMPONENTMODEL_ANNOTATIONS_VERSION}
 Requires:		Microsoft.CSharp >= %{MICROSOFT_CSHARP_VERSION}
@@ -218,7 +223,6 @@ Requires:		MimeKit >= %{MIMEKIT_VERSION}
 Requires:		MailKit >= %{MAILKIT_VERSION}
 Requires:		ServiceStack >= %{SERVICE_STACK_VERSION}
 Requires:		RestSharp >= %{REST_SHARP_VERSION}
-Requires:		Seal.net >= %{SEALAPI_VERSION}
 Requires:		Sprache >= %{SPRACHE_VERSION}
 Requires:		PdfSharp.MigraDoc >= %{PDFSHARP_MIGRADOC_VERSION}
 #Requires:		SharpZipLib >= %{SHARP_ZIP_LIB_VERSION}
@@ -254,121 +258,6 @@ Requires:		netstandard netstandard-targeting-pack-2.1
 
 %description sdk
 Easy management of applications
-
-
-
-
-%package sdk-mingw32
-Summary:                SDK for GSharpKit Mingw 32 bit
-License:                GPL
-Group:                  Applications/Desktop
-BuildArch:              noarch
-Obsoletes:              appbox-sdk-mingw32
-Provides:               appbox-sdk-mingw32
-
-
-Requires:               mingw32-winpthreads >= %{HEADER_CRT_THREAD_VERSION}
-Requires:               mingw32-termcap >= %{TERMCAP_VERSION}
-Requires:               mingw32-zlib >=	%{ZLIB_VERSION}
-Requires:               mingw32-win-iconv >= %{ICONV_VERSION}
-Requires:               mingw32-gettext >= %{GETTEXT_VERSION}
-Requires:               mingw32-libffi >= %{LIBFFI_VERSION}
-Requires:               mingw32-pcre >= %{PCRE_VERSION}
-Requires:               mingw32-glib2 >= %{GLIB2_VERSION}
-Requires:               mingw32-pixman >= %{PIXMAN_VERSION}
-Requires:               mingw32-bzip2 >= %{BZIP2_VERSION}
-Requires:               mingw32-freetype >= %{FREETYPE_VERSION}
-Requires:               mingw32-expat >= %{EXPAT_VERSION}
-Requires:               mingw32-fontconfig >= %{FONTCONFIG_VERSION}
-Requires:               mingw32-libpng >= %{LIBPNG_VERSION}
-Requires:               mingw32-libjpeg-turbo >= %{LIBJPEG_TURBO_VERSION}
-Requires:               mingw32-libtiff >= %{LIBTIFF_VERSION}
-Requires:               mingw32-cairo >= %{CAIRO_VERSION}
-Requires:               mingw32-icu >= %{ICU_VERSION}
-Requires:               mingw32-harfbuzz >= %{HARFBUZZ_VERSION}
-Requires:               mingw32-fribidi >= %{FRIBIDI_VERSION}
-Requires:               mingw32-pango >= %{PANGO_VERSION}
-Requires:               mingw32-atk >= %{ATK_VERSION}
-Requires:               mingw32-jasper >= %{JASPER_VERSION}
-Requires:               mingw32-libxml2 >= %{LIBXML2_VERSION}
-Requires:               mingw32-libpsl >= %{LIBPSL_VERSION}
-Requires:               mingw32-gdk-pixbuf >= %{GDK_PIXBUF_VERSION}
-Requires:               mingw32-libcroco >= %{LIBCROCO_VERSION}
-Requires:               mingw32-libepoxy >= %{LIBEPOXY_VERSION}
-Requires:               mingw32-librsvg2 >= %{LIBRSVG2_VERSION}
-Requires:               mingw32-gtk3 >= %{GTK3_VERSION}
-Requires:               mingw32-adwaita-icon-theme >= %{GTK3_ADWAITA_VERSION}
-Requires:               mingw32-libgdl >= %{GDL_VERSION}
-
-Requires:               mingw32-libgpg-error >= %{LIBGPG_ERROR_VERSION}
-Requires:               mingw32-libgcrypt >= %{LIBGCRYPT_VERSION}
-Requires:               mingw32-gmp >= %{GMP_VERSION}
-Requires:               mingw32-nettle >= %{NETTLE_VERSION}
-Requires:               mingw32-p11-kit >= %{P11_KIT_VERSION}
-Requires:               mingw32-libtasn1 >= %{LIBTASN1_VERSION}
-Requires:               mingw32-readline >= %{READLINE_VERSION}
-Requires:               mingw32-libunistring >= %{LIBUNISTRING_VERSION}
-Requires:               mingw32-gnutls 	>= %{GNUTLS_VERSION}
-Requires:               mingw32-openssl >= %{OPENSSL_VERSION}
-Requires:               mingw32-glib-networking >= %{GLIB_NETWORKING_VERSION}
-
-Requires:               mingw32-libxslt >= %{LIBXSLT_VERSION}
-Requires:               mingw32-sqlite >= %{SQLITE_VERSION}
-Requires:               mingw32-libsoup >= %{LIBSOUP_VERSION}
-
-Requires:               mingw32-hunspell >= %{HUNSPELL_VERSION}
-Requires:               mingw32-enchant >= %{ENCHANT_VERSION}
-
-Requires:               mingw32-libogg >= %{LIBOGG_VERSION}
-Requires:               mingw32-libvorbis >= %{LIBVORBIS_VERSION}
-Requires:               mingw32-libwebp >= %{LIBWEBP_VERSION}
-Requires:               mingw32-gstreamer1 >= %{GSTREAMER1_VERSION}
-Requires:               mingw32-gstreamer1-plugins-base >= %{GSTREAMER1_PLUGINS_BASE_VERSION}
-Requires:               mingw32-gstreamer1-plugins-good >= %{GSTREAMER1_PLUGINS_GOOD_VERSION}
-Requires:               mingw32-gstreamer1-plugins-bad-free >= %{GSTREAMER1_PLUGINS_BAD_VERSION}
-Requires:               mingw32-webkitgtk3 >= %{WEBKITGTK3_VERSION}
-
-Requires:               mingw32-dbus >= %{DBUS_VERSION}
-Requires:               mingw32-dbus-glib >= %{DBUS_GLIB_VERSION}
-
-#Requires:		mingw32-libusbx >= %{LIBUSB_VERSION}
-#Requires:		mingw32-libexif >= %{LIBEXIF_VERSION}
-#Requires:		mingw32-libgphoto2 >= %{LIBGPHOTO2_VERSION}
-#Requires:		mingw32-sane-backends >= %{SANE_BACKENDS_VERSION}
-#Requires:		mingw32-twaindsm >= %{TWAIN_DSM_VERSION}
-
-Requires:               mingw32-System.Runtime.Caching >= %{SYSTEM_RUNTIME_CACHING_VERSION}
-Requires:               mingw32-System.ComponentModel.Annotations >= %{SYSTEM_COMPONENTMODEL_ANNOTATIONS_VERSION}
-Requires:               mingw32-Microsoft.CSharp >= %{MICROSOFT_CSHARP_VERSION}
-Requires:               mingw32-Mono.Posix.NETStandard >= %{MONO_POSIX_NETSTANDARD_VERSION}
-Requires:               mingw32-Mono.Data.Sqlite >= %{MONO_DATA_SQLITE_VERSION}
-#Requires:               mingw32-mono-core >= %{MONO_CORE_VERSION}
-Requires:               mingw32-Npgsql >= %{NPGSQL_VERSION}
-Requires:               mingw32-GtkSharp >= %{GTK3_SHARP_VERSION}
-Requires:               mingw32-GdlSharp >= %{GDL_SHARP_VERSION}
-Requires:               mingw32-Mono.Addins >= %{MONO_ADDINS_VERSION}
-Requires:               mingw32-webkitgtk3-sharp >= %{WEBKITGTK3_SHARP_VERSION}
-Requires:               mingw32-dbus-sharp >= %{DBUS_SHARP_VERSION}
-Requires:               mingw32-dbus-sharp-glib >= %{DBUS_GLIB_SHARP_VERSION}
-Requires:		mingw32-GstSharp >= %{GST_SHARP_VERSION}
-Requires:		mingw32-Newtonsoft.Json >= %{NEWTONSOFT_JSON_VERSION}
-Requires:               mingw32-BouncyCastle >= %{BOUNCY_CASTLE_VERSION}
-Requires:               mingw32-MimeKit >= %{MIMEKIT_VERSION}
-Requires:               mingw32-MailKit >= %{MAILKIT_VERSION}
-Requires:		mingw32-ServiceStack >= %{SERVICE_STACK_VERSION}
-Requires:		mingw32-RestSharp >= %{REST_SHARP_VERSION}
-Requires:		mingw32-Seal.net >= %{SEALAPI_VERSION}
-Requires:               mingw32-Sprache >= %{SPRACHE_VERSION}
-Requires:               mingw32-PdfSharp.MigraDoc >= %{PDFSHARP_MIGRADOC_VERSION}
-#Requires:		mingw32-SharpZipLib >= %{SHARP_ZIP_LIB_VERSION}
-#Requires:		mingw32-libgphoto2-sharp >= %{LIBGPHOTO2_SHARP_VERSION}
-#Requires:		mingw32-SharpCamera >= %{SHARP_CAMERA_VERSION}
-
-
-%description sdk-mingw32
-Easy management of applications for Windows 32 bit
-
-
 
 %package sdk-mingw64
 Summary:                SDK for GSharpKit Mingw 64 bit
@@ -448,6 +337,9 @@ Requires:               mingw64-dbus-glib >= %{DBUS_GLIB_VERSION}
 #Requires:		mingw64-sane-backends >= %{SANE_BACKENDS_VERSION}
 #Requires:		mingw64-twaindsm >= %{TWAIN_DSM_VERSION}
 
+Requires:               mingw64-System.Common >= %{SYSTEM_COMMON_VERSION}
+Requires:               mingw64-System.Security >= %{SYSTEM_SECURITY_VERSION}
+Requires:               mingw64-System.ServiceModel >= %{SYSTEM_SERVICEMODEL_VERSION}
 Requires:               mingw64-System.Runtime.Caching >= %{SYSTEM_RUNTIME_CACHING_VERSION}
 Requires:               mingw64-System.ComponentModel.Annotations >= %{SYSTEM_COMPONENTMODEL_ANNOTATIONS_VERSION}
 Requires:               mingw64-Microsoft.CSharp >= %{MICROSOFT_CSHARP_VERSION}
@@ -468,7 +360,6 @@ Requires:               mingw64-MimeKit >= %{MIMEKIT_VERSION}
 Requires:               mingw64-MailKit >= %{MAILKIT_VERSION}
 Requires:		mingw64-ServiceStack >= %{SERVICE_STACK_VERSION}
 Requires:		mingw64-RestSharp >= %{REST_SHARP_VERSION}
-Requires:		mingw64-Seal.net >= %{SEALAPI_VERSION}
 Requires:               mingw64-Sprache >= %{SPRACHE_VERSION}
 Requires:               mingw64-PdfSharp.MigraDoc >= %{PDFSHARP_MIGRADOC_VERSION}
 #Requires:		mingw64-SharpZipLib >= %{SHARP_ZIP_LIB_VERSION}
@@ -489,7 +380,6 @@ Obsoletes:              appbox-sdk-mingw
 Provides:               appbox-sdk-mingw
 
 Requires:		GSharpKit-sdk
-Requires:		GSharpKit-sdk-mingw32
 Requires:		GSharpKit-sdk-mingw64
 
 %description sdk-mingw
@@ -506,40 +396,9 @@ Obsoletes:              appbox-sdk-mingw-devel
 Provides:               appbox-sdk-mingw-devel
 
 Requires:		GSharpKit-sdk-mingw
-Requires:               GSharpKit-sdk-mingw32-devel
 Requires:               GSharpKit-sdk-mingw64-devel
 
 %description sdk-mingw-devel
-Easy management of applications for Windows
-
-
-%package sdk-mingw32-devel
-Summary:                SDK for GSharpKit Mingw 32 bit
-License:                GPL
-Group:                  Applications/Desktop
-BuildArch:              noarch
-Obsoletes:              appbox-mingw32-devel
-Provides:               appbox-mingw32-devel
-
-Requires:               GSharpKit-sdk-mingw32
-
-Requires:		redhat-rpm-config rpm-build
-Requires:		mingw-w64-tools
-Requires:		msitools
-Requires:		osslsigncode
-Requires:		hunspell-da
-Requires:               mingw32-filesystem >= %{MINGW_FILESYSTEM_VERSION}
-Requires:               mingw32-binutils >= %{BINUTILS_VERSION}
-Requires:               mingw32-crt >= %{HEADER_CRT_THREAD_VERSION}
-Requires:               mingw32-headers >= %{HEADER_CRT_THREAD_VERSION}
-Requires:               mingw32-cpp >= %{COMPILER_VERSION}
-Requires:               mingw32-gcc >= %{COMPILER_VERSION}
-Requires:               mingw32-gcc-c++ >= %{COMPILER_VERSION}
-Requires:               mingw32-gcc-objc >= %{COMPILER_VERSION}
-Requires:               mingw32-pkg-config >= %{PKG_CONFIG_VERSION}
-Requires:		mingw32-libidn
-
-%description sdk-mingw32-devel
 Easy management of applications for Windows
 
 
@@ -646,6 +505,9 @@ Requires:               darwinx-dbus-glib >= %{DBUS_GLIB_VERSION}
 #Requires:		darwinx-sane-backends >= %{SANE_BACKENDS_VERSION}
 #Requires:		darwinx-twaindsm >= %{TWAIN_DSM_VERSION} # Uses Twain.Framework on macOS
 
+Requires:               darwinx-System.Common >= %{SYSTEM_COMMON_VERSION}
+Requires:               darwinx-System.Security >= %{SYSTEM_SECURITY_VERSION}
+Requires:               darwinx-System.ServiceModel >= %{SYSTEM_SERVICEMODEL_VERSION}
 Requires:               darwinx-System.Runtime.Caching >= %{SYSTEM_RUNTIME_CACHING_VERSION}
 Requires:               darwinx-System.ComponentModel.Annotations >= %{SYSTEM_COMPONENTMODEL_ANNOTATIONS_VERSION}
 Requires:               darwinx-Microsoft.CSharp >= %{MICROSOFT_CSHARP_VERSION}
@@ -667,7 +529,6 @@ Requires:               darwinx-MimeKit >= %{MIMEKIT_VERSION}
 Requires:               darwinx-MailKit >= %{MAILKIT_VERSION}
 Requires:               darwinx-ServiceStack >= %{SERVICE_STACK_VERSION}
 Requires:		darwinx-RestSharp >= %{REST_SHARP_VERSION}
-Requires:		darwinx-Seal.net >= %{SEALAPI_VERSION}
 Requires:               darwinx-Sprache >= %{SPRACHE_VERSION}
 Requires:               darwinx-PdfSharp.MigraDoc >= %{PDFSHARP_MIGRADOC_VERSION}
 #Requires:		darwinx-SharpZipLib >= %{SHARP_ZIP_LIB_VERSION}
@@ -715,9 +576,6 @@ cp %{SOURCE7} $RPM_BUILD_ROOT%{_bindir}/
 cp %{SOURCE8} $RPM_BUILD_ROOT%{_bindir}/
 cp %{SOURCE9} $RPM_BUILD_ROOT%{_bindir}/
 
-mkdir -p $RPM_BUILD_ROOT/usr/i686-w64-mingw32/sys-root/mingw/share/pkgconfig/
-cp %{SOURCE14} $RPM_BUILD_ROOT/usr/i686-w64-mingw32/sys-root/mingw/share/pkgconfig/mono.pc
-
 mkdir -p $RPM_BUILD_ROOT/usr/x86_64-w64-mingw32/sys-root/mingw/share/pkgconfig/
 cp %{SOURCE14} $RPM_BUILD_ROOT/usr/x86_64-w64-mingw32/sys-root/mingw/share/pkgconfig/mono.pc
 
@@ -758,10 +616,6 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(-, root, root)
 
 
-%files sdk-mingw32
-%defattr(-, root, root)
-
-
 %files sdk-mingw64
 %defattr(-, root, root)
 
@@ -769,10 +623,6 @@ rm -rf $RPM_BUILD_ROOT
 %files sdk-mingw
 %defattr(-, root, root)
 
-
-%files sdk-mingw32-devel
-%defattr(-, root, root)
-/usr/i686-w64-mingw32/sys-root/mingw/share/pkgconfig/mono.pc
 
 %files sdk-mingw64-devel
 %defattr(-, root, root)

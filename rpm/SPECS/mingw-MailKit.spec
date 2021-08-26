@@ -3,7 +3,7 @@
 %global __strip /bin/true
 
 %global mingw_pkg_name MailKit
-%global mingw_build_win32 1
+%global mingw_build_win32 0
 %global mingw_build_win64 1
 
 %define debug_package %{nil}
@@ -11,7 +11,7 @@
 %define libdir /bin
 
 Name:           mingw-MailKit
-Version:        2.12.0
+Version:        2.15.0
 Release:        1%{?dist}
 Summary:        MailKit is an Open Source cross-platform .NET mail-client library.
 
@@ -27,22 +27,6 @@ BuildRequires:  nuget
 
 
 %description
-* SASL Authentication via SCRAM-SHA-256, SCRAM-SHA-1, NTLM, DIGEST-MD5, CRAM-MD5, LOGIN, PLAIN, and XOAUTH2.
-* A fully-cancellable SmtpClient with support for STARTTLS, 8BITMIME, BINARYMIME, ENHANCEDSTATUSCODES, SIZE, DSN, PIPELINING and SMTPUTF8.
-* A fully-cancellable Pop3Client with support for STLS, UIDL, APOP, PIPELINING, UTF8, and LANG.
-* A fully-cancellable ImapClient with support for ACL, QUOTA, LITERAL+, IDLE, NAMESPACE, ID, CHILDREN, LOGINDISABLED, STARTTLS, MULTIAPPEND, UNSELECT, UIDPLUS, CONDSTORE, ESEARCH, SASL-IR, COMPRESS, WITHIN, ENABLE, QRESYNC, SORT, THREAD, ESORT, METADATA, FILTERS, LIST-STATUS, SORT=DISPLAY, SPECIAL-USE, CREATE-SPECIAL-USE, MOVE, SEARCH=FUZZY, UTF8=ACCEPT, UTF8=ONLY, LITERAL-, APPENDLIMIT, XLIST, and X-GM-EXT1.
-* Client-side sorting and threading of messages (the Ordinal Subject and the Jamie Zawinski threading algorithms are supported).
-* Asynchronous versions of all methods that hit the network.
-* S/MIME, OpenPGP and DKIM signature support via MimeKit.
-* Microsoft TNEF support via MimeKit.
-
-
-# Mingw32
-%package -n mingw32-%{mingw_pkg_name}
-Summary:       %{summary}
-Requires:       mingw32-MimeKit
-
-%description -n mingw32-%{mingw_pkg_name}
 * SASL Authentication via SCRAM-SHA-256, SCRAM-SHA-1, NTLM, DIGEST-MD5, CRAM-MD5, LOGIN, PLAIN, and XOAUTH2.
 * A fully-cancellable SmtpClient with support for STARTTLS, 8BITMIME, BINARYMIME, ENHANCEDSTATUSCODES, SIZE, DSN, PIPELINING and SMTPUTF8.
 * A fully-cancellable Pop3Client with support for STLS, UIDL, APOP, PIPELINING, UTF8, and LANG.
@@ -71,20 +55,7 @@ Requires:       mingw64-MimeKit
 %setup -c %{name}-%{version} -T
 nuget install %{mingw_pkg_name} -Version %{version}
 
-cat > MailKit32.pc << \EOF
-prefix=%{mingw32_prefix}
-exec_prefix=${prefix}
-libdir=%{mingw32_prefix}%{libdir}
-
-Name: MailKit
-Description: %{name} - %{summary}
-Requires: MimeKit
-Version: %{version}
-Libs: -r:${libdir}/MailKit.dll
-Cflags:
-EOF
-
-cat > MailKit64.pc << \EOF
+cat > MailKit.pc << \EOF
 prefix=%{mingw64_prefix}
 exec_prefix=${prefix}
 libdir=%{mingw64_prefix}%{libdir}
@@ -103,28 +74,16 @@ EOF
 %install
 %{__rm} -rf %{buildroot}
 
-# Mingw32
-install -d -m 755 $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir}
-install -m 644 MailKit.%{version}/lib/netstandard2.0/MailKit.dll $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir}
-
-install -d -m 755 $RPM_BUILD_ROOT%{mingw32_datadir}/pkgconfig/
-install -m 644 MailKit32.pc $RPM_BUILD_ROOT%{mingw32_datadir}/pkgconfig/MailKit.pc
-
 # Mingw64
 install -d -m 755 $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir}
 install -m 644 MailKit.%{version}/lib/netstandard2.0/MailKit.dll $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir}
 
 install -d -m 755 $RPM_BUILD_ROOT%{mingw64_datadir}/pkgconfig/
-install -m 644 MailKit64.pc $RPM_BUILD_ROOT%{mingw64_datadir}/pkgconfig/MailKit.pc
+install -m 644 MailKit.pc $RPM_BUILD_ROOT%{mingw64_datadir}/pkgconfig/
 
 
 %clean
 #%{__rm} -rf %{buildroot}
-
-%files -n mingw32-%{mingw_pkg_name}
-%defattr(-,root,root,-)
-%{mingw32_prefix}%{libdir}/MailKit.dll
-%{mingw32_datadir}/pkgconfig/MailKit.pc
 
 %files -n mingw64-%{mingw_pkg_name}
 %defattr(-,root,root,-)
