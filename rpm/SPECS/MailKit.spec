@@ -5,7 +5,7 @@
 %define libdir /lib
 
 Name:           MailKit
-Version:        2.12.0
+Version:        2.15.0
 Release:        1%{?dist}
 Summary:        MailKit is an Open Source cross-platform .NET mail-client library.
 
@@ -70,6 +70,8 @@ install -m 644 %{name}.pc $RPM_BUILD_ROOT%{_datadir}/pkgconfig/
 %{_datadir}/pkgconfig/%{name}.pc
 
 %changelog
+* Thu Aug 26 2021 Mikkel Kruse Johnsen <mikkel@xmedicus.com> - 2.15
+- Updated
 * Fri Dec 11 2020 Mikkel Kruse Johnsen <mikkel@xmedicus.com> - 2.10.0-1
 - Updated to netstandard2.0
 * Fri Aug 17 2018 Mikkel Kruse Johnsen <mikkel@xmedicus.com> - 2.0.6-1

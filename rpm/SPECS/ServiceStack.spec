@@ -10,7 +10,7 @@
 %define libdir /lib
 
 Name:           ServiceStack
-Version:        5.11.0
+Version:        5.12.0
 Release:        1%{?dist}
 Summary:        ServiceStack webservice framework: Faster, Cleaner, Modern WCF alternative.
 
@@ -41,9 +41,9 @@ libdir=%{_prefix}%{libdir}
 
 Name: ServiceStack
 Description: ServiceStack webservice framework: Faster, Cleaner, Modern WCF alternative.
-Requires:
+Requires: System.Common
 Version: %{version}
-Libs: -r:${libdir}/System.Numerics.Vectors.dll -r:${libdir}/System.Buffers.dll -r:${libdir}/System.Memory.dll -r:${libdir}/ServiceStack.dll -r:${libdir}/ServiceStack.Common.dll -r:${libdir}/ServiceStack.Client.dll -r:${libdir}/ServiceStack.Text.dll -r:${libdir}/ServiceStack.Interfaces.dll
+Libs: -r:${libdir}/ServiceStack.dll -r:${libdir}/ServiceStack.Common.dll -r:${libdir}/ServiceStack.Client.dll -r:${libdir}/ServiceStack.Text.dll -r:${libdir}/ServiceStack.Interfaces.dll
 Cflags:
 EOF
 

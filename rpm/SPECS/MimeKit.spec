@@ -5,7 +5,7 @@
 %define libdir /lib
 
 Name:           MimeKit
-Version:        2.12.0
+Version:        2.15.0
 Release:        1%{?dist}
 Summary:        MimeKit is an Open Source library for creating and parsing MIME, S/MIME and PGP messages.
 
@@ -18,6 +18,8 @@ BuildArch:	noarch
 
 BuildRequires:  nuget
 
+Requires:	System.Common >= 1.0.0
+Requires:	System.Security >= 5.0.0
 Requires:	BouncyCastle >= 1.8.10
 
 %description
@@ -28,10 +30,6 @@ It also supports parsing of Unix mbox files.
 %prep
 %setup -c %{name}-%{version} -T
 nuget install %{name} -Version %{version}
-nuget install System.Text.Encoding.CodePages -Version 4.4.0
-nuget install System.Data.DataSetExtensions -Version 4.5.0
-nuget install System.Reflection.TypeExtensions -Version 4.4.0
-nuget install System.Security.Cryptography.Pkcs -Version 4.7.0
 
 cat > %{name}.pc << \EOF
 prefix=%{_prefix}
@@ -40,7 +38,7 @@ libdir=%{_prefix}%{libdir}
 
 Name: %{name}
 Description: %{name} - %{summary}
-Requires: BouncyCastle
+Requires: System.Common BouncyCastle
 Version: %{version}
 Libs: -r:${libdir}/MimeKit.dll
 Cflags:
@@ -52,10 +50,7 @@ EOF
 %{__rm} -rf %{buildroot}
 
 install -d -m 755 $RPM_BUILD_ROOT%{_prefix}%{libdir}
-find */lib/netstandard2.0/ -iname "*.dll" -exec install -m 644 {} $RPM_BUILD_ROOT%{_prefix}%{libdir}/ \;
-
-rm $RPM_BUILD_ROOT%{_prefix}%{libdir}/BouncyCastle.Crypto.dll
-rm $RPM_BUILD_ROOT%{_prefix}%{libdir}/System.Buffers.dll
+install MimeKit.%{version}/lib/netstandard2.0/*.dll $RPM_BUILD_ROOT%{_prefix}%{libdir}/
 
 install -d -m 755 $RPM_BUILD_ROOT%{_datadir}/pkgconfig/
 install -m 644 %{name}.pc $RPM_BUILD_ROOT%{_datadir}/pkgconfig/
@@ -69,6 +64,8 @@ install -m 644 %{name}.pc $RPM_BUILD_ROOT%{_datadir}/pkgconfig/
 %{_datadir}/pkgconfig/%{name}.pc
 
 %changelog
+* Thu Aug 26 2021 Mikkel Kruse Johnsen <mikkel@xmedicus.com> - 2.15
+- Updated to use System.Common and System.Security
 * Fri Dec 11 2020 Mikkel Kruse Johnsen <mikkel@xmedicus.com> - 2.10.1-1
 - Updated to netstandard2.0
 * Fri Aug 17 2018 Mikkel Kruse Johnsen <mikkel@xmedicus.com> - 2.0.6-1

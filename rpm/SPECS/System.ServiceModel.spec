@@ -2,8 +2,11 @@
 
 %define libdir /lib
 
-Name:           System.ServiceModel.WCF
-Version:        4.7.0
+%define wcf_version 4.8.1
+%define syn_version 5.0.0
+
+Name:           System.ServiceModel
+Version:        %{wcf_version}
 Release:        1%{?dist}
 Summary:        WCF libraries
 
@@ -13,11 +16,10 @@ URL:            https://github.com/dotnet/wcf
 Prefix:		/usr
 BuildArch:	noarch
 
-Provides:	mono(System.ServiceModel.Syndication) = 4.0.0.0
-Provides:	mono(System.Security.Cryptography.Xml) = 4.0.1.0
-Provides:	mono(System.Security.Cryptography.Pkcs) = 4.0.3.2
-Provides:	mono(System.Security.AccessControl) = 4.1.1.0
-Provides:	mono(System.Security.Principal.Windows) = 4.1.1.0
+BuildRequires:	nuget
+
+Requires:	System.Common >= 1.0.0
+Requires:	System.Security >= 5.0.0
 
 
 %description
@@ -31,27 +33,25 @@ dotnet tool install --global dotnet-svcutil
 %prep
 %setup -c %{name}-%{version} -T
 nuget install System.Private.ServiceModel -Version %{version}
-nuget install System.ServiceModel.Syndication -Version %{version}
-nuget install System.Security.Cryptography.Xml -Version %{version}
-nuget install System.Security.Cryptography.Pkcs -Version %{version}
-
 nuget install System.ServiceModel.Primitives -Version %{version}
 nuget install System.ServiceModel.Http -Version %{version}
 nuget install System.ServiceModel.NetTcp -Version %{version}
 nuget install System.ServiceModel.Duplex -Version %{version}
 nuget install System.ServiceModel.Security -Version %{version}
 
+nuget install System.ServiceModel.Syndication -Version %{syn_version}
 
-cat > System.ServiceModel.WCF.pc << \EOF
+
+cat > System.ServiceModel.pc << \EOF
 prefix=%{_prefix}
 exec_prefix=${prefix}
 libdir=%{_prefix}%{libdir}
 
-Name: System.ServiceModel.WCF
+Name: System.ServiceModel
 Description: System.ServiceModel. Primitives, Http, NetTcp, Duplex, Security
-Requires:
+Requires: System.Common System.Security
 Version: %{version}
-Libs: -r:${libdir}/System.Private.ServiceModel.dll -r:${libdir}/System.ServiceModel.dll -r:${libdir}/System.ServiceModel.Primitives.dll -r:${libdir}/System.ServiceModel.Http.dll -r:${libdir}/System.ServiceModel.NetTcp.dll -r:${libdir}/System.ServiceModel.Duplex.dll -r:${libdir}/System.ServiceModel.Security.dll -r:${libdir}/System.Reflection.DispatchProxy.dll -r:${libdir}/System.Security.AccessControl.dll -r:${libdir}/System.Security.Cryptography.Pkcs.dll -r:${libdir}/System.Security.Cryptography.Xml.dll -r:${libdir}/System.Security.Permissions.dll -r:${libdir}/System.Security.Principal.Windows.dll -r:${libdir}/System.ServiceModel.Syndication.dll
+Libs: -r:${libdir}/System.Private.ServiceModel.dll -r:${libdir}/System.ServiceModel.dll -r:${libdir}/System.ServiceModel.Primitives.dll -r:${libdir}/System.ServiceModel.Http.dll -r:${libdir}/System.ServiceModel.NetTcp.dll -r:${libdir}/System.ServiceModel.Duplex.dll -r:${libdir}/System.ServiceModel.Security.dll -r:${libdir}/System.ServiceModel.Syndication.dll
 Cflags:
 EOF
 
@@ -64,12 +64,18 @@ rm -rf System.Security.AccessControl.4.5.0
 rm -rf System.Security.Cryptography.Xml.4.5.0
 rm -rf System.Security.Permissions.4.5.0
 rm -rf System.Security.Principal.Windows.4.5.0
+rm -rf System.Security.AccessControl.4.7.0
+rm -rf System.Security.Cryptography.Xml.4.7.0
+rm -rf System.Security.Permissions.4.7.0
+rm -rf System.Security.Principal.Windows.4.7.0
+rm -rf System.Numerics.Vectors.4.5.0
+rm -rf System.Reflection.DispatchProxy.4.7.1
 
 install -d -m 755 $RPM_BUILD_ROOT%{_prefix}%{libdir}
 find */lib/netstandard2.0/ -iname "*.dll" -exec install -m 644 {} $RPM_BUILD_ROOT%{_prefix}%{libdir}/ \;
 
 install -d -m 755 $RPM_BUILD_ROOT%{_datadir}/pkgconfig/
-install -m 644 System.ServiceModel.WCF.pc $RPM_BUILD_ROOT%{_datadir}/pkgconfig/
+install -m 644 System.ServiceModel.pc $RPM_BUILD_ROOT%{_datadir}/pkgconfig/
 
 %clean
 #%{__rm} -rf %{buildroot}
@@ -77,8 +83,10 @@ install -m 644 System.ServiceModel.WCF.pc $RPM_BUILD_ROOT%{_datadir}/pkgconfig/
 %files
 %defattr(-,root,root,-)
 %{_prefix}%{libdir}/*.dll
-%{_datadir}/pkgconfig/System.ServiceModel.WCF.pc
+%{_datadir}/pkgconfig/System.ServiceModel.pc
 
 %changelog
-* Fri Sep 27 2019 Mikkel Kruse Johnsen <mikkel@xmedicus.com> - 4.6.0
+* Thu Aug 26 2021 Mikkel Kruse Johnsen <mikkel@xmedicus.com> - 4.8.1
+- Renamed to System.ServiceModel
+* Wed Aug 25 2021 Mikkel Kruse Johnsen <mikkel@xmedicus.com> - 4.8.1
 - Initial version
