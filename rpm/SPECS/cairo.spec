@@ -10,27 +10,22 @@
 %endif
 
 Name:		cairo
-Version:	1.16.0
-Release:	10%{?dist}
+Version:	1.17.4
+Release:	4%{?dist}
 Summary:	A 2D graphics library
 
 License:	LGPLv2 or MPLv1.1
 URL:		http://cairographics.org
-Source0:	http://cairographics.org/releases/%{name}-%{version}.tar.xz
-Patch0:         cairo-surface.patch
+Source0:	http://cairographics.org/snapshots/%{name}-%{version}.tar.xz
+
 Patch3:         cairo-multilib.patch
 
 # https://gitlab.freedesktop.org/cairo/cairo/merge_requests/1
 Patch4:         0001-Set-default-LCD-filter-to-FreeType-s-default.patch
 
-# https://gitlab.freedesktop.org/cairo/cairo/merge_requests/5
-Patch5:         0001-ft-Use-FT_Done_MM_Var-instead-of-free-when-available.patch
-
-# https://github.com/matthiasclasen/cairo/commit/79ad01724161502e8d9d2bd384ff1f0174e5df6e
-Patch6:         cairo-composite_color_glyphs.patch
-
-# https://bugzilla.redhat.com/show_bug.cgi?id=1817958
-Patch7:         0001-cff-Allow-empty-array-of-operands-for-certain-operat.patch
+# Fix generating PDF font names
+# https://gitlab.freedesktop.org/cairo/cairo/-/merge_requests/125
+Patch5:         125.patch
 
 BuildRequires:  gcc
 BuildRequires: pkgconfig
@@ -47,6 +42,7 @@ BuildRequires: librsvg2-devel
 BuildRequires: mesa-libGL-devel
 BuildRequires: mesa-libEGL-devel
 %endif
+BuildRequires: make
 
 %description
 Cairo is a 2D graphics library designed to provide high-quality display
@@ -125,9 +121,8 @@ find $RPM_BUILD_ROOT -name '*.la' -delete
 %files
 %license COPYING COPYING-LGPL-2.1 COPYING-MPL-1.1
 %doc AUTHORS BIBLIOGRAPHY BUGS NEWS README
-%{_libdir}/libcairo.so.*
-%{_libdir}/libcairo-script-interpreter.so.*
-%{_bindir}/cairo-sphinx
+%{_libdir}/libcairo.so.2*
+%{_libdir}/libcairo-script-interpreter.so.2*
 
 %files devel
 %doc ChangeLog PORTING_GUIDE
@@ -170,7 +165,7 @@ find $RPM_BUILD_ROOT -name '*.la' -delete
 %endif
 
 %files gobject
-%{_libdir}/libcairo-gobject.so.*
+%{_libdir}/libcairo-gobject.so.2*
 
 %files gobject-devel
 %{_includedir}/cairo/cairo-gobject.h
@@ -182,6 +177,19 @@ find $RPM_BUILD_ROOT -name '*.la' -delete
 %{_libdir}/cairo/
 
 %changelog
+* Tue Mar 16 2021 Kalev Lember <klember@redhat.com> - 1.17.4-3
+- Backport an upstream patch to fix generating PDF font names (#1939399)
+
+* Tue Jan 26 2021 Fedora Release Engineering <releng@fedoraproject.org> - 1.17.4-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_34_Mass_Rebuild
+
+* Fri Dec 11 2020 Kalev Lember <klember@redhat.com> - 1.17.4-1
+- Update to 1.17.4
+- Tighten soname globs
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.16.0-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Apr 24 2020 Marek Kasik <mkasik@redhat.com> - 1.16.0-8
 - Allow empty array of operands for certain operators in CFF fonts
 - Resolves: #1817958
