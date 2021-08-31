@@ -3,7 +3,7 @@
 %define libdir /lib
 
 Name:           System.Common
-Version:        1.0.0
+Version:        1.0.1
 Release:        1%{?dist}
 Summary:        System Common libraries
 
@@ -23,8 +23,9 @@ nuget install System.Buffers -Version 4.5.1
 nuget install System.Data.DataSetExtensions -Version 4.5.0
 nuget install System.Memory -Version 4.5.4
 nuget install System.Numerics.Vectors -Version 4.5.0
-nuget install System.Reflection.TypeExtensions -Version 4.7.0
 nuget install System.Reflection.DispatchProxy -Version 4.7.1
+nuget install System.Reflection.Emit -Version 4.7.0
+nuget install System.Reflection.TypeExtensions -Version 4.7.0
 nuget install System.Runtime.CompilerServices.Unsafe -Version 5.0.0
 nuget install System.Text.Encoding.CodePages -Version 5.0.0
 nuget install System.Text.Encodings.Web -Version 5.0.0
@@ -41,7 +42,7 @@ Name: System.Common
 Description: System.Common
 Requires:
 Version: %{version}
-Libs: -r:${libdir}/System.Text.Encoding.CodePages.dll -r:${libdir}/System.Text.Encodings.Web.dll -r:${libdir}/System.Data.DataSetExtensions.dll -r:${libdir}/System.Reflection.TypeExtensions.dll -r:${libdir}/System.Reflection.DispatchProxy.dll -r:${libdir}/System.Buffers.dll -r:${libdir}/Microsoft.Bcl.AsyncInterfaces.dll -r:${libdir}/System.Memory.dll -r:${libdir}/System.Text.Json.dll -r:${libdir}/System.Threading.Channels.dll -r:${libdir}/System.Threading.Tasks.Extensions.dll -r:${libdir}/System.Runtime.CompilerServices.Unsafe.dll -r:${libdir}/System.Numerics.Vectors.dll
+Libs: -r:${libdir}/System.Text.Encoding.CodePages.dll -r:${libdir}/System.Text.Encodings.Web.dll -r:${libdir}/System.Data.DataSetExtensions.dll -r:${libdir}/System.Reflection.TypeExtensions.dll -r:${libdir}/System.Reflection.DispatchProxy.dll -r:${libdir}/System.Buffers.dll -r:${libdir}/Microsoft.Bcl.AsyncInterfaces.dll -r:${libdir}/System.Memory.dll -r:${libdir}/System.Text.Json.dll -r:${libdir}/System.Threading.Channels.dll -r:${libdir}/System.Threading.Tasks.Extensions.dll -r:${libdir}/System.Runtime.CompilerServices.Unsafe.dll -r:${libdir}/System.Numerics.Vectors.dll -r:${libdir}/System.Reflection.Emit.dll
 Cflags:
 EOF
 
