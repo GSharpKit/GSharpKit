@@ -1,5 +1,5 @@
 Name:           darwinx-gtk3
-Version:        3.24.28
+Version:        3.24.30
 Release:        1%{?dist}
 Summary:        Darwin Gtk3 library
 
@@ -11,6 +11,8 @@ Patch0:		gtk-3.12.2-quartz-theme.patch
 Patch1:		gtk-3.20.10-disable-assert.patch
 Patch2:		gtk3-quartz-menu-bug_r1.patch
 Patch3:		gtk-3.24.8-bundle-path.patch
+Patch4:		gtk3-monterey-version.patch
+Patch5:		gtk3-monterey-scale.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildArch:      noarch
@@ -34,8 +36,6 @@ BuildRequires:  darwinx-libepoxy >= 1.3
 BuildRequires:  pkgconfig
 
 # These are required for the static library patch
-BuildRequires:  autoconf
-BuildRequires:  automake
 BuildRequires:  libtool
 
 Requires:       pkgconfig
@@ -67,27 +67,26 @@ Static version of the Darwin Gtk3 library.
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
-
-# Regenerate the configure script
-#AUTOMAKE_OPTIONS=subdir-objects autoreconf --verbose --install -I /usr/darwinx/usr/share/aclocal
-#{_darwinx_env} libtoolize
-#{_darwinx_env} aclocal
-#{_darwinx_env} autoheader
-#{_darwinx_env} automake
-#{_darwinx_env} autoreconf
+%patch4 -p1
+%patch5 -p1
 
 %build
-%{_darwinx_configure} \
-    --enable-static \
-    --enable-quartz-backend \
-    --enable-quartz-relocation \
-    --enable-cups
-V=99 %{_darwinx_make} %{?_smp_mflags}
+%darwinx_meson \
+    --default-library=both \
+    -Dquartz_backend=true \
+    -Dbuiltin_immodules=yes \
+    -Dgtk_doc=false \
+    -Dintrospection=false \
+    -Dman=false \
+    -Ddemos=false \
+    -Dexamples=false \
+    -Dtests=false \
+    -Dinstalled_tests=false
+
+%darwinx_meson_build
 
 %install
-rm -rf $RPM_BUILD_ROOT
-
-make install DESTDIR=%{buildroot} program_transform_name=""
+%darwinx_meson_install
 
 # Remove manpages which duplicate those in Fedora native.
 rm -rf $RPM_BUILD_ROOT%{_darwinx_mandir}
@@ -101,13 +100,13 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(-,root,root,-)
 %doc COPYING
-%{_darwinx_bindir}/gtk3-demo
-%{_darwinx_bindir}/gtk3-demo-application
-%{_darwinx_bindir}/gtk3-widget-factory
+#{_darwinx_bindir}/gtk3-demo
+#{_darwinx_bindir}/gtk3-demo-application
+#{_darwinx_bindir}/gtk3-widget-factory
 %{_darwinx_bindir}/gtk-launch
 %{_darwinx_bindir}/gtk-query-immodules-3.0
 %{_darwinx_bindir}/gtk-encode-symbolic-svg
-%{_darwinx_bindir}/gtk3-icon-browser
+#{_darwinx_bindir}/gtk3-icon-browser
 %{_darwinx_bindir}/gtk-builder-tool
 %{_darwinx_bindir}/gtk-query-settings
 %{_darwinx_sysconfdir}/gtk-3.0/
@@ -115,47 +114,18 @@ rm -rf $RPM_BUILD_ROOT
 %{_darwinx_includedir}/gtk-3.0/
 %dir %{_darwinx_libdir}/gtk-3.0/
 %dir %{_darwinx_libdir}/gtk-3.0/3.0.0
-%dir %{_darwinx_libdir}/gtk-3.0/3.0.0/immodules
+#dir %{_darwinx_libdir}/gtk-3.0/3.0.0/immodules
 %dir %{_darwinx_libdir}/gtk-3.0/3.0.0/printbackends
-%{_darwinx_libdir}/gtk-3.0/3.0.0/immodules/im-am-et.la
-%{_darwinx_libdir}/gtk-3.0/3.0.0/immodules/im-am-et.so
-%{_darwinx_libdir}/gtk-3.0/3.0.0/immodules/im-cedilla.la
-%{_darwinx_libdir}/gtk-3.0/3.0.0/immodules/im-cedilla.so
-%{_darwinx_libdir}/gtk-3.0/3.0.0/immodules/im-cyrillic-translit.la
-%{_darwinx_libdir}/gtk-3.0/3.0.0/immodules/im-cyrillic-translit.so
-%{_darwinx_libdir}/gtk-3.0/3.0.0/immodules/im-inuktitut.la
-%{_darwinx_libdir}/gtk-3.0/3.0.0/immodules/im-inuktitut.so
-%{_darwinx_libdir}/gtk-3.0/3.0.0/immodules/im-ipa.la
-%{_darwinx_libdir}/gtk-3.0/3.0.0/immodules/im-ipa.so
-%{_darwinx_libdir}/gtk-3.0/3.0.0/immodules/im-multipress.la
-%{_darwinx_libdir}/gtk-3.0/3.0.0/immodules/im-multipress.so
-%{_darwinx_libdir}/gtk-3.0/3.0.0/immodules/im-thai.la
-%{_darwinx_libdir}/gtk-3.0/3.0.0/immodules/im-thai.so
-%{_darwinx_libdir}/gtk-3.0/3.0.0/immodules/im-ti-er.la
-%{_darwinx_libdir}/gtk-3.0/3.0.0/immodules/im-ti-er.so
-%{_darwinx_libdir}/gtk-3.0/3.0.0/immodules/im-ti-et.la
-%{_darwinx_libdir}/gtk-3.0/3.0.0/immodules/im-ti-et.so
-%{_darwinx_libdir}/gtk-3.0/3.0.0/immodules/im-viqr.la
-%{_darwinx_libdir}/gtk-3.0/3.0.0/immodules/im-viqr.so
-%{_darwinx_libdir}/gtk-3.0/3.0.0/immodules/im-quartz.la
-%{_darwinx_libdir}/gtk-3.0/3.0.0/immodules/im-quartz.so
-%{_darwinx_libdir}/gtk-3.0/3.0.0/printbackends/libprintbackend-cups.la
 %{_darwinx_libdir}/gtk-3.0/3.0.0/printbackends/libprintbackend-cups.so
-%{_darwinx_libdir}/gtk-3.0/3.0.0/printbackends/libprintbackend-file.la
 %{_darwinx_libdir}/gtk-3.0/3.0.0/printbackends/libprintbackend-file.so
-%{_darwinx_libdir}/gtk-3.0/3.0.0/printbackends/libprintbackend-lpr.la
 %{_darwinx_libdir}/gtk-3.0/3.0.0/printbackends/libprintbackend-lpr.so
-#{_darwinx_libdir}/gtk-3.0/3.0.0/printbackends/libprintbackend-test.la
 #{_darwinx_libdir}/gtk-3.0/3.0.0/printbackends/libprintbackend-test.so
 %{_darwinx_libdir}/libgailutil-3.0.dylib
 %{_darwinx_libdir}/libgailutil-3.dylib
-%{_darwinx_libdir}/libgailutil-3.la
 %{_darwinx_libdir}/libgdk-3.0.dylib
 %{_darwinx_libdir}/libgdk-3.dylib
-%{_darwinx_libdir}/libgdk-3.la
 %{_darwinx_libdir}/libgtk-3.0.dylib
 %{_darwinx_libdir}/libgtk-3.dylib
-%{_darwinx_libdir}/libgtk-3.la
 %{_darwinx_libdir}/pkgconfig/gail-3.0.pc
 %{_darwinx_libdir}/pkgconfig/gdk-3.0.pc
 %{_darwinx_libdir}/pkgconfig/gdk-quartz-3.0.pc
@@ -167,28 +137,13 @@ rm -rf $RPM_BUILD_ROOT
 %{_darwinx_datadir}/gtk-3.0/
 %{_darwinx_datadir}/themes/
 %{_darwinx_datadir}/locale/
-%{_darwinx_datadir}/applications/
-%{_darwinx_datadir}/icons/
+#{_darwinx_datadir}/applications/
+#{_darwinx_datadir}/icons/
 %{_darwinx_datadir}/gettext/its/gtkbuilder.its
 %{_darwinx_datadir}/gettext/its/gtkbuilder.loc
 
 %files static
 %defattr(-,root,root,-)
-%{_darwinx_libdir}/gtk-3.0/3.0.0/immodules/im-am-et.a
-%{_darwinx_libdir}/gtk-3.0/3.0.0/immodules/im-cedilla.a
-%{_darwinx_libdir}/gtk-3.0/3.0.0/immodules/im-cyrillic-translit.a
-%{_darwinx_libdir}/gtk-3.0/3.0.0/immodules/im-inuktitut.a
-%{_darwinx_libdir}/gtk-3.0/3.0.0/immodules/im-ipa.a
-%{_darwinx_libdir}/gtk-3.0/3.0.0/immodules/im-multipress.a
-%{_darwinx_libdir}/gtk-3.0/3.0.0/immodules/im-thai.a
-%{_darwinx_libdir}/gtk-3.0/3.0.0/immodules/im-ti-er.a
-%{_darwinx_libdir}/gtk-3.0/3.0.0/immodules/im-ti-et.a
-%{_darwinx_libdir}/gtk-3.0/3.0.0/immodules/im-viqr.a
-%{_darwinx_libdir}/gtk-3.0/3.0.0/immodules/im-quartz.a
-%{_darwinx_libdir}/gtk-3.0/3.0.0/printbackends/libprintbackend-cups.a
-%{_darwinx_libdir}/gtk-3.0/3.0.0/printbackends/libprintbackend-file.a
-%{_darwinx_libdir}/gtk-3.0/3.0.0/printbackends/libprintbackend-lpr.a
-#{_darwinx_libdir}/gtk-3.0/3.0.0/printbackends/libprintbackend-test.a
 %{_darwinx_libdir}/libgailutil-3.a
 %{_darwinx_libdir}/libgdk-3.a
 %{_darwinx_libdir}/libgtk-3.a

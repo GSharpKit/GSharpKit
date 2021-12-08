@@ -3,7 +3,7 @@
 %define libdir /lib
 
 Name:           darwinx-MimeKit
-Version:        2.12.0
+Version:        2.15.0
 Release:        1%{?dist}
 Summary:        MimeKit is an Open Source library for creating and parsing MIME, S/MIME and PGP messages
 Group:          Development/Languages
@@ -16,6 +16,8 @@ BuildArch:	noarch
 BuildRequires:	darwinx-filesystem-base >= 18
 
 Requires:	darwinx-filesystem >= 18
+Requires:       darwinx-System.Common >= 1.0.0
+Requires:       darwinx-System.Security >= 5.0.0
 Requires:	darwinx-BouncyCastle
 
 %description
@@ -25,10 +27,6 @@ and mobile platforms. It also supports parsing of Unix mbox files.
 %prep
 %setup -c %{name}-%{version} -T
 nuget install MimeKit -Version %{version}
-nuget install System.Text.Encoding.CodePages -Version 4.4.0
-nuget install System.Data.DataSetExtensions -Version 4.5.0
-nuget install System.Reflection.TypeExtensions -Version 4.4.0
-nuget install System.Security.Cryptography.Pkcs -Version 4.7.0
 
 
 cat > MimeKit.pc << \EOF
@@ -38,7 +36,7 @@ libdir=%{_darwinx_prefix}%{libdir}
 
 Name: MimeKit
 Description: %{summary} 
-Requires: BouncyCastle
+Requires: System.Common System.Security BouncyCastle
 Version: %{version}
 Libs: -r:${libdir}/MimeKit.dll
 Cflags:

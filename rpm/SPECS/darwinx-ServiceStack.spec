@@ -3,7 +3,7 @@
 %define libdir /lib
 
 Name:           darwinx-ServiceStack
-Version:        5.11.0
+Version:        5.12.0
 Release:        1%{?dist}
 Summary:        ServiceStack webservice framework: Faster, Cleaner, Modern WCF alternative.
 

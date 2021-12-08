@@ -1,0 +1,54 @@
+diff --git a/gdk/quartz/gdkglobals-quartz.c b/gdk/quartz/gdkglobals-quartz.c
+index 72aed1c92d54af3d56e2922630e19a8a6d0f1c37..30649efe8a7332c88bfefedab0ff5262b6398ae6 100644
+--- a/gdk/quartz/gdkglobals-quartz.c
++++ b/gdk/quartz/gdkglobals-quartz.c
+@@ -29,28 +29,26 @@ GdkWindow *_gdk_root = NULL;
+ GdkOSXVersion
+ gdk_quartz_osx_version (void)
+ {
+-  static gint32 minor = GDK_OSX_UNSUPPORTED;
++  static gint32 vkey = GDK_OSX_UNSUPPORTED;
+ 
+-  if (minor == GDK_OSX_UNSUPPORTED)
++  if (vkey == GDK_OSX_UNSUPPORTED)
+     {
+ #if MAC_OS_X_VERSION_MIN_REQUIRED < 101000
+-      OSErr err = Gestalt (gestaltSystemVersionMinor, (SInt32*)&minor);
++      OSErr err = Gestalt (gestaltSystemVersionMinor, (SInt32*)&vkey);
+ 
+       g_return_val_if_fail (err == noErr, GDK_OSX_UNSUPPORTED);
+ #else
+       NSOperatingSystemVersion version;
+ 
+       version = [[NSProcessInfo processInfo] operatingSystemVersion];
+-      minor = version.minorVersion;
+-      if (version.majorVersion == 11)
+-        minor += 16;
++      vkey = version.majorVersion == 10 ? version.minorVersion : version.majorVersion + 5;
+ #endif
+     }
+ 
+-  if (minor < GDK_OSX_MIN)
++  if (vkey < GDK_OSX_MIN)
+     return GDK_OSX_UNSUPPORTED;
+-  else if (minor > GDK_OSX_CURRENT)
++  else if (vkey > GDK_OSX_CURRENT)
+     return GDK_OSX_NEW;
+   else
+-    return minor;
++    return vkey;
+ }
+diff --git a/gdk/quartz/gdkquartz.h b/gdk/quartz/gdkquartz.h
+index dd1b4f41af9062adffd9244e5c6d1cec98106ae0..2d53dcbce6321fba070abd104fba713c8ccd4ba5 100644
+--- a/gdk/quartz/gdkquartz.h
++++ b/gdk/quartz/gdkquartz.h
+@@ -42,7 +42,8 @@ typedef enum
+   GDK_OSX_MOJAVE = 14,
+   GDK_OSX_CATALINA = 15,
+   GDK_OSX_BIGSUR = 16,
+-  GDK_OSX_CURRENT = 15,
++  GDK_OSX_MONTEREY = 17,
++  GDK_OSX_CURRENT = 17,
+   GDK_OSX_NEW = 99
+ } GdkOSXVersion;
+ 

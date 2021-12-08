@@ -69,7 +69,7 @@
     declare -x $x="$i" ; export $x; \
   done; \
   unset _PREFIX; \
-  MACOSX_DEPLOYMENT_TARGET=10.9; export MACOSX_DEPLOYMENT_TARGET; \
+  MACOSX_DEPLOYMENT_TARGET=10.14; export MACOSX_DEPLOYMENT_TARGET; \
   CC="${DARWINX_CC:-%_darwinx_cc}"; export CC; \
   CFLAGS="${DARWINX_CFLAGS:-%_darwinx_cflags}"; export CFLAGS; \
   CPPFLAGS="${DARWINX_CPPFLAGS:-%_darwinx_cppflags}"; export CPPFLAGS; \

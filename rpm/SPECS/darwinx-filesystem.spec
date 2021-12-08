@@ -4,7 +4,7 @@
 #define _target_os	linux
 
 Name: 		darwinx-filesystem
-Version: 	202
+Version: 	203
 Release: 	1%{?dist}
 Summary: 	Darwin filesystem and environment
 License: 	GPLv2+
@@ -38,6 +38,7 @@ Provides:	Kerberos
 Provides:	QuartzCore
 Provides:	GSS
 Provides:	IOSurface
+Provides:	CFNetwork
 
 Provides:	libSystem.B.dylib
 Provides:	libexpat.1.dylib

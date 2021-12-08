@@ -1,5 +1,5 @@
 Name:           darwinx-pango
-Version:        1.44.7
+Version:        1.48.9
 Release:        1%{?dist}
 Summary:        Darwin Pango library
 
@@ -59,9 +59,10 @@ Static version of the Darwin Pango library.
 %darwinx_meson \
     --default-library=both \
     -Dgtk_doc=false \
-    -Dintrospection=false \
+    -Dintrospection=disabled \
     -Dinstall-tests=false \
-    -Duse_fontconfig=true
+    -Dlibthai=disabled \
+    -Dxft=disabled
 
 %darwinx_meson_build
 
@@ -82,6 +83,7 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(-,root,root,-)
 %{_darwinx_bindir}/pango-view
 %{_darwinx_bindir}/pango-list
+%{_darwinx_bindir}/pango-segmentation
 %{_darwinx_includedir}/pango-1.0/
 %{_darwinx_libdir}/libpango-1.0.0.dylib
 %{_darwinx_libdir}/libpango-1.0.dylib
@@ -92,6 +94,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_darwinx_libdir}/pkgconfig/pango.pc
 %{_darwinx_libdir}/pkgconfig/pangocairo.pc
 %{_darwinx_libdir}/pkgconfig/pangoft2.pc
+%{_darwinx_libdir}/pkgconfig/pangofc.pc
+%{_darwinx_libdir}/pkgconfig/pangoot.pc
 
 %files static
 %defattr(-,root,root,-)

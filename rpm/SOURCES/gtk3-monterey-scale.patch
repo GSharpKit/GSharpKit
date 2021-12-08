@@ -1,0 +1,14 @@
+diff --git a/gdk/quartz/gdkwindow-quartz.c b/gdk/quartz/gdkwindow-quartz.c
+index 1a3389bb32953e59af97e9a9735c9a45765432b4..a5c5c31945e0c1ecfae6fac363a0a18dc2b13c5b 100644
+--- a/gdk/quartz/gdkwindow-quartz.c
++++ b/gdk/quartz/gdkwindow-quartz.c
+@@ -183,8 +183,7 @@ gdk_window_impl_quartz_get_context (GdkWindowImplQuartz *window_impl,
+    * in gdk_quartz_ref_cairo_surface () */
+   scale = CGContextConvertSizeToDeviceSpace (cg_context,
+                                              CGSizeMake (1.0, 1.0));
+-  CGContextScaleCTM (cg_context, 1.0 / scale.width, 1.0 / scale.height);
+-
++  CGContextScaleCTM (cg_context, 1.0 / fabs(scale.width), 1.0 / fabs(scale.height));
+   return cg_context;
+ }
+ 
