@@ -2,17 +2,17 @@
 
 %define libdir /lib
 
-%define wcf_version 4.8.1
-%define syn_version 5.0.0
+%define syn_version 6.0.0
 
 Name:           System.ServiceModel
-Version:        %{wcf_version}
+Version:        4.9.0
 Release:        1%{?dist}
 Summary:        WCF libraries
 
 Group:          Development/Languages
 License:        MIT
 URL:            https://github.com/dotnet/wcf
+
 Prefix:		/usr
 BuildArch:	noarch
 
@@ -38,9 +38,9 @@ nuget install System.ServiceModel.Http -Version %{version}
 nuget install System.ServiceModel.NetTcp -Version %{version}
 nuget install System.ServiceModel.Duplex -Version %{version}
 nuget install System.ServiceModel.Security -Version %{version}
+#nuget install System.ServiceModel.Federation -Version %{version}
 
 nuget install System.ServiceModel.Syndication -Version %{syn_version}
-
 
 cat > System.ServiceModel.pc << \EOF
 prefix=%{_prefix}
@@ -51,7 +51,7 @@ Name: System.ServiceModel
 Description: System.ServiceModel. Primitives, Http, NetTcp, Duplex, Security
 Requires: System.Common System.Security
 Version: %{version}
-Libs: -r:${libdir}/System.Private.ServiceModel.dll -r:${libdir}/System.ServiceModel.dll -r:${libdir}/System.ServiceModel.Primitives.dll -r:${libdir}/System.ServiceModel.Http.dll -r:${libdir}/System.ServiceModel.NetTcp.dll -r:${libdir}/System.ServiceModel.Duplex.dll -r:${libdir}/System.ServiceModel.Security.dll -r:${libdir}/System.ServiceModel.Syndication.dll
+Libs: -r:${libdir}/System.Private.ServiceModel.dll -r:${libdir}/System.ServiceModel.dll -r:${libdir}/System.ServiceModel.Primitives.dll -r:${libdir}/System.ServiceModel.Http.dll -r:${libdir}/System.ServiceModel.NetTcp.dll -r:${libdir}/System.ServiceModel.Duplex.dll -r:${libdir}/System.ServiceModel.Security.dll -r:${libdir}/System.Syndication.dll
 Cflags:
 EOF
 
@@ -60,19 +60,20 @@ EOF
 %install
 %{__rm} -rf %{buildroot}
 
-rm -rf System.Security.AccessControl.4.5.0
-rm -rf System.Security.Cryptography.Xml.4.5.0
-rm -rf System.Security.Permissions.4.5.0
-rm -rf System.Security.Principal.Windows.4.5.0
-rm -rf System.Security.AccessControl.4.7.0
-rm -rf System.Security.Cryptography.Xml.4.7.0
-rm -rf System.Security.Permissions.4.7.0
-rm -rf System.Security.Principal.Windows.4.7.0
-rm -rf System.Numerics.Vectors.4.5.0
-rm -rf System.Reflection.DispatchProxy.4.7.1
+rm -rf Microsoft.Bcl.AsyncInterfaces*
+rm -rf Microsoft.Extensions.ObjectPool*
+rm -rf System.Security.AccessControl*
+rm -rf System.Security.Cryptography.Xml*
+rm -rf System.Security.Permissions*
+rm -rf System.Security.Principal.Windows*
+rm -rf System.Numerics.Vectors*
+rm -rf System.Reflection.DispatchProxy*
+rm -rf System.Runtime.CompilerServices.Unsafe*
+rm -rf System.Threading.Tasks.Extensions*
 
 install -d -m 755 $RPM_BUILD_ROOT%{_prefix}%{libdir}
 find */lib/netstandard2.0/ -iname "*.dll" -exec install -m 644 {} $RPM_BUILD_ROOT%{_prefix}%{libdir}/ \;
+rm -f $RPM_BUILD_ROOT%{_prefix}%{libdir}/*.resources.dll
 
 install -d -m 755 $RPM_BUILD_ROOT%{_datadir}/pkgconfig/
 install -m 644 System.ServiceModel.pc $RPM_BUILD_ROOT%{_datadir}/pkgconfig/
@@ -82,7 +83,14 @@ install -m 644 System.ServiceModel.pc $RPM_BUILD_ROOT%{_datadir}/pkgconfig/
 
 %files
 %defattr(-,root,root,-)
-%{_prefix}%{libdir}/*.dll
+%{_prefix}%{libdir}/System.Private.ServiceModel.dll
+%{_prefix}%{libdir}/System.ServiceModel.dll
+%{_prefix}%{libdir}/System.ServiceModel.Duplex.dll
+%{_prefix}%{libdir}/System.ServiceModel.Http.dll
+%{_prefix}%{libdir}/System.ServiceModel.NetTcp.dll
+%{_prefix}%{libdir}/System.ServiceModel.Primitives.dll
+%{_prefix}%{libdir}/System.ServiceModel.Security.dll
+%{_prefix}%{libdir}/System.ServiceModel.Syndication.dll
 %{_datadir}/pkgconfig/System.ServiceModel.pc
 
 %changelog

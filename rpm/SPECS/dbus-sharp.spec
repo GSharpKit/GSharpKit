@@ -22,6 +22,8 @@ BuildRequires:		msbuild
 BuildRequires:		mono-devel
 Requires:		mono-core
 
+Provides:		mono(dbus-sharp) = 2.0.0.0
+
 Obsoletes:              dbus-sharp-devel
 Provides:		dbus-sharp-devel
 

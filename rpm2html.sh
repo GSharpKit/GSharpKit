@@ -86,9 +86,10 @@ mono-core
 Microsoft.CSharp
 Mono.Data.Sqlite
 Mono.Posix.NETStandard
+System.Common
 System.ComponentModel.Annotations
-System.DirectoryServices
 System.Runtime.Caching
+System.Security
 dbus-sharp
 dbus-sharp-glib
 GtkSharp
@@ -104,7 +105,6 @@ MimeKit
 MailKit
 ServiceStack
 RestSharp
-Seal.net
 PdfSharp.MigraDoc
 Sprache
 )

@@ -3,7 +3,7 @@
 %define libdir /lib
 
 Name:           System.Security
-Version:        5.0.0
+Version:        6.0.0
 Release:        1%{?dist}
 Summary:        System Security libraries
 
@@ -12,11 +12,6 @@ License:        MIT
 URL:            https://github.com/dotnet/wcf
 Prefix:		/usr
 BuildArch:	noarch
-
-#Provides:	mono(System.Security.Cryptography.Xml) = 4.0.1.0
-#Provides:	mono(System.Security.Cryptography.Pkcs) = 4.0.3.2
-#Provides:	mono(System.Security.AccessControl) = 4.1.1.0
-#Provides:	mono(System.Security.Principal.Windows) = 4.1.1.0
 
 %description
 Provides classes to support the creation and validation of XML digital signatures. 
@@ -34,7 +29,7 @@ Provides classes for retrieving the current Windows user and for interacting wit
 nuget install System.Security.Cryptography.Xml -Version %{version}
 nuget install System.Security.Cryptography.Pkcs -Version %{version}
 nuget install System.Security.AccessControl -Version %{version}
-nuget install System.Security.Principal.Windows -Version %{version}
+nuget install System.Security.Principal.Windows -Version 5.0.0
 nuget install System.Security.Permissions -Version %{version}
 
 cat > System.Security.pc << \EOF
