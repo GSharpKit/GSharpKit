@@ -18,7 +18,8 @@ System Common libraries
 
 %prep
 %setup -c %{name}-%{version} -T
-nuget install Microsoft.Bcl.AsyncInterfaces -Version 5.0.0
+nuget install Microsoft.Bcl.AsyncInterfaces -Version 6.0.0
+nuget install Microsoft.Bcl.HashCode -Version 1.1.1
 nuget install Microsoft.Extensions.ObjectPool -Version 6.0.1 
 nuget install System.Buffers -Version 4.5.1
 nuget install System.Data.DataSetExtensions -Version 4.5.0
@@ -52,7 +53,7 @@ EOF
 %install
 %{__rm} -rf %{buildroot}
 
-rm -rf Microsoft.Bcl.AsyncInterfaces.6.0.0
+rm -rf Microsoft.Bcl.AsyncInterfaces.5.0.0
 rm -rf System.Runtime.CompilerServices.Unsafe.4.5.3
 
 install -d -m 755 $RPM_BUILD_ROOT%{_prefix}%{libdir}

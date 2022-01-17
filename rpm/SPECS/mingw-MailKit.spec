@@ -11,7 +11,7 @@
 %define libdir /bin
 
 Name:           mingw-MailKit
-Version:        2.15.0
+Version:        3.1.0
 Release:        1%{?dist}
 Summary:        MailKit is an Open Source cross-platform .NET mail-client library.
 

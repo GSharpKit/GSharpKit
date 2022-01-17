@@ -9,9 +9,10 @@
 %define debug_package %{nil}
 
 %define libdir /bin
+%define syn_version 6.0.0
 
 Name:           mingw-System.ServiceModel
-Version:        4.8.1
+Version:        4.9.0
 Release:        1%{?dist}
 Summary:        WCF libraries
 
@@ -57,7 +58,7 @@ nuget install System.ServiceModel.NetTcp -Version %{version}
 nuget install System.ServiceModel.Duplex -Version %{version}
 nuget install System.ServiceModel.Security -Version %{version}
 
-nuget install System.ServiceModel.Syndication -Version 5.0.0
+nuget install System.ServiceModel.Syndication -Version %{syn_version}
 
 
 cat > System.ServiceModel.pc << \EOF
@@ -69,7 +70,7 @@ Name: System.ServiceModel
 Description: System.ServiceModel. Primitives, Http, NetTcp, Duplex, Security
 Requires: System.Common System.Security
 Version: %{version}
-Libs: -r:${libdir}/System.Private.ServiceModel.dll -r:${libdir}/System.ServiceModel.dll -r:${libdir}/System.ServiceModel.Primitives.dll -r:${libdir}/System.ServiceModel.Http.dll -r:${libdir}/System.ServiceModel.NetTcp.dll -r:${libdir}/System.ServiceModel.Duplex.dll -r:${libdir}/System.ServiceModel.Security.dll -r:${libdir}/System.ServiceModel.Syndication.dll
+Libs: -r:${libdir}/System.Private.ServiceModel.dll -r:${libdir}/System.ServiceModel.dll -r:${libdir}/System.ServiceModel.Primitives.dll -r:${libdir}/System.ServiceModel.Http.dll -r:${libdir}/System.ServiceModel.NetTcp.dll -r:${libdir}/System.ServiceModel.Duplex.dll -r:${libdir}/System.ServiceModel.Security.dll -r:${libdir}/System.Syndication.dll
 Cflags:
 EOF
 
@@ -78,19 +79,20 @@ EOF
 %install
 %{__rm} -rf %{buildroot}
 
-rm -rf System.Security.AccessControl.4.5.0
-rm -rf System.Security.Cryptography.Xml.4.5.0
-rm -rf System.Security.Permissions.4.5.0
-rm -rf System.Security.Principal.Windows.4.5.0
-rm -rf System.Security.AccessControl.4.7.0
-rm -rf System.Security.Cryptography.Xml.4.7.0
-rm -rf System.Security.Permissions.4.7.0
-rm -rf System.Security.Principal.Windows.4.7.0
-rm -rf System.Numerics.Vectors.4.5.0
-rm -rf System.Reflection.DispatchProxy.4.7.1
+rm -rf Microsoft.Bcl.AsyncInterfaces*
+rm -rf Microsoft.Extensions.ObjectPool*
+rm -rf System.Security.AccessControl*
+rm -rf System.Security.Cryptography.Xml*
+rm -rf System.Security.Permissions*
+rm -rf System.Security.Principal.Windows*
+rm -rf System.Numerics.Vectors*
+rm -rf System.Reflection.DispatchProxy*
+rm -rf System.Runtime.CompilerServices.Unsafe*
+rm -rf System.Threading.Tasks.Extensions*
 
 install -d -m 755 $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir}
 find */lib/netstandard2.0/ -iname "*.dll" -exec install -m 644 {} $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir}/ \;
+rm -f $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir}/*.resources.dll
 
 install -d -m 755 $RPM_BUILD_ROOT%{mingw64_datadir}/pkgconfig/
 install -m 644 System.ServiceModel.pc $RPM_BUILD_ROOT%{mingw64_datadir}/pkgconfig/
@@ -100,7 +102,14 @@ install -m 644 System.ServiceModel.pc $RPM_BUILD_ROOT%{mingw64_datadir}/pkgconfi
 
 %files -n mingw64-%{mingw_pkg_name}
 %defattr(-,root,root,-)
-%{mingw64_prefix}%{libdir}/*.dll
+%{mingw64_prefix}%{libdir}/System.Private.ServiceModel.dll
+%{mingw64_prefix}%{libdir}/System.ServiceModel.dll
+%{mingw64_prefix}%{libdir}/System.ServiceModel.Duplex.dll
+%{mingw64_prefix}%{libdir}/System.ServiceModel.Http.dll
+%{mingw64_prefix}%{libdir}/System.ServiceModel.NetTcp.dll
+%{mingw64_prefix}%{libdir}/System.ServiceModel.Primitives.dll
+%{mingw64_prefix}%{libdir}/System.ServiceModel.Security.dll
+%{mingw64_prefix}%{libdir}/System.ServiceModel.Syndication.dll
 %{mingw64_datadir}/pkgconfig/System.ServiceModel.pc
 
 %changelog

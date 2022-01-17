@@ -1,0 +1,28 @@
+diff -Nur webkitgtk-2.4.11.orig/Source/WebCore/css/makegrammar.pl webkitgtk-2.4.11/Source/WebCore/css/makegrammar.pl
+--- webkitgtk-2.4.11.orig/Source/WebCore/css/makegrammar.pl	2016-04-10 08:48:37.000000000 +0200
++++ webkitgtk-2.4.11/Source/WebCore/css/makegrammar.pl	2022-01-16 22:24:45.926912945 +0100
+@@ -73,23 +73,5 @@
+ }
+ 
+ my $fileBase = File::Spec->join($outputDir, $filename);
+-system("$bison -d -p $symbolsPrefix $grammarFilePath -o $fileBase.cpp");
+-
+-open HEADER, ">$fileBase.h" or die;
+-print HEADER << "EOF";
+-#ifndef CSSGRAMMAR_H
+-#define CSSGRAMMAR_H
+-EOF
+-
+-open HPP, "<$fileBase.cpp.h" or open HPP, "<$fileBase.hpp" or die;
+-while (<HPP>) {
+-    print HEADER;
+-}
+-close HPP;
+-
+-print HEADER "#endif\n";
+-close HEADER;
+-
+-unlink("$fileBase.cpp.h");
+-unlink("$fileBase.hpp");
++system("$bison --defines=$fileBase.h -p $symbolsPrefix $grammarFilePath -o $fileBase.cpp");
+ 

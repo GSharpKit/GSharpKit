@@ -2,7 +2,7 @@
 %define freetype_version 2.1.9
 %define fontconfig_version 2.2.95
 
-%if 0%{?fedora} > 36 || 0%{?rhel} > 7
+%if 0%{?fedora} > 66 || 0%{?rhel} > 7
 %global cairogl --disable-gl
 %else
 %global cairogl --enable-gl
@@ -11,7 +11,7 @@
 
 Name:		cairo
 Version:	1.17.4
-Release:	4%{?dist}
+Release:	5%{?dist}
 Summary:	A 2D graphics library
 
 License:	LGPLv2 or MPLv1.1
@@ -177,6 +177,9 @@ find $RPM_BUILD_ROOT -name '*.la' -delete
 %{_libdir}/cairo/
 
 %changelog
+* Wed Jul 21 2021 Fedora Release Engineering <releng@fedoraproject.org> - 1.17.4-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_35_Mass_Rebuild
+
 * Tue Mar 16 2021 Kalev Lember <klember@redhat.com> - 1.17.4-3
 - Backport an upstream patch to fix generating PDF font names (#1939399)
 

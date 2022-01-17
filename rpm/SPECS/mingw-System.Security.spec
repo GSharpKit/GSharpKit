@@ -11,7 +11,7 @@
 %define libdir /bin
 
 Name:           mingw-System.Security
-Version:        5.0.0
+Version:        6.0.0
 Release:        1%{?dist}
 Summary:        System Security libraries
 
@@ -52,7 +52,7 @@ Provides classes for retrieving the current Windows user and for interacting wit
 nuget install System.Security.Cryptography.Xml -Version %{version}
 nuget install System.Security.Cryptography.Pkcs -Version %{version}
 nuget install System.Security.AccessControl -Version %{version}
-nuget install System.Security.Principal.Windows -Version %{version}
+nuget install System.Security.Principal.Windows -Version 5.0.0
 nuget install System.Security.Permissions -Version %{version}
 
 cat > System.Security.pc << \EOF

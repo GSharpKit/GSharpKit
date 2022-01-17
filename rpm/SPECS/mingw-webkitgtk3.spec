@@ -1,5 +1,6 @@
 %{?mingw_package_header}
 
+%global mingw_build_win32 0
 %global mingw_build_win64 1
 
 %define rel_version 2.4.11
@@ -7,9 +8,6 @@
 ## NOTE: Lots of files in various subdirectories have the same name (such as
 ## "LICENSE") so this short macro allows us to distinguish them by using their
 ## directory names (from the source tree) as prefixes for the files.
-%global add_to_doc_files32() \
-    mkdir -p %{buildroot}%{_docdir}/mingw32-webkitgtk3 ||: ; \
-    cp -p %1  %{buildroot}%{_docdir}/mingw32-webkitgtk3/$(echo '%1' | sed -e 's!/!.!g')
 %global add_to_doc_files64() \
     mkdir -p %{buildroot}%{_docdir}/mingw64-webkitgtk3 ||: ; \
     cp -p %1  %{buildroot}%{_docdir}/mingw64-webkitgtk3/$(echo '%1' | sed -e 's!/!.!g')
@@ -39,6 +37,8 @@ Patch4:		webkitgtk-2.4.11-semicolon.patch
 Patch5:		webkitgtk-2.4.11-js.patch
 
 Patch6:		webkitgtk-2.4.11-inline.patch
+Patch7:		webkitgtk-2.4.11-icu.patch
+Patch8:		webkitgtk-2.4.11-bison.patch
 
 BuildArch:      noarch
 
@@ -55,26 +55,6 @@ BuildRequires:  rubygems
 # Required for glib-mkenums
 BuildRequires:  glib2-devel
 
-BuildRequires:  mingw32-binutils
-BuildRequires:  mingw32-enchant
-BuildRequires:  mingw32-filesystem >= 95
-BuildRequires:  mingw32-fontconfig
-BuildRequires:  mingw32-freetype
-BuildRequires:  mingw32-gcc
-BuildRequires:  mingw32-gcc-c++
-BuildRequires:  mingw32-gstreamer1
-BuildRequires:  mingw32-gstreamer1-plugins-base
-BuildRequires:  mingw32-gtk3
-BuildRequires:  mingw32-icu
-BuildRequires:  mingw32-libidn
-BuildRequires:  mingw32-libsoup
-BuildRequires:  mingw32-libwebp
-BuildRequires:  mingw32-libxml2
-BuildRequires:  mingw32-libxslt
-BuildRequires:  mingw32-pthreads
-BuildRequires:  mingw32-sqlite
-
-%if 0%{?mingw_build_win64} == 1
 BuildRequires:  mingw64-binutils
 BuildRequires:  mingw64-enchant
 BuildRequires:  mingw64-filesystem >= 95
@@ -93,7 +73,6 @@ BuildRequires:  mingw64-libxml2
 BuildRequires:  mingw64-libxslt
 BuildRequires:  mingw64-pthreads
 BuildRequires:  mingw64-sqlite
-%endif
 
 %description
 WebKitGTK+ is an open-source Web content engine library.
@@ -102,19 +81,6 @@ as well as the sample GtkLauncher tool.
 
 This is the MinGW port of WebKitGTK+ for GTK+ 3.
 
-
-%package -n mingw32-webkitgtk3
-Summary:        MinGW Windows web content engine library
-
-%description -n mingw32-webkitgtk3
-WebKitGTK+ is an open-source Web content engine library.
-This package contains the shared libraries for the WebKit GTK+ port
-as well as the sample GtkLauncher tool.
-
-This is the MinGW port of WebKitGTK+ for GTK+ 3.
-
-
-%if 0%{?mingw_build_win64} == 1
 %package -n mingw64-webkitgtk3
 Summary:        MinGW Windows web content engine library
 
@@ -124,11 +90,8 @@ This package contains the shared libraries for the WebKit GTK+ port
 as well as the sample GtkLauncher tool.
 
 This is the MinGW port of WebKitGTK+ for GTK+ 3.
-%endif
-
 
 %{?mingw_debug_package}
-
 
 %prep
 %setup -qn "webkitgtk-%{rel_version}"
@@ -139,12 +102,13 @@ This is the MinGW port of WebKitGTK+ for GTK+ 3.
 %patch4 -p1
 %patch5 -p1
 %patch6 -p1
+%patch7 -p1
+%patch8 -p1
 
 
 %build
 # lower debug level to prevent memory exhaustion by linker
-%global mingw32_cflags %(echo %{mingw32_cflags} | sed 's/-g /-g1 /') -fpermissive
-%global mingw64_cflags %(echo %{mingw64_cflags} | sed 's/-g /-g1 /') -fpermissive
+%global mingw64_cflags %(echo %{mingw64_cflags} | sed 's/-g /-g1 /') -fpermissive -DGLIB_VERSION_MIN_REQUIRED=GLIB_VERSION_2_64
 
 %mingw_configure                                                \
                         --enable-win32-target                   \
@@ -162,30 +126,13 @@ This is the MinGW port of WebKitGTK+ for GTK+ 3.
 %install
 %mingw_make install DESTDIR=%{buildroot}
 
-install -m 755 build_win32/Programs/.libs/GtkLauncher.exe %{buildroot}%{mingw32_bindir}/GtkLauncher-3.exe
-%if 0%{?mingw_build_win64} == 1
 install -m 755 build_win64/Programs/.libs/GtkLauncher.exe %{buildroot}%{mingw64_bindir}/GtkLauncher-3.exe
-%endif
 
 # Drop all .la files
 find $RPM_BUILD_ROOT -name "*.la" -delete
 
 %mingw_find_lang WebKitGTK-3.0
 
-## Copy over and rename the various files for %%doc inclusion.
-%add_to_doc_files32 Source/WebKit/LICENSE
-%add_to_doc_files32 Source/WebKit/gtk/NEWS
-%add_to_doc_files32 Source/WebCore/icu/LICENSE
-%add_to_doc_files32 Source/WebCore/LICENSE-APPLE
-%add_to_doc_files32 Source/WebCore/LICENSE-LGPL-2
-%add_to_doc_files32 Source/WebCore/LICENSE-LGPL-2.1
-%add_to_doc_files32 Source/JavaScriptCore/COPYING.LIB
-%add_to_doc_files32 Source/JavaScriptCore/THANKS
-%add_to_doc_files32 Source/JavaScriptCore/AUTHORS
-%add_to_doc_files32 Source/JavaScriptCore/icu/README
-%add_to_doc_files32 Source/JavaScriptCore/icu/LICENSE
-
-%if 0%{?mingw_build_win64} == 1
 %add_to_doc_files64 Source/WebKit/LICENSE
 %add_to_doc_files64 Source/WebKit/gtk/NEWS
 %add_to_doc_files64 Source/WebCore/icu/LICENSE
@@ -197,23 +144,7 @@ find $RPM_BUILD_ROOT -name "*.la" -delete
 %add_to_doc_files64 Source/JavaScriptCore/AUTHORS
 %add_to_doc_files64 Source/JavaScriptCore/icu/README
 %add_to_doc_files64 Source/JavaScriptCore/icu/LICENSE
-%endif
 
-
-%files -n mingw32-webkitgtk3 -f mingw32-WebKitGTK-3.0.lang
-%{_docdir}/mingw32-webkitgtk3/
-%{mingw32_bindir}/jsc-3.exe
-%{mingw32_bindir}/GtkLauncher-3.exe
-%{mingw32_bindir}/libjavascriptcoregtk-3.0-0.dll
-%{mingw32_bindir}/libwebkitgtk-3.0-0.dll
-%{mingw32_includedir}/webkitgtk-3.0/
-%{mingw32_libdir}/libjavascriptcoregtk-3.0.dll.a
-%{mingw32_libdir}/libwebkitgtk-3.0.dll.a
-%{mingw32_libdir}/pkgconfig/javascriptcoregtk-3.0.pc
-%{mingw32_libdir}/pkgconfig/webkitgtk-3.0.pc
-%{mingw32_datadir}/webkitgtk-3.0/
-
-%if 0%{?mingw_build_win64} == 1
 %files -n mingw64-webkitgtk3 -f mingw64-WebKitGTK-3.0.lang
 %{_docdir}/mingw64-webkitgtk3/
 %{mingw64_bindir}/jsc-3.exe
@@ -226,8 +157,6 @@ find $RPM_BUILD_ROOT -name "*.la" -delete
 %{mingw64_libdir}/pkgconfig/javascriptcoregtk-3.0.pc
 %{mingw64_libdir}/pkgconfig/webkitgtk-3.0.pc
 %{mingw64_datadir}/webkitgtk-3.0/
-%endif
-
 
 %changelog
 * Wed Jul 26 2017 Fedora Release Engineering <releng@fedoraproject.org> - 2.4.11-5

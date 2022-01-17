@@ -10,8 +10,8 @@
 %define libdir /lib
 
 Name:           Npgsql
-Version:        5.0.7
-Release:        2%{?dist}
+Version:        6.0.2
+Release:        1%{?dist}
 Summary:        Postgresql database connectivity for C#
 
 Group:          Development/Languages

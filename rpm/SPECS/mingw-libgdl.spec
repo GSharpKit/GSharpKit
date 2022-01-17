@@ -1,9 +1,9 @@
 %?mingw_package_header
 
-%define release_version 3.34
+%define release_version 3.40
 
 Name:           mingw-libgdl
-Version:        3.34.0
+Version:        3.40.0
 Release:        1%{?dist}
 Summary:        MinGW Windows GDL library
 

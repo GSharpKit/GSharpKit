@@ -15,7 +15,6 @@ BuildArch:	noarch
 Source:		gstreamer-sharp-%{version}.tar.xz
 BuildRequires:	nuget
 
-Requires:       mono-core >= 6.12
 Requires:       gstreamer1
 Requires:       gstreamer1-plugins-base
 

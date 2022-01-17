@@ -5,7 +5,7 @@
 %define libdir /lib
 
 Name:           MimeKit
-Version:        2.15.0
+Version:        3.1.0
 Release:        1%{?dist}
 Summary:        MimeKit is an Open Source library for creating and parsing MIME, S/MIME and PGP messages.
 

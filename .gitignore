@@ -50,4 +50,4 @@ rpm/SOURCES/fsharp-packages.config
 rpm/SOURCES/gmodule-win32-internals.h
 rpm/SOURCES/monodevelop-beta-rpmlintrc
 rpm/SOURCES/oauth2.snk
-
+rpm/SOURCES/125.patch

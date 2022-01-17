@@ -13,7 +13,7 @@ Summary:        Provides functionality to access Posix/Unix features
 
 Group:          Development/Languages
 License:        MIT
-URL:            https://www.nuget.org/packages/Mono.Posix.NETStandard
+URL:            https://www.nuget.org/packages/Mono.Posix
 Prefix:		/usr
 BuildArch:	x86_64
 
@@ -32,7 +32,7 @@ prefix=%{_prefix}
 exec_prefix=${prefix}
 libdir=%{_prefix}%{libdir}
 
-Name: Mono.Posix.NETStandard
+Name: Mono.Posix
 Description: Provides functionality to access Posix/Unix features
 Requires:
 Version: %{api_version}
