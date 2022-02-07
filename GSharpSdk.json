@@ -1,0 +1,49 @@
+{
+    "upgrade_guid": "efdf9d26-7eaa-11ec-86fe-00d861526f35",
+    "version": "35.0.1",
+    "product_name": "GSharpSdk 35",
+    "manufacturer": "XMedicus Systems ApS",
+    "name": "GSharpSdk",
+    "name_base": "GSharpSdk",
+    "comments": "GSharpKit SDK Framework",
+    "installdir": "GSharpSdk",
+    "license_file": "License.rtf",
+    "arch": 64,
+    "need_msvcrt": false,
+    "install_scope": "perMachine",
+    "major_upgrade": {
+        "AllowDowngrades": "yes",
+        "IgnoreRemoveFailure": "yes"
+    },
+    "custom_actions": {
+    },
+    "registry_entries": [
+    	{
+    		"root": "HKLM",
+    		"key": "SOFTWARE\\GSharpSdk",
+    		"action": "createAndRemoveOnUninstall",
+    		"name": "Install_Dir",
+    		"type": "string",
+    		"value": "[INSTALLDIR]",
+    		"key_path": "no"
+    	},
+        {
+                "root": "HKLM",
+                "key": "SOFTWARE\\GSharpSdk",
+                "action": "createAndRemoveOnUninstall",
+                "name": "Version",
+                "type": "string",
+                "value": "35.0",
+                "key_path": "no"
+        }
+    ],
+    "parts": [
+        {
+         "id": "GSharpSdk",
+         "title": "GSharpSdk",
+         "description": "GSharpKit SDK Framework",
+         "absent": "disallow",
+         "staged_dir": "framework"
+        }
+    ]
+}

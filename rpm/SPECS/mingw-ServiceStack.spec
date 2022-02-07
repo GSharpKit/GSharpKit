@@ -11,7 +11,7 @@
 %define libdir /bin
 
 Name:           mingw-ServiceStack
-Version:        5.13.2
+Version:        6.0.2
 Release:        1%{?dist}
 Summary:        ServiceStack webservice framework: Faster, Cleaner, Modern WCF alternative.
 
@@ -22,7 +22,6 @@ Prefix:		/usr
 
 BuildArch:	noarch
 
-BuildRequires:  mono-devel
 BuildRequires:  nuget
 
 %description

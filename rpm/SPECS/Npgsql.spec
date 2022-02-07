@@ -10,7 +10,7 @@
 %define libdir /lib
 
 Name:           Npgsql
-Version:        6.0.2
+Version:        6.0.3
 Release:        1%{?dist}
 Summary:        Postgresql database connectivity for C#
 
@@ -24,7 +24,7 @@ BuildArch:	noarch
 BuildRequires:  nuget
 
 Requires:	System.Common >= 1.0.0
-Requires:	System.Security >= 5.0.0
+Requires:	System.Security >= 6.0.0
 
 %description
 This package contains the ADO.NET Data provider for the PostgreSQL

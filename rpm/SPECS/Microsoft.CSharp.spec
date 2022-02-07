@@ -16,8 +16,6 @@ URL:            https://www.nuget.org/packages/Microsoft.CSharp
 Prefix:		/usr
 BuildArch:	noarch
 
-Requires:	mono-core >= 5.0.0
-
 %description
 Provides support for compilation and code generation, including dynamic, using the C# language.
 

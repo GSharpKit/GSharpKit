@@ -81,17 +81,16 @@ gstreamer1-plugins-good
 gstreamer1-plugins-bad-free
 webkitgtk3
 dbus
-dbus-glib
-mono-core
+dotnet-runtime-6.0
 Microsoft.CSharp
+Microsoft.Data.SqlClient
 Mono.Data.Sqlite
-Mono.Posix.NETStandard
+Mono.Posix
 System.Common
 System.ComponentModel.Annotations
 System.Runtime.Caching
 System.Security
-dbus-sharp
-dbus-sharp-glib
+DBusSharp
 GtkSharp
 GdlSharp
 GstSharp
@@ -126,7 +125,7 @@ gtk-mac-integration-sharp
 )
 
 WIN_BUILD_IN=(
-mono-core
+dotnet-runtime-6.0
 System.DirectoryServices
 )
 
@@ -138,6 +137,7 @@ gtk-mac-integration-sharp
 )
 
 MAC_BUILD_IN=(
+dotnet-runtime-6.0
 binutils
 crt
 headers

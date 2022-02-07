@@ -17,7 +17,6 @@ BuildArch:	noarch
 BuildRequires:	nuget
 
 Requires:  	nHapi
-Requires:  	mono-core
 
 %description
 The NHapiTools are tools that will make using NHapi (the open source 

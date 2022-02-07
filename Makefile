@@ -1,24 +1,6 @@
 include config
 
-msi: msi64 sign64
-
-msi32: GSharpKit.json.in make-msi32.sh.in
-	cp GSharpKit.json.in GSharpKit.json
-	sed -i -e 's!@VERSION@!${VERSION}!g' GSharpKit.json
-	sed -i -e 's!@RELEASE@!${RELEASE}!g' GSharpKit.json
-	sed -i -e 's!@ARCH_NO@!32!g' GSharpKit.json
-	sed -i -e 's!@ARCH_SHORT@!x86!g' GSharpKit.json
-	sed -i -e 's!@INSTALL_SCOPE@!!g' GSharpKit.json
-	cp make-msi32.sh.in make-msi32.sh
-	sed -i -e 's!@VERSION@!${VERSION}!g' make-msi32.sh
-	sed -i -e 's!@RELEASE@!${RELEASE}!g' make-msi32.sh
-	sh make-msi32.sh
-
-sign32: GSharpKit-${VERSION}-x86.msi
-	mv GSharpKit-${VERSION}-x86.msi GSharpKit-${VERSION}-x86.msi.unsigned
-	osslsigncode sign -pkcs12 ~/.pki/gsharpkit.p12 -pass xcare -n "GSharpKit" -i http://www.gsharpkit.com -t http://timestamp.digicert.com -h sha2 -in GSharpKit-${VERSION}-x86.msi.unsigned -out GSharpKit-${VERSION}-x86.msi && rm GSharpKit-${VERSION}-x86.msi.unsigned
-	mv GSharpKit-${VERSION}-x86.msi GSharpKit-${VERSION}-x86.msi.unsigned
-	osslsigncode sign -pkcs12 ~/.pki/gsharpkit.p12 -pass xcare -n "GSharpKit" -i http://www.gsharpkit.com -t http://timestamp.digicert.com -nest -h sha512 -in GSharpKit-${VERSION}-x86.msi.unsigned -out GSharpKit-${VERSION}-x86.msi && rm GSharpKit-${VERSION}-x86.msi.unsigned
+msi: msi64 sign64 msisdk signsdk
 
 msi64: GSharpKit.json.in make-msi64.sh.in
 	cp GSharpKit.json.in GSharpKit.json
@@ -37,6 +19,27 @@ sign64: GSharpKit-${VERSION}-x64.msi
 	osslsigncode sign -pkcs12 ~/.pki/gsharpkit.p12 -pass xcare -n "GSharpKit" -i http://www.gsharpkit.com -t http://timestamp.digicert.com -h sha2 -in GSharpKit-${VERSION}-x64.msi.unsigned -out GSharpKit-${VERSION}-x64.msi && rm GSharpKit-${VERSION}-x64.msi.unsigned
 	mv GSharpKit-${VERSION}-x64.msi GSharpKit-${VERSION}-x64.msi.unsigned
 	osslsigncode sign -pkcs12 ~/.pki/gsharpkit.p12 -pass xcare -n "GSharpKit" -i http://www.gsharpkit.com -t http://timestamp.digicert.com -nest -h sha512 -in GSharpKit-${VERSION}-x64.msi.unsigned -out GSharpKit-${VERSION}-x64.msi && rm GSharpKit-${VERSION}-x64.msi.unsigned
+
+msisdk: GSharpSdk.json.in make-msisdk.sh.in
+	cp GSharpSdk.json.in GSharpSdk.json
+	sed -i -e 's!@VERSION@!${VERSION}!g' GSharpSdk.json
+	sed -i -e 's!@FRAMEWORK@!${FRAMEWORK}!g' GSharpSdk.json
+	sed -i -e 's!@RELEASE@!${RELEASE}!g' GSharpSdk.json
+	sed -i -e 's!@ARCH_NO@!64!g' GSharpSdk.json
+	sed -i -e 's!@ARCH_SHORT@!x64!g' GSharpSdk.json
+	sed -i -e 's!@INSTALL_SCOPE@!perMachine!g' GSharpSdk.json
+	cp make-msisdk.sh.in make-msisdk.sh
+	sed -i -e 's!@VERSION@!${VERSION}!g' make-msisdk.sh
+	sed -i -e 's!@RELEASE@!${RELEASE}!g' make-msisdk.sh
+	sed -i -e 's!@FRAMEWORK@!${FRAMEWORK}!g' make-msisdk.sh
+	sh make-msisdk.sh
+
+signsdk: GSharpSdk-${VERSION}-x64.msi
+	mv GSharpSdk-${VERSION}-x64.msi GSharpSdk-${VERSION}-x64.msi.unsigned
+	osslsigncode sign -pkcs12 ~/.pki/gsharpkit.p12 -pass xcare -n "GSharpSdk" -i http://www.gsharpkit.com -t http://timestamp.digicert.com -h sha2 -in GSharpSdk-${VERSION}-x64.msi.unsigned -out GSharpSdk-${VERSION}-x64.msi && rm GSharpSdk-${VERSION}-x64.msi.unsigned
+	mv GSharpSdk-${VERSION}-x64.msi GSharpSdk-${VERSION}-x64.msi.unsigned
+	osslsigncode sign -pkcs12 ~/.pki/gsharpkit.p12 -pass xcare -n "GSharpSdk" -i http://www.gsharpkit.com -t http://timestamp.digicert.com -nest -h sha512 -in GSharpSdk-${VERSION}-x64.msi.unsigned -out GSharpSdk-${VERSION}-x64.msi && rm GSharpSdk-${VERSION}-x64.msi.unsigned
+
 
 pkg: pkg64
 

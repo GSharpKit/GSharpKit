@@ -17,7 +17,6 @@ Prefix:		/usr
 BuildArch:	noarch
 
 BuildRequires:	nuget
-Requires:  	mono-core
 
 Obsoletes:	NHapi-devel NHapi
 Provides:	NHapi-devel NHapi

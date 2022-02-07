@@ -6,7 +6,7 @@
 
 Name:			DBusSharp
 Epoch: 			3
-Version:		0.9.1
+Version:		0.10.1
 Release:		1%{?dist}
 Summary:		Managed C# implementation of DBus
 License:		MIT
@@ -26,7 +26,7 @@ Obsoletes:              ndesk-dbus-devel
 Provides:		dbus-sharp dbus-sharp-devel
 
 Requires:		System.Common >= 1.0.1
-Requires:		System.Security >= 5.0.0
+Requires:		System.Security >= 6.0.0
 
 %description
 Managed C# implementation of DBus

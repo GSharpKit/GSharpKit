@@ -12,7 +12,6 @@ build:
 	sed -i -e 's!@VERSION@!${VERSION}!g' Dockerfile
 	sed -i -e 's!@RELEASE@!${RELEASE}!g' Dockerfile
 	sed -i -e 's!@FEDORA_VERSION@!${FEDORA_VERSION}!g' Dockerfile
-	sed -i -e 's!@MONO_VERSION@!${MONO_VERSION}!g' Dockerfile
 	podman build --no-cache -t gsharpkit-linux .
 
 tag:

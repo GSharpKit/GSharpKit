@@ -11,7 +11,7 @@
 %define libdir /bin
 
 Name:           mingw-Npgsql
-Version:        6.0.2
+Version:        6.0.3
 Release:        1%{?dist}
 Summary:        Postgresql database connectivity for C#
 
@@ -32,7 +32,8 @@ database.
 # Mingw64
 %package -n mingw64-%{mingw_pkg_name}
 Summary:       %{summary}
-Requires:      mingw64-System.Common
+Requires:      mingw64-System.Common >= 1.0.0
+Requires:      mingw64-System.Security >= 6.0.0
 
 %description -n mingw64-%{mingw_pkg_name}
 This package contains the ADO.NET Data provider for the PostgreSQL

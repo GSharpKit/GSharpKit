@@ -83,7 +83,7 @@
 %define MICROSOFT_DATA_SQLCLIENT 4.0.0
 
 %define MONO_DATA_SQLITE_VERSION 1.0.61.1
-%define MONO_POSIX_VERSION 7.1.0
+%define MONO_POSIX_NETSTANDARD_VERSION 1.0.0
 %define DBUS_SHARP_VERSION 0.9.1
 %define GTK3_SHARP_VERSION 3.24.20
 %define GDL_SHARP_VERSION 3.34.0
@@ -97,7 +97,7 @@
 %define BOUNCY_CASTLE_VERSION 1.9.0
 %define MIMEKIT_VERSION 3.1.0
 %define MAILKIT_VERSION 3.1.0
-%define SERVICE_STACK_VERSION 5.13.2
+%define SERVICE_STACK_VERSION 6.0.0
 %define REST_SHARP_VERSION 106.15.0
 %define PDFSHARP_MIGRADOC_VERSION 1.51.15
 %define SPRACHE_VERSION 2.2.0
@@ -159,7 +159,7 @@ Requires:		System.Runtime.Caching >= %{SYSTEM_RUNTIME_CACHING_VERSION}
 Requires:		System.ComponentModel.Annotations >= %{SYSTEM_COMPONENTMODEL_ANNOTATIONS_VERSION}
 Requires:		Microsoft.CSharp >= %{MICROSOFT_CSHARP_VERSION}
 Requires:		Microsoft.Data.SqlClient >= %{MICROSOFT_DATA_SQLCLIENT}
-Requires:		Mono.Posix >= %{MONO_POSIX_VERSION}
+Requires:		Mono.Posix.NETStandard >= %{MONO_POSIX_NETSTANDARD_VERSION}
 Requires:		Mono.Data.Sqlite >= %{MONO_DATA_SQLITE_VERSION}
 Requires:		Npgsql >= %{NPGSQL_VERSION}
 
@@ -316,7 +316,7 @@ Requires:               mingw64-System.Runtime.Caching >= %{SYSTEM_RUNTIME_CACHI
 Requires:               mingw64-System.ComponentModel.Annotations >= %{SYSTEM_COMPONENTMODEL_ANNOTATIONS_VERSION}
 Requires:               mingw64-Microsoft.CSharp >= %{MICROSOFT_CSHARP_VERSION}
 Requires:		mingw64-Microsoft.Data.SqlClient >= %{MICROSOFT_DATA_SQLCLIENT}
-Requires:               mingw64-Mono.Posix >= %{MONO_POSIX_VERSION}
+Requires:               mingw64-Mono.Posix.NETStandard >= %{MONO_POSIX_NETSTANDARD_VERSION}
 Requires:               mingw64-Mono.Data.Sqlite >= %{MONO_DATA_SQLITE_VERSION}
 Requires:               mingw64-Npgsql >= %{NPGSQL_VERSION}
 Requires:               mingw64-GtkSharp >= %{GTK3_SHARP_VERSION}
@@ -474,7 +474,7 @@ Requires:               darwinx-System.Runtime.Caching >= %{SYSTEM_RUNTIME_CACHI
 Requires:               darwinx-System.ComponentModel.Annotations >= %{SYSTEM_COMPONENTMODEL_ANNOTATIONS_VERSION}
 Requires:               darwinx-Microsoft.CSharp >= %{MICROSOFT_CSHARP_VERSION}
 Requires:		darwinx-Microsoft.Data.SqlClient >= %{MICROSOFT_DATA_SQLCLIENT}
-Requires:               darwinx-Mono.Posix >= %{MONO_POSIX_VERSION}
+Requires:               darwinx-Mono.Posix.NETStandard >= %{MONO_POSIX_NETSTANDARD_VERSION}
 Requires:               darwinx-Mono.Data.Sqlite >= %{MONO_DATA_SQLITE_VERSION}
 Requires:               darwinx-Npgsql >= %{NPGSQL_VERSION}
 Requires:               darwinx-GtkSharp >= %{GTK3_SHARP_VERSION}
