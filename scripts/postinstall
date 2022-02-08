@@ -14,8 +14,6 @@ $WD/bin/gdk-pixbuf-query-loaders $WD/lib/gdk-pixbuf-2.0/2.10.0/loaders/* > $WD/e
 $WD/bin/gtk-query-immodules-3.0 $WD/lib/gtk-3.0/3.0.0/immodules/* > $WD/etc/gtk-3.0/gtk.immodules
 sed -i '' 's!\/usr\/darwinx\/usr!\/Library\/Frameworks\/GSharpKit!g' $WD/etc/gtk-3.0/gtk.immodules
 
-$WD/bin/mono $WD/bin/cert-sync.exe --user $WD/etc/pki/ca-bundle.crt
-
 if [ ! -d /Library/Caches/fontconfig ]; then
         $WD/bin/fc-cache
 fi
