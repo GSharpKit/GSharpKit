@@ -13,6 +13,7 @@ URL:            https://www.nuget.org/packages/Mono.Posix.NETStandard
 
 Prefix:		/usr
 BuildArch:	noarch
+AutoReqProv: 	no
 
 %description
 Provides functionality to access Posix/Unix features
@@ -40,7 +41,8 @@ EOF
 %{__rm} -rf %{buildroot}
 
 install -d -m 755 $RPM_BUILD_ROOT%{darwinx_prefix}%{libdir}
-install -m 644 Mono.Posix.NETStandard.%{version}/ref/netstandard2.0/Mono.Posix.NETStandard.dll $RPM_BUILD_ROOT%{darwinx_prefix}%{libdir}/
+install -m 644 Mono.Posix.NETStandard.%{version}/runtimes/osx/lib/netstandard2.0/Mono.Posix.NETStandard.dll $RPM_BUILD_ROOT%{_darwinx_prefix}%{libdir}/
+install -m 644 Mono.Posix.NETStandard.%{version}/runtimes/osx/native/libMonoPosixHelper.dylib $RPM_BUILD_ROOT%{_darwinx_prefix}%{libdir}/
 
 install -d -m 755 $RPM_BUILD_ROOT%{darwinx_datadir}/pkgconfig/
 install -m 644 Mono.Posix.NETStandard.pc $RPM_BUILD_ROOT%{darwinx_datadir}/pkgconfig/Mono.Posix.NETStandard.pc
@@ -51,6 +53,7 @@ install -m 644 Mono.Posix.NETStandard.pc $RPM_BUILD_ROOT%{darwinx_datadir}/pkgco
 %files -n darwinx-%{darwinx_pkg_name}
 %defattr(-,root,root,-)
 %{darwinx_prefix}%{libdir}/Mono.Posix.NETStandard.dll
+%{darwinx_prefix}%{libdir}/libMonoPosixHelper.dylib
 %{darwinx_datadir}/pkgconfig/Mono.Posix.NETStandard.pc
 
 %changelog

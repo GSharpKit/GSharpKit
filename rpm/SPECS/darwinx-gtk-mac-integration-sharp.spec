@@ -9,7 +9,6 @@ BuildArch:	noarch
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:	darwinx-gtk-mac-integration
-BuildRequires:	darwinx-mono-core
 BuildRequires:	darwinx-GtkSharp
 
 Requires:  	darwinx-GtkSharp

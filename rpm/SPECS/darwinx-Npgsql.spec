@@ -8,7 +8,7 @@
 %define libdir /lib
 
 Name:           darwinx-Npgsql
-Version:        5.0.7
+Version:        6.0.3
 Release:        1%{?dist}
 Summary:        Postgresql database connectivity for C#
 Group:          Development/Languages
@@ -21,8 +21,8 @@ BuildArch:	noarch
 BuildRequires:	darwinx-filesystem-base >= 18
 
 Requires:	darwinx-filesystem >= 18
-Requires:	darwinx-System.Common
-Requires:	darwinx-System.Security
+Requires:       darwinx-System.Common >= 1.0.0
+Requires:       darwinx-System.Security >= 6.0.0
 
 %description
 This package contains the ADO.NET Data provider for the PostgreSQL

@@ -32,6 +32,9 @@ sed -i '' 's!${NETSTANDARD_REFERENCE_DIR}!/Library/Frameworks/GSharpKit/lib/mono
 mkdir -p m4
 autoreconf  -i --force --warnings=none -I . -I m4
 %{_darwinx_configure}
+pushd sources
+%{_darwinx_make} api
+popd
 %{_darwinx_make} %{?_smp_mflags} V=1
 
 rm out/gdl-sharp.dll

@@ -1,10 +1,10 @@
 --- sources/generated/Gdl/Dock.cs	2021-06-28 11:42:32.009994798 +0200
 +++ /tmp/Dock.cs	2021-06-28 11:42:19.169561183 +0200
 @@ -16,6 +16,9 @@
- 		[DllImport("libgdl-3-5.dll", CallingConvention = CallingConvention.Cdecl)]
+ 		[DllImport("libgdl-3.5.dylib", CallingConvention = CallingConvention.Cdecl)]
  		static extern IntPtr gdl_dock_new();
  
-+		[DllImport("libgdl-3-5.dll", CallingConvention = CallingConvention.Cdecl)]
++		[DllImport("libgdl-3.5.dylib", CallingConvention = CallingConvention.Cdecl)]
 +		static extern void g_object_ref(IntPtr ptr);
 +
  		public Dock () : base (IntPtr.Zero)
@@ -17,4 +17,4 @@
 +			g_object_ref(Raw);
  		}
  
- 		[DllImport("libgdl-3-5.dll", CallingConvention = CallingConvention.Cdecl)]
+ 		[DllImport("libgdl-3.5.dylib", CallingConvention = CallingConvention.Cdecl)]

@@ -1,12 +1,12 @@
 Name:           darwinx-libgdl
-Version:        3.34.0
+Version:        3.40.0
 Release:        1%{?dist}
 Summary:        Mac OS X GDL library
 
 License:        LGPLv2+
 Group:          Development/Libraries
 URL:            http://www.gtk.org
-Source0:        http://download.gnome.org/sources/gdl/3.34/gdl-%{version}.tar.xz
+Source0:        http://download.gnome.org/sources/gdl/3.40/gdl-%{version}.tar.xz
 
 BuildArch:      noarch
 
@@ -35,7 +35,7 @@ suites.
 %setup -q -n gdl-%{version}
 
 %build
-%{_darwinx_configure} --disable-nls
+%{_darwinx_configure} --disable-nls --enable-introspection=no
 
 %{_darwinx_make} %{?_smp_mflags} V=1
 

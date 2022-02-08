@@ -1,5 +1,5 @@
 Name:           darwinx-gtk3
-Version:        3.24.30
+Version:        3.24.31
 Release:        1%{?dist}
 Summary:        Darwin Gtk3 library
 
@@ -11,8 +11,7 @@ Patch0:		gtk-3.12.2-quartz-theme.patch
 Patch1:		gtk-3.20.10-disable-assert.patch
 Patch2:		gtk3-quartz-menu-bug_r1.patch
 Patch3:		gtk-3.24.8-bundle-path.patch
-Patch4:		gtk3-monterey-version.patch
-Patch5:		gtk3-monterey-scale.patch
+Patch4:		gtk3-quartz-core.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildArch:      noarch
@@ -68,7 +67,6 @@ Static version of the Darwin Gtk3 library.
 %patch2 -p1
 %patch3 -p1
 %patch4 -p1
-%patch5 -p1
 
 %build
 %darwinx_meson \

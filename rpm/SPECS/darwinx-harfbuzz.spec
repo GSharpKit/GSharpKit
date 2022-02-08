@@ -51,6 +51,8 @@ Static version HarfBuzz is an implementation of the OpenType Layout engine.
 	--with-coretext=yes \
 	--disable-gtk-doc
 
+%{_darwinx_make} V=99
+
 %install
 rm -rf $RPM_BUILD_ROOT
 

@@ -14,7 +14,6 @@ Prefix:		/usr
 BuildArch:	noarch
 Source:		gstreamer-sharp-%{version}.tar.xz
 Source2:	netstandard.dll
-Requires:       darwinx-mono-core >= 6.12
 Requires:       darwinx-gstreamer1
 Requires:       darwinx-gstreamer1-plugins-base
 
@@ -49,14 +48,14 @@ EOF
 %darwinx_meson \
 	-Dtests=disabled
 
-cp %{SOURCE2} x86_64-apple-darwin13/
-cp /Library/Frameworks/GSharpKit/lib/GLibSharp.dll x86_64-apple-darwin13/subprojects/gtk-sharp/
-cp /Library/Frameworks/GSharpKit/lib/GioSharp.dll x86_64-apple-darwin13/subprojects/gtk-sharp/
-cp /Library/Frameworks/GSharpKit/lib/PangoSharp.dll x86_64-apple-darwin13/subprojects/gtk-sharp/
-cp /Library/Frameworks/GSharpKit/lib/CairoSharp.dll x86_64-apple-darwin13/subprojects/gtk-sharp/
-cp /Library/Frameworks/GSharpKit/lib/GdkSharp.dll x86_64-apple-darwin13/subprojects/gtk-sharp/
-cp /Library/Frameworks/GSharpKit/lib/AtkSharp.dll x86_64-apple-darwin13/subprojects/gtk-sharp/
-cp /Library/Frameworks/GSharpKit/lib/GtkSharp.dll x86_64-apple-darwin13/subprojects/gtk-sharp/
+cp %{SOURCE2} x86_64-apple-darwin18.2.0/
+cp /Library/Frameworks/GSharpKit/lib/GLibSharp.dll x86_64-apple-darwin18.2.0/subprojects/gtk-sharp/
+cp /Library/Frameworks/GSharpKit/lib/GioSharp.dll x86_64-apple-darwin18.2.0/subprojects/gtk-sharp/
+cp /Library/Frameworks/GSharpKit/lib/PangoSharp.dll x86_64-apple-darwin18.2.0/subprojects/gtk-sharp/
+cp /Library/Frameworks/GSharpKit/lib/CairoSharp.dll x86_64-apple-darwin18.2.0/subprojects/gtk-sharp/
+cp /Library/Frameworks/GSharpKit/lib/GdkSharp.dll x86_64-apple-darwin18.2.0/subprojects/gtk-sharp/
+cp /Library/Frameworks/GSharpKit/lib/AtkSharp.dll x86_64-apple-darwin18.2.0/subprojects/gtk-sharp/
+cp /Library/Frameworks/GSharpKit/lib/GtkSharp.dll x86_64-apple-darwin18.2.0/subprojects/gtk-sharp/
 
 %darwinx_meson_build
 
@@ -64,8 +63,8 @@ cp /Library/Frameworks/GSharpKit/lib/GtkSharp.dll x86_64-apple-darwin13/subproje
 %{__rm} -rf $RPM_BUILD_ROOT
 
 install -d -m 755 $RPM_BUILD_ROOT%{darwinx_prefix}%{libdir}
-install -m 644 x86_64-apple-darwin13/sources/gstreamer-sharp.dll $RPM_BUILD_ROOT%{darwinx_prefix}%{libdir}
-install -m 644 x86_64-apple-darwin13/sources/gstreamer-sharp.dll.config $RPM_BUILD_ROOT%{darwinx_prefix}%{libdir}
+install -m 644 x86_64-apple-darwin18.2.0/sources/gstreamer-sharp.dll $RPM_BUILD_ROOT%{darwinx_prefix}%{libdir}
+install -m 644 x86_64-apple-darwin18.2.0/sources/gstreamer-sharp.dll.config $RPM_BUILD_ROOT%{darwinx_prefix}%{libdir}
 
 install -d -m 755 %{buildroot}%{darwinx_prefix}/share/pkgconfig
 install -m 644 gstreamer-sharp-1.0.pc %{buildroot}%{darwinx_prefix}/share/pkgconfig
