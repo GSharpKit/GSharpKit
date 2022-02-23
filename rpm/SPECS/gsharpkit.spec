@@ -99,7 +99,7 @@
 %define MAILKIT_VERSION 3.1.0
 %define SERVICE_STACK_VERSION 6.0.0
 %define REST_SHARP_VERSION 106.15.0
-%define PDFSHARP_MIGRADOC_VERSION 1.51.15
+%define PDFSHARP_MIGRADOC_VERSION 1.51.16
 %define SPRACHE_VERSION 2.2.0
 #define SHARP_ZIP_LIB_VERSION 1.0.0
 #define LIBGPHOTO2_SHARP_VERSION 0.3.2
@@ -108,7 +108,7 @@
 Summary: 		Easy management of applications
 Name: 			GSharpKit
 Version:		35.0
-Release:		1%{?dist}
+Release:		2%{?dist}
 License:		GPL
 Group: 			Applications/Desktop
 Source1:		yum_ignoreos.conf
