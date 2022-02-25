@@ -4,7 +4,7 @@
 
 
 Name:		NHapiTools
-Version: 	1.9.0.0
+Version: 	2.0.3
 Release: 	1%{?dist}
 Summary: 	The NHapiTools are tools that will make using NHapi easier.
 Group: 		System Environment/Libraries
@@ -191,19 +191,19 @@ EOF
 rm -rf $RPM_BUILD_ROOT
 
 install -d -m 755 $RPM_BUILD_ROOT%{_prefix}%{libdir}/
-install -m 755 NHapiTools.%{version}/lib/NHapiTools.Base.dll $RPM_BUILD_ROOT%{_prefix}%{libdir}/
-install -m 755 NHapiTools.%{version}/lib/NHapiTools.Model.V21.dll $RPM_BUILD_ROOT%{_prefix}%{libdir}/
-install -m 755 NHapiTools.%{version}/lib/NHapiTools.Model.V22.dll $RPM_BUILD_ROOT%{_prefix}%{libdir}/
-install -m 755 NHapiTools.%{version}/lib/NHapiTools.Model.V23.dll $RPM_BUILD_ROOT%{_prefix}%{libdir}/
-install -m 755 NHapiTools.%{version}/lib/NHapiTools.Model.V231.dll $RPM_BUILD_ROOT%{_prefix}%{libdir}/
-install -m 755 NHapiTools.%{version}/lib/NHapiTools.Model.V24.dll $RPM_BUILD_ROOT%{_prefix}%{libdir}/
-install -m 755 NHapiTools.%{version}/lib/NHapiTools.Model.V25.dll $RPM_BUILD_ROOT%{_prefix}%{libdir}/
-install -m 755 NHapiTools.%{version}/lib/NHapiTools.Model.V251.dll $RPM_BUILD_ROOT%{_prefix}%{libdir}/
-install -m 755 NHapiTools.%{version}/lib/NHapiTools.Model.V26.dll $RPM_BUILD_ROOT%{_prefix}%{libdir}/
-install -m 755 NHapiTools.%{version}/lib/NHapiTools.Model.V27.dll $RPM_BUILD_ROOT%{_prefix}%{libdir}/
-install -m 755 NHapiTools.%{version}/lib/NHapiTools.Model.V271.dll $RPM_BUILD_ROOT%{_prefix}%{libdir}/
-install -m 755 NHapiTools.%{version}/lib/NHapiTools.Model.V28.dll $RPM_BUILD_ROOT%{_prefix}%{libdir}/
-install -m 755 NHapiTools.%{version}/lib/NHapiTools.Model.V281.dll $RPM_BUILD_ROOT%{_prefix}%{libdir}/
+install -m 755 NHapiTools.%{version}/lib/netstandard2.0/NHapiTools.Base.dll $RPM_BUILD_ROOT%{_prefix}%{libdir}/
+install -m 755 NHapiTools.%{version}/lib/netstandard2.0/NHapiTools.Model.V21.dll $RPM_BUILD_ROOT%{_prefix}%{libdir}/
+install -m 755 NHapiTools.%{version}/lib/netstandard2.0/NHapiTools.Model.V22.dll $RPM_BUILD_ROOT%{_prefix}%{libdir}/
+install -m 755 NHapiTools.%{version}/lib/netstandard2.0/NHapiTools.Model.V23.dll $RPM_BUILD_ROOT%{_prefix}%{libdir}/
+install -m 755 NHapiTools.%{version}/lib/netstandard2.0/NHapiTools.Model.V231.dll $RPM_BUILD_ROOT%{_prefix}%{libdir}/
+install -m 755 NHapiTools.%{version}/lib/netstandard2.0/NHapiTools.Model.V24.dll $RPM_BUILD_ROOT%{_prefix}%{libdir}/
+install -m 755 NHapiTools.%{version}/lib/netstandard2.0/NHapiTools.Model.V25.dll $RPM_BUILD_ROOT%{_prefix}%{libdir}/
+install -m 755 NHapiTools.%{version}/lib/netstandard2.0/NHapiTools.Model.V251.dll $RPM_BUILD_ROOT%{_prefix}%{libdir}/
+install -m 755 NHapiTools.%{version}/lib/netstandard2.0/NHapiTools.Model.V26.dll $RPM_BUILD_ROOT%{_prefix}%{libdir}/
+install -m 755 NHapiTools.%{version}/lib/netstandard2.0/NHapiTools.Model.V27.dll $RPM_BUILD_ROOT%{_prefix}%{libdir}/
+install -m 755 NHapiTools.%{version}/lib/netstandard2.0/NHapiTools.Model.V271.dll $RPM_BUILD_ROOT%{_prefix}%{libdir}/
+install -m 755 NHapiTools.%{version}/lib/netstandard2.0/NHapiTools.Model.V28.dll $RPM_BUILD_ROOT%{_prefix}%{libdir}/
+install -m 755 NHapiTools.%{version}/lib/netstandard2.0/NHapiTools.Model.V281.dll $RPM_BUILD_ROOT%{_prefix}%{libdir}/
 
 install -d -m 755 $RPM_BUILD_ROOT%{_datadir}/pkgconfig
 install -m 644 NHapiTools-v21.pc $RPM_BUILD_ROOT%{_datadir}/pkgconfig/

@@ -115,7 +115,7 @@ Source1:		yum_ignoreos.conf
 Source2:		yum_ignoreos.py
 Source3:		gsharpkit.repo
 Source4:		RPM-GPG-KEY-gsharpkit
-Source5:		macros.darwinx
+Source5:		macros.darwinx.gsharpkit
 Source6:		darwinx-cmake
 Source7:		darwinx-configure 
 Source8:		darwinx-make
@@ -526,8 +526,7 @@ cp %{SOURCE4} $RPM_BUILD_ROOT%{_sysconfdir}/pki/rpm-gpg/
 cp %{SOURCE13} $RPM_BUILD_ROOT%{_sysconfdir}/pki/rpm-gpg/
 
 mkdir -p $RPM_BUILD_ROOT%{_sysconfdir}/rpm
-cp %{SOURCE5} $RPM_BUILD_ROOT%{_sysconfdir}/rpm/
-sed -i -e 's! -headerpad_max_install_names!!g' $RPM_BUILD_ROOT%{_sysconfdir}/rpm/macros.darwinx
+cp %{SOURCE5} $RPM_BUILD_ROOT%{_sysconfdir}/rpm/macros.darwinx
 
 mkdir -p $RPM_BUILD_ROOT%{_bindir}
 cp %{SOURCE6} $RPM_BUILD_ROOT%{_bindir}/
