@@ -27,7 +27,8 @@ suites.
 
 %prep
 %setup -q
-
+sed -i -e 's!libgdl-3-5.dll!libgdl-3.so.5!g' sources/gdl-sharp-api.*
+ 
 %build
 sh autogen.sh --prefix=/usr
 make clean
@@ -42,9 +43,10 @@ make
 %install
 make install DESTDIR=$RPM_BUILD_ROOT
 
+rm -f $RPM_BUILD_ROOT%{_prefix}/lib/gdl-sharp.dll.config
+
 %files
 %{_prefix}/lib/gdl-sharp.dll
-%{_prefix}/lib/gdl-sharp.dll.config
 %{_datadir}/pkgconfig/gdl-sharp-3.pc
 
 %changelog

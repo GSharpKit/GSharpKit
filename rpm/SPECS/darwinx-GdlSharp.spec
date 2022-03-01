@@ -7,7 +7,7 @@ License:        LGPLv2+
 Group:          Development/Libraries
 URL:            https://github.com/GSharpKit/GdlSharp/releases
 Source0:        GdlSharp-%{version}.tar.xz
-Patch0:         gdl-sharp-ref.patch
+Patch0:         darwinx-gdl-sharp-ref.patch
 
 BuildArch:      noarch
 
@@ -25,6 +25,7 @@ suites.
 
 %prep
 %setup -q -n GdlSharp-%{version}
+sed -i -e 's!libgdl-3-5.dll!libgdl-3.5.dylib!g' sources/gdl-sharp-api.*
 
 sed -i '' 's!${NETSTANDARD_REFERENCE_DIR}!/Library/Frameworks/GSharpKit/lib/mono/xbuild-frameworks/.NETStandard/netstandard2.0!g' configure.ac
 
