@@ -4,7 +4,7 @@
 %define libdir /lib
 
 Name:           darwinx-System.DirectoryServices
-Version:        5.0.0
+Version:        6.0.0
 Release:        1%{?dist}
 Summary:        Provides easy access to Active Directory Domain Services.
 
@@ -15,14 +15,15 @@ Prefix:		/usr
 
 BuildArch:	noarch
 
+Requires:       darwinx-System.Security >= 6.0.0
+
 %description
 Provides easy access to Active Directory Domain Services.
 
 %prep
 %setup -q -T -c %{name}-%{version}
-nuget install %{pkg_name} -Version %{version}
+nuget install System.DirectoryServices -Version %{version}
 nuget install System.DirectoryServices.AccountManagement -Version %{version}
-nuget install System.Security.Principal.Windows -Version %{version}
 
 cat > %{pkg_name}.pc << \EOF
 prefix=%{_darwinx_prefix}
@@ -31,9 +32,9 @@ libdir=%{_darwinx_prefix}%{libdir}
 
 Name: %{pkg_name}
 Description: Provides easy access to Active Directory Domain Services.
-Requires:
+Requires: System.Security
 Version: %{version}
-Libs: -r:${libdir}/System.DirectoryServices.dll -r:${libdir}/System.DirectoryServices.AccountManagement.dll -r:${libdir}/System.Security.Principal.Windows.dll
+Libs: -r:${libdir}/System.DirectoryServices.dll -r:${libdir}/System.DirectoryServices.AccountManagement.dll -r:${libdir}/System.DirectoryServices.Protocols.dll
 Cflags:
 EOF
 
@@ -43,7 +44,10 @@ EOF
 %{__rm} -rf %{buildroot}
 
 install -d -m 755 $RPM_BUILD_ROOT%{_darwinx_prefix}%{libdir}
-find */lib/netstandard2.0/ -iname "*.dll" -exec install -m 644 {} $RPM_BUILD_ROOT%{_darwinx_prefix}%{libdir}/ \;
+install -d -m 755 $RPM_BUILD_ROOT%{_prefix}%{libdir}
+install -m 644 System.DirectoryServices.%{version}/lib/netstandard2.0/System.DirectoryServices.dll $RPM_BUILD_ROOT%{_darwinx_prefix}%{libdir}
+install -m 644 System.DirectoryServices.AccountManagement.%{version}/lib/netstandard2.0/System.DirectoryServices.AccountManagement.dll $RPM_BUILD_ROOT%{_darwinx_prefix}%{libdir}
+install -m 644 System.DirectoryServices.Protocols.%{version}/lib/netstandard2.0/System.DirectoryServices.Protocols.dll $RPM_BUILD_ROOT%{_darwinx_prefix}%{libdir}
 
 install -d -m 755 $RPM_BUILD_ROOT%{_darwinx_datadir}/pkgconfig/
 install -m 644 %{pkg_name}.pc $RPM_BUILD_ROOT%{_darwinx_datadir}/pkgconfig/
