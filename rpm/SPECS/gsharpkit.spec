@@ -79,6 +79,7 @@
 %define SYSTEM_RUNTIME_CACHING_VERSION 5.0.0
 %define SYSTEM_COMPONENTMODEL_ANNOTATIONS_VERSION 5.0.0
 %define SYSTEM_SERVICEMODEL_VERSION 4.9.0
+%define SYSTEM_DIRECTORY_SERVICES_VERSION 6.0.0
 %define MICROSOFT_CSHARP_VERSION 4.7.0
 %define MICROSOFT_DATA_SQLCLIENT 4.0.0
 
@@ -108,7 +109,7 @@
 Summary: 		Easy management of applications
 Name: 			GSharpKit
 Version:		35.0
-Release:		2%{?dist}
+Release:		3%{?dist}
 License:		GPL
 Group: 			Applications/Desktop
 Source1:		yum_ignoreos.conf
@@ -157,6 +158,7 @@ Requires:		System.Security >= %{SYSTEM_SECURITY_VERSION}
 Requires:		System.ServiceModel >= %{SYSTEM_SERVICEMODEL_VERSION}
 Requires:		System.Runtime.Caching >= %{SYSTEM_RUNTIME_CACHING_VERSION}
 Requires:		System.ComponentModel.Annotations >= %{SYSTEM_COMPONENTMODEL_ANNOTATIONS_VERSION}
+Requires:		System.DirectoryServices >= %{SYSTEM_DIRECTORY_SERVICES_VERSION}
 Requires:		Microsoft.CSharp >= %{MICROSOFT_CSHARP_VERSION}
 Requires:		Microsoft.Data.SqlClient >= %{MICROSOFT_DATA_SQLCLIENT}
 Requires:		Mono.Posix.NETStandard >= %{MONO_POSIX_NETSTANDARD_VERSION}
@@ -314,6 +316,7 @@ Requires:               mingw64-System.Security >= %{SYSTEM_SECURITY_VERSION}
 Requires:               mingw64-System.ServiceModel >= %{SYSTEM_SERVICEMODEL_VERSION}
 Requires:               mingw64-System.Runtime.Caching >= %{SYSTEM_RUNTIME_CACHING_VERSION}
 Requires:               mingw64-System.ComponentModel.Annotations >= %{SYSTEM_COMPONENTMODEL_ANNOTATIONS_VERSION}
+Requires:               mingw64-System.DirectoryServices >= %{SYSTEM_DIRECTORY_SERVICES_VERSION}
 Requires:               mingw64-Microsoft.CSharp >= %{MICROSOFT_CSHARP_VERSION}
 Requires:		mingw64-Microsoft.Data.SqlClient >= %{MICROSOFT_DATA_SQLCLIENT}
 Requires:               mingw64-Mono.Posix.NETStandard >= %{MONO_POSIX_NETSTANDARD_VERSION}
@@ -472,6 +475,7 @@ Requires:               darwinx-System.Security >= %{SYSTEM_SECURITY_VERSION}
 Requires:               darwinx-System.ServiceModel >= %{SYSTEM_SERVICEMODEL_VERSION}
 Requires:               darwinx-System.Runtime.Caching >= %{SYSTEM_RUNTIME_CACHING_VERSION}
 Requires:               darwinx-System.ComponentModel.Annotations >= %{SYSTEM_COMPONENTMODEL_ANNOTATIONS_VERSION}
+Requires:               darwinx-System.DirectoryServices >= %{SYSTEM_DIRECTORY_SERVICES_VERSION}
 Requires:               darwinx-Microsoft.CSharp >= %{MICROSOFT_CSHARP_VERSION}
 Requires:		darwinx-Microsoft.Data.SqlClient >= %{MICROSOFT_DATA_SQLCLIENT}
 Requires:               darwinx-Mono.Posix.NETStandard >= %{MONO_POSIX_NETSTANDARD_VERSION}
