@@ -1,7 +1,7 @@
 %{?mingw_package_header}
 
 %global mingw_pkg_name Mono.Addins
-%global mingw_build_win32 1
+%global mingw_build_win32 0
 %global mingw_build_win64 1
 
 %define debug_package %{nil}
@@ -10,30 +10,20 @@
 %define api_version 1.0.0.0
 
 Name:		mingw-Mono.Addins
-Version:	1.3.9
+Version:	1.3.12
 Release:	1%{?dist}
 Summary:	Addins for mono
 Group:		Development/Languages
 License:	MIT
-URL:		http://www.mono-project.com/
+URL:		https://github.com/mono/mono-addins
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-Source0:	Mono.Addins-%{version}.tar.xz
+Source0:	mono-addins-%{version}.tar.xz
 
 BuildArch: 	noarch
 
 BuildRequires:  mingw32-filesystem mingw64-filesystem
 
 %description
-Mono.Addins is a generic framework for creating extensible applications,
-and for creating libraries which extend those applications.
-
-# Mingw32
-%package -n mingw32-%{mingw_pkg_name}
-Summary:        %{summary}
-Obsoletes:      mingw32-mono-addins
-Provides:       mingw32-mono-addins
-
-%description -n mingw32-%{mingw_pkg_name}
 Mono.Addins is a generic framework for creating extensible applications,
 and for creating libraries which extend those applications.
 
@@ -50,23 +40,8 @@ and for creating libraries which extend those applications.
 
 %prep
 
-%setup -q -n %{mingw_pkg_name}-%{version}
-
-#setup -c %{name}-%{version} -T
+%setup -q -n mono-addins-%{version}
 #nuget install %{mingw_pkg_name} -Version %{version}
-
-cat > mono-addins32.pc << \EOF
-prefix=%{mingw32_prefix}
-exec_prefix=${prefix}
-libdir=%{mingw32_prefix}%{libdir}
-
-Name: %{mingw_pkg_name}
-Description: %{summary}
-Requires:
-Version: %{version}
-Libs: -r:${libdir}/%{mingw_pkg_name}.dll
-Cflags:
-EOF
 
 cat > mono-addins64.pc << \EOF
 prefix=%{mingw64_prefix}
@@ -82,19 +57,12 @@ Cflags:
 EOF
 
 %build
-nuget restore
+dotnet restore
 cd Mono.Addins
-msbuild /p:Configuration=Release Mono.Addins.csproj
+dotnet msbuild /p:Configuration=Release Mono.Addins.csproj
 
 %install
 %{__rm} -rf %{buildroot}
-
-# Mingw32
-install -d -m 755 $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir}
-install -m 644 bin/netstandard2.0/%{mingw_pkg_name}.dll $RPM_BUILD_ROOT%{mingw32_prefix}%{libdir}
-
-install -d -m 755 $RPM_BUILD_ROOT%{mingw32_datadir}/pkgconfig/
-install -m 644 mono-addins32.pc $RPM_BUILD_ROOT%{mingw32_datadir}/pkgconfig/mono-addins.pc
 
 # Mingw64
 install -d -m 755 $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir}
@@ -105,11 +73,6 @@ install -m 644 mono-addins64.pc $RPM_BUILD_ROOT%{mingw64_datadir}/pkgconfig/mono
 
 %clean
 %{__rm} -rf %{buildroot}
-
-%files -n mingw32-%{mingw_pkg_name} 
-%defattr(-,root,root,-)
-%{mingw32_prefix}%{libdir}/%{mingw_pkg_name}.dll
-%{mingw32_datadir}/pkgconfig/mono-addins.pc
 
 %files -n mingw64-%{mingw_pkg_name}
 %defattr(-,root,root,-)

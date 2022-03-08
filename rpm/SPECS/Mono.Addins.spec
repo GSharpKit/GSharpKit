@@ -1,14 +1,14 @@
 %define libdir /lib
 
 Name:		Mono.Addins
-Version:	1.3.9
+Version:	1.3.12
 Release:	1%{?dist}
 Summary:	Addins for mono
 Group:		Development/Languages
 License:	MIT
-URL:		https://www.nuget.org/packages/Mono.Addins
+URL:		https://github.com/mono/mono-addins
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-Source0:	Mono.Addins-%{version}.tar.xz
+Source0:	mono-addins-%{version}.tar.xz
 Prefix:		/usr
 
 BuildArch: 	noarch
@@ -23,7 +23,7 @@ Mono.Addins is a generic framework for creating extensible applications,
 and for creating libraries which extend those applications.
 
 %prep
-%setup -q -n %{name}-%{version}
+%setup -q -n mono-addins-%{version}
 #nuget install %{name} -Version %{version}
 
 cat > mono-addins.pc << \EOF
@@ -40,9 +40,9 @@ Cflags:
 EOF
 
 %build
-nuget restore
+dotnet restore
 cd Mono.Addins
-msbuild /p:Configuration=Release Mono.Addins.csproj 
+dotnet msbuild /p:Configuration=Release Mono.Addins.csproj 
 
 %install
 %{__rm} -rf %{buildroot}

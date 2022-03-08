@@ -7,6 +7,7 @@ ADD packages/*.noarch.rpm /tmp/
 RUN rpm -Uvh --nodeps --ignoreos /tmp/*.noarch.rpm && rm -f /tmp/*.noarch.rpm
 
 RUN dnf -y install python2.7 hunspell-da hunspell-en-GB hunspell-en-US GSharpKit-runtime GSharpKit-sdk GSharpKit-sdk-darwinx && dnf clean all && rm -rf /var/cache/dnf
+RUN ln -s /usr/share/dotnet/sdk /usr/lib64/dotnet/sdk
 
 RUN mkdir /Library/Frameworks/GSharpKit/share/myspell ; cp /usr/share/myspell/da_DK.aff /usr/share/myspell/da_DK.dic /usr/share/myspell/en_GB.aff /usr/share/myspell/en_GB.dic /usr/share/myspell/en_US.aff /usr/share/myspell/en_US.dic /Library/Frameworks/GSharpKit/share/myspell/
 

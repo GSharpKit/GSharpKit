@@ -93,7 +93,7 @@
 %define GTK_MAC_INTEGRATION_SHARP_VERSION 2.0.7
 
 %define NPGSQL_VERSION 6.0.2
-%define MONO_ADDINS_VERSION 1.3.9
+%define MONO_ADDINS_VERSION 1.3.12
 %define NEWTONSOFT_JSON_VERSION 13.0.1
 %define BOUNCY_CASTLE_VERSION 1.9.0
 %define MIMEKIT_VERSION 3.1.0
@@ -109,7 +109,7 @@
 Summary: 		Easy management of applications
 Name: 			GSharpKit
 Version:		35.0
-Release:		3%{?dist}
+Release:		4%{?dist}
 License:		GPL
 Group: 			Applications/Desktop
 Source1:		yum_ignoreos.conf
