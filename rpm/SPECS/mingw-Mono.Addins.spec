@@ -41,7 +41,7 @@ and for creating libraries which extend those applications.
 %prep
 
 %setup -q -n mono-addins-%{version}
-#nuget install %{mingw_pkg_name} -Version %{version}
+nuget install Mono.Cecil -Version 0.11.4
 
 cat > mono-addins64.pc << \EOF
 prefix=%{mingw64_prefix}
@@ -52,21 +52,23 @@ Name: %{mingw_pkg_name}
 Description: %{summary}
 Requires:
 Version: %{version}
-Libs: -r:${libdir}/%{mingw_pkg_name}.dll
+Libs: -r:${libdir}/Mono.Addins.dll -r:${libdir}/Mono.Addins.CecilReflector.dll -r:${libdir}/Mono.Cecil.dll
 Cflags:
 EOF
 
 %build
 dotnet restore
-cd Mono.Addins
-dotnet msbuild /p:Configuration=Release Mono.Addins.csproj
+cd Mono.Addins.CecilReflector
+dotnet msbuild /p:Configuration=Release Mono.Addins.CecilReflector.csproj
 
 %install
 %{__rm} -rf %{buildroot}
 
 # Mingw64
 install -d -m 755 $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir}
-install -m 644 bin/netstandard2.0/%{mingw_pkg_name}.dll $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir}
+install -m 644 bin/netstandard2.0/Mono.Addins.dll $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir}
+install -m 644 bin/netstandard2.0/Mono.Addins.CecilReflector.dll $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir}
+install -m 644 Mono.Cecil.0.11.4/lib/netstandard2.0/Mono.Cecil.dll $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir}
 
 install -d -m 755 $RPM_BUILD_ROOT%{mingw64_datadir}/pkgconfig/
 install -m 644 mono-addins64.pc $RPM_BUILD_ROOT%{mingw64_datadir}/pkgconfig/mono-addins.pc
@@ -76,7 +78,9 @@ install -m 644 mono-addins64.pc $RPM_BUILD_ROOT%{mingw64_datadir}/pkgconfig/mono
 
 %files -n mingw64-%{mingw_pkg_name}
 %defattr(-,root,root,-)
-%{mingw64_prefix}%{libdir}/%{mingw_pkg_name}.dll
+%{mingw64_prefix}%{libdir}/Mono.Addins.dll
+%{mingw64_prefix}%{libdir}/Mono.Addins.CecilReflector.dll
+%{mingw64_prefix}%{libdir}/Mono.Cecil.dll
 %{mingw64_datadir}/pkgconfig/mono-addins.pc
 
 %changelog
