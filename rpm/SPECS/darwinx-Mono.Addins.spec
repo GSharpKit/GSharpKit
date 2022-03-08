@@ -3,14 +3,14 @@
 %define pkg_name Mono.Addins
 
 Name:		darwinx-Mono.Addins
-Version:	1.3.9
+Version:	1.3.12
 Release:	1%{?dist}
 Summary:	Addins for mono
 Group:		Development/Languages
 License:	MIT
 URL:		http://www.mono-project.com/
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-Source0:        Mono.Addins-%{version}.tar.xz
+Source0:        mono-addins-%{version}.tar.xz
 BuildArch: 	noarch
 
 BuildRequires:  darwinx-filesystem-base >= 18
@@ -25,7 +25,7 @@ Mono.Addins is a generic framework for creating extensible applications,
 and for creating libraries which extend those applications.
 
 %prep
-%setup -q -n Mono.Addins-%{version}
+%setup -q -n mono-addins-%{version}
 #nuget install Mono.Addins -Version %{version}
 
 cat > mono-addins.pc << \EOF
@@ -42,9 +42,9 @@ Cflags:
 EOF
 
 %build
-nuget restore
+dotnet restore
 cd Mono.Addins
-msbuild /p:Configuration=Release Mono.Addins.csproj
+dotnet msbuild /p:Configuration=Release Mono.Addins.csproj
 
 %install
 %{__rm} -rf %{buildroot}
