@@ -109,7 +109,7 @@
 Summary: 		Easy management of applications
 Name: 			GSharpKit
 Version:		35.0
-Release:		4%{?dist}
+Release:		5%{?dist}
 License:		GPL
 Group: 			Applications/Desktop
 Source1:		yum_ignoreos.conf
