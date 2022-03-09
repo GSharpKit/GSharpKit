@@ -44,7 +44,7 @@ EOF
 install -d -m 755 $RPM_BUILD_ROOT%{_prefix}%{libdir}
 install -m 644 System.DirectoryServices.%{version}/lib/netstandard2.0/System.DirectoryServices.dll $RPM_BUILD_ROOT%{_prefix}%{libdir}
 install -m 644 System.DirectoryServices.AccountManagement.%{version}/lib/netstandard2.0/System.DirectoryServices.AccountManagement.dll $RPM_BUILD_ROOT%{_prefix}%{libdir}
-install -m 644 System.DirectoryServices.Protocols.%{version}/lib/netstandard2.0/System.DirectoryServices.Protocols.dll $RPM_BUILD_ROOT%{_prefix}%{libdir}
+install -m 644 System.DirectoryServices.Protocols.%{version}/runtimes/linux/lib/net6.0/System.DirectoryServices.Protocols.dll $RPM_BUILD_ROOT%{_prefix}%{libdir}
 
 install -d -m 755 $RPM_BUILD_ROOT%{_datadir}/pkgconfig/
 install -m 644 System.DirectoryServices.pc $RPM_BUILD_ROOT%{_datadir}/pkgconfig/
@@ -58,5 +58,7 @@ install -m 644 System.DirectoryServices.pc $RPM_BUILD_ROOT%{_datadir}/pkgconfig/
 %{_datadir}/pkgconfig/System.DirectoryServices.pc
 
 %changelog
+* Wed Mar 9 2022 Mikkel Kruse Johnsen <mikkel@xmedicus.com> - 6.0.0
+- Use runtime
 * Wed Jul 15 2020 Mikkel Kruse Johnsen <mikkel@xmedicus.com> - 4.7.0
 - Initial version

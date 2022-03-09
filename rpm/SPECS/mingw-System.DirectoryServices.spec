@@ -61,9 +61,9 @@ EOF
 
 # Mingw64
 install -d -m 755 $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir}
-install -m 644 System.DirectoryServices.%{version}/lib/netstandard2.0/System.DirectoryServices.dll $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir}
-install -m 644 System.DirectoryServices.AccountManagement.%{version}/lib/netstandard2.0/System.DirectoryServices.AccountManagement.dll $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir}
-install -m 644 System.DirectoryServices.Protocols.%{version}/lib/netstandard2.0/System.DirectoryServices.Protocols.dll $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir}
+install -m 644 System.DirectoryServices.%{version}/runtimes/win/lib/net6.0/System.DirectoryServices.dll $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir}
+install -m 644 System.DirectoryServices.AccountManagement.%{version}/runtimes/win/lib/net6.0/System.DirectoryServices.AccountManagement.dll $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir}
+install -m 644 System.DirectoryServices.Protocols.%{version}/runtimes/win/lib/net6.0/System.DirectoryServices.Protocols.dll $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir}
 
 install -d -m 755 $RPM_BUILD_ROOT%{mingw64_datadir}/pkgconfig/
 install -m 644 %{mingw_pkg_name}64.pc $RPM_BUILD_ROOT%{mingw64_datadir}/pkgconfig/%{mingw_pkg_name}.pc
@@ -77,5 +77,7 @@ install -m 644 %{mingw_pkg_name}64.pc $RPM_BUILD_ROOT%{mingw64_datadir}/pkgconfi
 %{mingw64_datadir}/pkgconfig/%{mingw_pkg_name}.pc
 
 %changelog
+* Wed Mar 9 2022 Mikkel Kruse Johnsen <mikkel@xmedicus.com> - 6.0.0
+- Use runtime
 * Mon Nov 12 2018 Mikkel Kruse Johnsen <mikkel@xmedicus.com> - 4.5.0-1
 - Initial version

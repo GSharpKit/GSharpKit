@@ -62,5 +62,7 @@ install -m 644 %{pkg_name}.pc $RPM_BUILD_ROOT%{_darwinx_datadir}/pkgconfig/
 
 
 %changelog
+* Wed Mar 9 2022 Mikkel Kruse Johnsen <mikkel@xmedicus.com> - 6.0.0
+- Use runtime
 * Fri Apr 16 2021 Mikkel Kruse Johnsen <mikkel@xmedicus.com>
 - Initial version
