@@ -47,7 +47,7 @@ install -d -m 755 $RPM_BUILD_ROOT%{_darwinx_prefix}%{libdir}
 install -d -m 755 $RPM_BUILD_ROOT%{_prefix}%{libdir}
 install -m 644 System.DirectoryServices.%{version}/lib/netstandard2.0/System.DirectoryServices.dll $RPM_BUILD_ROOT%{_darwinx_prefix}%{libdir}
 install -m 644 System.DirectoryServices.AccountManagement.%{version}/lib/netstandard2.0/System.DirectoryServices.AccountManagement.dll $RPM_BUILD_ROOT%{_darwinx_prefix}%{libdir}
-install -m 644 System.DirectoryServices.Protocols.%{version}/lib/netstandard2.0/System.DirectoryServices.Protocols.dll $RPM_BUILD_ROOT%{_darwinx_prefix}%{libdir}
+install -m 644 System.DirectoryServices.Protocols.%{version}/runtimes/osx/lib/net6.0/System.DirectoryServices.Protocols.dll $RPM_BUILD_ROOT%{_darwinx_prefix}%{libdir}
 
 install -d -m 755 $RPM_BUILD_ROOT%{_darwinx_datadir}/pkgconfig/
 install -m 644 %{pkg_name}.pc $RPM_BUILD_ROOT%{_darwinx_datadir}/pkgconfig/
