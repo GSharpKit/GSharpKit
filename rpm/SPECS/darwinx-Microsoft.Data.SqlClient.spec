@@ -7,7 +7,7 @@
 
 Name:           darwinx-Microsoft.Data.SqlClient
 Version:        4.0.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Provides the data provider for MS SQL Server.
 
 Group:          Development/Languages
@@ -23,6 +23,7 @@ SQL Server and encapsulate database-specific protocols, including tabular data s
 %prep
 %setup -c %{name}-%{version} -T
 nuget install Microsoft.Data.SqlClient -Version %{version}
+nuget install Microsoft.Identity.Client -Version 4.22.0
 
 cat > Microsoft.Data.SqlClient.pc << \EOF
 prefix=%{_darwinx_prefix}
@@ -44,6 +45,7 @@ EOF
 
 install -d -m 755 $RPM_BUILD_ROOT%{_darwinx_prefix}%{libdir}
 install -m 644 Microsoft.Data.SqlClient.%{version}/runtimes/unix/lib/netstandard2.0/Microsoft.Data.SqlClient.dll $RPM_BUILD_ROOT%{_darwinx_prefix}%{libdir}/
+install -m 644 Microsoft.Identity.Client.4.22.0/lib/netstandard1.3/Microsoft.Identity.Client.dll $RPM_BUILD_ROOT%{_darwinx_prefix}%{libdir}
 
 install -d -m 755 $RPM_BUILD_ROOT%{_darwinx_datadir}/pkgconfig/
 install -m 644 Microsoft.Data.SqlClient.pc $RPM_BUILD_ROOT%{_darwinx_datadir}/pkgconfig/
@@ -54,6 +56,7 @@ install -m 644 Microsoft.Data.SqlClient.pc $RPM_BUILD_ROOT%{_darwinx_datadir}/pk
 %files
 %defattr(-,root,root,-)
 %{_darwinx_prefix}%{libdir}/Microsoft.Data.SqlClient.dll
+%{_darwinx_prefix}%{libdir}/Microsoft.Identity.Client.dll
 %{_darwinx_datadir}/pkgconfig/Microsoft.Data.SqlClient.pc
 
 
