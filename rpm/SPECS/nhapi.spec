@@ -7,7 +7,7 @@
 
 Name:		nHapi
 Version: 	3.1.1
-Release: 	1%{?dist}
+Release: 	2%{?dist}
 Summary: 	nHapi allows Microsoft .NET developers to easily use an HL7 2.x object model.
 Group: 		System Environment/Libraries
 License: 	MPL 1.1
@@ -20,6 +20,8 @@ BuildRequires:	nuget
 
 Obsoletes:	NHapi-devel NHapi
 Provides:	NHapi-devel NHapi
+
+Requires:	System.Security >= 6.0.0
 
 %description
 nHapi is a port of the original project HAPI.
@@ -215,8 +217,6 @@ install -m 644 nhapi.%{version}/lib/netstandard2.0/NHapi.Model.V271.dll $RPM_BUI
 install -m 644 nhapi.%{version}/lib/netstandard2.0/NHapi.Model.V28.dll $RPM_BUILD_ROOT%{_prefix}%{libdir}/
 install -m 644 nhapi.%{version}/lib/netstandard2.0/NHapi.Model.V281.dll $RPM_BUILD_ROOT%{_prefix}%{libdir}/
 
-install -m 644 System.Configuration.ConfigurationManager.5.0.0/lib/netstandard2.0/System.Configuration.ConfigurationManager.dll $RPM_BUILD_ROOT%{_prefix}%{libdir}/
-
 install -d -m 755 $RPM_BUILD_ROOT%{_datadir}/pkgconfig
 install -m 644 nHapi-v21.pc $RPM_BUILD_ROOT%{_datadir}/pkgconfig/
 install -m 644 nHapi-v22.pc $RPM_BUILD_ROOT%{_datadir}/pkgconfig/
@@ -249,7 +249,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_prefix}/%{libdir}/NHapi.Model.V271.dll
 %{_prefix}/%{libdir}/NHapi.Model.V28.dll
 %{_prefix}/%{libdir}/NHapi.Model.V281.dll
-%{_prefix}/%{libdir}/System.Configuration.ConfigurationManager.dll
 %{_datadir}/pkgconfig/nHapi-v21.pc
 %{_datadir}/pkgconfig/nHapi-v22.pc
 %{_datadir}/pkgconfig/nHapi-v23.pc

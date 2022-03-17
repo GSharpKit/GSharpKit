@@ -12,7 +12,7 @@
 
 Name:           mingw-System.Security
 Version:        6.0.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        System Security libraries
 
 Group:          Development/Languages
@@ -54,6 +54,8 @@ nuget install System.Security.Cryptography.Pkcs -Version %{version}
 nuget install System.Security.AccessControl -Version %{version}
 nuget install System.Security.Principal.Windows -Version 5.0.0
 nuget install System.Security.Permissions -Version %{version}
+nuget install System.Security.Cryptography.ProtectedData -Version %{version}
+nuget install System.Configuration.ConfigurationManager -Version 5.0.0
 
 cat > System.Security.pc << \EOF
 prefix=%{mingw64_prefix}
