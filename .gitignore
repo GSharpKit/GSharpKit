@@ -4,8 +4,11 @@
 *.old
 
 GSharpKit.json
+GSharpSdk.json
 make-msi32.sh
 make-msi64.sh
+make-msisdk.sh
+
 
 GSharpKit-*.pkg
 make-pkg.sh
