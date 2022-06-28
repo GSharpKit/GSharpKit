@@ -36,6 +36,7 @@ Managed C# implementation of DBus
 # Mingw64
 %package -n mingw64-%{mingw_pkg_name}
 Summary:       %{summary}
+AutoReqProv:    no
 
 %description -n mingw64-%{mingw_pkg_name}
 Managed C# implementation of DBus
@@ -43,19 +44,6 @@ Managed C# implementation of DBus
 %prep
 %setup -c %{name}-%{version} -T
 nuget install Tmds.DBus -Version %{version}
-
-cat > DBusSharp.pc << \EOF
-prefix=%{mingw64_prefix}
-exec_prefix=${prefix}
-libdir=%{mingw64_prefix}%{libdir}
-
-Name: DBusSharp
-Description: Managed C# implementation of DBus
-Requires: mingw64-System.Common mingw64-System.Security
-Version: %{version}
-Libs: -r:${libdir}/Tmds.DBus.dll
-Cflags:
-EOF
 
 %build
 
@@ -65,16 +53,12 @@ EOF
 install -d -m 755 $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir}
 install -m 644 Tmds.DBus.%{version}/lib/netstandard2.0/Tmds.DBus.dll $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir}
 
-install -d -m 755 $RPM_BUILD_ROOT%{mingw64_datadir}/pkgconfig/
-install -m 644 DBusSharp.pc $RPM_BUILD_ROOT%{mingw64_datadir}/pkgconfig/
-
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 %files -n mingw64-%{mingw_pkg_name}
 %defattr(-,root,root,-)
 %{mingw64_prefix}/%{libdir}/Tmds.DBus.dll
-%{mingw64_datadir}/pkgconfig/DBusSharp.pc
 
 %changelog
 * Sun Jan 16 2022 Mikkel Kruse Johnsen <mikkel@xmedicus.com> - 0.9.1-1

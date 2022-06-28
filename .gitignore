@@ -1,6 +1,7 @@
 *.bak
 *.msi
 *.swp
+*.old
 
 GSharpKit.json
 make-msi32.sh
@@ -51,3 +52,10 @@ rpm/SOURCES/gmodule-win32-internals.h
 rpm/SOURCES/monodevelop-beta-rpmlintrc
 rpm/SOURCES/oauth2.snk
 rpm/SOURCES/125.patch
+rpm/SOURCES/cairo-1.17.6-meson-fixes.patch
+rpm/SOURCES/gdkkeys-win32.h
+rpm/SOURCES/gir.core-0.99/
+rpm/SOURCES/gtk+-array-bounds.patch
+rpm/SOURCES/gtk+-libhid.patch
+rpm/SOURCES/tepl6.patch
+

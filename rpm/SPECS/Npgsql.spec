@@ -10,7 +10,7 @@
 %define libdir /lib
 
 Name:           Npgsql
-Version:        6.0.3
+Version:        6.0.5
 Release:        1%{?dist}
 Summary:        Postgresql database connectivity for C#
 
@@ -20,11 +20,9 @@ URL:            http://npgsql.projects.pgfoundry.org/
 Prefix:		/usr
 
 BuildArch:	noarch
+AutoReqProv:    no
 
 BuildRequires:  nuget
-
-Requires:	System.Common >= 1.0.0
-Requires:	System.Security >= 6.0.0
 
 %description
 This package contains the ADO.NET Data provider for the PostgreSQL
@@ -34,29 +32,13 @@ database.
 %setup -c %{name}-%{version} -T
 nuget install %{name} -Version %{version}
 
-cat > Npgsql.pc << \EOF
-prefix=%{_prefix}
-exec_prefix=${prefix}
-libdir=%{_prefix}%{libdir}
-
-Name: Npgsql
-Description: Npgsql - Postgresql database connectivity for C#
-Requires: System.Common System.Security
-Version: %{version}
-Libs: -r:${libdir}/Npgsql.dll
-Cflags:
-EOF
-
 %build
 
 %install
 %{__rm} -rf %{buildroot}
 
 install -d -m 755 $RPM_BUILD_ROOT%{_prefix}%{libdir}
-install -m 644 Npgsql.%{version}/lib/netstandard2.0/Npgsql.dll $RPM_BUILD_ROOT%{_prefix}%{libdir}/
-
-install -d -m 755 $RPM_BUILD_ROOT%{_datadir}/pkgconfig/
-install -m 644 Npgsql.pc $RPM_BUILD_ROOT%{_datadir}/pkgconfig/
+install -m 644 Npgsql.%{version}/lib/net6.0/Npgsql.dll $RPM_BUILD_ROOT%{_prefix}%{libdir}/
 
 %clean
 #%{__rm} -rf %{buildroot}
@@ -64,7 +46,6 @@ install -m 644 Npgsql.pc $RPM_BUILD_ROOT%{_datadir}/pkgconfig/
 %files
 %defattr(-,root,root,-)
 %{_prefix}%{libdir}/Npgsql.dll
-%{_datadir}/pkgconfig/Npgsql.pc
 
 %changelog
 * Thu Aug 26 2021 Mikkel Kruse Johnsen <mikkel@xmedicus.com> - 4.0.7

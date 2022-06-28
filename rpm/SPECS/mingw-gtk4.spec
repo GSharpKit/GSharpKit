@@ -1,41 +1,25 @@
-%{?mingw_package_header}
+%?mingw_package_header
 
 %global mingw_build_win32 0
 %global mingw_build_win64 1
 
-%global bin_version 3.0.0
+%global bin_version 4.0.0
+
 # first two digits of version
 %define release_version %(echo %{version} | awk -F. '{print $1"."$2}')
 
-# Only enable if using patches that touches configure.ac,
-# Makefile.am or other build system related files
-%define enable_autoreconf 0
-
-Name:           mingw-gtk3
-# Drop Source2 on next update!
-Version:        3.24.34
-Release:        2%{?dist}
+Name:           mingw-gtk4
+Version:        4.6.5
+Release:        1%{?dist}
 Summary:        MinGW Windows GTK+ library
 
 License:        LGPLv2+
 URL:            http://www.gtk.org
-Source0:        http://download.gnome.org/sources/gtk+/%{release_version}/gtk+-%{version}.tar.xz
-# wine /usr/i686-w64-mingw32/sys-root/mingw/bin/gtk-query-immodules-3.0.exe | sed -e 's@Z:/usr/i686-w64-mingw32/sys-root/mingw@..@' -e 's@/usr/i686-w64-mingw32/sys-root/mingw@..@' > gtk.immodules
-Source1:        gtk.immodules
-# File missing from tarball: https://gitlab.gnome.org/GNOME/gtk/-/commit/aa89959942cf80f7a6c3c19dfdf3f3424decb411
-Source2:        https://gitlab.gnome.org/GNOME/gtk/-/raw/gtk-3-24/gdk/win32/gdkkeys-win32.h
-
-# Add missing libhid link library
-Patch0:         gtk+-libhid.patch
-# Drop -Werror=array-bounds, causes build to fail
-Patch1:         gtk+-array-bounds.patch
+Source0:        http://download.gnome.org/sources/gtk/%{release_version}/gtk-%{version}.tar.xz
 
 BuildArch:      noarch
 
 BuildRequires:  gcc
-BuildRequires:  meson
-BuildRequires:  ninja-build
-
 BuildRequires:  mingw64-filesystem >= 98
 BuildRequires:  mingw64-gcc
 BuildRequires:  mingw64-binutils
@@ -50,25 +34,20 @@ BuildRequires:  mingw64-win-iconv
 BuildRequires:  mingw64-pango
 BuildRequires:  mingw64-pixman
 BuildRequires:  mingw64-zlib
+BuildRequires:  mingw64-vulkan-headers
+BuildRequires:  mingw64-vulkan-loader
+BuildRequires:  mingw64-graphene
 
 # Native one for msgfmt
 BuildRequires:  gettext
 # Native one for glib-genmarshal
 BuildRequires:  glib2-devel
 # Native one for gtk-update-icon-cache
-BuildRequires:  gtk-update-icon-cache
+BuildRequires:  gtk4
 # Native one for gdk-pixbuf-csource
 BuildRequires:  gdk-pixbuf2-devel
 # Native one for /usr/bin/perl
 BuildRequires:  perl-interpreter
-
-%if 0%{?enable_autoreconf}
-BuildRequires:  autoconf
-BuildRequires:  automake
-BuildRequires:  gobject-introspection-devel
-BuildRequires:  libtool
-%endif
-
 
 %description
 GTK+ is a multi-platform toolkit for creating graphical user
@@ -79,13 +58,11 @@ suites.
 This package contains the MinGW Windows cross compiled GTK+ 3 library.
 
 
-%package -n mingw64-gtk3
+%package -n mingw64-gtk4
 Summary:        MinGW Windows GTK+ library
 Requires:       mingw64-adwaita-icon-theme
-# split out in a subpackage
-Requires:       mingw64-gtk-update-icon-cache
 
-%description -n mingw64-gtk3
+%description -n mingw64-gtk4
 GTK+ is a multi-platform toolkit for creating graphical user
 interfaces. Offering a complete set of widgets, GTK+ is suitable for
 projects ranging from small one-off tools to complete application
@@ -93,201 +70,80 @@ suites.
 
 This package contains the MinGW Windows cross compiled GTK+ 3 library.
 
-
-%package -n mingw64-gtk-update-icon-cache
-Summary: Icon theme caching utility
-
-%description -n mingw64-gtk-update-icon-cache
-GTK+ can use the cache files created by gtk-update-icon-cache to avoid a lot of
-system call and disk seek overhead when the application starts. Since the
-format of the cache files allows them to be mmap()ed shared between multiple
-applications, the overall memory consumption is reduced as well.
-
-This package contains the MinGW Windows cross compiled gtk-update-icon-cache.
-
-
 %{?mingw_debug_package}
 
-
 %prep
-%autosetup -p1 -n gtk+-%{version}
-%if 0%{?enable_autoreconf}
-autoreconf --install --force
-%endif
-chmod +x ./gtk/generate-uac-manifest.py
-cp -a %{SOURCE2} gdk/win32/gdkkeys-win32.h
-
+%setup -q -n gtk-%{version}
 
 %build
-%mingw_meson -Dintrospection=false -Dbuiltin_immodules=no
+%mingw_meson -Dwin32-backend=true -Dmedia-gstreamer=enabled -Dmedia-ffmpeg=disabled -Dprint-cups=enabled -Dvulkan=enabled -Dgtk_doc=false -Dman-pages=false -Ddemos=true -Dbuild-examples=false -Dbuild-tests=false -Dinstall-tests=false
 %mingw_ninja
-
 
 %install
 %mingw_ninja_install
+#mingw_make install DESTDIR=$RPM_BUILD_ROOT
 
-rm -f %{buildroot}/%{mingw64_libdir}/charset.alias
+#rm -f $RPM_BUILD_ROOT/%{mingw64_libdir}/charset.alias
 
 # Remove manpages which duplicate those in Fedora native.
-rm -rf %{buildroot}%{mingw64_mandir}
+#rm -rf $RPM_BUILD_ROOT%{mingw64_mandir}
 
 # Remove documentation too.
-rm -rf %{buildroot}%{mingw64_datadir}/gtk-doc
+#rm -rf $RPM_BUILD_ROOT%{mingw64_datadir}/gtk-doc
 
 # Remove unneeded files
-rm -f %{buildroot}%{mingw64_libdir}/*.def
+#rm -f $RPM_BUILD_ROOT%{mingw64_libdir}/*.def
 
 # Remove files used only for tests.
-rm -f %{buildroot}%{mingw64_bindir}/libgtkreftestprivate-0.dll
-rm -f %{buildroot}%{mingw64_libdir}/libgtkreftestprivate.dll.a
+#rm -f $RPM_BUILD_ROOT%{mingw64_bindir}/libgtkreftestprivate-0.dll
+#rm -f $RPM_BUILD_ROOT%{mingw64_libdir}/libgtkreftestprivate.dll.a
 
-rm -f %{buildroot}%{mingw64_libdir}/*.la
-rm -f %{buildroot}%{mingw64_libdir}/gtk-3.0/%{bin_version}/immodules/*.dll.a
-rm -f %{buildroot}%{mingw64_libdir}/gtk-3.0/%{bin_version}/immodules/*.la
+#rm -f $RPM_BUILD_ROOT%{mingw64_libdir}/*.la
+#rm -f $RPM_BUILD_ROOT%{mingw64_libdir}/gtk-3.0/%{bin_version}/immodules/*.dll.a
+#rm -f $RPM_BUILD_ROOT%{mingw64_libdir}/gtk-3.0/%{bin_version}/immodules/*.la
 
 # Remove desktop files and corresponding icons as they aren't useful for win32
-rm -f %{buildroot}%{mingw64_datadir}/applications/*.desktop
-rm -f %{buildroot}%{mingw64_datadir}/icons/hicolor/*/apps/*.png
-
-# Install the gtk.immodules file
-mkdir -p %{buildroot}%{mingw64_sysconfdir}/gtk-3.0/
-install -m 0644 %{SOURCE1} %{buildroot}%{mingw64_sysconfdir}/gtk-3.0/
+#rm -f $RPM_BUILD_ROOT%{mingw64_datadir}/applications/*.desktop
+#rm -f $RPM_BUILD_ROOT%{mingw64_datadir}/icons/hicolor/*/apps/*.png
 
 %mingw_find_lang %{name} --all-name
 
-
-%postun -n mingw64-gtk3
+%postun -n mingw64-gtk4
 if [ $1 -eq 0 ] ; then
     /usr/bin/glib-compile-schemas %{mingw64_datadir}/glib-2.0/schemas &> /dev/null || :
 fi
 
-%posttrans -n mingw64-gtk3
+%posttrans -n mingw64-gtk4
 /usr/bin/glib-compile-schemas %{mingw64_datadir}/glib-2.0/schemas &> /dev/null || :
 
 
-%files -n mingw64-gtk3 -f mingw64-%{name}.lang
+%files -n mingw64-gtk4 -f mingw64-%{name}.lang
 %license COPYING
-%{mingw64_bindir}/gtk3-demo-application.exe
-%{mingw64_bindir}/gtk3-demo.exe
-%{mingw64_bindir}/gtk3-icon-browser.exe
-%{mingw64_bindir}/gtk3-widget-factory.exe
-%{mingw64_bindir}/gtk-builder-tool.exe
-%{mingw64_bindir}/gtk-encode-symbolic-svg.exe
-%{mingw64_bindir}/gtk-launch.exe
-%{mingw64_bindir}/gtk-query-immodules-3.0.exe
-%{mingw64_bindir}/gtk-query-settings.exe
-%{mingw64_bindir}/libgdk-3-0.dll
-%{mingw64_bindir}/libgailutil-3-0.dll
-%{mingw64_bindir}/libgtk-3-0.dll
-%{mingw64_sysconfdir}/gtk-3.0/
-%{mingw64_includedir}/gtk-3.0/
-%{mingw64_includedir}/gail-3.0/
-%dir %{mingw64_libdir}/gtk-3.0
-%dir %{mingw64_libdir}/gtk-3.0/%{bin_version}
-%dir %{mingw64_libdir}/gtk-3.0/%{bin_version}/immodules
-%{mingw64_libdir}/gtk-3.0/%{bin_version}/immodules/im-am-et.dll
-%{mingw64_libdir}/gtk-3.0/%{bin_version}/immodules/im-cedilla.dll
-%{mingw64_libdir}/gtk-3.0/%{bin_version}/immodules/im-cyrillic-translit.dll
-%{mingw64_libdir}/gtk-3.0/%{bin_version}/immodules/im-ime.dll
-%{mingw64_libdir}/gtk-3.0/%{bin_version}/immodules/im-inuktitut.dll
-%{mingw64_libdir}/gtk-3.0/%{bin_version}/immodules/im-ipa.dll
-%{mingw64_libdir}/gtk-3.0/%{bin_version}/immodules/im-multipress.dll
-%{mingw64_libdir}/gtk-3.0/%{bin_version}/immodules/im-thai.dll
-%{mingw64_libdir}/gtk-3.0/%{bin_version}/immodules/im-ti-er.dll
-%{mingw64_libdir}/gtk-3.0/%{bin_version}/immodules/im-ti-et.dll
-%{mingw64_libdir}/gtk-3.0/%{bin_version}/immodules/im-viqr.dll
-%{mingw64_libdir}/libgailutil-3.dll.a
-%{mingw64_libdir}/libgdk-3.dll.a
-%{mingw64_libdir}/libgtk-3.dll.a
-%{mingw64_libdir}/pkgconfig/gail-3.0.pc
-%{mingw64_libdir}/pkgconfig/gdk-3.0.pc
-%{mingw64_libdir}/pkgconfig/gdk-win32-3.0.pc
-%{mingw64_libdir}/pkgconfig/gtk+-3.0.pc
-%{mingw64_libdir}/pkgconfig/gtk+-win32-3.0.pc
-%{mingw64_datadir}/aclocal/gtk-3.0.m4
+%{mingw64_bindir}/gtk4-demo-application.exe
+%{mingw64_bindir}/gtk4-demo.exe
+%{mingw64_bindir}/gtk4-icon-browser.exe
+%{mingw64_bindir}/gtk4-widget-factory.exe
+%{mingw64_bindir}/libgtk-4-1.dll
+%{mingw64_bindir}/gtk4-builder-tool.exe
+%{mingw64_bindir}/gtk4-encode-symbolic-svg.exe
+%{mingw64_bindir}/gtk4-print-editor.exe
+%{mingw64_bindir}/gtk4-query-settings.exe
+%{mingw64_includedir}/gtk-4.0/
+%dir %{mingw64_libdir}/gtk-4.0
+%dir %{mingw64_libdir}/gtk-4.0/%{bin_version}
+%{mingw64_libdir}/gtk-4.0/%{bin_version}/
+%{mingw64_libdir}/libgtk-4.dll.a
 %{mingw64_datadir}/gettext/
-%{mingw64_datadir}/glib-2.0/schemas/org.gtk.Demo.gschema.xml
-%{mingw64_datadir}/glib-2.0/schemas/org.gtk.Settings.ColorChooser.gschema.xml
-%{mingw64_datadir}/glib-2.0/schemas/org.gtk.Settings.Debug.gschema.xml
-%{mingw64_datadir}/glib-2.0/schemas/org.gtk.Settings.EmojiChooser.gschema.xml
-%{mingw64_datadir}/glib-2.0/schemas/org.gtk.Settings.FileChooser.gschema.xml
-%{mingw64_datadir}/glib-2.0/schemas/org.gtk.exampleapp.gschema.xml
-%{mingw64_datadir}/gtk-3.0/
-%{mingw64_datadir}/themes/*
-
-%files -n mingw64-gtk-update-icon-cache
-%license COPYING
-%{mingw64_bindir}/gtk-update-icon-cache.exe
-
+%{mingw64_datadir}/gtk-4.0/
+%{mingw64_datadir}/applications/
+%{mingw64_datadir}/glib-2.0/schemas/
+%{mingw64_datadir}/icons/hicolor/
+%{mingw64_datadir}/metainfo/
+%{mingw64_libdir}/pkgconfig/gtk4-win32.pc
+%{mingw64_libdir}/pkgconfig/gtk4.pc
+%{mingw64_bindir}/gtk4-update-icon-cache.exe
 
 %changelog
-* Thu Jan 20 2022 Fedora Release Engineering <releng@fedoraproject.org> - 3.24.31-2
-- Rebuilt for https://fedoraproject.org/wiki/Fedora_36_Mass_Rebuild
-
-* Thu Dec 23 2021 Sandro Mani <manisandro@gmail.com> - 3.24.31-1
-- Update to 3.24.31
-
-* Thu Jul 22 2021 Fedora Release Engineering <releng@fedoraproject.org> - 3.24.30-2
-- Rebuilt for https://fedoraproject.org/wiki/Fedora_35_Mass_Rebuild
-
-* Mon Jul 12 2021 Sandro Mani <manisandro@gmail.com> - 3.24.30-1
-- Update to 3.24.30
-- Switch to meson
-
-* Mon Apr 26 2021 Sandro Mani <manisandro@gmail.com> - 3.24.29-1
-- Update to 3.24.29
-
-* Mon Mar 29 2021 Sandro Mani <manisandro@gmail.com> - 3.24.28-1
-- Update to 3.24.28
-
-* Sun Mar 14 2021 Sandro Mani <manisandro@gmail.com> - 3.24.27-1
-- Update to 3.24.27
-
-* Wed Feb 24 2021 Sandro Mani <manisandro@gmail.com> - 3.24.26-1
-- Update to 3.24.26
-
-* Sun Feb 14 2021 Sandro Mani <manisandro@gmail.com> - 3.24.25-1
-- Update to 3.24.25
-
-* Tue Jan 26 2021 Fedora Release Engineering <releng@fedoraproject.org> - 3.24.24-2
-- Rebuilt for https://fedoraproject.org/wiki/Fedora_34_Mass_Rebuild
-
-* Sat Dec 12 2020 Sandro Mani <manisandro@gmail.com> - 3.24.24-1
-- Update to 3.24.24
-
-* Tue Sep 08 2020 Sandro Mani <manisandro@gmail.com> - 3.24.23-1
-- Update to 3.24.23
-
-* Mon Aug 17 2020 Sandro Mani <manisandro@gmail.com> - 3.24.22-1
-- Update to 3.24.22
-
-* Wed Aug 12 13:39:14 GMT 2020 Sandro Mani <manisandro@gmail.com> - 3.24.21-3
-- Rebuild (mingw-gettext)
-
-* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.24.21-2
-- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
-
-* Mon Jul 20 2020 Sandro Mani <manisandro@gmail.com> - 3.24.21-1
-- Update to 3.24.21
-
-* Tue Apr 28 2020 Sandro Mani <manisandro@gmail.com> - 3.24.20-1
-- Update to 3.24.20
-
-* Mon Apr 20 2020 Sandro Mani <manisandro@gmail.com> - 3.24.18-2
-- Rebuild (gettext)
-
-* Sat Apr 11 2020 Sandro Mani <manisandro@gmail.com> - 3.24.18-1
-- Update to 3.24.18
-
-* Sat Apr 04 2020 Sandro Mani <manisandro@gmail.com> - 3.24.17-1
-- Update to 3.24.17
-
-* Sat Mar 28 2020 Sandro Mani <manisandro@gmail.com> - 3.24.16-1
-- Update to 3.24.16
-
-* Tue Feb 18 2020 Sandro Mani <manisandro@gmail.com> - 3.24.14-1
-- Update to 3.24.14
-
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.24.13-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -18,6 +18,7 @@ License: 	Apache License
 URL:		http://sourceforge.net/projects/sharpssh/
 Source0: 	Apache-LICENSE.txt
 BuildArch:      noarch
+AutoReqProv:    no
 BuildRoot: 	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Prefix:		/usr
 
@@ -30,6 +31,7 @@ Simple REST and HTTP API Client
 # Mingw64
 %package -n mingw64-%{mingw_pkg_name}
 Summary:        %{summary}
+AutoReqProv:    no
 
 %description -n mingw64-%{mingw_pkg_name}
 Simple REST and HTTP API Client
@@ -37,20 +39,6 @@ Simple REST and HTTP API Client
 %prep
 %setup -c %{mingw_pkg_name}-%{version} -T
 nuget install %{mingw_pkg_name} -Version %{version}
-
-cat > RestSharp64.pc << \EOF
-prefix=%{mingw64_prefix}
-exec_prefix=${prefix}
-libdir=%{mingw64_prefix}%{libdir}
-
-Name: RestSharp
-Description: Simple REST and HTTP API Client
-Requires:
-Version: %{version}
-Libs: -r:${libdir}/RestSharp.dll
-Cflags:
-EOF
-
 
 %build
 
@@ -64,10 +52,6 @@ install -m 644 RestSharp.%{version}/lib/%{platform}/RestSharp.dll $RPM_BUILD_ROO
 install -d -m 755 $RPM_BUILD_ROOT%{mingw64_datadir}/RestSharp
 install -m 664 %{SOURCE0} $RPM_BUILD_ROOT%{mingw64_datadir}/RestSharp/License
 
-install -d -m 755 $RPM_BUILD_ROOT%{mingw64_datadir}/pkgconfig
-install -m 644 RestSharp64.pc $RPM_BUILD_ROOT%{mingw64_datadir}/pkgconfig/RestSharp.pc
-
-
 %clean
 rm -rf $RPM_BUILD_ROOT
 
@@ -75,7 +59,6 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(-, root, root, -)
 %{mingw64_datadir}/RestSharp/License
 %{mingw64_prefix}%{libdir}/RestSharp.dll
-%{mingw64_datadir}/pkgconfig/RestSharp.pc
 
 %changelog
 * Fri Aug 3 2018 Mikkel Kruse Johnsen <mikkel@xmedicus.com> - 106.3.1-1

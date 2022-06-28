@@ -11,7 +11,7 @@
 %define libdir /bin
 
 Name:           mingw-Npgsql
-Version:        6.0.3
+Version:        6.0.5
 Release:        1%{?dist}
 Summary:        Postgresql database connectivity for C#
 
@@ -22,7 +22,6 @@ URL:            http://npgsql.projects.pgfoundry.org/
 Prefix:		/usr
 BuildArch:	noarch
 
-BuildRequires:  mono-devel
 BuildRequires:  nuget
 
 %description
@@ -32,6 +31,7 @@ database.
 # Mingw64
 %package -n mingw64-%{mingw_pkg_name}
 Summary:       %{summary}
+AutoReqProv:    no
 Requires:      mingw64-System.Common >= 1.0.0
 Requires:      mingw64-System.Security >= 6.0.0
 
@@ -44,20 +44,6 @@ database.
 %setup -c %{name}-%{version} -T
 nuget install %{mingw_pkg_name} -Version %{version}
 
-cat > Npgsql.pc << \EOF
-prefix=%{mingw64_prefix}
-exec_prefix=${prefix}
-libdir=%{mingw64_prefix}%{libdir}
-
-Name: Npgsql
-Description: Npgsql - Postgresql database connectivity for C#
-Requires: System.Common System.Security
-Version: %{version}
-Libs: -r:${libdir}/Npgsql.dll
-Cflags:
-EOF
-
-
 %build
 
 %install
@@ -65,11 +51,7 @@ EOF
 
 # Mingw64
 install -d -m 755 $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir}
-install -m 644 Npgsql.%{version}/lib/netstandard2.0/Npgsql.dll $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir}
-
-install -d -m 755 $RPM_BUILD_ROOT%{mingw64_datadir}/pkgconfig/
-install -m 644 Npgsql.pc $RPM_BUILD_ROOT%{mingw64_datadir}/pkgconfig/
-
+install -m 644 Npgsql.%{version}/lib/net6.0/Npgsql.dll $RPM_BUILD_ROOT%{mingw64_prefix}%{libdir}
 
 %clean
 #%{__rm} -rf %{buildroot}
@@ -77,7 +59,6 @@ install -m 644 Npgsql.pc $RPM_BUILD_ROOT%{mingw64_datadir}/pkgconfig/
 %files -n mingw64-%{mingw_pkg_name}
 %defattr(-,root,root,-)
 %{mingw64_prefix}%{libdir}/Npgsql.dll
-%{mingw64_datadir}/pkgconfig/Npgsql.pc
 
 
 %changelog

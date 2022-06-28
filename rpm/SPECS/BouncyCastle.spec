@@ -15,6 +15,7 @@ URL:            http://www.bouncycastle.org/csharp/
 Prefix:		/usr
 
 BuildArch:	noarch
+AutoReqProv: 	no
 
 BuildRequires:  nuget
 
@@ -48,19 +49,6 @@ BuildRequires:  nuget
 %setup -c %{name}-%{version} -T
 nuget install Portable.%{name} -Version %{version}
 
-cat > %{name}.pc << \EOF
-prefix=%{_prefix}
-exec_prefix=${prefix}
-libdir=%{_prefix}%{libdir}
-
-Name: %{name}
-Description: %{name} - %{summary}
-Requires:
-Version: %{version}
-Libs: -r:${libdir}/BouncyCastle.Crypto.dll
-Cflags:
-EOF
-
 %build
 
 %install
@@ -69,16 +57,12 @@ EOF
 install -d -m 755 $RPM_BUILD_ROOT%{_prefix}%{libdir}
 install -m 644 Portable.BouncyCastle.%{version}/lib/netstandard2.0/BouncyCastle.Crypto.dll $RPM_BUILD_ROOT%{_prefix}%{libdir}
 
-install -d -m 755 $RPM_BUILD_ROOT%{_datadir}/pkgconfig/
-install -m 644 BouncyCastle.pc $RPM_BUILD_ROOT%{_datadir}/pkgconfig/
-
 %clean
 #%{__rm} -rf %{buildroot}
 
 %files
 %defattr(-,root,root,-)
 %{_prefix}%{libdir}/BouncyCastle.Crypto.dll
-%{_datadir}/pkgconfig/BouncyCastle.pc
 
 %changelog
 * Fri Dec 11 2020 Mikkel Kruse Johnsen <mikkel@xmedicus.com> - 1.8.8-1

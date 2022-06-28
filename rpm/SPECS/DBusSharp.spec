@@ -16,6 +16,7 @@ BuildRoot:		%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Prefix:			/usr
 
 BuildArch: 		noarch
+AutoReqProv:    	no
 
 BuildRequires:		nuget
 
@@ -25,28 +26,12 @@ Obsoletes:              ndesk-dbus-devel
 
 Provides:		dbus-sharp dbus-sharp-devel
 
-Requires:		System.Common >= 1.0.1
-Requires:		System.Security >= 6.0.0
-
 %description
 Managed C# implementation of DBus
 
 %prep
 %setup -c %{name}-%{version} -T
 nuget install Tmds.DBus -Version %{version}
-
-cat > DBusSharp.pc << \EOF
-prefix=%{_prefix}
-exec_prefix=${prefix}
-libdir=%{_prefix}%{libdir}
-
-Name: DBusSharp
-Description: Managed C# implementation of DBus
-Requires: System.Common System.Security
-Version: %{version}
-Libs: -r:${libdir}/Tmds.DBus.dll
-Cflags:
-EOF
 
 %build
 
@@ -56,16 +41,12 @@ EOF
 install -d -m 755 $RPM_BUILD_ROOT%{_prefix}%{libdir}
 install -m 644 Tmds.DBus.%{version}/lib/netstandard2.0/Tmds.DBus.dll $RPM_BUILD_ROOT%{_prefix}%{libdir}
 
-install -d -m 755 $RPM_BUILD_ROOT%{_datadir}/pkgconfig/
-install -m 644 DBusSharp.pc $RPM_BUILD_ROOT%{_datadir}/pkgconfig/
-
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,root,-)
 %{prefix}/lib/Tmds.DBus.dll
-%{_datadir}/pkgconfig/DBusSharp.pc
 
 %changelog
 * Mon Dec 14 2020 Mikkel Kruse Johnsen <mikkel@xmedicus.com> - 0.9.1-1

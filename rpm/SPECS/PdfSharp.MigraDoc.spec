@@ -64,7 +64,6 @@ install -m 644 MigraDoc/src/MigraDoc.Rendering/app/System.Resources.Extensions.d
 #install -m 644 PdfSharp.MigraDoc.Standard.%{version}/lib/netstandard2.0/MigraDoc.Rendering.dll $RPM_BUILD_ROOT%{_prefix}%{libdir}
 #install -m 644 PDFSharp.Standard.Charting.%{version}/lib/netstandard2.0/PdfSharp.Charting.dll $RPM_BUILD_ROOT%{_prefix}%{libdir}
 #install -m 644 PDFSharp.Standard.%{version}/lib/netstandard2.0/PdfSharp.dll $RPM_BUILD_ROOT%{_prefix}%{libdir}
-#install -m 644 System.Drawing.Common.5.0.2/lib/netstandard2.0/System.Drawing.Common.dll $RPM_BUILD_ROOT%{_prefix}%{libdir}
 #install -m 644 System.Resources.Extensions.5.0.0/lib/netstandard2.0/System.Resources.Extensions.dll $RPM_BUILD_ROOT%{_prefix}%{libdir}
 
 install -d -m 755 $RPM_BUILD_ROOT%{_datadir}/pkgconfig/

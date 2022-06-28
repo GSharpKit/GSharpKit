@@ -32,6 +32,7 @@
 %define LIBRSVG2_VERSION 2.40.19
 %define GDK_PIXBUF_VERSION 2.40.0
 %define GTK3_VERSION 3.24.23
+%define GTK4_VERSION 4.6.5
 %define GDL_VERSION 3.40.0
 %define GTK3_ADWAITA_VERSION 3.26.0
 
@@ -60,56 +61,52 @@
 %define LIBOGG_VERSION 1.3.3
 %define LIBVORBIS_VERSION 1.3.6
 %define LIBWEBP_VERSION 1.1.0
-%define GSTREAMER1_VERSION 1.18.2
-%define GSTREAMER1_PLUGINS_BASE_VERSION 1.18.2
-%define GSTREAMER1_PLUGINS_GOOD_VERSION 1.18.2
-%define GSTREAMER1_PLUGINS_BAD_VERSION 1.18.2
+%define GSTREAMER1_VERSION 1.20.0
+%define GSTREAMER1_PLUGINS_BASE_VERSION 1.20.0
+%define GSTREAMER1_PLUGINS_GOOD_VERSION 1.20.0
+%define GSTREAMER1_PLUGINS_BAD_VERSION 1.20.0
 %define WEBKITGTK3_VERSION 2.4.11
 #define LIBEXIF_VERSION 0.6.20
 
-%define DBUS_VERSION 1.12.20
+%define DBUS_VERSION 1.13.16
 
 #define LIBUSB_VERSION 1.0.22
 #define LIBGPHOTO2_VERSION 2.5.16
 #define SANE_BACKENDS_VERSION 1.0.27
 #define TWAIN_DSM_VERSION 2.3.1
 
-%define SYSTEM_COMMON_VERSION 1.0.1
+%define SYSTEM_COMMON_VERSION 2.0.0
 %define SYSTEM_SECURITY_VERSION 6.0.0
-%define SYSTEM_RUNTIME_CACHING_VERSION 5.0.0
-%define SYSTEM_COMPONENTMODEL_ANNOTATIONS_VERSION 5.0.0
 %define SYSTEM_SERVICEMODEL_VERSION 4.9.0
+%define SYSTEM_RUNTIME_CACHING_VERSION 6.0.0
 %define SYSTEM_DIRECTORY_SERVICES_VERSION 6.0.0
-%define MICROSOFT_CSHARP_VERSION 4.7.0
 %define MICROSOFT_DATA_SQLCLIENT 4.0.0
 
 %define MONO_DATA_SQLITE_VERSION 1.0.61.1
 %define MONO_POSIX_NETSTANDARD_VERSION 1.0.0
 %define DBUS_SHARP_VERSION 0.9.1
 %define GTK3_SHARP_VERSION 3.24.20
+%define GIR_CORE_VERSION 0.99
 %define GDL_SHARP_VERSION 3.34.0
 %define GST_SHARP_VERSION 1.18.2
 %define WEBKITGTK3_SHARP_VERSION 2.4.11
 %define GTK_MAC_INTEGRATION_SHARP_VERSION 2.0.7
 
-%define NPGSQL_VERSION 6.0.2
+%define NPGSQL_VERSION 6.0.5
 %define MONO_ADDINS_VERSION 1.3.12
 %define NEWTONSOFT_JSON_VERSION 13.0.1
 %define BOUNCY_CASTLE_VERSION 1.9.0
-%define MIMEKIT_VERSION 3.1.0
-%define MAILKIT_VERSION 3.1.0
-%define SERVICE_STACK_VERSION 6.0.0
+%define MIMEKIT_VERSION 3.3.0
+%define MAILKIT_VERSION 3.3.0
+%define SERVICE_STACK_VERSION 6.1.0
 %define REST_SHARP_VERSION 106.15.0
 %define PDFSHARP_MIGRADOC_VERSION 1.51.16
 %define SPRACHE_VERSION 2.2.0
-#define SHARP_ZIP_LIB_VERSION 1.0.0
-#define LIBGPHOTO2_SHARP_VERSION 0.3.2
-#define SHARP_CAMERA_VERSION 0.3.7
 
 Summary: 		Easy management of applications
 Name: 			GSharpKit
-Version:		35.0
-Release:		6%{?dist}
+Version:		36.0
+Release:		1%{?dist}
 License:		GPL
 Group: 			Applications/Desktop
 Source1:		yum_ignoreos.conf
@@ -128,6 +125,7 @@ Vendor:			GSharpKit
 Packager:		Mikkel Kruse Johnsen <mikkel@gsharpkit.com>
 BuildRoot:		%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:		noarch
+AutoReqProv:    	no
 
 Requires:		GSharpKit-runtime = %{version}
 
@@ -140,6 +138,7 @@ Summary:                Runtime environment for GSharpKit
 License:                GPL
 Group:                  Applications/Desktop
 BuildArch:              noarch
+AutoReqProv:    	no
 
 %description release
 Easy management of applications
@@ -150,6 +149,9 @@ Summary: 		Runtime environment for GSharpKit
 License:		GPL
 Group: 			Applications/Desktop
 BuildArch:		noarch
+AutoReqProv:            no
+
+Obsoletes:		Microsoft.CSharp System.ComponentModel.Annotations
 
 Requires:               dotnet-runtime-6.0
 
@@ -157,9 +159,7 @@ Requires:		System.Common >= %{SYSTEM_COMMON_VERSION}
 Requires:		System.Security >= %{SYSTEM_SECURITY_VERSION}
 Requires:		System.ServiceModel >= %{SYSTEM_SERVICEMODEL_VERSION}
 Requires:		System.Runtime.Caching >= %{SYSTEM_RUNTIME_CACHING_VERSION}
-Requires:		System.ComponentModel.Annotations >= %{SYSTEM_COMPONENTMODEL_ANNOTATIONS_VERSION}
 Requires:		System.DirectoryServices >= %{SYSTEM_DIRECTORY_SERVICES_VERSION}
-Requires:		Microsoft.CSharp >= %{MICROSOFT_CSHARP_VERSION}
 Requires:		Microsoft.Data.SqlClient >= %{MICROSOFT_DATA_SQLCLIENT}
 Requires:		Mono.Posix.NETStandard >= %{MONO_POSIX_NETSTANDARD_VERSION}
 Requires:		Mono.Data.Sqlite >= %{MONO_DATA_SQLITE_VERSION}
@@ -172,8 +172,10 @@ Requires:		DBusSharp >= %{DBUS_SHARP_VERSION}
 Requires:		libepoxy >= %{LIBEPOXY_VERSION}
 Requires:		librsvg2 >= %{LIBRSVG2_VERSION}
 Requires:		gtk3 >= %{GTK3_VERSION}
+Requires:		gtk4 >= %{GTK4_VERSION}
 Requires:		adwaita-icon-theme >= %{GTK3_ADWAITA_VERSION}
 Requires:		GtkSharp >= %{GTK3_SHARP_VERSION}
+Requires:		GirCore >= %{GIR_CORE_VERSION}
 
 Requires:		libgdl >= %{GDL_VERSION}
 Requires:		GdlSharp >= %{GDL_SHARP_VERSION}
@@ -206,9 +208,6 @@ Requires:		ServiceStack >= %{SERVICE_STACK_VERSION}
 Requires:		RestSharp >= %{REST_SHARP_VERSION}
 Requires:		Sprache >= %{SPRACHE_VERSION}
 Requires:		PdfSharp.MigraDoc >= %{PDFSHARP_MIGRADOC_VERSION}
-#Requires:		SharpZipLib >= %{SHARP_ZIP_LIB_VERSION}
-#Requires:		libgphoto2-sharp >= %{LIBGPHOTO2_SHARP_VERSION}
-#Requires:		SharpCamera >= %{SHARP_CAMERA_VERSION}
 
 %description runtime
 Easy management of applications
@@ -221,6 +220,7 @@ Summary: 		SDK for GSharpKit
 License:		GPL
 Group: 			Applications/Desktop
 BuildArch:		noarch
+AutoReqProv:            no
 Provides:		distribution-release
 
 Requires:		GSharpKit-runtime = %{version}
@@ -241,6 +241,9 @@ Summary:                SDK for GSharpKit Mingw 64 bit
 License:                GPL
 Group:                  Applications/Desktop
 BuildArch:              noarch
+AutoReqProv:            no
+
+Obsoletes:		mingw64-Microsoft.CSharp mingw64-System.ComponentModel.Annotations
 
 Requires:               mingw64-winpthreads >= %{HEADER_CRT_THREAD_VERSION}
 Requires:               mingw64-termcap >= %{TERMCAP_VERSION}
@@ -272,6 +275,7 @@ Requires:               mingw64-libcroco >= %{LIBCROCO_VERSION}
 Requires:               mingw64-libepoxy >= %{LIBEPOXY_VERSION}
 Requires:               mingw64-librsvg2 >= %{LIBRSVG2_VERSION}
 Requires:               mingw64-gtk3 >= %{GTK3_VERSION}
+Requires:               mingw64-gtk4 >= %{GTK4_VERSION}
 Requires:               mingw64-adwaita-icon-theme >= %{GTK3_ADWAITA_VERSION}
 Requires:               mingw64-libgdl >= %{GDL_VERSION}
 
@@ -314,15 +318,14 @@ Requires:               mingw64-dbus >= %{DBUS_VERSION}
 Requires:               mingw64-System.Common >= %{SYSTEM_COMMON_VERSION}
 Requires:               mingw64-System.Security >= %{SYSTEM_SECURITY_VERSION}
 Requires:               mingw64-System.ServiceModel >= %{SYSTEM_SERVICEMODEL_VERSION}
-Requires:               mingw64-System.Runtime.Caching >= %{SYSTEM_RUNTIME_CACHING_VERSION}
-Requires:               mingw64-System.ComponentModel.Annotations >= %{SYSTEM_COMPONENTMODEL_ANNOTATIONS_VERSION}
+Requires:		mingw64-System.Runtime.Caching >= %{SYSTEM_RUNTIME_CACHING_VERSION}
 Requires:               mingw64-System.DirectoryServices >= %{SYSTEM_DIRECTORY_SERVICES_VERSION}
-Requires:               mingw64-Microsoft.CSharp >= %{MICROSOFT_CSHARP_VERSION}
 Requires:		mingw64-Microsoft.Data.SqlClient >= %{MICROSOFT_DATA_SQLCLIENT}
 Requires:               mingw64-Mono.Posix.NETStandard >= %{MONO_POSIX_NETSTANDARD_VERSION}
 Requires:               mingw64-Mono.Data.Sqlite >= %{MONO_DATA_SQLITE_VERSION}
 Requires:               mingw64-Npgsql >= %{NPGSQL_VERSION}
 Requires:               mingw64-GtkSharp >= %{GTK3_SHARP_VERSION}
+Requires:               mingw64-GirCore >= %{GIR_CORE_VERSION}
 Requires:               mingw64-GdlSharp >= %{GDL_SHARP_VERSION}
 Requires:               mingw64-Mono.Addins >= %{MONO_ADDINS_VERSION}
 Requires:               mingw64-webkitgtk3-sharp >= %{WEBKITGTK3_SHARP_VERSION}
@@ -336,9 +339,6 @@ Requires:		mingw64-ServiceStack >= %{SERVICE_STACK_VERSION}
 Requires:		mingw64-RestSharp >= %{REST_SHARP_VERSION}
 Requires:               mingw64-Sprache >= %{SPRACHE_VERSION}
 Requires:               mingw64-PdfSharp.MigraDoc >= %{PDFSHARP_MIGRADOC_VERSION}
-#Requires:		mingw64-SharpZipLib >= %{SHARP_ZIP_LIB_VERSION}
-#Requires:		mingw64-libgphoto2-sharp >= %{LIBGPHOTO2_SHARP_VERSION}
-#Requires:		mingw64-SharpCamera >= %{SHARP_CAMERA_VERSION}
 
 
 %description sdk-mingw64
@@ -350,6 +350,7 @@ Summary:                SDK for GSharpKit Mingw 32/64 bit
 License:                GPL
 Group:                  Applications/Desktop
 BuildArch:              noarch
+AutoReqProv:            no
 
 Requires:		GSharpKit-sdk
 Requires:		GSharpKit-sdk-mingw64
@@ -364,6 +365,7 @@ Summary:                SDK for GSharpKit Mingw 32/64 bit
 License:                GPL
 Group:                  Applications/Desktop
 BuildArch:              noarch
+AutoReqProv:            no
 
 Requires:		GSharpKit-sdk-mingw
 Requires:               GSharpKit-sdk-mingw64-devel
@@ -377,6 +379,7 @@ Summary:                SDK for GSharpKit Mingw 64 bit
 License:                GPL
 Group:                  Applications/Desktop
 BuildArch:              noarch
+AutoReqProv:            no
 
 Requires:		GSharpKit-sdk-mingw64
 
@@ -406,6 +409,7 @@ Summary:                SDK for GSharpKit Mac OS X
 License:                GPL
 Group:                  Applications/Desktop
 BuildArch:              noarch
+AutoReqProv:            no
 
 Requires:		ige-mac-bundler >= %{GTK_MAC_BUNDLER_VERSION}
 Requires:		hunspell-da
@@ -433,6 +437,7 @@ Requires:               darwinx-libcroco >= %{LIBCROCO_VERSION}
 Requires:               darwinx-libepoxy >= %{LIBEPOXY_VERSION}
 Requires:               darwinx-librsvg2 >= %{LIBRSVG2_VERSION}
 Requires:               darwinx-gtk3 >= %{GTK3_VERSION}
+Requires:               darwinx-gtk4 >= %{GTK4_VERSION}
 Requires:               darwinx-adwaita-icon-theme >= %{GTK3_ADWAITA_VERSION}
 Requires:               darwinx-libgdl >= %{GDL_VERSION}
 Requires:		darwinx-gtk-mac-integration >= %{GTK_MAC_INTEGRATION_VERSION}
@@ -473,15 +478,14 @@ Requires:               darwinx-dbus >= %{DBUS_VERSION}
 Requires:               darwinx-System.Common >= %{SYSTEM_COMMON_VERSION}
 Requires:               darwinx-System.Security >= %{SYSTEM_SECURITY_VERSION}
 Requires:               darwinx-System.ServiceModel >= %{SYSTEM_SERVICEMODEL_VERSION}
-Requires:               darwinx-System.Runtime.Caching >= %{SYSTEM_RUNTIME_CACHING_VERSION}
-Requires:               darwinx-System.ComponentModel.Annotations >= %{SYSTEM_COMPONENTMODEL_ANNOTATIONS_VERSION}
+Requires:		darwinx-System.Runtime.Caching >= %{SYSTEM_RUNTIME_CACHING_VERSION}
 Requires:               darwinx-System.DirectoryServices >= %{SYSTEM_DIRECTORY_SERVICES_VERSION}
-Requires:               darwinx-Microsoft.CSharp >= %{MICROSOFT_CSHARP_VERSION}
 Requires:		darwinx-Microsoft.Data.SqlClient >= %{MICROSOFT_DATA_SQLCLIENT}
 Requires:               darwinx-Mono.Posix.NETStandard >= %{MONO_POSIX_NETSTANDARD_VERSION}
 Requires:               darwinx-Mono.Data.Sqlite >= %{MONO_DATA_SQLITE_VERSION}
 Requires:               darwinx-Npgsql >= %{NPGSQL_VERSION}
 Requires:               darwinx-GtkSharp >= %{GTK3_SHARP_VERSION}
+Requires:               darwinx-GirCore >= %{GIR_CORE_VERSION}
 Requires:               darwinx-GdlSharp >= %{GDL_SHARP_VERSION}
 Requires:		darwinx-gtk-mac-integration-sharp >= %{GTK_MAC_INTEGRATION_SHARP_VERSION}
 Requires:               darwinx-Mono.Addins >= %{MONO_ADDINS_VERSION}
@@ -496,9 +500,6 @@ Requires:               darwinx-ServiceStack >= %{SERVICE_STACK_VERSION}
 Requires:		darwinx-RestSharp >= %{REST_SHARP_VERSION}
 Requires:               darwinx-Sprache >= %{SPRACHE_VERSION}
 Requires:               darwinx-PdfSharp.MigraDoc >= %{PDFSHARP_MIGRADOC_VERSION}
-#Requires:		darwinx-SharpZipLib >= %{SHARP_ZIP_LIB_VERSION}
-#Requires:		darwinx-libgphoto2-sharp >= %{LIBGPHOTO2_SHARP_VERSION}
-#Requires:		darwinx-SharpCamera >= %{SHARP_CAMERA_VERSION}
 
 %description sdk-darwinx
 Easy management of applications for Mac OS X

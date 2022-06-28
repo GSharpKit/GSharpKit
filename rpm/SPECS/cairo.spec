@@ -1,48 +1,36 @@
-%define pixman_version 0.30.0
-%define freetype_version 2.1.9
+%define pixman_version 0.36.0
+%define freetype_version 9.7.3
 %define fontconfig_version 2.2.95
 
-%if 0%{?fedora} > 66 || 0%{?rhel} > 7
-%global cairogl --disable-gl
-%else
-%global cairogl --enable-gl
-%global with_gl 1
-%endif
+Name:    cairo
+Version: 1.17.6
+Release: 2%{?dist}
+Summary: A 2D graphics library
 
-Name:		cairo
-Version:	1.17.4
-Release:	5%{?dist}
-Summary:	A 2D graphics library
+License: LGPLv2 or MPLv1.1
+URL:     https://cairographics.org
+Source0: https://download.gnome.org/sources/%{name}/1.17/%{name}-%{version}.tar.xz
 
-License:	LGPLv2 or MPLv1.1
-URL:		http://cairographics.org
-Source0:	http://cairographics.org/snapshots/%{name}-%{version}.tar.xz
-
-Patch3:         cairo-multilib.patch
-
+Patch0: cairo-multilib.patch
 # https://gitlab.freedesktop.org/cairo/cairo/merge_requests/1
-Patch4:         0001-Set-default-LCD-filter-to-FreeType-s-default.patch
+Patch1: 0001-Set-default-LCD-filter-to-FreeType-s-default.patch
+# https://gitlab.freedesktop.org/cairo/cairo/-/issues/547
+Patch2: cairo-1.17.6-meson-fixes.patch
 
-# Fix generating PDF font names
-# https://gitlab.freedesktop.org/cairo/cairo/-/merge_requests/125
-Patch5:         125.patch
-
-BuildRequires:  gcc
-BuildRequires: pkgconfig
-BuildRequires: libXrender-devel
-BuildRequires: libX11-devel
-BuildRequires: libpng-devel
-BuildRequires: libxml2-devel
-BuildRequires: pixman-devel >= %{pixman_version}
-BuildRequires: freetype-devel >= %{freetype_version}
-BuildRequires: fontconfig-devel >= %{fontconfig_version}
-BuildRequires: glib2-devel
-BuildRequires: librsvg2-devel
-%if 0%{?with_gl}
-BuildRequires: mesa-libGL-devel
-BuildRequires: mesa-libEGL-devel
-%endif
-BuildRequires: make
+BuildRequires: gcc
+BuildRequires: gcc-c++
+BuildRequires: gtk-doc
+BuildRequires: meson
+BuildRequires: pkgconfig(expat)
+BuildRequires: pkgconfig(pixman-1) >= %{pixman_version}
+BuildRequires: pkgconfig(freetype2) >= %{freetype_version}
+BuildRequires: pkgconfig(fontconfig) >= %{fontconfig_version}
+BuildRequires: pkgconfig(gobject-2.0)
+BuildRequires: pkgconfig(libpng)
+BuildRequires: pkgconfig(librsvg-2.0)
+BuildRequires: pkgconfig(xext)
+BuildRequires: pkgconfig(xcb-render)
+BuildRequires: pkgconfig(xrender)
 
 %description
 Cairo is a 2D graphics library designed to provide high-quality display
@@ -88,6 +76,7 @@ needed for developing software which uses the cairo Gobject library.
 
 %package tools
 Summary: Development tools for cairo
+Requires: %{name}%{?_isa} = %{version}-%{release}
 
 %description tools
 Cairo is a 2D graphics library designed to provide high-quality display
@@ -100,23 +89,23 @@ This package contains tools for working with the cairo graphics library.
 %autosetup -p1
 
 %build
-%configure --disable-static	\
-	--enable-xlib		\
-	--enable-ft		\
-	--enable-ps		\
-	--enable-pdf		\
-	--enable-svg		\
-	--enable-tee		\
-	--enable-gobject	\
-	%{cairogl}		\
-	--disable-gtk-doc
-sed -i 's|^hardcode_libdir_flag_spec=.*|hardcode_libdir_flag_spec=""|g' libtool
-sed -i 's|^runpath_var=LD_RUN_PATH|runpath_var=DIE_RPATH_DIE|g' libtool
-make V=1 %{?_smp_mflags}
+%meson \
+  -Dgl-backend=gl \
+  -Dfreetype=enabled \
+  -Dfontconfig=enabled \
+  -Dglib=enabled \
+  -Dgtk_doc=true \
+  -Dspectre=disabled \
+  -Dsymbol-lookup=disabled \
+  -Dtee=enabled \
+  -Dtests=disabled \
+  -Dxcb=enabled \
+  -Dxlib=enabled \
+  -Dxml=disabled
+%meson_build
 
 %install
-%make_install
-find $RPM_BUILD_ROOT -name '*.la' -delete
+%meson_install
 
 %files
 %license COPYING COPYING-LGPL-2.1 COPYING-MPL-1.1
@@ -141,6 +130,7 @@ find $RPM_BUILD_ROOT -name '*.la' -delete
 %{_includedir}/cairo/cairo-xlib.h
 %{_includedir}/cairo/cairo-script.h
 %{_includedir}/cairo/cairo-xcb.h
+%{_includedir}/cairo/cairo-gl.h
 %{_libdir}/libcairo.so
 %{_libdir}/libcairo-script-interpreter.so
 %{_libdir}/pkgconfig/cairo-fc.pc
@@ -149,6 +139,7 @@ find $RPM_BUILD_ROOT -name '*.la' -delete
 %{_libdir}/pkgconfig/cairo-pdf.pc
 %{_libdir}/pkgconfig/cairo-png.pc
 %{_libdir}/pkgconfig/cairo-ps.pc
+%{_libdir}/pkgconfig/cairo-script-interpreter.pc
 %{_libdir}/pkgconfig/cairo-svg.pc
 %{_libdir}/pkgconfig/cairo-tee.pc
 %{_libdir}/pkgconfig/cairo-xlib.pc
@@ -156,13 +147,11 @@ find $RPM_BUILD_ROOT -name '*.la' -delete
 %{_libdir}/pkgconfig/cairo-script.pc
 %{_libdir}/pkgconfig/cairo-xcb-shm.pc
 %{_libdir}/pkgconfig/cairo-xcb.pc
-%{_datadir}/gtk-doc/html/cairo
-%if 0%{?with_gl}
-%{_includedir}/cairo/cairo-gl.h
 %{_libdir}/pkgconfig/cairo-egl.pc
 %{_libdir}/pkgconfig/cairo-gl.pc
 %{_libdir}/pkgconfig/cairo-glx.pc
-%endif
+%{_datadir}/gtk-doc/html/cairo
+
 
 %files gobject
 %{_libdir}/libcairo-gobject.so.2*
@@ -173,10 +162,25 @@ find $RPM_BUILD_ROOT -name '*.la' -delete
 %{_libdir}/pkgconfig/cairo-gobject.pc
 
 %files tools
+%{_bindir}/cairo-sphinx
 %{_bindir}/cairo-trace
 %{_libdir}/cairo/
 
 %changelog
+* Fri Mar 18 2022 David King <amigadave@amigadave.com> - 1.17.6-1
+- Update to 1.17.6
+
+* Fri Feb 25 2022 David King <amigadave@amigadave.com> - 1.17.4-7
+- Fix permissions on cairo-trace
+- Add explicit Requires to tools subpackage
+
+* Tue Feb 15 2022 David King <amigadave@amigadave.com> - 1.17.4-6
+- Switch to meson
+- Use pkgconfig for BuildRequires
+
+* Wed Jan 19 2022 Fedora Release Engineering <releng@fedoraproject.org> - 1.17.4-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_36_Mass_Rebuild
+
 * Wed Jul 21 2021 Fedora Release Engineering <releng@fedoraproject.org> - 1.17.4-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_35_Mass_Rebuild
 
