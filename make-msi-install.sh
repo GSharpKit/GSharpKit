@@ -62,4 +62,4 @@ mkdir -p $TO/share/locale
 cp -r $FROM/share/locale/da $TO/share/locale/
 cp -r $FROM/share/locale/sv $TO/share/locale/
 
-cp -r $FROM/share/myspell $TO/share/
+cp -r $FROM/share/hunspell $TO/share/
