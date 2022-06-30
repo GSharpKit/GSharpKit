@@ -21,19 +21,6 @@ BouncyCastle is a Crypto library written i C#
 %setup -q -T -c BouncyCastle-%{version}
 nuget install Portable.BouncyCastle -Version %{version}
 
-cat > BouncyCastle.pc << \EOF
-prefix=%{_darwinx_prefix}
-exec_prefix=${prefix}
-libdir=%{_darwinx_prefix}%{libdir}
-
-Name: BouncyCastle
-Description: BouncyCastle is a Crypto library written i C# 
-Requires:
-Version: %{version}
-Libs: -r:${libdir}/BouncyCastle.Crypto.dll
-Cflags:
-EOF
-
 %build
 
 %install
@@ -42,16 +29,12 @@ EOF
 install -d -m 755 $RPM_BUILD_ROOT%{_darwinx_prefix}%{libdir}
 install -m 644 Portable.BouncyCastle.%{version}/lib/netstandard2.0/BouncyCastle.Crypto.dll $RPM_BUILD_ROOT%{_darwinx_prefix}%{libdir}
 
-install -d -m 755 $RPM_BUILD_ROOT%{_darwinx_datadir}/pkgconfig/
-install -m 644 BouncyCastle.pc $RPM_BUILD_ROOT%{_darwinx_datadir}/pkgconfig/
-
 %clean
 #%{__rm} -rf %{buildroot}
 
 %files
 %defattr(-,root,root,-)
 %{_darwinx_prefix}%{libdir}/BouncyCastle.Crypto.dll
-%{_darwinx_datadir}/pkgconfig/BouncyCastle.pc
 
 
 %changelog

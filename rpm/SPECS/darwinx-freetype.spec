@@ -1,12 +1,12 @@
 Name:           darwinx-freetype
-Version:        2.10.2
+Version:        2.12.1
 Release:        1%{?dist}
 Summary:        Darwin A free and portable font rendering engine
 
 License:        LGPLv2+
 Group:          Development/Libraries
 URL:            http://www.freetype.org
-Source0:        http://sourceforge.net/projects/freetype/files/freetype2/2.10.2/freetype-%{version}.tar.xz
+Source0:        http://sourceforge.net/projects/freetype/files/freetype2/2.12.1/freetype-%{version}.tar.xz
 Source1:	freetype2.pc
 Patch0:		freetype-2.5.0-freetype-config.patch
 

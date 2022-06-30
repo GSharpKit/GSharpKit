@@ -8,7 +8,7 @@
 %define libdir /lib
 
 Name:           darwinx-Npgsql
-Version:        6.0.3
+Version:        6.0.5
 Release:        1%{?dist}
 Summary:        Postgresql database connectivity for C#
 Group:          Development/Languages
@@ -21,8 +21,6 @@ BuildArch:	noarch
 BuildRequires:	darwinx-filesystem-base >= 18
 
 Requires:	darwinx-filesystem >= 18
-Requires:       darwinx-System.Common >= 1.0.0
-Requires:       darwinx-System.Security >= 6.0.0
 
 %description
 This package contains the ADO.NET Data provider for the PostgreSQL
@@ -32,29 +30,13 @@ database.
 %setup -c %{name}-%{version} -T
 nuget install Npgsql -Version %{version}
 
-cat > Npgsql.pc << \EOF
-prefix=%{_darwinx_prefix}
-exec_prefix=${prefix}
-libdir=%{_darwinx_prefix}%{libdir}
-
-Name: Npgsql
-Description: Npgsql - Postgresql database connectivity for C#
-Requires: System.Common System.Security
-Version: %{version}
-Libs: -r:${libdir}/Npgsql.dll
-Cflags:
-EOF
-
 %build
 
 %install
 %{__rm} -rf %{buildroot}
 
 install -d -m 755 $RPM_BUILD_ROOT%{_darwinx_prefix}%{libdir}
-install -m 644 Npgsql.%{version}/lib/netstandard2.0/Npgsql.dll $RPM_BUILD_ROOT%{_darwinx_prefix}%{libdir}/
-
-install -d -m 755 $RPM_BUILD_ROOT%{_darwinx_datadir}/pkgconfig/
-install -m 644 Npgsql.pc $RPM_BUILD_ROOT%{_darwinx_datadir}/pkgconfig/Npgsql.pc
+install -m 644 Npgsql.%{version}/lib/net6.0/Npgsql.dll $RPM_BUILD_ROOT%{_darwinx_prefix}%{libdir}/
 
 %clean
 #%{__rm} -rf %{buildroot}
@@ -62,7 +44,6 @@ install -m 644 Npgsql.pc $RPM_BUILD_ROOT%{_darwinx_datadir}/pkgconfig/Npgsql.pc
 %files
 %defattr(-,root,root,-)
 %{_darwinx_prefix}%{libdir}/Npgsql.dll
-%{_darwinx_datadir}/pkgconfig/Npgsql.pc
 
 %changelog
 * Mon Oct 7 2019 Mikkel Kruse Johnsen <mikkel@xmedicus.com> - 4.1.1-1

@@ -1,12 +1,12 @@
 Name:           darwinx-atk
-Version:        2.36.0
+Version:        2.38.0
 Release:        1%{?dist}
 Summary:        Cross compiled Atk library
 
 License:        LGPLv2+
 Group:          Development/Libraries
 URL:            http://projects.gnome.org/accessibility/
-Source:         http://ftp.gnome.org/pub/GNOME/sources/atk/2.36/atk-%{version}.tar.xz
+Source:         http://ftp.gnome.org/pub/GNOME/sources/atk/2.38/atk-%{version}.tar.xz
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Prefix:		/usr
 

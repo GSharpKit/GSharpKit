@@ -1,12 +1,12 @@
 Name:           darwinx-gettext
-Version:        0.20.2
+Version:        0.21
 Release:        1%{?dist}
 Summary:        Darwin Gettext library
 
 License:        LGPLv2+
 Group:          Development/Libraries
 URL:            http://www.gnu.org/software/gettext/
-Source0:        http://ftp.gnu.org/pub/gnu/gettext/gettext-%{version}.tar.xz
+Source0:        http://ftp.gnu.org/pub/gnu/gettext/gettext-%{version}.tar.gz
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildArch:      noarch

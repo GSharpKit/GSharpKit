@@ -1,11 +1,11 @@
 Name:           darwinx-librsvg2
-Version:        2.40.21
+Version:        2.54.4
 Release:        1%{?dist}
 Summary:        Librsvg
 
 License:        LGPLv2+
 URL:            http://www.gnome.org
-Source0:        http://ftp.gnome.org/pub/GNOME/sources/librsvg/2.40/librsvg-%{version}.tar.xz
+Source0:        http://ftp.gnome.org/pub/GNOME/sources/librsvg/2.54/librsvg-%{version}.tar.xz
 
 BuildArch:      noarch
 
@@ -22,7 +22,7 @@ An SVG library based on cairo
 %setup -q -n librsvg-%{version}
 
 %build
-%{_darwinx_configure} --disable-Bsymbolic --enable-introspection=no
+%{_darwinx_configure} --disable-Bsymbolic --enable-introspection=no --enable-vala=no
 %{_darwinx_make} %{?_smp_mflags}
 
 

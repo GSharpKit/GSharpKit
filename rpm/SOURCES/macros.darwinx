@@ -157,6 +157,8 @@
 	-DCMAKE_VERBOSE_MAKEFILE=ON \\\
 	-DCMAKE_INSTALL_PREFIX:PATH=%{_darwinx_prefix} \\\
 	-DCMAKE_INSTALL_LIBDIR:PATH=%{_darwinx_libdir} \\\
+	-DCMAKE_MACOSX_RPATH:BOOL=OFF \\\
+	-DMACOSX_RPATH:BOOL=OFF \\\
 	-DINCLUDE_INSTALL_DIR:PATH=%{_darwinx_includedir} \\\
 	-DLIB_INSTALL_DIR:PATH=%{_darwinx_libdir} \\\
 	-DSYSCONF_INSTALL_DIR:PATH=%{_darwinx_sysconfdir} \\\

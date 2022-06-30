@@ -1,5 +1,5 @@
 Name:           darwinx-libffi
-Version:        3.1
+Version:        3.4.2
 Release:        1%{?dist}
 Summary:        A portable foreign function interface library
 
@@ -55,8 +55,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_darwinx_libdir}/libffi.dylib
 %{_darwinx_libdir}/libffi.*.dylib
 %{_darwinx_libdir}/libffi.la
-%{_darwinx_libdir}/libffi-%{version}/include/ffi.h
-%{_darwinx_libdir}/libffi-%{version}/include/ffitarget.h
+%{_darwinx_includedir}/ffi.h
+%{_darwinx_includedir}/ffitarget.h
 %{_darwinx_libdir}/pkgconfig/libffi.pc
 
 %files static

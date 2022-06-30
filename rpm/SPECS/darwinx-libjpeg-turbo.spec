@@ -31,7 +31,7 @@ Static version of the libjpeg-turbo library.
 
 
 %build
-%{_darwinx_configure} --without-simd
+%{_darwinx_configure} --with-simd
 make %{?_smp_mflags}
 
 

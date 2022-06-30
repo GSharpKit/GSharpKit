@@ -1,12 +1,12 @@
 Name:           darwinx-gdk-pixbuf
-Version:        2.42.6
+Version:        2.42.8
 Release:        1%{?dist}
 Summary:        Cross compiled GDK Pixbuf library
 
 License:        LGPLv2+
 Group:          Development/Libraries
 URL:            http://www.gtk.org
-Source0:        http://download.gnome.org/sources/gdk-pixbuf/2.40/gdk-pixbuf-%{version}.tar.xz
+Source0:        http://download.gnome.org/sources/gdk-pixbuf/2.42/gdk-pixbuf-%{version}.tar.xz
 
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
@@ -54,6 +54,7 @@ Static version of the cross compiled %{name} library.
     -Dinstalled_tests=false \
     -Dgio_sniffing=false \
     -Dbuiltin_loaders=all \
+    -Dintrospection=disabled \
     -Dnative_windows_loaders=false
 
 %darwinx_meson_build
@@ -88,10 +89,10 @@ rm -rf $RPM_BUILD_ROOT
 %{_darwinx_includedir}/gdk-pixbuf-2.0/
 %{_darwinx_datadir}/locale/
 %{_darwinx_datadir}/thumbnailers/gdk-pixbuf-thumbnailer.thumbnailer
-%{_darwinx_libdir}/girepository-1.0/GdkPixdata-2.0.typelib
-%{_darwinx_libdir}/girepository-1.0/GdkPixbuf-2.0.typelib
-%{_darwinx_datadir}/gir-1.0/GdkPixbuf-2.0.gir
-%{_darwinx_datadir}/gir-1.0/GdkPixdata-2.0.gir
+#{_darwinx_libdir}/girepository-1.0/GdkPixdata-2.0.typelib
+#{_darwinx_libdir}/girepository-1.0/GdkPixbuf-2.0.typelib
+#{_darwinx_datadir}/gir-1.0/GdkPixbuf-2.0.gir
+#{_darwinx_datadir}/gir-1.0/GdkPixdata-2.0.gir
 
 %files static
 %defattr(-,root,root,-)

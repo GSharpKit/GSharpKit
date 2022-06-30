@@ -5,9 +5,9 @@ PREFIX=/Library/$NAME
 SYMLINK=/Library/$NAME
 
 cd $BUILD_ROOT
-curl -OL https://cmake.org/files/v3.17/cmake-3.17.3.tar.gz
-tar xzf cmake-3.17.3.tar.gz
-cd cmake-3.17.3
+curl -OL https://cmake.org/files/v3.23/cmake-3.23.2.tar.gz
+tar xzf cmake-3.23.2.tar.gz
+cd cmake-3.23.2
 ./configure --prefix=$PREFIX
 make
 sudo make install

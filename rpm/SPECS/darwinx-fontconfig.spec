@@ -1,5 +1,5 @@
 Name:           darwinx-fontconfig
-Version:        2.13.92
+Version:        2.14.0
 Release:        1%{?dist}
 Summary:        Darwin Font configuration and customization library
 

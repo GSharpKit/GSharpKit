@@ -1,5 +1,5 @@
 Name:           darwinx-gtk3
-Version:        3.24.31
+Version:        3.24.34
 Release:        1%{?dist}
 Summary:        Darwin Gtk3 library
 
@@ -11,7 +11,6 @@ Patch0:		gtk-3.12.2-quartz-theme.patch
 Patch1:		gtk-3.20.10-disable-assert.patch
 Patch2:		gtk3-quartz-menu-bug_r1.patch
 Patch3:		gtk-3.24.8-bundle-path.patch
-Patch4:		gtk3-quartz-core.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildArch:      noarch
@@ -66,13 +65,12 @@ Static version of the Darwin Gtk3 library.
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
-%patch4 -p1
 
 %build
 %darwinx_meson \
     --default-library=both \
     -Dquartz_backend=true \
-    -Dbuiltin_immodules=yes \
+    -Dbuiltin_immodules=all \
     -Dgtk_doc=false \
     -Dintrospection=false \
     -Dman=false \
@@ -112,7 +110,18 @@ rm -rf $RPM_BUILD_ROOT
 %{_darwinx_includedir}/gtk-3.0/
 %dir %{_darwinx_libdir}/gtk-3.0/
 %dir %{_darwinx_libdir}/gtk-3.0/3.0.0
-#dir %{_darwinx_libdir}/gtk-3.0/3.0.0/immodules
+%dir %{_darwinx_libdir}/gtk-3.0/3.0.0/immodules
+%{_darwinx_libdir}/gtk-3.0/3.0.0/immodules/im-am-et.so
+%{_darwinx_libdir}/gtk-3.0/3.0.0/immodules/im-cedilla.so
+%{_darwinx_libdir}/gtk-3.0/3.0.0/immodules/im-cyrillic-translit.so
+%{_darwinx_libdir}/gtk-3.0/3.0.0/immodules/im-inuktitut.so
+%{_darwinx_libdir}/gtk-3.0/3.0.0/immodules/im-ipa.so
+%{_darwinx_libdir}/gtk-3.0/3.0.0/immodules/im-multipress.so
+%{_darwinx_libdir}/gtk-3.0/3.0.0/immodules/im-quartz.so
+%{_darwinx_libdir}/gtk-3.0/3.0.0/immodules/im-thai.so
+%{_darwinx_libdir}/gtk-3.0/3.0.0/immodules/im-ti-er.so
+%{_darwinx_libdir}/gtk-3.0/3.0.0/immodules/im-ti-et.so
+%{_darwinx_libdir}/gtk-3.0/3.0.0/immodules/im-viqr.so
 %dir %{_darwinx_libdir}/gtk-3.0/3.0.0/printbackends
 %{_darwinx_libdir}/gtk-3.0/3.0.0/printbackends/libprintbackend-cups.so
 %{_darwinx_libdir}/gtk-3.0/3.0.0/printbackends/libprintbackend-file.so

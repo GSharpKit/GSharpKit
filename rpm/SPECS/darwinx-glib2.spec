@@ -1,12 +1,12 @@
 Name:           darwinx-glib2
-Version:        2.66.8
+Version:        2.72.2
 Release:        1%{?dist}
 Summary:        Darwin GLib2 library
 
 License:        LGPLv2+
 Group:          Development/Libraries
 URL:            http://www.gtk.org
-Source0:        http://download.gnome.org/sources/glib/2.66/glib-%{version}.tar.xz
+Source0:        http://download.gnome.org/sources/glib/2.72/glib-%{version}.tar.xz
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 Summary:        Cross compiled GLib2 library
@@ -63,6 +63,7 @@ Static version of the Darwin GLib2 library.
     -Dsystemtap=true \
     -Dgtk_doc=false \
     -Dfam=false \
+    -Dlibelf=disabled \
     -Dinstalled_tests=false
 
 %darwinx_meson_build
