@@ -61,10 +61,10 @@
 %define LIBOGG_VERSION 1.3.3
 %define LIBVORBIS_VERSION 1.3.6
 %define LIBWEBP_VERSION 1.1.0
-%define GSTREAMER1_VERSION 1.20.0
-%define GSTREAMER1_PLUGINS_BASE_VERSION 1.20.0
-%define GSTREAMER1_PLUGINS_GOOD_VERSION 1.20.0
-%define GSTREAMER1_PLUGINS_BAD_VERSION 1.20.0
+%define GSTREAMER1_VERSION 1.18.0
+%define GSTREAMER1_PLUGINS_BASE_VERSION 1.18.0
+%define GSTREAMER1_PLUGINS_GOOD_VERSION 1.18.0
+%define GSTREAMER1_PLUGINS_BAD_VERSION 1.18.0
 %define WEBKITGTK3_VERSION 2.4.11
 #define LIBEXIF_VERSION 0.6.20
 
@@ -437,7 +437,7 @@ Requires:               darwinx-libcroco >= %{LIBCROCO_VERSION}
 Requires:               darwinx-libepoxy >= %{LIBEPOXY_VERSION}
 Requires:               darwinx-librsvg2 >= %{LIBRSVG2_VERSION}
 Requires:               darwinx-gtk3 >= %{GTK3_VERSION}
-Requires:               darwinx-gtk4 >= %{GTK4_VERSION}
+#Requires:               darwinx-gtk4 >= %{GTK4_VERSION}
 Requires:               darwinx-adwaita-icon-theme >= %{GTK3_ADWAITA_VERSION}
 Requires:               darwinx-libgdl >= %{GDL_VERSION}
 Requires:		darwinx-gtk-mac-integration >= %{GTK_MAC_INTEGRATION_VERSION}
@@ -485,7 +485,7 @@ Requires:               darwinx-Mono.Posix.NETStandard >= %{MONO_POSIX_NETSTANDA
 Requires:               darwinx-Mono.Data.Sqlite >= %{MONO_DATA_SQLITE_VERSION}
 Requires:               darwinx-Npgsql >= %{NPGSQL_VERSION}
 Requires:               darwinx-GtkSharp >= %{GTK3_SHARP_VERSION}
-Requires:               darwinx-GirCore >= %{GIR_CORE_VERSION}
+#Requires:               darwinx-GirCore >= %{GIR_CORE_VERSION}
 Requires:               darwinx-GdlSharp >= %{GDL_SHARP_VERSION}
 Requires:		darwinx-gtk-mac-integration-sharp >= %{GTK_MAC_INTEGRATION_SHARP_VERSION}
 Requires:               darwinx-Mono.Addins >= %{MONO_ADDINS_VERSION}
