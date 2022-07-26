@@ -15,10 +15,7 @@ URL:            https://github.com/dotnet/wcf
 
 Prefix:		/usr
 BuildArch:	noarch
-
-Requires:	darwinx-System.Common >= 1.0.0
-Requires:	darwinx-System.Security >= 6.0.0
-
+AutoReqProv:    no
 
 %description
 Provides the common types used by all of the WCF libraries.
@@ -40,19 +37,6 @@ nuget install System.ServiceModel.Security -Version %{version}
 
 nuget install System.ServiceModel.Syndication -Version %{syn_version}
 
-cat > System.ServiceModel.pc << \EOF
-prefix=%{_darwinx_prefix}
-exec_prefix=${prefix}
-libdir=%{_darwinx_prefix}%{libdir}
-
-Name: System.ServiceModel
-Description: System.ServiceModel. Primitives, Http, NetTcp, Duplex, Security
-Requires: System.Common System.Security
-Version: %{version}
-Libs: -r:${libdir}/System.Private.ServiceModel.dll -r:${libdir}/System.ServiceModel.dll -r:${libdir}/System.ServiceModel.Primitives.dll -r:${libdir}/System.ServiceModel.Http.dll -r:${libdir}/System.ServiceModel.NetTcp.dll -r:${libdir}/System.ServiceModel.Duplex.dll -r:${libdir}/System.ServiceModel.Security.dll -r:${libdir}/System.Syndication.dll
-Cflags:
-EOF
-
 %build
 
 %install
@@ -73,9 +57,6 @@ install -d -m 755 $RPM_BUILD_ROOT%{_darwinx_prefix}%{libdir}
 find */lib/netstandard2.0/ -iname "*.dll" -exec install -m 644 {} $RPM_BUILD_ROOT%{_darwinx_prefix}%{libdir}/ \;
 rm -f $RPM_BUILD_ROOT%{_darwinx_prefix}%{libdir}/*.resources.dll
 
-install -d -m 755 $RPM_BUILD_ROOT%{_darwinx_datadir}/pkgconfig/
-install -m 644 System.ServiceModel.pc $RPM_BUILD_ROOT%{_darwinx_datadir}/pkgconfig/
-
 %clean
 #%{__rm} -rf %{buildroot}
 
@@ -89,7 +70,6 @@ install -m 644 System.ServiceModel.pc $RPM_BUILD_ROOT%{_darwinx_datadir}/pkgconf
 %{_darwinx_prefix}%{libdir}/System.ServiceModel.Primitives.dll
 %{_darwinx_prefix}%{libdir}/System.ServiceModel.Security.dll
 %{_darwinx_prefix}%{libdir}/System.ServiceModel.Syndication.dll
-%{_darwinx_datadir}/pkgconfig/System.ServiceModel.pc
 
 %changelog
 * Thu Aug 26 2021 Mikkel Kruse Johnsen <mikkel@xmedicus.com> - 4.8.1

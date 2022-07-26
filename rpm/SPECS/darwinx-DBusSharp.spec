@@ -6,7 +6,7 @@
 
 Name:			darwinx-DBusSharp
 Epoch: 			3
-Version:		0.10.1
+Version:		0.11.0
 Release:		1%{?dist}
 Summary:		Managed C# implementation of DBus
 License:		MIT
@@ -33,19 +33,6 @@ Managed C# implementation of DBus
 %setup -c %{name}-%{version} -T
 nuget install Tmds.DBus -Version %{version}
 
-cat > DBusSharp.pc << \EOF
-prefix=%{_darwinx_prefix}
-exec_prefix=${prefix}
-libdir=%{_darwinx_prefix}%{libdir}
-
-Name: DBusSharp
-Description: Managed C# implementation of DBus
-Requires: System.Common System.Security
-Version: %{version}
-Libs: -r:${libdir}/Tmds.DBus.dll
-Cflags:
-EOF
-
 %build
 
 %install
@@ -54,16 +41,12 @@ EOF
 install -d -m 755 $RPM_BUILD_ROOT%{_darwinx_prefix}%{libdir}
 install -m 644 Tmds.DBus.%{version}/lib/netstandard2.0/Tmds.DBus.dll $RPM_BUILD_ROOT%{_darwinx_prefix}%{libdir}
 
-install -d -m 755 $RPM_BUILD_ROOT%{_darwinx_datadir}/pkgconfig/
-install -m 644 DBusSharp.pc $RPM_BUILD_ROOT%{_darwinx_datadir}/pkgconfig/
-
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,root,-)
 %{_darwinx_prefix}/lib/Tmds.DBus.dll
-%{_darwinx_datadir}/pkgconfig/DBusSharp.pc
 
 %changelog
 * Mon Dec 14 2020 Mikkel Kruse Johnsen <mikkel@xmedicus.com> - 0.9.1-1
