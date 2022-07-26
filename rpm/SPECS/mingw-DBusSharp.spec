@@ -12,7 +12,7 @@
 
 Name:			mingw-DBusSharp
 Epoch: 			3
-Version:		0.10.1
+Version:		0.11.0
 Release:		1%{?dist}
 Summary:		Managed C# implementation of DBus
 License:		MIT

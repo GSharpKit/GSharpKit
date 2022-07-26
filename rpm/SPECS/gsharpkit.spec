@@ -84,7 +84,7 @@
 
 %define MONO_DATA_SQLITE_VERSION 1.0.61.1
 %define MONO_POSIX_NETSTANDARD_VERSION 1.0.0
-%define DBUS_SHARP_VERSION 0.9.1
+%define DBUS_SHARP_VERSION 0.11.0
 %define GTK3_SHARP_VERSION 3.24.20
 %define GIR_CORE_VERSION 0.99
 %define GDL_SHARP_VERSION 3.34.0
@@ -98,14 +98,14 @@
 %define BOUNCY_CASTLE_VERSION 1.9.0
 %define MIMEKIT_VERSION 3.3.0
 %define MAILKIT_VERSION 3.3.0
-%define SERVICE_STACK_VERSION 6.1.0
+%define SERVICE_STACK_VERSION 6.2.0
 %define REST_SHARP_VERSION 106.15.0
 %define PDFSHARP_MIGRADOC_VERSION 1.51.16
 %define SPRACHE_VERSION 2.2.0
 
 Summary: 		Easy management of applications
 Name: 			GSharpKit
-Version:		36.0
+Version:		36.1
 Release:		1%{?dist}
 License:		GPL
 Group: 			Applications/Desktop
@@ -263,6 +263,7 @@ Requires:               mingw64-libjpeg-turbo >= %{LIBJPEG_TURBO_VERSION}
 Requires:               mingw64-libtiff >= %{LIBTIFF_VERSION}
 Requires:               mingw64-cairo >= %{CAIRO_VERSION}
 Requires:               mingw64-icu >= %{ICU_VERSION}
+Requires:               mingw64-icu67 >= %{ICU_VERSION}
 Requires:               mingw64-harfbuzz >= %{HARFBUZZ_VERSION}
 Requires:               mingw64-fribidi >= %{FRIBIDI_VERSION}
 Requires:               mingw64-pango >= %{PANGO_VERSION}

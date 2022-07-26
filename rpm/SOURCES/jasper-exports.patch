@@ -1,0 +1,18 @@
+diff -rupN --no-dereference jasper-version-2.0.33/src/libjasper/jp2/jp2_cod.h jasper-version-2.0.33-new/src/libjasper/jp2/jp2_cod.h
+--- jasper-version-2.0.33/src/libjasper/jp2/jp2_cod.h	2021-08-01 22:50:31.000000000 +0200
++++ jasper-version-2.0.33-new/src/libjasper/jp2/jp2_cod.h	2021-09-01 21:42:55.332371002 +0200
+@@ -288,10 +288,10 @@ typedef struct jp2_boxinfo_s {
+ * Box class.
+ \******************************************************************************/
+ 
+-jp2_box_t *jp2_box_create(int type);
+-void jp2_box_destroy(jp2_box_t *box);
+-jp2_box_t *jp2_box_get(jas_stream_t *in);
+-int jp2_box_put(jp2_box_t *box, jas_stream_t *out);
++JAS_DLLEXPORT jp2_box_t *jp2_box_create(int type);
++JAS_DLLEXPORT void jp2_box_destroy(jp2_box_t *box);
++JAS_DLLEXPORT jp2_box_t *jp2_box_get(jas_stream_t *in);
++JAS_DLLEXPORT int jp2_box_put(jp2_box_t *box, jas_stream_t *out);
+ 
+ JAS_ATTRIBUTE_CONST
+ static inline uint_least8_t JP2_DTYPETOBPC(uint_least8_t dtype)

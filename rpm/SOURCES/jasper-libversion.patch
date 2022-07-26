@@ -1,0 +1,19 @@
+diff -rupN --no-dereference jasper-version-2.0.33/src/libjasper/CMakeLists.txt jasper-version-2.0.33-new/src/libjasper/CMakeLists.txt
+--- jasper-version-2.0.33/src/libjasper/CMakeLists.txt	2021-08-01 22:50:31.000000000 +0200
++++ jasper-version-2.0.33-new/src/libjasper/CMakeLists.txt	2021-09-01 21:42:55.264370182 +0200
+@@ -176,10 +176,11 @@ if (MSVC)
+ 	target_compile_definitions(libjasper PRIVATE "-D_CRT_NONSTDC_NO_DEPRECATE")
+ endif()
+ 
+-if (UNIX)
+-	set_target_properties(libjasper PROPERTIES
+-	  VERSION ${JAS_SO_NAME} SOVERSION ${JAS_SO_VERSION})
+-endif()
++set_target_properties(libjasper PROPERTIES
++    VERSION ${JAS_SO_NAME} SOVERSION ${JAS_SO_VERSION})
++if(MINGW AND JAS_ENABLE_SHARED)
++    set_target_properties(libjasper PROPERTIES SUFFIX "-${JAS_SO_VERSION}${CMAKE_SHARED_LIBRARY_SUFFIX}")
++endif(MINGW AND JAS_ENABLE_SHARED)
+ 
+ if (JAS_ENABLE_SHARED)
+ 	set_target_properties(libjasper PROPERTIES

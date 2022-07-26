@@ -1,0 +1,18 @@
+diff -rupN --no-dereference jasper-version-2.0.33/src/appl/tmrdemo.c jasper-version-2.0.33-new/src/appl/tmrdemo.c
+--- jasper-version-2.0.33/src/appl/tmrdemo.c	2021-08-01 22:50:31.000000000 +0200
++++ jasper-version-2.0.33-new/src/appl/tmrdemo.c	2021-09-01 21:42:55.298370592 +0200
+@@ -1,4 +1,5 @@
+ #include <jasper/jasper.h>
++#include <windows.h>
+ 
+ int main(int argc, char **argv)
+ {
+@@ -43,7 +44,7 @@ int main(int argc, char **argv)
+ 	printf("zero time %.3f us\n", t * 1e6);
+ 
+ 	jas_tmr_start(&tmr);
+-	sleep(1);
++	Sleep(1);
+ 	jas_tmr_stop(&tmr);
+ 	t = jas_tmr_get(&tmr);
+ 	printf("time delay %.8f s\n", t);

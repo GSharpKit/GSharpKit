@@ -10,7 +10,7 @@
 %define libdir /lib
 
 Name:           ServiceStack
-Version:        6.1.0
+Version:        6.2.0
 Release:        1%{?dist}
 Summary:        ServiceStack webservice framework: Faster, Cleaner, Modern WCF alternative.
 

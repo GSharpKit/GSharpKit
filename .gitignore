@@ -26,6 +26,7 @@ rpm/SOURCES/*.zip
 rpm/SOURCES/*.gz
 rpm/SOURCES/*.bz2
 rpm/SOURCES/*.xz
+rpm/SOURCES/*.tgz
 RPMS
 SOURCES.bak
 SRPMS
