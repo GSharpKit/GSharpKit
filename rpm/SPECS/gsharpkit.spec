@@ -19,7 +19,7 @@
 %define LIBJPEG_TURBO_VERSION 1.5.3
 %define LIBTIFF_VERSION 4.0.9
 %define CAIRO_VERSION 1.16.0
-%define ICU_VERSION 67.1
+%define ICU_VERSION 57.1
 %define HARFBUZZ_VERSION 2.6.8
 %define FRIBIDI_VERSION 1.0.10
 %define PANGO_VERSION 1.44.7
@@ -263,7 +263,7 @@ Requires:               mingw64-libjpeg-turbo >= %{LIBJPEG_TURBO_VERSION}
 Requires:               mingw64-libtiff >= %{LIBTIFF_VERSION}
 Requires:               mingw64-cairo >= %{CAIRO_VERSION}
 Requires:               mingw64-icu >= %{ICU_VERSION}
-Requires:               mingw64-icu67 >= %{ICU_VERSION}
+Requires:               mingw64-icu57 >= %{ICU_VERSION}
 Requires:               mingw64-harfbuzz >= %{HARFBUZZ_VERSION}
 Requires:               mingw64-fribidi >= %{FRIBIDI_VERSION}
 Requires:               mingw64-pango >= %{PANGO_VERSION}
