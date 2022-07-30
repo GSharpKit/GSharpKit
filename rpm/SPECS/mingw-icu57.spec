@@ -49,6 +49,18 @@ catalogs and resources, message formatting, normalization, number and
 currency formatting, time zone support, transliteration, and word,
 line, and sentence breaking, etc.
 
+%package -n mingw64-icu57-devel
+Summary:        MinGW compilation of International Components for Unicode Tools
+
+%description -n mingw64-icu57-devel
+ICU is a set of C and C++ libraries that provides robust and
+full-featured Unicode and locale support. The library provides calendar
+support, conversions for many character sets, language sensitive
+collation, date and time formatting, support for many locales, message
+catalogs and resources, message formatting, normalization, number and
+currency formatting, time zone support, transliteration, and word,
+line, and sentence breaking, etc.
+
 
 %?mingw_debug_package
 
@@ -94,27 +106,6 @@ rm -fr $RPM_BUILD_ROOT%{mingw64_bindir}/icu-config
 rm -fr $RPM_BUILD_ROOT%{mingw64_libdir}/icu/Makefile.inc
 rm -fr $RPM_BUILD_ROOT%{mingw64_libdir}/icu/pkgdata.inc
 
-rm %{buildroot}%{mingw64_bindir}/genrb.exe
-rm %{buildroot}%{mingw64_bindir}/gencnval.exe
-rm %{buildroot}%{mingw64_bindir}/uconv.exe
-rm %{buildroot}%{mingw64_bindir}/gencmn.exe
-rm %{buildroot}%{mingw64_bindir}/makeconv.exe
-rm %{buildroot}%{mingw64_bindir}/genbrk.exe
-rm %{buildroot}%{mingw64_bindir}/gensprep.exe
-rm %{buildroot}%{mingw64_bindir}/pkgdata.exe
-rm %{buildroot}%{mingw64_bindir}/icupkg.exe
-rm %{buildroot}%{mingw64_bindir}/derb.exe
-rm %{buildroot}%{mingw64_bindir}/genccode.exe
-rm %{buildroot}%{mingw64_bindir}/gendict.exe
-rm %{buildroot}%{mingw64_bindir}/gencfu.exe
-rm %{buildroot}%{mingw64_bindir}/gennorm2.exe
-rm %{buildroot}%{mingw64_bindir}/icuinfo.exe
-
-rm -rf %{buildroot}%{mingw64_includedir}
-rm -rf %{buildroot}%{mingw64_libdir}
-rm -rf %{buildroot}%{mingw64_datadir}
-
-
 # Win64
 %files -n mingw64-icu57
 
@@ -126,6 +117,12 @@ rm -rf %{buildroot}%{mingw64_datadir}
 %{mingw64_bindir}/icudata%{lib_version}.dll
 %{mingw64_bindir}/iculx%{lib_version}.dll
 %{mingw64_bindir}/icutest%{lib_version}.dll
+
+%files -n mingw64-icu57-devel
+%{mingw64_bindir}/*.exe
+%{mingw64_includedir}
+%{mingw64_libdir}
+%{mingw64_datadir}
 
 %changelog
 * Thu Feb 08 2018 Fedora Release Engineering <releng@fedoraproject.org> - 57.1-4

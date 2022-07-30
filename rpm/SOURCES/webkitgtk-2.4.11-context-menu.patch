@@ -1,0 +1,13 @@
+diff -Nur webkitgtk-2.4.11.orig/Source/WebKit/gtk/webkit/webkitwebview.cpp webkitgtk-2.4.11/Source/WebKit/gtk/webkit/webkitwebview.cpp
+--- webkitgtk-2.4.11.orig/Source/WebKit/gtk/webkit/webkitwebview.cpp	2016-04-10 08:48:37.000000000 +0200
++++ webkitgtk-2.4.11/Source/WebKit/gtk/webkit/webkitwebview.cpp	2022-07-30 13:21:06.739270128 +0200
+@@ -411,7 +411,8 @@
+     }
+ 
+     gboolean handled;
+-    g_signal_emit(webView, webkit_web_view_signals[CONTEXT_MENU], 0, defaultMenu, hitTestResult.get(), triggeredWithKeyboard, &handled);
++    //g_signal_emit(webView, webkit_web_view_signals[CONTEXT_MENU], 0, defaultMenu, hitTestResult.get(), triggeredWithKeyboard, &handled);
++    g_signal_emit(webView, webkit_web_view_signals[CONTEXT_MENU], 0, NULL, hitTestResult.get(), triggeredWithKeyboard, &handled);
+     if (handled)
+         return TRUE;
+ 

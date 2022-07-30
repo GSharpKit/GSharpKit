@@ -40,6 +40,9 @@ Patch6:		webkitgtk-2.4.11-inline.patch
 Patch7:		webkitgtk-2.4.11-icu.patch
 Patch8:		webkitgtk-2.4.11-bison.patch
 
+Patch9:		webkitgtk-2.4.11-context-menu.patch
+Patch10:	webkitgtk-2.4.11-right-click.patch
+
 BuildArch:      noarch
 
 BuildRequires:  bison
@@ -65,7 +68,6 @@ BuildRequires:  mingw64-gcc-c++
 BuildRequires:  mingw64-gstreamer1
 BuildRequires:  mingw64-gstreamer1-plugins-base
 BuildRequires:  mingw64-gtk3
-BuildRequires:  mingw64-icu
 BuildRequires:  mingw64-libidn
 BuildRequires:  mingw64-libsoup
 BuildRequires:  mingw64-libwebp
@@ -73,6 +75,10 @@ BuildRequires:  mingw64-libxml2
 BuildRequires:  mingw64-libxslt
 BuildRequires:  mingw64-pthreads
 BuildRequires:  mingw64-sqlite
+
+BuildRequires:	mingw64-icu57
+# When building force uninstall mingw64-icu and install mingw64-icu57-devel
+BuildRequires:	mingw64-icu57-devel
 
 %description
 WebKitGTK+ is an open-source Web content engine library.
@@ -98,12 +104,14 @@ This is the MinGW port of WebKitGTK+ for GTK+ 3.
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
-%patch3 -p1
+#patch3 -p1
 %patch4 -p1
 %patch5 -p1
 %patch6 -p1
 %patch7 -p1
 %patch8 -p1
+%patch9 -p1
+%patch10 -p1
 
 
 %build

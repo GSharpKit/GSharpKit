@@ -1,0 +1,83 @@
+diff -Nur webkitgtk-2.4.11.orig/Source/WebCore/editing/Editor.cpp webkitgtk-2.4.11/Source/WebCore/editing/Editor.cpp
+--- webkitgtk-2.4.11.orig/Source/WebCore/editing/Editor.cpp	2016-04-10 08:48:37.000000000 +0200
++++ webkitgtk-2.4.11/Source/WebCore/editing/Editor.cpp	2022-07-29 14:02:04.267429941 +0200
+@@ -797,6 +797,9 @@
+     } else
+         startNode = m_frame.selection().selection().visibleStart().deepEquivalent().deprecatedNode();
+ 
++    if (!startNode)
++        return false;
++
+     auto renderer = startNode->renderer();
+     while (renderer && !renderer->isRenderBlockFlow())
+         renderer = renderer->parent();
+diff -Nur webkitgtk-2.4.11.orig/Source/WebCore/editing/VisibleUnits.cpp webkitgtk-2.4.11/Source/WebCore/editing/VisibleUnits.cpp
+--- webkitgtk-2.4.11.orig/Source/WebCore/editing/VisibleUnits.cpp	2016-04-10 08:48:37.000000000 +0200
++++ webkitgtk-2.4.11/Source/WebCore/editing/VisibleUnits.cpp	2022-07-29 14:02:04.267429941 +0200
+@@ -488,9 +488,9 @@
+ 
+     SimplifiedBackwardsTextIterator it(searchRange.get());
+     unsigned next = 0;
++    bool inTextSecurityMode = start.deprecatedNode() && start.deprecatedNode()->renderer() && start.deprecatedNode()->renderer()->style().textSecurity() != TSNONE;
+     bool needMoreContext = false;
+     while (!it.atEnd()) {
+-        bool inTextSecurityMode = it.node() && it.node()->renderer() && it.node()->renderer()->style().textSecurity() != TSNONE;
+         // iterate to get chunks until the searchFunction returns a non-zero value.
+         if (!inTextSecurityMode) 
+             string.insert(0, it.characters(), it.length());
+@@ -527,6 +527,9 @@
+     // Use the character iterator to translate the next value into a DOM position.
+     BackwardsCharacterIterator charIt(searchRange.get());
+     charIt.advance(string.size() - suffixLength - next);
++    if (charIt.atEnd())
++        return { };
++
+     // FIXME: charIt can get out of shadow host.
+     return VisiblePosition(charIt.range()->endPosition(), DOWNSTREAM);
+ }
+@@ -564,10 +567,11 @@
+     searchRange->selectNodeContents(boundary, IGNORE_EXCEPTION);
+     searchRange->setStart(start.deprecatedNode(), start.deprecatedEditingOffset(), IGNORE_EXCEPTION);
+     TextIterator it(searchRange.get(), TextIteratorEmitsCharactersBetweenAllVisiblePositions);
+-    unsigned next = 0;
++    const unsigned invalidOffset = static_cast<unsigned>(-1);
++    unsigned next = invalidOffset;
++    bool inTextSecurityMode = start.deprecatedNode() && start.deprecatedNode()->renderer() && start.deprecatedNode()->renderer()->style().textSecurity() != TSNONE;
+     bool needMoreContext = false;
+     while (!it.atEnd()) {
+-        bool inTextSecurityMode = it.node() && it.node()->renderer() && it.node()->renderer()->style().textSecurity() != TSNONE;
+         // Keep asking the iterator for chunks until the search function
+         // returns an end value not equal to the length of the string passed to it.
+         if (!inTextSecurityMode)
+@@ -587,6 +591,7 @@
+             break;
+         it.advance();
+     }
++
+     if (needMoreContext) {
+         // The last search returned the end of the buffer and asked for more context,
+         // but there is no further text. Force a search with what's available.
+@@ -596,10 +601,12 @@
+     
+     if (it.atEnd() && next == string.size()) {
+         pos = it.range()->startPosition();
+-    } else if (next != prefixLength) {
++    } else if (next != invalidOffset && next != prefixLength) {
+         // Use the character iterator to translate the next value into a DOM position.
+         CharacterIterator charIt(searchRange.get(), TextIteratorEmitsCharactersBetweenAllVisiblePositions);
+         charIt.advance(next - prefixLength - 1);
++        if (charIt.atEnd())
++            return { };
+         RefPtr<Range> characterRange = charIt.range();
+         pos = characterRange->endPosition();
+         
+@@ -608,6 +615,9 @@
+             VisiblePosition visPos = VisiblePosition(pos);
+             if (visPos == VisiblePosition(characterRange->startPosition())) {
+                 charIt.advance(1);
++	        if (charIt.atEnd())
++        	    return { };
++
+                 pos = charIt.range()->startPosition();
+             }
+         }
