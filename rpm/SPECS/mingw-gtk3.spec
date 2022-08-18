@@ -14,7 +14,7 @@
 Name:           mingw-gtk3
 # Drop Source2 on next update!
 Version:        3.24.34
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        MinGW Windows GTK+ library
 
 License:        LGPLv2+
@@ -29,6 +29,7 @@ Source2:        https://gitlab.gnome.org/GNOME/gtk/-/raw/gtk-3-24/gdk/win32/gdkk
 Patch0:         gtk+-libhid.patch
 # Drop -Werror=array-bounds, causes build to fail
 Patch1:         gtk+-array-bounds.patch
+Patch2:         gtk3-dll_export_revert.patch
 
 BuildArch:      noarch
 
