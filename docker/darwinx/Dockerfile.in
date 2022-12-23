@@ -7,6 +7,8 @@ ADD packages/*.noarch.rpm /tmp/
 RUN rpm -Uvh --nodeps --ignoreos /tmp/*.noarch.rpm && rm -f /tmp/*.noarch.rpm
 
 RUN dnf -y install python2.7 hunspell-da hunspell-en-GB hunspell-en-US GSharpKit-runtime GSharpKit-sdk GSharpKit-sdk-darwinx && dnf clean all && rm -rf /var/cache/dnf
+#RUN rpm -e --nodeps dotnet-targeting-pack-6.0-6.0.12-1.x86_64 dotnet-runtime-deps-6.0-6.0.12-1.x86_64 dotnet-hostfxr-6.0-6.0.12-1.x86_64 dotnet-runtime-6.0-6.0.12-1.x86_64 dotnet-apphost-pack-6.0-6.0.12-1.x86_64 dotnet-sdk-6.0-6.0.404-1.x86_64
+#RUN dnf -y install dotnet-runtime-7.0 dotnet-sdk-7.0
 RUN ln -s /usr/share/dotnet/sdk /usr/lib64/dotnet/sdk
 
 RUN mkdir /Library/Frameworks/GSharpKit/share/hunspell ; cp /usr/share/hunspell/da_DK.aff /usr/share/hunspell/da_DK.dic /usr/share/hunspell/en_GB.aff /usr/share/hunspell/en_GB.dic /usr/share/hunspell/en_US.aff /usr/share/hunspell/en_US.dic /Library/Frameworks/GSharpKit/share/hunspell/
