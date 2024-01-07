@@ -196,6 +196,8 @@ Group:                  Applications/Desktop
 BuildArch:              noarch
 AutoReqProv:            no
 
+Requires:               dotnet-sdk-%{DOTNET_VERSION}
+
 Requires:               redhat-rpm-config rpm-build
 Requires:               msitools
 Requires:               osslsigncode
