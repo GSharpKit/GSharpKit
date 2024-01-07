@@ -14,6 +14,7 @@ DIR="$TMPDIR/framework/@FRAMEWORK@"
 mkdir -p $TMPDIR/tmp/usr/x86_64-w64-mingw32/sys-root/mingw
 
 sh make-msi-install.sh /usr/x86_64-w64-mingw32/sys-root/mingw $TMP/usr/x86_64-w64-mingw32/sys-root/mingw x64
+cp /usr/x86_64-w64-mingw32/sys-root/mingw/lib/GSharpKit/sdk/@FRAMEWORK@/*.dll $TMP/usr/x86_64-w64-mingw32/sys-root/mingw/bin/
 
 mkdir -p $TMPDIR/framework
 mv $TMP/usr/x86_64-w64-mingw32/sys-root/mingw $DIR

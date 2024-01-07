@@ -67,7 +67,6 @@
 %define GSTREAMER1_PLUGINS_BAD_VERSION 1.18.0
 
 #define LIBEXIF_VERSION 0.6.20
-%define LIBCEF_VERSION 112.3.0
 
 %define DBUS_VERSION 1.13.16
 
@@ -83,7 +82,7 @@
 %define minor_version 0
 
 %define linux_prefix /usr/lib/%{name}/sdk/%{major_version}
-%define mingw64_prefix /usr/x86_64-w64-mingw32/sys-root/mingw/bin
+%define mingw64_prefix /usr/x86_64-w64-mingw32/sys-root/mingw/lib/%{name}/sdk/%{major_version}
 
 Summary: 		Easy management of applications
 Name: 			GSharpKit
@@ -140,7 +139,6 @@ Requires:		libgdl >= %{GDL_VERSION}
 Requires:		libsoup >= %{LIBSOUP_VERSION}
 Requires:		hunspell >= %{HUNSPELL_VERSION}
 Requires:		enchant >= %{ENCHANT_VERSION}
-Requires:		libcef >= %{LIBCEF_VERSION}
 
 #Requires:		libusbx >= %{LIBUSB_VERSION}
 #Requires:		libexif >= %{LIBEXIF_VERSION}
@@ -197,6 +195,11 @@ License:                GPL
 Group:                  Applications/Desktop
 BuildArch:              noarch
 AutoReqProv:            no
+
+Requires:               redhat-rpm-config rpm-build
+Requires:               msitools
+Requires:               osslsigncode
+Requires:               hunspell-da
 
 Requires:               mingw64-winpthreads >= %{HEADER_CRT_THREAD_VERSION}
 Requires:               mingw64-termcap >= %{TERMCAP_VERSION}
@@ -259,7 +262,6 @@ Requires:               mingw64-gstreamer1 >= %{GSTREAMER1_VERSION}
 Requires:               mingw64-gstreamer1-plugins-base >= %{GSTREAMER1_PLUGINS_BASE_VERSION}
 Requires:               mingw64-gstreamer1-plugins-good >= %{GSTREAMER1_PLUGINS_GOOD_VERSION}
 Requires:               mingw64-gstreamer1-plugins-bad-free >= %{GSTREAMER1_PLUGINS_BAD_VERSION}
-Requires:               mingw64-libcef >= %{LIBCEF_VERSION}
 
 Requires:               mingw64-dbus >= %{DBUS_VERSION}
 
@@ -280,11 +282,7 @@ AutoReqProv:            no
 
 Requires:		GSharpKit-sdk-mingw64
 
-Requires:               redhat-rpm-config rpm-build
-Requires:		mingw-w64-tools
-Requires:		msitools
-Requires:		osslsigncode
-Requires:		hunspell-da
+Requires:               mingw-w64-tools
 Requires:               mingw64-filesystem >= %{MINGW_FILESYSTEM_VERSION}
 Requires:               mingw64-binutils >= %{BINUTILS_VERSION}
 Requires:               mingw64-crt >= %{HEADER_CRT_THREAD_VERSION}
@@ -404,6 +402,9 @@ install -m 644 /usr/lib/PangoSharp.dll $RPM_BUILD_ROOT%{mingw64_prefix}/
 install -m 644 /usr/lib/WebkitGtkSharp.dll $RPM_BUILD_ROOT%{mingw64_prefix}/
 install -m 644 /usr/lib/GdlSharp.dll $RPM_BUILD_ROOT%{mingw64_prefix}/
 install -m 644 /usr/lib/GstSharp.dll $RPM_BUILD_ROOT%{mingw64_prefix}/
+
+rm -f $RPM_BUILD_ROOT%{linux_prefix}/Microsoft.SqlServer.Server.dll
+rm -f $RPM_BUILD_ROOT%{mingw64_prefix}/Microsoft.SqlServer.Server.dll
 
 %clean
 #rm -rf $RPM_BUILD_ROOT
