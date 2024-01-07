@@ -3,44 +3,19 @@
 %define libdir /lib
 
 Name:           GtkSharp
-Version:        3.24.24.35
+Version:        3.24.24.34
 Release:        1%{?dist}
 Summary:        GTK+ and GNOME bindings for Mono
 
 Group:          System Environment/Libraries
 License:        LGPLv2+
-URL:            http://www.mono-project.com/GtkSharp
-Source0:        GtkSharp-%{version}.tar.gz
-Source1:        gdk-sharp-3.0.pc
-Source2:        glib-sharp-3.0.pc
-Source3:        gio-sharp-3.0.pc
-Source4:        gtk-sharp-3.0.pc
-Source100:	gapi3-codegen
-Source101:	gapi3-fixup
-Source102:	gapi3-parser 
-Source103:	gapi-fixup.exe 
-Source104:	gapi-parser.exe 
-Source105:	gapi2xml.pl 
-Source106:	gapi_codegen.exe 
-Source107:	gapi_pp.pl
-Source108:	gapi-3.0.pc
+URL:            https://github.com/GSharpKit/GtkSharp
+Source0:        GtkSharp-%{version}.tar.xz
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildArch:      noarch
 
-BuildRequires:  dotnet-sdk-5.0, gtk3-devel, cairo-devel, perl-XML-LibXML
-BuildRequires:  meson
-
-Obsoletes:	gtk-sharp3
-Obsoletes:	gtk-sharp3-gapi
-Obsoletes:	gtk-sharp3-devel
-
-Provides:	gtk-sharp3
-Provides:	gtk-sharp3-gapi
-Provides:	gtk-sharp3-devel
-
-# Mono only available on these:
-ExclusiveArch: %ix86 x86_64 ppc ppc64 ia64 armv4l sparcv9 alpha s390 s390x
+BuildRequires:  dotnet-sdk-8.0
 
 %description
 This package provides a library that allows you to build
@@ -49,20 +24,8 @@ is a binding to GTK+, the cross platform user interface
 toolkit used in GNOME. It includes bindings for Gtk, Atk,
 Pango, Gdk. 
 
-%package gapi
-Group:        Development/Languages
-Summary:      Glib and GObject C source parser and C generator for the creation and maintenance of managed bindings for Mono and .NET
-Requires:     perl-XML-LibXML-Common perl-XML-LibXML perl-XML-SAX
-
-%description gapi
-This package provides developer tools for the creation and
-maintenance of managed bindings to native libraries which utilize
-glib and GObject. Some examples of libraries currently bound using
-the GAPI tools and found in Gtk# include Gtk, Atk, Pango, Gdk.
-
 %prep
 %setup -q
-rm -rf BuildOutput/*
 rm -rf Source/Samples/obj
 rm -rf Source/Libs/GtkSourceSharp/obj
 rm -rf Source/Libs/GioSharp/obj
@@ -73,18 +36,15 @@ rm -rf Source/Libs/PangoSharp/obj
 rm -rf Source/Libs/GLibSharp/obj
 rm -rf Source/Libs/AtkSharp/obj
 rm -rf Source/Libs/WebkitGtkSharp/obj
+rm -rf Source/Libs/GdlSharp/obj
+rm -rf Source/Libs/GstSharp/obj
 rm -rf Source/Tools/GapiCodegen/obj
 rm -rf Source/Tools/GapiFixup/obj
 rm -rf Source/Addins/MonoDevelop.GtkSharp.Addin/obj
 
 %build
-sh build.sh
-
-#pushd Source/OldStuff/parser/
-#meson --prefix=%{_prefix} --libdir=%{_prefix}/lib build
-#ninja -C build/
-#popd
-
+dotnet tool restore
+DOTNET_ROOT=/usr/lib64/dotnet dotnet cake build.cake
 
 %install
 %{__rm} -rf $RPM_BUILD_ROOT
@@ -97,55 +57,16 @@ install -m 644 BuildOutput/Release/GioSharp.dll $RPM_BUILD_ROOT%{_prefix}%{libdi
 install -m 644 BuildOutput/Release/GLibSharp.dll $RPM_BUILD_ROOT%{_prefix}%{libdir}/
 install -m 644 BuildOutput/Release/GtkSharp.dll $RPM_BUILD_ROOT%{_prefix}%{libdir}/
 install -m 644 BuildOutput/Release/PangoSharp.dll $RPM_BUILD_ROOT%{_prefix}%{libdir}/
-
-mkdir -p %{buildroot}%{_prefix}/share/pkgconfig
-install -m 644 %{SOURCE1} %{buildroot}%{_prefix}/share/pkgconfig/
-install -m 644 %{SOURCE2} %{buildroot}%{_prefix}/share/pkgconfig/
-install -m 644 %{SOURCE3} %{buildroot}%{_prefix}/share/pkgconfig/
-install -m 644 %{SOURCE4} %{buildroot}%{_prefix}/share/pkgconfig/
-install -m 644 %{SOURCE108} %{buildroot}%{_prefix}/share/pkgconfig/
-
-sed -i -e 's!@VERSION@!%{version}!g' %{buildroot}%{_prefix}/share/pkgconfig/*.pc 
-
-mkdir -p %{buildroot}%{_prefix}/share/gapi-3.0
-cp Source/Libs/*/*Sharp-api.xml %{buildroot}%{_prefix}/share/gapi-3.0/
-
-mkdir -p %{buildroot}%{_prefix}/bin
-install -m 755 %{SOURCE100} %{buildroot}%{_prefix}/bin/
-install -m 755 %{SOURCE101} %{buildroot}%{_prefix}/bin/
-install -m 755 %{SOURCE102} %{buildroot}%{_prefix}/bin/
-
-mkdir -p %{buildroot}%{_prefix}/lib/gapi-3.0
-install -m 755 %{SOURCE103} %{buildroot}%{_prefix}/lib/gapi-3.0/
-install -m 755 %{SOURCE104} %{buildroot}%{_prefix}/lib/gapi-3.0/
-install -m 755 %{SOURCE105} %{buildroot}%{_prefix}/lib/gapi-3.0/
-install -m 755 %{SOURCE106} %{buildroot}%{_prefix}/lib/gapi-3.0/
-install -m 755 %{SOURCE107} %{buildroot}%{_prefix}/lib/gapi-3.0/
+install -m 644 BuildOutput/Release/WebkitGtkSharp.dll $RPM_BUILD_ROOT%{_prefix}%{libdir}/
+install -m 644 BuildOutput/Release/GdlSharp.dll $RPM_BUILD_ROOT%{_prefix}%{libdir}/
+install -m 644 BuildOutput/Release/GstSharp.dll $RPM_BUILD_ROOT%{_prefix}%{libdir}/
 
 %clean
 %{__rm} -rf $RPM_BUILD_ROOT
 
-%post -p /sbin/ldconfig
-%postun -p /sbin/ldconfig
-
 %files
 %defattr(-,root,root,-)
 %{_prefix}/lib/*Sharp.dll
-%{_prefix}/share/pkgconfig/*-sharp-3.0.pc
-
-%files gapi
-%defattr(-,root,root,-)
-%dir %{_prefix}/lib/gapi-3.0
-%{_bindir}/gapi3-codegen
-%{_bindir}/gapi3-fixup
-%{_bindir}/gapi3-parser
-%{_prefix}/lib/gapi-3.0/gapi_codegen.exe
-%{_prefix}/lib/gapi-3.0/gapi-fixup.exe
-%{_prefix}/lib/gapi-3.0/gapi-parser.exe
-%{_prefix}/lib/gapi-3.0/gapi_pp.pl
-%{_prefix}/lib/gapi-3.0/gapi2xml.pl
-%{_datadir}/gapi-3.0
-%{_prefix}/share/pkgconfig/gapi-3.0.pc
 
 %changelog
 * Thu Oct 28 2010 Christian Krause <chkr@fedoraproject.org> - 2.12.10-4

@@ -62,4 +62,4 @@ rpm/SOURCES/gir.core-0.99/
 rpm/SOURCES/gtk+-array-bounds.patch
 rpm/SOURCES/gtk+-libhid.patch
 rpm/SOURCES/tepl6.patch
-
+rpm/SOURCES/unifdef-*

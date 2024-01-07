@@ -2,35 +2,32 @@
 %define freetype_version 9.7.3
 %define fontconfig_version 2.2.95
 
-Name:    cairo
-Version: 1.17.6
-Release: 2%{?dist}
-Summary: A 2D graphics library
+Name:           cairo
+Version:        1.18.0
+Release:        1%{?dist}
+Summary:        A 2D graphics library
 
-License: LGPLv2 or MPLv1.1
-URL:     https://cairographics.org
-Source0: https://download.gnome.org/sources/%{name}/1.17/%{name}-%{version}.tar.xz
+License:        LGPL-2.1-only OR MPL-1.1
+URL:            https://cairographics.org
+Source:         https://cairographics.org/releases/%{name}-%{version}.tar.xz
 
-Patch0: cairo-multilib.patch
-# https://gitlab.freedesktop.org/cairo/cairo/merge_requests/1
-Patch1: 0001-Set-default-LCD-filter-to-FreeType-s-default.patch
-# https://gitlab.freedesktop.org/cairo/cairo/-/issues/547
-Patch2: cairo-1.17.6-meson-fixes.patch
+Patch:          cairo-multilib.patch
+#Patch2: 	cairo-1.17.8-ft-font-missing-glyph.patch
 
-BuildRequires: gcc
-BuildRequires: gcc-c++
-BuildRequires: gtk-doc
-BuildRequires: meson
-BuildRequires: pkgconfig(expat)
-BuildRequires: pkgconfig(pixman-1) >= %{pixman_version}
-BuildRequires: pkgconfig(freetype2) >= %{freetype_version}
-BuildRequires: pkgconfig(fontconfig) >= %{fontconfig_version}
-BuildRequires: pkgconfig(gobject-2.0)
-BuildRequires: pkgconfig(libpng)
-BuildRequires: pkgconfig(librsvg-2.0)
-BuildRequires: pkgconfig(xext)
-BuildRequires: pkgconfig(xcb-render)
-BuildRequires: pkgconfig(xrender)
+BuildRequires:  gcc
+BuildRequires:  gcc-c++
+BuildRequires:  gtk-doc
+BuildRequires:  meson
+BuildRequires:  pkgconfig(expat)
+BuildRequires:  pkgconfig(pixman-1) >= %{pixman_version}
+BuildRequires:  pkgconfig(freetype2) >= %{freetype_version}
+BuildRequires:  pkgconfig(fontconfig) >= %{fontconfig_version}
+BuildRequires:  pkgconfig(gobject-2.0)
+BuildRequires:  pkgconfig(libpng)
+BuildRequires:  pkgconfig(librsvg-2.0)
+BuildRequires:  pkgconfig(xext)
+BuildRequires:  pkgconfig(xcb-render)
+BuildRequires:  pkgconfig(xrender)
 
 %description
 Cairo is a 2D graphics library designed to provide high-quality display
@@ -90,7 +87,6 @@ This package contains tools for working with the cairo graphics library.
 
 %build
 %meson \
-  -Dgl-backend=gl \
   -Dfreetype=enabled \
   -Dfontconfig=enabled \
   -Dglib=enabled \
@@ -101,7 +97,8 @@ This package contains tools for working with the cairo graphics library.
   -Dtests=disabled \
   -Dxcb=enabled \
   -Dxlib=enabled \
-  -Dxml=disabled
+  -Dgl-backend=gl
+  %{nil}
 %meson_build
 
 %install
@@ -109,12 +106,11 @@ This package contains tools for working with the cairo graphics library.
 
 %files
 %license COPYING COPYING-LGPL-2.1 COPYING-MPL-1.1
-%doc AUTHORS BIBLIOGRAPHY BUGS NEWS README
+%doc AUTHORS BUGS NEWS README.md
 %{_libdir}/libcairo.so.2*
 %{_libdir}/libcairo-script-interpreter.so.2*
 
 %files devel
-%doc ChangeLog PORTING_GUIDE
 %dir %{_includedir}/cairo/
 %{_includedir}/cairo/cairo-deprecated.h
 %{_includedir}/cairo/cairo-features.h
@@ -152,7 +148,6 @@ This package contains tools for working with the cairo graphics library.
 %{_libdir}/pkgconfig/cairo-glx.pc
 %{_datadir}/gtk-doc/html/cairo
 
-
 %files gobject
 %{_libdir}/libcairo-gobject.so.2*
 
@@ -162,11 +157,35 @@ This package contains tools for working with the cairo graphics library.
 %{_libdir}/pkgconfig/cairo-gobject.pc
 
 %files tools
-%{_bindir}/cairo-sphinx
 %{_bindir}/cairo-trace
 %{_libdir}/cairo/
 
 %changelog
+* Wed Sep 27 2023 Kalev Lember <klember@redhat.com> - 1.18.0-1
+- Update to 1.18.0
+- Drop the xml surface and cairo-sphinx tool as they've been removed upstream
+
+* Wed Jul 19 2023 Fedora Release Engineering <releng@fedoraproject.org> - 1.17.8-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_39_Mass_Rebuild
+
+* Mon May 15 2023 Scott Talbert <swt@techie.net> - 1.17.8-4
+- Fix crash due to scaled_glyph->dev_private reuse (#2189228)
+
+* Wed Mar 15 2023 David King <amigadave@amigadave.com> - 1.17.8-3
+- Fix missing glyphs in ft-font
+
+* Sat Feb 25 2023 Marek Kasik <mkasik@redhat.com> - 1.17.8-2
+- Rebuild for new freetype-2.13.0
+
+* Mon Feb 20 2023 David King <amigadave@amigadave.com> - 1.17.8-1
+- Update to 1.17.8 (#2166624)
+
+* Wed Jan 18 2023 Fedora Release Engineering <releng@fedoraproject.org> - 1.17.6-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_38_Mass_Rebuild
+
+* Wed Jul 20 2022 Fedora Release Engineering <releng@fedoraproject.org> - 1.17.6-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_37_Mass_Rebuild
+
 * Fri Mar 18 2022 David King <amigadave@amigadave.com> - 1.17.6-1
 - Update to 1.17.6
 

@@ -65,61 +65,36 @@
 %define GSTREAMER1_PLUGINS_BASE_VERSION 1.18.0
 %define GSTREAMER1_PLUGINS_GOOD_VERSION 1.18.0
 %define GSTREAMER1_PLUGINS_BAD_VERSION 1.18.0
-%define WEBKITGTK3_VERSION 2.4.11
+
 #define LIBEXIF_VERSION 0.6.20
+%define LIBCEF_VERSION 112.3.0
 
 %define DBUS_VERSION 1.13.16
 
 #define LIBUSB_VERSION 1.0.22
 #define LIBGPHOTO2_VERSION 2.5.16
-#define SANE_BACKENDS_VERSION 1.0.27
-#define TWAIN_DSM_VERSION 2.3.1
 
-%define SYSTEM_COMMON_VERSION 2.0.0
-%define SYSTEM_SECURITY_VERSION 6.0.0
-%define SYSTEM_SERVICEMODEL_VERSION 4.9.0
-%define SYSTEM_RUNTIME_CACHING_VERSION 6.0.0
-%define SYSTEM_DIRECTORY_SERVICES_VERSION 6.0.0
-%define MICROSOFT_DATA_SQLCLIENT 4.0.0
 
-%define MONO_DATA_SQLITE_VERSION 1.0.61.1
-%define MONO_POSIX_NETSTANDARD_VERSION 1.0.0
-%define DBUS_SHARP_VERSION 0.11.0
-%define GTK3_SHARP_VERSION 3.24.20
-%define GIR_CORE_VERSION 0.99
-%define GDL_SHARP_VERSION 3.34.0
-%define GST_SHARP_VERSION 1.18.2
-%define WEBKITGTK3_SHARP_VERSION 2.4.11
-%define GTK_MAC_INTEGRATION_SHARP_VERSION 2.0.7
 
-%define NPGSQL_VERSION 6.0.5
-%define MONO_ADDINS_VERSION 1.3.12
-%define NEWTONSOFT_JSON_VERSION 13.0.1
-%define BOUNCY_CASTLE_VERSION 1.9.0
-%define MIMEKIT_VERSION 3.3.0
-%define MAILKIT_VERSION 3.3.0
-%define SERVICE_STACK_VERSION 6.2.0
-%define REST_SHARP_VERSION 106.15.0
-%define PDFSHARP_MIGRADOC_VERSION 1.51.16
-%define SPRACHE_VERSION 2.2.0
+#### DEFINES
+%define DOTNET_VERSION 8.0
+
+%define major_version 39
+%define minor_version 0
+
+%define linux_prefix /usr/lib/%{name}/sdk/%{major_version}
+%define mingw64_prefix /usr/x86_64-w64-mingw32/sys-root/mingw/bin
 
 Summary: 		Easy management of applications
 Name: 			GSharpKit
-Version:		36.2
+Version:		%{major_version}.%{minor_version}
 Release:		1%{?dist}
 License:		GPL
 Group: 			Applications/Desktop
-Source1:		yum_ignoreos.conf
-Source2:		yum_ignoreos.py
-Source3:		gsharpkit.repo
-Source4:		RPM-GPG-KEY-gsharpkit
-Source5:		macros.darwinx.gsharpkit
-Source6:		darwinx-cmake
-Source7:		darwinx-configure 
-Source8:		darwinx-make
-Source9:		darwinx-pkg-config
-Source12:		microsoft-prod.repo
-Source13:		RPM-GPG-KEY-microsoft
+Source1:		gsharpkit.repo
+Source2:		RPM-GPG-KEY-gsharpkit
+Source3:		microsoft-prod.repo
+Source4:		RPM-GPG-KEY-microsoft
 URL:			http://www.gsharpkit.com
 Vendor:			GSharpKit
 Packager:		Mikkel Kruse Johnsen <mikkel@gsharpkit.com>
@@ -151,22 +126,7 @@ Group: 			Applications/Desktop
 BuildArch:		noarch
 AutoReqProv:            no
 
-Obsoletes:		Microsoft.CSharp System.ComponentModel.Annotations
-
-Requires:               dotnet-runtime-6.0
-
-Requires:		System.Common >= %{SYSTEM_COMMON_VERSION}
-Requires:		System.Security >= %{SYSTEM_SECURITY_VERSION}
-Requires:		System.ServiceModel >= %{SYSTEM_SERVICEMODEL_VERSION}
-Requires:		System.Runtime.Caching >= %{SYSTEM_RUNTIME_CACHING_VERSION}
-Requires:		System.DirectoryServices >= %{SYSTEM_DIRECTORY_SERVICES_VERSION}
-Requires:		Microsoft.Data.SqlClient >= %{MICROSOFT_DATA_SQLCLIENT}
-Requires:		Mono.Posix.NETStandard >= %{MONO_POSIX_NETSTANDARD_VERSION}
-Requires:		Mono.Data.Sqlite >= %{MONO_DATA_SQLITE_VERSION}
-Requires:		Npgsql >= %{NPGSQL_VERSION}
-
-Requires:		Mono.Addins >= %{MONO_ADDINS_VERSION}
-Requires:		DBusSharp >= %{DBUS_SHARP_VERSION}
+Requires:               dotnet-runtime-%{DOTNET_VERSION}
 
 #Requires:		libcroco >= %{LIBCROCO_VERSION}
 Requires:		libepoxy >= %{LIBEPOXY_VERSION}
@@ -174,23 +134,17 @@ Requires:		librsvg2 >= %{LIBRSVG2_VERSION}
 Requires:		gtk3 >= %{GTK3_VERSION}
 Requires:		gtk4 >= %{GTK4_VERSION}
 Requires:		adwaita-icon-theme >= %{GTK3_ADWAITA_VERSION}
-Requires:		GtkSharp >= %{GTK3_SHARP_VERSION}
-Requires:		GirCore >= %{GIR_CORE_VERSION}
 
 Requires:		libgdl >= %{GDL_VERSION}
-Requires:		GdlSharp >= %{GDL_SHARP_VERSION}
 
 Requires:		libsoup >= %{LIBSOUP_VERSION}
 Requires:		hunspell >= %{HUNSPELL_VERSION}
 Requires:		enchant >= %{ENCHANT_VERSION}
-Requires:		webkitgtk3 >= %{WEBKITGTK3_VERSION}
-Requires:		webkitgtk3-sharp >= %{WEBKITGTK3_SHARP_VERSION}
+Requires:		libcef >= %{LIBCEF_VERSION}
 
 #Requires:		libusbx >= %{LIBUSB_VERSION}
 #Requires:		libexif >= %{LIBEXIF_VERSION}
 #Requires:		libgphoto2 >= %{LIBGPHOTO2_VERSION}
-#Requires:		sane-backends >= %{SANE_BACKENDS_VERSION}
-#Requires:		twaindsm >= %{TWAIN_DSM_VERSION}
 
 Requires:		libogg => %{LIBOGG_VERSION}
 Requires:		libvorbis => %{LIBVORBIS_VERSION}
@@ -199,15 +153,6 @@ Requires:		gstreamer1 => %{GSTREAMER1_VERSION}
 Requires:		gstreamer1-plugins-base >= %{GSTREAMER1_PLUGINS_BASE_VERSION}
 Requires:		gstreamer1-plugins-good >= %{GSTREAMER1_PLUGINS_GOOD_VERSION}
 Requires:		gstreamer1-plugins-bad-free >= %{GSTREAMER1_PLUGINS_BAD_VERSION}
-Requires:		GstSharp >= %{GST_SHARP_VERSION}
-Requires:		Newtonsoft.Json >= %{NEWTONSOFT_JSON_VERSION}
-Requires:		BouncyCastle >= %{BOUNCY_CASTLE_VERSION}
-Requires:		MimeKit >= %{MIMEKIT_VERSION}
-Requires:		MailKit >= %{MAILKIT_VERSION}
-Requires:		ServiceStack >= %{SERVICE_STACK_VERSION}
-Requires:		RestSharp >= %{REST_SHARP_VERSION}
-Requires:		Sprache >= %{SPRACHE_VERSION}
-Requires:		PdfSharp.MigraDoc >= %{PDFSHARP_MIGRADOC_VERSION}
 
 %description runtime
 Easy management of applications
@@ -215,26 +160,36 @@ Easy management of applications
 
 
 
-%package sdk
+%package sdk-%{major_version}
 Summary: 		SDK for GSharpKit
 License:		GPL
 Group: 			Applications/Desktop
 BuildArch:		noarch
 AutoReqProv:            no
-Provides:		distribution-release
 
-Requires:		GSharpKit-runtime = %{version}
+Requires:		dotnet-sdk-%{DOTNET_VERSION}
+BuildRequires:		dotnet-runtime-%{DOTNET_VERSION}
 
-Requires:		gnome-common intltool glib2-devel redhat-rpm-config rpm-build fedora-packager
-Requires:		meson
+BuildRequires:		GtkSharp
 
-Requires:		GtkSharp GtkSharp-gapi
-
-Requires:		dotnet-sdk-6.0 netstandard-targeting-pack-2.1
-
-
-%description sdk
+%description sdk-%{major_version}
 Easy management of applications
+
+%package sdk-devel
+Summary:                SDK for GSharpKit
+License:                GPL
+Group:                  Applications/Desktop
+BuildArch:              noarch
+AutoReqProv:            no
+
+Requires:               gnome-common intltool glib2-devel redhat-rpm-config rpm-build fedora-packager
+Requires:               meson
+
+Requires:               dotnet-sdk-%{DOTNET_VERSION}
+
+%description sdk-devel
+Easy management of applications
+
 
 %package sdk-mingw64
 Summary:                SDK for GSharpKit Mingw 64 bit
@@ -242,8 +197,6 @@ License:                GPL
 Group:                  Applications/Desktop
 BuildArch:              noarch
 AutoReqProv:            no
-
-Obsoletes:		mingw64-Microsoft.CSharp mingw64-System.ComponentModel.Annotations
 
 Requires:               mingw64-winpthreads >= %{HEADER_CRT_THREAD_VERSION}
 Requires:               mingw64-termcap >= %{TERMCAP_VERSION}
@@ -306,73 +259,16 @@ Requires:               mingw64-gstreamer1 >= %{GSTREAMER1_VERSION}
 Requires:               mingw64-gstreamer1-plugins-base >= %{GSTREAMER1_PLUGINS_BASE_VERSION}
 Requires:               mingw64-gstreamer1-plugins-good >= %{GSTREAMER1_PLUGINS_GOOD_VERSION}
 Requires:               mingw64-gstreamer1-plugins-bad-free >= %{GSTREAMER1_PLUGINS_BAD_VERSION}
-Requires:               mingw64-webkitgtk3 >= %{WEBKITGTK3_VERSION}
+Requires:               mingw64-libcef >= %{LIBCEF_VERSION}
 
 Requires:               mingw64-dbus >= %{DBUS_VERSION}
 
 #Requires:		mingw64-libusbx >= %{LIBUSB_VERSION}
 #Requires:		mingw64-libexif >= %{LIBEXIF_VERSION}
 #Requires:		mingw64-libgphoto2 >= %{LIBGPHOTO2_VERSION}
-#Requires:		mingw64-sane-backends >= %{SANE_BACKENDS_VERSION}
-#Requires:		mingw64-twaindsm >= %{TWAIN_DSM_VERSION}
-
-Requires:               mingw64-System.Common >= %{SYSTEM_COMMON_VERSION}
-Requires:               mingw64-System.Security >= %{SYSTEM_SECURITY_VERSION}
-Requires:               mingw64-System.ServiceModel >= %{SYSTEM_SERVICEMODEL_VERSION}
-Requires:		mingw64-System.Runtime.Caching >= %{SYSTEM_RUNTIME_CACHING_VERSION}
-Requires:               mingw64-System.DirectoryServices >= %{SYSTEM_DIRECTORY_SERVICES_VERSION}
-Requires:		mingw64-Microsoft.Data.SqlClient >= %{MICROSOFT_DATA_SQLCLIENT}
-Requires:               mingw64-Mono.Posix.NETStandard >= %{MONO_POSIX_NETSTANDARD_VERSION}
-Requires:               mingw64-Mono.Data.Sqlite >= %{MONO_DATA_SQLITE_VERSION}
-Requires:               mingw64-Npgsql >= %{NPGSQL_VERSION}
-Requires:               mingw64-GtkSharp >= %{GTK3_SHARP_VERSION}
-Requires:               mingw64-GirCore >= %{GIR_CORE_VERSION}
-Requires:               mingw64-GdlSharp >= %{GDL_SHARP_VERSION}
-Requires:               mingw64-Mono.Addins >= %{MONO_ADDINS_VERSION}
-Requires:               mingw64-webkitgtk3-sharp >= %{WEBKITGTK3_SHARP_VERSION}
-Requires:               mingw64-DBusSharp >= %{DBUS_SHARP_VERSION}
-Requires:               mingw64-GstSharp >= %{GST_SHARP_VERSION}
-Requires:               mingw64-Newtonsoft.Json >= %{NEWTONSOFT_JSON_VERSION}
-Requires:               mingw64-BouncyCastle >= %{BOUNCY_CASTLE_VERSION}
-Requires:               mingw64-MimeKit >= %{MIMEKIT_VERSION}
-Requires:               mingw64-MailKit >= %{MAILKIT_VERSION}
-Requires:		mingw64-ServiceStack >= %{SERVICE_STACK_VERSION}
-Requires:		mingw64-RestSharp >= %{REST_SHARP_VERSION}
-Requires:               mingw64-Sprache >= %{SPRACHE_VERSION}
-Requires:               mingw64-PdfSharp.MigraDoc >= %{PDFSHARP_MIGRADOC_VERSION}
-
 
 %description sdk-mingw64
 Easy management of applications for Windows 64 bit
-
-
-%package sdk-mingw
-Summary:                SDK for GSharpKit Mingw 32/64 bit
-License:                GPL
-Group:                  Applications/Desktop
-BuildArch:              noarch
-AutoReqProv:            no
-
-Requires:		GSharpKit-sdk
-Requires:		GSharpKit-sdk-mingw64
-
-%description sdk-mingw
-Easy management of applications for Windows
-
-
-
-%package sdk-mingw-devel
-Summary:                SDK for GSharpKit Mingw 32/64 bit
-License:                GPL
-Group:                  Applications/Desktop
-BuildArch:              noarch
-AutoReqProv:            no
-
-Requires:		GSharpKit-sdk-mingw
-Requires:               GSharpKit-sdk-mingw64-devel
-
-%description sdk-mingw-devel
-Easy management of applications for Windows
 
 
 %package sdk-mingw64-devel
@@ -404,156 +300,113 @@ Requires:		mingw64-libidn
 Easy management of applications for Windows
 
 
-
-%package sdk-darwinx
-Summary:                SDK for GSharpKit Mac OS X
-License:                GPL
-Group:                  Applications/Desktop
-BuildArch:              noarch
-AutoReqProv:            no
-
-Requires:		ige-mac-bundler >= %{GTK_MAC_BUNDLER_VERSION}
-Requires:		hunspell-da
-Requires:               darwinx-gettext >= %{GETTEXT_VERSION}
-Requires:               darwinx-libffi >= %{LIBFFI_VERSION}
-Requires:               darwinx-pcre >= %{PCRE_VERSION}
-Requires:               darwinx-glib2 >= %{GLIB2_VERSION}
-Requires:               darwinx-pixman >= %{PIXMAN_VERSION}
-Requires:               darwinx-freetype >= %{FREETYPE_VERSION}
-Requires:               darwinx-fontconfig >= %{FONTCONFIG_VERSION}
-Requires:               darwinx-libpng >= %{LIBPNG_VERSION}
-Requires:               darwinx-libjpeg-turbo >= %{LIBJPEG_TURBO_VERSION}
-Requires:               darwinx-libtiff >= %{LIBTIFF_VERSION}
-Requires:               darwinx-cairo >= %{CAIRO_VERSION}
-Requires:               darwinx-icu >= %{ICU_VERSION}
-Requires:               darwinx-harfbuzz >= %{HARFBUZZ_VERSION}
-Requires:               darwinx-fribidi >= %{FRIBIDI_VERSION}
-Requires:               darwinx-pango >= %{PANGO_VERSION}
-Requires:               darwinx-atk >= %{ATK_VERSION}
-Requires:               darwinx-jasper >= %{JASPER_VERSION}
-Requires:               darwinx-libxml2 >= %{LIBXML2_VERSION}
-Requires:               darwinx-libpsl >= %{LIBPSL_VERSION}
-Requires:               darwinx-gdk-pixbuf >= %{GDK_PIXBUF_VERSION}
-Requires:               darwinx-libcroco >= %{LIBCROCO_VERSION}
-Requires:               darwinx-libepoxy >= %{LIBEPOXY_VERSION}
-Requires:               darwinx-librsvg2 >= %{LIBRSVG2_VERSION}
-Requires:               darwinx-gtk3 >= %{GTK3_VERSION}
-#Requires:               darwinx-gtk4 >= %{GTK4_VERSION}
-Requires:               darwinx-adwaita-icon-theme >= %{GTK3_ADWAITA_VERSION}
-Requires:               darwinx-libgdl >= %{GDL_VERSION}
-Requires:		darwinx-gtk-mac-integration >= %{GTK_MAC_INTEGRATION_VERSION}
-
-Requires:               darwinx-libgpg-error >= %{LIBGPG_ERROR_VERSION}
-Requires:               darwinx-libgcrypt >= %{LIBGCRYPT_VERSION}
-Requires:               darwinx-gmp >= %{GMP_VERSION}
-Requires:               darwinx-nettle >= %{NETTLE_VERSION}
-Requires:               darwinx-p11-kit >= %{P11_KIT_VERSION}
-Requires:               darwinx-libtasn1 >= %{LIBTASN1_VERSION}
-Requires:               darwinx-libunistring  >= %{LIBUNISTRING_VERSION}
-Requires:               darwinx-gnutls  >= %{GNUTLS_VERSION}
-#Requires:               darwinx-openssl  >= %{OPENSSL_VERSION}
-Requires:               darwinx-glib-networking >= %{GLIB_NETWORKING_VERSION}
-
-Requires:               darwinx-libxslt >= %{LIBXSLT_VERSION}
-Requires:               darwinx-libsoup >= %{LIBSOUP_VERSION}
-
-Requires:               darwinx-enchant >= %{ENCHANT_VERSION}
-
-Requires:               darwinx-libogg >= %{LIBOGG_VERSION}
-Requires:               darwinx-libvorbis >= %{LIBVORBIS_VERSION}
-Requires:               darwinx-libwebp >= %{LIBWEBP_VERSION}
-Requires:               darwinx-gstreamer1 >= %{GSTREAMER1_VERSION}
-Requires:               darwinx-gstreamer1-plugins-base >= %{GSTREAMER1_PLUGINS_BASE_VERSION}
-Requires:               darwinx-gstreamer1-plugins-good >= %{GSTREAMER1_PLUGINS_GOOD_VERSION}
-#Requires:               darwinx-gstreamer1-plugins-bad >= %{GSTREAMER1_PLUGINS_BAD_VERSION}
-Requires:               darwinx-webkitgtk3 >= %{WEBKITGTK3_VERSION}
-
-Requires:               darwinx-dbus >= %{DBUS_VERSION}
-
-#Requires:		darwinx-libusbx >= %{LIBUSB_VERSION}
-#Requires:		darwinx-libexif >= %{LIBEXIF_VERSION}
-#Requires:		darwinx-libgphoto2 >= %{LIBGPHOTO2_VERSION}
-#Requires:		darwinx-sane-backends >= %{SANE_BACKENDS_VERSION}
-#Requires:		darwinx-twaindsm >= %{TWAIN_DSM_VERSION} # Uses Twain.Framework on macOS
-
-Requires:               darwinx-System.Common >= %{SYSTEM_COMMON_VERSION}
-Requires:               darwinx-System.Security >= %{SYSTEM_SECURITY_VERSION}
-Requires:               darwinx-System.ServiceModel >= %{SYSTEM_SERVICEMODEL_VERSION}
-Requires:		darwinx-System.Runtime.Caching >= %{SYSTEM_RUNTIME_CACHING_VERSION}
-Requires:               darwinx-System.DirectoryServices >= %{SYSTEM_DIRECTORY_SERVICES_VERSION}
-Requires:		darwinx-Microsoft.Data.SqlClient >= %{MICROSOFT_DATA_SQLCLIENT}
-Requires:               darwinx-Mono.Posix.NETStandard >= %{MONO_POSIX_NETSTANDARD_VERSION}
-Requires:               darwinx-Mono.Data.Sqlite >= %{MONO_DATA_SQLITE_VERSION}
-Requires:               darwinx-Npgsql >= %{NPGSQL_VERSION}
-Requires:               darwinx-GtkSharp >= %{GTK3_SHARP_VERSION}
-#Requires:               darwinx-GirCore >= %{GIR_CORE_VERSION}
-Requires:               darwinx-GdlSharp >= %{GDL_SHARP_VERSION}
-Requires:		darwinx-gtk-mac-integration-sharp >= %{GTK_MAC_INTEGRATION_SHARP_VERSION}
-Requires:               darwinx-Mono.Addins >= %{MONO_ADDINS_VERSION}
-Requires:               darwinx-webkitgtk3-sharp >= %{WEBKITGTK3_SHARP_VERSION}
-Requires:               darwinx-DBusSharp >= %{DBUS_SHARP_VERSION}
-Requires:               darwinx-GstSharp >= %{GST_SHARP_VERSION}
-Requires:               darwinx-Newtonsoft.Json >= %{NEWTONSOFT_JSON_VERSION}
-Requires:               darwinx-BouncyCastle >= %{BOUNCY_CASTLE_VERSION}
-Requires:               darwinx-MimeKit >= %{MIMEKIT_VERSION}
-Requires:               darwinx-MailKit >= %{MAILKIT_VERSION}
-Requires:               darwinx-ServiceStack >= %{SERVICE_STACK_VERSION}
-Requires:		darwinx-RestSharp >= %{REST_SHARP_VERSION}
-Requires:               darwinx-Sprache >= %{SPRACHE_VERSION}
-Requires:               darwinx-PdfSharp.MigraDoc >= %{PDFSHARP_MIGRADOC_VERSION}
-
-%description sdk-darwinx
-Easy management of applications for Mac OS X
-
-
 %prep
 
-#%setup -q
+%setup -c %{name} -T
 
 %build
-#make all
+dotnet new console
+dotnet add package NLog --version 5.2.8
+
+dotnet add package System.Security.Cryptography.Xml --version 8.0.0
+dotnet add package System.Security.Cryptography.Pkcs --version 8.0.0
+dotnet add package System.Security.Cryptography.ProtectedData --version 8.0.0
+dotnet add package System.Configuration.ConfigurationManager --version 8.0.0
+
+dotnet add package System.ServiceModel.Primitives --version 8.0.0
+dotnet add package System.ServiceModel.Http --version 8.0.0
+dotnet add package System.ServiceModel.NetTcp --version 8.0.0
+dotnet add package System.ServiceModel.Federation --version 8.0.0
+dotnet add package System.Web.Services.Description --version 8.0.0
+dotnet add package System.ServiceModel.Syndication --version 8.0.0
+
+dotnet add package System.Runtime.Caching --version 8.0.0
+
+dotnet add package System.DirectoryServices --version 8.0.0
+dotnet add package System.DirectoryServices.AccountManagement --version 8.0.0
+
+dotnet add package Microsoft.Data.SqlClient --version 5.1.2
+
+dotnet add package Mono.Posix.NETStandard --version 1.0.0
+
+dotnet add package Mono.Data.Sqlite.Core --version 1.0.61.1
+
+dotnet add package Npgsql --version 8.0.1
+
+dotnet add package Mono.Addins --version 1.4.1
+dotnet add package Mono.Addins.CecilReflector --version 1.4.1
+
+dotnet add package Tmds.DBus --version 0.15.0
+
+dotnet add package GirCore.Gtk-4.0 --version 0.5.0-preview.3
+
+dotnet add package Newtonsoft.Json --version 13.0.3
+dotnet add package BouncyCastle.Cryptography --version 2.2.1
+dotnet add package MimeKit --version 4.3.0
+dotnet add package MailKit --version 4.3.0
+dotnet add package RestSharp --version 106.15.0
+dotnet add package Sprache --version 2.3.1
+dotnet add package PDFsharp-MigraDoc --version 6.0.0
+
+dotnet add package nhapi.model.v231 --version 3.2.0
+dotnet add package nhapi.model.v251 --version 3.2.0
+
+sed -i -e 's!<PrivateAssets>all</PrivateAssets>!!g' *.csproj
+
+dotnet publish -o any
+dotnet publish --force --runtime linux-x64 -o lin
+dotnet publish --force --runtime win-x64 -o win
+
+dotnet add package ServiceStack --version 8.0.0
+dotnet publish -o other
 
 %install
 #if [ -d $RPM_BUILD_ROOT ]; then rm -rf $RPM_BUILD_ROOT; fi
 #DESTDIR=$RPM_BUILD_ROOT make install
 
-mkdir -p $RPM_BUILD_ROOT%{_datadir}/yum-plugins
-mkdir -p $RPM_BUILD_ROOT%{_sysconfdir}/yum/pluginconf.d
-
-cp %{SOURCE1} $RPM_BUILD_ROOT%{_sysconfdir}/yum/pluginconf.d/
-cp %{SOURCE2} $RPM_BUILD_ROOT%{_datadir}/yum-plugins
-
 mkdir -p $RPM_BUILD_ROOT%{_sysconfdir}/yum.repos.d
+cp %{SOURCE1} $RPM_BUILD_ROOT%{_sysconfdir}/yum.repos.d/
 cp %{SOURCE3} $RPM_BUILD_ROOT%{_sysconfdir}/yum.repos.d/
-cp %{SOURCE12} $RPM_BUILD_ROOT%{_sysconfdir}/yum.repos.d/
 
 mkdir -p $RPM_BUILD_ROOT%{_sysconfdir}/pki/rpm-gpg
+cp %{SOURCE2} $RPM_BUILD_ROOT%{_sysconfdir}/pki/rpm-gpg/
 cp %{SOURCE4} $RPM_BUILD_ROOT%{_sysconfdir}/pki/rpm-gpg/
-cp %{SOURCE13} $RPM_BUILD_ROOT%{_sysconfdir}/pki/rpm-gpg/
 
-mkdir -p $RPM_BUILD_ROOT%{_sysconfdir}/rpm
-cp %{SOURCE5} $RPM_BUILD_ROOT%{_sysconfdir}/rpm/macros.darwinx
+install -d -m 755 $RPM_BUILD_ROOT%{linux_prefix}
+install -m 644 lin/*.dll $RPM_BUILD_ROOT%{linux_prefix}/
+install -m 644 lin/*.so $RPM_BUILD_ROOT%{linux_prefix}/
+install -m 644 any/runtimes/unix/lib/net6.0/Microsoft.Data.SqlClient.dll $RPM_BUILD_ROOT%{linux_prefix}/
+install -m 644 other/ServiceStack*.dll $RPM_BUILD_ROOT%{linux_prefix}/
 
-mkdir -p $RPM_BUILD_ROOT%{_bindir}
-cp %{SOURCE6} $RPM_BUILD_ROOT%{_bindir}/
-cp %{SOURCE7} $RPM_BUILD_ROOT%{_bindir}/
-cp %{SOURCE8} $RPM_BUILD_ROOT%{_bindir}/
-cp %{SOURCE9} $RPM_BUILD_ROOT%{_bindir}/
+install -d -m 755 $RPM_BUILD_ROOT%{mingw64_prefix}
+install -m 644 win/*.dll $RPM_BUILD_ROOT%{mingw64_prefix}/
+install -m 644 any/runtimes/unix/lib/net6.0/Microsoft.Data.SqlClient.dll $RPM_BUILD_ROOT%{mingw64_prefix}/
+install -m 644 other/ServiceStack*.dll $RPM_BUILD_ROOT%{mingw64_prefix}/
+
+install -m 644 /usr/lib/AtkSharp.dll $RPM_BUILD_ROOT%{linux_prefix}/
+install -m 644 /usr/lib/CairoSharp.dll $RPM_BUILD_ROOT%{linux_prefix}/ 
+install -m 644 /usr/lib/GLibSharp.dll $RPM_BUILD_ROOT%{linux_prefix}/
+install -m 644 /usr/lib/GdkSharp.dll $RPM_BUILD_ROOT%{linux_prefix}/
+install -m 644 /usr/lib/GioSharp.dll $RPM_BUILD_ROOT%{linux_prefix}/
+install -m 644 /usr/lib/GtkSharp.dll $RPM_BUILD_ROOT%{linux_prefix}/
+install -m 644 /usr/lib/PangoSharp.dll $RPM_BUILD_ROOT%{linux_prefix}/
+install -m 644 /usr/lib/WebkitGtkSharp.dll $RPM_BUILD_ROOT%{linux_prefix}/
+install -m 644 /usr/lib/GdlSharp.dll $RPM_BUILD_ROOT%{linux_prefix}/
+install -m 644 /usr/lib/GstSharp.dll $RPM_BUILD_ROOT%{linux_prefix}/
+
+install -m 644 /usr/lib/AtkSharp.dll $RPM_BUILD_ROOT%{mingw64_prefix}/
+install -m 644 /usr/lib/CairoSharp.dll $RPM_BUILD_ROOT%{mingw64_prefix}/
+install -m 644 /usr/lib/GLibSharp.dll $RPM_BUILD_ROOT%{mingw64_prefix}/
+install -m 644 /usr/lib/GdkSharp.dll $RPM_BUILD_ROOT%{mingw64_prefix}/
+install -m 644 /usr/lib/GioSharp.dll $RPM_BUILD_ROOT%{mingw64_prefix}/
+install -m 644 /usr/lib/GtkSharp.dll $RPM_BUILD_ROOT%{mingw64_prefix}/
+install -m 644 /usr/lib/PangoSharp.dll $RPM_BUILD_ROOT%{mingw64_prefix}/
+install -m 644 /usr/lib/WebkitGtkSharp.dll $RPM_BUILD_ROOT%{mingw64_prefix}/
+install -m 644 /usr/lib/GdlSharp.dll $RPM_BUILD_ROOT%{mingw64_prefix}/
+install -m 644 /usr/lib/GstSharp.dll $RPM_BUILD_ROOT%{mingw64_prefix}/
 
 %clean
-rm -rf $RPM_BUILD_ROOT
-
-%files
-%defattr(-, root, root)
-#doc AUTHORS COPYING ChangeLog INSTALL NEWS README TODO LICENSE
-#attr(0775,root,root) {_prefix}/bin/gsharpkit
-#{_libdir}/mono/gsharpkit/GSharpKit.Config.dll
-#{_libdir}/mono/gsharpkit/GSharpKit.Utils.dll
-#{_libdir}/mono/gsharpkit/gsharpkit.exe
-#{_datadir}/gsharpkit/ui/gsharpkit.xml
-#{_datadir}/applications/gsharpkit.desktop
-#{_datadir}/locale
-
+#rm -rf $RPM_BUILD_ROOT
 
 %files release
 %defattr(-, root, root)
@@ -561,44 +414,24 @@ rm -rf $RPM_BUILD_ROOT
 %{_sysconfdir}/yum.repos.d/microsoft-prod.repo
 %{_sysconfdir}/pki/rpm-gpg/RPM-GPG-KEY-gsharpkit
 %{_sysconfdir}/pki/rpm-gpg/RPM-GPG-KEY-microsoft
-%{_sysconfdir}/yum/pluginconf.d/yum_ignoreos.conf
-%{_datadir}/yum-plugins/yum_ignoreos.py
-#%{_datadir}/yum-plugins/yum_ignoreos.pyc
-#%{_datadir}/yum-plugins/yum_ignoreos.pyo
-
 
 %files runtime
 %defattr(-, root, root)
 
-
-%files sdk
+%files sdk-%{major_version}
 %defattr(-, root, root)
+%{linux_prefix}/*.dll
+%{linux_prefix}/*.so
 
+%files sdk-devel
+%defattr(-, root, root)
 
 %files sdk-mingw64
 %defattr(-, root, root)
-
-
-%files sdk-mingw
-%defattr(-, root, root)
-
+%{mingw64_prefix}/*.dll
 
 %files sdk-mingw64-devel
 %defattr(-, root, root)
-
-%files sdk-mingw-devel
-%defattr(-, root, root)
-
-
-%files sdk-darwinx
-%defattr(-, root, root)
-%{_sysconfdir}/rpm/macros.darwinx
-%{_bindir}/darwinx-cmake
-%{_bindir}/darwinx-configure
-%{_bindir}/darwinx-make
-%{_bindir}/darwinx-pkg-config
-
-
 
 ###########################################################################
 %changelog
