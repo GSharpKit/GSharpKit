@@ -113,6 +113,8 @@ Group:                  Applications/Desktop
 BuildArch:              noarch
 AutoReqProv:    	no
 
+Requires:		dnf-utils
+
 %description release
 Easy management of applications
 

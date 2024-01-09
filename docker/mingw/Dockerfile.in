@@ -1,12 +1,11 @@
 FROM fedora:@FEDORA_VERSION@
 MAINTAINER Mikkel Kruse Johnsen <mikkel@xmedicus.com>
 
-RUN rpm -Uvh http://yum.gsharpkit.org/gsharpkit/fedora-@FEDORA_VERSION@-x86_64/RPMS/GSharpKit-release-@VERSION@-@RELEASE@.fc@FEDORA_VERSION@.noarch.rpm
+RUN dnf -y install http://yum.gsharpkit.org/gsharpkit/fedora-@FEDORA_VERSION@-x86_64/RPMS/GSharpKit-release-@VERSION@-@RELEASE@.fc@FEDORA_VERSION@.noarch.rpm
 
 RUN rm -f /etc/rpm/macros.image-language-conf
 
-RUN dnf -y --exclude darwinx* --exclude mono* install sudo hunspell-da hunspell-en-GB hunspell-en-US python msitools GSharpKit-runtime GSharpKit-sdk GSharpKit-sdk-mingw-devel GSharpKit-sdk-mingw && dnf clean all && rm -rf /var/cache/dnf
-RUN ln -s /usr/share/dotnet/sdk /usr/lib64/dotnet/sdk
+RUN dnf -y install GSharpKit-runtime-mingw64-devel GSharpKit-sdk-@FRAMEWORK@-mingw64 && dnf clean all && rm -rf /var/cache/dnf
 
 RUN mkdir /usr/x86_64-w64-mingw32/sys-root/mingw/share/hunspell ; cp /usr/share/hunspell/da_DK.aff /usr/share/hunspell/da_DK.dic /usr/share/hunspell/en_GB.aff /usr/share/hunspell/en_GB.dic /usr/share/hunspell/en_US.aff /usr/share/hunspell/en_US.dic /usr/x86_64-w64-mingw32/sys-root/mingw/share/hunspell/
 

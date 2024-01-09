@@ -29,7 +29,9 @@ Requires:               meson
 Requires:               redhat-rpm-config rpm-build
 Requires:               msitools
 Requires:               osslsigncode
-Requires:               hunspell-da
+Requires:               hunspell-da hunspell-en-GB hunspell-en-US
+Requires:		python
+Requires:		sudo
 
 BuildRequires:		dotnet-runtime-%{DOTNET_VERSION}
 BuildRequires:		GtkSharp
@@ -48,6 +50,16 @@ AutoReqProv:            no
 
 Requires:               dotnet-sdk-%{DOTNET_VERSION}
 
+Requires:               gnome-common intltool glib2-devel redhat-rpm-config rpm-build fedora-packager
+Requires:               meson
+Requires:               redhat-rpm-config rpm-build
+Requires:               msitools
+Requires:               osslsigncode
+Requires:               hunspell-da hunspell-en-GB hunspell-en-US
+Requires:               python
+Requires:		sudo
+
+
 %description mingw64
 Easy management of applications for Windows 64 bit
 
@@ -61,6 +73,15 @@ BuildArch:              noarch
 AutoReqProv:            no
 
 Requires:               dotnet-sdk-%{DOTNET_VERSION}
+
+Requires:               gnome-common intltool glib2-devel redhat-rpm-config rpm-build fedora-packager
+Requires:               meson
+Requires:               redhat-rpm-config rpm-build
+Requires:               msitools
+Requires:               osslsigncode
+Requires:               hunspell-da hunspell-en-GB hunspell-en-US
+Requires:               python
+Requires:		sudo
 
 %description macos64
 Easy management of applications for macOS 64 bit
