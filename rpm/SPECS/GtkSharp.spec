@@ -44,7 +44,8 @@ rm -rf Source/Addins/MonoDevelop.GtkSharp.Addin/obj
 
 %build
 dotnet tool restore
-DOTNET_ROOT=/usr/lib64/dotnet dotnet cake build.cake
+#DOTNET_ROOT=/usr/lib64/dotnet dotnet cake build.cake
+DOTNET_ROOT=/usr/share/dotnet dotnet cake build.cake
 
 %install
 %{__rm} -rf $RPM_BUILD_ROOT

@@ -3,6 +3,7 @@
 %define HEADER_CRT_THREAD_VERSION 7.0.0
 %define COMPILER_VERSION 10.2.1
 %define PKG_CONFIG_VERSION 0.28
+%define LIBIDN_VERSION 1.41
 %define TERMCAP_VERSION 1.3.1
 %define ZLIB_VERSION 1.2.11
 %define ICONV_VERSION 0.0.8
@@ -81,9 +82,6 @@
 %define major_version 39
 %define minor_version 0
 
-%define linux_prefix /usr/lib/%{name}/sdk/%{major_version}
-%define mingw64_prefix /usr/x86_64-w64-mingw32/sys-root/mingw/lib/%{name}/sdk/%{major_version}
-
 Summary: 		Easy management of applications
 Name: 			GSharpKit
 Version:		%{major_version}.%{minor_version}
@@ -107,6 +105,7 @@ Requires:		GSharpKit-runtime = %{version}
 Easy management of applications
 
 
+
 %package release
 Summary:                Runtime environment for GSharpKit
 License:                GPL
@@ -118,6 +117,7 @@ AutoReqProv:    	no
 Easy management of applications
 
 
+
 %package runtime
 Summary: 		Runtime environment for GSharpKit
 License:		GPL
@@ -127,7 +127,6 @@ AutoReqProv:            no
 
 Requires:               dotnet-runtime-%{DOTNET_VERSION}
 
-#Requires:		libcroco >= %{LIBCROCO_VERSION}
 Requires:		libepoxy >= %{LIBEPOXY_VERSION}
 Requires:		librsvg2 >= %{LIBRSVG2_VERSION}
 Requires:		gtk3 >= %{GTK3_VERSION}
@@ -158,38 +157,7 @@ Easy management of applications
 
 
 
-%package sdk-%{major_version}
-Summary: 		SDK for GSharpKit
-License:		GPL
-Group: 			Applications/Desktop
-BuildArch:		noarch
-AutoReqProv:            no
-
-Requires:		dotnet-sdk-%{DOTNET_VERSION}
-BuildRequires:		dotnet-runtime-%{DOTNET_VERSION}
-
-BuildRequires:		GtkSharp
-
-%description sdk-%{major_version}
-Easy management of applications
-
-%package sdk-devel
-Summary:                SDK for GSharpKit
-License:                GPL
-Group:                  Applications/Desktop
-BuildArch:              noarch
-AutoReqProv:            no
-
-Requires:               gnome-common intltool glib2-devel redhat-rpm-config rpm-build fedora-packager
-Requires:               meson
-
-Requires:               dotnet-sdk-%{DOTNET_VERSION}
-
-%description sdk-devel
-Easy management of applications
-
-
-%package sdk-mingw64
+%package runtime-mingw64
 Summary:                SDK for GSharpKit Mingw 64 bit
 License:                GPL
 Group:                  Applications/Desktop
@@ -271,18 +239,23 @@ Requires:               mingw64-dbus >= %{DBUS_VERSION}
 #Requires:		mingw64-libexif >= %{LIBEXIF_VERSION}
 #Requires:		mingw64-libgphoto2 >= %{LIBGPHOTO2_VERSION}
 
-%description sdk-mingw64
+%description runtime-mingw64
 Easy management of applications for Windows 64 bit
 
 
-%package sdk-mingw64-devel
+%package runtime-mingw64-devel
 Summary:                SDK for GSharpKit Mingw 64 bit
 License:                GPL
 Group:                  Applications/Desktop
 BuildArch:              noarch
 AutoReqProv:            no
 
-Requires:		GSharpKit-sdk-mingw64
+Requires:		GSharpKit-runtime-mingw64
+
+Requires:               redhat-rpm-config rpm-build
+Requires:               msitools
+Requires:               osslsigncode
+Requires:               hunspell-da
 
 Requires:               mingw-w64-tools
 Requires:               mingw64-filesystem >= %{MINGW_FILESYSTEM_VERSION}
@@ -294,10 +267,15 @@ Requires:               mingw64-gcc >= %{COMPILER_VERSION}
 Requires:               mingw64-gcc-c++ >= %{COMPILER_VERSION}
 Requires:               mingw64-gcc-objc >= %{COMPILER_VERSION}
 Requires:               mingw64-pkg-config >= %{PKG_CONFIG_VERSION}
-Requires:		mingw64-libidn
+Requires:		mingw64-libidn >= %{LIBIDN_VERSION}
 
-%description sdk-mingw64-devel
+Obsoletes:		GSharpKit-sdk-mingw
+Obsoletes:		GSharpKit-sdk-mingw-devel
+Obsoletes:		GSharpKit-sdk-mingw64-devel
+
+%description runtime-mingw64-devel
 Easy management of applications for Windows
+
 
 
 %prep
@@ -305,60 +283,6 @@ Easy management of applications for Windows
 %setup -c %{name} -T
 
 %build
-dotnet new console
-dotnet add package NLog --version 5.2.8
-
-dotnet add package System.Security.Cryptography.Xml --version 8.0.0
-dotnet add package System.Security.Cryptography.Pkcs --version 8.0.0
-dotnet add package System.Security.Cryptography.ProtectedData --version 8.0.0
-dotnet add package System.Configuration.ConfigurationManager --version 8.0.0
-
-dotnet add package System.ServiceModel.Primitives --version 8.0.0
-dotnet add package System.ServiceModel.Http --version 8.0.0
-dotnet add package System.ServiceModel.NetTcp --version 8.0.0
-dotnet add package System.ServiceModel.Federation --version 8.0.0
-dotnet add package System.Web.Services.Description --version 8.0.0
-dotnet add package System.ServiceModel.Syndication --version 8.0.0
-
-dotnet add package System.Runtime.Caching --version 8.0.0
-
-dotnet add package System.DirectoryServices --version 8.0.0
-dotnet add package System.DirectoryServices.AccountManagement --version 8.0.0
-
-dotnet add package Microsoft.Data.SqlClient --version 5.1.2
-
-dotnet add package Mono.Posix.NETStandard --version 1.0.0
-
-dotnet add package Mono.Data.Sqlite.Core --version 1.0.61.1
-
-dotnet add package Npgsql --version 8.0.1
-
-dotnet add package Mono.Addins --version 1.4.1
-dotnet add package Mono.Addins.CecilReflector --version 1.4.1
-
-dotnet add package Tmds.DBus --version 0.15.0
-
-dotnet add package GirCore.Gtk-4.0 --version 0.5.0-preview.3
-
-dotnet add package Newtonsoft.Json --version 13.0.3
-dotnet add package BouncyCastle.Cryptography --version 2.2.1
-dotnet add package MimeKit --version 4.3.0
-dotnet add package MailKit --version 4.3.0
-dotnet add package RestSharp --version 106.15.0
-dotnet add package Sprache --version 2.3.1
-dotnet add package PDFsharp-MigraDoc --version 6.0.0
-
-dotnet add package nhapi.model.v231 --version 3.2.0
-dotnet add package nhapi.model.v251 --version 3.2.0
-
-sed -i -e 's!<PrivateAssets>all</PrivateAssets>!!g' *.csproj
-
-dotnet publish -o any
-dotnet publish --force --runtime linux-x64 -o lin
-dotnet publish --force --runtime win-x64 -o win
-
-dotnet add package ServiceStack --version 8.0.0
-dotnet publish -o other
 
 %install
 #if [ -d $RPM_BUILD_ROOT ]; then rm -rf $RPM_BUILD_ROOT; fi
@@ -372,44 +296,12 @@ mkdir -p $RPM_BUILD_ROOT%{_sysconfdir}/pki/rpm-gpg
 cp %{SOURCE2} $RPM_BUILD_ROOT%{_sysconfdir}/pki/rpm-gpg/
 cp %{SOURCE4} $RPM_BUILD_ROOT%{_sysconfdir}/pki/rpm-gpg/
 
-install -d -m 755 $RPM_BUILD_ROOT%{linux_prefix}
-install -m 644 lin/*.dll $RPM_BUILD_ROOT%{linux_prefix}/
-install -m 644 lin/*.so $RPM_BUILD_ROOT%{linux_prefix}/
-install -m 644 any/runtimes/unix/lib/net6.0/Microsoft.Data.SqlClient.dll $RPM_BUILD_ROOT%{linux_prefix}/
-install -m 644 other/ServiceStack*.dll $RPM_BUILD_ROOT%{linux_prefix}/
-
-install -d -m 755 $RPM_BUILD_ROOT%{mingw64_prefix}
-install -m 644 win/*.dll $RPM_BUILD_ROOT%{mingw64_prefix}/
-install -m 644 any/runtimes/unix/lib/net6.0/Microsoft.Data.SqlClient.dll $RPM_BUILD_ROOT%{mingw64_prefix}/
-install -m 644 other/ServiceStack*.dll $RPM_BUILD_ROOT%{mingw64_prefix}/
-
-install -m 644 /usr/lib/AtkSharp.dll $RPM_BUILD_ROOT%{linux_prefix}/
-install -m 644 /usr/lib/CairoSharp.dll $RPM_BUILD_ROOT%{linux_prefix}/ 
-install -m 644 /usr/lib/GLibSharp.dll $RPM_BUILD_ROOT%{linux_prefix}/
-install -m 644 /usr/lib/GdkSharp.dll $RPM_BUILD_ROOT%{linux_prefix}/
-install -m 644 /usr/lib/GioSharp.dll $RPM_BUILD_ROOT%{linux_prefix}/
-install -m 644 /usr/lib/GtkSharp.dll $RPM_BUILD_ROOT%{linux_prefix}/
-install -m 644 /usr/lib/PangoSharp.dll $RPM_BUILD_ROOT%{linux_prefix}/
-install -m 644 /usr/lib/WebkitGtkSharp.dll $RPM_BUILD_ROOT%{linux_prefix}/
-install -m 644 /usr/lib/GdlSharp.dll $RPM_BUILD_ROOT%{linux_prefix}/
-install -m 644 /usr/lib/GstSharp.dll $RPM_BUILD_ROOT%{linux_prefix}/
-
-install -m 644 /usr/lib/AtkSharp.dll $RPM_BUILD_ROOT%{mingw64_prefix}/
-install -m 644 /usr/lib/CairoSharp.dll $RPM_BUILD_ROOT%{mingw64_prefix}/
-install -m 644 /usr/lib/GLibSharp.dll $RPM_BUILD_ROOT%{mingw64_prefix}/
-install -m 644 /usr/lib/GdkSharp.dll $RPM_BUILD_ROOT%{mingw64_prefix}/
-install -m 644 /usr/lib/GioSharp.dll $RPM_BUILD_ROOT%{mingw64_prefix}/
-install -m 644 /usr/lib/GtkSharp.dll $RPM_BUILD_ROOT%{mingw64_prefix}/
-install -m 644 /usr/lib/PangoSharp.dll $RPM_BUILD_ROOT%{mingw64_prefix}/
-install -m 644 /usr/lib/WebkitGtkSharp.dll $RPM_BUILD_ROOT%{mingw64_prefix}/
-install -m 644 /usr/lib/GdlSharp.dll $RPM_BUILD_ROOT%{mingw64_prefix}/
-install -m 644 /usr/lib/GstSharp.dll $RPM_BUILD_ROOT%{mingw64_prefix}/
-
-rm -f $RPM_BUILD_ROOT%{linux_prefix}/Microsoft.SqlServer.Server.dll
-rm -f $RPM_BUILD_ROOT%{mingw64_prefix}/Microsoft.SqlServer.Server.dll
-
 %clean
 #rm -rf $RPM_BUILD_ROOT
+
+%post release
+yum-config-manager --save --setopt=fedora.exclude=dotnet*,netstandard-targeting-pack*,aspnetcore*
+yum-config-manager --save --setopt=updates.exclude=dotnet*,netstandard-targeting-pack*,aspnetcore*
 
 %files release
 %defattr(-, root, root)
@@ -421,19 +313,10 @@ rm -f $RPM_BUILD_ROOT%{mingw64_prefix}/Microsoft.SqlServer.Server.dll
 %files runtime
 %defattr(-, root, root)
 
-%files sdk-%{major_version}
-%defattr(-, root, root)
-%{linux_prefix}/*.dll
-%{linux_prefix}/*.so
-
-%files sdk-devel
+%files runtime-mingw64
 %defattr(-, root, root)
 
-%files sdk-mingw64
-%defattr(-, root, root)
-%{mingw64_prefix}/*.dll
-
-%files sdk-mingw64-devel
+%files runtime-mingw64-devel
 %defattr(-, root, root)
 
 ###########################################################################
