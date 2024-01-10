@@ -17,6 +17,8 @@ License:		GPL
 Group: 			Applications/Desktop
 URL:			http://www.gsharpkit.com
 Vendor:			GSharpKit
+Source1:		Mono.Addins.dll
+Source2:		Mono.Addins.CecilReflector.dll
 Packager:		Mikkel Kruse Johnsen <mikkel@gsharpkit.com>
 BuildRoot:		%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:		noarch
@@ -121,8 +123,8 @@ dotnet add package Mono.Data.Sqlite.Core --version 1.0.61.1
 
 dotnet add package Npgsql --version 8.0.1
 
-dotnet add package Mono.Addins --version 1.4.1
-dotnet add package Mono.Addins.CecilReflector --version 1.4.1
+#dotnet add package Mono.Addins --version 1.4.1
+#dotnet add package Mono.Addins.CecilReflector --version 1.4.1
 
 dotnet add package Tmds.DBus --version 0.15.0
 
@@ -171,6 +173,13 @@ install -m 644 mac64/*.dylib $RPM_BUILD_ROOT%{mac64_prefix}/
 install -m 644 any/runtimes/unix/lib/net6.0/Microsoft.Data.SqlClient.dll $RPM_BUILD_ROOT%{mac64_prefix}/
 install -m 644 other/ServiceStack*.dll $RPM_BUILD_ROOT%{mac64_prefix}/
 
+install -m 644 %{SOURCE1} $RPM_BUILD_ROOT%{linux_prefix}/
+install -m 644 %{SOURCE2} $RPM_BUILD_ROOT%{linux_prefix}/
+install -m 644 %{SOURCE1} $RPM_BUILD_ROOT%{mingw64_prefix}/
+install -m 644 %{SOURCE2} $RPM_BUILD_ROOT%{mingw64_prefix}/
+install -m 644 %{SOURCE1} $RPM_BUILD_ROOT%{mac64_prefix}/
+install -m 644 %{SOURCE2} $RPM_BUILD_ROOT%{mac64_prefix}/
+
 install -m 644 /usr/lib/AtkSharp.dll $RPM_BUILD_ROOT%{linux_prefix}/
 install -m 644 /usr/lib/CairoSharp.dll $RPM_BUILD_ROOT%{linux_prefix}/ 
 install -m 644 /usr/lib/GLibSharp.dll $RPM_BUILD_ROOT%{linux_prefix}/
@@ -207,6 +216,11 @@ install -m 644 /usr/lib/GstSharp.dll $RPM_BUILD_ROOT%{mac64_prefix}/
 rm -f $RPM_BUILD_ROOT%{linux_prefix}/Microsoft.SqlServer.Server.dll
 rm -f $RPM_BUILD_ROOT%{mingw64_prefix}/Microsoft.SqlServer.Server.dll
 rm -f $RPM_BUILD_ROOT%{mac64_prefix}/Microsoft.SqlServer.Server.dll
+
+# We still need the OS specific files.
+rm -f $RPM_BUILD_ROOT%{linux_prefix}/Mono.Posix.NETStandard.dll
+rm -f $RPM_BUILD_ROOT%{mingw64_prefix}/Mono.Posix.NETStandard.dll
+rm -f $RPM_BUILD_ROOT%{mac64_prefix}/Mono.Posix.NETStandard.dll
 
 %clean
 #rm -rf $RPM_BUILD_ROOT
