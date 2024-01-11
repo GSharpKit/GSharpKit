@@ -117,7 +117,8 @@ dotnet add package System.DirectoryServices.AccountManagement --version 8.0.0
 
 dotnet add package Microsoft.Data.SqlClient --version 5.1.2
 
-dotnet add package Mono.Posix.NETStandard --version 1.0.0
+# Now part of XMedicus and the helper is in runtime
+#dotnet add package Mono.Posix.NETStandard --version 1.0.0
 
 dotnet add package Mono.Data.Sqlite.Core --version 1.0.61.1
 
@@ -158,7 +159,6 @@ dotnet publish -o other
 
 install -d -m 755 $RPM_BUILD_ROOT%{linux_prefix}
 install -m 644 lin/*.dll $RPM_BUILD_ROOT%{linux_prefix}/
-install -m 644 lin/*.so $RPM_BUILD_ROOT%{linux_prefix}/
 install -m 644 any/runtimes/unix/lib/net6.0/Microsoft.Data.SqlClient.dll $RPM_BUILD_ROOT%{linux_prefix}/
 install -m 644 other/ServiceStack*.dll $RPM_BUILD_ROOT%{linux_prefix}/
 
@@ -169,7 +169,6 @@ install -m 644 other/ServiceStack*.dll $RPM_BUILD_ROOT%{mingw64_prefix}/
 
 install -d -m 755 $RPM_BUILD_ROOT%{mac64_prefix}
 install -m 644 mac64/*.dll $RPM_BUILD_ROOT%{mac64_prefix}/
-install -m 644 mac64/*.dylib $RPM_BUILD_ROOT%{mac64_prefix}/
 install -m 644 any/runtimes/unix/lib/net6.0/Microsoft.Data.SqlClient.dll $RPM_BUILD_ROOT%{mac64_prefix}/
 install -m 644 other/ServiceStack*.dll $RPM_BUILD_ROOT%{mac64_prefix}/
 
@@ -217,11 +216,6 @@ rm -f $RPM_BUILD_ROOT%{linux_prefix}/Microsoft.SqlServer.Server.dll
 rm -f $RPM_BUILD_ROOT%{mingw64_prefix}/Microsoft.SqlServer.Server.dll
 rm -f $RPM_BUILD_ROOT%{mac64_prefix}/Microsoft.SqlServer.Server.dll
 
-# We still need the OS specific files.
-rm -f $RPM_BUILD_ROOT%{linux_prefix}/Mono.Posix.NETStandard.dll
-rm -f $RPM_BUILD_ROOT%{mingw64_prefix}/Mono.Posix.NETStandard.dll
-rm -f $RPM_BUILD_ROOT%{mac64_prefix}/Mono.Posix.NETStandard.dll
-
 %clean
 #rm -rf $RPM_BUILD_ROOT
 
@@ -229,7 +223,6 @@ rm -f $RPM_BUILD_ROOT%{mac64_prefix}/Mono.Posix.NETStandard.dll
 %defattr(-, root, root)
 %dir %{linux_prefix}
 %{linux_prefix}/*.dll
-%{linux_prefix}/*.so
 
 %files mingw64
 %defattr(-, root, root)
@@ -240,7 +233,6 @@ rm -f $RPM_BUILD_ROOT%{mac64_prefix}/Mono.Posix.NETStandard.dll
 %defattr(-, root, root)
 %dir %{mac64_prefix}
 %{mac64_prefix}/*.dll
-%{mac64_prefix}/*.dylib
 
 ###########################################################################
 %changelog

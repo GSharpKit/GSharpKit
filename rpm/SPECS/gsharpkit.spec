@@ -82,6 +82,9 @@
 %define major_version 39
 %define minor_version 0
 
+%define linux_prefix /usr/lib64
+%define mingw64_prefix /usr/x86_64-w64-mingw32/sys-root/mingw/bin
+
 Summary: 		Easy management of applications
 Name: 			GSharpKit
 Version:		%{major_version}.%{minor_version}
@@ -285,6 +288,11 @@ Easy management of applications for Windows
 %setup -c %{name} -T
 
 %build
+dotnet new console
+dotnet add package Mono.Posix.NETStandard --version 1.0.0
+
+dotnet publish --force --runtime linux-x64 -o lin
+dotnet publish --force --runtime win-x64 -o win
 
 %install
 #if [ -d $RPM_BUILD_ROOT ]; then rm -rf $RPM_BUILD_ROOT; fi
@@ -297,6 +305,13 @@ cp %{SOURCE3} $RPM_BUILD_ROOT%{_sysconfdir}/yum.repos.d/
 mkdir -p $RPM_BUILD_ROOT%{_sysconfdir}/pki/rpm-gpg
 cp %{SOURCE2} $RPM_BUILD_ROOT%{_sysconfdir}/pki/rpm-gpg/
 cp %{SOURCE4} $RPM_BUILD_ROOT%{_sysconfdir}/pki/rpm-gpg/
+
+install -d -m 755 $RPM_BUILD_ROOT%{linux_prefix}
+install -m 644 lin/libMonoPosixHelper.so $RPM_BUILD_ROOT%{linux_prefix}/
+
+install -d -m 755 $RPM_BUILD_ROOT%{mingw64_prefix}
+install -m 644 win/MonoPosixHelper.dll $RPM_BUILD_ROOT%{mingw64_prefix}/
+install -m 644 win/libMonoPosixHelper.dll $RPM_BUILD_ROOT%{mingw64_prefix}/
 
 %clean
 #rm -rf $RPM_BUILD_ROOT
@@ -314,9 +329,11 @@ yum-config-manager --save --setopt=updates.exclude=dotnet*,netstandard-targeting
 
 %files runtime
 %defattr(-, root, root)
+%{linux_prefix}/*.so
 
 %files runtime-mingw64
 %defattr(-, root, root)
+%{mingw64_prefix}/*.dll
 
 %files runtime-mingw64-devel
 %defattr(-, root, root)
