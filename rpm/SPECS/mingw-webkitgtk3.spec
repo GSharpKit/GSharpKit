@@ -14,7 +14,7 @@
 
 Name:           mingw-webkitgtk3
 Version:        2.4.12
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        MinGW Windows GTK+ Web content engine library
 
 Group:          Development/Libraries
@@ -42,6 +42,7 @@ Patch8:		webkitgtk-2.4.11-bison.patch
 
 Patch9:		webkitgtk-2.4.11-context-menu.patch
 Patch10:	webkitgtk-2.4.11-right-click.patch
+Patch11:	webkitgtk-2.4.11-ruby.patch
 
 BuildArch:      noarch
 
@@ -73,7 +74,7 @@ BuildRequires:  mingw64-libsoup
 BuildRequires:  mingw64-libwebp
 BuildRequires:  mingw64-libxml2
 BuildRequires:  mingw64-libxslt
-BuildRequires:  mingw64-pthreads
+BuildRequires:  mingw64-winpthreads
 BuildRequires:  mingw64-sqlite
 
 BuildRequires:	mingw64-icu57
@@ -112,6 +113,7 @@ This is the MinGW port of WebKitGTK+ for GTK+ 3.
 %patch8 -p1
 %patch9 -p1
 %patch10 -p1
+%patch11 -p1
 
 
 %build

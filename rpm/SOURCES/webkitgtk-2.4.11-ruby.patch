@@ -1,0 +1,26 @@
+diff -Nur webkitgtk-2.4.11.orig/Source/JavaScriptCore/llint/LowLevelInterpreter.asm webkitgtk-2.4.11/Source/JavaScriptCore/llint/LowLevelInterpreter.asm
+--- webkitgtk-2.4.11.orig/Source/JavaScriptCore/llint/LowLevelInterpreter.asm	2016-04-10 08:48:36.000000000 +0200
++++ webkitgtk-2.4.11/Source/JavaScriptCore/llint/LowLevelInterpreter.asm	2024-01-11 13:05:55.235966178 +0100
+@@ -27,8 +27,8 @@
+ # Work-around for the fact that the toolchain's awareness of armv7s results in
+ # a separate slab in the fat binary, yet the offlineasm doesn't know to expect
+ # it.
+-if ARMv7s
+-end
++#if ARMv7s
++#end
+ 
+ # These declarations must match interpreter/JSStack.h.
+ 
+diff -Nur webkitgtk-2.4.11.orig/Source/JavaScriptCore/offlineasm/parser.rb webkitgtk-2.4.11/Source/JavaScriptCore/offlineasm/parser.rb
+--- webkitgtk-2.4.11.orig/Source/JavaScriptCore/offlineasm/parser.rb	2016-04-10 08:48:36.000000000 +0200
++++ webkitgtk-2.4.11/Source/JavaScriptCore/offlineasm/parser.rb	2024-01-11 13:07:38.718381008 +0100
+@@ -503,7 +503,7 @@
+         firstCodeOrigin = @tokens[@idx].codeOrigin
+         list = []
+         loop {
+-            if (@idx == @tokens.length and not final) or (final and @tokens[@idx] =~ final)
++            if (@idx == @tokens.length and not final) or (final and @tokens[@idx].string =~ final)
+                 break
+             elsif @tokens[@idx].is_a? Annotation
+                 # This is the only place where we can encounter a global
