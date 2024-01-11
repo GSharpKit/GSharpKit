@@ -35,7 +35,7 @@ cp -r $FROM/etc/pki $TO/etc/
 # LIB directory
 mkdir $TO/lib
 cp -r $FROM/lib/enchant $TO/lib/
-cp -r $FROM/lib/engines-1_1 $TO/lib/
+cp -r $FROM/lib/engines-3 $TO/lib/
 cp -r $FROM/lib/gdk-pixbuf-2.0 $TO/lib/
 cp -r $FROM/lib/gio $TO/lib/
 cp -r $FROM/lib/gstreamer-1.0 $TO/lib/
@@ -53,9 +53,9 @@ cp -r $FROM/share/glib-2.0/schemas $TO/share/glib-2.0/
 
 mkdir -p $TO/share/icons/Adwaita
 cp -r $FROM/share/icons/Adwaita/16x16 $TO/share/icons/Adwaita/
-cp -r $FROM/share/icons/Adwaita/24x24 $TO/share/icons/Adwaita/
+#cp -r $FROM/share/icons/Adwaita/24x24 $TO/share/icons/Adwaita/
 cp -r $FROM/share/icons/Adwaita/32x32 $TO/share/icons/Adwaita/
-cp -r $FROM/share/icons/Adwaita/48x48 $TO/share/icons/Adwaita/
+#cp -r $FROM/share/icons/Adwaita/48x48 $TO/share/icons/Adwaita/
 cp $FROM/share/icons/Adwaita/index.theme $TO/share/icons/Adwaita/
 
 mkdir -p $TO/share/locale
