@@ -55,6 +55,7 @@
 %define LIBXSLT_VERSION 1.1.34
 %define SQLITE_VERSION 3.34.0
 %define LIBSOUP_VERSION 2.70.0
+%define WEBKITGTK3_VERSION 2.4.11
 
 %define HUNSPELL_VERSION 1.7.0
 %define ENCHANT_VERSION 1.6.0
@@ -140,9 +141,10 @@ Requires:		adwaita-icon-theme >= %{GTK3_ADWAITA_VERSION}
 
 Requires:		libgdl >= %{GDL_VERSION}
 
-Requires:		libsoup >= %{LIBSOUP_VERSION}
 Requires:		hunspell >= %{HUNSPELL_VERSION}
 Requires:		enchant >= %{ENCHANT_VERSION}
+Requires:		libsoup >= %{LIBSOUP_VERSION}
+Requires:		webkitgtk3 >= %{WEBKITGTK3_VERSION}
 
 #Requires:		libusbx >= %{LIBUSB_VERSION}
 #Requires:		libexif >= %{LIBEXIF_VERSION}
@@ -226,6 +228,7 @@ Requires:               mingw64-glib-networking >= %{GLIB_NETWORKING_VERSION}
 Requires:               mingw64-libxslt >= %{LIBXSLT_VERSION}
 Requires:               mingw64-sqlite >= %{SQLITE_VERSION}
 Requires:               mingw64-libsoup >= %{LIBSOUP_VERSION}
+Requires:               mingw64-webkitgtk3 >= %{WEBKITGTK3_VERSION}
 
 Requires:               mingw64-hunspell >= %{HUNSPELL_VERSION}
 Requires:               mingw64-enchant >= %{ENCHANT_VERSION}
