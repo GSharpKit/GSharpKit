@@ -124,6 +124,7 @@ dotnet add package Mono.Data.Sqlite.Core --version 1.0.61.1
 
 dotnet add package Npgsql --version 8.0.1
 
+dotnet add package Mono.Cecil --version 0.11.5
 #dotnet add package Mono.Addins --version 1.4.1
 #dotnet add package Mono.Addins.CecilReflector --version 1.4.1
 
