@@ -196,7 +196,6 @@ Requires:               mingw64-libjpeg-turbo >= %{LIBJPEG_TURBO_VERSION}
 Requires:               mingw64-libtiff >= %{LIBTIFF_VERSION}
 Requires:               mingw64-cairo >= %{CAIRO_VERSION}
 Requires:               mingw64-icu >= %{ICU_VERSION}
-Requires:               mingw64-icu57 >= %{ICU_VERSION}
 Requires:               mingw64-harfbuzz >= %{HARFBUZZ_VERSION}
 Requires:               mingw64-fribidi >= %{FRIBIDI_VERSION}
 Requires:               mingw64-pango >= %{PANGO_VERSION}

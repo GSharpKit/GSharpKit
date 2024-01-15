@@ -217,6 +217,17 @@ rm -f $RPM_BUILD_ROOT%{linux_prefix}/Microsoft.SqlServer.Server.dll
 rm -f $RPM_BUILD_ROOT%{mingw64_prefix}/Microsoft.SqlServer.Server.dll
 rm -f $RPM_BUILD_ROOT%{mac64_prefix}/Microsoft.SqlServer.Server.dll
 
+rm -f $RPM_BUILD_ROOT%{linux_prefix}/Mono.Cecil.Mdb.dll
+rm -f $RPM_BUILD_ROOT%{linux_prefix}/Mono.Cecil.Pdb.dll
+rm -f $RPM_BUILD_ROOT%{linux_prefix}/Mono.Cecil.Rocks.dll
+rm -f $RPM_BUILD_ROOT%{mingw64_prefix}/Mono.Cecil.Mdb.dll
+rm -f $RPM_BUILD_ROOT%{mingw64_prefix}/Mono.Cecil.Pdb.dll
+rm -f $RPM_BUILD_ROOT%{mingw64_prefix}/Mono.Cecil.Rocks.dll
+rm -f $RPM_BUILD_ROOT%{mac64_prefix}/Mono.Cecil.Mdb.dll
+rm -f $RPM_BUILD_ROOT%{mac64_prefix}/Mono.Cecil.Pdb.dll
+rm -f $RPM_BUILD_ROOT%{mac64_prefix}/Mono.Cecil.Rocks.dll
+
+
 %clean
 #rm -rf $RPM_BUILD_ROOT
 
