@@ -1,0 +1,82 @@
+Index: Source/JavaScriptCore/runtime/Butterfly.h
+===================================================================
+--- Source/JavaScriptCore/runtime/Butterfly.h	(revision 166141)
++++ Source/JavaScriptCore/runtime/Butterfly.h	(working copy)
+@@ -157,9 +157,7 @@ public:
+     // methods is not exhaustive and is not intended to encapsulate all possible allocation
+     // modes of butterflies - there are code paths that allocate butterflies by calling
+     // directly into Heap::tryAllocateStorage.
+-    Butterfly* growPropertyStorage(VM&, JSCell* intendedOwner, size_t preCapacity, size_t oldPropertyCapacity, bool hasIndexingHeader, size_t indexingPayloadSizeInBytes, size_t newPropertyCapacity);
+-    Butterfly* growPropertyStorage(VM&, JSCell* intendedOwner, Structure* oldStructure, size_t oldPropertyCapacity, size_t newPropertyCapacity);
+-    Butterfly* growPropertyStorage(VM&, JSCell* intendedOwner, Structure* oldStructure, size_t newPropertyCapacity);
++    static Butterfly* createOrGrowPropertyStorage(Butterfly*, VM&, JSCell* intendedOwner, Structure*, size_t oldPropertyCapacity, size_t newPropertyCapacity);
+     Butterfly* growArrayRight(VM&, JSCell* intendedOwner, Structure* oldStructure, size_t propertyCapacity, bool hadIndexingHeader, size_t oldIndexingPayloadSizeInBytes, size_t newIndexingPayloadSizeInBytes); // Assumes that preCapacity is zero, and asserts as much.
+     Butterfly* growArrayRight(VM&, JSCell* intendedOwner, Structure*, size_t newIndexingPayloadSizeInBytes);
+     Butterfly* resizeArray(VM&, JSCell* intendedOwner, size_t propertyCapacity, bool oldHasIndexingHeader, size_t oldIndexingPayloadSizeInBytes, size_t newPreCapacity, bool newHasIndexingHeader, size_t newIndexingPayloadSizeInBytes);
+Index: Source/JavaScriptCore/runtime/ButterflyInlines.h
+===================================================================
+--- Source/JavaScriptCore/runtime/ButterflyInlines.h	(revision 166141)
++++ Source/JavaScriptCore/runtime/ButterflyInlines.h	(working copy)
+@@ -75,39 +75,25 @@ inline void* Butterfly::base(Structure* 
+     return base(indexingHeader()->preCapacity(structure), structure->outOfLineCapacity());
+ }
+ 
+-inline Butterfly* Butterfly::growPropertyStorage(
+-    VM& vm, JSCell* intendedOwner, size_t preCapacity, size_t oldPropertyCapacity,
+-    bool hasIndexingHeader, size_t indexingPayloadSizeInBytes, size_t newPropertyCapacity)
++inline Butterfly* Butterfly::createOrGrowPropertyStorage(
++    Butterfly* oldButterfly, VM& vm, JSCell* intendedOwner, Structure* structure, size_t oldPropertyCapacity, size_t newPropertyCapacity)
+ {
+     RELEASE_ASSERT(newPropertyCapacity > oldPropertyCapacity);
++    if (!oldButterfly)
++        return create(vm, intendedOwner, 0, newPropertyCapacity, false, IndexingHeader(), 0);
++
++    size_t preCapacity = oldButterfly->indexingHeader()->preCapacity(structure);
++    size_t indexingPayloadSizeInBytes = oldButterfly->indexingHeader()->indexingPayloadSizeInBytes(structure);
++    bool hasIndexingHeader = structure->hasIndexingHeader(intendedOwner);
+     Butterfly* result = createUninitialized(
+-        vm, intendedOwner, preCapacity, newPropertyCapacity, hasIndexingHeader,
+-        indexingPayloadSizeInBytes);
++        vm, intendedOwner, preCapacity, newPropertyCapacity, hasIndexingHeader, indexingPayloadSizeInBytes);
+     memcpy(
+         result->propertyStorage() - oldPropertyCapacity,
+-        propertyStorage() - oldPropertyCapacity,
++        oldButterfly->propertyStorage() - oldPropertyCapacity,
+         totalSize(0, oldPropertyCapacity, hasIndexingHeader, indexingPayloadSizeInBytes));
+     return result;
+ }
+ 
+-inline Butterfly* Butterfly::growPropertyStorage(
+-    VM& vm, JSCell* intendedOwner, Structure* structure, size_t oldPropertyCapacity,
+-    size_t newPropertyCapacity)
+-{
+-    return growPropertyStorage(
+-        vm, intendedOwner, indexingHeader()->preCapacity(structure), oldPropertyCapacity,
+-        structure->hasIndexingHeader(intendedOwner),
+-        indexingHeader()->indexingPayloadSizeInBytes(structure), newPropertyCapacity);
+-}
+-
+-inline Butterfly* Butterfly::growPropertyStorage(
+-    VM& vm, JSCell* intendedOwner, Structure* oldStructure, size_t newPropertyCapacity)
+-{
+-    return growPropertyStorage(
+-        vm, intendedOwner, oldStructure, oldStructure->outOfLineCapacity(),
+-        newPropertyCapacity);
+-}
+-
+ inline Butterfly* Butterfly::createOrGrowArrayRight(
+     Butterfly* oldButterfly, VM& vm, JSCell* intendedOwner, Structure* oldStructure,
+     size_t propertyCapacity, bool hadIndexingHeader, size_t oldIndexingPayloadSizeInBytes,
+Index: Source/JavaScriptCore/runtime/JSObject.cpp
+===================================================================
+--- Source/JavaScriptCore/runtime/JSObject.cpp	(revision 166141)
++++ Source/JavaScriptCore/runtime/JSObject.cpp	(working copy)
+@@ -2438,7 +2438,7 @@ Butterfly* JSObject::growOutOfLineStorag
+     // It's important that this function not rely on structure(), for the property
+     // capacity, since we might have already mutated the structure in-place.
+     
+-    return m_butterfly->growPropertyStorage(vm, this, structure(), oldSize, newSize);
++    return Butterfly::createOrGrowPropertyStorage(m_butterfly.get(), vm, this, structure(), oldSize, newSize);
+ }
+ 
+ bool JSObject::getOwnPropertyDescriptor(ExecState* exec, PropertyName propertyName, PropertyDescriptor& descriptor)

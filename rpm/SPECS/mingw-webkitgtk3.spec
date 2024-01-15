@@ -22,11 +22,14 @@ License:        LGPLv2+ and BSD
 URL:            http://webkit.org/
 
 Source0:        http://webkitgtk.org/releases/webkitgtk-%{rel_version}.tar.xz
+
 # Fix the build with GCC 6
 Patch0:         webkitgtk-2.4.9-abs.patch
+
 # Fix llint build with mingw64, patch taken from
 # https://github.com/Alexpux/MINGW-packages/blob/master/mingw-w64-webkitgtk3/0101-webkitgtk-2.4.3-gcc-asm.all.patch
 Patch1:         webkitgtk-2.4.3-gcc-asm.all.patch
+
 # https://bugs.webkit.org/show_bug.cgi?id=143563
 Patch2:         webkitgtk-2.4.11-print-windows-scaled.patch
 
@@ -43,6 +46,7 @@ Patch8:		webkitgtk-2.4.11-bison.patch
 Patch9:		webkitgtk-2.4.11-context-menu.patch
 Patch10:	webkitgtk-2.4.11-right-click.patch
 Patch11:	webkitgtk-2.4.11-ruby.patch
+Patch12:        webkitgtk-2.4.11-growPropertyStorage.patch
 
 BuildArch:      noarch
 
@@ -77,9 +81,10 @@ BuildRequires:  mingw64-libxslt
 BuildRequires:  mingw64-winpthreads
 BuildRequires:  mingw64-sqlite
 
-BuildRequires:	mingw64-icu57
+BuildRequires:	mingw64-icu
+#BuildRequires:	mingw64-icu57
 # When building force uninstall mingw64-icu and install mingw64-icu57-devel
-BuildRequires:	mingw64-icu57-devel
+#BuildRequires:	mingw64-icu57-devel
 
 %description
 WebKitGTK+ is an open-source Web content engine library.
@@ -105,7 +110,7 @@ This is the MinGW port of WebKitGTK+ for GTK+ 3.
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
-#patch3 -p1
+%patch3 -p1
 %patch4 -p1
 %patch5 -p1
 %patch6 -p1
@@ -114,16 +119,18 @@ This is the MinGW port of WebKitGTK+ for GTK+ 3.
 %patch9 -p1
 %patch10 -p1
 %patch11 -p1
+%patch12 -p0
 
 
 %build
 # lower debug level to prevent memory exhaustion by linker
-%global mingw64_cflags %(echo %{mingw64_cflags} | sed 's/-g /-g1 /') -fpermissive -DGLIB_VERSION_MIN_REQUIRED=GLIB_VERSION_2_64
+%global mingw64_cflags %(echo %{mingw64_cflags} | sed 's/-g /-g1 /') -fpermissive -DGLIB_VERSION_MIN_REQUIRED=GLIB_VERSION_2_64 -DASSERT_ENABLED=0
 
 %mingw_configure                                                \
                         --enable-win32-target                   \
                         --with-gtk=3.0                          \
                         --disable-accelerated-compositing       \
+			--disable-jit				\
                         --disable-egl                           \
                         --disable-credential-storage            \
                         --disable-geolocation                   \

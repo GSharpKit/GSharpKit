@@ -13,7 +13,7 @@
 
 Name:           webkitgtk3
 Version:        2.4.12
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        GTK+ Web content engine library
 
 Group:          Development/Libraries
@@ -25,6 +25,17 @@ Source0:        http://webkitgtk.org/releases/webkitgtk-%{rel_version}.tar.xz
 # https://bugs.webkit.org/show_bug.cgi?id=142074
 Patch0:         webkitgtk-2.4.8-user-agent.patch
 Patch1:         webkitgtk-2.4.9-abs.patch
+Patch2:         webkitgtk-2.4.11-ruby.patch
+Patch3:         webkitgtk-2.4.11-js.patch
+Patch4:         webkitgtk-2.4.11-semicolon.patch
+
+Patch6:         webkitgtk-2.4.11-inline.patch
+Patch7:         webkitgtk-2.4.11-icu.patch
+Patch8:         webkitgtk-2.4.11-bison.patch
+
+Patch9:         webkitgtk-2.4.11-context-menu.patch
+Patch10:        webkitgtk-2.4.11-right-click.patch
+Patch11:	webkitgtk-2.4.11-growPropertyStorage.patch
 
 BuildRequires:  at-spi2-core-devel
 BuildRequires:  bison
@@ -39,7 +50,6 @@ BuildRequires:  gettext
 BuildRequires:  gperf
 BuildRequires:  gstreamer1-devel
 BuildRequires:  gstreamer1-plugins-base-devel
-BuildRequires:  gtk2-devel
 BuildRequires:  gtk3-devel >= 3.6
 BuildRequires:  gtk-doc
 BuildRequires:  glib2-devel >= 2.36.0
@@ -89,8 +99,17 @@ This package contains developer documentation for %{name}.
 
 %prep
 %setup -qn "webkitgtk-%{rel_version}"
-%patch0 -p1 -b .user_agent
-%patch1 -p1 -b .abs
+%patch 0 -p1
+%patch 1 -p1
+%patch 2 -p1
+%patch 3 -p1
+%patch 4 -p1
+%patch 6 -p1
+%patch 7 -p1
+%patch 8 -p1
+%patch 9 -p1
+%patch 10 -p1
+%patch 11 -p0
 
 %build
 # Use linker flags to reduce memory consumption
@@ -111,7 +130,7 @@ This package contains developer documentation for %{name}.
 %endif
 
 # Workaround crashes with gcc 6.1
-%global optflags %{optflags} -fno-delete-null-pointer-checks
+%global optflags %{optflags} -fno-delete-null-pointer-checks -fpermissive -DGLIB_VERSION_MIN_REQUIRED=GLIB_VERSION_2_64
 
 %if 0%{?fedora}
 %global optflags %{optflags} -DUSER_AGENT_GTK_DISTRIBUTOR_NAME=\'\\"Fedora\\"\'
@@ -120,11 +139,7 @@ This package contains developer documentation for %{name}.
 %configure                                                      \
                         --with-gtk=3.0                          \
                         --disable-webkit2                       \
-%ifarch s390 s390x ppc %{power64} aarch64 %{mips}
                         --disable-jit                           \
-%else
-                        --enable-jit                            \
-%endif
                         --enable-introspection
 
 mkdir -p DerivedSources/webkit
