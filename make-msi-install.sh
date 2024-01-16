@@ -47,7 +47,7 @@ mkdir $TO/share/glib-2.0
 cp -r $FROM/share/glib-2.0/schemas $TO/share/glib-2.0/
 
 # Icons in share
-cp -r $FROM/share/icons
+cp -r $FROM/share/icons $TO/share/
 
 mkdir -p $TO/share/locale
 cp -r $FROM/share/locale/da $TO/share/locale/
