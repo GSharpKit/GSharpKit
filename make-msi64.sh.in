@@ -17,6 +17,7 @@ sh make-msi-install.sh /usr/x86_64-w64-mingw32/sys-root/mingw $TMP/usr/x86_64-w6
 
 mv $TMP/usr/x86_64-w64-mingw32/sys-root/mingw $DIR
 sed -i -e 's!<\!--<auth>EXTERNAL</auth>-->!<auth>EXTERNAL</auth>!g' $DIR/share/dbus-1/session.conf
+sed -i -e 's!../lib/gdk-pixbuf-2.0/2.10.0/loaders/!lib\\\\gdk-pixbuf-2.0\\\\2.10.0\\\\loaders\\\\!g' $DIR/lib/gdk-pixbuf-2.0/2.10.0/loaders.cache
 
 find $DIR -iname '*.dll' -exec echo {} \; -exec osslsigncode sign -pkcs12 ~/.pki/gsharpkit.p12 -pass xcare -n GSharpKit -i http://www.gsharpkit.com -t http://timestamp.digicert.com -h sha2 -in '{}' -out '{}.signed' \; -exec mv -f '{}.signed' '{}' \;
 find $DIR -iname '*.dll' -exec echo {} \; -exec osslsigncode sign -pkcs12 ~/.pki/gsharpkit.p12 -pass xcare -n GSharpKit -i http://www.gsharpkit.com -t http://timestamp.digicert.com -nest -h sha512 -in '{}' -out '{}.signed' \; -exec mv -f '{}.signed' '{}' \;

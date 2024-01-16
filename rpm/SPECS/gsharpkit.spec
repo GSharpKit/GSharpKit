@@ -35,6 +35,7 @@
 %define GTK3_VERSION 3.24.23
 %define GTK4_VERSION 4.6.5
 %define GDL_VERSION 3.40.0
+%define GSETTINGS_DESKTOP_SCHEMAS_VERSION 44.0
 %define ADWAITA_ICON_THEME_VERSION 44.0
 %define HICOLOR_ICON_THEME_VERSION 0.17
 
@@ -138,6 +139,7 @@ Requires:		libepoxy >= %{LIBEPOXY_VERSION}
 Requires:		librsvg2 >= %{LIBRSVG2_VERSION}
 Requires:		gtk3 >= %{GTK3_VERSION}
 Requires:		gtk4 >= %{GTK4_VERSION}
+Requires:		gsettings-desktop-schemas >= %{GSETTINGS_DESKTOP_SCHEMAS_VERSION}
 Requires:		adwaita-icon-theme >= %{ADWAITA_ICON_THEME_VERSION}
 Requires:		hicolor-icon-theme >= %{HICOLOR_ICON_THEME_VERSION}
 
@@ -211,6 +213,7 @@ Requires:               mingw64-libepoxy >= %{LIBEPOXY_VERSION}
 Requires:               mingw64-librsvg2 >= %{LIBRSVG2_VERSION}
 Requires:               mingw64-gtk3 >= %{GTK3_VERSION}
 Requires:               mingw64-gtk4 >= %{GTK4_VERSION}
+Requires:		mingw64-gsettings-desktop-schemas >= %{GSETTINGS_DESKTOP_SCHEMAS_VERSION}
 Requires:               mingw64-adwaita-icon-theme >= %{ADWAITA_ICON_THEME_VERSION}
 Requires:               mingw64-hicolor-icon-theme >= %{HICOLOR_ICON_THEME_VERSION}
 Requires:               mingw64-libgdl >= %{GDL_VERSION}
