@@ -1,0 +1,13 @@
+diff -Nur libxslt-v1.1.39.orig/configure.ac libxslt-v1.1.39/configure.ac
+--- libxslt-v1.1.39.orig/configure.ac	2023-11-16 13:58:16
++++ libxslt-v1.1.39/configure.ac	2024-01-25 14:27:55
+@@ -411,9 +411,6 @@
+         PKG_CHECK_MODULES([LIBXML], [libxml-2.0 >= $LIBXML_REQUIRED_VERSION], [
+             WITH_MODULES="`$PKG_CONFIG --variable=modules libxml-2.0`"
+         ], [ ])
+-    else
+-        PKG_CHECK_MODULES_STATIC([LIBXML], [libxml-2.0 >= $LIBXML_REQUIRED_VERSION],
+-        [ ], [ ])
+     fi
+ fi
+ 

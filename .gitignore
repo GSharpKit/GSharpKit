@@ -35,6 +35,7 @@ docker/darwinx/Dockerfile
 docker/linux/Dockerfile
 docker/mingw/Dockerfile
 rpm/SOURCES/proxy.1
+mac/GSharpKitBuild/
 mac/m4-1.4.17.tar.gz
 mac/m4-1.4.17/
 rpm/SOURCES/webkitgtk-2.4.11*/

@@ -1,0 +1,11 @@
+diff -Nur p11-kit-0.25.3.orig/common/meson.build p11-kit-0.25.3/common/meson.build
+--- p11-kit-0.25.3.orig/common/meson.build	2023-11-15 13:36:49
++++ p11-kit-0.25.3/common/meson.build	2024-01-25 13:59:51
+@@ -113,6 +113,7 @@
+     'p11-asn1', libp11_asn1_sources,
+     gnu_symbol_visibility: 'hidden',
+     include_directories: configinc,
++    dependencies: asn_h_dep,
+   )
+ 
+   libp11_asn1_dep = declare_dependency(
