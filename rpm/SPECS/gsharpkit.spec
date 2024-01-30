@@ -289,15 +289,13 @@ Obsoletes:		GSharpKit-sdk-mingw64-devel
 %description runtime-mingw64-devel
 Easy management of applications for Windows
 
-
-
 %prep
 
 %setup -c %{name} -T
 
 %build
 dotnet new console
-dotnet add package Mono.Posix.NETStandard --version 1.0.0
+dotnet add package Mono.Posix.NETStandard --version 5.20.1-preview
 
 dotnet publish --force --runtime linux-x64 -o lin
 dotnet publish --force --runtime win-x64 -o win

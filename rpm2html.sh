@@ -18,10 +18,11 @@ libunistring
 gettext
 libffi
 pcre
+pcre2
 glib2
+libpng
 pixman
 bzip2
-libpng
 freetype
 expat
 fontconfig
@@ -80,31 +81,6 @@ gstreamer1-plugins-good
 gstreamer1-plugins-bad-free
 webkitgtk3
 dbus
-dotnet-runtime-6.0
-Microsoft.Data.SqlClient
-Mono.Data.Sqlite
-Mono.Posix.NETStandard
-System.Common
-System.Runtime.Caching
-System.Security
-System.DirectoryServices
-DBusSharp
-GtkSharp
-GirCore
-GdlSharp
-GstSharp
-webkitgtk3-sharp
-gtk-mac-integration-sharp
-Npgsql
-Mono.Addins
-Newtonsoft.Json
-BouncyCastle
-MimeKit
-MailKit
-ServiceStack
-RestSharp
-PdfSharp.MigraDoc
-Sprache
 )
 
 LIN_BUILD_IN=(
@@ -124,8 +100,6 @@ gtk-mac-integration-sharp
 )
 
 WIN_BUILD_IN=(
-dotnet-runtime-6.0
-System.DirectoryServices
 )
 
 WIN_NA=(
@@ -136,7 +110,6 @@ gtk-mac-integration-sharp
 )
 
 MAC_BUILD_IN=(
-dotnet-runtime-6.0
 binutils
 crt
 headers

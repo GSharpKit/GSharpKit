@@ -36,6 +36,7 @@ rm -rf Source/Libs/PangoSharp/obj
 rm -rf Source/Libs/GLibSharp/obj
 rm -rf Source/Libs/AtkSharp/obj
 rm -rf Source/Libs/WebkitGtkSharp/obj
+rm -rf Source/Libs/GtkMacIntegrationSharp/obj
 rm -rf Source/Libs/GdlSharp/obj
 rm -rf Source/Libs/GstSharp/obj
 rm -rf Source/Tools/GapiCodegen/obj
@@ -61,6 +62,7 @@ install -m 644 BuildOutput/Release/PangoSharp.dll $RPM_BUILD_ROOT%{_prefix}%{lib
 install -m 644 BuildOutput/Release/WebkitGtkSharp.dll $RPM_BUILD_ROOT%{_prefix}%{libdir}/
 install -m 644 BuildOutput/Release/GdlSharp.dll $RPM_BUILD_ROOT%{_prefix}%{libdir}/
 install -m 644 BuildOutput/Release/GstSharp.dll $RPM_BUILD_ROOT%{_prefix}%{libdir}/
+install -m 644 BuildOutput/Release/GtkMacIntegrationSharp.dll $RPM_BUILD_ROOT%{_prefix}%{libdir}/
 
 %clean
 %{__rm} -rf $RPM_BUILD_ROOT

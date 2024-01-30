@@ -1,3 +1,5 @@
+%define _binary_payload w4.gzdio
+
 #### DEFINES
 %define DOTNET_VERSION 8.0
 
@@ -7,7 +9,7 @@
 
 %define linux_prefix /usr/lib/GSharpKit/sdk/%{major_version}
 %define mingw64_prefix /usr/x86_64-w64-mingw32/sys-root/mingw/lib/GSharpKit/sdk/%{major_version}
-%define mac64_prefix /Library/framework/GSharpKit/sdk/%{major_version}
+%define mac64_prefix /Library/Frameworks/GSharpKit/sdk/%{major_version}
 
 Summary: 		Easy management of applications
 Name: 			GSharpKit-sdk-%{major_version}
@@ -73,17 +75,6 @@ License:                GPL
 Group:                  Applications/Desktop
 BuildArch:              noarch
 AutoReqProv:            no
-
-Requires:               dotnet-sdk-%{DOTNET_VERSION}
-
-Requires:               gnome-common intltool glib2-devel redhat-rpm-config rpm-build fedora-packager
-Requires:               meson
-Requires:               redhat-rpm-config rpm-build
-Requires:               msitools
-Requires:               osslsigncode
-Requires:               hunspell-da hunspell-en-GB hunspell-en-US
-Requires:               python
-Requires:		sudo
 
 %description macos64
 Easy management of applications for macOS 64 bit
@@ -212,6 +203,7 @@ install -m 644 /usr/lib/PangoSharp.dll $RPM_BUILD_ROOT%{mac64_prefix}/
 install -m 644 /usr/lib/WebkitGtkSharp.dll $RPM_BUILD_ROOT%{mac64_prefix}/
 install -m 644 /usr/lib/GdlSharp.dll $RPM_BUILD_ROOT%{mac64_prefix}/
 install -m 644 /usr/lib/GstSharp.dll $RPM_BUILD_ROOT%{mac64_prefix}/
+install -m 644 /usr/lib/GtkMacIntegrationSharp.dll $RPM_BUILD_ROOT%{mac64_prefix}/
 
 rm -f $RPM_BUILD_ROOT%{linux_prefix}/Microsoft.SqlServer.Server.dll
 rm -f $RPM_BUILD_ROOT%{mingw64_prefix}/Microsoft.SqlServer.Server.dll
@@ -226,7 +218,6 @@ rm -f $RPM_BUILD_ROOT%{mingw64_prefix}/Mono.Cecil.Rocks.dll
 rm -f $RPM_BUILD_ROOT%{mac64_prefix}/Mono.Cecil.Mdb.dll
 rm -f $RPM_BUILD_ROOT%{mac64_prefix}/Mono.Cecil.Pdb.dll
 rm -f $RPM_BUILD_ROOT%{mac64_prefix}/Mono.Cecil.Rocks.dll
-
 
 %clean
 #rm -rf $RPM_BUILD_ROOT
