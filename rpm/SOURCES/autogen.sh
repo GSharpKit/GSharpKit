@@ -52,7 +52,7 @@ touch README INSTALL
 
 aclocal $ACLOCAL_FLAGS || exit $?
 $LIBTOOLIZE $LIBTOOLIZE_FLAGS || exit $?
-#autoheader || exit $?
+autoheader || exit $?
 automake $AUTOMAKE_FLAGS || exit $?
 autoconf || exit $?
 

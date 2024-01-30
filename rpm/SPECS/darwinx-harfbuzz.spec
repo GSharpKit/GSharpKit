@@ -1,16 +1,14 @@
 Name:           darwinx-harfbuzz
-Version:        4.4.0
+Version:        8.2.1
 Release:        1%{?dist}
 Summary:        Darwin Text shaping library
 
 License:        LGPLv2+
 Group:          Development/Libraries
 URL:            http://freedesktop.org/wiki/Software/HarfBuzz
-Source0:        http://www.freedesktop.org/software/harfbuzz/release/harfbuzz-%{version}.tar.xz
+Source0:        https://github.com/harfbuzz/harfbuzz/archive/harfbuzz-%{version}.tar.gz
 
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-
-BuildArch:      noarch
 
 BuildRequires:  darwinx-filesystem >= 18
 BuildRequires:  darwinx-gcc
@@ -33,34 +31,25 @@ Requires:  	darwinx-icu
 Darwin HarfBuzz is an implementation of the OpenType Layout engine.
 
 
-%package static
-Summary:        Static version of the Darwin Pango library
-Requires:       %{name} = %{version}-%{release}
-Group:          Development/Libraries
-
-%description static
-Static version HarfBuzz is an implementation of the OpenType Layout engine.
-
-
 %prep
 %setup -q -n harfbuzz-%{version}
 
-%build
-%{_darwinx_configure} \
-	--enable-static \
-	--with-coretext=yes \
-	--disable-gtk-doc
 
-%{_darwinx_make} V=99
+%build
+%darwinx_meson \
+        -Dcoretext=enabled \
+	-Dchafa=disabled \
+	-Dintrospection=disabled \
+        -Dtests=disabled \
+	-Ddocs=disabled \
+	-Ddoc_tests=false
+
+%darwinx_meson_build
 
 %install
-rm -rf $RPM_BUILD_ROOT
-
-# First install all the files belonging to the shared build
-make DESTDIR=$RPM_BUILD_ROOT install
+%darwinx_meson_install
 
 rm -rf $RPM_BUILD_ROOT%{_darwinx_datadir}
-
 rm -f $RPM_BUILD_ROOT%{_darwinx_libdir}/cmake/harfbuzz/harfbuzz-config.cmake
 
 %clean
@@ -68,7 +57,7 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %files
-%defattr(-,root,root,-)
+%defattr(-,root,wheel,-)
 %{_darwinx_bindir}/hb-ot-shape-closure
 %{_darwinx_bindir}/hb-shape
 %{_darwinx_bindir}/hb-view
@@ -76,22 +65,13 @@ rm -rf $RPM_BUILD_ROOT
 %{_darwinx_includedir}/harfbuzz
 %{_darwinx_libdir}/libharfbuzz.0.dylib
 %{_darwinx_libdir}/libharfbuzz.dylib
-%{_darwinx_libdir}/libharfbuzz.la
 %{_darwinx_libdir}/libharfbuzz-icu.0.dylib
 %{_darwinx_libdir}/libharfbuzz-icu.dylib
-%{_darwinx_libdir}/libharfbuzz-icu.la
 %{_darwinx_libdir}/libharfbuzz-subset.0.dylib
 %{_darwinx_libdir}/libharfbuzz-subset.dylib
-%{_darwinx_libdir}/libharfbuzz-subset.la
 %{_darwinx_libdir}/pkgconfig/harfbuzz.pc
 %{_darwinx_libdir}/pkgconfig/harfbuzz-icu.pc
 %{_darwinx_libdir}/pkgconfig/harfbuzz-subset.pc
-
-%files static
-%defattr(-,root,root,-)
-%{_darwinx_libdir}/libharfbuzz.a
-%{_darwinx_libdir}/libharfbuzz-icu.a
-%{_darwinx_libdir}/libharfbuzz-subset.a
  
 
 %changelog

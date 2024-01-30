@@ -1,5 +1,7 @@
 %define debug_package %{nil}
 
+%define _use_internal_dependency_generator 0
+
 #_target_arch	noarch
 #define _target_os	linux
 

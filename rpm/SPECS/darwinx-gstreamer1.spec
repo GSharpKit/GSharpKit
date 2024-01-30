@@ -1,7 +1,7 @@
 %define		api_version	1.0
 
 Name:		darwinx-gstreamer1
-Version: 	1.18.4
+Version: 	1.22.9
 Release: 	1%{?dist}
 Summary: 	GStreamer streaming media framework runtime
 
@@ -10,8 +10,6 @@ License: 	LGPLv2+
 URL:		http://gstreamer.freedesktop.org/
 Source0: 	http://gstreamer.freedesktop.org/src/gstreamer/gstreamer-%{version}.tar.xz
 BuildRoot: 	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-
-BuildArch: noarch
 
 BuildRequires:	darwinx-filesystem-base >= 18
 BuildRequires:	darwinx-gcc
@@ -25,8 +23,6 @@ BuildRequires:	libtool
 
 Requires:	darwinx-filesystem >= 18
 
-Obsoletes:	darwinx-gstreamer
-
 %description
 GStreamer is a streaming media framework, based on graphs of filters which
 operate on media data. Applications using this library can do anything
@@ -38,21 +34,17 @@ plugins.
 %prep
 %setup -q -n gstreamer-%{version}
 
-
 %build
 %darwinx_meson \
-    --default-library=shared \
-    -Dman=disabled \
-    -Ddtrace=false \
-    -Dsystemtap=true \
-    -Ddoc=disabled \
-    -Dgtk_doc=disabled \
-    -Dgst_debug=true \
-    -Dlibunwind=disabled \
-    -Dlibdw=disabled \
-    -Ddbghelp=disabled \
-    -Dintrospection=disabled \
-    -Dbash-completion=disabled
+	--default-library=shared \
+	-Ddoc=disabled \
+	-Dgst_debug=true \
+	-Dlibunwind=disabled \
+	-Dlibdw=disabled \
+	-Ddbghelp=disabled \
+	-Dintrospection=disabled \
+	-Dnls=disabled \
+	-Dbash-completion=disabled
 
 %darwinx_meson_build
 
@@ -73,7 +65,7 @@ rm -fr $RPM_BUILD_ROOT%{_darwinx_datadir}/gstreamer-%{api_version}/gdb
 rm -rf $RPM_BUILD_ROOT
 
 %files
-%defattr(-, root, root, -)
+%defattr(-, root, wheel, -)
 %{_darwinx_libdir}/libgstreamer-%{api_version}.0.dylib
 %{_darwinx_libdir}/libgstbase-%{api_version}.0.dylib
 %{_darwinx_libdir}/libgstcontroller-%{api_version}.0.dylib
@@ -105,8 +97,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_darwinx_libdir}/pkgconfig/gstreamer-controller-%{api_version}.pc
 %{_darwinx_libdir}/pkgconfig/gstreamer-check-%{api_version}.pc
 %{_darwinx_libdir}/pkgconfig/gstreamer-net-%{api_version}.pc
-
-%{_darwinx_datadir}/locale/
 
 %{_darwinx_bindir}/gst-inspect-%{api_version}
 %{_darwinx_bindir}/gst-launch-%{api_version}

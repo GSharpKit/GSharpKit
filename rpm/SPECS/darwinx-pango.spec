@@ -1,5 +1,5 @@
 Name:           darwinx-pango
-Version:        1.50.7
+Version:        1.51.0
 Release:        1%{?dist}
 Summary:        Darwin Pango library
 
@@ -9,8 +9,6 @@ URL:            http://www.pango.org
 Source0:        http://download.gnome.org/sources/pango/1.44/pango-%{version}.tar.xz
 
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-
-BuildArch:      noarch
 
 BuildRequires:  darwinx-filesystem >= 6
 BuildRequires:  darwinx-gcc
@@ -43,21 +41,11 @@ Requires:  	darwinx-pixman
 Darwin Pango library.
 
 
-%package static
-Summary:        Static version of the Darwin Pango library
-Requires:       %{name} = %{version}-%{release}
-Group:          Development/Libraries
-
-%description static
-Static version of the Darwin Pango library.
-
-
 %prep
 %setup -q -n pango-%{version}
 
 %build
 %darwinx_meson \
-    --default-library=both \
     -Dgtk_doc=false \
     -Dintrospection=disabled \
     -Dinstall-tests=false \
@@ -80,7 +68,7 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %files
-%defattr(-,root,root,-)
+%defattr(-,root,wheel,-)
 %{_darwinx_bindir}/pango-view
 %{_darwinx_bindir}/pango-list
 %{_darwinx_bindir}/pango-segmentation
@@ -96,12 +84,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_darwinx_libdir}/pkgconfig/pangoft2.pc
 %{_darwinx_libdir}/pkgconfig/pangofc.pc
 %{_darwinx_libdir}/pkgconfig/pangoot.pc
-
-%files static
-%defattr(-,root,root,-)
-%{_darwinx_libdir}/libpango-1.0.a
-%{_darwinx_libdir}/libpangocairo-1.0.a
-%{_darwinx_libdir}/libpangoft2-1.0.a
  
 
 %changelog

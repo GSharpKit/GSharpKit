@@ -1,7 +1,7 @@
-%define ver 3320200
+%define ver 3450000
 
 Name:           darwinx-sqlite
-Version:        3.32.2
+Version:        3.45.0
 Release:        1%{?dist}
 Summary:        SQL database engine.
 
@@ -10,8 +10,6 @@ Group:          Development/Libraries
 URL:            https://www.sqlite.org/
 Source0:        sqlite-autoconf-%{ver}.tar.gz
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-
-BuildArch:      noarch
 
 BuildRequires:  darwinx-filesystem >= 12
 BuildRequires:  darwinx-gcc
@@ -47,11 +45,10 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %files
-%defattr(-,root,root)
+%defattr(-,root,wheel)
 %{_darwinx_bindir}/sqlite3
 %{_darwinx_libdir}/libsqlite3.*.dylib
 %{_darwinx_libdir}/libsqlite3.dylib
-%{_darwinx_libdir}/libsqlite3.la
 %{_darwinx_libdir}/pkgconfig/sqlite3.pc
 %{_darwinx_includedir}/
 

@@ -1,5 +1,7 @@
 %define debug_package %{nil}
 
+%define _use_internal_dependency_generator 0
+
 Name: 		darwinx-filesystem-base
 Version: 	203
 Release: 	1%{?dist}
@@ -13,9 +15,9 @@ Source2:	darwinx.sh
 Source3:	zlib.pc
 #Source4:	sqlite3.pc
 Source5:	expat.pc
-Source6:	openssl.pc
-Source7:	libssl.pc
-Source8:	libcrypto.pc
+#Source6:	openssl.pc
+#Source7:	libssl.pc
+#Source8:	libcrypto.pc
 Prefix:         /usr
 
 BuildRoot: 	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -30,6 +32,12 @@ Provides:       autoconf, automake, libtool
 Provides:	bison, flex, m4, gperf, ruby, perl
 Provides:       pkgconfig
 Provides:       python
+Provides:	/bin/sh
+Provides:	/usr/bin/env
+Provides:	/usr/bin/perl
+Provides:	perl(Getopt::Long)
+Provides:	perl(locale)
+
 
 %description
 This package contains the base filesystem layout, RPM macros and
@@ -58,9 +66,9 @@ mkdir -p $RPM_BUILD_ROOT%{_prefix}/lib/pkgconfig
 cp %{SOURCE3} $RPM_BUILD_ROOT%{_prefix}/lib/pkgconfig/
 #cp %{SOURCE4} $RPM_BUILD_ROOT%{_prefix}/lib/pkgconfig/
 cp %{SOURCE5} $RPM_BUILD_ROOT%{_prefix}/lib/pkgconfig/
-cp %{SOURCE6} $RPM_BUILD_ROOT%{_prefix}/lib/pkgconfig/
-cp %{SOURCE7} $RPM_BUILD_ROOT%{_prefix}/lib/pkgconfig/
-cp %{SOURCE8} $RPM_BUILD_ROOT%{_prefix}/lib/pkgconfig/
+#cp %{SOURCE6} $RPM_BUILD_ROOT%{_prefix}/lib/pkgconfig/
+#cp %{SOURCE7} $RPM_BUILD_ROOT%{_prefix}/lib/pkgconfig/
+#cp %{SOURCE8} $RPM_BUILD_ROOT%{_prefix}/lib/pkgconfig/
 
 
 %clean
@@ -68,16 +76,16 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %files
-%defattr(-,root,root)
+%defattr(-,root,wheel)
 %{_prefix}/etc/profile.d/darwinx.sh
 %{_prefix}/etc/rpm/macros.darwinx
 %{_prefix}/etc/rpm/macros.dist
 %{_prefix}/lib/pkgconfig/zlib.pc
 #{_prefix}/lib/pkgconfig/sqlite3.pc
 %{_prefix}/lib/pkgconfig/expat.pc
-%{_prefix}/lib/pkgconfig/openssl.pc
-%{_prefix}/lib/pkgconfig/libssl.pc
-%{_prefix}/lib/pkgconfig/libcrypto.pc
+#{_prefix}/lib/pkgconfig/openssl.pc
+#{_prefix}/lib/pkgconfig/libssl.pc
+#{_prefix}/lib/pkgconfig/libcrypto.pc
 
 %changelog
 * Fri Jan 24 2014 Mikkel Kruse Johnsen <mikkel@xmedicus.com> - 1-1

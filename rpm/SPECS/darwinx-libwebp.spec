@@ -1,5 +1,5 @@
 Name:           darwinx-libwebp
-Version:        1.2.0
+Version:        1.3.2
 Release:        1%{?dist}
 Summary:        Library and tools for the WebP graphics format
 License:        BSD
@@ -7,8 +7,6 @@ Group:          Development/Libraries
 URL:            http://webmproject.org/
 Source0:        libwebp-%{version}.tar.gz
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-
-BuildArch:      noarch
 
 BuildRequires:  darwinx-filesystem >= 7
 BuildRequires:  darwinx-gcc
@@ -24,8 +22,12 @@ images more efficiently.
 %setup -q -n libwebp-%{version}
 
 %build
-#sh autogen.sh
-%{_darwinx_configure} --disable-static --disable-assembly  --enable-libwebpdecoder
+NOCONFIGURE=yes sh autogen.sh
+%{_darwinx_configure} \
+	--disable-static \
+	--disable-assembly \
+	--enable-libwebpdecoder
+
 %{_darwinx_make} %{?_smp_mflags}
 
 %install
@@ -39,20 +41,19 @@ rm -rf $RPM_BUILD_ROOT%{_darwinx_datadir}
 rm -rf $RPM_BUILD_ROOT
 
 %files
-%defattr(-,root,root)
+%defattr(-,root,wheel)
 %doc COPYING
 %{_darwinx_bindir}/cwebp
 %{_darwinx_bindir}/dwebp
 %{_darwinx_includedir}/webp
 %{_darwinx_libdir}/libwebp.*.dylib
 %{_darwinx_libdir}/libwebp.dylib
-%{_darwinx_libdir}/libwebp.la
 %{_darwinx_libdir}/libwebpdecoder.*.dylib
 %{_darwinx_libdir}/libwebpdecoder.dylib
-%{_darwinx_libdir}/libwebpdecoder.la
 %{_darwinx_libdir}/libwebpdemux.*.dylib
 %{_darwinx_libdir}/libwebpdemux.dylib
-%{_darwinx_libdir}/libwebpdemux.la
+%{_darwinx_libdir}/libsharpyuv.*.dylib
+%{_darwinx_libdir}/libsharpyuv.dylib
 %{_darwinx_libdir}/pkgconfig/libwebp.pc
 %{_darwinx_libdir}/pkgconfig/libwebpdecoder.pc
 %{_darwinx_libdir}/pkgconfig/libwebpdemux.pc

@@ -13,7 +13,7 @@ Source0:	http://www.webkitgtk.org/webkitgtk-%{version}.tar.xz
 
 Patch0:		webkitgtk-2.4.9-plugin-quartz.patch
 Patch1:		webkitgtk-2.2.6-plugin.patch
-Patch2:		webkitgtk-2.4.9-icu.patch 
+Patch2:		webkitgtk-2.4.11-icu.patch
 Patch3:		webkitgtk-2.2.6-idl.patch
 Patch4:		webkitgtk-2.2.6-gstreamer.patch
 Patch5:		webkitgtk-2.4.11-jpeg.patch
@@ -23,10 +23,11 @@ Patch11:	webkitgtk-2.4.11-semicolon.patch
 Patch12:	webkitgtk-2.4.11-js.patch
 Patch13:	webkitgtk-2.4.11-inline.patch
 Patch14:	webkitgtk-2.4.11-no-jsc-objc.patch
+Patch15:	webkitgtk-2.4.11-asm.patch
+Patch16:	patch-qtwebkit_fix_page_shift.diff
+Patch17:	webkitgtk-2.4.11-bison.patch
 
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-
-BuildArch:	noarch
 
 BuildRequires:	bison
 BuildRequires:	flex
@@ -38,7 +39,7 @@ BuildRequires:	darwinx-odcctools
 BuildRequires:  darwinx-sdk
 BuildRequires:	darwinx-icu
 BuildRequires:	darwinx-gtk3
-#BuildRequires:	darwinx-sqlite3
+BuildRequires:	darwinx-sqlite
 BuildRequires:	darwinx-libxml2
 BuildRequires:	darwinx-libxslt
 BuildRequires:	darwinx-libsoup
@@ -53,30 +54,24 @@ Requires:	darwinx-filesystem >= 18
 This package contains the shared libraries for the WebKit GTK+ port
 as well as the sample GtkLauncher tool. 
 
-
-#%package static
-#Summary:	Static version of the Darwin WebKit-GTK library
-#Requires:	%{name} = %{version}-%{release}
-#Group:		Development/Libraries
-
-#%description static
-#Static version of the Darwin WebKit-GTK library.
-
-
 %prep
 %setup -qn "webkitgtk-%{version}"
-%patch0 -p1
-%patch1 -p1
-%patch2 -p1
-%patch3 -p1
-%patch4 -p0
-%patch5 -p1
+%patch 0 -p1
+%patch 1 -p1
+%patch 2 -p1
+%patch 3 -p1
+%patch 4 -p0
+%patch 5 -p1
 
-%patch10 -p1
-%patch11 -p1
-%patch12 -p1
-%patch13 -p1
-%patch14 -p1
+%patch 10 -p1
+%patch 11 -p1
+%patch 12 -p1
+%patch 13 -p1
+%patch 14 -p1
+%patch 15 -p1
+
+%patch 16 -p0
+%patch 17 -p1
 
 %{_darwinx_env}
 autoreconf --verbose --install -I Source/autotools
@@ -89,12 +84,32 @@ mkdir -p DerivedSources/WebKit2/include
 mkdir -p DerivedSources/WebCore
 mkdir -p DerivedSources/Platform
 
+sed -i '' 's!python!python3!g' configure
+sed -i '' 's!python!python3!g' Source/JavaScriptCore/inspector/scripts/inline-and-minify-stylesheets-and-scripts.py
+sed -i '' 's!python!python3!g' Source/JavaScriptCore/inspector/scripts/generate-combined-inspector-json.py
+sed -i '' 's!python!python3!g' Source/JavaScriptCore/inspector/scripts/jsmin.py
+sed -i '' 's!python!python3!g' Source/JavaScriptCore/inspector/scripts/cssmin.py
+sed -i '' 's!python!python3!g' Source/JavaScriptCore/inspector/scripts/CodeGeneratorInspector.py
+sed -i '' 's!python!python3!g' Source/JavaScriptCore/inspector/scripts/CodeGeneratorInspector.py
+sed -i '' 's!python!python3!g' Source/WebKit2/Scripts/generate-messages-header.py
+sed -i '' 's!python!python3!g' Source/WebKit2/Scripts/generate-message-receiver.py
+sed -i '' 's!python!python3!g' Source/WebCore/html/parser/create-html-entity-table
+sed -i '' 's!python!python3!g' Tools/gtk/check-for-webkitdom-api-breaks
+sed -i '' 's!python!python3!g' Tools/gtk/webkitdom.py
+sed -i '' 's!python!python3!g' Tools/gtk/common.py
+sed -i '' 's!python!python3!g' Tools/gtk/generate-feature-defines-files
+sed -i '' 's!python!python3!g' Tools/gtk/generate-inspector-gresource-manifest.py
+sed -i '' 's!python!python3!g' Tools/gtk/generate-gtkdoc
 
+#sed -i '' 's!-ljpeg!-L/Library/Frameworks/GSharpKit/lib -lturbojpeg!g' configure
 sed -i '' 's!#define USE_ACCELERATE_FFT 1!#define USE_ACCELERATE_FFT 0!g' Source/WebCore/platform/audio/FFTFrame.h
 
+
 %build
+%global _darwinx_cflags %(echo %{_darwinx_cflags} | sed 's/-g /-g1 /') -fpermissive -DGLIB_VERSION_MIN_REQUIRED=GLIB_VERSION_2_64 -DASSERT_ENABLED=0
+
 #DARWINX_CFLAGS="-Qunused-arguments" DARWINX_CXXFLAGS="-pthread -std=c++11 -Wno-c++11-compat -Wno-error=c++11-narrowing -ftemplate-depth=256 -stdlib=libc++ -Wno-c++11-extensions -Qunused-arguments" DARWINX_CPPFLAGS="-DGTEST_HAS_TR1_TUPLE=0" DARWINX_LDFLAGS="-stdlib=libc++"
-DARWINX_CXXFLAGS="-std=c++11 -Wno-c++11-compat -Wno-error=c++11-narrowing -ftemplate-depth=256 -stdlib=libc++" DARWINX_CPPFLAGS="-DGTEST_HAS_TR1_TUPLE=0 -I/Library/Frameworks/GSharpKit/include" DARWINX_LDFLAGS="-stdlib=libc++" %{_darwinx_configure} \
+DARWINX_CXXFLAGS="-std=c++11 -Wno-c++11-compat -Wno-error=c++11-narrowing -ftemplate-depth=256 -stdlib=libc++ -DDISABLE_BUILTIN_CLEAR_CACHE=1 -DGLIB_VERSION_MIN_REQUIRED=GLIB_VERSION_2_64 -DASSERT_ENABLED=0" DARWINX_CPPFLAGS="-DGTEST_HAS_TR1_TUPLE=0 -I/Library/Frameworks/GSharpKit/include -DGLIB_VERSION_MIN_REQUIRED=GLIB_VERSION_2_64 -DASSERT_ENABLED=0" DARWINX_LDFLAGS="-stdlib=libc++" %{_darwinx_configure} \
 	--enable-quartz-target			\
 	--with-gtk=3.0                          \
 	--disable-accelerated-compositing       \
@@ -102,6 +117,7 @@ DARWINX_CXXFLAGS="-std=c++11 -Wno-c++11-compat -Wno-error=c++11-narrowing -ftemp
 	--disable-credential-storage            \
 	--disable-geolocation                   \
 	--disable-webkit2                       \
+	--disable-jit				\
 	--disable-gtk-doc-html
 
 #make %{?_smp_mflags} V=99
@@ -117,11 +133,13 @@ rm -rf %{buildroot}%{_darwinx_datadir}/gtk-doc
 rm -rf %{buildroot}/webkitgtk
 rm -rf %{buildroot}/webkitdomgtk
 
+%find_lang webkitgtk --all-name
+
 %clean
 rm -rf %{buildroot}
 
-%files
-%defattr(-,root,root,-)
+%files -f webkitgtk.lang
+%defattr(-,root,wheel,-)
 %{_darwinx_bindir}/jsc-3
 %{_darwinx_bindir}/GtkLauncher
 
@@ -129,21 +147,13 @@ rm -rf %{buildroot}
 
 %{_darwinx_libdir}/libwebkitgtk-3.0.0.dylib
 %{_darwinx_libdir}/libwebkitgtk-3.0.dylib
-%{_darwinx_libdir}/libwebkitgtk-3.0.la
 %{_darwinx_libdir}/libjavascriptcoregtk-3.0.0.dylib
 %{_darwinx_libdir}/libjavascriptcoregtk-3.0.dylib
-%{_darwinx_libdir}/libjavascriptcoregtk-3.0.la
 
 %{_darwinx_libdir}/pkgconfig/javascriptcoregtk-3.0.pc
 %{_darwinx_libdir}/pkgconfig/webkitgtk-3.0.pc
 
-%{_darwinx_datadir}/locale
 %{_darwinx_datadir}/webkitgtk-3.0
-
-#%files static
-#%defattr(-,root,root,-)
-#%{_darwinx_libdir}/libwebkit-3.0.a
-
 
 %changelog
 * Wed Jan 30 2013 Mikkel Kruse Johnsen <mikkel@xmedicus.com> - 2.4.9-2

@@ -1,20 +1,16 @@
 %define debug_package %{nil}
 
-%global underscore_version 67_1
+%global icu_version 73-2
 
 Name:           darwinx-icu
-Version:        67.1
+Version:        73.2
 Release:        1%{?dist}
 Summary:        International Components for Unicode Tools
 
 License:        MIT and UCD and Public Domain
 Group:          Development/Libraries
 URL:            http://icu-project.org
-Source0:        http://download.icu-project.org/files/icu4c/%{version}/icu4c-%{underscore_version}-src.tgz
-
-BuildArch:      noarch
-
-#Patch1:	icu4c-4_8_1_1-following.patch
+Source0:        http://download.icu-project.org/files/icu4c/%{version}/icu-release-%{icu_version}.tar.gz
 
 BuildRequires:  darwinx-filesystem >= 5
 BuildRequires:  darwinx-gcc
@@ -23,7 +19,7 @@ BuildRequires:  autoconf
 
 # Some build error in libicudata.50.1.2dylib is not linking to libicudata.50.dylib
 # So we provide it here
-Provides:	libicudata.67.dylib
+#Provides:	libicudata.67.dylib
 
 %description
 ICU is a set of C and C++ libraries that provides robust and
@@ -34,42 +30,21 @@ catalogs and resources, message formatting, normalization, number and
 currency formatting, time zone support, transliteration, and word,
 line, and sentence breaking, etc.
 
-%package static
-Summary:        International Components for Unicode Tools
-Requires:       %{name} = %{version}-%{release}
-Group:          Development/Libraries
-
-%description static
-Static version of the ICU library.
-
-
 %prep
-%setup -q -n icu
-
-#%patch1 -p1 -b .following
-
-# Needed for patch1
-#pushd source
-#autoconf --force
-#popd
-
+%setup -q -n icu-release-%{icu_version}
 
 %build
-pushd source
+pushd icu4c/source
 DARWINX_CXXFLAGS="-std=c++11 -Wno-c++11-compat -Wno-error=c++11-narrowing -ftemplate-depth=256 -stdlib=libc++" DARWINX_LDFLAGS="-stdlib=libc++" %{_darwinx_configure} \
-        --enable-static --disable-samples --disable-tests --with-library-bits=64
-
-#--with-data-packaging=library
+        --disable-static --disable-samples --disable-tests --with-library-bits=64
 
 %{_darwinx_make} %{?_smp_mflags}
 popd
 
 %install
-pushd source
+pushd icu4c/source
 %{_darwinx_make} DESTDIR=$RPM_BUILD_ROOT install
 popd
-
-#sed -i '' -e s/"name ../lib/libicudata.50.1.2.dylib"/"name libicudata.50.dylib"/ $RPM_BUILD_ROOT%{_darwinx_libdir}/libicudata.50.1.2.dylib
 
 rm -fr $RPM_BUILD_ROOT%{_darwinx_mandir}
 
@@ -82,8 +57,7 @@ rm -fr $RPM_BUILD_ROOT%{_darwinx_libdir}/icu/pkgdata.inc
 
 
 %files
-#%doc license.html unicode-license.txt
-
+%defattr(-,root,wheel,-)
 %{_darwinx_bindir}/derb
 %{_darwinx_bindir}/genrb
 %{_darwinx_bindir}/gendict
@@ -116,14 +90,6 @@ rm -fr $RPM_BUILD_ROOT%{_darwinx_libdir}/icu/pkgdata.inc
 %{_darwinx_includedir}/unicode
 %{_darwinx_libdir}/icu
 %{_darwinx_datadir}/icu
-
-%files static
-%{_darwinx_libdir}/libicudata.a
-%{_darwinx_libdir}/libicui18n.a
-%{_darwinx_libdir}/libicuio.a
-%{_darwinx_libdir}/libicutest.a
-%{_darwinx_libdir}/libicutu.a
-%{_darwinx_libdir}/libicuuc.a
 
 %changelog
 * Fri Jul 20 2012 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 4.8.1.1-6

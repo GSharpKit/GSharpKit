@@ -1,5 +1,5 @@
 Name:           darwinx-libtasn1
-Version:        4.16.0
+Version:        4.19.0
 Release:        1%{?dist}
 Summary:        The ASN.1 library used in GNUTLS
 License:        GPLv3+ and LGPLv2+
@@ -7,8 +7,6 @@ Group:          Development/Libraries
 URL:            http://www.gnu.org/software/libtasn1/
 Source0:        libtasn1-%{version}.tar.gz
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-
-BuildArch:      noarch
 
 BuildRequires:  darwinx-filesystem-base >= 18
 BuildRequires:  darwinx-gcc
@@ -28,24 +26,17 @@ A library that provides Abstract Syntax Notation One (ASN.1, as specified
 by the X.680 ITU-T recommendation) parsing and structures management, and
 Distinguished Encoding Rules (DER, as per X.690) encoding and decoding functions.
 
-%package static
-Summary:        The ASN.1 library used in GNUTLS
-Requires:       %{name} = %{version}-%{release}
-Group:          Development/Libraries
-
-%description static
-A library that provides Abstract Syntax Notation One (ASN.1, as specified
-by the X.680 ITU-T recommendation) parsing and structures management, and
-Distinguished Encoding Rules (DER, as per X.690) encoding and decoding functions.
-
 %prep
 %setup -q -n libtasn1-%{version}
 
-#sed -i '' 's!_GL_EXTERN_INLINE!static!g' lib/gl/c-ctype.c
-
 %build
-%global _darwinx_cflags %{_darwinx_cflags} -DC_CTYPE_INLINE=static
-%{_darwinx_configure} --disable-gtk-doc --disable-dependency-tracking --disable-silent-rules --disable-ld-version-script
+#global _darwinx_cflags %{_darwinx_cflags} -DC_CTYPE_INLINE=static
+%{_darwinx_configure} \
+	--disable-static \
+	--disable-gtk-doc \
+	--disable-dependency-tracking \
+	--disable-silent-rules \
+	--disable-ld-version-script
 %{_darwinx_make}
 
 %install
@@ -59,19 +50,14 @@ rm -rf $RPM_BUILD_ROOT%{_darwinx_datadir}
 rm -rf $RPM_BUILD_ROOT
 
 %files
-%defattr(-,root,root)
+%defattr(-,root,wheel)
 %{_darwinx_bindir}/asn1Coding
 %{_darwinx_bindir}/asn1Decoding
 %{_darwinx_bindir}/asn1Parser
 %{_darwinx_includedir}/libtasn1.h
 %{_darwinx_libdir}/libtasn1.6.dylib
 %{_darwinx_libdir}/libtasn1.dylib
-%{_darwinx_libdir}/libtasn1.la
 %{_darwinx_libdir}/pkgconfig/libtasn1.pc
-
-%files static
-%defattr(-,root,root)
-%{_darwinx_libdir}/libtasn1.a
 
 %changelog
 * Fri Oct  9 2009 Erik van Pienbroek <epienbro@fedoraproject.org> - 2.6.4-3

@@ -1,0 +1,13 @@
+diff -Nur webkitgtk-2.4.11.orig/Source/WTF/wtf/gobject/GRefPtr.h webkitgtk-2.4.11/Source/WTF/wtf/gobject/GRefPtr.h
+--- webkitgtk-2.4.11.orig/Source/WTF/wtf/gobject/GRefPtr.h	2016-04-10 08:48:36
++++ webkitgtk-2.4.11/Source/WTF/wtf/gobject/GRefPtr.h	2024-01-26 08:21:25
+@@ -28,9 +28,6 @@
+ #include <wtf/RefPtr.h>
+ #include <algorithm>
+ 
+-extern "C" void g_object_unref(gpointer);
+-extern "C" gpointer g_object_ref_sink(gpointer);
+-
+ namespace WTF {
+ 
+ enum GRefPtrAdoptType { GRefPtrAdopt };

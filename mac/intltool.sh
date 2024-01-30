@@ -1,17 +1,23 @@
 #!/bin/bash
-BUILD_ROOT=~/GSharpKitBuild
+SCRIPT_ROOT=`pwd`
+BUILD_ROOT=$SCRIPT_ROOT/GSharpKitBuild
 
 NAME=GSharpKit
 PREFIX=/Library/$NAME
 SYMLINK=/Library/$NAME
 
-URL=https://launchpad.net/intltool/trunk/0.50.2/+download
+VERSION=0.51.0
+URL=https://launchpad.net/intltool/trunk/$VERSION/+download
 
 cd $BUILD_ROOT
-curl -OL $URL/intltool-0.50.2.tar.gz
-tar xfz intltool-0.50.2.tar.gz
-cd intltool-0.50.2
-CFLAGS="-m64 -arch x86_64" CXXFLAGS="-m64 -arch x86_64" LDFLAGS="-arch x86_64" ./configure --prefix=$PREFIX --exec-prefix=$PREFIX
+
+if [[ ! -f "intltool-$VERSION.tar.gz" ]]; then
+        curl -OL $URL/intltool-$VERSION.tar.gz
+fi
+
+tar xfz intltool-$VERSION.tar.gz
+cd intltool-$VERSION
+./configure --prefix=$PREFIX --exec-prefix=$PREFIX
 make
 sudo make install
 sudo ln -sf $SYMLINK/bin/intltoolize /usr/local/bin/intltoolize

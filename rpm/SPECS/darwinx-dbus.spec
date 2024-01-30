@@ -1,5 +1,5 @@
 Name:           darwinx-dbus
-Version:        1.13.16
+Version:        1.15.8
 Release:        1%{?dist}
 Summary:        D-Bus Message Bus System
 
@@ -8,11 +8,7 @@ Group:          Development/Libraries
 URL:            http://dbus.freedesktop.org/
 Source0:        http://dbus.freedesktop.org/releases/dbus/dbus-%{version}.tar.xz
 
-Patch0:		darwinx-dbus-multi-arch.patch
-
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-
-BuildArch:      noarch
 
 BuildRequires:  darwinx-filesystem-base >= 106
 
@@ -28,28 +24,26 @@ bus daemon).
 
 %prep
 %setup -q -n dbus-%{version}
-#patch2 -p1
 
 %build
-#libtoolize --force --copy --install
-#autoreconf -f -i
-#echo "lt_cv_deplibs_check_method='pass_all'" >>%{_darwinx_cache}
-%{_darwinx_configure} \
-	--enable-maintainer-mode \
-	--disable-static \
-	--enable-verbose-mode \
-	--disable-tests \
-	--enable-checks \
-	--enable-asserts \
-	--enable-launchd \
-	--with-dbus-daemondir=/Library/Frameworks/GSharpKit/bin
-make %{?_smp_mflags} || make
+%darwinx_meson \
+	-Dlaunchd=enabled \
+	-Dxml_docs=disabled \
+	-Ddoxygen_docs=disabled \
+	-Dducktype_docs=disabled \
+	-Dqt_help=disabled \
+	-Dselinux=disabled \
+	-Dapparmor=disabled \
+	-Dinotify=disabled \
+	-Depoll=disabled \
+	-Dsystemd=disabled \
+	-Dlibaudit=disabled \
+	-Dx11_autolaunch=disabled
 
+%darwinx_meson_build
 
 %install
-rm -rf $RPM_BUILD_ROOT
-
-make DESTDIR=$RPM_BUILD_ROOT install
+%darwinx_meson_install
 
 rm -rf $RPM_BUILD_ROOT%{_darwinx_sysconfdir}/rc.d
 rm -rf $RPM_BUILD_ROOT%{_darwinx_datadir}/doc
@@ -66,7 +60,7 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %files
-%defattr(-,root,root)
+%defattr(-,root,wheel)
 %{_darwinx_libdir}/libdbus-1.*.dylib
 %{_darwinx_bindir}/dbus-run-session
 #{_darwinx_bindir}/dbus-install.sh
@@ -93,7 +87,6 @@ rm -rf $RPM_BUILD_ROOT
 
 %{_darwinx_libdir}/libdbus-1.dylib
 %{_darwinx_includedir}/dbus-1.0/dbus/*.h
-%{_darwinx_libdir}/libdbus-1.la
 %{_darwinx_libdir}/pkgconfig/dbus-1.pc
 %{_darwinx_libdir}/dbus-1.0/include/dbus/dbus-arch-deps.h
 

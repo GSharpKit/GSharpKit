@@ -1,14 +1,13 @@
 Name:           darwinx-libepoxy
-Version:        1.5.9
+Version:        1.5.10
 Release:        1%{?dist}
 Summary:        Epoxy is a library for handling OpenGL function pointer management for you.
 
 License:        LGPLv2+
 Group:          Development/Libraries
 URL:		https://github.com/anholt/libepoxy/releases
-Source0:        https://github.com/anholt/libepoxy/releases/libepoxy-%{version}.tar.xz
+Source0:        https://github.com/anholt/libepoxy/releases/libepoxy-%{version}.tar.gz
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-BuildArch:      noarch
 
 BuildRequires:  darwinx-filesystem-base >= 18
 BuildRequires:  darwinx-gcc
@@ -27,14 +26,6 @@ undecorated function names like glCompileShader().
 Don't forget to check for your extensions or versions being present before 
 you use them, just like before! We'll tell you what you forgot to check for 
 instead of just segfaulting, though.
-
-%package static
-Summary:        A portable foreign function interface library
-Requires:       %{name} = %{version}-%{release}
-Group:          Development/Libraries
-
-%description static
-Static version of the libepoxy library.
 
 %prep
 %setup -q -n libepoxy-%{version}
@@ -59,17 +50,13 @@ rm -rf $RPM_BUILD_ROOT%{_darwinx_datadir}
 rm -rf $RPM_BUILD_ROOT
 
 %files
-%defattr(-,root,root)
+%defattr(-,root,wheel)
 %{_darwinx_libdir}/libepoxy.dylib
 %{_darwinx_libdir}/libepoxy.*.dylib
 %{_darwinx_libdir}/pkgconfig/epoxy.pc
 %{_darwinx_includedir}/epoxy/common.h
 %{_darwinx_includedir}/epoxy/gl.h
 %{_darwinx_includedir}/epoxy/gl_generated.h
-
-
-%files static
-%defattr(-,root,root)
 %{_darwinx_libdir}/libepoxy.a
 
 %changelog

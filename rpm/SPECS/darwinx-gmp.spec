@@ -1,5 +1,5 @@
 Name:           darwinx-gmp
-Version:        6.2.0
+Version:        6.2.1
 Release:        1%{?dist}
 Summary:        A GNU arbitrary precision library
 License:        LGPLv3+
@@ -7,8 +7,6 @@ Group:          Development/Libraries
 URL:            https://gmplib.org/download/gmp/
 Source0:        gmp-%{version}.tar.xz
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-
-BuildArch:      noarch
 
 BuildRequires:  darwinx-filesystem-base >= 18
 BuildRequires:  darwinx-gcc
@@ -50,12 +48,11 @@ rm -rf $RPM_BUILD_ROOT%{_darwinx_datadir}
 rm -rf $RPM_BUILD_ROOT
 
 %files
-%defattr(-,root,root)
+%defattr(-,root,wheel)
 %doc COPYING
 %{_darwinx_includedir}/gmp.h
 %{_darwinx_libdir}/libgmp.10.dylib
 %{_darwinx_libdir}/libgmp.dylib
-%{_darwinx_libdir}/libgmp.la
 %{_darwinx_libdir}/pkgconfig/gmp.pc
 
 %changelog

@@ -1,0 +1,16 @@
+diff -Nur webkitgtk-2.4.11.orig/Source/JavaScriptCore/assembler/ARM64Assembler.h webkitgtk-2.4.11/Source/JavaScriptCore/assembler/ARM64Assembler.h
+--- webkitgtk-2.4.11.orig/Source/JavaScriptCore/assembler/ARM64Assembler.h	2016-04-10 08:48:36
++++ webkitgtk-2.4.11/Source/JavaScriptCore/assembler/ARM64Assembler.h	2024-01-25 19:20:09
+@@ -2754,11 +2754,7 @@
+ 
+     static void cacheFlush(void* code, size_t size)
+     {
+-#if OS(IOS)
+-        sys_cache_control(kCacheFunctionPrepareForExecution, code, size);
+-#else
+-#error "The cacheFlush support is missing on this platform."
+-#endif
++        //sys_cache_control(kCacheFunctionPrepareForExecution, code, size);
+     }
+ 
+     // Assembler admin methods:

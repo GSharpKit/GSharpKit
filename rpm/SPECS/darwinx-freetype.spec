@@ -1,5 +1,5 @@
 Name:           darwinx-freetype
-Version:        2.12.1
+Version:        2.13.2
 Release:        1%{?dist}
 Summary:        Darwin A free and portable font rendering engine
 
@@ -11,8 +11,6 @@ Source1:	freetype2.pc
 Patch0:		freetype-2.5.0-freetype-config.patch
 
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-
-BuildArch:      noarch
 
 BuildRequires:  darwinx-filesystem >= 4
 BuildRequires:  darwinx-gcc
@@ -35,27 +33,13 @@ individual glyphs. FreeType is not a font server or a complete
 text-rendering library.
 
 
-%package static
-Summary:        Static version of the Darwin Pango library
-Requires:       %{name} = %{version}-%{release}
-Group:          Development/Libraries
-
-%description static
-The FreeType engine is a free and portable font rendering
-engine, developed to provide advanced font support for a variety of
-platforms and environments. FreeType is a library which can open and
-manages font files as well as efficiently load, hint and render
-individual glyphs. FreeType is not a font server or a complete
-text-rendering library.
-
-
 %prep
 %setup -q -n freetype-%{version}
 #patch0 -p1
 
 %build
 %{_darwinx_configure} \
-	--enable-static		\
+	--disable-static		\
 	--with-old-mac-font	\
 	--with-fsspec		\
 	--with-fsref		\
@@ -76,20 +60,15 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %files
-%defattr(-,root,root,-)
+%defattr(-,root,wheel,-)
 %doc README ChangeLog
 #{_darwinx_bindir}/freetype-config
 %{_darwinx_includedir}/freetype2
 %{_darwinx_libdir}/libfreetype.6.dylib
 %{_darwinx_libdir}/libfreetype.dylib
-%{_darwinx_libdir}/libfreetype.la
 %{_darwinx_libdir}/pkgconfig/freetype2.pc
 %{_darwinx_datadir}/aclocal/freetype2.m4
 #{_darwinx_mandir}/man1/freetype-config.1
-
-%files static
-%defattr(-,root,root,-)
-%{_darwinx_libdir}/libfreetype.a
  
 
 %changelog

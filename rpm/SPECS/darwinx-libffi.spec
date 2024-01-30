@@ -1,5 +1,5 @@
 Name:           darwinx-libffi
-Version:        3.4.2
+Version:        3.4.4
 Release:        1%{?dist}
 Summary:        A portable foreign function interface library
 
@@ -8,7 +8,6 @@ Group:          Development/Libraries
 URL:            ftp://sourceware.org/pub/libffi
 Source0:        ftp://sourceware.org/pub/libffi/libffi-%{version}.tar.gz
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-BuildArch:      noarch
 
 BuildRequires:  darwinx-filesystem >= 106
 BuildRequires:  darwinx-gcc
@@ -23,20 +22,13 @@ of assumptions made by the compiler about where function arguments will be found
 entry to a function. A "calling convention" also specifies where the return value 
 for a function is found. 
 
-%package static
-Summary:        A portable foreign function interface library
-Requires:       %{name} = %{version}-%{release}
-Group:          Development/Libraries
-
-%description static
-Static version of the libffi library.
-
 %prep
 %setup -q -n libffi-%{version}
 
 
 %build
-%{_darwinx_configure}
+%{_darwinx_configure} \
+	--disable-static
 make %{?_smp_mflags}
 
 
@@ -51,17 +43,12 @@ rm -rf $RPM_BUILD_ROOT%{_darwinx_datadir}
 rm -rf $RPM_BUILD_ROOT
 
 %files
-%defattr(-,root,root)
+%defattr(-,root,wheel)
 %{_darwinx_libdir}/libffi.dylib
 %{_darwinx_libdir}/libffi.*.dylib
-%{_darwinx_libdir}/libffi.la
 %{_darwinx_includedir}/ffi.h
 %{_darwinx_includedir}/ffitarget.h
 %{_darwinx_libdir}/pkgconfig/libffi.pc
-
-%files static
-%defattr(-,root,root)
-%{_darwinx_libdir}/libffi.a
 
 %changelog
 * Thu Feb 27 2014 Mikkel Kruse Johnsen <mikkel@xmedicus.com> - 3.0.13-1

@@ -1,5 +1,5 @@
 Name:           darwinx-libunistring
-Version:        0.9.10
+Version:        1.1
 Release:        1%{?dist}
 Summary:        This library provides functions for manipulating Unicode strings.
 
@@ -8,8 +8,6 @@ Group:          Development/Libraries
 URL:            https://www.gnu.org/software/libunistring/
 Source0:        libunistring-%{version}.tar.gz
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-
-BuildArch:      noarch
 
 BuildRequires:  darwinx-filesystem >= 7
 BuildRequires:  darwinx-gcc
@@ -28,8 +26,6 @@ and for manipulating C strings according to the Unicode standard.
   --disable-static
 
 %{_darwinx_make}
-# %{?_smp_mflags} doesn't build correctly.
-
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -44,7 +40,7 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %files
-%defattr(-,root,root)
+%defattr(-,root,wheel)
 %{_darwinx_includedir}/unicase.h
 %{_darwinx_includedir}/uniconv.h
 %{_darwinx_includedir}/unictype.h
@@ -58,10 +54,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_darwinx_includedir}/uniwbrk.h
 %{_darwinx_includedir}/uniwidth.h
 %dir %{_darwinx_includedir}/unistring
-%{_darwinx_includedir}/unistring/
-%{_darwinx_libdir}/libunistring.2.dylib
+%{_darwinx_includedir}/unistring/*.h
+%{_darwinx_libdir}/libunistring.5.dylib
 %{_darwinx_libdir}/libunistring.dylib
-%{_darwinx_libdir}/libunistring.la
 
 %changelog
 * Sat Jan  6 2018 Mikkel Kruse Johnsen <mikkel@xmedicus.com> - 0.9.8-1

@@ -1,25 +1,13 @@
 Name:           darwinx-glib2
-Version:        2.72.2
+Version:        2.78.3
 Release:        1%{?dist}
 Summary:        Darwin GLib2 library
 
 License:        LGPLv2+
 Group:          Development/Libraries
 URL:            http://www.gtk.org
-Source0:        http://download.gnome.org/sources/glib/2.72/glib-%{version}.tar.xz
+Source0:        http://download.gnome.org/sources/glib/2.78/glib-%{version}.tar.xz
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-
-Summary:        Cross compiled GLib2 library
-
-# https://bugzilla.gnome.org/show_bug.cgi?id=675516
-Patch1:         0001-Don-t-start-a-DBus-server-when-built-as-static-lib.patch
-
-Patch11:        glib-fix-compilation-on-osx.patch
-Patch12:	glib-2.34.1-isreg.patch
-
-Patch14:	gsettings-thread-safe.patch
-
-BuildArch:      noarch
 
 BuildRequires:  darwinx-filesystem >= 109
 BuildRequires:  darwinx-gcc
@@ -27,7 +15,7 @@ BuildRequires:  darwinx-odcctools
 BuildRequires:  darwinx-sdk
 BuildRequires:  darwinx-gettext
 BuildRequires:  darwinx-libffi
-BuildRequires:  darwinx-pcre
+#BuildRequires:  darwinx-pcre2
 
 BuildRequires:  pkgconfig
 # Native version required for msgfmt use in build
@@ -40,29 +28,16 @@ Provides:	import
 %description
 Darwin Glib2 library
 
-%package static
-Summary:        Static version of the Darwin GLib2 library
-Requires:       %{name} = %{version}-%{release}
-Group:          Development/Libraries
-
-%description static
-Static version of the Darwin GLib2 library.
-
 %prep
 %setup -q -n glib-%{version}
-#patch1 -p1
-#patch11 -p1
-#patch12 -p1
-#patch14 -p1
 
 %build
 %darwinx_meson \
-    --default-library=both \
+    -Dtests=false \
     -Dman=false \
     -Ddtrace=false \
     -Dsystemtap=true \
     -Dgtk_doc=false \
-    -Dfam=false \
     -Dlibelf=disabled \
     -Dinstalled_tests=false
 
@@ -70,13 +45,6 @@ Static version of the Darwin GLib2 library.
 
 %install
 %darwinx_meson_install
-
-# Manually merge the libtool files
-#sed -i '' -e s/"old_library=''"/"old_library='libgio-2.0.a'"/ $RPM_BUILD_ROOT%{_darwinx_libdir}/libgio-2.0.la
-#sed -i '' -e s/"old_library=''"/"old_library='libglib-2.0.a'"/ $RPM_BUILD_ROOT%{_darwinx_libdir}/libglib-2.0.la
-#sed -i '' -e s/"old_library=''"/"old_library='libgobject-2.0.a'"/ $RPM_BUILD_ROOT%{_darwinx_libdir}/libgobject-2.0.la
-#sed -i '' -e s/"old_library=''"/"old_library='libgmodule-2.0.a'"/ $RPM_BUILD_ROOT%{_darwinx_libdir}/libgmodule-2.0.la
-#sed -i '' -e s/"old_library=''"/"old_library='libgthread-2.0.a'"/ $RPM_BUILD_ROOT%{_darwinx_libdir}/libgthread-2.0.la
 
 rm -f $RPM_BUILD_ROOT%{_darwinx_libdir}/charset.alias
 
@@ -87,12 +55,14 @@ rm -rf $RPM_BUILD_ROOT%{_darwinx_datadir}/gtk-doc
 # Drop some GDB files which aren't interesting for us
 rm -rf $RPM_BUILD_ROOT%{_darwinx_datadir}/gdb
 
+%find_lang glib2 --all-name 
+
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 
-%files
-%defattr(-,root,root,-)
+%files -f glib2.lang
+%defattr(-,root,wheel,-)
 %{_darwinx_bindir}/gio
 %{_darwinx_bindir}/gio-querymodules
 %{_darwinx_bindir}/glib-genmarshal
@@ -139,7 +109,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_darwinx_datadir}/aclocal/glib-gettext.m4
 %{_darwinx_datadir}/aclocal/gsettings.m4
 %{_darwinx_datadir}/glib-2.0/
-%{_darwinx_datadir}/locale/
 %{_darwinx_datadir}/bash-completion/completions/gdbus
 %{_darwinx_datadir}/bash-completion/completions/gresource
 %{_darwinx_datadir}/bash-completion/completions/gsettings
@@ -147,14 +116,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_darwinx_datadir}/bash-completion/completions/gio
 %{_darwinx_datadir}/gettext/its/gschema.its
 %{_darwinx_datadir}/gettext/its/gschema.loc
-
-%files static
-%defattr(-,root,root,-)
-%{_darwinx_libdir}/libgio-2.0.a
-%{_darwinx_libdir}/libglib-2.0.a
-%{_darwinx_libdir}/libgmodule-2.0.a
-%{_darwinx_libdir}/libgobject-2.0.a
-%{_darwinx_libdir}/libgthread-2.0.a
 
 
 %changelog

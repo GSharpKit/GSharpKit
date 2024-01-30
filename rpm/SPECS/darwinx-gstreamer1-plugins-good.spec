@@ -1,7 +1,7 @@
 %define		majorminor	1.0
 
 Name:		darwinx-gstreamer1-plugins-good
-Version: 	1.18.4
+Version: 	1.22.9
 Release: 	1%{?dist}
 Summary: 	GStreamer streaming media framework base plug-ins
 Group: 		Applications/Multimedia
@@ -9,8 +9,6 @@ License: 	LGPLv2+
 URL:		http://gstreamer.freedesktop.org/
 Source: 	http://gstreamer.freedesktop.org/src/gst-plugins-good/gst-plugins-good-%{version}.tar.xz
 BuildRoot: 	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-
-BuildArch: 	noarch
 
 Requires:	darwinx-gstreamer1 >= %{version}
 Requires:	darwinx-gstreamer1-plugins-base >= %{version}
@@ -25,8 +23,6 @@ BuildRequires:	flex
 BuildRequires:	m4
 BuildRequires:	pkgconfig
 BuildRequires:	libtool
-
-Obsoletes:	darwinx-gstreamer-plugins-good
 
 Requires:	darwinx-filesystem >= 109
 Requires:  	darwinx-gstreamer1 >= %{version}
@@ -48,12 +44,13 @@ This package contains a set of well-maintained base plug-ins.
 
 %build
 %darwinx_meson \
-    --default-library=shared \
-    --auto-features=auto \
-    -Ddoc=disabled \
-    -Dtests=disabled \
-    -Dexamples=disabled \
-    -Dasm=disabled
+	--default-library=shared \
+	--auto-features=auto \
+	-Ddoc=disabled \
+	-Dnls=disabled \
+	-Dtests=disabled \
+	-Dexamples=disabled \
+	-Dasm=disabled
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -73,9 +70,9 @@ rm -rf $RPM_BUILD_ROOT%{_darwinx_sysconfdir}
 rm -rf $RPM_BUILD_ROOT
 
 %files
-%defattr(-, root, root, -)
-%{_darwinx_libdir}
-%{_darwinx_datadir}
+%defattr(-, root, wheel, -)
+%{_darwinx_libdir}/gstreamer-1.0/*.dylib
+%{_darwinx_datadir}/gstreamer-1.0
 
 %changelog
 * Thu Apr 06 2010 Mikkel Kruse Johnsen <mikkel@xmedicus.com>

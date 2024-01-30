@@ -8,9 +8,6 @@ Group:          Development/Libraries
 URL:            http://projects.gnome.org/accessibility/
 Source:         http://ftp.gnome.org/pub/GNOME/sources/atk/2.38/atk-%{version}.tar.xz
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-Prefix:		/usr
-
-BuildArch:      noarch
 
 BuildRequires:  darwinx-filesystem >= 6
 BuildRequires:  darwinx-gcc
@@ -24,21 +21,12 @@ BuildRequires:  pkgconfig
 Cross compiled Atk library.
 
 
-%package static
-Summary:        Static version of the cross compiled Atk library
-Requires:       %{name} = %{version}-%{release}
-
-%description static
-Static version of the cross compiled Atk library.
-
-
 %prep
 %setup -q -n atk-%{version}
 
 
 %build
 %darwinx_meson \
-    --default-library=both \
     -Ddocs=false \
     -Dintrospection=false
 
@@ -47,23 +35,17 @@ Static version of the cross compiled Atk library.
 %install
 %darwinx_meson_install
 
-# Documentation duplicates what is in the native Fedora package.
-rm -rf $RPM_BUILD_ROOT%{_darwinx_datadir}/gtk-doc
+%find_lang atk --all-name
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
-%files
-%defattr(-,root,root,-)
+%files -f atk.lang
+%defattr(-,root,wheel,-)
 %{_darwinx_includedir}/atk-1.0
 %{_darwinx_libdir}/libatk-1.0.0.dylib
 %{_darwinx_libdir}/libatk-1.0.dylib
 %{_darwinx_libdir}/pkgconfig/atk.pc
-%{_darwinx_datadir}/locale
-
-%files -n darwinx-atk-static
-%defattr(-,root,root,-)
-%{_darwinx_libdir}/libatk-1.0.a
   
 
 %changelog

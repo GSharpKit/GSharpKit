@@ -1,15 +1,13 @@
 Name:		darwinx-libsoup
-Version:	2.70.0
+Version:	2.74.3
 Release:	1%{?dist}
 Summary:	Darwin for HTTP and XML-RPC functionality
 
 License:	LGPLv2
 Group:		Development/Libraries
 URL:		http://live.gnome.org/LibSoup
-Source0:	http://download.gnome.org/sources/libsoup/2.70/libsoup-%{version}.tar.xz
+Source0:	http://download.gnome.org/sources/libsoup/2.74/libsoup-%{version}.tar.xz
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-
-BuildArch:	noarch
 
 BuildRequires:	darwinx-filesystem-base >= 102
 BuildRequires:	darwinx-gcc
@@ -37,30 +35,21 @@ supported for those who want it).
 This is the Darwin build of Libsoup
 
 
-%package static
-Summary:	Static version of the Darin Libsoup library
-Requires:	%{name} = %{version}-%{release}
-Group:		Development/Libraries
-
-%description static
-Static version of the Darwin Libsoup library.
-
-
 %prep
 %setup -q -n libsoup-%{version}
 
 %build
 %darwinx_meson \
-    --default-library=both \
-    -Dgtk_doc=false \
-    -Dgnome=true \
-    -Dgssapi=disabled \
-    -Dintrospection=disabled \
-    -Dtests=false \
-    -Dtls_check=false \
-    -Dvapi=disabled \
-    -Dbrotli=disabled \
-    -Dntlm=disabled
+	-Dgtk_doc=false \
+	-Dgnome=true \
+	-Dgssapi=disabled \
+	-Dintrospection=disabled \
+	-Dtests=false \
+	-Dtls_check=false \
+	-Dvapi=disabled \
+	-Dbrotli=disabled \
+	-Dntlm=disabled \
+	-Dsysprof=disabled
 
 %darwinx_meson_build
 
@@ -73,9 +62,8 @@ rm -rf $RPM_BUILD_ROOT%{_darwinx_datadir}/gtk-doc
 %clean
 rm -rf $RPM_BUILD_ROOT
 
-
 %files 
-%defattr(-,root,root,-)
+%defattr(-,root,wheel,-)
 %{_darwinx_includedir}/libsoup-2.4/
 %{_darwinx_includedir}/libsoup-gnome-2.4/
 %{_darwinx_libdir}/libsoup-2.4.1.dylib
@@ -85,12 +73,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_darwinx_libdir}/pkgconfig/libsoup-2.4.pc
 %{_darwinx_libdir}/pkgconfig/libsoup-gnome-2.4.pc
 %{_darwinx_datadir}/locale
-
-%files static
-%defattr(-,root,root,-)
-%{_darwinx_libdir}/libsoup-2.4.a
-%{_darwinx_libdir}/libsoup-gnome-2.4.a
-
 
 %changelog
 * Thu May  9 2013 Mikkel Kruse Johnsen <mikkel@xmedicus.com> - 2.42.2-1

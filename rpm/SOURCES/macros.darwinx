@@ -4,12 +4,12 @@
 %__cmake                  /usr/local/bin/cmake
 %_bindir                  /usr/bin
 
-%_macosx_version_min	  10.14
+%_macosx_version_min	  10.15
 
-%_darwinx_i686_target     i686-apple-darwin18.2.0
-%_darwinx_x86_64_target   x86_64-apple-darwin18.2.0
+%_darwinx_aarch64_target  aarch64-apple-darwin19.6.0
+%_darwinx_x86_64_target   x86_64-apple-darwin19.6.0
 
-%_darwinx_all_targets     %{_darwinx_x86_64_target}
+%_darwinx_all_targets     %{_darwinx_aarch64_target}
 %_darwinx_base_target     darwinx
 
 # Paths.
@@ -31,7 +31,7 @@
 %_darwinx_aclocal_path    /Library/GSharpKit/share/aclocal:/Library/Frameworks/GSharpKit/share/aclocal
 
 # Build macros.
-#%_darwinx_host            %{_darwinx_target}
+%_darwinx_host            %{_darwinx_target}
 
 %_darwinx_cppflags        -Wall -I%{_darwinx_includedir} -mmacosx-version-min=%{_macosx_version_min}
 %_darwinx_cflags          %{_darwinx_cppflags}
@@ -99,9 +99,9 @@
 %_darwinx_configure %{_darwinx_env} ; \
   __darwinx_topdir=.; if ! test -x configure; then __darwinx_topdir=..; fi; \\\
   $__darwinx_topdir/configure \\\
-	--host=%{_darwinx_x86_64_target} \\\
-	--build=%{_darwinx_x86_64_target} \\\
-	--target=%{_darwinx_x86_64_target} \\\
+	--host=%{_darwinx_aarch64_target} \\\
+	--build=%{_darwinx_aarch64_target} \\\
+	--target=%{_darwinx_aarch64_target} \\\
 	--prefix=%{_darwinx_prefix} \\\
 	--exec-prefix=%{_darwinx_exec_prefix} \\\
 	--bindir=%{_darwinx_bindir} \\\
@@ -116,6 +116,8 @@
 	--mandir=%{_darwinx_mandir} \\\
 	--infodir=%{_darwinx_infodir} \\\
 	--disable-dependency-tracking \\\
+	--enable-rpath \\\
+	--disable-relocatable \\\
         ${DARWINX_CONFIGURE_ARGS}
 
 %_darwinx_make %{_darwinx_env} ; \
@@ -156,25 +158,27 @@
   %__cmake \\\
 	-DCMAKE_VERBOSE_MAKEFILE=ON \\\
 	-DCMAKE_INSTALL_PREFIX:PATH=%{_darwinx_prefix} \\\
-	-DCMAKE_INSTALL_LIBDIR:PATH=%{_darwinx_libdir} \\\
 	-DCMAKE_MACOSX_RPATH:BOOL=OFF \\\
 	-DMACOSX_RPATH:BOOL=OFF \\\
+	-DCMAKE_INSTALL_NAME_DIR=%{_darwinx_libdir} \\\
 	-DINCLUDE_INSTALL_DIR:PATH=%{_darwinx_includedir} \\\
 	-DLIB_INSTALL_DIR:PATH=%{_darwinx_libdir} \\\
 	-DSYSCONF_INSTALL_DIR:PATH=%{_darwinx_sysconfdir} \\\
 	-DSHARE_INSTALL_PREFIX:PATH=%{_darwinx_datadir} \\\
 	%{?_cmake_skip_rpath} \\\
 	-DBUILD_SHARED_LIBS:BOOL=ON \\\
-	-DBUILD_STATIC_LIBS:BOOL=ON \\\
+	-DBUILD_STATIC_LIBS:BOOL=OFF \\\
 	-DCMAKE_TOOLCHAIN_FILE=/Library/GSharpKit/share/cross/toolchain-darwinx.cmake \\\
 	$* $__darwinx_topdir
+
+# DCMAKE_INSTALL_LIBDIR:PATH=%{_darwinx_libdir} \\\
 
 %_darwinx_description This is the cross-compiled version of this library / tool.\
 You should only install this package if you want to cross-compile programs for \
 Mac OS X (Darwin).
 
 # Compatibility stuff
-%darwinx_i686_target     %{_darwinx_i686_target}
+%darwinx_aarch64_target  %{_darwinx_aarch64_target}
 %darwinx_x86_64_target   %{_darwinx_x86_64_target}
 %darwinx_all_targets     %{_darwinx_all_targets}
 %darwinx_base_target     %{_darwinx_base_target}
@@ -199,7 +203,7 @@ Mac OS X (Darwin).
 %darwinx_includedir      %{_darwinx_includedir}
 
 %_vpath_srcdir .
-%_vpath_builddir %{_darwinx_x86_64_target}
+%_vpath_builddir %{_darwinx_aarch64_target}
 
 %__ninja /usr/local/bin/ninja
 %__ninja_common_opts -v %{?_smp_mflags}
@@ -224,7 +228,7 @@ Mac OS X (Darwin).
         if [ "$MESON_BUILD_NCPUS" -gt 1 ]; then echo "--num-processes $MESON_BUILD_NCPUS"; fi)
 
 %darwinx_meson %{_darwinx_env} ; \
-    %{__meson} \\\
+    %{__meson} setup \\\
         --buildtype=plain \\\
         --prefix=%{darwinx_prefix} \\\
         --libdir=%{darwinx_libdir} \\\

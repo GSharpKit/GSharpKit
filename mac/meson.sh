@@ -1,4 +1,5 @@
-BUILD_ROOT=~/GSharpKitBuild
+SCRIPT_ROOT=`pwd`
+BUILD_ROOT=$SCRIPT_ROOT/GSharpKitBuild
 
 NAME=GSharpKit
 PREFIX=/Library/$NAME

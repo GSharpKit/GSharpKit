@@ -1,15 +1,13 @@
 Name:           darwinx-gettext
-Version:        0.21
+Version:        0.22
 Release:        1%{?dist}
 Summary:        Darwin Gettext library
 
 License:        LGPLv2+
 Group:          Development/Libraries
 URL:            http://www.gnu.org/software/gettext/
-Source0:        http://ftp.gnu.org/pub/gnu/gettext/gettext-%{version}.tar.gz
+Source0:        http://ftp.gnu.org/pub/gnu/gettext/gettext-%{version}.tar.xz
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-
-BuildArch:      noarch
 
 %description
 The GNU gettext package provides a set of tools and documentation for
@@ -23,46 +21,31 @@ library and tools for creating, using, and modifying natural language
 catalogs and is a powerful and simple method for internationalizing
 programs.
 
-%package static
-Summary:        Static version of the Darwin Gettext library
-Requires:       %{name} = %{version}-%{release}
-Group:          Development/Libraries
-
-%description static
-Static version of the Darwin Gettext library.
-
 %prep
 %setup -q -n gettext-%{version}
 
 %build
-%{_darwinx_configure}
+%{_darwinx_configure} \
+	--disable-static \
+	--with-included-libxml
+
 make %{?_smp_mflags}
 
 %install
 rm -rf $RPM_BUILD_ROOT
 make DESTDIR=$RPM_BUILD_ROOT install
 
-rm -f $RPM_BUILD_ROOT/%{_darwinx_libdir}/GNU.Gettext.dll
-rm -rf $RPM_BUILD_ROOT/%{_darwinx_datadir}/doc
+%find_lang gettext --all-name
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
-%files
-%defattr(-,root,root,-)
+%files -f gettext.lang
+%defattr(-,root,wheel,-)
 %{_darwinx_bindir}
-%{_darwinx_libdir}/*.la
 %{_darwinx_libdir}/*.dylib
 %{_darwinx_libdir}/gettext/
 %{_darwinx_includedir}
-%{_darwinx_datadir}
-
-%files static
-%defattr(-,root,root,-)
-%{_darwinx_libdir}/libasprintf.a
-%{_darwinx_libdir}/libgettextpo.a
-%{_darwinx_libdir}/libintl.a
-%{_darwinx_libdir}/libtextstyle.a
 
 %changelog
 * Wed Jul 20 2016 Mikkel Kruse Johnsen <mikkel@xmedicus.com> - 0.19.7-1

@@ -1,23 +1,20 @@
 Name:           darwinx-cairo
-Version:        1.16.0
-Release:        2%{?dist}
+Version:        1.18.0
+Release:        1%{?dist}
 Summary:        Darwin Cairo library
 
 License:        LGPLv2 or MPLv1.1
 URL:            http://cairographics.org
 Source0:        http://cairographics.org/releases/cairo-%{version}.tar.xz
-Patch0:		cairo-surface.patch
 Group:          Development/Libraries
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-
-BuildArch:      noarch
 
 BuildRequires:  darwinx-filesystem >= 18
 BuildRequires:  darwinx-gcc
 BuildRequires:  darwinx-sdk
 BuildRequires:  darwinx-odcctools
 BuildRequires:  darwinx-freetype
-#BuildRequires:  darwinx-fontconfig
+BuildRequires:  darwinx-fontconfig
 BuildRequires:  darwinx-libpng
 BuildRequires:  pkgconfig
 
@@ -25,90 +22,49 @@ Requires:       pkgconfig
 Requires:  	darwinx-freetype
 Requires:  	darwinx-fontconfig
 Requires:  	darwinx-libpng
+Requires:  	darwinx-glib2
 
 %description
 Darwin Cairo library.
 
 
-%package static
-Summary:        Static version of the Darwin Cairo library
-Requires:       %{name} = %{version}-%{release}
-Group:          Development/Libraries
-
-%description static
-Static version of the Darwin Cairo library.
-
-
 %prep
 %setup -q -n cairo-%{version}
-%patch0 -p1
-
 
 %build
-# Work around a compile failure caused by the universal binary support
-#sed -i s/-Wp,-D_FORTIFY_SOURCE=2// configure
-#export ax_cv_c_float_words_bigendian=no
+%darwinx_meson \
+	-Dquartz=enabled \
+	-Dxcb=disabled \
+	-Dxlib=disabled \
+	-Dsymbol-lookup=disabled \
+	-Dspectre=disabled \
+	-Dtests=disabled \
+	-Dgtk_doc=false
 
-%{_darwinx_configure} \
-	--disable-gl \
-	--enable-quartz \
-	--enable-quartz-font \
-	--enable-quartz-image \
-	--disable-silent-rules \
-	--disable-symbol-lookup \
-	--disable-xlib \
-	--disable-xlib-xcb \
-	--disable-xcb \
-	--disable-xcb-shm \
-	--without-x \
-	--enable-ft \
-	--enable-pdf \
-	--enable-png \
-	--enable-ps \
-	--enable-script \
-	--enable-svg \
-	--enable-tee \
-	--enable-xml \
-	--enable-static \
-	--enable-shared
-
-make %{?_smp_mflags}
-
+%darwinx_meson_build
 
 %install
-rm -rf $RPM_BUILD_ROOT
-
-make DESTDIR=$RPM_BUILD_ROOT install
+%darwinx_meson_install
 
 rm -f $RPM_BUILD_ROOT%{_darwinx_libdir}/charset.alias
 rm -rf $RPM_BUILD_ROOT%{_darwinx_datadir}/gtk-doc
 
-
 %clean
 rm -rf $RPM_BUILD_ROOT
 
-
 %files
-%defattr(-,root,root,-)
+%defattr(-,root,wheel,-)
 %doc COPYING COPYING-LGPL-2.1 COPYING-MPL-1.1
 %{_darwinx_bindir}/cairo-trace
-%{_darwinx_bindir}/cairo-sphinx
 %{_darwinx_includedir}/cairo/
 %{_darwinx_libdir}/libcairo.2.dylib
 %{_darwinx_libdir}/libcairo.dylib
-%{_darwinx_libdir}/libcairo.la
-%{_darwinx_libdir}/cairo/libcairo-trace.la
-%{_darwinx_libdir}/cairo/libcairo-trace.so
-%{_darwinx_libdir}/cairo/cairo-fdr.la
-%{_darwinx_libdir}/cairo/cairo-fdr.so
-%{_darwinx_libdir}/cairo/cairo-sphinx.la
-%{_darwinx_libdir}/cairo/cairo-sphinx.so
+%{_darwinx_libdir}/cairo/libcairo-trace.dylib
+%{_darwinx_libdir}/cairo/libcairo-fdr.dylib
 %{_darwinx_libdir}/libcairo-gobject.2.dylib
 %{_darwinx_libdir}/libcairo-gobject.dylib
-%{_darwinx_libdir}/libcairo-gobject.la
 %{_darwinx_libdir}/libcairo-script-interpreter.2.dylib
 %{_darwinx_libdir}/libcairo-script-interpreter.dylib
-%{_darwinx_libdir}/libcairo-script-interpreter.la
 %{_darwinx_libdir}/pkgconfig/cairo-ft.pc
 %{_darwinx_libdir}/pkgconfig/cairo-gobject.pc
 %{_darwinx_libdir}/pkgconfig/cairo-script.pc
@@ -122,16 +78,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_darwinx_libdir}/pkgconfig/cairo.pc
 %{_darwinx_libdir}/pkgconfig/cairo-fc.pc
 %{_darwinx_libdir}/pkgconfig/cairo-tee.pc
-%{_darwinx_libdir}/pkgconfig/cairo-xml.pc
-
-%files static
-%defattr(-,root,root,-)
-%{_darwinx_libdir}/libcairo.a
-%{_darwinx_libdir}/cairo/libcairo-trace.a
-%{_darwinx_libdir}/libcairo-gobject.a
-%{_darwinx_libdir}/libcairo-script-interpreter.a
-%{_darwinx_libdir}/cairo/cairo-fdr.a
-%{_darwinx_libdir}/cairo/cairo-sphinx.a
 
 
 %changelog

@@ -8,8 +8,6 @@ Group:          Development/Libraries
 URL:            http://www.gtk.org
 Source0:        http://download.gnome.org/sources/gdl/3.40/gdl-%{version}.tar.xz
 
-BuildArch:      noarch
-
 BuildRequires:  darwinx-filesystem-base >= 18
 BuildRequires:  darwinx-gcc
 
@@ -43,10 +41,10 @@ suites.
 %install
 %{_darwinx_make} install DESTDIR=$RPM_BUILD_ROOT
 
-rm -f $RPM_BUILD_ROOT%{_darwinx_libdir}/*.la
 rm -rf $RPM_BUILD_ROOT%{_darwinx_datadir}/gtk-doc
 
-%files -n darwinx-libgdl
+%files
+%defattr(-,root,wheel,-)
 %{_darwinx_libdir}/libgdl-3.5.dylib
 %{_darwinx_libdir}/libgdl-3.dylib
 %{_darwinx_includedir}/libgdl-3.0/gdl/gdl-dock-bar.h
@@ -62,7 +60,6 @@ rm -rf $RPM_BUILD_ROOT%{_darwinx_datadir}/gtk-doc
 %{_darwinx_includedir}/libgdl-3.0/gdl/gdl.h
 %{_darwinx_includedir}/libgdl-3.0/gdl/libgdltypebuiltins.h
 %{_darwinx_libdir}/pkgconfig/gdl-3.0.pc
-#{_darwinx_datadir}/locale
 
 %changelog
 * Tue Nov 04 2014 Mikkel Kruse Johnsen <mikkel@xmedicus.com> - 3.12.0-1

@@ -1,5 +1,5 @@
 Name:           darwinx-fontconfig
-Version:        2.14.0
+Version:        2.14.2
 Release:        1%{?dist}
 Summary:        Darwin Font configuration and customization library
 
@@ -9,8 +9,6 @@ URL:            http://fontconfig.org
 Source0:        http://www.freedesktop.org/software/fontconfig/release/fontconfig-%{version}.tar.xz
 
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-
-BuildArch:      noarch
 
 BuildRequires:  darwinx-filesystem >= 18
 BuildRequires:  darwinx-gcc
@@ -29,22 +27,12 @@ Fontconfig is designed to locate fonts within the
 system and select them according to requirements specified by
 applications.
 
-%package static
-Summary:        Static version of the Darwin Pango library
-Requires:       %{name} = %{version}-%{release}
-Group:          Development/Libraries
-
-%description static
-Fontconfig is designed to locate fonts within the
-system and select them according to requirements specified by
-applications.
-
 %prep
 %setup -q -n fontconfig-%{version}
 
 %build
 %{_darwinx_configure} \
-	--enable-static \
+	--disable-static \
 	--disable-docs \
 	--with-default-fonts="/System/Library/Fonts" \
 	--with-add-fonts="/Library/Fonts" \
@@ -65,7 +53,7 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %files
-%defattr(-,root,root,-)
+%defattr(-,root,wheel,-)
 %doc README ChangeLog
 %{_darwinx_bindir}/fc-cache
 %{_darwinx_bindir}/fc-cat
@@ -80,14 +68,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_darwinx_includedir}/fontconfig
 %{_darwinx_libdir}/libfontconfig.1.dylib
 %{_darwinx_libdir}/libfontconfig.dylib
-%{_darwinx_libdir}/libfontconfig.la
 %{_darwinx_libdir}/pkgconfig/fontconfig.pc
 %{_darwinx_datadir}/fontconfig
 %{_darwinx_datadir}/xml
-
-%files static
-%defattr(-,root,root,-)
-%{_darwinx_libdir}/libfontconfig.a
  
 
 %changelog

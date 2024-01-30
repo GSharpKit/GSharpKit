@@ -1,7 +1,7 @@
 %define		majorminor	1.0
 
 Name:		darwinx-gstreamer1-plugins-base
-Version: 	1.18.4
+Version: 	1.22.9
 Release: 	1%{?dist}
 Summary: 	GStreamer streaming media framework base plug-ins
 Group: 		Applications/Multimedia
@@ -9,8 +9,6 @@ License: 	LGPLv2+
 URL:		http://gstreamer.freedesktop.org/
 Source0: 	http://gstreamer.freedesktop.org/src/gst-plugins-base/gst-plugins-base-%{version}.tar.xz
 BuildRoot: 	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-
-BuildArch: 	noarch
 
 Requires:	darwinx-gstreamer1 >= %{version}
 
@@ -26,8 +24,6 @@ BuildRequires:	libtool
 
 Requires:	darwinx-filesystem >= 108
 Requires:	darwinx-gstreamer1
-
-Obsoletes:	darwinx-gstreamer-plugins-base
 
 %description
 GStreamer is a streaming media framework, based on graphs of filters which
@@ -45,19 +41,10 @@ This package contains a set of well-maintained base plug-ins.
 %build
 %darwinx_meson \
     --default-library=shared \
-    -Dman=disabled \
-    -Ddtrace=false \
-    -Dsystemtap=true \
     -Ddoc=disabled \
-    -Dgtk_doc=disabled \
-    -Dgst_debug=false \
     -Dtests=disabled \
     -Dexamples=disabled \
-    -Dlibunwind=disabled \
-    -Dlibdw=disabled \
-    -Ddbghelp=disabled \
     -Dintrospection=disabled \
-    -Dbash-completion=disabled \
     -Dx11=disabled \
     -Dorc=disabled \
     -Dtremor=disabled \
@@ -86,7 +73,7 @@ rm -rf $RPM_BUILD_ROOT%{_darwinx_datadir}/gtk-doc
 rm -rf $RPM_BUILD_ROOT
 
 %files
-%defattr(-, root, root, -)
+%defattr(-, root, wheel, -)
 %{_darwinx_bindir}
 %{_darwinx_libdir}
 %{_darwinx_includedir}

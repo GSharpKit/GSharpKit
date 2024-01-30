@@ -1,12 +1,11 @@
 Name: 		darwinx-fribidi
 Summary: 	Library implementing the Unicode Bidirectional Algorithm
-Version: 	1.0.12
+Version: 	1.0.13
 Release: 	1%{?dist}
 URL: 		http://fribidi.org
-Source: 	https://github.com/fribidi/fribidi/releases/fribidi-%{version}.tar.xz
+Source: 	https://github.com/fribidi/fribidi/releases/fribidi-%{version}.tar.gz
 License: 	LGPLv2+ and UCD
 Group: 		System Environment/Libraries
-BuildArch:      noarch
 
 BuildRequires:  darwinx-filesystem >= 6
 
@@ -20,21 +19,23 @@ is always written in logical order.
 %setup -q -n fribidi-%{version}
 
 %build
-%{_darwinx_configure}
-%{_darwinx_make}
+%darwinx_meson \
+        -Dtests=false \
+        -Ddocs=false \
+        -Dbin=false
+
+%darwinx_meson_build
 
 %install
-%{_darwinx_makeinstall}
+%darwinx_meson_install
 
 rm -rf $RPM_BUILD_ROOT%{_darwinx_mandir}
 rm -rf $RPM_BUILD_ROOT%{_darwinx_mandir}
 
 %files
-%defattr(-,root,root)
-%{_darwinx_bindir}/fribidi
+%defattr(-,root,wheel)
 %{_darwinx_libdir}/libfribidi.0.dylib
 %{_darwinx_libdir}/libfribidi.dylib
-%{_darwinx_libdir}/libfribidi.la
 %{_darwinx_includedir}/fribidi
 %{_darwinx_libdir}/pkgconfig/*.pc
 

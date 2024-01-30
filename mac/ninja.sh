@@ -1,11 +1,13 @@
-BUILD_ROOT=~/GSharpKitBuild
+SCRIPT_ROOT=`pwd`
+BUILD_ROOT=$SCRIPT_ROOT/GSharpKitBuild
 
 NAME=GSharpKit
 PREFIX=/Library/$NAME
 SYMLINK=/Library/$NAME
 
 cd $BUILD_ROOT
-git clone git://github.com/ninja-build/ninja.git && cd ninja
+cd ninja
+#git clone https://github.com/ninja-build/ninja.git
 git checkout release
 
 ./configure.py --bootstrap

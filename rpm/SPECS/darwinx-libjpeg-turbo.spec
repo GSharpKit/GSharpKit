@@ -1,5 +1,5 @@
 Name:           darwinx-libjpeg-turbo
-Version:        1.5.3
+Version:        2.1.5.1
 Release:        1%{?dist}
 Summary:        libjpeg-turbo is the official PNG reference library.
 
@@ -8,7 +8,6 @@ Group:          Development/Libraries
 URL:            http://libjpeg-turbo.virtualgl.org/
 Source0:        libjpeg-turbo-%{version}.tar.gz
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-BuildArch:      noarch
 
 BuildRequires:  darwinx-filesystem >= 2
 BuildRequires:  darwinx-gcc
@@ -18,26 +17,14 @@ BuildRequires:  darwinx-gettext
 %description
 libjpeg-turbo is the official PNG reference library.
 
-%package static
-Summary:        libjpeg-turbo is the official PNG reference library.
-Requires:       %{name} = %{version}-%{release}
-Group:          Development/Libraries
-
-%description static
-Static version of the libjpeg-turbo library.
-
 %prep
 %setup -q -n libjpeg-turbo-%{version}
 
-
 %build
-%{_darwinx_configure} --with-simd
-make %{?_smp_mflags}
-
+%darwinx_cmake
+make
 
 %install
-rm -rf $RPM_BUILD_ROOT
-
 make DESTDIR=$RPM_BUILD_ROOT install
 
 rm -rf $RPM_BUILD_ROOT%{_darwinx_datadir}
@@ -46,7 +33,7 @@ rm -rf $RPM_BUILD_ROOT%{_darwinx_datadir}
 rm -rf $RPM_BUILD_ROOT
 
 %files
-%defattr(-,root,root)
+%defattr(-,root,wheel)
 %{_darwinx_bindir}/cjpeg
 %{_darwinx_bindir}/djpeg
 %{_darwinx_bindir}/jpegtran
@@ -57,8 +44,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_darwinx_libdir}/libjpeg.dylib
 %{_darwinx_libdir}/libturbojpeg.*.dylib
 %{_darwinx_libdir}/libjpeg.*.dylib
-%{_darwinx_libdir}/libturbojpeg.la
-%{_darwinx_libdir}/libjpeg.la
 %{_darwinx_includedir}/jconfig.h
 %{_darwinx_includedir}/jerror.h
 %{_darwinx_includedir}/jmorecfg.h
@@ -66,11 +51,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_darwinx_includedir}/turbojpeg.h
 %{_darwinx_libdir}/pkgconfig/libjpeg.pc
 %{_darwinx_libdir}/pkgconfig/libturbojpeg.pc
-
-%files static
-%defattr(-,root,root)
-%{_darwinx_libdir}/libturbojpeg.a
-%{_darwinx_libdir}/libjpeg.a
 
 %changelog
 * Thu Feb 27 2014 Mikkel Kruse Johnsen <mikkel@xmedicus.com> - 3.0.13-1

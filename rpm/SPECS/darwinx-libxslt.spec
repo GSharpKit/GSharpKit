@@ -1,14 +1,14 @@
 Name:           darwinx-libxslt
-Version:        1.1.34
+Version:        1.1.39
 Release:        1%{?dist}
 Summary:        libxslt is the official PNG reference library.
 
 License:        LGPLv2+
 Group:          Development/Libraries
 URL:            ftp://xmlsoft.org/libxslt/
-Source0:        libxslt-%{version}.tar.gz
+Source0:        libxslt-v%{version}.tar.gz
+Patch0:		libxslt-v1.1.39-static.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-BuildArch:      noarch
 
 BuildRequires:  darwinx-filesystem-base >= 18
 BuildRequires:  darwinx-gcc
@@ -19,20 +19,15 @@ Requires:  	darwinx-filesystem >= 18
 %description
 libxslt is the official PNG reference library.
 
-%package static
-Summary:        libxslt is the official PNG reference library.
-Requires:       %{name} = %{version}-%{release}
-Group:          Development/Libraries
-
-%description static
-Static version of the libxslt library.
-
 %prep
-%setup -q -n libxslt-%{version}
-
+%setup -q -n libxslt-v%{version}
+%patch 0 -p1
 
 %build
-%{_darwinx_configure}
+NOCONFIGURE=yes sh autogen.sh
+%{_darwinx_configure} \
+	--disable-static \
+	--without-python
 make %{?_smp_mflags}
 
 
@@ -48,13 +43,11 @@ rm -rf $RPM_BUILD_ROOT%{_darwinx_libdir}/python*
 rm -rf $RPM_BUILD_ROOT
 
 %files
-%defattr(-,root,root)
+%defattr(-,root,wheel)
 %{_darwinx_bindir}/xslt-config
 %{_darwinx_bindir}/xsltproc
 %{_darwinx_libdir}/libxslt.dylib
-%{_darwinx_libdir}/libxslt.la
 %{_darwinx_libdir}/libxslt.*.dylib
-%{_darwinx_libdir}/libexslt.la
 %{_darwinx_libdir}/libexslt.dylib
 %{_darwinx_libdir}/libexslt.*.dylib
 %{_darwinx_libdir}/xsltConf.sh
@@ -62,11 +55,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_darwinx_libdir}/pkgconfig/libexslt.pc
 %{_darwinx_includedir}/libxslt
 %{_darwinx_includedir}/libexslt
-
-%files static
-%defattr(-,root,root)
-%{_darwinx_libdir}/libxslt.a
-%{_darwinx_libdir}/libexslt.a
 
 %changelog
 * Thu Feb 27 2014 Mikkel Kruse Johnsen <mikkel@xmedicus.com> - 1.1.28-1

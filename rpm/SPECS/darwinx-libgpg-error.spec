@@ -1,5 +1,5 @@
 Name:           darwinx-libgpg-error
-Version:        1.37
+Version:        1.47
 Release:        1%{?dist}
 Summary:        Darwin Windows GnuPGP error library
 
@@ -8,7 +8,6 @@ Group:          Development/Libraries
 URL:            ftp://ftp.gnupg.org/gcrypt/libgpg-error/
 Source0:        ftp://ftp.gnupg.org/gcrypt/libgpg-error/libgpg-error-%{version}.tar.bz2
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-BuildArch:      noarch
 
 BuildRequires:  darwinx-filesystem-base >= 18
 BuildRequires:  darwinx-gcc
@@ -41,15 +40,13 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %files
-%defattr(-,root,root)
+%defattr(-,root,wheel)
 %{_darwinx_bindir}/gpgrt-config
 %{_darwinx_bindir}/yat2m
 
-%{_darwinx_bindir}/gpg-error-config
 %{_darwinx_bindir}/gpg-error
 %{_darwinx_libdir}/libgpg-error.*.dylib
 %{_darwinx_libdir}/libgpg-error.dylib
-%{_darwinx_libdir}/libgpg-error.la
 %{_darwinx_includedir}/gpgrt.h
 %{_darwinx_includedir}/gpg-error.h
 %{_darwinx_datadir}/aclocal/gpg-error.m4

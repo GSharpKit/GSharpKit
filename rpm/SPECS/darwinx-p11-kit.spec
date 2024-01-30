@@ -1,23 +1,22 @@
 Name:           darwinx-p11-kit
-Version:        0.23.20
+Version:        0.25.3
 Release:        1%{?dist}
 Summary:        Library for loading and sharing PKCS#11 modules
 
 License:        GPLv3+ and LGPLv2+
 Group:          Development/Libraries
-URL:            https://github.com/p11-glue/p11-kit/releases/download/0.23.20/
-Source0:        p11-kit-%{version}.tar.xz
-Patch0:		p11-kit-0.18.1-free.patch
+URL:            https://github.com/p11-glue/p11-kit
+Source0:        https://github.com/p11-glue/p11-kit/archive/refs/tags/p11-kit-%{version}.tar.gz
+Source1:	pkcs11-json.zip
+Patch0:		p11-kit-0.25.3-asn.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-
-BuildArch:      noarch
 
 BuildRequires:  darwinx-filesystem >= 7
 BuildRequires:  darwinx-gcc
 BuildRequires:  darwinx-libgpg-error
 BuildRequires:  darwinx-libgcrypt >= 1.2.2
 BuildRequires:  darwinx-libtasn1 >= 3.3
-BuildRequires:  darwinx-gettext
+BuildRequires:  darwinx-libffi
 
 BuildRequires:  autoconf
 BuildRequires:  automake
@@ -33,30 +32,36 @@ such a way that they're discoverable.
 
 %prep
 %setup -q -n p11-kit-%{version}
-#patch0 -p1
+%patch 0 -p1
+
+pushd subprojects
+rm -rf pkcs11-json 
+unzip %{SOURCE1}
+mv pkcs11-json-404c0232523d1cb0d219b25210d8ebbfde3486c7 pkcs11-json
+popd
 
 %build
-%{_darwinx_configure} \
-	--disable-static \
-	--without-trust-paths \
-	--disable-gtk-doc
-make
+%darwinx_meson \
+	-Dtrust_paths=false \
+	-Dsystemd=disabled \
+	-Dbash_completion=disabled \
+	-Dlibffi=enabled \
+	-Dman=false \
+	-Dnls=false \
+	-Dgtk_doc=false \
+	-Dtest=false \
+	-Dpost_install_test=false
+
+%darwinx_meson_build
 
 %install
-rm -rf $RPM_BUILD_ROOT
-
-make DESTDIR=$RPM_BUILD_ROOT install
-
-rm -f $RPM_BUILD_ROOT%{_darwinx_sysconfdir}/pkcs11/pkcs11.conf.example
-rm -rf $RPM_BUILD_ROOT%{_darwinx_datadir}/gtk-doc
-
-
+%darwinx_meson_install
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 %files
-%defattr(-,root,root)
+%defattr(-,root,wheel)
 %doc COPYING
 %{_darwinx_bindir}/p11-kit
 %{_darwinx_bindir}/trust
@@ -70,14 +75,11 @@ rm -rf $RPM_BUILD_ROOT
 %{_darwinx_includedir}/p11-kit-1/p11-kit/deprecated.h
 %{_darwinx_libdir}/libp11-kit.0.dylib
 %{_darwinx_libdir}/libp11-kit.dylib
-%{_darwinx_libdir}/libp11-kit.la
-%{_darwinx_libdir}/pkcs11/p11-kit-trust.la
-%{_darwinx_libdir}/pkcs11/p11-kit-trust.so
+%{_darwinx_libdir}/pkcs11/p11-kit-client.so
+%{_darwinx_libdir}/pkcs11/p11-kit-trust.dylib
 %{_darwinx_libdir}/pkgconfig/p11-kit-1.pc
 %{_darwinx_datadir}/p11-kit/modules/p11-kit-trust.module
 %{_darwinx_libdir}/p11-kit-proxy.dylib
-%{_darwinx_libdir}/pkcs11/p11-kit-client.la
-%{_darwinx_libdir}/pkcs11/p11-kit-client.so
 %{_darwinx_libexecdir}/p11-kit/p11-kit-remote
 %{_darwinx_libexecdir}/p11-kit/p11-kit-server
 %{_darwinx_libexecdir}/p11-kit/trust-extract-compat

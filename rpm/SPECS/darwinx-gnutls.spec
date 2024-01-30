@@ -1,5 +1,5 @@
 Name:           darwinx-gnutls
-Version:        3.6.15
+Version:        3.8.3
 Release:        1%{?dist}
 Summary:        GnuTLS TLS/SSL encryption library
 
@@ -8,8 +8,6 @@ Group:          Development/Libraries
 URL:            http://www.gnutls.org/
 Source0:        gnutls-%{version}.tar.xz
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-
-BuildArch:      noarch
 
 BuildRequires:  darwinx-filesystem >= 7
 BuildRequires:  darwinx-gcc
@@ -67,7 +65,7 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %files
-%defattr(-,root,root)
+%defattr(-,root,wheel)
 %{_darwinx_bindir}/certtool
 %{_darwinx_bindir}/gnutls-cli
 %{_darwinx_bindir}/gnutls-cli-debug
@@ -81,10 +79,6 @@ rm -rf $RPM_BUILD_ROOT
 #%{_darwinx_libdir}/libgnutls-openssl.dylib
 #%{_darwinx_libdir}/libgnutlsxx.*.dylib
 #%{_darwinx_libdir}/libgnutlsxx.dylib
-%{_darwinx_libdir}/libgnutls.la
-#%{_darwinx_libdir}/libgnutls-openssl.la
-#%{_darwinx_libdir}/libgnutlsxx.la
-#%{_darwinx_libdir}/gnutls/libpkcs11mock1.la
 #%{_darwinx_libdir}/gnutls/libpkcs11mock1.so
 %{_darwinx_libdir}/pkgconfig/gnutls.pc
 %{_darwinx_includedir}/gnutls/

@@ -1,6 +1,6 @@
-diff -Nur webkitgtk-2.4.11.orig/Source/WTF/wtf/gobject/GlibUtilities.cpp webkitgtk-2.4.11.uchar/Source/WTF/wtf/gobject/GlibUtilities.cpp
+diff -Nur webkitgtk-2.4.11.orig/Source/WTF/wtf/gobject/GlibUtilities.cpp webkitgtk-2.4.11/Source/WTF/wtf/gobject/GlibUtilities.cpp
 --- webkitgtk-2.4.11.orig/Source/WTF/wtf/gobject/GlibUtilities.cpp	2016-04-10 08:48:36.000000000 +0200
-+++ webkitgtk-2.4.11.uchar/Source/WTF/wtf/gobject/GlibUtilities.cpp	2020-06-02 22:11:50.004773195 +0200
++++ webkitgtk-2.4.11/Source/WTF/wtf/gobject/GlibUtilities.cpp	2020-06-02 22:11:50.004773195 +0200
 @@ -59,7 +59,7 @@
      if (!length || (length == MAX_PATH && GetLastError() == ERROR_INSUFFICIENT_BUFFER))
          return CString();
@@ -10,55 +10,3 @@ diff -Nur webkitgtk-2.4.11.orig/Source/WTF/wtf/gobject/GlibUtilities.cpp webkitg
      return path.utf8();
  }
  #endif
-diff -Nur webkitgtk-2.4.11.orig/Source/WTF/wtf/text/WTFString.cpp webkitgtk-2.4.11.uchar/Source/WTF/wtf/text/WTFString.cpp
---- webkitgtk-2.4.11.orig/Source/WTF/wtf/text/WTFString.cpp	2016-04-10 08:48:36.000000000 +0200
-+++ webkitgtk-2.4.11.uchar/Source/WTF/wtf/text/WTFString.cpp	2020-06-03 23:08:33.876663567 +0200
-@@ -48,6 +48,12 @@
-         m_impl = StringImpl::create(characters, length);
- }
- 
-+String::String(const wchar_t* characters, unsigned length)
-+{
-+    if (characters)
-+        m_impl = StringImpl::create(reinterpret_cast<const UChar*>(characters), length);
-+}
-+
- // Construct a string with UTF-16 data, from a null-terminated source.
- String::String(const UChar* str)
- {
-@@ -57,6 +63,14 @@
-     m_impl = StringImpl::create(str, lengthOfNullTerminatedString(str));
- }
- 
-+String::String(const wchar_t* str)
-+{
-+    if (!str)
-+        return;
-+
-+    m_impl = StringImpl::create(reinterpret_cast<const UChar*>(str), lengthOfNullTerminatedString(reinterpret_cast<const UChar*>(str)));
-+}
-+
- // Construct a string with latin1 data.
- String::String(const LChar* characters, unsigned length)
- {
-diff -Nur webkitgtk-2.4.11.orig/Source/WTF/wtf/text/WTFString.h webkitgtk-2.4.11.uchar/Source/WTF/wtf/text/WTFString.h
---- webkitgtk-2.4.11.orig/Source/WTF/wtf/text/WTFString.h	2016-04-10 08:48:36.000000000 +0200
-+++ webkitgtk-2.4.11.uchar/Source/WTF/wtf/text/WTFString.h	2020-06-03 23:06:31.815386426 +0200
-@@ -89,6 +89,8 @@
-     // Construct a string with UTF-16 data.
-     WTF_EXPORT_STRING_API String(const UChar* characters, unsigned length);
- 
-+    WTF_EXPORT_STRING_API String(const wchar_t* characters, unsigned length);
-+
-     // Construct a string by copying the contents of a vector.  To avoid
-     // copying, consider using String::adopt instead.
-     // This method will never create a null string. Vectors with size() == 0
-@@ -103,6 +105,8 @@
-     // Construct a string with UTF-16 data, from a null-terminated source.
-     WTF_EXPORT_STRING_API String(const UChar*);
- 
-+    WTF_EXPORT_STRING_API String(const wchar_t*);
-+
-     // Construct a string with latin1 data.
-     WTF_EXPORT_STRING_API String(const LChar* characters, unsigned length);
-     WTF_EXPORT_STRING_API String(const char* characters, unsigned length);

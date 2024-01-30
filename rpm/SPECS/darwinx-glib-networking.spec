@@ -1,16 +1,13 @@
 Name:           darwinx-glib-networking
-Version:        2.64.3
+Version:        2.78.0
 Release:        1%{?dist}
 Summary:        Networking support for GLib 
 
 License:        GPLv3+ and LGPLv2+
 Group:          Development/Libraries
-URL:            http://ftp.gnome.org/pub/GNOME/sources/glib-networking/2.48/
+URL:            http://ftp.gnome.org/pub/GNOME/sources/glib-networking/2.78/
 Source0:        glib-networking-%{version}.tar.xz
-Patch0:		glib-networking-2.38.2-error-format.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-
-BuildArch:      noarch
 
 BuildRequires:  darwinx-filesystem-base >= 18
 BuildRequires:  darwinx-gcc
@@ -30,10 +27,13 @@ implementation.
 
 %prep
 %setup -q -n glib-networking-%{version}
-#%patch0 -p1
 
 %build
-%darwinx_meson --default-library=both -Dgnutls=enabled -Dopenssl=disabled -Dlibproxy=disabled -Dgnome_proxy=disabled
+%darwinx_meson \
+	-Dgnutls=enabled \
+	-Dopenssl=disabled \
+	-Dlibproxy=disabled \
+	-Dgnome_proxy=disabled
 
 %darwinx_meson_build
 
@@ -44,7 +44,7 @@ implementation.
 rm -rf $RPM_BUILD_ROOT
 
 %files
-%defattr(-,root,root)
+%defattr(-,root,wheel)
 %doc COPYING
 %{_darwinx_libdir}/gio/modules/libgiognutls.so
 %{_darwinx_datadir}/locale
