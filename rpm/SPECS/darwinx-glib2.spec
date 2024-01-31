@@ -15,7 +15,8 @@ BuildRequires:  darwinx-odcctools
 BuildRequires:  darwinx-sdk
 BuildRequires:  darwinx-gettext
 BuildRequires:  darwinx-libffi
-#BuildRequires:  darwinx-pcre2
+BuildRequires:  darwinx-pcre2
+BuildRequires:  darwinx-zlib
 
 BuildRequires:  pkgconfig
 # Native version required for msgfmt use in build
@@ -33,13 +34,15 @@ Darwin Glib2 library
 
 %build
 %darwinx_meson \
-    -Dtests=false \
-    -Dman=false \
-    -Ddtrace=false \
-    -Dsystemtap=true \
-    -Dgtk_doc=false \
-    -Dlibelf=disabled \
-    -Dinstalled_tests=false
+	-Dtests=false \
+	-Dman=false \
+	-Ddtrace=false \
+	-Dsystemtap=true \
+	-Dgtk_doc=false \
+	-Dlibelf=disabled \
+	-Dglib_assert=false \
+	-Dbsymbolic_functions=true \
+	-Dinstalled_tests=false
 
 %darwinx_meson_build
 

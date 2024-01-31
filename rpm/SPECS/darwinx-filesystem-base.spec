@@ -12,9 +12,9 @@ URL: 		http://www.gsharpkit.org
 Source0:	macros.darwinx
 Source1:	macros.dist
 Source2:	darwinx.sh
-Source3:	zlib.pc
+#Source3:	zlib.pc
 #Source4:	sqlite3.pc
-Source5:	expat.pc
+#Source5:	expat.pc
 #Source6:	openssl.pc
 #Source7:	libssl.pc
 #Source8:	libcrypto.pc
@@ -63,9 +63,9 @@ cp %{SOURCE2} $RPM_BUILD_ROOT%{_prefix}/etc/profile.d/
 
 mkdir -p $RPM_BUILD_ROOT%{_prefix}/lib/pkgconfig
 
-cp %{SOURCE3} $RPM_BUILD_ROOT%{_prefix}/lib/pkgconfig/
+#cp %{SOURCE3} $RPM_BUILD_ROOT%{_prefix}/lib/pkgconfig/
 #cp %{SOURCE4} $RPM_BUILD_ROOT%{_prefix}/lib/pkgconfig/
-cp %{SOURCE5} $RPM_BUILD_ROOT%{_prefix}/lib/pkgconfig/
+#cp %{SOURCE5} $RPM_BUILD_ROOT%{_prefix}/lib/pkgconfig/
 #cp %{SOURCE6} $RPM_BUILD_ROOT%{_prefix}/lib/pkgconfig/
 #cp %{SOURCE7} $RPM_BUILD_ROOT%{_prefix}/lib/pkgconfig/
 #cp %{SOURCE8} $RPM_BUILD_ROOT%{_prefix}/lib/pkgconfig/
@@ -80,9 +80,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_prefix}/etc/profile.d/darwinx.sh
 %{_prefix}/etc/rpm/macros.darwinx
 %{_prefix}/etc/rpm/macros.dist
-%{_prefix}/lib/pkgconfig/zlib.pc
+#{_prefix}/lib/pkgconfig/zlib.pc
 #{_prefix}/lib/pkgconfig/sqlite3.pc
-%{_prefix}/lib/pkgconfig/expat.pc
+#{_prefix}/lib/pkgconfig/expat.pc
 #{_prefix}/lib/pkgconfig/openssl.pc
 #{_prefix}/lib/pkgconfig/libssl.pc
 #{_prefix}/lib/pkgconfig/libcrypto.pc

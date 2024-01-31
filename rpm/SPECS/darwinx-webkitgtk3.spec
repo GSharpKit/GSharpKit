@@ -26,6 +26,7 @@ Patch14:	webkitgtk-2.4.11-no-jsc-objc.patch
 Patch15:	webkitgtk-2.4.11-asm.patch
 Patch16:	patch-qtwebkit_fix_page_shift.diff
 Patch17:	webkitgtk-2.4.11-bison.patch
+Patch18:	webkitgtk-2.4.9-icu.patch
 
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
@@ -38,6 +39,7 @@ BuildRequires:	darwinx-gcc
 BuildRequires:	darwinx-odcctools
 BuildRequires:  darwinx-sdk
 BuildRequires:	darwinx-icu
+BuildRequires:	darwinx-zlib
 BuildRequires:	darwinx-gtk3
 BuildRequires:	darwinx-sqlite
 BuildRequires:	darwinx-libxml2
@@ -72,6 +74,8 @@ as well as the sample GtkLauncher tool.
 
 %patch 16 -p0
 %patch 17 -p1
+
+%patch 18 -p1
 
 %{_darwinx_env}
 autoreconf --verbose --install -I Source/autotools

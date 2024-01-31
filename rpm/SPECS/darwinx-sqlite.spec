@@ -13,6 +13,7 @@ BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:  darwinx-filesystem >= 12
 BuildRequires:  darwinx-gcc
+BuildRequires:  darwinx-zlib
 
 BuildRequires:  pkgconfig
 

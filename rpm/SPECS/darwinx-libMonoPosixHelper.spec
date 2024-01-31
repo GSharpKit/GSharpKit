@@ -12,6 +12,8 @@ BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:  darwinx-filesystem-base >= 18
 BuildRequires:  darwinx-gcc
 BuildRequires:  darwinx-gettext
+BuildRequires:  darwinx-zlib
+BuildRequires:  darwinx-libiconv
 
 Requires:       darwinx-filesystem >= 18
 
@@ -39,6 +41,8 @@ popd
 
 rm -f $RPM_BUILD_ROOT%{_darwinx_libdir}/libMonoPosixHelper.a
 rm -f $RPM_BUILD_ROOT%{_darwinx_libdir}/libMonoPosixHelper.la
+rm -f $RPM_BUILD_ROOT%{_darwinx_libdir}/libMonoSupportW.a
+rm -f $RPM_BUILD_ROOT%{_darwinx_libdir}/libMonoSupportW.dylib
 
 %clean
 rm -rf $RPM_BUILD_ROOT

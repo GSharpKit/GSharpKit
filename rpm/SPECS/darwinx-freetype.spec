@@ -17,6 +17,8 @@ BuildRequires:  darwinx-gcc
 BuildRequires:  darwinx-sdk
 BuildRequires:  darwinx-odcctools
 
+BuildRequires:  darwinx-zlib
+BuildRequires:  darwinx-bzip2
 BuildRequires:  darwinx-glib2
 BuildRequires:  darwinx-libpng
 BuildRequires:  pkgconfig

@@ -11,6 +11,7 @@ BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:  darwinx-filesystem >= 7
 BuildRequires:  darwinx-gcc
+BuildRequires:  darwinx-zlib
 BuildRequires:  darwinx-libgcrypt
 BuildRequires:  darwinx-libtasn1
 BuildRequires:  darwinx-p11-kit

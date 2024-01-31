@@ -15,6 +15,7 @@ BuildRequires:	darwinx-filesystem-base >= 18
 BuildRequires:	darwinx-gcc
 BuildRequires:	darwinx-glib2
 BuildRequires:	darwinx-gettext
+BuildRequires:	darwinx-zlib
 BuildRequires:	bison
 BuildRequires:	flex
 BuildRequires:	m4

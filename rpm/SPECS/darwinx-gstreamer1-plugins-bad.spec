@@ -17,6 +17,7 @@ Requires:	darwinx-gstreamer1-plugins-base >= %{version}
 BuildRequires:	darwinx-filesystem-base >= 18
 BuildRequires:	darwinx-gcc
 BuildRequires:	darwinx-glib2
+BuildRequires:	darwinx-zlib
 BuildRequires:	darwinx-gstreamer1 >= %{version}
 BuildRequires:	darwinx-gstreamer1-plugins-base >= %{version}
 BuildRequires:  darwinx-libwebp

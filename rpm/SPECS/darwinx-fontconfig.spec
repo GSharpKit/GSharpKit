@@ -15,6 +15,7 @@ BuildRequires:  darwinx-gcc
 BuildRequires:  darwinx-sdk
 BuildRequires:  darwinx-odcctools
 
+BuildRequires:  darwinx-expat
 BuildRequires:  darwinx-glib2
 BuildRequires:  darwinx-freetype
 BuildRequires:  pkgconfig

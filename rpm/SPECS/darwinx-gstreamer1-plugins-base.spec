@@ -15,7 +15,11 @@ Requires:	darwinx-gstreamer1 >= %{version}
 BuildRequires:	darwinx-filesystem >= 108
 BuildRequires:	darwinx-gcc
 BuildRequires:	darwinx-glib2
+BuildRequires:	darwinx-zlib
+BuildRequires:	darwinx-opus
+#BuildRequires:	darwinx-libtheora
 BuildRequires:	darwinx-gstreamer1 >= %{version}
+
 BuildRequires:	bison
 BuildRequires:	flex
 BuildRequires:	m4
@@ -49,7 +53,7 @@ This package contains a set of well-maintained base plug-ins.
     -Dorc=disabled \
     -Dtremor=disabled \
     -Dtheora=disabled \
-    -Dopus=disabled \
+    -Dopus=enabled \
     -Dalsa=disabled \
     -Dcdparanoia=disabled \
     -Dlibvisual=disabled \

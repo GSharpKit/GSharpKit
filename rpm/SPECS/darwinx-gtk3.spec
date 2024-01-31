@@ -58,15 +58,16 @@ Static version of the Darwin Gtk3 library.
 
 %build
 %darwinx_meson \
-    -Dquartz_backend=true \
-    -Dbuiltin_immodules=all \
-    -Dgtk_doc=false \
-    -Dintrospection=false \
-    -Dman=false \
-    -Ddemos=true \
-    -Dexamples=true \
-    -Dtests=false \
-    -Dinstalled_tests=false
+	-Dquartz_backend=true \
+	-Dbuiltin_immodules=all \
+	-Dgtk_doc=false \
+	-Dintrospection=false \
+	-Dman=false \
+	-Ddemos=true \
+	-Dexamples=true \
+	-Dtests=false \
+	-Dinstalled_tests=false \
+	-Dgtk_assert=false
 
 %darwinx_meson_build
 

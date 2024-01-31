@@ -1,5 +1,5 @@
 Name:           darwinx-gettext
-Version:        0.22
+Version:        0.22.4
 Release:        1%{?dist}
 Summary:        Darwin Gettext library
 
@@ -8,6 +8,8 @@ Group:          Development/Libraries
 URL:            http://www.gnu.org/software/gettext/
 Source0:        http://ftp.gnu.org/pub/gnu/gettext/gettext-%{version}.tar.xz
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
+
+BuildRequires:	darwinx-libiconv
 
 %description
 The GNU gettext package provides a set of tools and documentation for
@@ -26,7 +28,12 @@ programs.
 
 %build
 %{_darwinx_configure} \
+	--disable-dependency-tracking \
 	--disable-static \
+	--without-git \
+	--disable-java \
+	--disable-c++ \
+	--disable-libasprintf \
 	--with-included-libxml
 
 make %{?_smp_mflags}

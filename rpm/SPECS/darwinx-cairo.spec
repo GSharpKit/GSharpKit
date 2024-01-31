@@ -13,6 +13,7 @@ BuildRequires:  darwinx-filesystem >= 18
 BuildRequires:  darwinx-gcc
 BuildRequires:  darwinx-sdk
 BuildRequires:  darwinx-odcctools
+BuildRequires:  darwinx-zlib
 BuildRequires:  darwinx-freetype
 BuildRequires:  darwinx-fontconfig
 BuildRequires:  darwinx-libpng

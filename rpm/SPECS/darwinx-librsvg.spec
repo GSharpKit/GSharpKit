@@ -8,6 +8,7 @@ URL:            http://www.gnome.org
 Source0:        http://ftp.gnome.org/pub/GNOME/sources/librsvg/2.56/librsvg-%{version}.tar.xz
 
 BuildRequires:	darwinx-filesystem-base >= 18
+BuildRequires:	darwinx-zlib
 BuildRequires:	darwinx-libcroco
 
 Requires:	darwinx-filesystem >= 18

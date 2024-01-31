@@ -16,8 +16,12 @@ Requires:	darwinx-gstreamer1-plugins-base >= %{version}
 BuildRequires:	darwinx-filesystem-base >= 109
 BuildRequires:	darwinx-gcc
 BuildRequires:	darwinx-glib2
+BuildRequires:	darwinx-zlib
 BuildRequires:	darwinx-gstreamer1 >= %{version}
 BuildRequires:	darwinx-gstreamer1-plugins-base >= %{version}
+BuildRequires:	darwinx-speex
+BuildRequires:	darwinx-wavpack
+
 BuildRequires:	bison
 BuildRequires:	flex
 BuildRequires:	m4

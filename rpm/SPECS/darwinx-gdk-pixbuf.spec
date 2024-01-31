@@ -14,6 +14,7 @@ BuildRequires:  darwinx-filesystem-base >= 109
 BuildRequires:  darwinx-sdk
 BuildRequires:  darwinx-gcc
 
+BuildRequires:  darwinx-zlib
 BuildRequires:  darwinx-glib2
 BuildRequires:  darwinx-jasper
 BuildRequires:  darwinx-libjpeg-turbo
