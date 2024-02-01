@@ -1,5 +1,14 @@
 #!/bin/bash
 
+ARCH=`uname -p`
+ARCH_NAME="arm64"
+if [[ "$ARCH" == "arm" ]]; then
+        ARCH="arm64"
+else
+        ARCH="x86_64"
+	ARCH_NAME="x64"
+fi
+
 SOURCEDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 TMPDIR=`mktemp -d`
 
@@ -13,13 +22,13 @@ mkdir -p $TMPDIR/Library/LaunchAgents
 cp /Library/LaunchAgents/org.freedesktop.dbus-session.plist $TMPDIR/Library/LaunchAgents/
 
 # This will prevent postscript from running
-find $TMPDIR -type f -iname "*.dylib" -exec codesign -a x86_64 --timestamp --deep --entitlements Entitlements.plist -s "Developer ID Application: Xmedicus ApS" -i org.gsharpkit.Runtime -f {} \;
-find $TMPDIR -type f -iname "*.so" -exec codesign -a x86_64 --timestamp --deep --entitlements Entitlements.plist -s "Developer ID Application: Xmedicus ApS" -i org.gsharpkit.Runtime -f {} \;
-codesign -a x86_64 --timestamp --deep --entitlements Entitlements.plist -s "Developer ID Application: Xmedicus ApS" -i org.gsharpkit.Runtime -f $TMPDIR/Library/Frameworks/GSharpKit/bin/*
+find $TMPDIR -type f -iname "*.dylib" -exec codesign -a $ARCH --option=runtime --timestamp --deep --entitlements Entitlements.plist -s "Developer ID Application: Xmedicus ApS" -i org.gsharpkit.Runtime -f {} \;
+find $TMPDIR -type f -iname "*.so" -exec codesign -a $ARCH --option=runtime --timestamp --deep --entitlements Entitlements.plist -s "Developer ID Application: Xmedicus ApS" -i org.gsharpkit.Runtime -f {} \;
+codesign -a $ARCH --option=runtime --timestamp --deep --entitlements Entitlements.plist -s "Developer ID Application: Xmedicus ApS" -i org.gsharpkit.Runtime -f $TMPDIR/Library/Frameworks/GSharpKit/bin/*
 
-pkgbuild --root $TMPDIR --install-location / --scripts scripts --version @VERSION@ --identifier org.gsharpkit.Runtime GSharpKit-@VERSION@-x64.pkg
+pkgbuild --root $TMPDIR --install-location / --scripts scripts --version @VERSION@ --identifier org.gsharpkit.Runtime GSharpKit-@VERSION@-$ARCH_NAME.pkg
 
-mv GSharpKit-@VERSION@-x64.pkg GSharpKit-@VERSION@-x64.pkg.unsigned
-productsign --timestamp --sign "Developer ID Installer: Xmedicus ApS" GSharpKit-@VERSION@-x64.pkg.unsigned GSharpKit-@VERSION@-x64.pkg
-rm GSharpKit-@VERSION@-x64.pkg.unsigned
+mv GSharpKit-@VERSION@-$ARCH_NAME.pkg GSharpKit-@VERSION@-$ARCH_NAME.pkg.unsigned
+productsign --option=runtime --timestamp --sign "Developer ID Installer: Xmedicus ApS" GSharpKit-@VERSION@-$ARCH_NAME.pkg.unsigned GSharpKit-@VERSION@-$ARCH_NAME.pkg
+rm GSharpKit-@VERSION@-$ARCH_NAME.pkg.unsigned
 

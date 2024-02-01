@@ -12,9 +12,8 @@ mkdir -p $TO/etc
 cp -r $FROM/etc/dbus-1 $TO/etc/
 cp -r $FROM/etc/fonts $TO/etc/
 cp -r $FROM/etc/gtk-3.0 $TO/etc/
-cp -r $FROM/etc/pki $TO/etc/
+#cp -r $FROM/etc/pki $TO/etc/
 cp ca-bundle.crt $TO/etc/pki/
-#cp -r $FROM/etc/sane.d $TO/etc/
 
 # BIN directory
 mkdir -p $TO/bin
@@ -30,17 +29,10 @@ cp $FROM/bin/fc-cache $TO/bin/
 
 # LIB directory
 mkdir -p $TO/lib
-cp $FROM/lib/*.dll $TO/lib/
-
-# Hack to make gphoto work.
-#cp $TO/lib/libgphoto2-sharp.dll $TO/lib/libgphoto2.dll
-
 cp -a $FROM/lib/*.dylib $TO/lib/
  
 mkdir -p $TO/lib/enchant
 cp -r $FROM/lib/enchant/*.so $TO/lib/enchant/
-
-#cp -r $FROM/lib/engines-1_1 $TO/lib/
 
 cp -r $FROM/lib/gdk-pixbuf-2.0 $TO/lib/
 rm -f $TO/lib/gdk-pixbuf-2.0/2.10.0/loaders/*.a
@@ -57,9 +49,6 @@ rm -f $TO/lib/gtk-3.0/3.0.0/immodules/*.a
 rm -f $TO/lib/gtk-3.0/3.0.0/immodules/*.la
 rm -f $TO/lib/gtk-3.0/3.0.0/printbackends/*.a
 rm -f $TO/lib/gtk-3.0/3.0.0/printbackends/*.la
-
-#cp -r $FROM/lib/libgphoto2 $TO/lib/
-#cp -r $FROM/lib/libgphoto2_port $TO/lib/
 
 # SHARE directory
 mkdir -p $TO/share
