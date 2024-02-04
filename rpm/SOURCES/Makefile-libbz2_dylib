@@ -23,7 +23,7 @@ OBJS= blocksort.o  \
 	  bzlib.o
 
 all: $(OBJS)
-	$(CC) -shared -Wl,-install_name -Wl,libbz2.dylib -o libbz2.${PKG_VERSION}.dylib $(OBJS)
+	$(CC) -shared -Wl,-install_name -Wl,/Library/Frameworks/GSharpKit/lib/libbz2.dylib -o libbz2.${PKG_VERSION}.dylib $(OBJS)
 
 install:
 	cp libbz2.${PKG_VERSION}.dylib ${PREFIX}/lib/

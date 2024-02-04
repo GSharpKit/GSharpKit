@@ -1,5 +1,5 @@
 Name:           darwinx-dbus
-Version:        1.15.8
+Version:        1.14.10
 Release:        1%{?dist}
 Summary:        D-Bus Message Bus System
 
@@ -26,24 +26,40 @@ bus daemon).
 %setup -q -n dbus-%{version}
 
 %build
-%darwinx_meson \
-	-Dlaunchd=enabled \
-	-Dxml_docs=disabled \
-	-Ddoxygen_docs=disabled \
-	-Dducktype_docs=disabled \
-	-Dqt_help=disabled \
-	-Dselinux=disabled \
-	-Dapparmor=disabled \
-	-Dinotify=disabled \
-	-Depoll=disabled \
-	-Dsystemd=disabled \
-	-Dlibaudit=disabled \
-	-Dx11_autolaunch=disabled
+%{_darwinx_configure} \
+       --enable-maintainer-mode \
+       --disable-static \
+       --enable-verbose-mode \
+       --disable-tests \
+       --enable-checks \
+       --enable-asserts \
+       --enable-launchd \
+       --with-dbus-daemondir=/Library/Frameworks/GSharpKit/bin
+make %{?_smp_mflags} || make
 
-%darwinx_meson_build
+# WARNING: dbus-daemon is build with @rpath and not full path
+#darwinx_meson \
+#	-Dlaunchd=enabled \
+#	-Dxml_docs=disabled \
+#	-Ddoxygen_docs=disabled \
+#	-Dducktype_docs=disabled \
+#	-Dqt_help=disabled \
+#	-Dselinux=disabled \
+#	-Dapparmor=disabled \
+#	-Dinotify=disabled \
+#	-Depoll=disabled \
+#	-Dsystemd=disabled \
+#	-Dlibaudit=disabled \
+#	-Dx11_autolaunch=disabled
+#
+#darwinx_meson_build
+#
+#install
+#darwinx_meson_install
 
 %install
-%darwinx_meson_install
+rm -rf $RPM_BUILD_ROOT
+make DESTDIR=$RPM_BUILD_ROOT install
 
 rm -rf $RPM_BUILD_ROOT%{_darwinx_sysconfdir}/rc.d
 rm -rf $RPM_BUILD_ROOT%{_darwinx_datadir}/doc
@@ -62,8 +78,8 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(-,root,wheel)
 %{_darwinx_libdir}/libdbus-1.*.dylib
+%{_darwinx_libdir}/libdbus-1.dylib
 %{_darwinx_bindir}/dbus-run-session
-#{_darwinx_bindir}/dbus-install.sh
 %{_darwinx_bindir}/dbus-monitor
 %{_darwinx_bindir}/dbus-launch
 %{_darwinx_bindir}/dbus-send
@@ -82,10 +98,8 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_darwinx_datadir}/dbus-1/system.d
 %dir %{_darwinx_datadir}/dbus-1/services
 %dir %{_darwinx_datadir}/dbus-1/system-services
-#%dir %{_darwinx_localstatedir}/lib/dbus
+%dir %{_darwinx_localstatedir}/lib/dbus
 %dir %{_darwinx_localstatedir}/run/dbus
-
-%{_darwinx_libdir}/libdbus-1.dylib
 %{_darwinx_includedir}/dbus-1.0/dbus/*.h
 %{_darwinx_libdir}/pkgconfig/dbus-1.pc
 %{_darwinx_libdir}/dbus-1.0/include/dbus/dbus-arch-deps.h
