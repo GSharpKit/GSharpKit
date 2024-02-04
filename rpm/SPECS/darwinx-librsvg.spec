@@ -22,6 +22,7 @@ An SVG library based on cairo
 
 %build
 %{_darwinx_configure} \
+	--disable-static \
 	--disable-gtk-doc \
 	--disable-Bsymbolic \
 	--enable-introspection=no \

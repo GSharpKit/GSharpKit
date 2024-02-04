@@ -32,7 +32,7 @@ instead of just segfaulting, though.
 
 %build
 %darwinx_meson \
-    --default-library=both \
+    --default-library=shared \
     -Ddocs=false \
     -Dglx=no \
     -Degl=no \
@@ -57,7 +57,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_darwinx_includedir}/epoxy/common.h
 %{_darwinx_includedir}/epoxy/gl.h
 %{_darwinx_includedir}/epoxy/gl_generated.h
-%{_darwinx_libdir}/libepoxy.a
 
 %changelog
 * Thu Jun 9 2015 Mikkel Kruse Johnsen <mikkel@xmedicus.com> - 1.2-1
