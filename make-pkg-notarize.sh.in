@@ -1,5 +1,15 @@
 #!/bin/bash
 
+ARCH=`uname -p`
+ARCH_NAME="arm64"
+if [[ "$ARCH" == "arm" ]]; then
+        ARCH="arm64"
+else
+        ARCH="x64"
+fi
+
 echo "Notarizing"
-xcrun altool --notarize-app --primary-bundle-id "org.gsharpkit.Runtime" --username "mikkel@xmedicus.com" --password "@keychain:notarize" --asc-provider GN4P8U89Y6 --file GSharpKit-@VERSION@-x64.pkg
+# Store credential: xcrun notarytool store-credentials --apple-id "mikkel@xmedicus.com" --team-id GN4P8U89Y6
+#xcrun altool --notarize-app --primary-bundle-id "org.gsharpkit.Runtime" --username "mikkel@xmedicus.com" --password "@keychain:notarize" --asc-provider GN4P8U89Y6 --file GSharpKit-@VERSION@-$ARCH.pkg
+xcrun notarytool submit --wait --apple-id "mikkel@xmedicus.com" --keychain-profile "notarize" --team-id GN4P8U89Y6 GSharpKit-@VERSION@-$ARCH.pkg
 

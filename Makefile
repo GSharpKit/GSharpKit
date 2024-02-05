@@ -51,7 +51,7 @@ pkg64: make-pkg.sh.in
 	sed -i '' 's!@RELEASE@!${RELEASE}!g' make-pkg.sh
 	sh make-pkg.sh
 
-notarize: make-pkg-notarize.sh.in GSharpKit-${VERSION}-x64.pkg
+notarize: make-pkg-notarize.sh.in
 	cp make-pkg-notarize.sh.in make-pkg-notarize.sh
 	sed -i '' 's!@VERSION@!${VERSION}!g' make-pkg-notarize.sh
 	sed -i '' 's!@RELEASE@!${RELEASE}!g' make-pkg-notarize.sh
