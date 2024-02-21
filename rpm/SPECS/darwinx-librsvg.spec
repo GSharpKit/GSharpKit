@@ -37,6 +37,8 @@ rm -rf $RPM_BUILD_ROOT
 
 %{_darwinx_make} install DESTDIR=%{buildroot}
 
+rm -rf $RPM_BUILD_ROOT%{_darwinx_datadir}/doc
+
 %post
 %{_darwinx_bindir}/gdk-pixbuf-query-loaders > %{_darwinx_libdir}/gdk-pixbuf-2.0/2.10.0/loaders.cache
 
@@ -45,7 +47,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_darwinx_bindir}
 %{_darwinx_libdir}
 %{_darwinx_includedir}
-#{_darwinx_datadir}
+%{_darwinx_datadir}/thumbnailers/librsvg.thumbnailer
 
 %changelog
 * Tue Oct 28 2014 Mikkel Kruse Johnsen <mikkel@xmedicus.com> - 2.40.12-1

@@ -26,7 +26,8 @@ and semantics. Detailed change log is provided by pcre-doc package.
 
 %build
 NOCONFIGURE=yes sh autogen.sh
-%{_darwinx_configure}§
+%{_darwinx_configure} \
+	--disable-static
 
 make %{?_smp_mflags}
 

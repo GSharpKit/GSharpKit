@@ -42,6 +42,11 @@ make %{?_smp_mflags}
 rm -rf $RPM_BUILD_ROOT
 make DESTDIR=$RPM_BUILD_ROOT install
 
+rm -rf $RPM_BUILD_ROOT%{_darwinx_libdir}/GNU.Gettext.dll
+rm -rf $RPM_BUILD_ROOT%{_darwinx_datadir}/doc
+rm -rf $RPM_BUILD_ROOT%{_darwinx_datadir}/info
+rm -rf $RPM_BUILD_ROOT%{_darwinx_datadir}/man
+
 %find_lang gettext --all-name
 
 %clean
@@ -52,6 +57,10 @@ rm -rf $RPM_BUILD_ROOT
 %{_darwinx_bindir}
 %{_darwinx_libdir}/*.dylib
 %{_darwinx_libdir}/gettext/
+%{_darwinx_datadir}/gettext/
+%{_darwinx_datadir}/gettext-%{version}/
+%{_darwinx_datadir}/aclocal/
+%{_darwinx_datadir}/locale/locale.alias
 %{_darwinx_includedir}
 
 %changelog

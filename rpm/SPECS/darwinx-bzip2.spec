@@ -37,6 +37,16 @@ make -f Makefile-libbz2_dylib PREFIX=$RPM_BUILD_ROOT%{_darwinx_prefix} install
 rm -rf $RPM_BUILD_ROOT%{_darwinx_prefix}/man
 rm -rf $RPM_BUILD_ROOT%{_darwinx_libdir}/*.a
 
+rm -f $RPM_BUILD_ROOT%{_darwinx_bindir}/bzcmp
+rm -f $RPM_BUILD_ROOT%{_darwinx_bindir}/bzegrep
+rm -f $RPM_BUILD_ROOT%{_darwinx_bindir}/bzfgrep
+rm -f $RPM_BUILD_ROOT%{_darwinx_bindir}/bzless
+
+cp -f $RPM_BUILD_ROOT%{_darwinx_bindir}/bzdiff $RPM_BUILD_ROOT%{_darwinx_bindir}/bzcmp
+cp -f $RPM_BUILD_ROOT%{_darwinx_bindir}/bzgrep $RPM_BUILD_ROOT%{_darwinx_bindir}/bzegrep
+cp -f $RPM_BUILD_ROOT%{_darwinx_bindir}/bzgrep $RPM_BUILD_ROOT%{_darwinx_bindir}/bzfgrep
+cp -f $RPM_BUILD_ROOT%{_darwinx_bindir}/bzmore $RPM_BUILD_ROOT%{_darwinx_bindir}/bzless
+
 %clean
 rm -rf $RPM_BUILD_ROOT
 
@@ -50,6 +60,10 @@ rm -rf $RPM_BUILD_ROOT
 %{_darwinx_bindir}/bzip2
 %{_darwinx_bindir}/bzip2recover
 %{_darwinx_bindir}/bzmore
+%{_darwinx_bindir}/bzcmp
+%{_darwinx_bindir}/bzegrep
+%{_darwinx_bindir}/bzfgrep
+%{_darwinx_bindir}/bzless
 %{_darwinx_includedir}/*
 %{_darwinx_libdir}/libbz2.*.dylib
 %{_darwinx_libdir}/libbz2.dylib

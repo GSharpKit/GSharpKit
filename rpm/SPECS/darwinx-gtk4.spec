@@ -52,7 +52,6 @@ Darwin Gtk3 library.
 	-Ddocumentation=false \
 	-Dman-pages=false \
 	-Dintrospection=disabled \
-	-Ddemos=true \
 	-Dbuild-demos=true \
 	-Dbuild-examples=true \
 	-Dbuild-tests=false \

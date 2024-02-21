@@ -29,6 +29,7 @@ make DESTDIR=$RPM_BUILD_ROOT install
 %files
 %defattr(-,root,wheel)
 %{_darwinx_datadir}/icons/Adwaita
+%{_darwinx_datadir}/pkgconfig/adwaita-icon-theme.pc
 
 %changelog
 * Wed Feb 25 2015 Mikkel Kruse Johnsen <mikkel@xmedicus.com> - 3.14.1-1

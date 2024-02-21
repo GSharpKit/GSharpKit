@@ -68,6 +68,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_darwinx_bindir}/gdk-pixbuf-pixdata
 %{_darwinx_bindir}/gdk-pixbuf-query-loaders
 %{_darwinx_bindir}/gdk-pixbuf-thumbnailer
+%{_darwinx_bindir}/gdk-pixbuf-csource
 %{_darwinx_libdir}/libgdk_pixbuf-2.0.0.dylib
 %{_darwinx_libdir}/libgdk_pixbuf-2.0.dylib
 %{_darwinx_libdir}/pkgconfig/gdk-pixbuf-2.0.pc

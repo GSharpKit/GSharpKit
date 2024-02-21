@@ -69,6 +69,7 @@ rm -fr $RPM_BUILD_ROOT%{_darwinx_libdir}/icu/pkgdata.inc
 %{_darwinx_bindir}/gencfu
 %{_darwinx_bindir}/icuinfo
 %{_darwinx_bindir}/icu-config
+%{_darwinx_bindir}/icuexportdata
 
 %{_darwinx_sbindir}/genccode
 %{_darwinx_sbindir}/gencmn

@@ -41,14 +41,6 @@ Requires:  	darwinx-filesystem >= 18
 %description
 Darwin Gtk3 library.
 
-%package -n darwinx-gtk-update-icon-cache
-Summary:        Static version of the Darwin Gtk3 library
-Requires:       %{name} = %{version}-%{release}
-
-%description -n darwinx-gtk-update-icon-cache
-Static version of the Darwin Gtk3 library.
-
-
 %prep
 %setup -q -n gtk+-%{version}
 #patch0 -p1
@@ -66,8 +58,7 @@ Static version of the Darwin Gtk3 library.
 	-Ddemos=true \
 	-Dexamples=true \
 	-Dtests=false \
-	-Dinstalled_tests=false \
-	-Dgtk_assert=false
+	-Dinstalled_tests=false
 
 %darwinx_meson_build
 
@@ -95,6 +86,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_darwinx_bindir}/gtk3-icon-browser
 %{_darwinx_bindir}/gtk-builder-tool
 %{_darwinx_bindir}/gtk-query-settings
+%{_darwinx_bindir}/gtk-update-icon-cache
 %{_darwinx_sysconfdir}/gtk-3.0/
 %{_darwinx_includedir}/gail-3.0/
 %{_darwinx_includedir}/gtk-3.0/
@@ -122,14 +114,10 @@ rm -rf $RPM_BUILD_ROOT
 %{_darwinx_datadir}/gtk-3.0/
 %{_darwinx_datadir}/themes/
 %{_darwinx_datadir}/locale/
-#{_darwinx_datadir}/applications/
-#{_darwinx_datadir}/icons/
+%{_darwinx_datadir}/applications/
+%{_darwinx_datadir}/icons/
 %{_darwinx_datadir}/gettext/its/gtkbuilder.its
 %{_darwinx_datadir}/gettext/its/gtkbuilder.loc
-
-%files -n darwinx-gtk-update-icon-cache
-%defattr(-,root,wheel,-)
-%{_darwinx_bindir}/gtk-update-icon-cache
 
 
 %changelog

@@ -17,6 +17,7 @@ BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:	darwinx-filesystem >= 13
 BuildRequires:	darwinx-gtk3
+BuildRequires:	darwinx-expat
 
 Requires:       darwinx-gtk3
 

@@ -17,4 +17,4 @@ sudo make install
 cd ..
 sudo ln -sf $SYMLINK/bin/cmake /usr/local/bin/cmake
 sudo mkdir -p $PREFIX/share/cross
-sudo cp toolchain-darwinx.cmake $PREFIX/share/cross/
+sudo cp $SCRIPT_ROOT/toolchain-darwinx.cmake $PREFIX/share/cross/

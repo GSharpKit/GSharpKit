@@ -27,17 +27,30 @@ users of pixman are the cairo graphics library and the X server.
 %build
 %darwinx_meson \
 	-Dgtk=disabled \
+	-Dtests=disabled \
+	-Ddemos=disabled \
 	-Dloongson-mmi=disabled \
-	-Dmmx=disabled \
-	-Dsse2=disabled \
-	-Dssse3=disabled \
 	-Dvmx=disabled \
-	-Darm-simd=disabled \
-	-Dneon=disabled \
 	-Diwmmxt=disabled \
-	-Diwmmxt2=true \
 	-Dmips-dspr2=disabled \
-	-Dopenmp=disabled
+	-Dopenmp=disabled \
+%ifarch x86_64
+	-Dmmx=enabled \
+        -Dsse2=enabled \
+        -Dssse3=enabled \
+	-Diwmmxt2=false \
+        -Darm-simd=disabled \
+        -Da64-neon=disabled \
+        -Dneon=disabled
+%else
+	-Diwmmxt2=true \
+	-Darm-simd=enabled \
+	-Da64-neon=enabled \
+        -Dneon=enabled \
+        -Dmmx=disabled \
+        -Dsse2=disabled \
+        -Dssse3=disabled
+%endif	
 
 %darwinx_meson_build
 

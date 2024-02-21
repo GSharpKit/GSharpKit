@@ -62,16 +62,26 @@ rm -rf $RPM_BUILD_ROOT
 %{_darwinx_bindir}/hb-shape
 %{_darwinx_bindir}/hb-view
 %{_darwinx_bindir}/hb-subset
+%{_darwinx_bindir}/hb-info
+
 %{_darwinx_includedir}/harfbuzz
+
 %{_darwinx_libdir}/libharfbuzz.0.dylib
 %{_darwinx_libdir}/libharfbuzz.dylib
 %{_darwinx_libdir}/libharfbuzz-icu.0.dylib
 %{_darwinx_libdir}/libharfbuzz-icu.dylib
 %{_darwinx_libdir}/libharfbuzz-subset.0.dylib
 %{_darwinx_libdir}/libharfbuzz-subset.dylib
+%{_darwinx_libdir}/libharfbuzz-cairo.0.dylib
+%{_darwinx_libdir}/libharfbuzz-cairo.dylib
+%{_darwinx_libdir}/libharfbuzz-gobject.0.dylib
+%{_darwinx_libdir}/libharfbuzz-gobject.dylib
+
 %{_darwinx_libdir}/pkgconfig/harfbuzz.pc
 %{_darwinx_libdir}/pkgconfig/harfbuzz-icu.pc
 %{_darwinx_libdir}/pkgconfig/harfbuzz-subset.pc
+%{_darwinx_libdir}/pkgconfig/harfbuzz-cairo.pc
+%{_darwinx_libdir}/pkgconfig/harfbuzz-gobject.pc
  
 
 %changelog

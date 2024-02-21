@@ -63,6 +63,7 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(-,root,wheel)
 %doc COPYING
+%{_darwinx_sysconfdir}/pkcs11/pkcs11.conf.example
 %{_darwinx_bindir}/p11-kit
 %{_darwinx_bindir}/trust
 %{_darwinx_includedir}/p11-kit-1/p11-kit/pkcs11x.h

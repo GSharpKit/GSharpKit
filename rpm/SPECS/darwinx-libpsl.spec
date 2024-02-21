@@ -45,6 +45,7 @@ rm -rf $RPM_BUILD_ROOT%{_darwinx_datadir}/man
 %files
 %defattr(-,root,wheel,-)
 %{_darwinx_bindir}/psl
+%{_darwinx_bindir}/psl-make-dafsa
 %{_darwinx_libdir}/libpsl.dylib
 %{_darwinx_libdir}/libpsl.5.dylib
 %{_darwinx_libdir}/pkgconfig/libpsl.pc

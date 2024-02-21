@@ -30,7 +30,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %{_darwinx_make} install DESTDIR=%{buildroot}
 
-#install_name_tool -change libxml2.2.dylib %{_darwinx_libdir}/libxml2.2.dylib $RPM_BUILD_ROOT%{_darwinx_libdir}/libcroco-0.6.3.dylib
+rm -rf $RPM_BUILD_ROOT%{_darwinx_datadir}/gtk-doc
 
 %files
 %defattr(-,root,wheel)

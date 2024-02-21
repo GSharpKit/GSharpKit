@@ -5,6 +5,7 @@ NAME=GSharpKit
 PREFIX=/Library/$NAME
 SYMLINK=/Library/$NAME
 
+cd $BUILD_ROOT
 curl -OL http://ftpmirror.gnu.org/m4/m4-1.4.17.tar.gz
 tar xzf m4-1.4.17.tar.gz
 cd m4-1.4.17

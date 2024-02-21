@@ -6,8 +6,8 @@ PREFIX=/Library/$NAME
 SYMLINK=/Library/$NAME
 
 cd $BUILD_ROOT
+git clone https://github.com/ninja-build/ninja.git
 cd ninja
-#git clone https://github.com/ninja-build/ninja.git
 git checkout release
 
 ./configure.py --bootstrap

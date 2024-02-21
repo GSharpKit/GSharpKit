@@ -9,6 +9,9 @@ VERSION=1.75.0
 
 cd $BUILD_ROOT
 
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+exit
+
 if [[ ! -f "rust-$VERSION.tar.gz" ]]; then
 	curl -OL https://github.com/rust-lang/rust/archive/refs/tags/$VERSION.tar.gz
 fi

@@ -33,6 +33,7 @@ rm -rf $RPM_BUILD_ROOT
 
 make DESTDIR=$RPM_BUILD_ROOT install
 
+rm -f $RPM_BUILD_ROOT%{darwinx_libdir}/*.la
 rm -rf $RPM_BUILD_ROOT%{_darwinx_datadir}
 
 %clean

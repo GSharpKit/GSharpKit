@@ -79,6 +79,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_darwinx_libdir}/pkgconfig/cairo.pc
 %{_darwinx_libdir}/pkgconfig/cairo-fc.pc
 %{_darwinx_libdir}/pkgconfig/cairo-tee.pc
+%{_darwinx_libdir}/pkgconfig/cairo-script-interpreter.pc
 
 
 %changelog

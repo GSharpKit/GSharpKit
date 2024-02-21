@@ -39,6 +39,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,wheel)
+%{_darwinx_bindir}/xmlwf
 %{_darwinx_includedir}/*
 %{_darwinx_libdir}/libexpat.*.dylib
 %{_darwinx_libdir}/libexpat.dylib

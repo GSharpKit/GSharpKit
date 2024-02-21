@@ -45,6 +45,10 @@ rm -rf $RPM_BUILD_ROOT
 %doc COPYING
 %{_darwinx_bindir}/cwebp
 %{_darwinx_bindir}/dwebp
+%{_darwinx_bindir}/img2webp
+%{_darwinx_bindir}/vwebp
+%{_darwinx_bindir}/webpinfo
+%{_darwinx_bindir}/webpmux
 %{_darwinx_includedir}/webp
 %{_darwinx_libdir}/libwebp.*.dylib
 %{_darwinx_libdir}/libwebp.dylib
@@ -54,9 +58,13 @@ rm -rf $RPM_BUILD_ROOT
 %{_darwinx_libdir}/libwebpdemux.dylib
 %{_darwinx_libdir}/libsharpyuv.*.dylib
 %{_darwinx_libdir}/libsharpyuv.dylib
+%{_darwinx_libdir}/libwebpmux.*.dylib
+%{_darwinx_libdir}/libwebpmux.dylib
 %{_darwinx_libdir}/pkgconfig/libwebp.pc
 %{_darwinx_libdir}/pkgconfig/libwebpdecoder.pc
 %{_darwinx_libdir}/pkgconfig/libwebpdemux.pc
+%{_darwinx_libdir}/pkgconfig/libsharpyuv.pc
+%{_darwinx_libdir}/pkgconfig/libwebpmux.pc
 
 %changelog
 * Thu May  9 2013 Mikkel Kruse Johnsen <mikkel@xmedicus.com> - 0.4.2-1
