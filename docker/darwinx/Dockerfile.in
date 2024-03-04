@@ -1,15 +1,11 @@
 FROM fedora:@FEDORA_VERSION@
 MAINTAINER Mikkel Kruse Johnsen <mikkel@xmedicus.com>
 
-RUN rpm -Uvh http://yum.gsharpkit.org/gsharpkit/fedora-@FEDORA_VERSION@-x86_64/RPMS/GSharpKit-release-@VERSION@-@RELEASE@.fc@FEDORA_VERSION@.noarch.rpm
+RUN dnf -y install http://yum.gsharpkit.org/gsharpkit/fedora-@FEDORA_VERSION@-x86_64/RPMS/GSharpKit-release-@VERSION@-@RELEASE@.fc@FEDORA_VERSION@.noarch.rpm
 
-ADD packages/*.noarch.rpm /tmp/
-RUN rpm -Uvh --nodeps --ignoreos /tmp/*.noarch.rpm && rm -f /tmp/*.noarch.rpm
+RUN rm -f /etc/rpm/macros.image-language-conf
 
-RUN dnf -y install python2.7 hunspell-da hunspell-en-GB hunspell-en-US GSharpKit-runtime GSharpKit-sdk GSharpKit-sdk-darwinx && dnf clean all && rm -rf /var/cache/dnf
-#RUN rpm -e --nodeps dotnet-targeting-pack-6.0-6.0.12-1.x86_64 dotnet-runtime-deps-6.0-6.0.12-1.x86_64 dotnet-hostfxr-6.0-6.0.12-1.x86_64 dotnet-runtime-6.0-6.0.12-1.x86_64 dotnet-apphost-pack-6.0-6.0.12-1.x86_64 dotnet-sdk-6.0-6.0.404-1.x86_64
-#RUN dnf -y install dotnet-runtime-7.0 dotnet-sdk-7.0
-RUN ln -s /usr/share/dotnet/sdk /usr/lib64/dotnet/sdk
+RUN dnf -y install GSharpKit-sdk-@FRAMEWORK@-darwinx && dnf clean all && rm -rf /var/cache/dnf
 
-RUN mkdir /Library/Frameworks/GSharpKit/share/hunspell ; cp /usr/share/hunspell/da_DK.aff /usr/share/hunspell/da_DK.dic /usr/share/hunspell/en_GB.aff /usr/share/hunspell/en_GB.dic /usr/share/hunspell/en_US.aff /usr/share/hunspell/en_US.dic /Library/Frameworks/GSharpKit/share/hunspell/
+RUN mkdir -p /Library/Frameworks/GSharpKit/share/hunspell ; cp /usr/share/hunspell/da_DK.aff /usr/share/hunspell/da_DK.dic /usr/share/hunspell/en_GB.aff /usr/share/hunspell/en_GB.dic /usr/share/hunspell/en_US.aff /usr/share/hunspell/en_US.dic /Library/Frameworks/GSharpKit/share/hunspell/
 

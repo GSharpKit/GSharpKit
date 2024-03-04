@@ -265,10 +265,14 @@ AutoReqProv:            no
 
 Requires:		GSharpKit-runtime-mingw64
 
+Requires:               gnome-common intltool glib2-devel redhat-rpm-config rpm-build fedora-packager
+Requires:               meson
 Requires:               redhat-rpm-config rpm-build
 Requires:               msitools
 Requires:               osslsigncode
-Requires:               hunspell-da
+Requires:               hunspell-da hunspell-en-GB hunspell-en-US
+Requires:               python
+Requires:               sudo
 
 Requires:               mingw-w64-tools
 Requires:               mingw64-filesystem >= %{MINGW_FILESYSTEM_VERSION}

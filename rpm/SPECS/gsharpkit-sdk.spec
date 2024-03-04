@@ -1,6 +1,6 @@
 %define _binary_payload w4.gzdio
 
-#### DEFINES
+#### DEFINE VERSIONS
 %define DOTNET_VERSION 8.0
 
 %define major_version 39
@@ -9,10 +9,10 @@
 
 %define linux_prefix /usr/lib/GSharpKit/sdk/%{major_version}
 %define mingw64_prefix /usr/x86_64-w64-mingw32/sys-root/mingw/lib/GSharpKit/sdk/%{major_version}
-%define mac64_prefix /Library/Frameworks/GSharpKit/sdk/%{major_version}
+%define darwinx_prefix /Library/Frameworks/GSharpKit/sdk/%{major_version}
 
-Summary: 		Easy management of applications
 Name: 			GSharpKit-sdk-%{major_version}
+Summary: 		Easy management of applications
 Version:		%{major_version}.%{minor_version}.%{sdk_version}
 Release:		1%{?dist}
 License:		GPL
@@ -34,8 +34,8 @@ Requires:               redhat-rpm-config rpm-build
 Requires:               msitools
 Requires:               osslsigncode
 Requires:               hunspell-da hunspell-en-GB hunspell-en-US
-Requires:		python
-Requires:		sudo
+Requires:               python
+Requires:               sudo
 
 BuildRequires:		dotnet-runtime-%{DOTNET_VERSION}
 BuildRequires:		GtkSharp
@@ -61,22 +61,33 @@ Requires:               msitools
 Requires:               osslsigncode
 Requires:               hunspell-da hunspell-en-GB hunspell-en-US
 Requires:               python
-Requires:		sudo
-
+Requires:               sudo
 
 %description mingw64
 Easy management of applications for Windows 64 bit
 
 
 
-%package macos64
+%package darwinx
 Summary:                SDK for GSharpKit macOS 64 bit
 License:                GPL
 Group:                  Applications/Desktop
 BuildArch:              noarch
 AutoReqProv:            no
 
-%description macos64
+Requires:               dotnet-sdk-%{DOTNET_VERSION}
+
+Requires:               gnome-common intltool glib2-devel redhat-rpm-config rpm-build fedora-packager
+Requires:               meson
+Requires:               redhat-rpm-config rpm-build
+Requires:               msitools
+Requires:               osslsigncode
+Requires:               hunspell-da hunspell-en-GB hunspell-en-US
+Requires:               python
+Requires:               sudo
+Requires:		ige-mac-bundler
+
+%description darwinx
 Easy management of applications for macOS 64 bit
 
 
@@ -106,28 +117,27 @@ dotnet add package System.Runtime.Caching --version 8.0.0
 dotnet add package System.DirectoryServices --version 8.0.0
 dotnet add package System.DirectoryServices.AccountManagement --version 8.0.0
 
-dotnet add package Microsoft.Data.SqlClient --version 5.1.2
-
-# Now part of XMedicus and the helper is in runtime
-#dotnet add package Mono.Posix.NETStandard --version 1.0.0
+dotnet add package Microsoft.Data.SqlClient --version 5.1.5
 
 dotnet add package Mono.Data.Sqlite.Core --version 1.0.61.1
 
-dotnet add package Npgsql --version 8.0.1
+dotnet add package Npgsql --version 8.0.2
 
 dotnet add package Mono.Cecil --version 0.11.5
 #dotnet add package Mono.Addins --version 1.4.1
 #dotnet add package Mono.Addins.CecilReflector --version 1.4.1
 
-dotnet add package Tmds.DBus --version 0.15.0
+dotnet add package Tmds.DBus --version 0.16.0
 
-dotnet add package GirCore.Gtk-4.0 --version 0.5.0-preview.3
+dotnet add package ClosedXml --version 0.102.2
+
+dotnet add package GirCore.Gtk-4.0 --version 0.5.0-preview.4
 
 dotnet add package Newtonsoft.Json --version 13.0.3
-dotnet add package BouncyCastle.Cryptography --version 2.2.1
-dotnet add package MimeKit --version 4.3.0
-dotnet add package MailKit --version 4.3.0
-dotnet add package RestSharp --version 106.15.0
+dotnet add package BouncyCastle.Cryptography --version 2.3.0
+dotnet add package MimeKit --version 4.4.0
+dotnet add package MailKit --version 4.4.0
+dotnet add package RestSharp --version 110.2.0
 dotnet add package Sprache --version 2.3.1
 dotnet add package PDFsharp-MigraDoc --version 6.0.0
 
@@ -139,10 +149,9 @@ sed -i -e 's!<PrivateAssets>all</PrivateAssets>!!g' *.csproj
 dotnet publish -o any
 dotnet publish --force --runtime linux-x64 -o lin
 dotnet publish --force --runtime win-x64 -o win
-dotnet publish --force --runtime osx-x64 -o mac64
-#dotnet publish --force --runtime osx-arm64 -o macarm
+dotnet publish --force --runtime osx-x64 -o darwinx
 
-dotnet add package ServiceStack --version 8.0.0
+dotnet add package ServiceStack --version 8.1.2
 dotnet publish -o other
 
 %install
@@ -159,17 +168,17 @@ install -m 644 win/*.dll $RPM_BUILD_ROOT%{mingw64_prefix}/
 install -m 644 any/runtimes/unix/lib/net6.0/Microsoft.Data.SqlClient.dll $RPM_BUILD_ROOT%{mingw64_prefix}/
 install -m 644 other/ServiceStack*.dll $RPM_BUILD_ROOT%{mingw64_prefix}/
 
-install -d -m 755 $RPM_BUILD_ROOT%{mac64_prefix}
-install -m 644 mac64/*.dll $RPM_BUILD_ROOT%{mac64_prefix}/
-install -m 644 any/runtimes/unix/lib/net6.0/Microsoft.Data.SqlClient.dll $RPM_BUILD_ROOT%{mac64_prefix}/
-install -m 644 other/ServiceStack*.dll $RPM_BUILD_ROOT%{mac64_prefix}/
+install -d -m 755 $RPM_BUILD_ROOT%{darwinx_prefix}
+install -m 644 darwinx/*.dll $RPM_BUILD_ROOT%{darwinx_prefix}/
+install -m 644 any/runtimes/unix/lib/net6.0/Microsoft.Data.SqlClient.dll $RPM_BUILD_ROOT%{darwinx_prefix}/
+install -m 644 other/ServiceStack*.dll $RPM_BUILD_ROOT%{darwinx_prefix}/
 
 install -m 644 %{SOURCE1} $RPM_BUILD_ROOT%{linux_prefix}/
 install -m 644 %{SOURCE2} $RPM_BUILD_ROOT%{linux_prefix}/
 install -m 644 %{SOURCE1} $RPM_BUILD_ROOT%{mingw64_prefix}/
 install -m 644 %{SOURCE2} $RPM_BUILD_ROOT%{mingw64_prefix}/
-install -m 644 %{SOURCE1} $RPM_BUILD_ROOT%{mac64_prefix}/
-install -m 644 %{SOURCE2} $RPM_BUILD_ROOT%{mac64_prefix}/
+install -m 644 %{SOURCE1} $RPM_BUILD_ROOT%{darwinx_prefix}/
+install -m 644 %{SOURCE2} $RPM_BUILD_ROOT%{darwinx_prefix}/
 
 install -m 644 /usr/lib/AtkSharp.dll $RPM_BUILD_ROOT%{linux_prefix}/
 install -m 644 /usr/lib/CairoSharp.dll $RPM_BUILD_ROOT%{linux_prefix}/ 
@@ -193,21 +202,21 @@ install -m 644 /usr/lib/WebkitGtkSharp.dll $RPM_BUILD_ROOT%{mingw64_prefix}/
 install -m 644 /usr/lib/GdlSharp.dll $RPM_BUILD_ROOT%{mingw64_prefix}/
 install -m 644 /usr/lib/GstSharp.dll $RPM_BUILD_ROOT%{mingw64_prefix}/
 
-install -m 644 /usr/lib/AtkSharp.dll $RPM_BUILD_ROOT%{mac64_prefix}/
-install -m 644 /usr/lib/CairoSharp.dll $RPM_BUILD_ROOT%{mac64_prefix}/
-install -m 644 /usr/lib/GLibSharp.dll $RPM_BUILD_ROOT%{mac64_prefix}/
-install -m 644 /usr/lib/GdkSharp.dll $RPM_BUILD_ROOT%{mac64_prefix}/
-install -m 644 /usr/lib/GioSharp.dll $RPM_BUILD_ROOT%{mac64_prefix}/
-install -m 644 /usr/lib/GtkSharp.dll $RPM_BUILD_ROOT%{mac64_prefix}/
-install -m 644 /usr/lib/PangoSharp.dll $RPM_BUILD_ROOT%{mac64_prefix}/
-install -m 644 /usr/lib/WebkitGtkSharp.dll $RPM_BUILD_ROOT%{mac64_prefix}/
-install -m 644 /usr/lib/GdlSharp.dll $RPM_BUILD_ROOT%{mac64_prefix}/
-install -m 644 /usr/lib/GstSharp.dll $RPM_BUILD_ROOT%{mac64_prefix}/
-install -m 644 /usr/lib/GtkMacIntegrationSharp.dll $RPM_BUILD_ROOT%{mac64_prefix}/
+install -m 644 /usr/lib/AtkSharp.dll $RPM_BUILD_ROOT%{darwinx_prefix}/
+install -m 644 /usr/lib/CairoSharp.dll $RPM_BUILD_ROOT%{darwinx_prefix}/
+install -m 644 /usr/lib/GLibSharp.dll $RPM_BUILD_ROOT%{darwinx_prefix}/
+install -m 644 /usr/lib/GdkSharp.dll $RPM_BUILD_ROOT%{darwinx_prefix}/
+install -m 644 /usr/lib/GioSharp.dll $RPM_BUILD_ROOT%{darwinx_prefix}/
+install -m 644 /usr/lib/GtkSharp.dll $RPM_BUILD_ROOT%{darwinx_prefix}/
+install -m 644 /usr/lib/PangoSharp.dll $RPM_BUILD_ROOT%{darwinx_prefix}/
+install -m 644 /usr/lib/WebkitGtkSharp.dll $RPM_BUILD_ROOT%{darwinx_prefix}/
+install -m 644 /usr/lib/GdlSharp.dll $RPM_BUILD_ROOT%{darwinx_prefix}/
+install -m 644 /usr/lib/GstSharp.dll $RPM_BUILD_ROOT%{darwinx_prefix}/
+install -m 644 /usr/lib/GtkMacIntegrationSharp.dll $RPM_BUILD_ROOT%{darwinx_prefix}/
 
 rm -f $RPM_BUILD_ROOT%{linux_prefix}/Microsoft.SqlServer.Server.dll
 rm -f $RPM_BUILD_ROOT%{mingw64_prefix}/Microsoft.SqlServer.Server.dll
-rm -f $RPM_BUILD_ROOT%{mac64_prefix}/Microsoft.SqlServer.Server.dll
+rm -f $RPM_BUILD_ROOT%{darwinx_prefix}/Microsoft.SqlServer.Server.dll
 
 rm -f $RPM_BUILD_ROOT%{linux_prefix}/Mono.Cecil.Mdb.dll
 rm -f $RPM_BUILD_ROOT%{linux_prefix}/Mono.Cecil.Pdb.dll
@@ -215,9 +224,9 @@ rm -f $RPM_BUILD_ROOT%{linux_prefix}/Mono.Cecil.Rocks.dll
 rm -f $RPM_BUILD_ROOT%{mingw64_prefix}/Mono.Cecil.Mdb.dll
 rm -f $RPM_BUILD_ROOT%{mingw64_prefix}/Mono.Cecil.Pdb.dll
 rm -f $RPM_BUILD_ROOT%{mingw64_prefix}/Mono.Cecil.Rocks.dll
-rm -f $RPM_BUILD_ROOT%{mac64_prefix}/Mono.Cecil.Mdb.dll
-rm -f $RPM_BUILD_ROOT%{mac64_prefix}/Mono.Cecil.Pdb.dll
-rm -f $RPM_BUILD_ROOT%{mac64_prefix}/Mono.Cecil.Rocks.dll
+rm -f $RPM_BUILD_ROOT%{darwinx_prefix}/Mono.Cecil.Mdb.dll
+rm -f $RPM_BUILD_ROOT%{darwinx_prefix}/Mono.Cecil.Pdb.dll
+rm -f $RPM_BUILD_ROOT%{darwinx_prefix}/Mono.Cecil.Rocks.dll
 
 %clean
 #rm -rf $RPM_BUILD_ROOT
@@ -232,10 +241,10 @@ rm -f $RPM_BUILD_ROOT%{mac64_prefix}/Mono.Cecil.Rocks.dll
 %dir %{mingw64_prefix}
 %{mingw64_prefix}/*.dll
 
-%files macos64
+%files darwinx
 %defattr(-, root, root)
-%dir %{mac64_prefix}
-%{mac64_prefix}/*.dll
+%dir %{darwinx_prefix}
+%{darwinx_prefix}/*.dll
 
 ###########################################################################
 %changelog
