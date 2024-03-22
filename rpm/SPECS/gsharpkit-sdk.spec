@@ -5,7 +5,7 @@
 
 %define major_version 39
 %define minor_version 0
-%define sdk_version 100
+%define sdk_version 101
 
 %define linux_prefix /usr/lib/GSharpKit/sdk/%{major_version}
 %define mingw64_prefix /usr/x86_64-w64-mingw32/sys-root/mingw/lib/GSharpKit/sdk/%{major_version}
@@ -117,7 +117,7 @@ dotnet add package System.Runtime.Caching --version 8.0.0
 dotnet add package System.DirectoryServices --version 8.0.0
 dotnet add package System.DirectoryServices.AccountManagement --version 8.0.0
 
-dotnet add package Microsoft.Data.SqlClient --version 5.1.5
+dotnet add package Microsoft.Data.SqlClient --version 5.2.0
 
 dotnet add package Mono.Data.Sqlite.Core --version 1.0.61.1
 
@@ -151,7 +151,7 @@ dotnet publish --force --runtime linux-x64 -o lin
 dotnet publish --force --runtime win-x64 -o win
 dotnet publish --force --runtime osx-x64 -o darwinx
 
-dotnet add package ServiceStack --version 8.1.2
+dotnet add package ServiceStack --version 8.2.2
 dotnet publish -o other
 
 %install
@@ -160,17 +160,17 @@ dotnet publish -o other
 
 install -d -m 755 $RPM_BUILD_ROOT%{linux_prefix}
 install -m 644 lin/*.dll $RPM_BUILD_ROOT%{linux_prefix}/
-install -m 644 any/runtimes/unix/lib/net6.0/Microsoft.Data.SqlClient.dll $RPM_BUILD_ROOT%{linux_prefix}/
+install -m 644 any/runtimes/unix/lib/net8.0/Microsoft.Data.SqlClient.dll $RPM_BUILD_ROOT%{linux_prefix}/
 install -m 644 other/ServiceStack*.dll $RPM_BUILD_ROOT%{linux_prefix}/
 
 install -d -m 755 $RPM_BUILD_ROOT%{mingw64_prefix}
 install -m 644 win/*.dll $RPM_BUILD_ROOT%{mingw64_prefix}/
-install -m 644 any/runtimes/unix/lib/net6.0/Microsoft.Data.SqlClient.dll $RPM_BUILD_ROOT%{mingw64_prefix}/
+install -m 644 any/runtimes/unix/lib/net8.0/Microsoft.Data.SqlClient.dll $RPM_BUILD_ROOT%{mingw64_prefix}/
 install -m 644 other/ServiceStack*.dll $RPM_BUILD_ROOT%{mingw64_prefix}/
 
 install -d -m 755 $RPM_BUILD_ROOT%{darwinx_prefix}
 install -m 644 darwinx/*.dll $RPM_BUILD_ROOT%{darwinx_prefix}/
-install -m 644 any/runtimes/unix/lib/net6.0/Microsoft.Data.SqlClient.dll $RPM_BUILD_ROOT%{darwinx_prefix}/
+install -m 644 any/runtimes/unix/lib/net8.0/Microsoft.Data.SqlClient.dll $RPM_BUILD_ROOT%{darwinx_prefix}/
 install -m 644 other/ServiceStack*.dll $RPM_BUILD_ROOT%{darwinx_prefix}/
 
 install -m 644 %{SOURCE1} $RPM_BUILD_ROOT%{linux_prefix}/
@@ -227,6 +227,10 @@ rm -f $RPM_BUILD_ROOT%{mingw64_prefix}/Mono.Cecil.Rocks.dll
 rm -f $RPM_BUILD_ROOT%{darwinx_prefix}/Mono.Cecil.Mdb.dll
 rm -f $RPM_BUILD_ROOT%{darwinx_prefix}/Mono.Cecil.Pdb.dll
 rm -f $RPM_BUILD_ROOT%{darwinx_prefix}/Mono.Cecil.Rocks.dll
+
+rm -f $RPM_BUILD_ROOT%{linux_prefix}/GSharpKit-sdk-%{major_version}-%{version}.dll
+rm -f $RPM_BUILD_ROOT%{mingw64_prefix}/GSharpKit-sdk-%{major_version}-%{version}.dll
+rm -f $RPM_BUILD_ROOT%{darwinx_prefix}/GSharpKit-sdk-%{major_version}-%{version}.dll
 
 %clean
 #rm -rf $RPM_BUILD_ROOT
