@@ -3,7 +3,7 @@
 %define libdir /lib
 
 Name:           GtkSharp
-Version:        3.24.24.34
+Version:        3.24.24.35
 Release:        1%{?dist}
 Summary:        GTK+ and GNOME bindings for Mono
 
@@ -26,26 +26,9 @@ Pango, Gdk.
 
 %prep
 %setup -q
-rm -rf Source/Samples/obj
-rm -rf Source/Libs/GtkSourceSharp/obj
-rm -rf Source/Libs/GioSharp/obj
-rm -rf Source/Libs/CairoSharp/obj
-rm -rf Source/Libs/GtkSharp/obj
-rm -rf Source/Libs/GdkSharp/obj
-rm -rf Source/Libs/PangoSharp/obj
-rm -rf Source/Libs/GLibSharp/obj
-rm -rf Source/Libs/AtkSharp/obj
-rm -rf Source/Libs/WebkitGtkSharp/obj
-rm -rf Source/Libs/GtkMacIntegrationSharp/obj
-rm -rf Source/Libs/GdlSharp/obj
-rm -rf Source/Libs/GstSharp/obj
-rm -rf Source/Tools/GapiCodegen/obj
-rm -rf Source/Tools/GapiFixup/obj
-rm -rf Source/Addins/MonoDevelop.GtkSharp.Addin/obj
 
 %build
 dotnet tool restore
-#DOTNET_ROOT=/usr/lib64/dotnet dotnet cake build.cake
 DOTNET_ROOT=/usr/share/dotnet dotnet cake build.cake
 
 %install
