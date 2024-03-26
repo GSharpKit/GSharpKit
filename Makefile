@@ -1,6 +1,8 @@
 include config
 
-msi: msi64 sign64 msisdk signsdk
+msi: msi64 sign64
+
+msisdk: msi64sdk sign64sdk
 
 msi64: GSharpKit.json.in make-msi64.sh.in
 	cp GSharpKit.json.in GSharpKit.json
@@ -20,7 +22,7 @@ sign64: GSharpKit-${VERSION}-x64.msi
 	mv GSharpKit-${VERSION}-x64.msi GSharpKit-${VERSION}-x64.msi.unsigned
 	osslsigncode sign -pkcs12 ~/.pki/gsharpkit.p12 -pass xcare -n "GSharpKit" -i http://www.gsharpkit.com -t http://timestamp.digicert.com -nest -h sha512 -in GSharpKit-${VERSION}-x64.msi.unsigned -out GSharpKit-${VERSION}-x64.msi && rm GSharpKit-${VERSION}-x64.msi.unsigned
 
-msisdk: GSharpSdk.json.in make-msisdk.sh.in
+msi64sdk: GSharpSdk.json.in make-msisdk.sh.in
 	cp GSharpSdk.json.in GSharpSdk.json
 	sed -i -e 's!@VERSION@!${SDK_VERSION}!g' GSharpSdk.json
 	sed -i -e 's!@FRAMEWORK@!${FRAMEWORK}!g' GSharpSdk.json
@@ -34,7 +36,7 @@ msisdk: GSharpSdk.json.in make-msisdk.sh.in
 	sed -i -e 's!@FRAMEWORK@!${FRAMEWORK}!g' make-msisdk.sh
 	sh make-msisdk.sh
 
-signsdk: GSharpSdk-${VERSION}-x64.msi
+sign64sdk: GSharpSdk-${SDK_VERSION}-x64.msi
 	mv GSharpSdk-${SDK_VERSION}-x64.msi GSharpSdk-${SDK_VERSION}-x64.msi.unsigned
 	osslsigncode sign -pkcs12 ~/.pki/gsharpkit.p12 -pass xcare -n "GSharpSdk" -i http://www.gsharpkit.com -t http://timestamp.digicert.com -h sha2 -in GSharpSdk-${SDK_VERSION}-x64.msi.unsigned -out GSharpSdk-${SDK_VERSION}-x64.msi && rm GSharpSdk-${SDK_VERSION}-x64.msi.unsigned
 	mv GSharpSdk-${SDK_VERSION}-x64.msi GSharpSdk-${SDK_VERSION}-x64.msi.unsigned
