@@ -22,23 +22,23 @@ sign64: GSharpKit-${VERSION}-x64.msi
 
 msisdk: GSharpSdk.json.in make-msisdk.sh.in
 	cp GSharpSdk.json.in GSharpSdk.json
-	sed -i -e 's!@VERSION@!${VERSION}!g' GSharpSdk.json
+	sed -i -e 's!@VERSION@!${SDK_VERSION}!g' GSharpSdk.json
 	sed -i -e 's!@FRAMEWORK@!${FRAMEWORK}!g' GSharpSdk.json
 	sed -i -e 's!@RELEASE@!${RELEASE}!g' GSharpSdk.json
 	sed -i -e 's!@ARCH_NO@!64!g' GSharpSdk.json
 	sed -i -e 's!@ARCH_SHORT@!x64!g' GSharpSdk.json
 	sed -i -e 's!@INSTALL_SCOPE@!perMachine!g' GSharpSdk.json
 	cp make-msisdk.sh.in make-msisdk.sh
-	sed -i -e 's!@VERSION@!${VERSION}!g' make-msisdk.sh
+	sed -i -e 's!@VERSION@!${SDK_VERSION}!g' make-msisdk.sh
 	sed -i -e 's!@RELEASE@!${RELEASE}!g' make-msisdk.sh
 	sed -i -e 's!@FRAMEWORK@!${FRAMEWORK}!g' make-msisdk.sh
 	sh make-msisdk.sh
 
 signsdk: GSharpSdk-${VERSION}-x64.msi
-	mv GSharpSdk-${VERSION}-x64.msi GSharpSdk-${VERSION}-x64.msi.unsigned
-	osslsigncode sign -pkcs12 ~/.pki/gsharpkit.p12 -pass xcare -n "GSharpSdk" -i http://www.gsharpkit.com -t http://timestamp.digicert.com -h sha2 -in GSharpSdk-${VERSION}-x64.msi.unsigned -out GSharpSdk-${VERSION}-x64.msi && rm GSharpSdk-${VERSION}-x64.msi.unsigned
-	mv GSharpSdk-${VERSION}-x64.msi GSharpSdk-${VERSION}-x64.msi.unsigned
-	osslsigncode sign -pkcs12 ~/.pki/gsharpkit.p12 -pass xcare -n "GSharpSdk" -i http://www.gsharpkit.com -t http://timestamp.digicert.com -nest -h sha512 -in GSharpSdk-${VERSION}-x64.msi.unsigned -out GSharpSdk-${VERSION}-x64.msi && rm GSharpSdk-${VERSION}-x64.msi.unsigned
+	mv GSharpSdk-${SDK_VERSION}-x64.msi GSharpSdk-${SDK_VERSION}-x64.msi.unsigned
+	osslsigncode sign -pkcs12 ~/.pki/gsharpkit.p12 -pass xcare -n "GSharpSdk" -i http://www.gsharpkit.com -t http://timestamp.digicert.com -h sha2 -in GSharpSdk-${SDK_VERSION}-x64.msi.unsigned -out GSharpSdk-${SDK_VERSION}-x64.msi && rm GSharpSdk-${SDK_VERSION}-x64.msi.unsigned
+	mv GSharpSdk-${SDK_VERSION}-x64.msi GSharpSdk-${SDK_VERSION}-x64.msi.unsigned
+	osslsigncode sign -pkcs12 ~/.pki/gsharpkit.p12 -pass xcare -n "GSharpSdk" -i http://www.gsharpkit.com -t http://timestamp.digicert.com -nest -h sha512 -in GSharpSdk-${SDK_VERSION}-x64.msi.unsigned -out GSharpSdk-${SDK_VERSION}-x64.msi && rm GSharpSdk-${SDK_VERSION}-x64.msi.unsigned
 
 
 pkg: pkg64
