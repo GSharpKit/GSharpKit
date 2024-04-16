@@ -5,7 +5,7 @@
 
 %define major_version 39
 %define minor_version 0
-%define sdk_version 200
+%define sdk_version 300
 
 %define linux_prefix /usr/lib/GSharpKit/sdk/%{major_version}
 %define mingw64_prefix /usr/x86_64-w64-mingw32/sys-root/mingw/lib/GSharpKit/sdk/%{major_version}
@@ -32,7 +32,7 @@ Requires:               gnome-common intltool glib2-devel redhat-rpm-config rpm-
 Requires:               meson
 Requires:               redhat-rpm-config rpm-build
 Requires:               msitools
-Requires:               osslsigncode
+Requires:               osslsigncode openssl openssl-pkcs11 gnutls vim-common
 Requires:               hunspell-da hunspell-en-GB hunspell-en-US
 Requires:               python
 Requires:               sudo
@@ -58,7 +58,7 @@ Requires:               gnome-common intltool glib2-devel redhat-rpm-config rpm-
 Requires:               meson
 Requires:               redhat-rpm-config rpm-build
 Requires:               msitools
-Requires:               osslsigncode
+Requires:               osslsigncode openssl openssl-pkcs11 gnutls vim-common
 Requires:               hunspell-da hunspell-en-GB hunspell-en-US
 Requires:               python
 Requires:               sudo
@@ -81,7 +81,7 @@ Requires:               gnome-common intltool glib2-devel redhat-rpm-config rpm-
 Requires:               meson
 Requires:               redhat-rpm-config rpm-build
 Requires:               msitools
-Requires:               osslsigncode
+Requires:               osslsigncode openssl openssl-pkcs11 gnutls vim-common
 Requires:               hunspell-da hunspell-en-GB hunspell-en-US
 Requires:               python
 Requires:               sudo
@@ -112,7 +112,11 @@ dotnet add package System.ServiceModel.Federation --version 8.0.0
 dotnet add package System.Web.Services.Description --version 8.0.0
 dotnet add package System.ServiceModel.Syndication --version 8.0.0
 
+dotnet add package Microsoft.IdentityModel.Protocols --version 7.5.1
+
 dotnet add package System.Runtime.Caching --version 8.0.0
+dotnet add package Microsoft.Extensions.Caching.Memory --version 8.0.0
+dotnet add package Microsoft.Extensions.Caching.Abstractions --version 8.0.0
 
 dotnet add package System.DirectoryServices --version 8.0.0
 dotnet add package System.DirectoryServices.AccountManagement --version 8.0.0
@@ -135,8 +139,8 @@ dotnet add package GirCore.Gtk-4.0 --version 0.5.0-preview.4
 
 dotnet add package Newtonsoft.Json --version 13.0.3
 dotnet add package BouncyCastle.Cryptography --version 2.3.0
-dotnet add package MimeKit --version 4.4.0
-dotnet add package MailKit --version 4.4.0
+dotnet add package MimeKit --version 4.5.0
+dotnet add package MailKit --version 4.5.0
 dotnet add package RestSharp --version 110.2.0
 dotnet add package Sprache --version 2.3.1
 dotnet add package PDFsharp-MigraDoc --version 6.0.0
