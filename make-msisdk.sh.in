@@ -20,12 +20,6 @@ mkdir -p $TMPDIR/framework
 mv $TMP/usr/x86_64-w64-mingw32/sys-root/mingw $DIR
 sed -i -e 's!<\!--<auth>EXTERNAL</auth>-->!<auth>EXTERNAL</auth>!g' $DIR/share/dbus-1/session.conf
 
-#find $DIR -iname '*.dll' -exec echo {} \; -exec osslsigncode sign -pkcs12 ~/.pki/gsharpkit.p12 -pass xcare -n GSharpSdk -i http://www.gsharpkit.com -t http://timestamp.digicert.com -h sha2 -in '{}' -out '{}.signed' \; -exec mv -f '{}.signed' '{}' \;
-#find $DIR -iname '*.dll' -exec echo {} \; -exec osslsigncode sign -pkcs12 ~/.pki/gsharpkit.p12 -pass xcare -n GSharpSdk -i http://www.gsharpkit.com -t http://timestamp.digicert.com -nest -h sha512 -in '{}' -out '{}.signed' \; -exec mv -f '{}.signed' '{}' \;
-
-#find $DIR -iname '*.exe' -exec echo {} \; -exec osslsigncode sign -pkcs12 ~/.pki/gsharpkit.p12 -pass xcare -n GSharpSdk -i http://www.gsharpkit.com -t http://timestamp.digicert.com -h sha2 -in '{}' -out '{}.signed' \; -exec mv -f '{}.signed' '{}' \;
-#find $DIR -iname '*.exe' -exec echo {} \; -exec osslsigncode sign -pkcs12 ~/.pki/gsharpkit.p12 -pass xcare -n GSharpSdk -i http://www.gsharpkit.com -t http://timestamp.digicert.com -nest -h sha512 -in '{}' -out '{}.signed' \; -exec mv -f '{}.signed' '{}' \;
-
 pushd $TMPDIR
 python createmsi.py GSharpSdk.json
 cp GSharpSdk-@VERSION@.@RELEASE@-64.msi $SOURCEDIR/GSharpSdk-@VERSION@-x64.msi

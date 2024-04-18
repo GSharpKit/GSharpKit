@@ -18,9 +18,9 @@ msi64: GSharpKit.json.in make-msi64.sh.in
 
 sign64: GSharpKit-${VERSION}-x64.msi
 	mv GSharpKit-${VERSION}-x64.msi GSharpKit-${VERSION}-x64.msi.unsigned
-	osslsigncode sign -pkcs12 ~/.pki/gsharpkit.p12 -pass xcare -n "GSharpKit" -i http://www.gsharpkit.com -t http://timestamp.digicert.com -h sha2 -in GSharpKit-${VERSION}-x64.msi.unsigned -out GSharpKit-${VERSION}-x64.msi && rm GSharpKit-${VERSION}-x64.msi.unsigned
-	mv GSharpKit-${VERSION}-x64.msi GSharpKit-${VERSION}-x64.msi.unsigned
-	osslsigncode sign -pkcs12 ~/.pki/gsharpkit.p12 -pass xcare -n "GSharpKit" -i http://www.gsharpkit.com -t http://timestamp.digicert.com -nest -h sha512 -in GSharpKit-${VERSION}-x64.msi.unsigned -out GSharpKit-${VERSION}-x64.msi && rm GSharpKit-${VERSION}-x64.msi.unsigned
+	osslsigncode sign -pkcs11engine /usr/lib64/engines-3/pkcs11.so -pkcs11module /docker/keylocker/smpkcs11.so -certs /docker/keylocker/xmedicus_systems_aps.pem -key 'pkcs11:object=key_711812656;type=private' -n GSharpKit -i https://www.gsharpkit.com -t http://timestamp.digicert.com -h sha2 -in GSharpKit-${VERSION}-x64.msi.unsigned -out GSharpKit-${VERSION}-x64.msi && rm GSharpKit-${VERSION}-x64.msi.unsigned
+	#mv GSharpKit-${VERSION}-x64.msi GSharpKit-${VERSION}-x64.msi.unsigned
+	#osslsigncode sign -pkcs11engine /usr/lib64/engines-3/pkcs11.so -pkcs11module /docker/keylocker/smpkcs11.so -certs /docker/keylocker/xmedicus_systems_aps.pem -key 'pkcs11:object=key_711812656;type=private' -n GSharpKit -i https://www.gsharpkit.com -t http://timestamp.digicert.com -nest -h sha512 -in GSharpKit-${VERSION}-x64.msi.unsigned -out GSharpKit-${VERSION}-x64.msi && rm GSharpKit-${VERSION}-x64.msi.unsigned
 
 msi64sdk: GSharpSdk.json.in make-msisdk.sh.in
 	cp GSharpSdk.json.in GSharpSdk.json
@@ -38,9 +38,9 @@ msi64sdk: GSharpSdk.json.in make-msisdk.sh.in
 
 sign64sdk: GSharpSdk-${SDK_VERSION}-x64.msi
 	mv GSharpSdk-${SDK_VERSION}-x64.msi GSharpSdk-${SDK_VERSION}-x64.msi.unsigned
-	osslsigncode sign -pkcs12 ~/.pki/gsharpkit.p12 -pass xcare -n "GSharpSdk" -i http://www.gsharpkit.com -t http://timestamp.digicert.com -h sha2 -in GSharpSdk-${SDK_VERSION}-x64.msi.unsigned -out GSharpSdk-${SDK_VERSION}-x64.msi && rm GSharpSdk-${SDK_VERSION}-x64.msi.unsigned
-	mv GSharpSdk-${SDK_VERSION}-x64.msi GSharpSdk-${SDK_VERSION}-x64.msi.unsigned
-	osslsigncode sign -pkcs12 ~/.pki/gsharpkit.p12 -pass xcare -n "GSharpSdk" -i http://www.gsharpkit.com -t http://timestamp.digicert.com -nest -h sha512 -in GSharpSdk-${SDK_VERSION}-x64.msi.unsigned -out GSharpSdk-${SDK_VERSION}-x64.msi && rm GSharpSdk-${SDK_VERSION}-x64.msi.unsigned
+	osslsigncode sign -pkcs11engine /usr/lib64/engines-3/pkcs11.so -pkcs11module /docker/keylocker/smpkcs11.so -certs /docker/keylocker/xmedicus_systems_aps.pem -key 'pkcs11:object=key_711812656;type=private' -n GSharpKit -i https://www.gsharpkit.com -t http://timestamp.digicert.com -h sha2 -in GSharpSdk-${VERSION}-x64.msi.unsigned -out GSharpSdk-${VERSION}-x64.msi && rm GSharpSdk-${VERSION}-x64.msi.unsigned
+	#mv GSharpSdk-${SDK_VERSION}-x64.msi GSharpSdk-${SDK_VERSION}-x64.msi.unsigned
+	#osslsigncode sign -pkcs11engine /usr/lib64/engines-3/pkcs11.so -pkcs11module /docker/keylocker/smpkcs11.so -certs /docker/keylocker/xmedicus_systems_aps.pem -key 'pkcs11:object=key_711812656;type=private' -n GSharpKit -i https://www.gsharpkit.com -t http://timestamp.digicert.com -nest -h sha512 -in GSharpSdk-${VERSION}-x64.msi.unsigned -out GSharpSdk-${VERSION}-x64.msi && rm GSharpSdk-${VERSION}-x64.msi.unsigned
 
 
 pkg: pkg64

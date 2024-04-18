@@ -19,11 +19,11 @@ mv $TMP/usr/x86_64-w64-mingw32/sys-root/mingw $DIR
 sed -i -e 's!<\!--<auth>EXTERNAL</auth>-->!<auth>EXTERNAL</auth>!g' $DIR/share/dbus-1/session.conf
 sed -i -e 's!../lib/gdk-pixbuf-2.0/2.10.0/loaders/!lib\\\\gdk-pixbuf-2.0\\\\2.10.0\\\\loaders\\\\!g' $DIR/lib/gdk-pixbuf-2.0/2.10.0/loaders.cache
 
-find $DIR -iname '*.dll' -exec echo {} \; -exec osslsigncode sign -pkcs12 ~/.pki/gsharpkit.p12 -pass xcare -n GSharpKit -i http://www.gsharpkit.com -t http://timestamp.digicert.com -h sha2 -in '{}' -out '{}.signed' \; -exec mv -f '{}.signed' '{}' \;
-find $DIR -iname '*.dll' -exec echo {} \; -exec osslsigncode sign -pkcs12 ~/.pki/gsharpkit.p12 -pass xcare -n GSharpKit -i http://www.gsharpkit.com -t http://timestamp.digicert.com -nest -h sha512 -in '{}' -out '{}.signed' \; -exec mv -f '{}.signed' '{}' \;
+#find $DIR -iname '*.dll' -exec echo {} \; -exec osslsigncode sign -pkcs11engine /usr/lib64/engines-3/pkcs11.so -pkcs11module /docker/keylocker/smpkcs11.so -certs /docker/keylocker/xmedicus_systems_aps.pem -key 'pkcs11:object=key_711812656;type=private' -n GSharpKit -i https://www.gsharpkit.com -t http://timestamp.digicert.com -h sha2 -in '{}' -out '{}.signed' \; -exec mv -f '{}.signed' '{}' \;
+#find $DIR -iname '*.dll' -exec echo {} \; -exec osslsigncode sign -pkcs11engine /usr/lib64/engines-3/pkcs11.so -pkcs11module /docker/keylocker/smpkcs11.so -certs /docker/keylocker/xmedicus_systems_aps.pem -key 'pkcs11:object=key_711812656;type=private' -n GSharpKit -i https://www.gsharpkit.com -t http://timestamp.digicert.com -nest -h sha512 -in '{}' -out '{}.signed' \; -exec mv -f '{}.signed' '{}' \;
 
-find $DIR -iname '*.exe' -exec echo {} \; -exec osslsigncode sign -pkcs12 ~/.pki/gsharpkit.p12 -pass xcare -n GSharpKit -i http://www.gsharpkit.com -t http://timestamp.digicert.com -h sha2 -in '{}' -out '{}.signed' \; -exec mv -f '{}.signed' '{}' \;
-find $DIR -iname '*.exe' -exec echo {} \; -exec osslsigncode sign -pkcs12 ~/.pki/gsharpkit.p12 -pass xcare -n GSharpKit -i http://www.gsharpkit.com -t http://timestamp.digicert.com -nest -h sha512 -in '{}' -out '{}.signed' \; -exec mv -f '{}.signed' '{}' \;
+find $DIR -iname '*.exe' -exec echo {} \; -exec osslsigncode sign -pkcs11engine /usr/lib64/engines-3/pkcs11.so -pkcs11module /docker/keylocker/smpkcs11.so -certs /docker/keylocker/xmedicus_systems_aps.pem -key 'pkcs11:object=key_711812656;type=private' -n GSharpKit -i https://www.gsharpkit.com -t http://timestamp.digicert.com -h sha2 -in '{}' -out '{}.signed' \; -exec mv -f '{}.signed' '{}' \;
+#find $DIR -iname '*.exe' -exec echo {} \; -exec osslsigncode sign -pkcs11engine /usr/lib64/engines-3/pkcs11.so -pkcs11module /docker/keylocker/smpkcs11.so -certs /docker/keylocker/xmedicus_systems_aps.pem -key 'pkcs11:object=key_711812656;type=private' -n GSharpKit -i https://www.gsharpkit.com -t http://timestamp.digicert.com -nest -h sha512 -in '{}' -out '{}.signed' \; -exec mv -f '{}.signed' '{}' \;
 
 pushd $TMPDIR
 python createmsi.py GSharpKit.json
