@@ -5,7 +5,7 @@
 
 %define major_version 39
 %define minor_version 0
-%define sdk_version 300
+%define sdk_version 400
 
 %define linux_prefix /usr/lib/GSharpKit/sdk/%{major_version}
 %define mingw64_prefix /usr/x86_64-w64-mingw32/sys-root/mingw/lib/GSharpKit/sdk/%{major_version}
@@ -98,7 +98,7 @@ Easy management of applications for macOS 64 bit
 
 %build
 dotnet new console
-dotnet add package NLog --version 5.2.8
+dotnet add package NLog --version 5.3.2
 
 dotnet add package System.Security.Cryptography.Xml --version 8.0.0
 dotnet add package System.Security.Cryptography.Pkcs --version 8.0.0
@@ -125,20 +125,35 @@ dotnet add package Microsoft.Data.SqlClient --version 5.2.0
 
 dotnet add package Mono.Data.Sqlite.Core --version 1.0.61.1
 
-dotnet add package Npgsql --version 8.0.2
+dotnet add package Npgsql --version 8.0.3
 
 dotnet add package Mono.Cecil --version 0.11.5
 #dotnet add package Mono.Addins --version 1.4.1
 #dotnet add package Mono.Addins.CecilReflector --version 1.4.1
 
-dotnet add package Tmds.DBus --version 0.16.0
+dotnet add package Tmds.DBus --version 0.17.0
 
 dotnet add package ClosedXml --version 0.102.2
 
-dotnet add package GirCore.Gtk-4.0 --version 0.5.0-preview.4
+dotnet add package DocumentFormat.OpenXml --version 3.0.2
+dotnet add package DocumentFormat.OpenXml.Framework --version 3.0.2
+dotnet add package DocumentFormat.OpenXml.Linq --version 3.0.2
+dotnet add package DocumentFormat.OpenXml.Features --version 3.0.2
+
+dotnet add package GirCore.Gtk-4.0 --version 0.5.0
+dotnet add package GirCore.Adw-1 --version 0.5.0
+
+dotnet add package GirCore.WebKit-6.0 --version 0.5.0
+dotnet add package GirCore.JavaScriptCore-6.0 --version 0.5.0
+
+dotnet add package GirCore.Gst-1.0 --version 0.5.0
+dotnet add package GirCore.GstBase-1.0 --version 0.5.0
+dotnet add package GirCore.GstAudio-1.0 --version 0.5.0
+dotnet add package GirCore.GstVideo-1.0 --version 0.5.0
+dotnet add package GirCore.GstPbutils-1.0 --version 0.5.0
 
 dotnet add package Newtonsoft.Json --version 13.0.3
-dotnet add package BouncyCastle.Cryptography --version 2.3.0
+dotnet add package BouncyCastle.Cryptography --version 2.3.1
 dotnet add package MimeKit --version 4.5.0
 dotnet add package MailKit --version 4.5.0
 dotnet add package RestSharp --version 110.2.0
@@ -256,6 +271,9 @@ rm -f $RPM_BUILD_ROOT%{darwinx_prefix}/GSharpKit-sdk-%{major_version}-%{version}
 
 ###########################################################################
 %changelog
+* Thu May 09 2024 Mikkel Kruse Johnsen, GSharpKit <mikkel@gsharpkit.com>
+- Update Npgsql for security CVE-2024-32655
+- Update GirCore to 0.5.0
 * Thu Oct 03 2017 Mikkel Kruse Johnsen, GSharpKit <mikkel@gsharpkit.com>
 - Renamed to GSharpKit
 * Thu Jun 08 2010 Mikkel Kruse Johnsen, Appbox <mikkel@appbox.info>
