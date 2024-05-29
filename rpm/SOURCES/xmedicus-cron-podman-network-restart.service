@@ -1,0 +1,14 @@
+[Unit]
+Description=podman network reload
+Wants=firewalld.service
+After=firewalld.service
+PartOf=firewalld.service
+
+[Service]
+Type=simple
+RemainAfterExit=yes
+ExecStart=/usr/bin/podman network reload --all
+
+[Install]
+WantedBy=multi-user.target
+
