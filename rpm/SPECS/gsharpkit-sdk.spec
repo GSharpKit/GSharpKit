@@ -5,7 +5,7 @@
 
 %define major_version 39
 %define minor_version 0
-%define sdk_version 400
+%define sdk_version 500
 
 %define linux_prefix /usr/lib/GSharpKit/sdk/%{major_version}
 %define mingw64_prefix /usr/x86_64-w64-mingw32/sys-root/mingw/lib/GSharpKit/sdk/%{major_version}
@@ -100,7 +100,7 @@ Easy management of applications for macOS 64 bit
 dotnet new console
 dotnet add package NLog --version 5.3.2
 
-dotnet add package System.Security.Cryptography.Xml --version 8.0.0
+dotnet add package System.Security.Cryptography.Xml --version 8.0.1
 dotnet add package System.Security.Cryptography.Pkcs --version 8.0.0
 dotnet add package System.Security.Cryptography.ProtectedData --version 8.0.0
 dotnet add package System.Configuration.ConfigurationManager --version 8.0.0
@@ -112,14 +112,17 @@ dotnet add package System.ServiceModel.Federation --version 8.0.0
 dotnet add package System.Web.Services.Description --version 8.0.0
 dotnet add package System.ServiceModel.Syndication --version 8.0.0
 
-dotnet add package Microsoft.IdentityModel.Protocols --version 7.5.1
-
 dotnet add package System.Runtime.Caching --version 8.0.0
-dotnet add package Microsoft.Extensions.Caching.Memory --version 8.0.0
-dotnet add package Microsoft.Extensions.Caching.Abstractions --version 8.0.0
 
 dotnet add package System.DirectoryServices --version 8.0.0
 dotnet add package System.DirectoryServices.AccountManagement --version 8.0.0
+
+dotnet add package IdentityModel.OidcClient --version 6.0.0
+
+dotnet add package Microsoft.IdentityModel.Protocols --version 7.5.2
+
+dotnet add package Microsoft.Extensions.Caching.Memory --version 8.0.0
+dotnet add package Microsoft.Extensions.Caching.Abstractions --version 8.0.0
 
 dotnet add package Microsoft.Data.SqlClient --version 5.2.0
 
@@ -131,7 +134,7 @@ dotnet add package Mono.Cecil --version 0.11.5
 #dotnet add package Mono.Addins --version 1.4.1
 #dotnet add package Mono.Addins.CecilReflector --version 1.4.1
 
-dotnet add package Tmds.DBus --version 0.17.0
+dotnet add package Tmds.DBus --version 0.18.0
 
 dotnet add package ClosedXml --version 0.102.2
 
@@ -154,11 +157,11 @@ dotnet add package GirCore.GstPbutils-1.0 --version 0.5.0
 
 dotnet add package Newtonsoft.Json --version 13.0.3
 dotnet add package BouncyCastle.Cryptography --version 2.3.1
-dotnet add package MimeKit --version 4.5.0
-dotnet add package MailKit --version 4.5.0
+dotnet add package MimeKit --version 4.6.0
+dotnet add package MailKit --version 4.6.0
 dotnet add package RestSharp --version 110.2.0
 dotnet add package Sprache --version 2.3.1
-dotnet add package PDFsharp-MigraDoc --version 6.0.0
+dotnet add package PDFsharp-MigraDoc --version 6.1.0
 
 dotnet add package nhapi.model.v231 --version 3.2.0
 dotnet add package nhapi.model.v251 --version 3.2.0
