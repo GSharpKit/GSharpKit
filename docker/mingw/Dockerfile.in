@@ -5,7 +5,8 @@ RUN dnf -y install http://yum.gsharpkit.org/gsharpkit/fedora-@FEDORA_VERSION@-x8
 
 RUN rm -f /etc/rpm/macros.image-language-conf
 
-RUN dnf -y install GSharpKit-runtime-mingw64-devel GSharpKit-sdk-@FRAMEWORK@-mingw64 && dnf clean all && rm -rf /var/cache/dnf
+RUN dnf -y install GSharpKit-runtime-mingw64-devel GSharpKit-sdk-@FRAMEWORK@-mingw64  && dnf clean all && rm -rf /var/cache/dnf
+RUN dnf -y downgrade https://rpmfind.net/linux/fedora/linux/releases/39/Everything/x86_64/os/Packages/o/openssl-3.1.1-4.fc39.x86_64.rpm && dnf clean all && rm -rf /var/cache/dnf
 
 RUN mkdir /usr/x86_64-w64-mingw32/sys-root/mingw/share/hunspell ; cp /usr/share/hunspell/da_DK.aff /usr/share/hunspell/da_DK.dic /usr/share/hunspell/en_GB.aff /usr/share/hunspell/en_GB.dic /usr/share/hunspell/en_US.aff /usr/share/hunspell/en_US.dic /usr/x86_64-w64-mingw32/sys-root/mingw/share/hunspell/
 
