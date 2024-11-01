@@ -18,6 +18,10 @@ DIR="$TMPDIR/Library/Frameworks/GSharpKit"
 sh make-pkg-install.sh /Library/Frameworks/GSharpKit $DIR
 echo "@VERSION@" > $DIR/version
 
+rm -f $DIR/lib/libtiff.dylib
+rm -f $DIR/lib/libtiffxx.dylib
+rm -f $DIR/lib/libjpeg.dylib
+
 mkdir -p $TMPDIR/Library/LaunchAgents
 cp /Library/LaunchAgents/org.freedesktop.dbus-session.plist $TMPDIR/Library/LaunchAgents/
 

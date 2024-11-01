@@ -1,5 +1,5 @@
 Name:           darwinx-gdk-pixbuf
-Version:        2.42.10
+Version:        2.42.12
 Release:        1%{?dist}
 Summary:        Cross compiled GDK Pixbuf library
 

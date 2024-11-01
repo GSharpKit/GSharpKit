@@ -1,5 +1,5 @@
 Name:           darwinx-libpng
-Version:        1.6.37
+Version:        1.6.44
 Release:        1%{?dist}
 Summary:        libpng is the official PNG reference library.
 
@@ -34,6 +34,7 @@ rm -rf $RPM_BUILD_ROOT
 make DESTDIR=$RPM_BUILD_ROOT install
 
 rm -f $RPM_BUILD_ROOT%{darwinx_libdir}/*.la
+rm -f $RPM_BUILD_ROOT%{darwinx_libdir}/libpng.dylib
 rm -rf $RPM_BUILD_ROOT%{_darwinx_datadir}
 
 %clean
@@ -45,7 +46,10 @@ rm -rf $RPM_BUILD_ROOT
 %{_darwinx_bindir}/libpng16-config
 %{_darwinx_bindir}/png-fix-itxt
 %{_darwinx_bindir}/pngfix
-%{_darwinx_libdir}/libpng.dylib
+
+# DO NOT INSTALL WILL MAKE APP CRASH
+#{_darwinx_libdir}/libpng.dylib
+
 %{_darwinx_libdir}/libpng16.dylib
 %{_darwinx_libdir}/libpng16.*.dylib
 %{_darwinx_libdir}/pkgconfig/libpng.pc
