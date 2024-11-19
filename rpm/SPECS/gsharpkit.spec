@@ -82,7 +82,7 @@
 #### DEFINES
 %define DOTNET_VERSION 8.0
 
-%define major_version 39
+%define major_version 41
 %define minor_version 0
 
 %define linux_prefix /usr/lib64

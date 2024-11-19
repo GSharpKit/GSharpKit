@@ -3,9 +3,9 @@
 #### DEFINE VERSIONS
 %define DOTNET_VERSION 8.0
 
-%define major_version 39
+%define major_version 41
 %define minor_version 0
-%define sdk_version 800
+%define sdk_version 100
 
 %define linux_prefix /usr/lib/GSharpKit/sdk/%{major_version}
 %define mingw64_prefix /usr/x86_64-w64-mingw32/sys-root/mingw/lib/GSharpKit/sdk/%{major_version}
@@ -100,31 +100,34 @@ Easy management of applications for macOS 64 bit
 dotnet new console
 dotnet add package NLog --version 5.3.4
 
-dotnet add package System.Security.Cryptography.Xml --version 8.0.2
-dotnet add package System.Security.Cryptography.Pkcs --version 8.0.1
-dotnet add package System.Security.Cryptography.ProtectedData --version 8.0.0
-dotnet add package System.Configuration.ConfigurationManager --version 8.0.1
+dotnet add package System.Security.Cryptography.Xml --version 9.0.0
+dotnet add package System.Security.Cryptography.Pkcs --version 9.0.0
+dotnet add package System.Security.Cryptography.ProtectedData --version 9.0.0
+dotnet add package System.Configuration.ConfigurationManager --version 9.0.0
 
-dotnet add package System.ServiceModel.Primitives --version 8.0.0
-dotnet add package System.ServiceModel.Http --version 8.0.0
-dotnet add package System.ServiceModel.NetTcp --version 8.0.0
-dotnet add package System.ServiceModel.Federation --version 8.0.0
-dotnet add package System.Web.Services.Description --version 8.0.0
-dotnet add package System.ServiceModel.Syndication --version 8.0.0
+dotnet add package System.ServiceModel.Primitives --version 8.1.0
+dotnet add package System.ServiceModel.Http --version 8.1.0
+dotnet add package System.ServiceModel.NetTcp --version 8.1.0
+dotnet add package System.ServiceModel.Federation --version 8.1.0
+dotnet add package System.Web.Services.Description --version 8.1.0
+dotnet add package System.ServiceModel.Syndication --version 9.0.0
 
-dotnet add package System.Runtime.Caching --version 8.0.1
+dotnet add package System.Runtime.Caching --version 9.0.0
 
-dotnet add package System.DirectoryServices --version 8.0.0
-dotnet add package System.DirectoryServices.AccountManagement --version 8.0.0
+dotnet add package System.DirectoryServices --version 9.0.0
+dotnet add package System.DirectoryServices.AccountManagement --version 9.0.0
 
 dotnet add package System.CommandLine --version 2.0.0-beta4.22272.1
 
 dotnet add package IdentityModel.OidcClient --version 6.0.0
 
+dotnet add package Google.Apis.Auth --version 1.68.0
+dotnet add package Microsoft.Identity.Client --version 4.66.2
+
 dotnet add package Microsoft.IdentityModel.Protocols --version 8.1.2
 
-dotnet add package Microsoft.Extensions.Caching.Memory --version 8.0.1
-dotnet add package Microsoft.Extensions.Caching.Abstractions --version 8.0.0
+dotnet add package Microsoft.Extensions.Caching.Memory --version 9.0.0
+dotnet add package Microsoft.Extensions.Caching.Abstractions --version 9.0.0
 
 dotnet add package Microsoft.Data.SqlClient --version 5.2.2
 
@@ -132,7 +135,7 @@ dotnet add package Microsoft.Data.SqlClient --version 5.2.2
 
 dotnet add package Mono.Data.Sqlite.Core --version 1.0.61.1
 
-dotnet add package Npgsql --version 8.0.5
+dotnet add package Npgsql --version 9.0.1
 
 dotnet add package Mono.Cecil --version 0.11.6
 #dotnet add package Mono.Addins --version 1.4.1
@@ -140,7 +143,7 @@ dotnet add package Mono.Cecil --version 0.11.6
 
 dotnet add package Tmds.DBus --version 0.20.0
 
-dotnet add package ClosedXml --version 0.104.1
+dotnet add package ClosedXml --version 0.104.2
 
 dotnet add package DocumentFormat.OpenXml --version 3.1.1
 dotnet add package DocumentFormat.OpenXml.Framework --version 3.1.1
