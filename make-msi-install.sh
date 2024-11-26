@@ -51,6 +51,6 @@ cp -r $FROM/share/icons $TO/share/
 
 mkdir -p $TO/share/locale
 cp -r $FROM/share/locale/da $TO/share/locale/
-cp -r $FROM/share/locale/sv $TO/share/locale/
+#cp -r $FROM/share/locale/sv $TO/share/locale/
 
 cp -r $FROM/share/hunspell $TO/share/
