@@ -26,7 +26,10 @@ cp $TO/bin/libsqlite3-0.dll $TO/bin/sqlite3.dll
 # ETC directory
 mkdir $TO/etc
 cp -r $FROM/etc/dbus-1 $TO/etc/
-cp -r $FROM/etc/fonts $TO/etc/
+
+# Copy symlinks as file not symlink
+cp -rL $FROM/etc/fonts $TO/etc/
+
 cp -r $FROM/etc/gtk-3.0 $TO/etc/
 cp -r $FROM/etc/pki $TO/etc/
 
