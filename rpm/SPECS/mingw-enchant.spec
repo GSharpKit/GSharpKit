@@ -1,5 +1,8 @@
 %?mingw_package_header
 
+%global mingw_build_win32 0
+%global mingw_build_win64 1
+
 Summary:       MinGW Windows Enchanting Spell Checking Library
 Name:          mingw-enchant
 Version:       1.6.0
@@ -7,13 +10,6 @@ Release:       24%{?dist}
 License:       LGPLv2+
 Source0:       http://www.abisource.com/downloads/enchant/%{version}/enchant-%{version}.tar.gz
 URL:           http://www.abisource.com/
-
-BuildRequires: mingw32-filesystem >= 95
-BuildRequires: mingw32-gcc
-BuildRequires: mingw32-gcc-c++
-BuildRequires: mingw32-binutils
-BuildRequires: mingw32-glib2
-BuildRequires: mingw32-hunspell
 
 BuildRequires: mingw64-filesystem >= 95
 BuildRequires: mingw64-gcc
@@ -39,24 +35,6 @@ A library that wraps other spell checking backends.
 
 This is the MinGW build of enchant
 
-
-# Win32
-%package -n mingw32-enchant
-Summary:       MinGW Windows Enchanting Spell Checking Library
-Requires:      pkgconfig
-
-%description -n mingw32-enchant
-A library that wraps other spell checking backends.
-
-This is the MinGW build of enchant
-
-%package -n mingw32-enchant-static
-Summary:       Static version of the MinGW Windows enchant library
-Requires:      mingw32-enchant = %{version}-%{release}
-
-%description -n mingw32-enchant-static
-Static version of the MinGW Windows enchant spell checking library.
-
 # Win64
 %package -n mingw64-enchant
 Summary:       MinGW Windows Enchanting Spell Checking Library
@@ -81,8 +59,8 @@ Static version of the MinGW Windows enchant spell checking library.
 %prep
 %setup -qn "enchant-%{version}"
 
-%patch0 -p0 -b .mingw
-%patch1 -p0 -b .relocatable
+%patch 0 -p0 -b .mingw
+%patch 1 -p0 -b .relocatable
 
 
 %build
@@ -94,9 +72,6 @@ Static version of the MinGW Windows enchant spell checking library.
     --enable-shared
 
 # Work around a build issue
-pushd build_win32/src
-WINDRES=%{mingw32_windres} ../../compile-resource libenchant.rc enchant-win32res.o
-popd
 pushd build_win64/src
 WINDRES=%{mingw64_windres} ../../compile-resource libenchant.rc enchant-win32res.o
 popd
@@ -108,30 +83,10 @@ popd
 %mingw_make DESTDIR=$RPM_BUILD_ROOT install
 
 # Drop the man-pages
-rm -rf $RPM_BUILD_ROOT%{mingw32_datadir}/man
 rm -rf $RPM_BUILD_ROOT%{mingw64_datadir}/man
 
 # Drop all .la files
 find $RPM_BUILD_ROOT -name "*.la" -delete
-
-
-# Win32
-%files -n mingw32-enchant
-%doc AUTHORS COPYING.LIB README
-%{mingw32_bindir}/enchant-lsmod.exe
-%{mingw32_bindir}/enchant.exe
-%{mingw32_bindir}/libenchant.dll
-%{mingw32_includedir}/enchant/
-%dir %{mingw32_libdir}/enchant/
-%{mingw32_libdir}/enchant/libenchant_myspell.dll
-%{mingw32_libdir}/enchant/libenchant_myspell.dll.a
-%{mingw32_libdir}/libenchant.dll.a
-%{mingw32_libdir}/pkgconfig/enchant.pc
-%{mingw32_datadir}/enchant/
-
-%files -n mingw32-enchant-static
-%{mingw32_libdir}/libenchant.a
-%{mingw32_libdir}/enchant/libenchant_myspell.a
 
 # Win64
 %files -n mingw64-enchant

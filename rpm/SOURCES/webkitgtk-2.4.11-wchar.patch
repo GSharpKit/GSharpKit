@@ -1,0 +1,97 @@
+diff -Nur webkitgtk-2.4.11.orig/Source/WTF/wtf/text/WTFString.cpp webkitgtk-2.4.11/Source/WTF/wtf/text/WTFString.cpp
+--- webkitgtk-2.4.11.orig/Source/WTF/wtf/text/WTFString.cpp	2016-04-10 08:48:36.000000000 +0200
++++ webkitgtk-2.4.11/Source/WTF/wtf/text/WTFString.cpp	2024-11-25 15:08:01.420645598 +0100
+@@ -41,6 +41,24 @@
+ 
+ using namespace Unicode;
+ 
++Vector<wchar_t> String::wideCharacters() const
++{
++    Vector<wchar_t> result;
++    if (m_impl) {
++        result.reserveInitialCapacity(length() + 1);
++        if (is8Bit()) {
++            const LChar* characters8 = m_impl->characters8();
++            for (size_t i = 0; i < length(); ++i)
++                result.uncheckedAppend(characters8[i]);
++        } else {
++            const UChar* characters16 = m_impl->characters16();
++            result.append(characters16, m_impl->length());
++        }
++        result.append(0);
++    }
++    return result;
++}
++
+ // Construct a string with UTF-16 data.
+ String::String(const UChar* characters, unsigned length)
+ {
+diff -Nur webkitgtk-2.4.11.orig/Source/WTF/wtf/text/WTFString.h webkitgtk-2.4.11/Source/WTF/wtf/text/WTFString.h
+--- webkitgtk-2.4.11.orig/Source/WTF/wtf/text/WTFString.h	2016-04-10 08:48:36.000000000 +0200
++++ webkitgtk-2.4.11/Source/WTF/wtf/text/WTFString.h	2024-11-25 15:07:58.794656305 +0100
+@@ -34,6 +34,30 @@
+ 
+ namespace WTF {
+ 
++inline const UChar* ucharFrom(const wchar_t* characters)
++{   
++    static_assert(sizeof(wchar_t) == sizeof(UChar), "We assume wchar_t and UChar have the same size");
++    return reinterpret_cast<const UChar*>(characters);
++}
++    
++inline UChar* ucharFrom(wchar_t* characters)
++{
++    static_assert(sizeof(wchar_t) == sizeof(UChar), "We assume wchar_t and UChar have the same size");
++    return reinterpret_cast<UChar*>(characters);
++}
++
++inline const wchar_t* wcharFrom(const UChar* characters)
++{   
++    static_assert(sizeof(wchar_t) == sizeof(UChar), "We assume wchar_t and UChar have the same size");
++    return reinterpret_cast<const wchar_t*>(characters);
++}
++
++inline wchar_t* wcharFrom(UChar* characters)
++{
++    static_assert(sizeof(wchar_t) == sizeof(UChar), "We assume wchar_t and UChar have the same size");
++    return reinterpret_cast<wchar_t*>(characters);
++}   
++
+ class CString;
+ struct StringHash;
+ 
+@@ -88,7 +112,7 @@
+ 
+     // Construct a string with UTF-16 data.
+     WTF_EXPORT_STRING_API String(const UChar* characters, unsigned length);
+-
++    
+     // Construct a string by copying the contents of a vector.  To avoid
+     // copying, consider using String::adopt instead.
+     // This method will never create a null string. Vectors with size() == 0
+@@ -399,6 +423,16 @@
+     WTF_EXPORT_STRING_API RetainPtr<CFStringRef> createCFString() const;
+ #endif
+ 
++#if OS(WINDOWS)
++    String(const wchar_t* characters, unsigned length)
++        : String(ucharFrom(characters), length) { }
++
++    String(const wchar_t* characters)
++        : String(ucharFrom(characters)) { }
++
++    WTF_EXPORT_PRIVATE Vector<wchar_t> wideCharacters() const;
++#endif
++
+ #ifdef __OBJC__
+     WTF_EXPORT_STRING_API String(NSString*);
+     
+@@ -685,6 +719,8 @@
+ using WTF::isSpaceOrNewline;
+ using WTF::reverseFind;
+ using WTF::ASCIILiteral;
++using WTF::ucharFrom;
++using WTF::wcharFrom;
+ 
+ #include <wtf/text/AtomicString.h>
+ #endif

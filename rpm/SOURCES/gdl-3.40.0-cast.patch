@@ -1,0 +1,45 @@
+diff -Nur gdl-3.40.0.orig/gdl/gdl-dock-bar.c gdl-3.40.0/gdl/gdl-dock-bar.c
+--- gdl-3.40.0.orig/gdl/gdl-dock-bar.c	2018-10-22 21:36:04.000000000 +0200
++++ gdl-3.40.0/gdl/gdl-dock-bar.c	2024-11-26 11:02:30.396406755 +0100
+@@ -425,7 +425,7 @@
+         if (GDL_IS_DOCK_OBJECT (master)) {
+             master = gdl_dock_object_get_master (GDL_DOCK_OBJECT (master));
+         }
+-        dockbar->priv->master = g_object_ref (master);
++        dockbar->priv->master = (GdlDockMaster *)g_object_ref (master);
+         dockbar->priv->layout_changed_id =
+             g_signal_connect (dockbar->priv->master, "layout-changed",
+                               (GCallback) gdl_dock_bar_layout_changed_cb,
+diff -Nur gdl-3.40.0.orig/gdl/gdl-dock-item.c gdl-3.40.0/gdl/gdl-dock-item.c
+--- gdl-3.40.0.orig/gdl/gdl-dock-item.c	2018-10-22 21:36:04.000000000 +0200
++++ gdl-3.40.0/gdl/gdl-dock-item.c	2024-11-26 11:02:30.396406755 +0100
+@@ -355,7 +355,7 @@
+     container_class->set_focus_child = gdl_dock_item_set_focus_child;
+     gtk_container_class_handle_border_width (container_class);
+ 
+-    gdl_dock_object_class_set_is_compound (object_class, FALSE);
++    gdl_dock_object_class_set_is_compound ((GdlDockObjectClass *)object_class, FALSE);
+     dock_object_class->dock_request = gdl_dock_item_dock_request;
+     dock_object_class->dock = gdl_dock_item_dock;
+     dock_object_class->present = gdl_dock_item_present;
+@@ -744,7 +744,7 @@
+         case PROP_RESIZE:
+             item->priv->resize = g_value_get_boolean (value);
+             {
+-                GObject * parent = gtk_widget_get_parent (GTK_WIDGET (item));
++                GObject * parent = (GObject *)gtk_widget_get_parent (GTK_WIDGET (item));
+                 //if we docked update "resize" child_property of our parent
+                 if(parent)
+                 {
+diff -Nur gdl-3.40.0.orig/gdl/gdl-dock-layout.c gdl-3.40.0/gdl/gdl-dock-layout.c
+--- gdl-3.40.0.orig/gdl/gdl-dock-layout.c	2018-10-22 21:36:04.000000000 +0200
++++ gdl-3.40.0/gdl/gdl-dock-layout.c	2024-11-26 11:02:30.397406751 +0100
+@@ -620,7 +620,7 @@
+         if (GDL_IS_DOCK_OBJECT (master)) {
+             master = gdl_dock_object_get_master (GDL_DOCK_OBJECT (master));
+         }
+-        layout->priv->master = g_object_ref (master);
++        layout->priv->master = (GdlDockMaster *)g_object_ref (master);
+         layout->priv->layout_changed_id =
+             g_signal_connect (layout->priv->master, "layout-changed",
+                               (GCallback) gdl_dock_layout_layout_changed_cb,
