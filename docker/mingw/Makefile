@@ -9,6 +9,8 @@ pull:
 
 build:
 	cp Dockerfile.in Dockerfile
+	cp ../../dictionary/da_DK-${DIC_VERSION}.aff da_DK.aff
+	cp ../../dictionary/da_DK-${DIC_VERSION}.dic da_DK.dic
 	sed -i -e 's!@VERSION@!${VERSION}!g' Dockerfile
 	sed -i -e 's!@RELEASE@!${RELEASE}!g' Dockerfile
 	sed -i -e 's!@FRAMEWORK@!${FRAMEWORK}!g' Dockerfile
