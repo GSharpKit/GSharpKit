@@ -124,9 +124,13 @@ This is the MinGW port of WebKitGTK+ for GTK+ 3.
 # lower debug level to prevent memory exhaustion by linker
 %global mingw64_cflags %(echo %{mingw64_cflags} | sed 's/-g /-g1 /') -fpermissive -DGLIB_VERSION_MIN_REQUIRED=GLIB_VERSION_2_64 -DASSERT_ENABLED=0
 
+#sed -i -e 's!-std=c++11 -Wno-c++11-compat!-std=c++17 -Wno-c++17-compat!g' configure
 %mingw_configure                                                \
                         --enable-win32-target                   \
                         --with-gtk=3.0                          \
+			--disable-web-audio			\
+			--disable-video				\
+			--disable-webgl				\
                         --disable-accelerated-compositing       \
 			--disable-jit				\
                         --disable-egl                           \
@@ -135,8 +139,8 @@ This is the MinGW port of WebKitGTK+ for GTK+ 3.
                         --disable-webkit2                       \
                         --disable-gtk-doc-html
 
-#mingw_make %{?_smp_mflags} V=1
-%mingw_make V=1
+%mingw_make %{?_smp_mflags} V=1
+#mingw_make V=1
 
 %install
 %mingw_make install DESTDIR=%{buildroot}

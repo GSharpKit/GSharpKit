@@ -78,7 +78,7 @@ diff -Nur webkitgtk-2.4.11.orig/Source/WTF/wtf/text/WTFString.h webkitgtk-2.4.11
 +        : String(ucharFrom(characters), length) { }
 +
 +    String(const wchar_t* characters)
-+        : String(ucharFrom(characters)) { }
++        : String({ ucharFrom(characters), static_cast<size_t>(characters ? wcslen(characters) : 0) }) { }
 +
 +    WTF_EXPORT_PRIVATE Vector<wchar_t> wideCharacters() const;
 +#endif
