@@ -38,7 +38,7 @@ Requires:               python
 Requires:               sudo
 
 BuildRequires:		dotnet-runtime-%{DOTNET_VERSION}
-BuildRequires:		GtkSharp >= 3.24.24.36
+BuildRequires:		GtkSharp >= 3.24.24.37
 
 %description
 Easy management of applications for Linux 64 bit
@@ -100,20 +100,20 @@ Easy management of applications for macOS 64 bit
 dotnet new console
 dotnet add package NLog --version 5.4.0
 
-dotnet add package System.Security.Cryptography.Xml --version 9.0.3
-dotnet add package System.Security.Cryptography.Pkcs --version 9.0.3
-dotnet add package System.Security.Cryptography.ProtectedData --version 9.0.3
-dotnet add package System.Configuration.ConfigurationManager --version 9.0.3
+dotnet add package System.Security.Cryptography.Xml --version 9.0.4
+dotnet add package System.Security.Cryptography.Pkcs --version 9.0.4
+dotnet add package System.Security.Cryptography.ProtectedData --version 9.0.4
+dotnet add package System.Configuration.ConfigurationManager --version 9.0.4
 
-dotnet add package System.Runtime.Caching --version 9.0.3
+dotnet add package System.Runtime.Caching --version 9.0.4
 
-dotnet add package System.DirectoryServices --version 9.0.3
-dotnet add package System.DirectoryServices.AccountManagement --version 9.0.3
+dotnet add package System.DirectoryServices --version 9.0.4
+dotnet add package System.DirectoryServices.AccountManagement --version 9.0.4
 
-dotnet add package System.ServiceModel.Syndication --version 9.0.3
+dotnet add package System.ServiceModel.Syndication --version 9.0.4
 
-dotnet add package Microsoft.Extensions.Caching.Memory --version 9.0.3
-dotnet add package Microsoft.Extensions.Caching.Abstractions --version 9.0.3
+dotnet add package Microsoft.Extensions.Caching.Memory --version 9.0.4
+dotnet add package Microsoft.Extensions.Caching.Abstractions --version 9.0.4
 
 dotnet add package System.ServiceModel.Primitives --version 8.1.2
 dotnet add package System.ServiceModel.Http --version 8.1.2
@@ -126,13 +126,11 @@ dotnet add package System.CommandLine --version 2.0.0-beta4.22272.1
 dotnet add package IdentityModel.OidcClient --version 6.0.0
 
 dotnet add package Google.Apis.Auth --version 1.69.0
-dotnet add package Microsoft.Identity.Client --version 4.70.0
+dotnet add package Microsoft.Identity.Client --version 4.70.1
 
-dotnet add package Microsoft.IdentityModel.Protocols --version 8.7.0
+dotnet add package Microsoft.IdentityModel.Protocols --version 8.8.0
 
 dotnet add package Microsoft.Data.SqlClient --version 6.0.1
-
-#dotnet add package Keycloak.AuthServices.Sdk --version 2.5.3
 
 dotnet add package Mono.Data.Sqlite.Core --version 1.0.61.1
 
