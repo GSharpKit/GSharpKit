@@ -1,6 +1,21 @@
-diff -rupN --no-dereference jasper-version-2.0.33/src/libjasper/jp2/jp2_cod.h jasper-version-2.0.33-new/src/libjasper/jp2/jp2_cod.h
---- jasper-version-2.0.33/src/libjasper/jp2/jp2_cod.h	2021-08-01 22:50:31.000000000 +0200
-+++ jasper-version-2.0.33-new/src/libjasper/jp2/jp2_cod.h	2021-09-01 21:42:55.332371002 +0200
+diff -rupN --no-dereference jasper-version-4.2.4/src/libjasper/include/jasper/jas_image.h jasper-version-4.2.4-new/src/libjasper/include/jasper/jas_image.h
+--- jasper-version-4.2.4/src/libjasper/include/jasper/jas_image.h	2024-04-27 19:53:19.000000000 +0200
++++ jasper-version-4.2.4-new/src/libjasper/include/jasper/jas_image.h	2024-07-07 16:15:08.524209309 +0200
+@@ -861,9 +861,9 @@ int jp2_validate(jas_stream_t *in);
+ 
+ #if defined(JAS_INCLUDE_JPC_CODEC)
+ /* Format-dependent operations for JPEG-2000 code stream support. */
+-//JAS_EXPORT
++JAS_EXPORT
+ jas_image_t *jpc_decode(jas_stream_t *in, const char *optstr);
+-//JAS_EXPORT
++JAS_EXPORT
+ int jpc_encode(jas_image_t *image, jas_stream_t *out, const char *optstr);
+ //JAS_EXPORT
+ int jpc_validate(jas_stream_t *in);
+diff -rupN --no-dereference jasper-version-4.2.4/src/libjasper/jp2/jp2_cod.h jasper-version-4.2.4-new/src/libjasper/jp2/jp2_cod.h
+--- jasper-version-4.2.4/src/libjasper/jp2/jp2_cod.h	2024-04-27 19:53:19.000000000 +0200
++++ jasper-version-4.2.4-new/src/libjasper/jp2/jp2_cod.h	2024-07-07 16:15:08.524209309 +0200
 @@ -288,10 +288,10 @@ typedef struct jp2_boxinfo_s {
  * Box class.
  \******************************************************************************/

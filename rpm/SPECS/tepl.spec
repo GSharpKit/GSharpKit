@@ -19,7 +19,7 @@ BuildRequires:  pkgconfig(gobject-introspection-1.0)
 BuildRequires:  pkgconfig(gtk+-3.0)
 BuildRequires:  pkgconfig(gtksourceview-4)
 BuildRequires:  pkgconfig(libxml-2.0)
-BuildRequires:  pkgconfig(uchardet)
+#BuildRequires:  pkgconfig(uchardet)
 
 # the -tests subpackage was removed in F33
 Obsoletes:      tepl-tests < 4.99.2
@@ -40,7 +40,6 @@ editors and IDEs. Tepl is the acronym for “Text editor product line”.
 %meson_install
 
 rm -rf $RPM_BUILD_ROOT/usr/lib64/girepository-1.0/
-rm -rf $RPM_BUILD_ROOT/usr/share/gir-1.0
 rm -rf $RPM_BUILD_ROOT/usr/share/gtk-doc
 rm -rf $RPM_BUILD_ROOT/usr/share/locale
 
@@ -49,6 +48,7 @@ rm -rf $RPM_BUILD_ROOT/usr/share/locale
 %{_includedir}/tepl-%{apiver}/
 %{_libdir}/libtepl-%{apiver}.so
 %{_libdir}/pkgconfig/tepl-%{apiver}.pc
+%{_datadir}/gir-1.0/Tepl-6.gir
 
 %changelog
 * Wed Mar 24 2021 Kalev Lember <klember@redhat.com> - 6.00.0-1
