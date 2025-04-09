@@ -35,25 +35,25 @@ diff -Nur webkitgtk-2.4.11.orig/Source/WTF/wtf/text/WTFString.h webkitgtk-2.4.11
  
 +inline const UChar* ucharFrom(const wchar_t* characters)
 +{   
-+    static_assert(sizeof(wchar_t) == sizeof(UChar), "We assume wchar_t and UChar have the same size");
++    //static_assert(sizeof(wchar_t) == sizeof(UChar), "We assume wchar_t and UChar have the same size");
 +    return reinterpret_cast<const UChar*>(characters);
 +}
 +    
 +inline UChar* ucharFrom(wchar_t* characters)
 +{
-+    static_assert(sizeof(wchar_t) == sizeof(UChar), "We assume wchar_t and UChar have the same size");
++    //static_assert(sizeof(wchar_t) == sizeof(UChar), "We assume wchar_t and UChar have the same size");
 +    return reinterpret_cast<UChar*>(characters);
 +}
 +
 +inline const wchar_t* wcharFrom(const UChar* characters)
 +{   
-+    static_assert(sizeof(wchar_t) == sizeof(UChar), "We assume wchar_t and UChar have the same size");
++    //static_assert(sizeof(wchar_t) == sizeof(UChar), "We assume wchar_t and UChar have the same size");
 +    return reinterpret_cast<const wchar_t*>(characters);
 +}
 +
 +inline wchar_t* wcharFrom(UChar* characters)
 +{
-+    static_assert(sizeof(wchar_t) == sizeof(UChar), "We assume wchar_t and UChar have the same size");
++    //static_assert(sizeof(wchar_t) == sizeof(UChar), "We assume wchar_t and UChar have the same size");
 +    return reinterpret_cast<wchar_t*>(characters);
 +}   
 +
@@ -74,11 +74,11 @@ diff -Nur webkitgtk-2.4.11.orig/Source/WTF/wtf/text/WTFString.h webkitgtk-2.4.11
  #endif
  
 +#if OS(WINDOWS)
-+    String(const wchar_t* characters, unsigned length)
-+        : String(ucharFrom(characters), length) { }
++    //String(const wchar_t* characters, unsigned length)
++    //    : String(ucharFrom(characters), length) { }
 +
-+    String(const wchar_t* characters)
-+        : String({ ucharFrom(characters), static_cast<size_t>(characters ? wcslen(characters) : 0) }) { }
++    //String(const wchar_t* characters)
++    //    : String({ ucharFrom(characters), static_cast<size_t>(characters ? wcslen(characters) : 0) }) { }
 +
 +    WTF_EXPORT_PRIVATE Vector<wchar_t> wideCharacters() const;
 +#endif

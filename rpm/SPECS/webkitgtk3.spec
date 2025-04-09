@@ -36,6 +36,7 @@ Patch8:         webkitgtk-2.4.11-bison.patch
 Patch9:         webkitgtk-2.4.11-context-menu.patch
 Patch10:        webkitgtk-2.4.11-right-click.patch
 Patch11:	webkitgtk-2.4.11-growPropertyStorage.patch
+Patch12:        webkitgtk-2.4.11-wchar.patch
 
 BuildRequires:  at-spi2-core-devel
 BuildRequires:  bison
@@ -110,6 +111,7 @@ This package contains developer documentation for %{name}.
 %patch 9 -p1
 %patch 10 -p1
 %patch 11 -p0
+%patch 12 -p1
 
 %build
 # Use linker flags to reduce memory consumption
@@ -138,9 +140,16 @@ This package contains developer documentation for %{name}.
 
 %configure                                                      \
                         --with-gtk=3.0                          \
-                        --disable-webkit2                       \
+                        --disable-web-audio                     \
+                        --disable-video                         \
+                        --disable-webgl                         \
+                        --disable-accelerated-compositing       \
                         --disable-jit                           \
-                        --enable-introspection
+                        --disable-egl                           \
+                        --disable-credential-storage            \
+                        --disable-geolocation                   \
+                        --disable-webkit2                       \
+                        --disable-gtk-doc-html
 
 mkdir -p DerivedSources/webkit
 mkdir -p DerivedSources/WebCore
@@ -149,11 +158,12 @@ mkdir -p DerivedSources/WebKit2
 mkdir -p DerivedSources/webkitdom/
 mkdir -p DerivedSources/InjectedBundle
 mkdir -p DerivedSources/Platform
+mkdir -p DerivedSources/WebKit2/webkit2gtk/webkit2
 
 # Disable the parallel compilation as it fails to compile in brew.
 # https://bugs.webkit.org/show_bug.cgi?id=34846
-# make %{_smp_mflags} V=1
-make -j1 V=1
+make %{_smp_mflags} V=1
+#make -j1 V=1
 
 %install
 make install DESTDIR=%{buildroot}

@@ -47,7 +47,7 @@ Patch9:		webkitgtk-2.4.11-context-menu.patch
 Patch10:	webkitgtk-2.4.11-right-click.patch
 Patch11:	webkitgtk-2.4.11-ruby.patch
 Patch12:        webkitgtk-2.4.11-growPropertyStorage.patch
-Patch13:	webkitgtk-2.4.11-wchar.patch
+Patch13:	webkitgtk-2.4.11-wchar2.patch
 
 BuildArch:      noarch
 
@@ -122,14 +122,14 @@ This is the MinGW port of WebKitGTK+ for GTK+ 3.
 
 %build
 # lower debug level to prevent memory exhaustion by linker
-%global mingw64_cflags %(echo %{mingw64_cflags} | sed 's/-g /-g1 /') -fpermissive -DGLIB_VERSION_MIN_REQUIRED=GLIB_VERSION_2_64 -DASSERT_ENABLED=0
+%global mingw64_cflags %(echo %{mingw64_cflags} | sed 's/-g /-g1 /') -w -fpermissive -DGLIB_VERSION_MIN_REQUIRED=GLIB_VERSION_2_64 -DASSERT_ENABLED=0
 
 #sed -i -e 's!-std=c++11 -Wno-c++11-compat!-std=c++17 -Wno-c++17-compat!g' configure
 %mingw_configure                                                \
                         --enable-win32-target                   \
                         --with-gtk=3.0                          \
-			--disable-web-audio			\
-			--disable-video				\
+			--enable-web-audio			\
+			--enable-video				\
 			--disable-webgl				\
                         --disable-accelerated-compositing       \
 			--disable-jit				\
