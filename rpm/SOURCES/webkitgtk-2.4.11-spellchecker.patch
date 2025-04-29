@@ -1,0 +1,56 @@
+diff -Nur webkitgtk-2.4.11.orig/Source/WebKit/gtk/webkit/webkitglobals.cpp webkitgtk-2.4.11/Source/WebKit/gtk/webkit/webkitglobals.cpp
+--- webkitgtk-2.4.11.orig/Source/WebKit/gtk/webkit/webkitglobals.cpp	2016-04-10 08:48:37.000000000 +0200
++++ webkitgtk-2.4.11/Source/WebKit/gtk/webkit/webkitglobals.cpp	2025-04-29 14:38:33.576316473 +0200
+@@ -277,6 +277,7 @@
+     return G_OBJECT(textChecker.get());
+ }
+ 
++#if defined(ENABLE_SPELLCHECKER_XXX)
+ /**
+  * webkit_set_text_checker:
+  * @checker: a #WebKitSpellChecker or %NULL
+@@ -298,6 +299,7 @@
+     // is not kosher.
+     textChecker = checker ? WEBKIT_SPELL_CHECKER(checker) : 0;
+ }
++#endif
+ 
+ /**
+  * webkit_context_menu_item_get_action:
+diff -Nur webkitgtk-2.4.11.orig/Source/WebKit/gtk/webkit/webkitspellchecker.cpp webkitgtk-2.4.11/Source/WebKit/gtk/webkit/webkitspellchecker.cpp
+--- webkitgtk-2.4.11.orig/Source/WebKit/gtk/webkit/webkitspellchecker.cpp	2016-04-10 08:48:37.000000000 +0200
++++ webkitgtk-2.4.11/Source/WebKit/gtk/webkit/webkitspellchecker.cpp	2025-04-29 14:35:36.197872778 +0200
+@@ -17,6 +17,9 @@
+  */
+ 
+ #include "config.h"
++
++#if defined(ENABLE_SPELLCHECK_XXX)
++
+ #include "webkitspellchecker.h"
+ 
+ /**
+@@ -170,3 +173,5 @@
+     if (interface->ignore_word)
+         interface->ignore_word(checker, word);
+ }
++
++#endif
+diff -Nur webkitgtk-2.4.11.orig/Source/WebKit/gtk/webkit/webkitspellchecker.h webkitgtk-2.4.11/Source/WebKit/gtk/webkit/webkitspellchecker.h
+--- webkitgtk-2.4.11.orig/Source/WebKit/gtk/webkit/webkitspellchecker.h	2016-04-10 08:48:37.000000000 +0200
++++ webkitgtk-2.4.11/Source/WebKit/gtk/webkit/webkitspellchecker.h	2025-04-29 14:35:43.055417586 +0200
+@@ -20,6 +20,8 @@
+ #ifndef webkitspellchecker_h
+ #define webkitspellchecker_h
+ 
++#if defined(ENABLE_SPELLCHECK_XXX)
++
+ #include "webkitdefines.h"
+ #include <glib-object.h>
+ 
+@@ -67,4 +69,5 @@
+ G_END_DECLS
+ 
+ #endif
++#endif
+ 

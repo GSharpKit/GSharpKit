@@ -13,7 +13,7 @@
 
 Name:           webkitgtk3
 Version:        2.4.12
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        GTK+ Web content engine library
 
 Group:          Development/Libraries
@@ -37,6 +37,7 @@ Patch9:         webkitgtk-2.4.11-context-menu.patch
 Patch10:        webkitgtk-2.4.11-right-click.patch
 Patch11:	webkitgtk-2.4.11-growPropertyStorage.patch
 Patch12:        webkitgtk-2.4.11-wchar.patch
+Patch14:        webkitgtk-2.4.11-icu76.patch
 
 BuildRequires:  at-spi2-core-devel
 BuildRequires:  bison
@@ -112,6 +113,7 @@ This package contains developer documentation for %{name}.
 %patch 10 -p1
 %patch 11 -p0
 %patch 12 -p1
+%patch 14 -p1
 
 %build
 # Use linker flags to reduce memory consumption
@@ -140,8 +142,8 @@ This package contains developer documentation for %{name}.
 
 %configure                                                      \
                         --with-gtk=3.0                          \
-                        --disable-web-audio                     \
-                        --disable-video                         \
+                        --enable-web-audio                      \
+                        --enable-video                          \
                         --disable-webgl                         \
                         --disable-accelerated-compositing       \
                         --disable-jit                           \
@@ -162,8 +164,8 @@ mkdir -p DerivedSources/WebKit2/webkit2gtk/webkit2
 
 # Disable the parallel compilation as it fails to compile in brew.
 # https://bugs.webkit.org/show_bug.cgi?id=34846
-make %{_smp_mflags} V=1
-#make -j1 V=1
+#make %{_smp_mflags} V=1
+make -j1 V=1
 
 %install
 make install DESTDIR=%{buildroot}

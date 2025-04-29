@@ -20,7 +20,7 @@
 %define LIBJPEG_TURBO_VERSION 1.5.3
 %define LIBTIFF_VERSION 4.0.9
 %define CAIRO_VERSION 1.16.0
-%define ICU_VERSION 57.1
+%define ICU_VERSION 74.2
 %define HARFBUZZ_VERSION 2.6.8
 %define FRIBIDI_VERSION 1.0.10
 %define PANGO_VERSION 1.44.7
@@ -82,7 +82,7 @@
 #### DEFINES
 %define DOTNET_VERSION 8.0
 
-%define major_version 41
+%define major_version 42
 %define minor_version 0
 
 %define linux_prefix /usr/lib64
@@ -91,7 +91,7 @@
 Summary: 		Easy management of applications
 Name: 			GSharpKit
 Version:		%{major_version}.%{minor_version}
-Release:		1%{?dist}
+Release:		2%{?dist}
 License:		GPL
 Group: 			Applications/Desktop
 Source1:		gsharpkit.repo
@@ -200,6 +200,7 @@ Requires:               mingw64-libjpeg-turbo >= %{LIBJPEG_TURBO_VERSION}
 Requires:               mingw64-libtiff >= %{LIBTIFF_VERSION}
 Requires:               mingw64-cairo >= %{CAIRO_VERSION}
 Requires:               mingw64-icu >= %{ICU_VERSION}
+Requires:               mingw64-icu74 >= %{ICU_VERSION}
 Requires:               mingw64-harfbuzz >= %{HARFBUZZ_VERSION}
 Requires:               mingw64-fribidi >= %{FRIBIDI_VERSION}
 Requires:               mingw64-pango >= %{PANGO_VERSION}

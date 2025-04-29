@@ -14,7 +14,7 @@
 
 Name:           mingw-webkitgtk3
 Version:        2.4.12
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        MinGW Windows GTK+ Web content engine library
 
 Group:          Development/Libraries
@@ -48,6 +48,8 @@ Patch10:	webkitgtk-2.4.11-right-click.patch
 Patch11:	webkitgtk-2.4.11-ruby.patch
 Patch12:        webkitgtk-2.4.11-growPropertyStorage.patch
 Patch13:	webkitgtk-2.4.11-wchar2.patch
+Patch14:	webkitgtk-2.4.11-winsock.patch
+Patch15:	webkitgtk-2.4.11-spellchecker.patch
 
 BuildArch:      noarch
 
@@ -81,7 +83,7 @@ BuildRequires:  mingw64-libxml2
 BuildRequires:  mingw64-libxslt
 BuildRequires:  mingw64-winpthreads
 BuildRequires:  mingw64-sqlite
-BuildRequires:	mingw64-icu
+BuildRequires:	mingw64-icu74
 
 %description
 WebKitGTK+ is an open-source Web content engine library.
@@ -118,6 +120,8 @@ This is the MinGW port of WebKitGTK+ for GTK+ 3.
 %patch 11 -p1
 %patch 12 -p0
 %patch 13 -p1
+%patch 14 -p1
+%patch 15 -p1
 
 
 %build
@@ -137,6 +141,7 @@ This is the MinGW port of WebKitGTK+ for GTK+ 3.
                         --disable-credential-storage            \
                         --disable-geolocation                   \
                         --disable-webkit2                       \
+			--disable-spellcheck			\
                         --disable-gtk-doc-html
 
 %mingw_make %{?_smp_mflags} V=1

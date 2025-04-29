@@ -1,0 +1,201 @@
+diff -Nur webkitgtk-2.4.11.orig/Source/JavaScriptCore/runtime/Completion.cpp webkitgtk-2.4.11/Source/JavaScriptCore/runtime/Completion.cpp
+--- webkitgtk-2.4.11.orig/Source/JavaScriptCore/runtime/Completion.cpp	2016-04-10 08:48:36.000000000 +0200
++++ webkitgtk-2.4.11/Source/JavaScriptCore/runtime/Completion.cpp	2025-03-30 13:22:10.020525529 +0200
+@@ -61,6 +61,7 @@
+ 
+ JSValue evaluate(ExecState* exec, const SourceCode& source, JSValue thisValue, JSValue* returnedException)
+ {
++    return jsUndefined();
+     JSLockHolder lock(exec);
+     RELEASE_ASSERT(exec->vm().identifierTable == wtfThreadData().currentIdentifierTable());
+     RELEASE_ASSERT(!exec->vm().isCollectorBusy());
+diff -Nur webkitgtk-2.4.11.orig/Source/WebCore/plugins/win/PluginDatabaseWin.cpp webkitgtk-2.4.11/Source/WebCore/plugins/win/PluginDatabaseWin.cpp
+--- webkitgtk-2.4.11.orig/Source/WebCore/plugins/win/PluginDatabaseWin.cpp	2016-04-10 08:48:37.000000000 +0200
++++ webkitgtk-2.4.11/Source/WebCore/plugins/win/PluginDatabaseWin.cpp	2025-03-30 12:37:24.745393361 +0200
+@@ -69,6 +69,9 @@
+ 
+ static inline void addPluginPathsFromRegistry(HKEY rootKey, HashSet<String>& paths)
+ {
++#if !OS(WINCE)
++        return;
++#else
+     HKEY key;
+     HRESULT result = RegOpenKeyExW(rootKey, L"Software\\MozillaPlugins", 0, KEY_ENUMERATE_SUB_KEYS, &key);
+ 
+@@ -98,10 +101,12 @@
+     }
+ 
+     RegCloseKey(key);
++#endif
+ }
+ 
+ void PluginDatabase::getPluginPathsInDirectories(HashSet<String>& paths) const
+ {
++#if OS(WINCE)
+     // FIXME: This should be a case insensitive set.
+     HashSet<String> uniqueFilenames;
+ 
+@@ -152,6 +157,7 @@
+     // we remove the old one so we don't end up choosing the old one.
+     if (!oldWMPPluginPath.isEmpty() && !newWMPPluginPath.isEmpty())
+         paths.remove(oldWMPPluginPath);
++#endif
+ }
+ 
+ static inline Vector<int> parseVersionString(const String& versionString)
+@@ -194,6 +200,9 @@
+ 
+ static inline void addMozillaPluginDirectories(Vector<String>& directories)
+ {
++#if !OS(WINCE)
++        return;
++#else
+     // Enumerate all Mozilla plugin directories in the registry
+     HKEY key;
+     LONG result;
+@@ -234,11 +243,16 @@
+         
+         RegCloseKey(key);
+     }
++#endif
+ }
+ 
+ static inline void addWindowsMediaPlayerPluginDirectory(Vector<String>& directories)
+ {
+ #if !OS(WINCE)
++        return;
++#else
++
++#if !OS(WINCE)
+     // The new WMP Firefox plugin is installed in \PFiles\Plugins if it can't find any Firefox installs
+     WCHAR pluginDirectoryStr[_MAX_PATH + 1];
+     DWORD pluginDirectorySize = ::ExpandEnvironmentStringsW(TEXT("%SYSTEMDRIVE%\\PFiles\\Plugins"), pluginDirectoryStr, WTF_ARRAY_LENGTH(pluginDirectoryStr));
+@@ -255,10 +269,15 @@
+ 
+     if (result == ERROR_SUCCESS && type == REG_SZ)
+         directories.append(String(installationDirectoryStr, installationDirectorySize / sizeof(WCHAR) - 1));
++#endif
+ }
+ 
+ static inline void addQuickTimePluginDirectory(Vector<String>& directories)
+ {
++#if !OS(WINCE)
++        return;
++#else
++
+     DWORD type;
+     WCHAR installationDirectoryStr[_MAX_PATH];
+     DWORD installationDirectorySize = sizeof(installationDirectoryStr);
+@@ -269,10 +288,14 @@
+         String pluginDir = String(installationDirectoryStr, installationDirectorySize / sizeof(WCHAR) - 1) + "\\plugins";
+         directories.append(pluginDir);
+     }
++#endif
+ }
+ 
+ static inline void addAdobeAcrobatPluginDirectory(Vector<String>& directories)
+ {
++#if !OS(WINCE)
++        return;
++#else
+     HKEY key;
+     HRESULT result = RegOpenKeyEx(HKEY_LOCAL_MACHINE, TEXT("Software\\Adobe\\Acrobat Reader"), 0, KEY_READ, &key);
+     if (result != ERROR_SUCCESS)
+@@ -314,10 +337,14 @@
+     }
+ 
+     RegCloseKey(key);
++#endif
+ }
+ 
+ static inline void addJavaPluginDirectory(Vector<String>& directories)
+ {
++#if !OS(WINCE)
++	return;
++#else
+     HKEY key;
+     HRESULT result = RegOpenKeyEx(HKEY_LOCAL_MACHINE, TEXT("Software\\JavaSoft\\Java Plug-in"), 0, KEY_READ, &key);
+     if (result != ERROR_SUCCESS)
+@@ -364,12 +391,14 @@
+     }
+ 
+     RegCloseKey(key);
++#endif
+ }
+ 
+ static inline String safariPluginsDirectory()
+ {
+-    WCHAR moduleFileNameStr[_MAX_PATH];
+     static String pluginsDirectory;
++#if OS(WINCE)
++    WCHAR moduleFileNameStr[_MAX_PATH];
+     static bool cachedPluginDirectory = false;
+ 
+     if (!cachedPluginDirectory) {
+@@ -385,13 +414,14 @@
+ 
+         pluginsDirectory = String(moduleFileNameStr) + "\\Plugins";
+     }
++#endif
+ exit:
+     return pluginsDirectory;
+ }
+ 
+ static inline void addMacromediaPluginDirectories(Vector<String>& directories)
+ {
+-#if !OS(WINCE)
++#if OS(WINCE)
+     WCHAR systemDirectoryStr[MAX_PATH];
+ 
+     if (!GetSystemDirectory(systemDirectoryStr, WTF_ARRAY_LENGTH(systemDirectoryStr)))
+@@ -410,6 +440,7 @@
+ Vector<String> PluginDatabase::defaultPluginDirectories()
+ {
+     Vector<String> directories;
++    return directories;
+     String ourDirectory = safariPluginsDirectory();
+ 
+     if (!ourDirectory.isNull())
+diff -Nur webkitgtk-2.4.11.orig/Source/WTF/wtf/text/WTFString.h webkitgtk-2.4.11/Source/WTF/wtf/text/WTFString.h
+--- webkitgtk-2.4.11.orig/Source/WTF/wtf/text/WTFString.h	2016-04-10 08:48:36.000000000 +0200
++++ webkitgtk-2.4.11/Source/WTF/wtf/text/WTFString.h	2025-03-30 13:01:12.792973930 +0200
+@@ -34,6 +34,30 @@
+ 
+ namespace WTF {
+ 
++inline const UChar* ucharFrom(const wchar_t* characters)
++{   
++    static_assert(sizeof(wchar_t) == sizeof(UChar), "We assume wchar_t and UChar have the same size");
++    return reinterpret_cast<const UChar*>(characters);
++}
++    
++inline UChar* ucharFrom(wchar_t* characters)
++{
++    static_assert(sizeof(wchar_t) == sizeof(UChar), "We assume wchar_t and UChar have the same size");
++    return reinterpret_cast<UChar*>(characters);
++}
++
++inline const wchar_t* wcharFrom(const UChar* characters)
++{   
++    static_assert(sizeof(wchar_t) == sizeof(UChar), "We assume wchar_t and UChar have the same size");
++    return reinterpret_cast<const wchar_t*>(characters);
++}
++
++inline wchar_t* wcharFrom(UChar* characters)
++{
++    static_assert(sizeof(wchar_t) == sizeof(UChar), "We assume wchar_t and UChar have the same size");
++    return reinterpret_cast<wchar_t*>(characters);
++}   
++
+ class CString;
+ struct StringHash;
+ 
+@@ -685,6 +709,8 @@
+ using WTF::isSpaceOrNewline;
+ using WTF::reverseFind;
+ using WTF::ASCIILiteral;
++using WTF::ucharFrom;
++using WTF::wcharFrom;
+ 
+ #include <wtf/text/AtomicString.h>
+ #endif

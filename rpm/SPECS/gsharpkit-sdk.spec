@@ -3,7 +3,7 @@
 #### DEFINE VERSIONS
 %define DOTNET_VERSION 8.0
 
-%define major_version 41
+%define major_version 42
 %define minor_version 0
 %define sdk_version 100
 
@@ -14,7 +14,7 @@
 Name: 			GSharpKit-sdk-%{major_version}
 Summary: 		Easy management of applications
 Version:		%{major_version}.%{minor_version}.%{sdk_version}
-Release:		1%{?dist}
+Release:		2%{?dist}
 License:		GPL
 Group: 			Applications/Desktop
 URL:			http://www.gsharpkit.com
@@ -100,20 +100,20 @@ Easy management of applications for macOS 64 bit
 dotnet new console
 dotnet add package NLog --version 5.4.0
 
-dotnet add package System.Security.Cryptography.Xml --version 9.0.4
-dotnet add package System.Security.Cryptography.Pkcs --version 9.0.4
-dotnet add package System.Security.Cryptography.ProtectedData --version 9.0.4
-dotnet add package System.Configuration.ConfigurationManager --version 9.0.4
+dotnet add package System.Security.Cryptography.Xml --version 8.0.2
+dotnet add package System.Security.Cryptography.Pkcs --version 8.0.1
+dotnet add package System.Security.Cryptography.ProtectedData --version 8.0.0
+dotnet add package System.Configuration.ConfigurationManager --version 8.0.1
 
-dotnet add package System.Runtime.Caching --version 9.0.4
+dotnet add package System.Runtime.Caching --version 8.0.1
 
-dotnet add package System.DirectoryServices --version 9.0.4
-dotnet add package System.DirectoryServices.AccountManagement --version 9.0.4
+dotnet add package System.DirectoryServices --version 8.0.0
+dotnet add package System.DirectoryServices.AccountManagement --version 8.0.1
 
-dotnet add package System.ServiceModel.Syndication --version 9.0.4
+dotnet add package System.ServiceModel.Syndication --version 8.0.0
 
-dotnet add package Microsoft.Extensions.Caching.Memory --version 9.0.4
-dotnet add package Microsoft.Extensions.Caching.Abstractions --version 9.0.4
+dotnet add package Microsoft.Extensions.Caching.Memory --version 8.0.1
+dotnet add package Microsoft.Extensions.Caching.Abstractions --version 8.0.0
 
 dotnet add package System.ServiceModel.Primitives --version 8.1.2
 dotnet add package System.ServiceModel.Http --version 8.1.2
