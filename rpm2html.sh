@@ -29,7 +29,7 @@ fontconfig
 libjpeg-turbo
 libtiff
 cairo
-icu
+icu74
 harfbuzz
 fribidi
 pango
