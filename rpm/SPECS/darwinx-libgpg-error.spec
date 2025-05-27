@@ -1,5 +1,5 @@
 Name:           darwinx-libgpg-error
-Version:        1.47
+Version:        1.55
 Release:        1%{?dist}
 Summary:        Darwin Windows GnuPGP error library
 

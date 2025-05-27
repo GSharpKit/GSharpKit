@@ -1,12 +1,12 @@
 Name:           darwinx-glib2
-Version:        2.78.3
+Version:        2.84.2
 Release:        1%{?dist}
 Summary:        Darwin GLib2 library
 
 License:        LGPLv2+
 Group:          Development/Libraries
 URL:            http://www.gtk.org
-Source0:        http://download.gnome.org/sources/glib/2.78/glib-%{version}.tar.xz
+Source0:        http://download.gnome.org/sources/glib/2.84/glib-%{version}.tar.xz
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:  darwinx-filesystem >= 109
@@ -35,12 +35,15 @@ Darwin Glib2 library
 %build
 %darwinx_meson \
 	-Dtests=false \
-	-Dman=false \
-	-Ddtrace=false \
-	-Dsystemtap=true \
-	-Dgtk_doc=false \
+	-Dman-pages=disabled \
+	-Ddtrace=disabled \
+	-Dsystemtap=disabled \
+	-Dsysprof=disabled \
+	-Ddocumentation=false \
 	-Dlibelf=disabled \
+	-Dglib_debug=disabled \
 	-Dglib_assert=false \
+	-Dintrospection=disabled \
 	-Dbsymbolic_functions=true \
 	-Dinstalled_tests=false
 
@@ -81,6 +84,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_darwinx_bindir}/gresource
 %{_darwinx_bindir}/gsettings
 #{_darwinx_bindir}/gio-launch-desktop
+%{_darwinx_bindir}/gi-compile-repository
+%{_darwinx_bindir}/gi-decompile-typelib
+%{_darwinx_bindir}/gi-inspect-typelib
 %{_darwinx_includedir}/gio-unix-2.0/
 %{_darwinx_includedir}/glib-2.0/
 %{_darwinx_libdir}/glib-2.0/
@@ -100,6 +106,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_darwinx_libdir}/libgthread-2.0.0.dylib
 %{_darwinx_libdir}/libgthread-2.0.dylib
 #{_darwinx_libdir}/libgthread-2.0.la
+%{_darwinx_libdir}/libgirepository-2.0.0.dylib
+%{_darwinx_libdir}/libgirepository-2.0.dylib
 %{_darwinx_libdir}/pkgconfig/gio-2.0.pc
 %{_darwinx_libdir}/pkgconfig/gio-unix-2.0.pc
 %{_darwinx_libdir}/pkgconfig/glib-2.0.pc
@@ -108,6 +116,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_darwinx_libdir}/pkgconfig/gmodule-no-export-2.0.pc
 %{_darwinx_libdir}/pkgconfig/gobject-2.0.pc
 %{_darwinx_libdir}/pkgconfig/gthread-2.0.pc
+%{_darwinx_libdir}/pkgconfig/girepository-2.0.pc
 %{_darwinx_datadir}/aclocal/glib-2.0.m4
 %{_darwinx_datadir}/aclocal/glib-gettext.m4
 %{_darwinx_datadir}/aclocal/gsettings.m4
@@ -119,7 +128,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_darwinx_datadir}/bash-completion/completions/gio
 %{_darwinx_datadir}/gettext/its/gschema.its
 %{_darwinx_datadir}/gettext/its/gschema.loc
-
 
 %changelog
 * Sat May  8 2010 Erik van Pienbroek <epienbro@fedoraproject.org> - 2.24.1-1

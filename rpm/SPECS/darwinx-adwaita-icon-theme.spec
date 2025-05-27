@@ -1,5 +1,5 @@
 Name:           darwinx-adwaita-icon-theme
-Version:        44.0
+Version:        48.0
 Release:        1%{?dist}
 Summary:        Adwaita Mac OS X icon theme
 
@@ -18,16 +18,16 @@ This package contains the Adwaita Mac OS X icon theme used by the GNOME desktop.
 %setup -q -n adwaita-icon-theme-%{version}
 
 %build
-NOCONFIGURE=yes sh autogen.sh
-%{_darwinx_configure}
-make %{?_smp_mflags}
+%darwinx_meson
+
+%darwinx_meson_build
 
 %install
-rm -rf $RPM_BUILD_ROOT
-make DESTDIR=$RPM_BUILD_ROOT install
+%darwinx_meson_install
 
 %files
 %defattr(-,root,wheel)
+%{_darwinx_datadir}/licenses/adwaita-icon-theme
 %{_darwinx_datadir}/icons/Adwaita
 %{_darwinx_datadir}/pkgconfig/adwaita-icon-theme.pc
 

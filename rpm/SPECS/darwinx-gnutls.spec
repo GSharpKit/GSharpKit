@@ -1,5 +1,5 @@
 Name:           darwinx-gnutls
-Version:        3.8.3
+Version:        3.8.9
 Release:        1%{?dist}
 Summary:        GnuTLS TLS/SSL encryption library
 

@@ -1,11 +1,11 @@
 Name:           darwinx-wavpack
-Version:        5.6.0
+Version:        5.8.1
 Release:        1%{?dist}
 Summary:        WavPack is a completely open audio compression format
 License:        BSD
 Group:          Development/Libraries
 URL:            https://www.wavpack.com
-Source0:        https://www.wavpack.com/wavpack-%{version}.tar.xz
+Source0:        https://www.wavpack.com/wavpack-%{version}.tar.bz2
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:  darwinx-filesystem >= 7

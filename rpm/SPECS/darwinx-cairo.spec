@@ -1,5 +1,5 @@
 Name:           darwinx-cairo
-Version:        1.18.0
+Version:        1.18.4
 Release:        1%{?dist}
 Summary:        Darwin Cairo library
 
@@ -40,6 +40,8 @@ Darwin Cairo library.
 	-Dsymbol-lookup=disabled \
 	-Dspectre=disabled \
 	-Dtests=disabled \
+	-Dfreetype=enabled \
+	-Dlzo=disabled \
 	-Dgtk_doc=false
 
 %darwinx_meson_build

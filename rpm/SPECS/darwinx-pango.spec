@@ -1,12 +1,12 @@
 Name:           darwinx-pango
-Version:        1.51.0
+Version:        1.56.3
 Release:        1%{?dist}
 Summary:        Darwin Pango library
 
 License:        LGPLv2+
 Group:          Development/Libraries
 URL:            http://www.pango.org
-Source0:        http://download.gnome.org/sources/pango/1.44/pango-%{version}.tar.xz
+Source0:        http://download.gnome.org/sources/pango/1.56/pango-%{version}.tar.xz
 
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
@@ -46,10 +46,11 @@ Darwin Pango library.
 
 %build
 %darwinx_meson \
-    -Dgtk_doc=false \
+    -Ddocumentation=false \
     -Dintrospection=disabled \
-    -Dinstall-tests=false \
     -Dlibthai=disabled \
+    -Dbuild-testsuite=false \
+    -Dbuild-examples=false \
     -Dxft=disabled
 
 %darwinx_meson_build

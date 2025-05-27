@@ -5,4 +5,4 @@ NAME=GSharpKit
 PREFIX=/Library/$NAME
 SYMLINK=/Library/$NAME
 
-sudo pip3 install meson 
+sudo pip3 install --upgrade meson 

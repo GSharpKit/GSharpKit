@@ -1,5 +1,5 @@
 Name:           darwinx-p11-kit
-Version:        0.25.3
+Version:        0.25.5
 Release:        1%{?dist}
 Summary:        Library for loading and sharing PKCS#11 modules
 
@@ -32,7 +32,7 @@ such a way that they're discoverable.
 
 %prep
 %setup -q -n p11-kit-%{version}
-%patch 0 -p1
+#patch 0 -p1
 
 pushd subprojects
 rm -rf pkcs11-json 
@@ -74,6 +74,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_darwinx_includedir}/p11-kit-1/p11-kit/uri.h
 %{_darwinx_includedir}/p11-kit-1/p11-kit/iter.h
 %{_darwinx_includedir}/p11-kit-1/p11-kit/deprecated.h
+%{_darwinx_includedir}/p11-kit-1/p11-kit/version.h
 %{_darwinx_libdir}/libp11-kit.0.dylib
 %{_darwinx_libdir}/libp11-kit.dylib
 %{_darwinx_libdir}/pkcs11/p11-kit-client.so

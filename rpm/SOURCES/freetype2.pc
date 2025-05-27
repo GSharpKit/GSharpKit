@@ -6,7 +6,7 @@ includedir="/Library/Frameworks/GSharpKit/include/freetype2"
 Name: FreeType 2
 URL: http://freetype.org
 Description: A free, high-quality, and portable font engine.
-Version: 21.0.15
+Version: 26.2.20
 Requires:
 Requires.private: 
 Libs: -L${libdir} -lfreetype

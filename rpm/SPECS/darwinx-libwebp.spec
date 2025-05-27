@@ -1,10 +1,10 @@
 Name:           darwinx-libwebp
-Version:        1.3.2
+Version:        1.5.0
 Release:        1%{?dist}
 Summary:        Library and tools for the WebP graphics format
 License:        BSD
 Group:          Development/Libraries
-URL:            http://webmproject.org/
+URL:            https://storage.googleapis.com/downloads.webmproject.org/releases/webp/
 Source0:        libwebp-%{version}.tar.gz
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 

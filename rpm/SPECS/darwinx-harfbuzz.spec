@@ -1,5 +1,5 @@
 Name:           darwinx-harfbuzz
-Version:        8.2.1
+Version:        10.4.0
 Release:        1%{?dist}
 Summary:        Darwin Text shaping library
 

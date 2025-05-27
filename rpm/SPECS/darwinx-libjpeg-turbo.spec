@@ -1,5 +1,5 @@
 Name:           darwinx-libjpeg-turbo
-Version:        2.1.5.1
+Version:        3.1.0
 Release:        1%{?dist}
 Summary:        libjpeg-turbo is the official PNG reference library.
 

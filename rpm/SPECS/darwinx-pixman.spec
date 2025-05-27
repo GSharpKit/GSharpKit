@@ -1,12 +1,12 @@
 Name:           darwinx-pixman
-Version:        0.43.0
+Version:        0.44.2
 Release:        1%{?dist}
 Summary:        Pixman is a low-level software library for pixel manipulation
 
 License:        MIT
 Group:          Development/Libraries
 URL:            http://cairographics.org/releases/
-Source0:        http://cairographics.org/releases/pixman-%{version}.tar.gz
+Source0:        http://cairographics.org/releases/pixman-%{version}.tar.xz
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:  darwinx-filesystem >= 18
@@ -31,26 +31,15 @@ users of pixman are the cairo graphics library and the X server.
 	-Ddemos=disabled \
 	-Dloongson-mmi=disabled \
 	-Dvmx=disabled \
-	-Diwmmxt=disabled \
 	-Dmips-dspr2=disabled \
 	-Dopenmp=disabled \
-%ifarch x86_64
-	-Dmmx=enabled \
-        -Dsse2=enabled \
-        -Dssse3=enabled \
-	-Diwmmxt2=false \
-        -Darm-simd=disabled \
-        -Da64-neon=disabled \
-        -Dneon=disabled
-%else
-	-Diwmmxt2=true \
-	-Darm-simd=enabled \
-	-Da64-neon=enabled \
-        -Dneon=enabled \
+	-Darm-simd=disabled \
+	-Da64-neon=disabled \
+        -Dneon=disabled \
         -Dmmx=disabled \
+        -Drvv=disabled \
         -Dsse2=disabled \
         -Dssse3=disabled
-%endif	
 
 %darwinx_meson_build
 

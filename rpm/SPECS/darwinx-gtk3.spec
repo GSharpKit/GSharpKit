@@ -1,12 +1,12 @@
 Name:           darwinx-gtk3
-Version:        3.24.43
+Version:        3.24.49
 Release:        1%{?dist}
 Summary:        Darwin Gtk3 library
 
 License:        LGPLv2+
 Group:          Development/Libraries
 URL:            http://www.gtk.org
-Source0:        http://download.gnome.org/sources/gtk+/3.24/gtk+-%{version}.tar.xz
+Source0:        http://download.gnome.org/sources/gtk+/3.24/gtk-%{version}.tar.xz
 Patch0:		gtk-3.12.2-quartz-theme.patch
 Patch1:		gtk-3.20.10-disable-assert.patch
 Patch2:		gtk3-quartz-menu-bug_r1.patch
@@ -42,7 +42,7 @@ Requires:  	darwinx-filesystem >= 18
 Darwin Gtk3 library.
 
 %prep
-%setup -q -n gtk+-%{version}
+%setup -q -n gtk-%{version}
 #patch0 -p1
 #patch1 -p1
 #patch2 -p1

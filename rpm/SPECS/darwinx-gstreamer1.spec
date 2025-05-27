@@ -1,7 +1,7 @@
 %define		api_version	1.0
 
 Name:		darwinx-gstreamer1
-Version: 	1.22.9
+Version: 	1.26.1
 Release: 	1%{?dist}
 Summary: 	GStreamer streaming media framework runtime
 
@@ -62,6 +62,8 @@ rm -rf $RPM_BUILD_ROOT%{_darwinx_datadir}/gtk-doc
 rm -fr $RPM_BUILD_ROOT%{_darwinx_datadir}/gdb
 rm -fr $RPM_BUILD_ROOT%{_darwinx_datadir}/gstreamer-%{api_version}/gdb
 
+rm -f $RPM_BUILD_ROOT%{_darwinx_datadir}/cmake/FindGStreamer.cmake
+
 %clean
 rm -rf $RPM_BUILD_ROOT
 
@@ -108,7 +110,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_darwinx_libexecdir}/gstreamer-1.0/gst-ptp-helper
 %{_darwinx_libexecdir}/gstreamer-1.0/gst-hotdoc-plugins-scanner
 %{_darwinx_libexecdir}/gstreamer-1.0/gst-plugins-doc-cache-generator
-
+%{_darwinx_libexecdir}/gstreamer-1.0/gst-completion-helper
+   
 
 %changelog
 * Sun Jul  5 2009 - Levente Farkas <lfarkas@lfarkas.org> - 0.10.23-3

@@ -1,5 +1,5 @@
 Name:           darwinx-fontconfig
-Version:        2.14.2
+Version:        2.16.0
 Release:        1%{?dist}
 Summary:        Darwin Font configuration and customization library
 
@@ -55,7 +55,6 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,wheel,-)
-%doc README ChangeLog
 %{_darwinx_bindir}/fc-cache
 %{_darwinx_bindir}/fc-cat
 %{_darwinx_bindir}/fc-list

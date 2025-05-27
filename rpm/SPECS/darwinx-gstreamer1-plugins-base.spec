@@ -1,7 +1,7 @@
 %define		majorminor	1.0
 
 Name:		darwinx-gstreamer1-plugins-base
-Version: 	1.22.9
+Version: 	1.26.1
 Release: 	1%{?dist}
 Summary: 	GStreamer streaming media framework base plug-ins
 Group: 		Applications/Multimedia
@@ -50,6 +50,9 @@ This package contains a set of well-maintained base plug-ins.
     -Dexamples=disabled \
     -Dintrospection=disabled \
     -Dx11=disabled \
+    -Dxshm=disabled \
+    -Dxvideo=disabled \
+    -Dxi=disabled \
     -Dorc=disabled \
     -Dtremor=disabled \
     -Dtheora=disabled \
@@ -58,6 +61,7 @@ This package contains a set of well-maintained base plug-ins.
     -Dcdparanoia=disabled \
     -Dlibvisual=disabled \
     -Dgl-graphene=disabled \
+    -Ddrm=disabled \
     -Diso-codes=disabled
 
 %darwinx_meson_build

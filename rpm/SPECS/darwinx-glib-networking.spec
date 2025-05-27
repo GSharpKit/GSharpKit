@@ -1,5 +1,5 @@
 Name:           darwinx-glib-networking
-Version:        2.78.0
+Version:        2.80.1
 Release:        1%{?dist}
 Summary:        Networking support for GLib 
 

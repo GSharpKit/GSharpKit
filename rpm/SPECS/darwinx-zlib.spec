@@ -1,5 +1,5 @@
 Name:           darwinx-zlib
-Version:        1.2.13
+Version:        1.3.1
 Release:        1%{?dist}
 Summary:        A Massively Spiffy Yet Delicately Unobtrusive Compression Library
 
