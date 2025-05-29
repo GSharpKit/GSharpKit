@@ -5,7 +5,8 @@ RUN dnf -y install http://yum.gsharpkit.org/gsharpkit/fedora-@FEDORA_VERSION@-x8
 
 RUN rm -f /etc/rpm/macros.image-language-conf
 
-RUN dnf -y install GSharpKit-sdk-@FRAMEWORK@-darwinx && dnf clean all && rm -rf /var/cache/dnf
+ADD python2.7-2.7.18-43.fc40.x86_64.rpm /tmp/
+RUN dnf -y install /tmp/python2.7-2.7.18-43.fc40.x86_64.rpm GSharpKit-sdk-@FRAMEWORK@-darwinx python2.7 && dnf clean all && rm -rf /var/cache/dnf && rm -f /tmp/python2.7-2.7.18-43.fc40.x86_64.rpm
 
 RUN mkdir -p /Library/Frameworks/GSharpKit/share/hunspell ; cp /usr/share/hunspell/da_DK.aff /usr/share/hunspell/da_DK.dic /usr/share/hunspell/en_GB.aff /usr/share/hunspell/en_GB.dic /usr/share/hunspell/en_US.aff /usr/share/hunspell/en_US.dic /Library/Frameworks/GSharpKit/share/hunspell/
 
