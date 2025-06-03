@@ -1,6 +1,6 @@
 Name:		ige-mac-bundler	
 Version:	0.5
-Release:	3%{?dist}
+Release:	4%{?dist}
 Summary:	Application bundles form GTK+ executables for Mac OS X
 
 Group:		Development/Libraries	
@@ -8,7 +8,8 @@ License:	GPLv2
 URL:		http://ftp.imendio.com/pub/imendio/ige-mac-bundler/
 Source0:	http://ftp.imendio.com/pub/imendio/ige-mac-bundler/ige-mac-bundler-0.5.tar.gz
 Source1:	mkdmg
-Patch0:		darwinx+ige-mac-bundler-0.5-simple.patch
+Patch0:		ige-mac-bundler-0.5-no-gtk2.patch
+Patch1:		darwinx+ige-mac-bundler-0.5-simple.patch
 BuildRoot:	%(mktemp -ud %{_tmppath}/%{name}-%{version}-%{release}-XXXXXX)
 
 BuildArch:	noarch
@@ -25,7 +26,8 @@ computer with Mac OS X 10.4 or later installed.
 
 %prep
 %setup -q
-%patch0 -p1
+%patch 0 -p1
+%patch 1 -p1
 
 %build
 
