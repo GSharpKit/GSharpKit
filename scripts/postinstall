@@ -9,10 +9,14 @@ WD="/Library/Frameworks/GSharpKit"
 export DYLD_LIBRARY_PATH=/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ImageIO.framework/Versions/A/Resources:/usr/lib:$WD/lib
 
 $WD/bin/glib-compile-schemas $WD/share/glib-2.0/schemas/
-$WD/bin/gdk-pixbuf-query-loaders $WD/lib/gdk-pixbuf-2.0/2.10.0/loaders/* > $WD/etc/gtk-3.0/gdk-pixbuf.loaders
 
-$WD/bin/gtk-query-immodules-3.0 $WD/lib/gtk-3.0/3.0.0/immodules/* > $WD/etc/gtk-3.0/gtk.immodules
-sed -i '' 's!\/usr\/darwinx\/usr!\/Library\/Frameworks\/GSharpKit!g' $WD/etc/gtk-3.0/gtk.immodules
+if [ -f $WD/lib/libpng.dylib ]; then
+	rm -f $WD/lib/libpng.dylib
+fi
+
+# WD/bin/gdk-pixbuf-query-loaders $WD/lib/gdk-pixbuf-2.0/2.10.0/loaders/* > $WD/etc/gtk-3.0/gdk-pixbuf.loaders
+# WD/bin/gtk-query-immodules-3.0 $WD/lib/gtk-3.0/3.0.0/immodules/* > $WD/etc/gtk-3.0/gtk.immodules
+# sed -i '' 's!\/usr\/darwinx\/usr!\/Library\/Frameworks\/GSharpKit!g' $WD/etc/gtk-3.0/gtk.immodules
 
 if [ ! -d /Library/Caches/fontconfig ]; then
         $WD/bin/fc-cache
