@@ -5,7 +5,7 @@
 
 %define major_version 42
 %define minor_version 0
-%define sdk_version 100
+%define sdk_version 200
 
 %define linux_prefix /usr/lib/GSharpKit/sdk/%{major_version}
 %define mingw64_prefix /usr/x86_64-w64-mingw32/sys-root/mingw/lib/GSharpKit/sdk/%{major_version}
@@ -98,7 +98,7 @@ Easy management of applications for macOS 64 bit
 
 %build
 dotnet new console
-dotnet add package NLog --version 5.4.0
+dotnet add package NLog --version 5.5.0
 
 dotnet add package System.Security.Cryptography.Xml --version 8.0.2
 dotnet add package System.Security.Cryptography.Pkcs --version 8.0.1
@@ -142,12 +142,12 @@ dotnet add package Mono.Cecil --version 0.11.6
 
 dotnet add package Tmds.DBus --version 0.21.2
 
-dotnet add package ClosedXml --version 0.105.0-rc
+dotnet add package ClosedXml --version 0.105.0
 
-dotnet add package DocumentFormat.OpenXml --version 3.3.0
-dotnet add package DocumentFormat.OpenXml.Framework --version 3.3.0
-dotnet add package DocumentFormat.OpenXml.Linq --version 3.3.0
-dotnet add package DocumentFormat.OpenXml.Features --version 3.3.0
+dotnet add package DocumentFormat.OpenXml --version 3.1.1
+dotnet add package DocumentFormat.OpenXml.Framework --version 3.1.1
+dotnet add package DocumentFormat.OpenXml.Linq --version 3.1.1
+dotnet add package DocumentFormat.OpenXml.Features --version 3.1.1
 
 dotnet add package GirCore.Gtk-4.0 --version 0.6.3
 dotnet add package GirCore.Adw-1 --version 0.6.3
@@ -163,11 +163,13 @@ dotnet add package GirCore.GstPbutils-1.0 --version 0.6.3
 
 dotnet add package Newtonsoft.Json --version 13.0.3
 dotnet add package BouncyCastle.Cryptography --version 2.5.1
-dotnet add package MimeKit --version 4.11.0
-dotnet add package MailKit --version 4.11.0
+dotnet add package MimeKit --version 4.12.0
+dotnet add package MailKit --version 4.12.0
 dotnet add package RestSharp --version 112.1.0
 dotnet add package Sprache --version 2.3.1
-dotnet add package PDFsharp-MigraDoc --version 6.1.1
+dotnet add package PDFsharp-MigraDoc --version 6.2.0
+
+dotnet add package Stripe.net --version 48.2.0
 
 dotnet add package nhapi.model.v231 --version 3.2.0
 dotnet add package nhapi.model.v251 --version 3.2.0
@@ -179,7 +181,7 @@ dotnet publish --force --runtime linux-x64 -o lin
 dotnet publish --force --runtime win-x64 -o win
 dotnet publish --force --runtime osx-x64 -o darwinx
 
-dotnet add package ServiceStack --version 8.6.0
+dotnet add package ServiceStack --version 8.8.0
 dotnet publish -o other
 
 %install
