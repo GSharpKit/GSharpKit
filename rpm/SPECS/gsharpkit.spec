@@ -91,7 +91,7 @@
 Summary: 		Easy management of applications
 Name: 			GSharpKit
 Version:		%{major_version}.%{minor_version}
-Release:		2%{?dist}
+Release:		3%{?dist}
 License:		GPL
 Group: 			Applications/Desktop
 Source1:		gsharpkit.repo
