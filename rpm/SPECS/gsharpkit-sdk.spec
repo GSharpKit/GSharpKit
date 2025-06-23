@@ -5,7 +5,7 @@
 
 %define major_version 42
 %define minor_version 0
-%define sdk_version 200
+%define sdk_version 300
 
 %define linux_prefix /usr/lib/GSharpKit/sdk/%{major_version}
 %define mingw64_prefix /usr/x86_64-w64-mingw32/sys-root/mingw/lib/GSharpKit/sdk/%{major_version}
@@ -141,6 +141,8 @@ dotnet add package Mono.Cecil --version 0.11.6
 #dotnet add package Mono.Addins.CecilReflector --version 1.4.1
 
 dotnet add package Tmds.DBus --version 0.21.2
+
+dotnet add package DnsClient --version 1.8.0
 
 dotnet add package ClosedXml --version 0.105.0
 
