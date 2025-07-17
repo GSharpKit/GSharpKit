@@ -1,0 +1,11 @@
+diff -Nur gtk-3.24.49.orig/gtk/gtkwindow.c gtk-3.24.49/gtk/gtkwindow.c
+--- gtk-3.24.49.orig/gtk/gtkwindow.c	2025-03-06 00:31:26.000000000 +0100
++++ gtk-3.24.49/gtk/gtkwindow.c	2025-07-17 14:07:57.075037268 +0200
+@@ -12489,6 +12489,7 @@
+ static void
+ ensure_state_flag_backdrop (GtkWidget *widget)
+ {
++  return;
+   GdkWindow *window;
+   gboolean window_focused = TRUE;
+ 
