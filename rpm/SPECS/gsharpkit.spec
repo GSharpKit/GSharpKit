@@ -32,7 +32,7 @@
 %define LIBEPOXY_VERSION 1.5.4
 %define LIBRSVG2_VERSION 2.40.19
 %define GDK_PIXBUF_VERSION 2.40.0
-%define GTK3_VERSION 3.24.43
+%define GTK3_VERSION 3.24.49
 %define GTK4_VERSION 4.6.5
 %define GDL_VERSION 3.40.0
 %define GSETTINGS_DESKTOP_SCHEMAS_VERSION 44.0
@@ -65,10 +65,10 @@
 %define LIBOGG_VERSION 1.3.3
 %define LIBVORBIS_VERSION 1.3.6
 %define LIBWEBP_VERSION 1.1.0
-%define GSTREAMER1_VERSION 1.18.0
-%define GSTREAMER1_PLUGINS_BASE_VERSION 1.24.0
-%define GSTREAMER1_PLUGINS_GOOD_VERSION 1.24.0
-%define GSTREAMER1_PLUGINS_BAD_VERSION 1.24.0
+%define GSTREAMER1_VERSION 1.26.3
+%define GSTREAMER1_PLUGINS_BASE_VERSION 1.26.3
+%define GSTREAMER1_PLUGINS_GOOD_VERSION 1.26.3
+%define GSTREAMER1_PLUGINS_BAD_VERSION 1.26.3
 
 #define LIBEXIF_VERSION 0.6.20
 
@@ -83,7 +83,7 @@
 %define DOTNET_VERSION 8.0
 
 %define major_version 42
-%define minor_version 0
+%define minor_version 1
 
 %define linux_prefix /usr/lib64
 %define mingw64_prefix /usr/x86_64-w64-mingw32/sys-root/mingw/bin
@@ -91,7 +91,7 @@
 Summary: 		Easy management of applications
 Name: 			GSharpKit
 Version:		%{major_version}.%{minor_version}
-Release:		3%{?dist}
+Release:		1%{?dist}
 License:		GPL
 Group: 			Applications/Desktop
 Source1:		gsharpkit.repo

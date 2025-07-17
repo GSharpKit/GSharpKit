@@ -4,8 +4,8 @@
 %define DOTNET_VERSION 8.0
 
 %define major_version 42
-%define minor_version 0
-%define sdk_version 300
+%define minor_version 1
+%define sdk_version 100
 
 %define linux_prefix /usr/lib/GSharpKit/sdk/%{major_version}
 %define mingw64_prefix /usr/x86_64-w64-mingw32/sys-root/mingw/lib/GSharpKit/sdk/%{major_version}
@@ -14,7 +14,7 @@
 Name: 			GSharpKit-sdk-%{major_version}
 Summary: 		Easy management of applications
 Version:		%{major_version}.%{minor_version}.%{sdk_version}
-Release:		2%{?dist}
+Release:		1%{?dist}
 License:		GPL
 Group: 			Applications/Desktop
 URL:			http://www.gsharpkit.com
@@ -164,9 +164,9 @@ dotnet add package GirCore.GstVideo-1.0 --version 0.6.3
 dotnet add package GirCore.GstPbutils-1.0 --version 0.6.3
 
 dotnet add package Newtonsoft.Json --version 13.0.3
-dotnet add package BouncyCastle.Cryptography --version 2.5.1
-dotnet add package MimeKit --version 4.12.0
-dotnet add package MailKit --version 4.12.0
+dotnet add package BouncyCastle.Cryptography --version 2.6.1
+dotnet add package MimeKit --version 4.13.0
+dotnet add package MailKit --version 4.13.0
 dotnet add package RestSharp --version 112.1.0
 dotnet add package Sprache --version 2.3.1
 dotnet add package PDFsharp-MigraDoc --version 6.2.0

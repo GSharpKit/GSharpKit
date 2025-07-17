@@ -9,7 +9,10 @@
 # Bastien Nocera <bnocera@redhat.com> - 2010
 #
 
-SOURCE="$1"
+VERSION="$1"
+SOURCE_URL="http://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-${VERSION}.tar.xz"
+SOURCE="gst-plugins-bad-${VERSION}.tar.xz"
+wget ${SOURCE_URL}
 NEW_SOURCE=`echo $SOURCE | sed 's/bad-/bad-free-/'`
 DIRECTORY=`echo $SOURCE | sed 's/\.tar\.xz//'`
 
@@ -34,6 +37,8 @@ bayer
 camerabin
 camerabin2
 cdxaparse
+codecalpha
+codectimestamper
 coloreffects
 colorspace
 compositor
@@ -41,6 +46,8 @@ dataurisrc
 dccp
 debugutils
 dtmf
+dvbsubenc
+dvbsuboverlay
 faceoverlay
 festival
 fieldanalysis
@@ -54,6 +61,7 @@ h264parse
 hdvparse
 hls
 id3tag
+insertbin
 inter
 interlace
 invtelecine
@@ -65,6 +73,7 @@ legacyresample
 librfb
 liveadder
 midi
+mse
 mve
 mpegdemux
 mpeg4videoparse
@@ -77,6 +86,7 @@ netsim
 nsf
 nuvdemux
 onvif
+openh264
 patchdetect
 pcapparse
 pnm
@@ -84,6 +94,8 @@ proxy
 qtmux
 rawparse
 removesilence
+rist
+rtmp2
 rtp
 rtpmux
 rtpvp8
@@ -92,12 +104,17 @@ sdi
 sdp
 segmentclip
 selector
+siren
 smooth
 speed
 stereo
 subenc
+switchbin
+tensordecoders
 timecode
+transcode
 tta
+unixfd
 valve
 videofilters
 videoframe_audiolevel
@@ -108,18 +125,10 @@ videosignal
 vmnc
 yadif
 y4m
-dvbsubenc
-rist
-rtmp2
-switchbin
-transcode
 "
 
 NOT_ALLOWED="
-dvbsuboverlay
 dvdspu
-real
-siren
 "
 
 error()
@@ -169,20 +178,8 @@ for subdir in gst ext sys; do
 			echo "**** Removing $MODULE ****"
 			echo "Removing directory $dir"
 			rm -r $dir || error "Cannot remove $dir"
-			if grep -q "AG_GST_CHECK_PLUGIN($MODULE)" configure.ac ; then
-				echo "Removing element check for $MODULE"
-				grep -v "AG_GST_CHECK_PLUGIN($MODULE)" configure.ac > configure.ac.new && mv configure.ac.new configure.ac
-			fi
-			echo "Removing Makefile generation for $MODULE"
-			grep -v "$dir/Makefile" configure.ac > configure.ac.new && mv configure.ac.new configure.ac
-			# Urgh
-			if test $MODULE = real ; then
-				grep -v "AG_GST_DISABLE_PLUGIN(real)" configure.ac > configure.ac.new && mv configure.ac.new configure.ac
-			fi
-			echo "Removing documentation for $MODULE"
-			if grep -q "$MODULE" docs/plugins/Makefile.am ; then
-				grep -v $dir docs/plugins/Makefile.am > docs/plugins/Makefile.am.new && mv docs/plugins/Makefile.am.new docs/plugins/Makefile.am
-			fi
+			echo "Removing $(basename $dir) from gst/meson.build"
+			sed -i "s|'$(basename $dir)',||g" gst/meson.build
 			echo
 		elif test $subdir = ext  || test $subdir = sys; then
 			# Ignore library or system non-blacklisted plugins
@@ -201,8 +198,6 @@ if test "x$unknown" != "x"; then
   echo "$unknown" | sed "s/ /\n  /g"
   exit 1
 fi
-
-autoreconf
 
 popd > /dev/null
 
