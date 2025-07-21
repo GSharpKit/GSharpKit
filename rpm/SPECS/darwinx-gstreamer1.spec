@@ -1,7 +1,7 @@
 %define		api_version	1.0
 
 Name:		darwinx-gstreamer1
-Version: 	1.26.1
+Version: 	1.26.4
 Release: 	1%{?dist}
 Summary: 	GStreamer streaming media framework runtime
 
