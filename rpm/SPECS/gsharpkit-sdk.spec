@@ -5,7 +5,7 @@
 
 %define major_version 42
 %define minor_version 1
-%define sdk_version 100
+%define sdk_version 200
 
 %define linux_prefix /usr/lib/GSharpKit/sdk/%{major_version}
 %define mingw64_prefix /usr/x86_64-w64-mingw32/sys-root/mingw/lib/GSharpKit/sdk/%{major_version}
@@ -98,7 +98,7 @@ Easy management of applications for macOS 64 bit
 
 %build
 dotnet new console
-dotnet add package NLog --version 5.5.0
+dotnet add package NLog --version 6.0.4
 
 dotnet add package System.Security.Cryptography.Xml --version 8.0.2
 dotnet add package System.Security.Cryptography.Pkcs --version 8.0.1
@@ -121,7 +121,7 @@ dotnet add package System.ServiceModel.NetTcp --version 8.1.2
 dotnet add package System.ServiceModel.Federation --version 8.1.2
 dotnet add package System.Web.Services.Description --version 8.1.2
 
-dotnet add package System.CommandLine --version 2.0.0-beta4.22272.1
+dotnet add package System.CommandLine --version 2.0.0-rc.1.25451.107
 
 dotnet add package IdentityModel.OidcClient --version 6.0.0
 
@@ -163,13 +163,14 @@ dotnet add package GirCore.GstAudio-1.0 --version 0.6.3
 dotnet add package GirCore.GstVideo-1.0 --version 0.6.3
 dotnet add package GirCore.GstPbutils-1.0 --version 0.6.3
 
-dotnet add package Newtonsoft.Json --version 13.0.3
-dotnet add package BouncyCastle.Cryptography --version 2.6.1
+dotnet add package Newtonsoft.Json --version 13.0.4
+dotnet add package BouncyCastle.Cryptography --version 2.6.2
 dotnet add package MimeKit --version 4.13.0
 dotnet add package MailKit --version 4.13.0
 dotnet add package RestSharp --version 112.1.0
 dotnet add package Sprache --version 2.3.1
-dotnet add package PDFsharp-MigraDoc --version 6.2.0
+dotnet add package PDFsharp-MigraDoc --version 6.2.1
+dotnet add package QRCoder --version 1.6.0
 
 dotnet add package Stripe.net --version 48.2.0
 
