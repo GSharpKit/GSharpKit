@@ -5,7 +5,7 @@
 
 %define major_version 42
 %define minor_version 1
-%define sdk_version 200
+%define sdk_version 300
 
 %define linux_prefix /usr/lib/GSharpKit/sdk/%{major_version}
 %define mingw64_prefix /usr/x86_64-w64-mingw32/sys-root/mingw/lib/GSharpKit/sdk/%{major_version}
@@ -98,7 +98,7 @@ Easy management of applications for macOS 64 bit
 
 %build
 dotnet new console
-dotnet add package NLog --version 6.0.4
+dotnet add package NLog --version 6.0.5
 
 dotnet add package System.Security.Cryptography.Xml --version 8.0.2
 dotnet add package System.Security.Cryptography.Pkcs --version 8.0.1
@@ -121,20 +121,20 @@ dotnet add package System.ServiceModel.NetTcp --version 8.1.2
 dotnet add package System.ServiceModel.Federation --version 8.1.2
 dotnet add package System.Web.Services.Description --version 8.1.2
 
-dotnet add package System.CommandLine --version 2.0.0-rc.1.25451.107
+dotnet add package System.CommandLine --version 2.0.0-rc.2.25502.107
 
 dotnet add package IdentityModel.OidcClient --version 6.0.0
 
-dotnet add package Google.Apis.Auth --version 1.69.0
-dotnet add package Microsoft.Identity.Client --version 4.70.1
+dotnet add package Google.Apis.Auth --version 1.72.0
+dotnet add package Microsoft.Identity.Client --version 4.77.1
 
-dotnet add package Microsoft.IdentityModel.Protocols --version 8.8.0
+dotnet add package Microsoft.IdentityModel.Protocols --version 8.14.0
 
-dotnet add package Microsoft.Data.SqlClient --version 6.0.1
+dotnet add package Microsoft.Data.SqlClient --version 6.1.2
 
 dotnet add package Mono.Data.Sqlite.Core --version 1.0.61.1
 
-dotnet add package Npgsql --version 9.0.3
+dotnet add package Npgsql --version 9.0.4
 
 dotnet add package Mono.Cecil --version 0.11.6
 #dotnet add package Mono.Addins --version 1.4.1
@@ -165,14 +165,16 @@ dotnet add package GirCore.GstPbutils-1.0 --version 0.6.3
 
 dotnet add package Newtonsoft.Json --version 13.0.4
 dotnet add package BouncyCastle.Cryptography --version 2.6.2
-dotnet add package MimeKit --version 4.13.0
-dotnet add package MailKit --version 4.13.0
+dotnet add package MimeKit --version 4.14.0
+dotnet add package MailKit --version 4.14.1
 dotnet add package RestSharp --version 112.1.0
 dotnet add package Sprache --version 2.3.1
-dotnet add package PDFsharp-MigraDoc --version 6.2.1
+dotnet add package PDFsharp-MigraDoc --version 6.2.2
+
+# Version 1.7.0 will pull in Win32.EventManager, we don't want that
 dotnet add package QRCoder --version 1.6.0
 
-dotnet add package Stripe.net --version 48.2.0
+dotnet add package Stripe.net --version 49.0.0
 
 dotnet add package nhapi.model.v231 --version 3.2.0
 dotnet add package nhapi.model.v251 --version 3.2.0
@@ -184,7 +186,7 @@ dotnet publish --force --runtime linux-x64 -o lin
 dotnet publish --force --runtime win-x64 -o win
 dotnet publish --force --runtime osx-x64 -o darwinx
 
-dotnet add package ServiceStack --version 8.8.0
+dotnet add package ServiceStack --version 8.9.0
 dotnet publish -o other
 
 %install
