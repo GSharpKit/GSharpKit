@@ -1,0 +1,6 @@
+Hent fra: https://stavekontrolden.dk/?dictionaries=1
+
+iconv -f UTF-8 -t ISO-8859-1 -c da_DK-2.9.070.dic > da_DK.dic
+iconv -f UTF-8 -t ISO-8859-1 -c da_DK-2.9.070.aff > da_DK.aff
+
+
