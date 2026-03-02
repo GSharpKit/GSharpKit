@@ -5,7 +5,7 @@
 
 %define major_version 42
 %define minor_version 1
-%define sdk_version 300
+%define sdk_version 400
 
 %define linux_prefix /usr/lib/GSharpKit/sdk/%{major_version}
 %define mingw64_prefix /usr/x86_64-w64-mingw32/sys-root/mingw/lib/GSharpKit/sdk/%{major_version}
@@ -38,7 +38,7 @@ Requires:               python
 Requires:               sudo
 
 BuildRequires:		dotnet-runtime-%{DOTNET_VERSION}
-BuildRequires:		GtkSharp >= 3.24.24.37
+BuildRequires:		GtkSharp = 3.24.24.39
 
 %description
 Easy management of applications for Linux 64 bit
@@ -97,7 +97,7 @@ Easy management of applications for macOS 64 bit
 %setup -c %{name} -T
 
 %build
-dotnet new console
+dotnet new console -f net%{DOTNET_VERSION}
 dotnet add package NLog --version 6.0.5
 
 dotnet add package System.Security.Cryptography.Xml --version 8.0.2
