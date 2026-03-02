@@ -3,7 +3,7 @@
 %define libdir /lib
 
 Name:           GtkSharp
-Version:        3.24.24.37
+Version:        3.24.24.43
 Release:        1%{?dist}
 Summary:        GTK+ and GNOME bindings for Mono
 
@@ -15,7 +15,7 @@ BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildArch:      noarch
 
-BuildRequires:  dotnet-sdk-8.0
+BuildRequires:  dotnet-sdk-10.0
 
 %description
 This package provides a library that allows you to build
@@ -28,33 +28,42 @@ Pango, Gdk.
 %setup -q
 
 %build
+rm -rf tools/*
+rm -rf .cake
 dotnet tool restore
-DOTNET_ROOT=/usr/share/dotnet dotnet cake build.cake
+DOTNET_ROOT=/usr/lib64/dotnet dotnet cake build.cake
 
 %install
 %{__rm} -rf $RPM_BUILD_ROOT
 
 install -d -m 755 $RPM_BUILD_ROOT%{_prefix}%{libdir}
-install -m 644 BuildOutput/Release/AtkSharp.dll $RPM_BUILD_ROOT%{_prefix}%{libdir}
-install -m 644 BuildOutput/Release/CairoSharp.dll $RPM_BUILD_ROOT%{_prefix}%{libdir}/
-install -m 644 BuildOutput/Release/GdkSharp.dll $RPM_BUILD_ROOT%{_prefix}%{libdir}/
-install -m 644 BuildOutput/Release/GioSharp.dll $RPM_BUILD_ROOT%{_prefix}%{libdir}/
-install -m 644 BuildOutput/Release/GLibSharp.dll $RPM_BUILD_ROOT%{_prefix}%{libdir}/
-install -m 644 BuildOutput/Release/GtkSharp.dll $RPM_BUILD_ROOT%{_prefix}%{libdir}/
-install -m 644 BuildOutput/Release/PangoSharp.dll $RPM_BUILD_ROOT%{_prefix}%{libdir}/
-install -m 644 BuildOutput/Release/WebkitGtkSharp.dll $RPM_BUILD_ROOT%{_prefix}%{libdir}/
-install -m 644 BuildOutput/Release/GdlSharp.dll $RPM_BUILD_ROOT%{_prefix}%{libdir}/
-install -m 644 BuildOutput/Release/GstSharp.dll $RPM_BUILD_ROOT%{_prefix}%{libdir}/
-install -m 644 BuildOutput/Release/GtkMacIntegrationSharp.dll $RPM_BUILD_ROOT%{_prefix}%{libdir}/
+find BuildOutput/Release/ -iname "*.dll" -exec install -m 644 {} $RPM_BUILD_ROOT%{_prefix}%{libdir}/ \;
+find BuildOutput/Release/netstandard2.0/ -iname "*.dll" -exec install -m 644 {} $RPM_BUILD_ROOT%{_prefix}%{libdir}/ \;
+find BuildOutput/Release/net10.0/ -iname "*.dll" -exec install -m 644 {} $RPM_BUILD_ROOT%{_prefix}%{libdir}/ \;
+
+#install -m 644 BuildOutput/Release/AtkSharp.dll $RPM_BUILD_ROOT%{_prefix}%{libdir}
+#install -m 644 BuildOutput/Release/CairoSharp.dll $RPM_BUILD_ROOT%{_prefix}%{libdir}/
+#install -m 644 BuildOutput/Release/GdkSharp.dll $RPM_BUILD_ROOT%{_prefix}%{libdir}/
+#install -m 644 BuildOutput/Release/GioSharp.dll $RPM_BUILD_ROOT%{_prefix}%{libdir}/
+#install -m 644 BuildOutput/Release/GLibSharp.dll $RPM_BUILD_ROOT%{_prefix}%{libdir}/
+#install -m 644 BuildOutput/Release/GtkSharp.dll $RPM_BUILD_ROOT%{_prefix}%{libdir}/
+#install -m 644 BuildOutput/Release/PangoSharp.dll $RPM_BUILD_ROOT%{_prefix}%{libdir}/
+#install -m 644 BuildOutput/Release/WebkitGtkSharp.dll $RPM_BUILD_ROOT%{_prefix}%{libdir}/
+#install -m 644 BuildOutput/Release/GdlSharp.dll $RPM_BUILD_ROOT%{_prefix}%{libdir}/
+#install -m 644 BuildOutput/Release/GstSharp.dll $RPM_BUILD_ROOT%{_prefix}%{libdir}/
+#install -m 644 BuildOutput/Release/GtkMacIntegrationSharp.dll $RPM_BUILD_ROOT%{_prefix}%{libdir}/
 
 %clean
 %{__rm} -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,root,-)
-%{_prefix}/lib/*Sharp.dll
+%{_prefix}/lib/*.dll
 
 %changelog
+* Fri Jan 9 2026 Mikkel Kruse Johnsen <mikkel@xmedicus.com> - 3.24.24.38
+- Updated to dotnet 10
+
 * Thu Oct 28 2010 Christian Krause <chkr@fedoraproject.org> - 2.12.10-4
 - Rebuild again to create correct requires/provides capabilities
 

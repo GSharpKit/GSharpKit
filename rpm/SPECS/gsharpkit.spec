@@ -82,7 +82,7 @@
 #### DEFINES
 %define DOTNET_VERSION 8.0
 
-%define major_version 42
+%define major_version 43
 %define minor_version 1
 
 %define linux_prefix /usr/lib64
@@ -311,11 +311,11 @@ dotnet publish --force --runtime win-x64 -o win
 
 mkdir -p $RPM_BUILD_ROOT%{_sysconfdir}/yum.repos.d
 cp %{SOURCE1} $RPM_BUILD_ROOT%{_sysconfdir}/yum.repos.d/
-cp %{SOURCE3} $RPM_BUILD_ROOT%{_sysconfdir}/yum.repos.d/
+#cp %{SOURCE3} $RPM_BUILD_ROOT%{_sysconfdir}/yum.repos.d/
 
 mkdir -p $RPM_BUILD_ROOT%{_sysconfdir}/pki/rpm-gpg
 cp %{SOURCE2} $RPM_BUILD_ROOT%{_sysconfdir}/pki/rpm-gpg/
-cp %{SOURCE4} $RPM_BUILD_ROOT%{_sysconfdir}/pki/rpm-gpg/
+#cp %{SOURCE4} $RPM_BUILD_ROOT%{_sysconfdir}/pki/rpm-gpg/
 
 install -d -m 755 $RPM_BUILD_ROOT%{linux_prefix}
 install -m 644 lin/libMonoPosixHelper.so $RPM_BUILD_ROOT%{linux_prefix}/
@@ -328,15 +328,15 @@ install -m 644 win/libMonoPosixHelper.dll $RPM_BUILD_ROOT%{mingw64_prefix}/
 #rm -rf $RPM_BUILD_ROOT
 
 %post release
-yum-config-manager --save --setopt=fedora.exclude=dotnet*,netstandard-targeting-pack*,aspnetcore*
-yum-config-manager --save --setopt=updates.exclude=dotnet*,netstandard-targeting-pack*,aspnetcore*
+yum-config-manager --save --setopt=fedora.exclude=
+yum-config-manager --save --setopt=updates.exclude=
 
 %files release
 %defattr(-, root, root)
 %{_sysconfdir}/yum.repos.d/gsharpkit.repo
-%{_sysconfdir}/yum.repos.d/microsoft-prod.repo
+#{_sysconfdir}/yum.repos.d/microsoft-prod.repo
 %{_sysconfdir}/pki/rpm-gpg/RPM-GPG-KEY-gsharpkit
-%{_sysconfdir}/pki/rpm-gpg/RPM-GPG-KEY-microsoft
+#{_sysconfdir}/pki/rpm-gpg/RPM-GPG-KEY-microsoft
 
 %files runtime
 %defattr(-, root, root)
