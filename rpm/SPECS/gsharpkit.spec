@@ -35,6 +35,7 @@
 %define GTK3_VERSION 3.24.49
 %define GTK4_VERSION 4.6.5
 %define GDL_VERSION 3.40.0
+%define GTK_SOURCE_VIEW_VERSION 3.24.11
 %define GSETTINGS_DESKTOP_SCHEMAS_VERSION 44.0
 %define ADWAITA_ICON_THEME_VERSION 44.0
 %define HICOLOR_ICON_THEME_VERSION 0.17
@@ -80,7 +81,7 @@
 
 
 #### DEFINES
-%define DOTNET_VERSION 8.0
+%define DOTNET_VERSION 10.0
 
 %define major_version 43
 %define minor_version 1
@@ -96,8 +97,6 @@ License:		GPL
 Group: 			Applications/Desktop
 Source1:		gsharpkit.repo
 Source2:		RPM-GPG-KEY-gsharpkit
-Source3:		microsoft-prod.repo
-Source4:		RPM-GPG-KEY-microsoft
 URL:			http://www.gsharpkit.com
 Vendor:			GSharpKit
 Packager:		Mikkel Kruse Johnsen <mikkel@gsharpkit.com>
@@ -138,6 +137,7 @@ Requires:               dotnet-runtime-%{DOTNET_VERSION}
 Requires:		libepoxy >= %{LIBEPOXY_VERSION}
 Requires:		librsvg2 >= %{LIBRSVG2_VERSION}
 Requires:		gtk3 >= %{GTK3_VERSION}
+Requires:		gtksourceview3 >= %{GTK_SOURCE_VIEW_VERSION}
 Requires:		gtk4 >= %{GTK4_VERSION}
 Requires:		gsettings-desktop-schemas >= %{GSETTINGS_DESKTOP_SCHEMAS_VERSION}
 Requires:		adwaita-icon-theme >= %{ADWAITA_ICON_THEME_VERSION}
@@ -239,6 +239,8 @@ Requires:               mingw64-webkitgtk3 >= %{WEBKITGTK3_VERSION}
 Requires:               mingw64-hunspell >= %{HUNSPELL_VERSION}
 Requires:               mingw64-enchant >= %{ENCHANT_VERSION}
 
+Requires:		mingw64-gtksourceview3 >= %{GTK_SOURCE_VIEW_VERSION}
+
 Requires:               mingw64-libogg >= %{LIBOGG_VERSION}
 Requires:               mingw64-libvorbis >= %{LIBVORBIS_VERSION}
 Requires:               mingw64-libwebp >= %{LIBWEBP_VERSION}
@@ -311,11 +313,9 @@ dotnet publish --force --runtime win-x64 -o win
 
 mkdir -p $RPM_BUILD_ROOT%{_sysconfdir}/yum.repos.d
 cp %{SOURCE1} $RPM_BUILD_ROOT%{_sysconfdir}/yum.repos.d/
-#cp %{SOURCE3} $RPM_BUILD_ROOT%{_sysconfdir}/yum.repos.d/
 
 mkdir -p $RPM_BUILD_ROOT%{_sysconfdir}/pki/rpm-gpg
 cp %{SOURCE2} $RPM_BUILD_ROOT%{_sysconfdir}/pki/rpm-gpg/
-#cp %{SOURCE4} $RPM_BUILD_ROOT%{_sysconfdir}/pki/rpm-gpg/
 
 install -d -m 755 $RPM_BUILD_ROOT%{linux_prefix}
 install -m 644 lin/libMonoPosixHelper.so $RPM_BUILD_ROOT%{linux_prefix}/
