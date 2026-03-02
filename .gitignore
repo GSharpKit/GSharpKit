@@ -65,3 +65,5 @@ rpm/SOURCES/webkitgtk-2.4.11*/
 RPMS
 SOURCES.bak
 SRPMS
+docker/mingw/da_DK.aff
+docker/mingw/da_DK.dic
