@@ -95,7 +95,7 @@ Easy management of applications for macOS 64 bit
 %setup -c %{name} -T
 
 %build
-dotnet new console
+dotnet new console -f net%{DOTNET_VERSION}
 dotnet add package NLog --version 6.1.0
 
 dotnet add package System.Security.Cryptography.Xml --version 10.0.3
