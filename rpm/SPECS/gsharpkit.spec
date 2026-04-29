@@ -1,4 +1,4 @@
-%define MINGW_FILESYSTEM_VERSION 119
+%define MINGW_FILESYSTEM_VERSION 151
 %define BINUTILS_VERSION 2.34
 %define HEADER_CRT_THREAD_VERSION 7.0.0
 %define COMPILER_VERSION 10.2.1
@@ -83,7 +83,7 @@
 #### DEFINES
 %define DOTNET_VERSION 10.0
 
-%define major_version 43
+%define major_version 44
 %define minor_version 1
 
 %define linux_prefix /usr/lib64
