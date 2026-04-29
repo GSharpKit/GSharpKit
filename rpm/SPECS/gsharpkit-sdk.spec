@@ -16,6 +16,8 @@ Summary: 		Easy management of applications
 Version:		%{major_version}.%{minor_version}.%{sdk_version}
 Release:		1%{?dist}
 License:		GPL
+Source1:		Mono.Addins.dll
+Source2:		Mono.Addins.CecilReflector.dll
 Group: 			Applications/Desktop
 URL:			http://www.gsharpkit.com
 Vendor:			GSharpKit
@@ -134,6 +136,12 @@ dotnet add package Microsoft.Data.SqlClient --version 7.0.1
 
 dotnet add package Mono.Data.Sqlite.Core --version 1.0.61.1
 
+dotnet add package Mono.Cecil --version 0.11.6
+
+# Included as Source1 and Source2
+#dotnet add package Mono.Addins --version 1.4.1
+#dotnet add package Mono.Addins.CecilReflector --version 1.4.1
+
 dotnet add package Npgsql --version 10.0.2
 
 dotnet add package Tmds.DBus --version 0.92.0
@@ -198,12 +206,12 @@ install -m 644 darwinx/*.dll $RPM_BUILD_ROOT%{darwinx_prefix}/
 #install -m 644 any/runtimes/unix/lib/net8.0/Microsoft.Data.SqlClient.dll $RPM_BUILD_ROOT%{darwinx_prefix}/
 install -m 644 other/ServiceStack*.dll $RPM_BUILD_ROOT%{darwinx_prefix}/
 
-#install -m 644 %{SOURCE1} $RPM_BUILD_ROOT%{linux_prefix}/
-#install -m 644 %{SOURCE2} $RPM_BUILD_ROOT%{linux_prefix}/
-#install -m 644 %{SOURCE1} $RPM_BUILD_ROOT%{mingw64_prefix}/
-#install -m 644 %{SOURCE2} $RPM_BUILD_ROOT%{mingw64_prefix}/
-#install -m 644 %{SOURCE1} $RPM_BUILD_ROOT%{darwinx_prefix}/
-#install -m 644 %{SOURCE2} $RPM_BUILD_ROOT%{darwinx_prefix}/
+install -m 644 %{SOURCE1} $RPM_BUILD_ROOT%{linux_prefix}/
+install -m 644 %{SOURCE2} $RPM_BUILD_ROOT%{linux_prefix}/
+install -m 644 %{SOURCE1} $RPM_BUILD_ROOT%{mingw64_prefix}/
+install -m 644 %{SOURCE2} $RPM_BUILD_ROOT%{mingw64_prefix}/
+install -m 644 %{SOURCE1} $RPM_BUILD_ROOT%{darwinx_prefix}/
+install -m 644 %{SOURCE2} $RPM_BUILD_ROOT%{darwinx_prefix}/
 
 install -m 644 /usr/lib/AtkSharp.dll $RPM_BUILD_ROOT%{linux_prefix}/
 install -m 644 /usr/lib/CairoSharp.dll $RPM_BUILD_ROOT%{linux_prefix}/ 
