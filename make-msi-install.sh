@@ -40,6 +40,7 @@ mkdir $TO/lib
 cp -r $FROM/lib/enchant $TO/lib/
 cp -r $FROM/lib/engines-3 $TO/lib/
 cp -r $FROM/lib/gdk-pixbuf-2.0 $TO/lib/
+rm -f $TO/lib/gdk-pixbuf-2.0/2.10.0/loaders.cache
 cp -r $FROM/lib/gio $TO/lib/
 cp -r $FROM/lib/gstreamer-1.0 $TO/lib/
 cp -r $FROM/lib/gtk-3.0 $TO/lib/
