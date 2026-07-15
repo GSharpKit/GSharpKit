@@ -17,6 +17,8 @@ cp $FROM/bin/gdk-pixbuf-query-loaders.exe $TO/bin/
 cp $FROM/bin/gtk-query-immodules-3.0.exe $TO/bin/
 cp $FROM/bin/gtk3-demo.exe $TO/bin/
 cp $FROM/bin/gtk4-demo.exe $TO/bin/
+cp $FROM/bin/servogtk3-demo.exe $TO/bin/
+cp $FROM/bin/servogtk4-demo.exe $TO/bin/
 
 cp $FROM/bin/*.dll $TO/bin/
 cp $TO/bin/libintl-8.dll $TO/bin/intl.dll
