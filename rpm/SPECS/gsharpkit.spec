@@ -60,6 +60,8 @@
 %define LIBSOUP_VERSION 2.70.0
 %define WEBKITGTK3_VERSION 2.4.11
 
+%define SERVOGTK_VERSION 0.3.0
+
 %define HUNSPELL_VERSION 1.7.0
 %define ENCHANT_VERSION 1.6.0
 
@@ -150,6 +152,8 @@ Requires:		enchant >= %{ENCHANT_VERSION}
 Requires:		libsoup >= %{LIBSOUP_VERSION}
 Requires:		webkitgtk3 >= %{WEBKITGTK3_VERSION}
 
+Requires:		servogtk >= %{SERVOGTK_VERSION}
+
 #Requires:		libusbx >= %{LIBUSB_VERSION}
 #Requires:		libexif >= %{LIBEXIF_VERSION}
 #Requires:		libgphoto2 >= %{LIBGPHOTO2_VERSION}
@@ -174,6 +178,10 @@ License:                GPL
 Group:                  Applications/Desktop
 BuildArch:              noarch
 AutoReqProv:            no
+
+Provides:		mingw64(msvcp140.dll)
+Provides:		mingw64(vcruntime140.dll)
+Provides:		mingw64(vcruntime140_1.dll)
 
 Requires:               dotnet-sdk-%{DOTNET_VERSION}
 
@@ -235,6 +243,8 @@ Requires:               mingw64-libxslt >= %{LIBXSLT_VERSION}
 Requires:               mingw64-sqlite >= %{SQLITE_VERSION}
 Requires:               mingw64-libsoup >= %{LIBSOUP_VERSION}
 Requires:               mingw64-webkitgtk3 >= %{WEBKITGTK3_VERSION}
+
+Requires:               mingw64-servogtk >= %{SERVOGTK_VERSION}
 
 Requires:               mingw64-hunspell >= %{HUNSPELL_VERSION}
 Requires:               mingw64-enchant >= %{ENCHANT_VERSION}
