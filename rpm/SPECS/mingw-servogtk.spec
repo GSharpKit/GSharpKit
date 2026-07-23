@@ -12,7 +12,7 @@ Name:           mingw-servogtk
 License:        Mozilla Public License Version 2.0
 Group:          System Environment/Base 
 Version:        %{version}
-Release:        1%{?dist}
+Release:        2%{?dist}
 Url:		https://github.com/GSharpKit/servo-gtk
 Summary:        Servo Gtk3/4
 Source0:        servogtk-%{version}.tar.xz
@@ -42,6 +42,9 @@ unset CXXFLAGS
 unset CPPFLAGS
 unset LDFLAGS
 export LDFLAGS="%{build_ldflags} -Wl,--no-as-needed"
+unset RUSTFLAGS
+unset CARGO_ENCODED_RUSTFLAGS
+export CARGO_TARGET_X86_64_PC_WINDOWS_MSVC_RUSTFLAGS="-C opt-level=3 -C debuginfo=0 -C codegen-units=4 -C strip=debuginfo"
 make mingw
 
 %install

@@ -5,7 +5,7 @@
 
 %define major_version 44
 %define minor_version 1
-%define sdk_version 100
+%define sdk_version 101
 
 %define linux_prefix /usr/lib/GSharpKit/sdk/%{major_version}
 %define mingw64_prefix /usr/x86_64-w64-mingw32/sys-root/mingw/lib/GSharpKit/sdk/%{major_version}
@@ -38,7 +38,7 @@ Requires:               python
 Requires:               sudo
 
 BuildRequires:		dotnet-runtime-%{DOTNET_VERSION}
-BuildRequires:		GtkSharp >= 3.24.24.43
+BuildRequires:		GtkSharp >= 3.24.24.44
 
 %description
 Easy management of applications for Linux 64 bit
@@ -224,6 +224,7 @@ install -m 644 /usr/lib/WebkitGtkSharp.dll $RPM_BUILD_ROOT%{linux_prefix}/
 install -m 644 /usr/lib/GdlSharp.dll $RPM_BUILD_ROOT%{linux_prefix}/
 install -m 644 /usr/lib/GstSharp.dll $RPM_BUILD_ROOT%{linux_prefix}/
 install -m 644 /usr/lib/GtkSourceSharp.dll $RPM_BUILD_ROOT%{linux_prefix}/
+install -m 644 /usr/lib/ServoGtkSharp.dll $RPM_BUILD_ROOT%{linux_prefix}/
 
 install -m 644 /usr/lib/AtkSharp.dll $RPM_BUILD_ROOT%{mingw64_prefix}/
 install -m 644 /usr/lib/CairoSharp.dll $RPM_BUILD_ROOT%{mingw64_prefix}/
@@ -236,6 +237,7 @@ install -m 644 /usr/lib/WebkitGtkSharp.dll $RPM_BUILD_ROOT%{mingw64_prefix}/
 install -m 644 /usr/lib/GdlSharp.dll $RPM_BUILD_ROOT%{mingw64_prefix}/
 install -m 644 /usr/lib/GstSharp.dll $RPM_BUILD_ROOT%{mingw64_prefix}/
 install -m 644 /usr/lib/GtkSourceSharp.dll $RPM_BUILD_ROOT%{mingw64_prefix}/
+install -m 644 /usr/lib/ServoGtkSharp.dll $RPM_BUILD_ROOT%{mingw64_prefix}/
 
 install -m 644 /usr/lib/AtkSharp.dll $RPM_BUILD_ROOT%{darwinx_prefix}/
 install -m 644 /usr/lib/CairoSharp.dll $RPM_BUILD_ROOT%{darwinx_prefix}/
@@ -249,6 +251,7 @@ install -m 644 /usr/lib/GdlSharp.dll $RPM_BUILD_ROOT%{darwinx_prefix}/
 install -m 644 /usr/lib/GstSharp.dll $RPM_BUILD_ROOT%{darwinx_prefix}/
 install -m 644 /usr/lib/GtkMacIntegrationSharp.dll $RPM_BUILD_ROOT%{darwinx_prefix}/
 install -m 644 /usr/lib/GtkSourceSharp.dll $RPM_BUILD_ROOT%{darwinx_prefix}/
+install -m 644 /usr/lib/ServoGtkSharp.dll $RPM_BUILD_ROOT%{darwinx_prefix}/
 
 rm -f $RPM_BUILD_ROOT%{linux_prefix}/Microsoft.SqlServer.Server.dll
 rm -f $RPM_BUILD_ROOT%{mingw64_prefix}/Microsoft.SqlServer.Server.dll

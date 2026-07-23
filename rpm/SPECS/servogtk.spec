@@ -4,7 +4,7 @@ Name:           servogtk
 License:        Mozilla Public License Version 2.0
 Group:          System Environment/Base 
 Version:        0.3.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Url:		https://github.com/GSharpKit/servo-gtk
 Summary:        Servo Gtk3/4
 Source0:        servogtk-0.3.0.tar.xz
