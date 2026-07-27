@@ -17,7 +17,7 @@ Url:		https://github.com/GSharpKit/servo-gtk
 Summary:        Servo Gtk3/4
 Source0:        servogtk-%{version}.tar.xz
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
-BuildArch:      x86_64
+BuildArch:      noarch
 
 Requires:	gtk3 gtk3-devel gtk4 gtk4-devel
 Requires:	rust >= 1.96 cargo >= 1.96

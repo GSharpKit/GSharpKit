@@ -1,0 +1,12 @@
+diff -rupN --no-dereference librsvg-2.62.3/rsvg/meson.build librsvg-2.62.3-new/rsvg/meson.build
+--- librsvg-2.62.3/rsvg/meson.build	2026-06-02 02:31:18.000000000 +0200
++++ librsvg-2.62.3-new/rsvg/meson.build	2026-06-09 10:37:48.158598060 +0200
+@@ -234,7 +234,7 @@ if get_option('default_library') in ['sh
+   librsvg_shared_lib = shared_library(
+     'rsvg-@0@'.format(librsvg_api_major),
+     rsvg_dummy,
+-    link_whole: librsvg_c_lib,
++    link_with: librsvg_c_lib,
+     link_args: link_args,
+     link_depends: librsvg_ver,
+     dependencies: library_dependencies,

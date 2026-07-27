@@ -5,7 +5,7 @@
 
 %define major_version 44
 %define minor_version 1
-%define sdk_version 101
+%define sdk_version 102
 
 %define linux_prefix /usr/lib/GSharpKit/sdk/%{major_version}
 %define mingw64_prefix /usr/x86_64-w64-mingw32/sys-root/mingw/lib/GSharpKit/sdk/%{major_version}
@@ -38,7 +38,7 @@ Requires:               python
 Requires:               sudo
 
 BuildRequires:		dotnet-runtime-%{DOTNET_VERSION}
-BuildRequires:		GtkSharp >= 3.24.24.44
+BuildRequires:		GtkSharp >= 3.24.24.45
 
 %description
 Easy management of applications for Linux 64 bit

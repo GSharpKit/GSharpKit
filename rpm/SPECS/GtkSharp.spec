@@ -3,7 +3,7 @@
 %define libdir /lib
 
 Name:           GtkSharp
-Version:        3.24.24.44
+Version:        3.24.24.45
 Release:        1%{?dist}
 Summary:        GTK+ and GNOME bindings for Mono
 
@@ -61,6 +61,9 @@ find BuildOutput/Release/net10.0/ -iname "*.dll" -exec install -m 644 {} $RPM_BU
 %{_prefix}/lib/*.dll
 
 %changelog
+* Mon Jul 27 2026 Mikkel Kruse Johnsen <mikkel@xmedicus.com> - 3.24.24.45
+- GtkSource added Init and Finalizae Functions
+
 * Thu Jul 23 2026 Mikkel Kruse Johnsen <mikkel@xmedicus.com> - 3.24.24.44
 - Added ServoGtk
 - Race condition for ToogleRef
