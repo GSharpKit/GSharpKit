@@ -52,6 +52,8 @@ cp -r $FROM/share/dbus-1 $TO/share/
 touch $TO/share/dbus-1/session.d/empty
 mkdir $TO/share/glib-2.0
 cp -r $FROM/share/glib-2.0/schemas $TO/share/glib-2.0/
+mkdir -p $TO/share/gtksourceview-4/language-specs
+cp $FROM/share/gtksourceview-4/language-specs/html.lang $TO/share/gtksourceview-4/language-specs/
 
 # Icons in share
 #cp -r $FROM/share/icons $TO/share/
