@@ -5,7 +5,7 @@
 
 %define major_version 44
 %define minor_version 1
-%define sdk_version 102
+%define sdk_version 200
 
 %define linux_prefix /usr/lib/GSharpKit/sdk/%{major_version}
 %define mingw64_prefix /usr/x86_64-w64-mingw32/sys-root/mingw/lib/GSharpKit/sdk/%{major_version}
@@ -184,9 +184,6 @@ dotnet publish --force --runtime linux-x64 -o lin
 dotnet publish --force --runtime win-x64 -o win
 dotnet publish --force --runtime osx-x64 -o darwinx
 
-dotnet add package ServiceStack --version 10.0.8
-dotnet publish -o other
-
 %install
 #if [ -d $RPM_BUILD_ROOT ]; then rm -rf $RPM_BUILD_ROOT; fi
 #DESTDIR=$RPM_BUILD_ROOT make install
@@ -194,17 +191,14 @@ dotnet publish -o other
 install -d -m 755 $RPM_BUILD_ROOT%{linux_prefix}
 install -m 644 lin/*.dll $RPM_BUILD_ROOT%{linux_prefix}/
 #install -m 644 any/runtimes/unix/lib/net8.0/Microsoft.Data.SqlClient.dll $RPM_BUILD_ROOT%{linux_prefix}/
-install -m 644 other/ServiceStack*.dll $RPM_BUILD_ROOT%{linux_prefix}/
 
 install -d -m 755 $RPM_BUILD_ROOT%{mingw64_prefix}
 install -m 644 win/*.dll $RPM_BUILD_ROOT%{mingw64_prefix}/
 #install -m 644 any/runtimes/unix/lib/net8.0/Microsoft.Data.SqlClient.dll $RPM_BUILD_ROOT%{mingw64_prefix}/
-install -m 644 other/ServiceStack*.dll $RPM_BUILD_ROOT%{mingw64_prefix}/
 
 install -d -m 755 $RPM_BUILD_ROOT%{darwinx_prefix}
 install -m 644 darwinx/*.dll $RPM_BUILD_ROOT%{darwinx_prefix}/
 #install -m 644 any/runtimes/unix/lib/net8.0/Microsoft.Data.SqlClient.dll $RPM_BUILD_ROOT%{darwinx_prefix}/
-install -m 644 other/ServiceStack*.dll $RPM_BUILD_ROOT%{darwinx_prefix}/
 
 install -m 644 %{SOURCE1} $RPM_BUILD_ROOT%{linux_prefix}/
 install -m 644 %{SOURCE2} $RPM_BUILD_ROOT%{linux_prefix}/
