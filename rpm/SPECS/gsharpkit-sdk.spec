@@ -5,7 +5,7 @@
 
 %define major_version 44
 %define minor_version 1
-%define sdk_version 200
+%define sdk_version 300
 
 %define linux_prefix /usr/lib/GSharpKit/sdk/%{major_version}
 %define mingw64_prefix /usr/x86_64-w64-mingw32/sys-root/mingw/lib/GSharpKit/sdk/%{major_version}
@@ -99,22 +99,22 @@ Easy management of applications for macOS 64 bit
 %build
 dotnet new console -f net%{DOTNET_VERSION}
 
-dotnet add package NLog --version 6.1.4
+dotnet add package NLog --version 6.2.0
 
-dotnet add package System.Security.Cryptography.Xml --version 10.0.10
-dotnet add package System.Security.Cryptography.Pkcs --version 10.0.10
-dotnet add package System.Security.Cryptography.ProtectedData --version 10.0.10
-dotnet add package System.Configuration.ConfigurationManager --version 10.0.10
+dotnet add package System.Security.Cryptography.Xml --version 10.0.11
+dotnet add package System.Security.Cryptography.Pkcs --version 10.0.11
+dotnet add package System.Security.Cryptography.ProtectedData --version 10.0.11
+dotnet add package System.Configuration.ConfigurationManager --version 10.0.11
 
-dotnet add package System.Runtime.Caching --version 10.0.10
+dotnet add package System.Runtime.Caching --version 10.0.11
 
-dotnet add package System.DirectoryServices --version 10.0.10
-dotnet add package System.DirectoryServices.AccountManagement --version 10.0.10
+dotnet add package System.DirectoryServices --version 10.0.11
+dotnet add package System.DirectoryServices.AccountManagement --version 10.0.11
 
-dotnet add package System.ServiceModel.Syndication --version 10.0.10
+dotnet add package System.ServiceModel.Syndication --version 10.0.11
 
-dotnet add package Microsoft.Extensions.Caching.Memory --version 10.0.10
-dotnet add package Microsoft.Extensions.Caching.Abstractions --version 10.0.10
+dotnet add package Microsoft.Extensions.Caching.Memory --version 10.0.11
+dotnet add package Microsoft.Extensions.Caching.Abstractions --version 10.0.11
 
 dotnet add package System.ServiceModel.Primitives --version 10.0.652802
 dotnet add package System.ServiceModel.Http --version 10.0.652802
@@ -122,15 +122,15 @@ dotnet add package System.ServiceModel.NetTcp --version 10.0.652802
 dotnet add package System.ServiceModel.Federation --version 10.0.652802
 dotnet add package System.Web.Services.Description --version 10.0.652802
 
-dotnet add package System.CommandLine --version 2.0.10
+dotnet add package System.CommandLine --version 2.0.11
 
 dotnet add package Duende.IdentityModel.OidcClient --version 7.1.0
 
-dotnet add package Google.Apis.Auth --version 1.75.0
-dotnet add package Microsoft.Identity.Client --version 4.86.0
+dotnet add package Google.Apis.Auth --version 1.76.0
+dotnet add package Microsoft.Identity.Client --version 4.88.0
 
-dotnet add package Microsoft.IdentityModel.Tokens --version 8.19.2
-dotnet add package Microsoft.IdentityModel.Protocols --version 8.19.2
+dotnet add package Microsoft.IdentityModel.Tokens --version 8.22.0
+dotnet add package Microsoft.IdentityModel.Protocols --version 8.22.0
 
 dotnet add package Microsoft.Data.SqlClient --version 7.0.2
 
@@ -144,16 +144,17 @@ dotnet add package Mono.Cecil --version 0.11.6
 
 dotnet add package Npgsql --version 10.0.3
 
-dotnet add package Tmds.DBus --version 0.94.2
+dotnet add package Tmds.DBus --version 0.95.0
 
 dotnet add package DnsClient --version 1.8.0
 
-dotnet add package ClosedXml --version 0.105.0
+# Needs OpenXml = 3.1.1
+dotnet add package ClosedXml --version 0.105.1
 
-dotnet add package DocumentFormat.OpenXml --version 3.5.1
-dotnet add package DocumentFormat.OpenXml.Framework --version 3.5.1
-dotnet add package DocumentFormat.OpenXml.Linq --version 3.5.1
-dotnet add package DocumentFormat.OpenXml.Features --version 3.5.1
+dotnet add package DocumentFormat.OpenXml --version 3.1.1
+dotnet add package DocumentFormat.OpenXml.Framework --version 3.1.1
+dotnet add package DocumentFormat.OpenXml.Linq --version 3.1.1
+dotnet add package DocumentFormat.OpenXml.Features --version 3.1.1
 
 dotnet add package GirCore.Gtk-4.0 --version 0.8.1
 dotnet add package GirCore.Adw-1 --version 0.8.1
@@ -164,7 +165,7 @@ dotnet add package GirCore.GstVideo-1.0 --version 0.8.1
 dotnet add package GirCore.GstPbutils-1.0 --version 0.8.1
 
 dotnet add package Newtonsoft.Json --version 13.0.4
-dotnet add package BouncyCastle.Cryptography --version 2.6.2
+dotnet add package BouncyCastle.Cryptography --version 2.7.0
 dotnet add package MimeKit --version 4.17.0
 dotnet add package MailKit --version 4.17.0
 dotnet add package RestSharp --version 114.0.0
