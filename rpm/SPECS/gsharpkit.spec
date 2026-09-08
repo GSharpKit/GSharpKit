@@ -86,7 +86,7 @@
 %define DOTNET_VERSION 10.0
 
 %define major_version 44
-%define minor_version 1
+%define minor_version 2
 
 %define linux_prefix /usr/lib64
 %define mingw64_prefix /usr/x86_64-w64-mingw32/sys-root/mingw/bin
