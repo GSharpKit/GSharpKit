@@ -1,6 +1,6 @@
-diff -rupN --no-dereference gst-plugins-bad-1.26.3/gst-libs/gst/d3d11/gstd3d11converter.cpp gst-plugins-bad-1.26.3-new/gst-libs/gst/d3d11/gstd3d11converter.cpp
---- gst-plugins-bad-1.26.3/gst-libs/gst/d3d11/gstd3d11converter.cpp	2025-06-26 22:25:24.000000000 +0200
-+++ gst-plugins-bad-1.26.3-new/gst-libs/gst/d3d11/gstd3d11converter.cpp	2025-06-29 18:22:50.647826144 +0200
+diff -rupN --no-dereference gst-plugins-bad-1.28.6/gst-libs/gst/d3d11/gstd3d11converter.cpp gst-plugins-bad-1.28.6-new/gst-libs/gst/d3d11/gstd3d11converter.cpp
+--- gst-plugins-bad-1.28.6/gst-libs/gst/d3d11/gstd3d11converter.cpp	2026-08-05 13:59:39.000000000 +0200
++++ gst-plugins-bad-1.28.6-new/gst-libs/gst/d3d11/gstd3d11converter.cpp	2026-08-09 19:06:26.089414100 +0200
 @@ -43,7 +43,7 @@
  #ifndef HAVE_DIRECTX_MATH_SIMD
  #define _XM_NO_INTRINSICS_
@@ -10,9 +10,9 @@ diff -rupN --no-dereference gst-plugins-bad-1.26.3/gst-libs/gst/d3d11/gstd3d11co
  
  /**
   * SECTION:gstd3d11converter
-diff -rupN --no-dereference gst-plugins-bad-1.26.3/gst-libs/gst/d3d11/meson.build gst-plugins-bad-1.26.3-new/gst-libs/gst/d3d11/meson.build
---- gst-plugins-bad-1.26.3/gst-libs/gst/d3d11/meson.build	2025-06-26 22:25:24.000000000 +0200
-+++ gst-plugins-bad-1.26.3-new/gst-libs/gst/d3d11/meson.build	2025-06-29 18:22:50.648281556 +0200
+diff -rupN --no-dereference gst-plugins-bad-1.28.6/gst-libs/gst/d3d11/meson.build gst-plugins-bad-1.28.6-new/gst-libs/gst/d3d11/meson.build
+--- gst-plugins-bad-1.28.6/gst-libs/gst/d3d11/meson.build	2026-08-05 13:59:39.000000000 +0200
++++ gst-plugins-bad-1.28.6-new/gst-libs/gst/d3d11/meson.build	2026-08-09 19:06:26.089909081 +0200
 @@ -187,7 +187,7 @@ endif
  
  have_dx_math = cxx.compiles('''
@@ -31,9 +31,9 @@ diff -rupN --no-dereference gst-plugins-bad-1.26.3/gst-libs/gst/d3d11/meson.buil
        using namespace DirectX;
        int main(int argc, char ** argv) {
          XMVerifyCPUSupport ();
-diff -rupN --no-dereference gst-plugins-bad-1.26.3/sys/d3d11/gstd3d11dxgicapture.cpp gst-plugins-bad-1.26.3-new/sys/d3d11/gstd3d11dxgicapture.cpp
---- gst-plugins-bad-1.26.3/sys/d3d11/gstd3d11dxgicapture.cpp	2025-06-26 22:25:24.000000000 +0200
-+++ gst-plugins-bad-1.26.3-new/sys/d3d11/gstd3d11dxgicapture.cpp	2025-06-29 18:22:50.648539673 +0200
+diff -rupN --no-dereference gst-plugins-bad-1.28.6/sys/d3d11/gstd3d11dxgicapture.cpp gst-plugins-bad-1.28.6-new/sys/d3d11/gstd3d11dxgicapture.cpp
+--- gst-plugins-bad-1.28.6/sys/d3d11/gstd3d11dxgicapture.cpp	2026-08-05 13:59:39.000000000 +0200
++++ gst-plugins-bad-1.28.6-new/sys/d3d11/gstd3d11dxgicapture.cpp	2026-08-09 19:06:26.090404635 +0200
 @@ -54,7 +54,7 @@
  #include <wrl.h>
  
@@ -43,9 +43,9 @@ diff -rupN --no-dereference gst-plugins-bad-1.26.3/sys/d3d11/gstd3d11dxgicapture
  
  GST_DEBUG_CATEGORY_EXTERN (gst_d3d11_screen_capture_debug);
  #define GST_CAT_DEFAULT gst_d3d11_screen_capture_debug
-diff -rupN --no-dereference gst-plugins-bad-1.26.3/sys/d3d11/gstd3d11pluginutils.cpp gst-plugins-bad-1.26.3-new/sys/d3d11/gstd3d11pluginutils.cpp
---- gst-plugins-bad-1.26.3/sys/d3d11/gstd3d11pluginutils.cpp	2025-06-26 22:25:24.000000000 +0200
-+++ gst-plugins-bad-1.26.3-new/sys/d3d11/gstd3d11pluginutils.cpp	2025-06-29 18:22:50.648878248 +0200
+diff -rupN --no-dereference gst-plugins-bad-1.28.6/sys/d3d11/gstd3d11pluginutils.cpp gst-plugins-bad-1.28.6-new/sys/d3d11/gstd3d11pluginutils.cpp
+--- gst-plugins-bad-1.28.6/sys/d3d11/gstd3d11pluginutils.cpp	2026-08-05 13:59:39.000000000 +0200
++++ gst-plugins-bad-1.28.6-new/sys/d3d11/gstd3d11pluginutils.cpp	2026-08-09 19:06:26.090629378 +0200
 @@ -31,7 +31,7 @@
  
  /* Disable platform-specific intrinsics */
@@ -55,9 +55,9 @@ diff -rupN --no-dereference gst-plugins-bad-1.26.3/sys/d3d11/gstd3d11pluginutils
  
  GST_DEBUG_CATEGORY_EXTERN (gst_d3d11_plugin_utils_debug);
  #define GST_CAT_DEFAULT gst_d3d11_plugin_utils_debug
-diff -rupN --no-dereference gst-plugins-bad-1.26.3/sys/d3d12/gstd3d12dxgicapture.cpp gst-plugins-bad-1.26.3-new/sys/d3d12/gstd3d12dxgicapture.cpp
---- gst-plugins-bad-1.26.3/sys/d3d12/gstd3d12dxgicapture.cpp	2025-06-26 22:25:24.000000000 +0200
-+++ gst-plugins-bad-1.26.3-new/sys/d3d12/gstd3d12dxgicapture.cpp	2025-06-29 18:22:50.649271818 +0200
+diff -rupN --no-dereference gst-plugins-bad-1.28.6/sys/d3d12/gstd3d12dxgicapture.cpp gst-plugins-bad-1.28.6-new/sys/d3d12/gstd3d12dxgicapture.cpp
+--- gst-plugins-bad-1.28.6/sys/d3d12/gstd3d12dxgicapture.cpp	2026-08-05 13:59:39.000000000 +0200
++++ gst-plugins-bad-1.28.6-new/sys/d3d12/gstd3d12dxgicapture.cpp	2026-08-09 19:06:26.091439208 +0200
 @@ -59,7 +59,7 @@
  #include <gmodule.h>
  
@@ -67,9 +67,9 @@ diff -rupN --no-dereference gst-plugins-bad-1.26.3/sys/d3d12/gstd3d12dxgicapture
  
  GST_DEBUG_CATEGORY_EXTERN (gst_d3d12_screen_capture_debug);
  #define GST_CAT_DEFAULT gst_d3d12_screen_capture_debug
-diff -rupN --no-dereference gst-plugins-bad-1.26.3/sys/d3d12/gstd3d12pluginutils.cpp gst-plugins-bad-1.26.3-new/sys/d3d12/gstd3d12pluginutils.cpp
---- gst-plugins-bad-1.26.3/sys/d3d12/gstd3d12pluginutils.cpp	2025-06-26 22:25:24.000000000 +0200
-+++ gst-plugins-bad-1.26.3-new/sys/d3d12/gstd3d12pluginutils.cpp	2025-06-29 18:22:50.649573594 +0200
+diff -rupN --no-dereference gst-plugins-bad-1.28.6/sys/d3d12/gstd3d12pluginutils.cpp gst-plugins-bad-1.28.6-new/sys/d3d12/gstd3d12pluginutils.cpp
+--- gst-plugins-bad-1.28.6/sys/d3d12/gstd3d12pluginutils.cpp	2026-08-05 13:59:39.000000000 +0200
++++ gst-plugins-bad-1.28.6-new/sys/d3d12/gstd3d12pluginutils.cpp	2026-08-09 19:06:26.091760002 +0200
 @@ -26,7 +26,7 @@
  #include <vector>
  
@@ -79,3 +79,14 @@ diff -rupN --no-dereference gst-plugins-bad-1.26.3/sys/d3d12/gstd3d12pluginutils
  
  /* *INDENT-OFF* */
  using namespace DirectX;
+diff -rupN --no-dereference gst-plugins-bad-1.28.6/sys/d3d12/meson.build gst-plugins-bad-1.28.6-new/sys/d3d12/meson.build
+--- gst-plugins-bad-1.28.6/sys/d3d12/meson.build	2026-08-05 13:59:39.000000000 +0200
++++ gst-plugins-bad-1.28.6-new/sys/d3d12/meson.build	2026-08-09 19:06:26.092046742 +0200
+@@ -105,6 +105,7 @@ plugin_sources += {
+ extra_args = [
+   '-DGST_USE_UNSTABLE_API',
+   '-DGST_D3D12_USE_DIRECTX_HEADERS',
++  '-msse2'
+ ]
+ 
+ d3d12_cdata = configuration_data()

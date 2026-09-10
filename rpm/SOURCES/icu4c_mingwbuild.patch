@@ -1,6 +1,6 @@
 diff -rupN --no-dereference icu/source/config/icu.pc.in icu-new/source/config/icu.pc.in
---- icu/source/config/icu.pc.in	2023-12-11 23:27:41.000000000 +0100
-+++ icu-new/source/config/icu.pc.in	2024-02-05 09:27:02.052135931 +0100
+--- icu/source/config/icu.pc.in	2025-03-13 19:31:23.000000000 +0100
++++ icu-new/source/config/icu.pc.in	2025-08-15 11:15:32.651555635 +0200
 @@ -3,30 +3,30 @@
  # Copyright (C) 2010-2013, International Business Machines Corporation. All Rights Reserved.
  
@@ -49,8 +49,8 @@ diff -rupN --no-dereference icu/source/config/icu.pc.in icu-new/source/config/ic
  #ICUDATA_DIR=${pkgdatadir}
  ICUDESC=International Components for Unicode
 diff -rupN --no-dereference icu/source/config/Makefile.inc.in icu-new/source/config/Makefile.inc.in
---- icu/source/config/Makefile.inc.in	2023-12-11 23:27:41.000000000 +0100
-+++ icu-new/source/config/Makefile.inc.in	2024-02-05 09:27:02.056135944 +0100
+--- icu/source/config/Makefile.inc.in	2025-03-13 19:31:23.000000000 +0100
++++ icu-new/source/config/Makefile.inc.in	2025-08-15 11:15:32.652095382 +0200
 @@ -43,7 +43,7 @@ UNICODE_VERSION = @UNICODE_VERSION@
  # The prefix for ICU libraries, normally 'icu'
  ICUPREFIX = icu
@@ -88,8 +88,8 @@ diff -rupN --no-dereference icu/source/config/Makefile.inc.in icu-new/source/con
  ICULIBS_COMMON_LIB_NAME_A = ${LIBICU}${COMMON_STUBNAME}${ICULIBSUFFIX}.${A}
  
 diff -rupN --no-dereference icu/source/config/mh-mingw icu-new/source/config/mh-mingw
---- icu/source/config/mh-mingw	2023-12-11 23:27:41.000000000 +0100
-+++ icu-new/source/config/mh-mingw	2024-02-05 09:27:02.059135953 +0100
+--- icu/source/config/mh-mingw	2025-03-13 19:31:23.000000000 +0100
++++ icu-new/source/config/mh-mingw	2025-08-15 11:15:32.652286897 +0200
 @@ -82,34 +82,21 @@ SO_TARGET_VERSION_SUFFIX =
  endif
  
@@ -157,8 +157,8 @@ diff -rupN --no-dereference icu/source/config/mh-mingw icu-new/source/config/mh-
  ## End Cygwin/MinGW specific setup
  
 diff -rupN --no-dereference icu/source/config/mh-mingw64 icu-new/source/config/mh-mingw64
---- icu/source/config/mh-mingw64	2023-12-11 23:27:41.000000000 +0100
-+++ icu-new/source/config/mh-mingw64	2024-02-05 09:27:02.063135966 +0100
+--- icu/source/config/mh-mingw64	2025-03-13 19:31:23.000000000 +0100
++++ icu-new/source/config/mh-mingw64	2025-08-15 11:15:32.652469040 +0200
 @@ -82,7 +82,7 @@ SO_TARGET_VERSION_SUFFIX =
  endif
  

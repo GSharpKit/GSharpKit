@@ -1,0 +1,299 @@
+%{?ucrt_package_header}
+
+Name:           ucrt-librsvg2
+Version:        2.62.3
+Release:        2%{?dist}
+Summary:        SVG library based on cairo for MinGW
+
+License:        LGPL-2.0-or-later
+URL:            https://wiki.gnome.org/Projects/LibRsvg
+BuildArch:      noarch
+Source0:        https://download.gnome.org/sources/librsvg/2.62/librsvg-%{version}.tar.xz
+# tar xf librsvg-${version}.tar.xz
+# cd librsvg-${version}
+# cargo vendor
+# tar cfJ ../librsvg-${version}-vendor.tar.xz vendor
+Source1:        librsvg-%{version}-vendor.tar.xz
+
+# Fix multiple definition of `CloseHandle' / `GetLastError' by droppig --whole-archive linker flag
+Patch0:         librsvg-mingw.patch
+
+#Patch1:		librsvg-target.patch
+
+BuildRequires:  cargo
+BuildRequires:  cargo-c
+BuildRequires:  meson
+
+BuildRequires:  ucrt64-filesystem
+BuildRequires:  ucrt64-gcc
+BuildRequires:  ucrt64-gdk-pixbuf
+BuildRequires:  ucrt64-glib2
+BuildRequires:  ucrt64-gtk3
+BuildRequires:  ucrt64-libcroco
+BuildRequires:  ucrt64-pango
+BuildRequires:  rust-std-static-x86_64-pc-windows-gnu
+
+# we need to call the host gdk-pixbuf-query-loaders executable
+BuildRequires:  gdk-pixbuf2
+BuildRequires:  perl-File-Temp
+
+%description
+An SVG library based on cairo for MinGW.
+
+%package -n ucrt64-librsvg2
+Summary:        MinGW SVG library based on cairo
+Requires:       pkgconfig
+
+%description -n ucrt64-librsvg2
+This package contains the header files and libraries needed to develop
+applications that use librsvg2.
+
+
+%package -n ucrt64-librsvg2-static
+Summary:        MinGW static color daemon
+Requires:       ucrt64-librsvg2 = %{version}-%{release}
+
+%description -n ucrt64-librsvg2-static
+This package contains the static libraries needed to develop
+applications that use librsvg2.
+
+%{?ucrt_debug_package}
+
+
+%prep
+%autosetup -p1 -n librsvg-%{version} -a1
+
+# do not add host bindir to PATH
+# https://gitlab.gnome.org/GNOME/librsvg/-/issues/1141
+sed -i "s|extra_env.prepend('PATH', x)|# skip|g" meson.build
+
+
+mkdir -p .cargo
+cat > .cargo/config.toml <<EOF
+[source.crates-io]
+replace-with = "vendored-sources"
+
+[source.vendored-sources]
+directory = "vendor"
+EOF
+
+
+%build
+mkdir build_ucrt
+pushd build_ucrt
+
+#rustup component add x86_64-pc-windows-msvc
+#export RUSTFLAGS="${RUSTFLAGS:-} -Lnative=/home/mkj/Projects/GSharpKit/msvc-import-libs"
+
+#ucrt64_meson -Dpixbuf-loader=enabled -Drsvg-convert=disabled -Dpixbuf-loader=disabled -Dtriplet=x86_64-pc-windows-msvc
+%ucrt64_meson -Dpixbuf-loader=enabled -Drsvg-convert=disabled -Dpixbuf-loader=enabled
+
+#cargo xwin build --release --target x86_64-pc-windows-msvc
+export CARGO_TARGET_X86_64_PC_WINDOWS_GNU_LINKER=/usr/bin/x86_64-w64-mingw32ucrt-gcc
+export CARGO_TARGET_X86_64_PC_WINDOWS_GNU_AR=/usr/bin/x86_64-w64-mingw32ucrt-ar
+ninja
+popd
+
+%install
+pushd build_ucrt
+DESTDIR=%{buildroot} ninja install
+popd
+
+# Delete docs already part of native package
+rm -rf %{buildroot}%{ucrt64_datadir}/man
+rm -rf %{buildroot}%{ucrt64_datadir}/gtk-doc
+rm -rf %{buildroot}%{ucrt64_datadir}/doc/librsvg
+rm -rf %{buildroot}%{ucrt64_datadir}/thumbnailers
+
+%files -n ucrt64-librsvg2
+%license COPYING.LIB
+%{ucrt64_bindir}/librsvg-2-2.dll
+#{ucrt64_bindir}/rsvg-convert.exe
+%{ucrt64_includedir}/librsvg-2.0
+%{ucrt64_libdir}/librsvg-2.dll.a
+%{ucrt64_libdir}/pkgconfig/*.pc
+%{ucrt64_libdir}/gdk-pixbuf-2.0/2.10.0/loaders/pixbufloader_svg.dll
+
+
+%changelog
+* Tue Jun 09 2026 Sandro Mani <manisandro@gmail.com> - 2.62.3-1
+- Update to 2.62.3
+
+* Sun May 17 2026 Sandro Mani <manisandro@gmail.com> - 2.62.2-1
+- Update to 2.62.2
+
+* Sun Apr 12 2026 Sandro Mani <manisandro@gmail.com> - 2.62.1-1
+- Update to 2.62.1
+
+* Sat Mar 21 2026 Sandro Mani <manisandro@gmail.com> - 2.62.0-1
+- Update to 2.62.0
+
+* Fri Jan 30 2026 Sandro Mani <manisandro@gmail.com> - 2.61.90-1
+- Update to 2.61.90
+
+* Fri Jan 16 2026 Fedora Release Engineering <releng@fedoraproject.org> - 2.57.1-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_44_Mass_Rebuild
+
+* Thu Jul 24 2025 Fedora Release Engineering <releng@fedoraproject.org> - 2.57.1-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_43_Mass_Rebuild
+
+* Fri Jan 17 2025 Fedora Release Engineering <releng@fedoraproject.org> - 2.57.1-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_42_Mass_Rebuild
+
+* Thu Jul 18 2024 Fedora Release Engineering <releng@fedoraproject.org> - 2.57.1-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_41_Mass_Rebuild
+
+* Thu Jan 25 2024 Fedora Release Engineering <releng@fedoraproject.org> - 2.57.1-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_40_Mass_Rebuild
+
+* Sun Jan 21 2024 Fedora Release Engineering <releng@fedoraproject.org> - 2.57.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_40_Mass_Rebuild
+
+* Mon Dec 18 2023 Sandro Mani <manisandro@gmail.com> - 2.57.1-1
+- Update to 2.57.1
+
+* Tue Oct 03 2023 Sandro Mani <manisandro@gmail.com> - 2.57.0-1
+- Update to 2.57.0
+
+* Wed Aug 23 2023 Sandro Mani <manisandro@gmail.com> - 2.56.92-1
+- Update to 2.56.92
+
+* Thu Jul 20 2023 Fedora Release Engineering <releng@fedoraproject.org> - 2.56.90-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_39_Mass_Rebuild
+
+* Tue Jul 04 2023 Sandro Mani <manisandro@gmail.com> - 2.56.90-1
+- Update to 2.56.90
+
+* Thu Jun 01 2023 Sandro Mani <manisandro@gmail.com> - 2.56.1-1
+- Update to 2.56.1
+
+* Fri Mar 31 2023 Sandro Mani <manisandro@gmail.com> - 2.56.0-1
+- Update to 2.56.0
+
+* Thu Jan 19 2023 Fedora Release Engineering <releng@fedoraproject.org> - 2.55.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_38_Mass_Rebuild
+
+* Tue Nov 22 2022 Sandro Mani <manisandro@gmail.com> - 2.55.1-1
+- Update to 2.55.1
+
+* Tue Aug 30 2022 Sandro Mani <manisandro@gmail.com> - 2.54.5-1
+- Update to 2.54.5
+
+* Thu Jul 21 2022 Fedora Release Engineering <releng@fedoraproject.org> - 2.54.4-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_37_Mass_Rebuild
+
+* Wed Jun 15 2022 Sandro Mani <manisandro@gmail.com> - 2.54.4-1
+- Update to 2.54.4
+
+* Fri May 20 2022 Sandro Mani <manisandro@gmail.com> - 2.54.3-1
+- Update to 2.54.3
+
+* Tue Apr 26 2022 Sandro Mani <manisandro@gmail.com> - 2.54.1-1
+- Update to 2.54.1
+
+* Fri Mar 25 2022 Sandro Mani <manisandro@gmail.com> - 2.54.0-2
+- Rebuild with ucrt-gcc-12
+
+* Thu Mar 17 2022 Sandro Mani <manisandro@gmail.com> - 2.54.0-1
+- Update to 2.54.0
+
+* Tue Mar 15 2022 Sandro Mani <manisandro@gmail.com> - 2.53.2-1
+- Update to 2.53.2
+
+* Tue Mar 08 2022 Sandro Mani <manisandro@gmail.com> - 2.53.1-2
+- Rebuild to fix missing entry point error
+
+* Mon Feb 14 2022 Sandro Mani <manisandro@gmail.com> - 2.53.1-1
+- Update to 2.53.1
+
+* Thu Jan 20 2022 Fedora Release Engineering <releng@fedoraproject.org> - 2.53.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_36_Mass_Rebuild
+
+* Mon Jan 10 2022 Sandro Mani <manisandro@gmail.com> - 2.53.0-1
+- Update to 2.53.0
+
+* Sat Jan 08 2022 Sandro Mani <manisandro@gmail.com> - 2.52.5-1
+- Update to 2.52.5
+
+* Tue Oct 26 2021 Sandro Mani <manisandro@gmail.com> - 2.52.1-1
+- Update to 2.52.1
+
+* Thu Jul 22 2021 Fedora Release Engineering <releng@fedoraproject.org> - 2.40.21-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_35_Mass_Rebuild
+
+* Tue Mar 02 2021 David King <amigadave@amigadave.com> - 2.40.21-1
+- Update to 2.40.21
+
+* Tue Jan 26 2021 Fedora Release Engineering <releng@fedoraproject.org> - 2.40.19-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_34_Mass_Rebuild
+
+* Wed Aug 12 13:43:13 GMT 2020 Sandro Mani <manisandro@gmail.com> - 2.40.19-9
+- Rebuild (ucrt-gettext)
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.40.19-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Apr 20 2020 Sandro Mani <manisandro@gmail.com> - 2.40.19-7
+- Rebuild (gettext)
+
+* Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.40.19-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
+
+* Thu Jul 25 2019 Fedora Release Engineering <releng@fedoraproject.org> - 2.40.19-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_31_Mass_Rebuild
+
+* Fri Feb 01 2019 Fedora Release Engineering <releng@fedoraproject.org> - 2.40.19-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_30_Mass_Rebuild
+
+* Fri Jul 13 2018 Fedora Release Engineering <releng@fedoraproject.org> - 2.40.19-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_29_Mass_Rebuild
+
+* Thu Feb 08 2018 Fedora Release Engineering <releng@fedoraproject.org> - 2.40.19-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_28_Mass_Rebuild
+
+* Sun Oct 15 2017 Kalev Lember <klember@redhat.com> - 2.40.19-1
+- Update to 2.40.19
+
+* Wed Jul 26 2017 Fedora Release Engineering <releng@fedoraproject.org> - 2.40.18-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_27_Mass_Rebuild
+
+* Thu Jul 20 2017 Kalev Lember <klember@redhat.com> - 2.40.18-1
+- Update to 2.40.18
+
+* Tue Jun 20 2017 Kalev Lember <klember@redhat.com> - 2.40.17-1
+- Update to 2.40.17
+
+* Fri Feb 10 2017 Fedora Release Engineering <releng@fedoraproject.org> - 2.40.16-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_26_Mass_Rebuild
+
+* Fri Sep 16 2016 Kalev Lember <klember@redhat.com> - 2.40.16-1
+- Update to 2.40.16
+
+* Tue May 03 2016 Kalev Lember <klember@redhat.com> - 2.40.15-1
+- Update to 2.40.15
+
+* Thu Feb 04 2016 Fedora Release Engineering <releng@fedoraproject.org> - 2.40.12-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_24_Mass_Rebuild
+
+* Wed Dec 02 2015 David King <amigadave@amigadave.com> - 2.40.12-1
+- Update to 2.40.12
+
+* Sat Nov 21 2015 David King <amigadave@amigadave.com> - 2.40.11-1
+- Update to 2.40.11
+
+* Sat Aug 29 2015 David King <amigadave@amigadave.com> - 2.40.10-1
+- Update to 2.40.10
+
+* Wed Jun 17 2015 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 2.40.9-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_23_Mass_Rebuild
+
+* Tue Apr 21 2015 David King <amigadave@amigadave.com> - 2.40.9-1
+- Update to 2.40.9
+
+* Fri Mar 13 2015 David King <amigadave@amigadave.com> - 2.40.8-1
+- Update to 2.40.8
+- Use license macro for COPYING
+- Update URL
+
+* Wed Nov 19 2014 Richard Hughes <richard@hughsie.com> - 2.40.6-1
+- Initial packaging attempt

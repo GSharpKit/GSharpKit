@@ -1,6 +1,6 @@
-diff -rupN --no-dereference gst-plugins-base-1.26.3/gst-libs/gst/audio/gstaudioutilsprivate.c gst-plugins-base-1.26.3-new/gst-libs/gst/audio/gstaudioutilsprivate.c
---- gst-plugins-base-1.26.3/gst-libs/gst/audio/gstaudioutilsprivate.c	2025-06-26 22:25:24.000000000 +0200
-+++ gst-plugins-base-1.26.3-new/gst-libs/gst/audio/gstaudioutilsprivate.c	2025-06-29 15:42:20.836905166 +0200
+diff -rupN --no-dereference gst-plugins-base-1.28.6/gst-libs/gst/audio/gstaudioutilsprivate.c gst-plugins-base-1.28.6-new/gst-libs/gst/audio/gstaudioutilsprivate.c
+--- gst-plugins-base-1.28.6/gst-libs/gst/audio/gstaudioutilsprivate.c	2026-08-05 13:59:39.000000000 +0200
++++ gst-plugins-base-1.28.6-new/gst-libs/gst/audio/gstaudioutilsprivate.c	2026-08-09 18:22:47.636041650 +0200
 @@ -301,9 +301,9 @@ __gst_audio_set_thread_priority (gpointe
  
  #ifdef G_OS_WIN32

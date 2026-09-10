@@ -86,15 +86,16 @@
 %define DOTNET_VERSION 10.0
 
 %define major_version 44
-%define minor_version 2
+%define minor_version 3
 
 %define linux_prefix /usr/lib64
 %define mingw64_prefix /usr/x86_64-w64-mingw32/sys-root/mingw/bin
+%define ucrt64_prefix /usr/x86_64-w64-mingw32ucrt/sys-root/mingw/bin
 
 Summary: 		Easy management of applications
 Name: 			GSharpKit
 Version:		%{major_version}.%{minor_version}
-Release:		3%{?dist}
+Release:		1%{?dist}
 License:		GPL
 Group: 			Applications/Desktop
 Source1:		gsharpkit.repo
@@ -261,10 +262,6 @@ Requires:               mingw64-gstreamer1-plugins-bad-free >= %{GSTREAMER1_PLUG
 
 Requires:               mingw64-dbus >= %{DBUS_VERSION}
 
-#Requires:		mingw64-libusbx >= %{LIBUSB_VERSION}
-#Requires:		mingw64-libexif >= %{LIBEXIF_VERSION}
-#Requires:		mingw64-libgphoto2 >= %{LIBGPHOTO2_VERSION}
-
 %description runtime-mingw64
 Easy management of applications for Windows 64 bit
 
@@ -299,11 +296,136 @@ Requires:               mingw64-gcc-objc >= %{COMPILER_VERSION}
 Requires:               mingw64-pkg-config >= %{PKG_CONFIG_VERSION}
 Requires:		mingw64-libidn >= %{LIBIDN_VERSION}
 
-Obsoletes:		GSharpKit-sdk-mingw
-Obsoletes:		GSharpKit-sdk-mingw-devel
-Obsoletes:		GSharpKit-sdk-mingw64-devel
-
 %description runtime-mingw64-devel
+Easy management of applications for Windows
+
+
+
+
+%package runtime-ucrt64
+Summary:                SDK for GSharpKit Mingw 64 bit
+License:                GPL
+Group:                  Applications/Desktop
+BuildArch:              noarch
+AutoReqProv:            no
+
+Provides:		ucrt64(msvcp140.dll)
+Provides:		ucrt64(vcruntime140.dll)
+Provides:		ucrt64(vcruntime140_1.dll)
+
+Requires:               dotnet-sdk-%{DOTNET_VERSION}
+
+Requires:               redhat-rpm-config rpm-build
+Requires:               msitools
+Requires:               osslsigncode
+Requires:               hunspell-da
+
+Requires:               ucrt64-winpthreads >= %{HEADER_CRT_THREAD_VERSION}
+Requires:               ucrt64-termcap >= %{TERMCAP_VERSION}
+Requires:               ucrt64-zlib >= %{ZLIB_VERSION}
+Requires:               ucrt64-win-iconv >= %{ICONV_VERSION}
+Requires:               ucrt64-gettext >= %{GETTEXT_VERSION}
+Requires:               ucrt64-libffi >= %{LIBFFI_VERSION}
+#Requires:               ucrt64-pcre >= %{PCRE_VERSION}
+Requires:               ucrt64-glib2 >= %{GLIB2_VERSION}
+Requires:               ucrt64-pixman >= %{PIXMAN_VERSION}
+Requires:               ucrt64-bzip2 >= %{BZIP2_VERSION}
+Requires:               ucrt64-freetype >= %{FREETYPE_VERSION}
+Requires:               ucrt64-expat >= %{EXPAT_VERSION}
+Requires:               ucrt64-fontconfig >= %{FONTCONFIG_VERSION}
+Requires:               ucrt64-libpng >= %{LIBPNG_VERSION}
+Requires:               ucrt64-libjpeg-turbo >= %{LIBJPEG_TURBO_VERSION}
+Requires:               ucrt64-libtiff >= %{LIBTIFF_VERSION}
+Requires:               ucrt64-cairo >= %{CAIRO_VERSION}
+Requires:               ucrt64-icu >= %{ICU_VERSION}
+Requires:               ucrt64-icu74 >= %{ICU_VERSION}
+Requires:               ucrt64-harfbuzz >= %{HARFBUZZ_VERSION}
+Requires:               ucrt64-fribidi >= %{FRIBIDI_VERSION}
+Requires:               ucrt64-pango >= %{PANGO_VERSION}
+Requires:               ucrt64-atk >= %{ATK_VERSION}
+Requires:               ucrt64-jasper >= %{JASPER_VERSION}
+Requires:               ucrt64-libxml2 >= %{LIBXML2_VERSION}
+Requires:               ucrt64-libpsl >= %{LIBPSL_VERSION}
+Requires:               ucrt64-gdk-pixbuf >= %{GDK_PIXBUF_VERSION}
+Requires:               ucrt64-libcroco >= %{LIBCROCO_VERSION}
+Requires:               ucrt64-libepoxy >= %{LIBEPOXY_VERSION}
+Requires:               ucrt64-librsvg2 >= %{LIBRSVG2_VERSION}
+Requires:               ucrt64-gtk3 >= %{GTK3_VERSION}
+Requires:               ucrt64-gtk4 >= %{GTK4_VERSION}
+Requires:		ucrt64-gsettings-desktop-schemas >= %{GSETTINGS_DESKTOP_SCHEMAS_VERSION}
+Requires:               ucrt64-adwaita-icon-theme >= %{ADWAITA_ICON_THEME_VERSION}
+Requires:               ucrt64-hicolor-icon-theme >= %{HICOLOR_ICON_THEME_VERSION}
+Requires:               ucrt64-libgdl >= %{GDL_VERSION}
+
+Requires:               ucrt64-libgpg-error >= %{LIBGPG_ERROR_VERSION}
+Requires:               ucrt64-libgcrypt >= %{LIBGCRYPT_VERSION}
+Requires:               ucrt64-gmp >= %{GMP_VERSION}
+Requires:               ucrt64-nettle >= %{NETTLE_VERSION}
+Requires:               ucrt64-p11-kit >= %{P11_KIT_VERSION}
+Requires:               ucrt64-libtasn1 >= %{LIBTASN1_VERSION}
+Requires:               ucrt64-readline >= %{READLINE_VERSION}
+Requires:               ucrt64-libunistring  >= %{LIBUNISTRING_VERSION}
+Requires:               ucrt64-gnutls  >= %{GNUTLS_VERSION}
+Requires:               ucrt64-openssl  >= %{OPENSSL_VERSION}
+Requires:               ucrt64-glib-networking >= %{GLIB_NETWORKING_VERSION}
+
+Requires:               ucrt64-libxslt >= %{LIBXSLT_VERSION}
+Requires:               ucrt64-sqlite >= %{SQLITE_VERSION}
+Requires:               ucrt64-libsoup >= %{LIBSOUP_VERSION}
+Requires:               ucrt64-webkitgtk3 >= %{WEBKITGTK3_VERSION}
+
+Requires:               ucrt64-servogtk >= %{SERVOGTK_VERSION}
+
+Requires:               ucrt64-hunspell >= %{HUNSPELL_VERSION}
+Requires:               ucrt64-enchant >= %{ENCHANT_VERSION}
+
+Requires:		ucrt64-gtksourceview4 >= %{GTK_SOURCE_VIEW_VERSION}
+
+Requires:               ucrt64-libogg >= %{LIBOGG_VERSION}
+Requires:               ucrt64-libvorbis >= %{LIBVORBIS_VERSION}
+Requires:               ucrt64-libwebp >= %{LIBWEBP_VERSION}
+Requires:               ucrt64-gstreamer1 >= %{GSTREAMER1_VERSION}
+Requires:               ucrt64-gstreamer1-plugins-base >= %{GSTREAMER1_PLUGINS_BASE_VERSION}
+Requires:               ucrt64-gstreamer1-plugins-good >= %{GSTREAMER1_PLUGINS_GOOD_VERSION}
+Requires:               ucrt64-gstreamer1-plugins-bad-free >= %{GSTREAMER1_PLUGINS_BAD_VERSION}
+
+Requires:               ucrt64-dbus >= %{DBUS_VERSION}
+
+%description runtime-ucrt64
+Easy management of applications for Windows 64 bit
+
+
+%package runtime-ucrt64-devel
+Summary:                SDK for GSharpKit Mingw 64 bit
+License:                GPL
+Group:                  Applications/Desktop
+BuildArch:              noarch
+AutoReqProv:            no
+
+Requires:		GSharpKit-runtime-ucrt64
+
+Requires:               gnome-common intltool glib2-devel redhat-rpm-config rpm-build fedora-packager
+Requires:               meson
+Requires:               redhat-rpm-config rpm-build
+Requires:               msitools
+Requires:               osslsigncode
+Requires:               hunspell-da hunspell-en-GB hunspell-en-US
+Requires:               python
+Requires:               sudo
+
+Requires:               mingw-w64-tools
+Requires:               ucrt64-filesystem >= %{MINGW_FILESYSTEM_VERSION}
+Requires:               ucrt64-binutils >= %{BINUTILS_VERSION}
+Requires:               ucrt64-crt >= %{HEADER_CRT_THREAD_VERSION}
+Requires:               ucrt64-headers >= %{HEADER_CRT_THREAD_VERSION}
+Requires:               ucrt64-cpp >= %{COMPILER_VERSION}
+Requires:               ucrt64-gcc >= %{COMPILER_VERSION}
+Requires:               ucrt64-gcc-c++ >= %{COMPILER_VERSION}
+Requires:               ucrt64-gcc-objc >= %{COMPILER_VERSION}
+Requires:               ucrt64-pkg-config >= %{PKG_CONFIG_VERSION}
+Requires:		ucrt64-libidn >= %{LIBIDN_VERSION}
+
+%description runtime-ucrt64-devel
 Easy management of applications for Windows
 
 %prep
@@ -332,7 +454,11 @@ install -m 644 lin/libMonoPosixHelper.so $RPM_BUILD_ROOT%{linux_prefix}/
 
 install -d -m 755 $RPM_BUILD_ROOT%{mingw64_prefix}
 install -m 644 win/MonoPosixHelper.dll $RPM_BUILD_ROOT%{mingw64_prefix}/
-install -m 644 win/libMonoPosixHelper.dll $RPM_BUILD_ROOT%{mingw64_prefix}/
+#install -m 644 win/libMonoPosixHelper.dll $RPM_BUILD_ROOT%{mingw64_prefix}/
+
+install -d -m 755 $RPM_BUILD_ROOT%{ucrt64_prefix}
+install -m 644 win/MonoPosixHelper.dll $RPM_BUILD_ROOT%{ucrt64_prefix}/
+#install -m 644 win/libMonoPosixHelper.dll $RPM_BUILD_ROOT%{ucrt64_prefix}/
 
 %clean
 #rm -rf $RPM_BUILD_ROOT
@@ -359,10 +485,21 @@ yum-config-manager --save --setopt=updates.exclude=
 %files runtime-mingw64-devel
 %defattr(-, root, root)
 
+%files runtime-ucrt64
+%defattr(-, root, root)
+%{ucrt64_prefix}/*.dll
+
+%files runtime-ucrt64-devel
+%defattr(-, root, root)
+
 ###########################################################################
 %changelog
+* Wed Sep 09 2026 Mikkel Kruse Johnsen, GSharpKit <mikkel@gsharpkit.com>
+- Added UCRT support
+
 * Thu Oct 03 2017 Mikkel Kruse Johnsen, GSharpKit <mikkel@gsharpkit.com>
 - Renamed to GSharpKit
+
 * Thu Jun 08 2010 Mikkel Kruse Johnsen, Appbox <mikkel@appbox.info>
 - First rpm build.
 

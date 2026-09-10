@@ -16,6 +16,19 @@ msi64: GSharpKit.json.in make-msi64.sh.in
 	sed -i -e 's!@RELEASE@!${RELEASE}!g' make-msi64.sh
 	sh make-msi64.sh
 
+ucrt64: GSharpKit.json.in make-ucrt64.sh.in
+	cp GSharpKit.json.in GSharpKit.json
+	sed -i -e 's!@VERSION@!${VERSION}!g' GSharpKit.json
+	sed -i -e 's!@RELEASE@!${RELEASE}!g' GSharpKit.json
+	sed -i -e 's!@ARCH_NO@!64!g' GSharpKit.json
+	sed -i -e 's!@ARCH_SHORT@!x64!g' GSharpKit.json
+	sed -i -e 's!@INSTALL_SCOPE@!perMachine!g' GSharpKit.json
+	cp make-ucrt64.sh.in make-ucrt64.sh
+	sed -i -e 's!@VERSION@!${VERSION}!g' make-ucrt64.sh
+	sed -i -e 's!@RELEASE@!${RELEASE}!g' make-ucrt64.sh
+	sh make-ucrt64.sh
+
+
 sign64: GSharpKit-${VERSION}-x64.msi
 	mv GSharpKit-${VERSION}-x64.msi GSharpKit-${VERSION}-x64.msi.unsigned
 	osslsigncode sign -pkcs11engine /usr/lib64/engines-3/pkcs11.so -pkcs11module /docker/keylocker/smpkcs11.so -certs /docker/keylocker/xmedicus_systems_aps.pem -key 'pkcs11:object=key_711812656;type=private' -n GSharpKit -i https://www.gsharpkit.com -t http://timestamp.digicert.com -h sha2 -in GSharpKit-${VERSION}-x64.msi.unsigned -out GSharpKit-${VERSION}-x64.msi && rm GSharpKit-${VERSION}-x64.msi.unsigned

@@ -3,22 +3,24 @@
 %global         api_version     1.0
 
 Name:           mingw-gstreamer1-plugins-good
-Version:        1.26.3
+Version:        1.28.6
 Release:        1%{?dist}
 Summary:        Cross compiled GStreamer1 plug-ins good
 
 License:        LGPL-2.0-or-later
 URL:            http://gstreamer.freedesktop.org/
 Source:         http://gstreamer.freedesktop.org/src/gst-plugins-good/gst-plugins-good-%{version}.tar.xz
-
+# Backport fix for CVE-2026-3083, CVE-2026-3085
+# https://gitlab.freedesktop.org/gstreamer/gstreamer/-/commit/8349cdd35f85246e113b18e55fd11abf9cb248bf
+Patch0:         CVE-2026-3083_3085.patch
 BuildArch:      noarch
 
 BuildRequires:  gettext
 BuildRequires:  gcc
 BuildRequires:  meson
 
-BuildRequires:  mingw32-filesystem >= 95
-BuildRequires:  mingw64-filesystem >= 95
+BuildRequires:  mingw32-filesystem
+BuildRequires:  mingw64-filesystem
 BuildRequires:  mingw32-gcc
 BuildRequires:  mingw64-gcc
 BuildRequires:  mingw32-binutils
@@ -46,8 +48,8 @@ BuildRequires:  mingw32-libjpeg-turbo
 BuildRequires:  mingw64-libjpeg-turbo
 BuildRequires:  mingw32-libpng
 BuildRequires:  mingw64-libpng
-BuildRequires:  mingw32-libsoup
-BuildRequires:  mingw64-libsoup
+BuildRequires:  mingw32-libsoup3
+BuildRequires:  mingw64-libsoup3
 BuildRequires:  mingw32-wavpack
 BuildRequires:  mingw64-wavpack
 BuildRequires:  mingw32-speex
@@ -139,7 +141,7 @@ rm -rf %{buildroot}%{mingw64_libdir}/gstreamer-%{api_version}/*.dll.a
 # Mingw32
 %files -n mingw32-gstreamer1-plugins-good -f mingw32-gstreamer1-plugins-good.lang
 %license COPYING
-%doc AUTHORS README.md REQUIREMENTS
+%doc README.md
 
 # Equaliser presets
 %{mingw32_datadir}/gstreamer-%{api_version}/presets/
@@ -193,10 +195,8 @@ rm -rf %{buildroot}%{mingw64_libdir}/gstreamer-%{api_version}/*.dll.a
 %{mingw32_libdir}/gstreamer-%{api_version}/libgstwavenc.dll
 %{mingw32_libdir}/gstreamer-%{api_version}/libgstwavpack.dll
 %{mingw32_libdir}/gstreamer-%{api_version}/libgstwavparse.dll
-%{mingw32_libdir}/gstreamer-%{api_version}/libgsty4menc.dll
-%{mingw32_libdir}/gstreamer-%{api_version}/libgstadaptivedemux2.dll
+%{mingw32_libdir}/gstreamer-%{api_version}/libgsty4m.dll
 %{mingw32_libdir}/gstreamer-%{api_version}/libgstxingmux.dll
-%{mingw32_libdir}/gstreamer-%{api_version}/libgstgtk.dll
 
 # gstreamer1-plugins with external dependencies but in the main package
 %{mingw32_libdir}/gstreamer-%{api_version}/libgstcairo.dll
@@ -210,7 +210,7 @@ rm -rf %{buildroot}%{mingw64_libdir}/gstreamer-%{api_version}/*.dll.a
 # Mingw64
 %files -n mingw64-gstreamer1-plugins-good -f mingw64-gstreamer1-plugins-good.lang
 %license COPYING
-%doc AUTHORS README.md REQUIREMENTS
+%doc README.md
 
 # Equaliser presets
 %{mingw64_datadir}/gstreamer-%{api_version}/presets/
@@ -264,10 +264,8 @@ rm -rf %{buildroot}%{mingw64_libdir}/gstreamer-%{api_version}/*.dll.a
 %{mingw64_libdir}/gstreamer-%{api_version}/libgstwavenc.dll
 %{mingw64_libdir}/gstreamer-%{api_version}/libgstwavpack.dll
 %{mingw64_libdir}/gstreamer-%{api_version}/libgstwavparse.dll
-%{mingw64_libdir}/gstreamer-%{api_version}/libgsty4menc.dll
-%{mingw64_libdir}/gstreamer-%{api_version}/libgstadaptivedemux2.dll
+%{mingw64_libdir}/gstreamer-%{api_version}/libgsty4m.dll
 %{mingw64_libdir}/gstreamer-%{api_version}/libgstxingmux.dll
-%{mingw64_libdir}/gstreamer-%{api_version}/libgstgtk.dll
 
 # gstreamer1-plugins with external dependencies but in the main package
 %{mingw64_libdir}/gstreamer-%{api_version}/libgstcairo.dll
@@ -279,6 +277,69 @@ rm -rf %{buildroot}%{mingw64_libdir}/gstreamer-%{api_version}/*.dll.a
 
 
 %changelog
+* Sun Aug 09 2026 Sandro Mani <manisandro@gmail.com> - 1.28.6-1
+- Update to 1.28.6
+
+* Thu Jul 16 2026 Fedora Release Engineering <releng@fedoraproject.org> - 1.28.5-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_45_Mass_Rebuild
+
+* Fri Jul 10 2026 Sandro Mani <manisandro@gmail.com> - 1.28.5-1
+- Update to 1.28.5
+
+* Mon Jun 15 2026 Sandro Mani <manisandro@gmail.com> - 1.28.4-1
+- Update to 1.28.4
+
+* Fri May 15 2026 Sandro Mani <manisandro@gmail.com> - 1.28.3-1
+- Update to 1.28.3
+
+* Wed Apr 15 2026 Sandro Mani <manisandro@gmail.com> - 1.28.2-3
+- BR: mingw-libsoup3
+
+* Wed Apr 15 2026 Sandro Mani <manisandro@gmail.com> - 1.28.2-2
+- Rebuild (mingw-gettext)
+
+* Sun Apr 12 2026 Sandro Mani <manisandro@gmail.com> - 1.28.2-1
+- Update to 1.28.2
+
+* Fri Mar 27 2026 Sandro Mani <manisandro@gmail.com> - 1.28.1-3
+- Backport fix for CVE-2026-3083, CVE-2026-3085
+
+* Sat Mar 21 2026 Sandro Mani <manisandro@gmail.com> - 1.28.1-2
+- Rebuild (mingw-libsoup)
+
+* Sun Mar 01 2026 Sandro Mani <manisandro@gmail.com> - 1.28.1-1
+- Update to 1.28.1
+
+* Sat Jan 31 2026 Sandro Mani <manisandro@gmail.com> - 1.28.0-1
+- Update to 1.28.0
+
+* Sun Jan 25 2026 Yaakov Selkowitz <yselkowi@redhat.com> - 1.26.10-3
+- Rebuilt for https://fedoraproject.org/wiki/Changes/TagLib2
+
+* Fri Jan 16 2026 Fedora Release Engineering <releng@fedoraproject.org> - 1.26.10-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_44_Mass_Rebuild
+
+* Fri Jan 09 2026 Sandro Mani <manisandro@gmail.com> - 1.26.10-1
+- Update to 1.26.10
+
+* Thu Dec 04 2025 Sandro Mani <manisandro@gmail.com> - 1.26.9-1
+- Update to 1.26.9
+
+* Sat Nov 15 2025 Sandro Mani <manisandro@gmail.com> - 1.26.8-1
+- Update to 1.26.8
+
+* Sun Oct 19 2025 Sandro Mani <manisandro@gmail.com> - 1.26.7-1
+- Update to 1.26.7
+
+* Tue Sep 16 2025 Sandro Mani <manisandro@gmail.com> - 1.26.6-1
+- Update to 1.26.6
+
+* Wed Aug 13 2025 Sandro Mani <manisandro@gmail.com> - 1.26.5-1
+- Update to 1.26.5
+
+* Thu Jul 24 2025 Fedora Release Engineering <releng@fedoraproject.org> - 1.26.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_43_Mass_Rebuild
+
 * Sun Jun 29 2025 Sandro Mani <manisandro@gmail.com> - 1.26.3-1
 - Update to 1.26.3
 

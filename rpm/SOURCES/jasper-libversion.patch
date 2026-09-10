@@ -1,7 +1,7 @@
-diff -rupN --no-dereference jasper-version-4.2.4/src/libjasper/CMakeLists.txt jasper-version-4.2.4-new/src/libjasper/CMakeLists.txt
---- jasper-version-4.2.4/src/libjasper/CMakeLists.txt	2024-04-27 19:53:19.000000000 +0200
-+++ jasper-version-4.2.4-new/src/libjasper/CMakeLists.txt	2024-07-07 16:15:08.485210264 +0200
-@@ -188,9 +188,12 @@ if(MSVC)
+diff -rupN --no-dereference jasper-version-4.2.8/src/libjasper/CMakeLists.txt jasper-version-4.2.8-new/src/libjasper/CMakeLists.txt
+--- jasper-version-4.2.8/src/libjasper/CMakeLists.txt	2025-08-06 05:55:34.000000000 +0200
++++ jasper-version-4.2.8-new/src/libjasper/CMakeLists.txt	2025-10-19 17:38:12.320087348 +0200
+@@ -198,9 +198,12 @@ if(MSVC)
  	target_compile_definitions(libjasper PRIVATE _CRT_NONSTDC_NO_DEPRECATE)
  endif()
  

@@ -6,7 +6,7 @@
 %global mingw_build_win64 1
 %global debug_package %{nil}
 
-%define version 0.3.0
+%define version 0.5.0
 
 Name:           mingw-servogtk
 License:        Mozilla Public License Version 2.0

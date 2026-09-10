@@ -3,7 +3,7 @@
 %global api_version 1.0
 
 Name:           mingw-gstreamer1
-Version:        1.26.3
+Version:        1.28.6
 Release:        1%{?dist}
 Summary:        MinGW Windows Streaming-Media Framework Runtime
 
@@ -111,7 +111,6 @@ rm -rf %{buildroot}%{mingw64_mandir}
 %dir %{mingw32_libexecdir}/gstreamer-%{api_version}
 %{mingw32_libexecdir}/gstreamer-%{api_version}/gst-completion-helper.exe
 %{mingw32_libexecdir}/gstreamer-%{api_version}/gst-plugin-scanner.exe
-%{mingw32_libexecdir}/gstreamer-%{api_version}/gst-ptp-helper.exe
 
 %dir %{mingw32_libdir}/gstreamer-%{api_version}/
 %{mingw32_libdir}/gstreamer-%{api_version}/*.dll
@@ -152,7 +151,6 @@ rm -rf %{buildroot}%{mingw64_mandir}
 %dir %{mingw64_libexecdir}/gstreamer-%{api_version}
 %{mingw64_libexecdir}/gstreamer-%{api_version}/gst-completion-helper.exe
 %{mingw64_libexecdir}/gstreamer-%{api_version}/gst-plugin-scanner.exe
-%{mingw64_libexecdir}/gstreamer-%{api_version}/gst-ptp-helper.exe
 
 %dir %{mingw64_libdir}/gstreamer-%{api_version}/
 %{mingw64_libdir}/gstreamer-%{api_version}/*.dll
@@ -184,6 +182,57 @@ rm -rf %{buildroot}%{mingw64_mandir}
 
 
 %changelog
+* Sat Aug 08 2026 Sandro Mani <manisandro@gmail.com> - 1.28.6-1
+- Update to 1.28.6
+
+* Thu Jul 16 2026 Fedora Release Engineering <releng@fedoraproject.org> - 1.28.5-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_45_Mass_Rebuild
+
+* Fri Jul 10 2026 Sandro Mani <manisandro@gmail.com> - 1.28.5-1
+- Update to 1.28.5
+
+* Mon Jun 15 2026 Sandro Mani <manisandro@gmail.com> - 1.28.4-1
+- Update to 1.28.4
+
+* Fri May 15 2026 Sandro Mani <manisandro@gmail.com> - 1.28.3-1
+- Update to 1.28.3
+
+* Wed Apr 15 2026 Sandro Mani <manisandro@gmail.com> - 1.28.2-2
+- Rebuild (mingw-gettext)
+
+* Sun Apr 12 2026 Sandro Mani <manisandro@gmail.com> - 1.28.2-1
+- Update to 1.28.2
+
+* Sun Mar 01 2026 Sandro Mani <manisandro@gmail.com> - 1.28.1-1
+- Update to 1.28.1
+
+* Fri Jan 30 2026 Sandro Mani <manisandro@gmail.com> - 1.28.0-1
+- Update to 1.28.0
+
+* Fri Jan 16 2026 Fedora Release Engineering <releng@fedoraproject.org> - 1.26.10-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_44_Mass_Rebuild
+
+* Fri Jan 09 2026 Sandro Mani <manisandro@gmail.com> - 1.26.10-1
+- Update to 1.26.10
+
+* Thu Dec 04 2025 Sandro Mani <manisandro@gmail.com> - 1.26.9-1
+- Update to 1.26.9
+
+* Sat Nov 15 2025 Sandro Mani <manisandro@gmail.com> - 1.26.8-1
+- Update to 1.26.8
+
+* Sun Oct 19 2025 Sandro Mani <manisandro@gmail.com> - 1.26.7-1
+- Update to 1.26.7
+
+* Tue Sep 16 2025 Sandro Mani <manisandro@gmail.com> - 1.26.6-1
+- Update to 1.26.6
+
+* Tue Aug 12 2025 Sandro Mani <manisandro@gmail.com> - 1.26.5-1
+- Update to 1.26.5
+
+* Thu Jul 24 2025 Fedora Release Engineering <releng@fedoraproject.org> - 1.26.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_43_Mass_Rebuild
+
 * Sun Jun 29 2025 Sandro Mani <manisandro@gmail.com> - 1.26.3-1
 - Update to 1.26.3
 

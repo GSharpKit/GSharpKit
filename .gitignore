@@ -23,6 +23,7 @@ mac/m4-1.4.17.tar.gz
 mac/m4-1.4.17/
 make-msi32.sh
 make-msi64.sh
+make-ucrt64.sh
 make-msisdk.sh
 make-pkg-notarize.sh
 make-pkg.sh

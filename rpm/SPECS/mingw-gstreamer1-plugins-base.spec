@@ -3,8 +3,8 @@
 %global         api_version      1.0
 
 Name:           mingw-gstreamer1-plugins-base
-Version:        1.26.3
-Release:        1%{?dist}
+Version:        1.28.6
+Release:        2%{?dist}
 Summary:        Cross compiled GStreamer1 media framework base plug-ins
 
 License:        LGPL-2.0-or-later
@@ -101,7 +101,6 @@ This package contains a set of well-maintained base plug-ins.
 %prep
 %autosetup -p1 -n gst-plugins-base-%{version}
 
-rm -rf subprojects
 
 %build
 %mingw_meson                                                            \
@@ -127,13 +126,20 @@ rm -rf %{buildroot}%{mingw64_mandir}
 rm -rf %{buildroot}%{mingw32_libdir}/gstreamer-%{api_version}/*.dll.a
 rm -rf %{buildroot}%{mingw64_libdir}/gstreamer-%{api_version}/*.dll.a
 
+rm -rf %{buildroot}%{mingw32_includedir}/GL
+rm -rf %{buildroot}%{mingw32_includedir}/KHR
+
+rm -rf %{buildroot}%{mingw64_includedir}/GL
+rm -rf %{buildroot}%{mingw64_includedir}/KHR
+
+
 %mingw_find_lang gst-plugins-base-%{api_version}
 
 
 # Win32
 %files -n mingw32-gstreamer1-plugins-base -f mingw32-gst-plugins-base-%{api_version}.lang
 %license COPYING
-%doc AUTHORS README.md REQUIREMENTS
+%doc README.md
 
 %{mingw32_bindir}/gst-device-monitor-%{api_version}.exe
 %{mingw32_bindir}/gst-play-%{api_version}.exe
@@ -175,7 +181,7 @@ rm -rf %{buildroot}%{mingw64_libdir}/gstreamer-%{api_version}/*.dll.a
 # Win64
 %files -n mingw64-gstreamer1-plugins-base -f mingw64-gst-plugins-base-%{api_version}.lang
 %license COPYING
-%doc AUTHORS README.md REQUIREMENTS
+%doc README.md
 
 %{mingw64_bindir}/gst-device-monitor-%{api_version}.exe
 %{mingw64_bindir}/gst-play-%{api_version}.exe
@@ -215,6 +221,57 @@ rm -rf %{buildroot}%{mingw64_libdir}/gstreamer-%{api_version}/*.dll.a
 %{mingw64_datadir}/gst-plugins-base
 
 %changelog
+* Sun Aug 09 2026 Sandro Mani <manisandro@gmail.com> - 1.28.6-1
+- Update to 1.28.6
+
+* Thu Jul 16 2026 Fedora Release Engineering <releng@fedoraproject.org> - 1.28.5-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_45_Mass_Rebuild
+
+* Fri Jul 10 2026 Sandro Mani <manisandro@gmail.com> - 1.28.5-1
+- Update to 1.28.5
+
+* Mon Jun 15 2026 Sandro Mani <manisandro@gmail.com> - 1.28.4-1
+- Update to 1.28.4
+
+* Fri May 15 2026 Sandro Mani <manisandro@gmail.com> - 1.28.3-1
+- Update to 1.28.3
+
+* Wed Apr 15 2026 Sandro Mani <manisandro@gmail.com> - 1.28.2-2
+- Rebuild (mingw-gettext)
+
+* Sun Apr 12 2026 Sandro Mani <manisandro@gmail.com> - 1.28.2-1
+- Update to 1.28.2
+
+* Sun Mar 01 2026 Sandro Mani <manisandro@gmail.com> - 1.28.1-1
+- Update to 1.28.1
+
+* Fri Jan 30 2026 Sandro Mani <manisandro@gmail.com> - 1.28.0-1
+- Update to 1.28.0
+
+* Fri Jan 16 2026 Fedora Release Engineering <releng@fedoraproject.org> - 1.26.10-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_44_Mass_Rebuild
+
+* Fri Jan 09 2026 Sandro Mani <manisandro@gmail.com> - 1.26.10-1
+- Update to 1.26.10
+
+* Thu Dec 04 2025 Sandro Mani <manisandro@gmail.com> - 1.26.9-1
+- Update to 1.26.9
+
+* Sat Nov 15 2025 Sandro Mani <manisandro@gmail.com> - 1.26.8-1
+- Update to 1.26.8
+
+* Sun Oct 19 2025 Sandro Mani <manisandro@gmail.com> - 1.26.7-1
+- Update to 1.26.7
+
+* Tue Sep 16 2025 Sandro Mani <manisandro@gmail.com> - 1.26.6-1
+- Update to 1.26.6
+
+* Tue Aug 12 2025 Sandro Mani <manisandro@gmail.com> - 1.26.5-1
+- Update to 1.26.5
+
+* Thu Jul 24 2025 Fedora Release Engineering <releng@fedoraproject.org> - 1.26.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_43_Mass_Rebuild
+
 * Sun Jun 29 2025 Sandro Mani <manisandro@gmail.com> - 1.26.3-1
 - Update to 1.26.3
 
