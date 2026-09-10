@@ -11,7 +11,10 @@ License:        GPLv3+ and LGPLv2+
 Group:          Development/Libraries
 URL:            http://www.gnutls.org/
 Source0:        gnutls-%{version}.tar.xz
+Source1:	gnutls.pc
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
+
+BuildArch:      noarch
 
 BuildRequires:  ucrt64-filesystem >= 7
 BuildRequires:  ucrt64-gcc
@@ -80,6 +83,8 @@ rm -rf $RPM_BUILD_ROOT%{ucrt64_mandir}
 
 rm -f $RPM_BUILD_ROOT%{ucrt64_libdir}/libgnutls*.dll.a
 mv $RPM_BUILD_ROOT%{ucrt64_libdir}/libgnutls* $RPM_BUILD_ROOT%{ucrt64_bindir}/
+
+cp -f %{SOURCE1} $RPM_BUILD_ROOT%{ucrt64_libdir}/pkgconfig/
 
 %clean
 rm -rf $RPM_BUILD_ROOT
