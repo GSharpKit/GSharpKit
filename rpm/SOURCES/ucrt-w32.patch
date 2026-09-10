@@ -1,0 +1,12 @@
+diff -Nur libgpg-error-1.61.orig/src/mkheader.c libgpg-error-1.61/src/mkheader.c
+--- libgpg-error-1.61.orig/src/mkheader.c	2025-08-14 17:04:08.000000000 +0200
++++ libgpg-error-1.61/src/mkheader.c	2026-09-09 09:00:55.404413092 +0200
+@@ -606,7 +606,7 @@
+     }
+   else if (!strcmp (tag, "include:os-add"))
+     {
+-      if (!strcmp (host_os, "mingw32"))
++      if (!strcmp (host_os, "mingw32") || !strcmp (host_os, "mingw32ucrt"))
+         {
+           include_file (fname, lnr, "w32-add.h", write_line);
+         }

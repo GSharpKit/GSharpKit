@@ -1,0 +1,34 @@
+diff -rupN --no-dereference DirectXMath-apr2025/CMakeLists.txt DirectXMath-apr2025-new/CMakeLists.txt
+--- DirectXMath-apr2025/CMakeLists.txt	2025-04-03 22:47:41.000000000 +0200
++++ DirectXMath-apr2025-new/CMakeLists.txt	2026-01-05 10:35:37.183943845 +0100
+@@ -61,25 +61,25 @@ install(TARGETS ${PROJECT_NAME}
+ 
+ configure_package_config_file(${CMAKE_CURRENT_SOURCE_DIR}/build/${PROJECT_NAME}-config.cmake.in
+   ${CMAKE_CURRENT_BINARY_DIR}/${PACKAGE_NAME}-config.cmake
+-  INSTALL_DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/${PACKAGE_NAME})
++  INSTALL_DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/cmake/${PACKAGE_NAME})
+ 
+ install(EXPORT ${PROJECT_NAME}-targets
+   FILE ${PROJECT_NAME}-targets.cmake
+   NAMESPACE Microsoft::
+-  DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/${PACKAGE_NAME})
++  DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/cmake/${PACKAGE_NAME})
+ 
+ install(FILES ${LIBRARY_HEADERS}
+-  DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
++  DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/directxmath)
+ 
+ install(FILES
+     ${CMAKE_CURRENT_BINARY_DIR}/${PACKAGE_NAME}-config.cmake
+     ${CMAKE_CURRENT_BINARY_DIR}/${PACKAGE_NAME}-config-version.cmake
+-  DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/${PACKAGE_NAME})
++  DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/cmake/${PACKAGE_NAME})
+ 
+ # Create pkg-config file
+ include(build/JoinPaths.cmake)
+ # from: https://github.com/jtojnar/cmake-snips#concatenating-paths-when-building-pkg-config-files
+-join_paths(DIRECTXMATH_INCLUDEDIR_FOR_PKG_CONFIG "\${prefix}" "${CMAKE_INSTALL_INCLUDEDIR}")
++join_paths(DIRECTXMATH_INCLUDEDIR_FOR_PKG_CONFIG "\${prefix}" "${CMAKE_INSTALL_INCLUDEDIR}/directxmath")
+ join_paths(DIRECTXMATH_LIBDIR_FOR_PKG_CONFIG "\${prefix}"     "${CMAKE_INSTALL_LIBDIR}")
+ 
+ configure_file(

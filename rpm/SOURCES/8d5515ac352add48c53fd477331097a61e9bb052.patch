@@ -1,0 +1,191 @@
+diff -rupN --no-dereference glib-2.88.3/fuzzing/fuzz_dbus_node_info_new_for_xml.c glib-2.88.3-new/fuzzing/fuzz_dbus_node_info_new_for_xml.c
+--- glib-2.88.3/fuzzing/fuzz_dbus_node_info_new_for_xml.c	1970-01-01 01:00:00.000000000 +0100
++++ glib-2.88.3-new/fuzzing/fuzz_dbus_node_info_new_for_xml.c	2026-07-29 19:28:46.586080445 +0200
+@@ -0,0 +1,42 @@
++/*
++ * Copyright 2026 Philip Withnall
++ *
++ * SPDX-License-Identifier: LGPL-2.1-or-later
++ *
++ * This library is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU Lesser General Public
++ * License as published by the Free Software Foundation; either
++ * version 2.1 of the License, or (at your option) any later version.
++ *
++ * This library is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++ * Lesser General Public License for more details.
++ *
++ * You should have received a copy of the GNU Lesser General Public
++ * License along with this library; if not, see <http://www.gnu.org/licenses/>.
++ */
++
++#include "fuzz.h"
++
++int
++LLVMFuzzerTestOneInput (const unsigned char *data, size_t size)
++{
++  char *nul_terminated_data = NULL;
++  GDBusNodeInfo *node = NULL;
++  GError *local_error = NULL;
++
++  fuzz_set_logging_func ();
++
++  /* ignore @size (g_dbus_node_info_new_for_xml() doesn’t support it); ensure @data is nul-terminated */
++  nul_terminated_data = g_strndup ((const gchar *) data, size);
++  node = g_dbus_node_info_new_for_xml (nul_terminated_data, &local_error);
++  g_free (nul_terminated_data);
++
++  g_assert ((node == NULL) == (local_error != NULL));
++
++  g_clear_pointer (&node, g_dbus_node_info_unref);
++  g_clear_error (&local_error);
++
++  return 0;
++}
+diff -rupN --no-dereference glib-2.88.3/fuzzing/meson.build glib-2.88.3-new/fuzzing/meson.build
+--- glib-2.88.3/fuzzing/meson.build	2026-07-29 15:17:36.000000000 +0200
++++ glib-2.88.3-new/fuzzing/meson.build	2026-07-29 19:28:46.586249655 +0200
+@@ -25,6 +25,7 @@ fuzz_targets = [
+   'fuzz_date_parse',
+   'fuzz_date_time_new_from_iso8601',
+   'fuzz_dbus_message',
++  'fuzz_dbus_node_info_new_for_xml',
+   'fuzz_filename_from_uri',
+   'fuzz_filename_to_uri',
+   'fuzz_get_locale_variants',
+diff -rupN --no-dereference glib-2.88.3/gio/gdbusintrospection.c glib-2.88.3-new/gio/gdbusintrospection.c
+--- glib-2.88.3/gio/gdbusintrospection.c	2026-07-29 15:17:36.000000000 +0200
++++ glib-2.88.3-new/gio/gdbusintrospection.c	2026-07-29 19:28:46.586700861 +0200
+@@ -1096,6 +1096,7 @@ parse_data_get_annotation (ParseData *da
+ {
+   if (create_new)
+     g_ptr_array_add (data->annotations, g_new0 (GDBusAnnotationInfo, 1));
++  g_assert (data->annotations->len > 0);
+   return data->annotations->pdata[data->annotations->len - 1];
+ }
+ 
+@@ -1105,6 +1106,7 @@ parse_data_get_arg (ParseData *data,
+ {
+   if (create_new)
+     g_ptr_array_add (data->args, g_new0 (GDBusArgInfo, 1));
++  g_assert (data->args->len > 0);
+   return data->args->pdata[data->args->len - 1];
+ }
+ 
+@@ -1114,6 +1116,7 @@ parse_data_get_out_arg (ParseData *data,
+ {
+   if (create_new)
+     g_ptr_array_add (data->out_args, g_new0 (GDBusArgInfo, 1));
++  g_assert (data->out_args->len > 0);
+   return data->out_args->pdata[data->out_args->len - 1];
+ }
+ 
+@@ -1123,6 +1126,7 @@ parse_data_get_method (ParseData *data,
+ {
+   if (create_new)
+     g_ptr_array_add (data->methods, g_new0 (GDBusMethodInfo, 1));
++  g_assert (data->methods->len > 0);
+   return data->methods->pdata[data->methods->len - 1];
+ }
+ 
+@@ -1132,6 +1136,7 @@ parse_data_get_signal (ParseData *data,
+ {
+   if (create_new)
+     g_ptr_array_add (data->signals, g_new0 (GDBusSignalInfo, 1));
++  g_assert (data->signals->len > 0);
+   return data->signals->pdata[data->signals->len - 1];
+ }
+ 
+@@ -1141,6 +1146,7 @@ parse_data_get_property (ParseData *data
+ {
+   if (create_new)
+     g_ptr_array_add (data->properties, g_new0 (GDBusPropertyInfo, 1));
++  g_assert (data->properties->len > 0);
+   return data->properties->pdata[data->properties->len - 1];
+ }
+ 
+@@ -1150,6 +1156,7 @@ parse_data_get_interface (ParseData *dat
+ {
+   if (create_new)
+     g_ptr_array_add (data->interfaces, g_new0 (GDBusInterfaceInfo, 1));
++  g_assert (data->interfaces->len > 0);
+   return data->interfaces->pdata[data->interfaces->len - 1];
+ }
+ 
+@@ -1159,6 +1166,7 @@ parse_data_get_node (ParseData *data,
+ {
+   if (create_new)
+     g_ptr_array_add (data->nodes, g_new0 (GDBusNodeInfo, 1));
++  g_assert (data->nodes->len > 0);
+   return data->nodes->pdata[data->nodes->len - 1];
+ }
+ 
+@@ -1258,7 +1266,7 @@ parser_start_element (GMarkupParseContex
+   /* ---------------------------------------------------------------------------------------------------- */
+   if (strcmp (element_name, "node") == 0)
+     {
+-      if (!(g_slist_length (stack) >= 1 || strcmp (stack->next->data, "node") != 0))
++      if (stack->next != NULL && strcmp (stack->next->data, "node") != 0)
+         {
+           g_set_error_literal (error,
+                                G_MARKUP_ERROR,
+diff -rupN --no-dereference glib-2.88.3/gio/tests/gdbus-introspection.c glib-2.88.3-new/gio/tests/gdbus-introspection.c
+--- glib-2.88.3/gio/tests/gdbus-introspection.c	2026-07-29 15:17:36.000000000 +0200
++++ glib-2.88.3-new/gio/tests/gdbus-introspection.c	2026-07-29 19:28:46.587146635 +0200
+@@ -300,6 +300,38 @@ test_extra_data (void)
+   g_dbus_node_info_unref (info);
+ }
+ 
++static void
++test_invalid (void)
++{
++  const struct
++    {
++      const char *xml;
++      GMarkupError expected_error_code;
++    }
++  vectors[] =
++    {
++      { "", G_MARKUP_ERROR_EMPTY },
++      { "<node><interface name=\"I\"><method name=\"M\"><node><interface name=\"I2\"></interface></node></method>", G_MARKUP_ERROR_INVALID_CONTENT },
++      { "<node><interface name=\"I\"><signal name=\"S\"><node><interface name=\"I2\"><signal name=\"S2\"></signal></interface></node></signal>", G_MARKUP_ERROR_INVALID_CONTENT },
++      { "<node><interface name=\"I\"><property name=\"P\" type=\"s\" access=\"read\"><node><interface name=\"I2\"></interface></node></property>", G_MARKUP_ERROR_INVALID_CONTENT },
++      { "<node><interface name=\"I\"><method name=\"M\"><arg type=\"\"><node><interface name=\"I2\"><method name=\"M2\"></method></interface></node></arg>", G_MARKUP_ERROR_INVALID_CONTENT },
++    };
++
++  for (size_t i = 0; i < G_N_ELEMENTS (vectors); i++)
++    {
++      GDBusNodeInfo *node;
++      GError *local_error = NULL;
++
++      g_test_message ("Testing parsing of %s gives an error", vectors[i].xml);
++
++      node = g_dbus_node_info_new_for_xml (vectors[i].xml, &local_error);
++      g_assert_error (local_error, G_MARKUP_ERROR, (int) vectors[i].expected_error_code);
++      g_assert_null (node);
++
++      g_clear_error (&local_error);
++    }
++}
++
+ /* ---------------------------------------------------------------------------------------------------- */
+ 
+ int
+@@ -313,10 +345,11 @@ main (int   argc,
+   /* all the tests rely on a shared main loop */
+   loop = g_main_loop_new (NULL, FALSE);
+ 
+-  g_test_add_func ("/gdbus/introspection-parser", test_introspection_parser);
+-  g_test_add_func ("/gdbus/introspection-generate", test_generate);
+-  g_test_add_func ("/gdbus/introspection-default-direction", test_default_direction);
+-  g_test_add_func ("/gdbus/introspection-extra-data", test_extra_data);
++  g_test_add_func ("/gdbus/introspection/parser", test_introspection_parser);
++  g_test_add_func ("/gdbus/introspection/generate", test_generate);
++  g_test_add_func ("/gdbus/introspection/default-direction", test_default_direction);
++  g_test_add_func ("/gdbus/introspection/extra-data", test_extra_data);
++  g_test_add_func ("/gdbus/introspection/invalid", test_invalid);
+ 
+   ret = session_bus_run ();
+ 

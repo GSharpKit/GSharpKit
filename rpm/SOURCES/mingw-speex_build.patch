@@ -1,0 +1,17 @@
+diff -rupN --no-dereference speex-1.2.1/src/wave_out.h speex-1.2.1-new/src/wave_out.h
+--- speex-1.2.1/src/wave_out.h	2018-09-08 00:20:02.000000000 +0200
++++ speex-1.2.1-new/src/wave_out.h	2025-12-27 23:01:21.928237518 +0100
+@@ -42,10 +42,12 @@
+ #define VERSION_STRING "\n 0.7.0\n"
+ 
+ #define Cdecl               __cdecl
+-#define __attribute__(x)
+ #define sleep(__sec)        Sleep ((__sec) * 1000)
++#ifndef __MINGW32__
++#define __attribute__(x)
+ #define inline              __inline
+ #define restrict
++#endif
+ 
+ //// constants /////////////////////////////////////////////////////
+ 

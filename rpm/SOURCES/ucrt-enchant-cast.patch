@@ -1,0 +1,73 @@
+diff -Nur enchant-1.6.0.orig/src/enchant.c enchant-1.6.0/src/enchant.c
+--- enchant-1.6.0.orig/src/enchant.c	2010-04-01 22:53:37.000000000 +0200
++++ enchant-1.6.0/src/enchant.c	2026-09-10 08:26:45.155526294 +0200
+@@ -944,7 +944,7 @@
+ 							&n_dict_suggs);
+ 			if(dict_suggs)
+ 				{
+-					suggsT = enchant_dict_get_good_suggestions(dict, dict_suggs, n_dict_suggs, &n_suggsT);
++					suggsT = enchant_dict_get_good_suggestions(dict, (const char * const *)dict_suggs, n_dict_suggs, &n_suggsT);
+ 					enchant_provider_free_string_list (session->provider, dict_suggs);
+ 					dict_suggs = suggsT;
+ 					n_dict_suggs = n_suggsT;
+@@ -954,10 +954,10 @@
+ 	/* Check for suggestions from personal dictionary */
+ 	if(session->personal)
+ 		{
+-			pwl_suggs = enchant_pwl_suggest(session->personal, word, len, dict_suggs, &n_pwl_suggs);
++			pwl_suggs = enchant_pwl_suggest(session->personal, word, len, (const char * const *)dict_suggs, &n_pwl_suggs);
+ 			if(pwl_suggs)
+ 				{
+-					suggsT = enchant_dict_get_good_suggestions(dict, pwl_suggs, n_pwl_suggs, &n_suggsT);
++					suggsT = enchant_dict_get_good_suggestions(dict, (const char * const *)pwl_suggs, n_pwl_suggs, &n_suggsT);
+ 					enchant_pwl_free_string_list (session->personal, pwl_suggs);
+ 					pwl_suggs = suggsT;
+ 					n_pwl_suggs = n_suggsT;
+@@ -971,13 +971,13 @@
+ 
+ 			/* Copy over suggestions from dict, if no dupes */
+ 			n_suggs = enchant_dict_merge_suggestions(dict, 
+-								 suggs, 0, 
+-								 dict_suggs, n_dict_suggs);
++								 (const char **)suggs, 0, 
++								 (const char * const *)dict_suggs, n_dict_suggs);
+ 
+ 			/* Copy over suggestions from pwl, if no dupes */
+ 			n_suggs = enchant_dict_merge_suggestions(dict, 
+-								 suggs, n_suggs, 
+-								 pwl_suggs, n_pwl_suggs);
++								 (const char **)suggs, n_suggs, 
++								 (const char * const *)pwl_suggs, n_pwl_suggs);
+ 			if(n_suggs == 0)
+ 			{
+ 				g_free(suggs);
+diff -Nur enchant-1.6.0.orig/src/pwl.c enchant-1.6.0/src/pwl.c
+--- enchant-1.6.0.orig/src/pwl.c	2010-04-01 22:53:37.000000000 +0200
++++ enchant-1.6.0/src/pwl.c	2026-09-10 08:28:55.254253271 +0200
+@@ -284,7 +284,7 @@
+ 	char* line;
+ 	size_t line_number = 1;
+ 	FILE *f;
+-	struct stat stats;
++	GStatBuf stats;
+ 
+ 	if(!pwl->filename)
+ 		return;
+@@ -397,7 +397,7 @@
+ 		f = enchant_fopen(pwl->filename, "a");
+ 		if (f)
+ 			{
+-				struct stat stats;
++				GStatBuf stats;
+ 
+ 				enchant_lock_file (f);
+ 				if(g_stat(pwl->filename, &stats)==0)
+@@ -440,7 +440,7 @@
+ 					const gunichar BOM = 0xfeff;
+ 					char * filestart, *searchstart, *needle;
+ 					char * key;
+-					struct stat stats;
++					GStatBuf stats;
+ 
+ 					enchant_lock_file (f);
+ 					key = g_strndup(word, len);

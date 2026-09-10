@@ -1,0 +1,23 @@
+# Process this file with autoconf to produce a pkg-config metadata file.
+
+# Copyright (C) 2004-2012 Free Software Foundation, Inc.
+
+# Copying and distribution of this file, with or without modification,
+# are permitted in any medium without royalty provided the copyright
+# notice and this notice are preserved.  This file is offered as-is,
+# without any warranty.
+
+# Author: Simon Josefsson
+
+prefix=/usr/x86_64-w64-mingw32ucrt/sys-root/mingw exec_prefix=/usr/x86_64-w64-mingw32ucrt/sys-root/mingw
+libdir=/usr/x86_64-w64-mingw32ucrt/sys-root/mingw/bin
+includedir=/usr/x86_64-w64-mingw32ucrt/sys-root/mingw/include
+
+Name: GnuTLS
+Description: Transport Security Layer implementation for the GNU system
+URL: https://www.gnutls.org/
+Version: 3.8.13
+Libs: -L${libdir} -lgnutls-30
+Libs.private: /usr/x86_64-w64-mingw32ucrt/sys-root/mingw/lib/libintl.dll.a -L/usr/x86_64-w64-mingw32ucrt/sys-root/mingw/lib -L/usr/x86_64-w64-mingw32ucrt/sys-root/mingw/bin -lws2_32 -lws2_32    -lgmp -lunistring -latomic  -ladvapi32 -lcrypt32 -lncrypt -lbcrypt
+Requires.private: nettle, hogweed, libtasn1, libidn2, p11-kit-1, zlib
+Cflags: -I${includedir}
