@@ -1,6 +1,6 @@
 include config
 
-msi: msi64 sign64
+msi: ucrt64 sign64
 
 msisdk: msi64sdk sign64sdk
 
