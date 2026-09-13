@@ -1,5 +1,5 @@
 Name:           darwinx-expat
-Version:        2.5.0
+Version:        2.8.4
 Release:        1%{?dist}
 Summary:        Welcome to Expat, a stream-oriented XML parser library written in C.
 

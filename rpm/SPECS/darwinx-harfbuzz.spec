@@ -1,12 +1,12 @@
 Name:           darwinx-harfbuzz
-Version:        10.4.0
+Version:        12.3.2
 Release:        1%{?dist}
 Summary:        Darwin Text shaping library
 
 License:        LGPLv2+
 Group:          Development/Libraries
 URL:            http://freedesktop.org/wiki/Software/HarfBuzz
-Source0:        https://github.com/harfbuzz/harfbuzz/archive/harfbuzz-%{version}.tar.gz
+Source0:        https://github.com/harfbuzz/harfbuzz/archive/harfbuzz-%{version}.tar.xz
 
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
@@ -58,7 +58,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,wheel,-)
-%{_darwinx_bindir}/hb-ot-shape-closure
+#{_darwinx_bindir}/hb-ot-shape-closure
 %{_darwinx_bindir}/hb-shape
 %{_darwinx_bindir}/hb-view
 %{_darwinx_bindir}/hb-subset

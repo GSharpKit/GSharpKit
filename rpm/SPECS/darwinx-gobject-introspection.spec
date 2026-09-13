@@ -1,23 +1,20 @@
 Name:		darwinx-gobject-introspection
-Version: 	1.68.0
+Version: 	1.86.0
 Release: 	1%{?dist}
 Summary: 	This is a high-level library for facilitating the creation of audio/video non-linear editors.
 
 Group: 		Applications/Multimedia
 License: 	LGPLv2+
-URL:		http://gstreamer.freedesktop.org/
-Source0: 	https://download-fallback.gnome.org/sources/gobject-introspection/1.68/gobject-introspection-1.68.0.tar.xz
+URL:		https://download.gnome.org/sources/gobject-introspection
+Source0: 	https://download.gnome.org/sources/gobject-introspection/1.86/gobject-introspection-%{version}.tar.xz
 BuildRoot: 	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildArch: noarch
 
 BuildRequires:	darwinx-filesystem-base >= 18
 BuildRequires:	darwinx-gcc
-BuildRequires:	darwinx-gstreamer1
 
 Requires:	darwinx-filesystem >= 18
-
-Obsoletes:	darwinx-gstreamer
 
 %description
 This is a high-level library for facilitating the creation of audio/video
@@ -25,9 +22,9 @@ non-linear editors.
 
 %prep
 %setup -q -n gobject-introspection-%{version}
+sed -i '' 's/^    import distutils\.cygwinccompiler/    import setuptools._distutils as distutils\n    import setuptools._distutils.cygwinccompiler/' giscanner/utils.py
 
 %build
-export MACOSX_DEPLOYMENT_TARGET=10.9
 %darwinx_meson \
     --default-library=shared \
     --auto-features=auto

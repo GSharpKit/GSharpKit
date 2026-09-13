@@ -14,6 +14,9 @@ This package contains the GSettings Desktop Schemas Mac OS X GNOME desktop.
 %prep
 %setup -q -n gsettings-desktop-schemas-%{version}
 
+%post
+/Library/Frameworks/GSharpKit/bin/glib-compile-schemas /Library/Frameworks/GSharpKit/share/glib-2.0/schemas/
+
 %build
 %darwinx_meson \
     -Dintrospection=false
@@ -26,6 +29,7 @@ This package contains the GSettings Desktop Schemas Mac OS X GNOME desktop.
 %files
 %defattr(-,root,wheel)
 %{_darwinx_datadir}
+%{_darwinx_includedir}
 
 %changelog
 * Wed Feb 25 2015 Mikkel Kruse Johnsen <mikkel@xmedicus.com> - 3.14.1-1

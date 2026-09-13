@@ -1,12 +1,12 @@
 Name:           darwinx-gdk-pixbuf
-Version:        2.42.12
+Version:        2.44.8
 Release:        1%{?dist}
 Summary:        Cross compiled GDK Pixbuf library
 
 License:        LGPLv2+
 Group:          Development/Libraries
 URL:            http://www.gtk.org
-Source0:        http://download.gnome.org/sources/gdk-pixbuf/2.42/gdk-pixbuf-%{version}.tar.xz
+Source0:        http://download.gnome.org/sources/gdk-pixbuf/2.44/gdk-pixbuf-%{version}.tar.xz
 
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
@@ -40,12 +40,13 @@ Cross compiled GDK Pixbuf library.
 %build
 %darwinx_meson \
 	-Dbuiltin_loaders=all \
+	-Dglycin=disabled \
 	-Dgio_sniffing=true \
 	-Dpng=enabled \
 	-Dtiff=enabled \
 	-Djpeg=enabled \
-	-Ddocs=false \
-	-Dgtk_doc=false \
+	-Dandroid=disabled \
+	-Ddocumentation=false \
 	-Dman=false \
 	-Drelocatable=false \
 	-Dinstalled_tests=false \

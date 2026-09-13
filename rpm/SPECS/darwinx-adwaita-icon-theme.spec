@@ -1,14 +1,11 @@
 Name:           darwinx-adwaita-icon-theme
-Version:        48.0
+Version:        49.0
 Release:        1%{?dist}
 Summary:        Adwaita Mac OS X icon theme
 
 License:        LGPLv3+ or CC-BY-SA
 URL:            https://github.com/GNOME/adwaita-icon-theme
-Source0:        https://github.com/GNOME/adwaita-icon-theme/archive/refs/tags/adwaita-icon-theme-%{version}.tar.gz
-#Source1:	adwaita-scalable.tar.xz
-#Source2:	pan-down-symbolic-ltr.png
-#Patch0:		osx-index.patch
+Source0:        https://github.com/GNOME/adwaita-icon-theme/archive/refs/tags/adwaita-icon-theme-%{version}.tar.xz
 BuildArch:      noarch
 
 %description

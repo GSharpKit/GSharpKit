@@ -1,5 +1,5 @@
 Name:           darwinx-gtk4
-Version:        4.12.5
+Version:        4.21.0
 Release:        1%{?dist}
 Summary:        Darwin Gtk3 library
 
@@ -45,6 +45,7 @@ Darwin Gtk3 library.
 %build
 %darwinx_meson \
 	-Dmacos-backend=true \
+	-Dvulkan=disabled \
 	-Dx11-backend=false \
 	-Dwayland-backend=false \
 	-Dbroadway-backend=false \
@@ -67,7 +68,8 @@ rm -rf $RPM_BUILD_ROOT%{_darwinx_mandir}
 
 # Remove documentation too.
 rm -rf $RPM_BUILD_ROOT%{_darwinx_datadir}/gtk-doc
-
+rm -rf $RPM_BUILD_ROOT%{_darwinx_datadir}/bash-completion
+   
 %clean
 rm -rf $RPM_BUILD_ROOT
 
@@ -77,7 +79,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_darwinx_bindir}/gtk4-demo-application
 %{_darwinx_bindir}/gtk4-widget-factory
 %{_darwinx_bindir}/gtk4-launch
-%{_darwinx_bindir}/gtk4-icon-browser
 %{_darwinx_bindir}/gtk4-encode-symbolic-svg
 %{_darwinx_bindir}/gtk4-builder-tool
 %{_darwinx_bindir}/gtk4-update-icon-cache
@@ -85,19 +86,19 @@ rm -rf $RPM_BUILD_ROOT
 %{_darwinx_bindir}/gtk4-print-editor
 %{_darwinx_bindir}/gtk4-query-settings
 %{_darwinx_bindir}/gtk4-rendernode-tool
-%{_darwinx_includedir}/gtk-4.0/
-%dir %{_darwinx_libdir}/gtk-4.0/
-%dir %{_darwinx_libdir}/gtk-4.0/4.0.0
-%dir %{_darwinx_libdir}/gtk-4.0/4.0.0/printbackends
-%{_darwinx_libdir}/gtk-4.0/4.0.0/printbackends/libprintbackend-cups.so
-%{_darwinx_libdir}/gtk-4.0/4.0.0/printbackends/libprintbackend-file.so
-%dir %{_darwinx_libdir}/gtk-4.0/4.0.0/media
-%{_darwinx_libdir}/gtk-4.0/4.0.0/media/libmedia-gstreamer.so
+%{_darwinx_bindir}/gtk4-icon-editor
+%{_darwinx_bindir}/gtk4-image-tool
+%{_darwinx_bindir}/gtk4-path-tool
+
 %{_darwinx_libdir}/libgtk-4.*.dylib
 %{_darwinx_libdir}/libgtk-4.dylib
 %{_darwinx_libdir}/pkgconfig/gtk4.pc
 %{_darwinx_libdir}/pkgconfig/gtk4-macos.pc
 %{_darwinx_libdir}/pkgconfig/gtk4-unix-print.pc
+%{_darwinx_libdir}/pkgconfig/gtk4-atspi.pc
+
+%{_darwinx_includedir}/gtk-4.0/
+
 %{_darwinx_datadir}/gettext/
 %{_darwinx_datadir}/glib-2.0/schemas
 %{_darwinx_datadir}/gtk-4.0/

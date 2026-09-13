@@ -1,5 +1,5 @@
 Name:           darwinx-opus
-Version:        1.5.2
+Version:        1.6.1
 Release:        1%{?dist}
 Summary:        Opus is a totally open, royalty-free, highly versatile audio codec.
 License:        BSD

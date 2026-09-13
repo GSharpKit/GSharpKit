@@ -1,5 +1,5 @@
 Name:           darwinx-wavpack
-Version:        5.8.1
+Version:        5.9.0
 Release:        1%{?dist}
 Summary:        WavPack is a completely open audio compression format
 License:        BSD

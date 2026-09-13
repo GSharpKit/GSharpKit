@@ -1,12 +1,12 @@
 Name:           darwinx-fontconfig
-Version:        2.16.0
+Version:        2.17.1
 Release:        1%{?dist}
 Summary:        Darwin Font configuration and customization library
 
 License:        LGPLv2+
 Group:          Development/Libraries
 URL:            http://fontconfig.org
-Source0:        http://www.freedesktop.org/software/fontconfig/release/fontconfig-%{version}.tar.xz
+Source0:        http://www.freedesktop.org/software/fontconfig/release/fontconfig-%{version}.tar.bz2
 
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
@@ -32,6 +32,7 @@ applications.
 %setup -q -n fontconfig-%{version}
 
 %build
+autoreconf -ivf
 %{_darwinx_configure} \
 	--disable-static \
 	--disable-docs \

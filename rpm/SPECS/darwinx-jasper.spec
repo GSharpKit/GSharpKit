@@ -1,12 +1,12 @@
 Name:           darwinx-jasper
-Version:        3.0.6
+Version:        4.2.8
 Release:        1%{?dist}
 Summary:        The JasPer Project is an JPEG-2000 Part-1 standard
 
 License:        See LICENSE
 Group:          Development/Libraries
 URL:            https://github.com/jasper-software/jasper/releases
-Source0:        jasper-version-%{version}.tar.gz
+Source0:        jasper-%{version}.tar.gz
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:  darwinx-filesystem >= 2
@@ -22,17 +22,17 @@ The JasPer Project is an JPEG-2000 Part-1 standard
 
 
 %build
-mkdir build_shared
-cd build_shared
-%{_darwinx_cmake} -DJAS_ENABLE_SHARED=ON -DJAS_ENABLE_DOC=OFF
+#mkdir build_shared
+#cd build_shared
+%{_darwinx_cmake} -DJAS_ENABLE_SHARED=ON -DJAS_ENABLE_DOC=OFF -DALLOW_IN_SOURCE_BUILD=ON
 make %{?_smp_mflags}
-cd ..
+#cd ..
 
 %install
 rm -rf $RPM_BUILD_ROOT
-cd build_shared
+#cd build_shared
 make DESTDIR=$RPM_BUILD_ROOT install
-cd ..
+#cd ..
 
 rm -rf $RPM_BUILD_ROOT%{_darwinx_bindir}
 rm -rf $RPM_BUILD_ROOT%{_darwinx_datadir}

@@ -1,7 +1,7 @@
 %define		majorminor	1.0
 
 Name:		darwinx-gstreamer1-plugins-base
-Version: 	1.26.4
+Version: 	1.28.6
 Release: 	1%{?dist}
 Summary: 	GStreamer streaming media framework base plug-ins
 Group: 		Applications/Multimedia
@@ -16,9 +16,14 @@ BuildRequires:	darwinx-filesystem >= 108
 BuildRequires:	darwinx-gcc
 BuildRequires:	darwinx-glib2
 BuildRequires:	darwinx-zlib
-BuildRequires:	darwinx-opus
-#BuildRequires:	darwinx-libtheora
 BuildRequires:	darwinx-gstreamer1 >= %{version}
+BuildRequires:  darwinx-libogg >= 1.0
+BuildRequires:  darwinx-libvorbis >= 1.0
+BuildRequires:  darwinx-libtheora
+BuildRequires:	darwinx-opus
+BuildRequires:  darwinx-orc
+BuildRequires:  darwinx-pango
+BuildRequires:  darwinx-libxml2
 
 BuildRequires:	bison
 BuildRequires:	flex

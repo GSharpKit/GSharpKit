@@ -1,6 +1,6 @@
 Name:           darwinx-gtk3
-Version:        3.24.49
-Release:        2%{?dist}
+Version:        3.24.52
+Release:        1%{?dist}
 Summary:        Darwin Gtk3 library
 
 License:        LGPLv2+
@@ -44,7 +44,7 @@ Darwin Gtk3 library.
 
 %prep
 %setup -q -n gtk-%{version}
-%patch0 -p1
+#patch0 -p1
 #patch1 -p1
 #patch2 -p1
 #patch3 -p1
