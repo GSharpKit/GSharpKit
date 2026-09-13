@@ -5,7 +5,7 @@ NAME=GSharpKit
 PREFIX=/Library/$NAME
 SYMLINK=/Library/$NAME
 
-VERSION=0.22.4
+VERSION=0.26
 
 cd $BUILD_ROOT
 
@@ -15,7 +15,15 @@ fi
 
 tar xfz gettext-$VERSION.tar.gz
 cd gettext-$VERSION
-./configure --prefix=$PREFIX --exec-prefix=$PREFIX --with-included-libxml
+./configure --prefix=$PREFIX --exec-prefix=$PREFIX \
+        --disable-dependency-tracking \
+        --disable-static \
+        --without-git \
+        --disable-java \
+        --disable-c++ \
+        --disable-libasprintf \
+        --with-included-libxml
+
 make
 sudo make install
-sudo ln -sf $SYMLINK/bin/autopoint /usr/local/bin/autopint
+sudo ln -sf $SYMLINK/bin/autopoint /usr/local/bin/autopoint
