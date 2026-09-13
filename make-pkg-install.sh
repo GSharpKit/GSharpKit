@@ -65,4 +65,6 @@ mkdir -p $TO/share/locale
 cp -r $FROM/share/locale/da $TO/share/locale/
 cp -r $FROM/share/locale/sv $TO/share/locale/
 
+mkdir -p $TO/share/gtksourceview-4/language-specs
+cp -r $FROM/share/gtksourceview-4/language-specs/html.lang $TO/share/gtksourceview-4/language-specs/
 #cp -r $FROM/share/hunspell $TO/share/
