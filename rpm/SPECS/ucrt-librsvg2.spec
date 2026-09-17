@@ -81,14 +81,9 @@ EOF
 %build
 mkdir build_ucrt
 pushd build_ucrt
-
-#rustup component add x86_64-pc-windows-msvc
-#export RUSTFLAGS="${RUSTFLAGS:-} -Lnative=/home/mkj/Projects/GSharpKit/msvc-import-libs"
-
-#ucrt64_meson -Dpixbuf-loader=enabled -Drsvg-convert=disabled -Dpixbuf-loader=disabled -Dtriplet=x86_64-pc-windows-msvc
+%global ucrt64_cflags %(echo %{ucrt64_cflags} | sed 's/-g /-g1 /') -Wl,--strip-debug
 %ucrt64_meson -Dpixbuf-loader=enabled -Drsvg-convert=disabled -Dpixbuf-loader=enabled
 
-#cargo xwin build --release --target x86_64-pc-windows-msvc
 export CARGO_TARGET_X86_64_PC_WINDOWS_GNU_LINKER=/usr/bin/x86_64-w64-mingw32ucrt-gcc
 export CARGO_TARGET_X86_64_PC_WINDOWS_GNU_AR=/usr/bin/x86_64-w64-mingw32ucrt-ar
 ninja

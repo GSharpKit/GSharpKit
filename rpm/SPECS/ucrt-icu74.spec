@@ -79,6 +79,7 @@ pushd nativebuild
 %make_build || make
 popd
 
+%global ucrt64_cflags %(echo %{ucrt64_cflags} | sed 's/-g /-g1 /') -Wl,--strip-debug
 %ucrt64_configure \
         --enable-shared --disable-static \
         --with-cross-build=$(pwd)/nativebuild \

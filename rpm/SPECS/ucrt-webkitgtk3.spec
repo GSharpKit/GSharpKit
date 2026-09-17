@@ -128,7 +128,7 @@ This is the MinGW port of WebKitGTK+ for GTK+ 3.
 cp %{SOURCE1} .
 sh autogen.sh
 # lower debug level to prevent memory exhaustion by linker
-%global ucrt64_cflags %(echo %{ucrt64_cflags} | sed 's/-g /-g1 /') -w -fpermissive -DGLIB_VERSION_MIN_REQUIRED=GLIB_VERSION_2_64 -DASSERT_ENABLED=0
+%global ucrt64_cflags %(echo %{ucrt64_cflags} | sed 's/-g /-g1 /') -Wl,--strip-debug -w -fpermissive -DGLIB_VERSION_MIN_REQUIRED=GLIB_VERSION_2_64 -DASSERT_ENABLED=0
 
 #sed -i -e 's!-std=c++11 -Wno-c++11-compat!-std=c++17 -Wno-c++17-compat!g' configure
 %ucrt64_configure                                               \

@@ -90,6 +90,7 @@ This package contains the MinGW Windows cross compiled gtk-update-icon-cache.
 %build
 mkdir build_ucrt
 pushd build_ucrt
+%global ucrt64_cflags %(echo %{ucrt64_cflags} | sed 's/-g /-g1 /') -Wl,--strip-debug
 %ucrt64_meson -Dintrospection=disabled -Dvulkan=disabled
 ninja
 popd

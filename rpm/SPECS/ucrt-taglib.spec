@@ -53,6 +53,7 @@ This is the MinGW version, built for the win64 target.
 
 
 %build
+%global ucrt64_cflags %(echo %{ucrt64_cflags} | sed 's/-g /-g1 /') -Wl,--strip-debug
 %{ucrt64_cmake}
 %{ucrt64_make} %{?_smp_mflags}
 
@@ -68,13 +69,13 @@ This is the MinGW version, built for the win64 target.
 %{ucrt64_bindir}/libtag_c.dll
 %{ucrt64_bindir}/taglib-config.cmd
 %{ucrt64_includedir}/taglib/
-%{ucrt64_includedir}/utf8cpp/
+#{ucrt64_includedir}/utf8cpp/
 %{ucrt64_libdir}/cmake/taglib/
 %{ucrt64_libdir}/libtag.dll.a
 %{ucrt64_libdir}/libtag_c.dll.a
 %{ucrt64_libdir}/pkgconfig/taglib.pc
 %{ucrt64_libdir}/pkgconfig/taglib_c.pc
-%{ucrt64_datadir}/utf8cpp
+#{ucrt64_datadir}/utf8cpp
 
 
 

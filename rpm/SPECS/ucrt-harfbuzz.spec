@@ -55,6 +55,7 @@ Static version of the MinGW Windows Harfbuzz library.
 %build
 mkdir build_ucrt_static
 pushd build_ucrt_static
+%global ucrt64_cflags %(echo %{ucrt64_cflags} | sed 's/-g /-g1 /') -Wl,--strip-debug
 %ucrt64_meson --default-library=static -Ddocs=disabled
 ninja
 popd

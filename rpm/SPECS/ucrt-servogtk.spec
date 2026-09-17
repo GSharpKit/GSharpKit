@@ -42,6 +42,7 @@ unset LDFLAGS
 export LDFLAGS="%{build_ldflags} -Wl,--no-as-needed"
 unset RUSTFLAGS
 unset CARGO_ENCODED_RUSTFLAGS
+%global ucrt64_cflags %(echo %{ucrt64_cflags} | sed 's/-g /-g1 /') -Wl,--strip-debug
 export CARGO_TARGET_X86_64_PC_WINDOWS_MSVC_RUSTFLAGS="-C opt-level=3 -C debuginfo=0 -C codegen-units=4 -C strip=debuginfo"
 make clean
 make ucrt
