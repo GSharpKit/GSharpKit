@@ -3,11 +3,12 @@
 Name:           servogtk
 License:        Mozilla Public License Version 2.0
 Group:          System Environment/Base 
-Version:        0.3.0
-Release:        2%{?dist}
+Version:        0.6.0
+Release:        1%{?dist}
 Url:		https://github.com/GSharpKit/servo-gtk
 Summary:        Servo Gtk3/4
-Source0:        servogtk-0.3.0.tar.xz
+Source0:        servogtk-%{version}.tar.xz
+Source1:	pdfjs-6.3.289-legacy-dist.zip
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 BuildArch:      x86_64
 
@@ -22,12 +23,17 @@ in Rust to the GTK platform.
 %setup -q
 
 %build
+%global cflags %(echo %{cflags} | sed 's/-g /-g1 /') -Wl,--strip-debug
 export LDFLAGS="%{build_ldflags} -Wl,--no-as-needed"
+export RUSTFLAGS="-C opt-level=3 -C debuginfo=0 -C codegen-units=4 -C strip=debuginfo"
 make linux
 
 %install
 rm -rf %{buildroot}
 PREFIX=%{buildroot} make install-linux
+
+mkdir %{buildroot}%{_datadir}/servogtk/
+unzip %{SOURCE1} -d %{buildroot}%{_datadir}/servogtk/
 
 %clean
 rm -rf %{buildroot}
@@ -41,6 +47,8 @@ rm -rf %{buildroot}
 %dir %{_includedir}/servogtk3
 %{_includedir}/servogtk3/servo-gtk3-view.h
 %{_includedir}/servogtk3/servo-webview.h
+%{_includedir}/servogtk3/servo-gtk-pdf-server.h
+%{_includedir}/servogtk3/servo-pdf-server.h
 %{_datadir}/gir-1.0/ServoGtk-3.0.gir
 %{_libdir}/girepository-1.0/ServoGtk-3.0.typelib
 /usr/lib64/pkgconfig/servogtk3.pc
@@ -50,9 +58,13 @@ rm -rf %{buildroot}
 %dir %{_includedir}/servogtk4
 %{_includedir}/servogtk4/servo-gtk4-view.h
 %{_includedir}/servogtk4/servo-webview.h
+%{_includedir}/servogtk4/servo-gtk-pdf-server.h
+%{_includedir}/servogtk4/servo-pdf-server.h
 %{_datadir}/gir-1.0/ServoGtk-4.0.gir
 %{_libdir}/girepository-1.0/ServoGtk-4.0.typelib
 /usr/lib64/pkgconfig/servogtk4.pc
+
+%{_datadir}/servogtk/*
 
 %changelog
 * Wed Jul 15 2026 Mikkel Kruse Johnsen <mikkel@xmedicus.com>

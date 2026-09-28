@@ -4,7 +4,7 @@
 
 %global debug_package %{nil}
 
-%define version 0.5.0
+%define version 0.6.0
 
 Name:           ucrt-servogtk
 License:        Mozilla Public License Version 2.0
@@ -14,11 +14,14 @@ Release:        2%{?dist}
 Url:		https://github.com/GSharpKit/servo-gtk
 Summary:        Servo Gtk3/4
 Source0:        servogtk-%{version}.tar.xz
+Source1:        pdfjs-6.3.289-legacy-dist.zip
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 BuildArch:      noarch
 
 Requires:	gtk3 gtk3-devel gtk4 gtk4-devel
 Requires:	rust >= 1.96 cargo >= 1.96
+
+BuildRequires:	unzip
 
 %description
 ServoGTK is the wrapping of the portable web rendering engine Servo written 
@@ -53,6 +56,9 @@ PREFIX=%{buildroot} make install-ucrt
 rm -f %{buildroot}%{ucrt64_libdir}/libservogtk3.dll.a
 rm -f %{buildroot}%{ucrt64_libdir}/libservogtk4.dll.a
 
+mkdir -p %{buildroot}%{ucrt64_datadir}/servogtk/
+unzip %{SOURCE1} -d %{buildroot}%{ucrt64_datadir}/servogtk/
+
 %clean
 rm -rf %{buildroot}
 
@@ -65,6 +71,8 @@ rm -rf %{buildroot}
 %dir %{ucrt64_includedir}/servogtk3
 %{ucrt64_includedir}/servogtk3/servo-gtk3-view.h
 %{ucrt64_includedir}/servogtk3/servo-webview.h
+%{ucrt64_includedir}/servogtk3/servo-gtk-pdf-server.h
+%{ucrt64_includedir}/servogtk3/servo-pdf-server.h
 %{ucrt64_libdir}/pkgconfig/servogtk3.pc
 
 %{ucrt64_bindir}/libservogtk4.dll
@@ -72,7 +80,11 @@ rm -rf %{buildroot}
 %dir %{ucrt64_includedir}/servogtk4
 %{ucrt64_includedir}/servogtk4/servo-gtk4-view.h
 %{ucrt64_includedir}/servogtk4/servo-webview.h
+%{ucrt64_includedir}/servogtk4/servo-gtk-pdf-server.h
+%{ucrt64_includedir}/servogtk4/servo-pdf-server.h
 %{ucrt64_libdir}/pkgconfig/servogtk4.pc
+
+%{ucrt64_datadir}/servogtk/*
 
 %changelog
 * Wed Jul 15 2026 Mikkel Kruse Johnsen <mikkel@xmedicus.com>
