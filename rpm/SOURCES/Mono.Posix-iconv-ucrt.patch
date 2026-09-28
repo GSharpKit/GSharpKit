@@ -1,0 +1,26 @@
+diff -Nur Mono.Posix-1.0.0.orig/mono/eglib/giconv.c Mono.Posix-1.0.0/mono/eglib/giconv.c
+--- Mono.Posix-1.0.0.orig/mono/eglib/giconv.c	2024-01-30 09:30:00.000000000 +0100
++++ Mono.Posix-1.0.0/mono/eglib/giconv.c	2026-09-28 11:37:36.163602816 +0200
+@@ -200,7 +200,21 @@
+ #if defined(__NetBSD__) || defined(_AIX)
+ 		return iconv (cd->cd, (const gchar **)inbytes, inleftptr, outbytes, outleftptr);
+ #else
+-		return iconv (cd->cd, inbytes, inleftptr, outbytes, outleftptr);
++		const char *input = inbytes ? *inbytes : NULL;
++
++		size_t result = iconv (
++		    cd->cd,
++		    inbytes ? &input : NULL,
++		    inleftptr,
++		    outbytes,
++		    outleftptr
++		);
++
++		if (inbytes)
++		    *inbytes = (char *) input;
++
++		return result;
++		//return iconv (cd->cd, inbytes, inleftptr, outbytes, outleftptr);
+ #endif
+ 	}
+ #endif
