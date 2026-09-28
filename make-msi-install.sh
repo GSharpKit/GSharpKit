@@ -55,6 +55,7 @@ mkdir $TO/share/glib-2.0
 cp -r $FROM/share/glib-2.0/schemas $TO/share/glib-2.0/
 mkdir -p $TO/share/gtksourceview-4/language-specs
 cp $FROM/share/gtksourceview-4/language-specs/html.lang $TO/share/gtksourceview-4/language-specs/
+cp -r $FROM/share/servogtk $TO/share/
 
 # Icons in share
 #cp -r $FROM/share/icons $TO/share/
