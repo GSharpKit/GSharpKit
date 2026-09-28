@@ -1,13 +1,14 @@
-%define version 0.5.0
+%define version 0.6.0
 
 Name:           darwinx-servogtk
 License:        Mozilla Public License Version 2.0
 Group:          System Environment/Base 
 Version:        %{version}
-Release:        2%{?dist}
+Release:        1%{?dist}
 Url:		https://github.com/GSharpKit/servo-gtk
 Summary:        Servo Gtk3/4
 Source0:        servogtk-%{version}.tar.xz
+Source1:        pdfjs-6.3.289-legacy-dist.zip
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 BuildArch:      noarch
 
@@ -31,13 +32,15 @@ PREFIX=%{buildroot} make install-darwinx
 #rm -f %{buildroot}%{darwinx_libdir}/libservogtk3.dll.a
 #rm -f %{buildroot}%{darwinx_libdir}/libservogtk4.dll.a
 
+mkdir -p %{buildroot}%{darwinx_datadir}/servogtk/
+unzip %{SOURCE1} -d %{buildroot}%{darwinx_datadir}/servogtk/
+
 %clean
 rm -rf %{buildroot}
 
 %files 
 %defattr(-,root,root)
-%{darwinx_libdir}/libservoshell.0.dylib
-%{darwinx_libdir}/libservoshell.0.5.0.dylib
+%{darwinx_libdir}/libservoshell.*.dylib
 %{darwinx_libdir}/libservoshell.dylib
 
 %{darwinx_bindir}/servogtk3-demo
@@ -46,6 +49,8 @@ rm -rf %{buildroot}
 %dir %{darwinx_includedir}/servogtk3
 %{darwinx_includedir}/servogtk3/servo-gtk3-view.h
 %{darwinx_includedir}/servogtk3/servo-webview.h
+%{darwinx_includedir}/servogtk3/servo-gtk-pdf-server.h
+%{darwinx_includedir}/servogtk3/servo-pdf-server.h
 %{darwinx_libdir}/pkgconfig/servogtk3.pc
 
 %{darwinx_bindir}/servogtk4-demo
@@ -54,7 +59,11 @@ rm -rf %{buildroot}
 %dir %{darwinx_includedir}/servogtk4
 %{darwinx_includedir}/servogtk4/servo-gtk4-view.h
 %{darwinx_includedir}/servogtk4/servo-webview.h
+%{darwinx_includedir}/servogtk4/servo-gtk-pdf-server.h
+%{darwinx_includedir}/servogtk4/servo-pdf-server.h
 %{darwinx_libdir}/pkgconfig/servogtk4.pc
+
+%{darwinx_datadir}/servogtk/*
 
 %changelog
 * Mon Aug 17 2026 Mikkel Kruse Johnsen <mikkel@xmedicus.com>
