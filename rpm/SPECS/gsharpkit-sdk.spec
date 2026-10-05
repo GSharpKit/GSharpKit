@@ -4,11 +4,11 @@
 %define DOTNET_VERSION 10.0
 
 %define major_version 44
-%define minor_version 1
-%define sdk_version 300
+%define minor_version 4
+%define sdk_version 100
 
 %define linux_prefix /usr/lib/GSharpKit/sdk/%{major_version}
-%define mingw64_prefix /usr/x86_64-w64-mingw32/sys-root/mingw/lib/GSharpKit/sdk/%{major_version}
+%define ucrt64_prefix /usr/x86_64-w64-mingw32ucrt/sys-root/mingw/lib/GSharpKit/sdk/%{major_version}
 %define darwinx_prefix /Library/Frameworks/GSharpKit/sdk/%{major_version}
 
 Name: 			GSharpKit-sdk-%{major_version}
@@ -45,7 +45,7 @@ Easy management of applications for Linux 64 bit
 
 
 
-%package mingw64
+%package ucrt64
 Summary:                SDK for GSharpKit Mingw 64 bit
 License:                GPL
 Group:                  Applications/Desktop
@@ -63,7 +63,7 @@ Requires:               hunspell-da hunspell-en-GB hunspell-en-US
 Requires:               python
 Requires:               sudo
 
-%description mingw64
+%description ucrt64
 Easy management of applications for Windows 64 bit
 
 
@@ -99,22 +99,24 @@ Easy management of applications for macOS 64 bit
 %build
 dotnet new console -f net%{DOTNET_VERSION}
 
-dotnet add package NLog --version 6.2.0
+dotnet add package NLog --version 6.2.1
 
-dotnet add package System.Security.Cryptography.Xml --version 10.0.11
-dotnet add package System.Security.Cryptography.Pkcs --version 10.0.11
-dotnet add package System.Security.Cryptography.ProtectedData --version 10.0.11
-dotnet add package System.Configuration.ConfigurationManager --version 10.0.11
+dotnet add package System.Security.Cryptography.Xml --version 10.0.12
+dotnet add package System.Security.Cryptography.Pkcs --version 10.0.12
+dotnet add package System.Security.Cryptography.ProtectedData --version 10.0.12
+dotnet add package System.Configuration.ConfigurationManager --version 10.0.12
 
-dotnet add package System.Runtime.Caching --version 10.0.11
+dotnet add package System.Runtime.Caching --version 10.0.12
 
-dotnet add package System.DirectoryServices --version 10.0.11
-dotnet add package System.DirectoryServices.AccountManagement --version 10.0.11
+dotnet add package System.DirectoryServices --version 10.0.12
+dotnet add package System.DirectoryServices.AccountManagement --version 10.0.12
 
-dotnet add package System.ServiceModel.Syndication --version 10.0.11
+dotnet add package System.ServiceModel.Syndication --version 10.0.12
 
-dotnet add package Microsoft.Extensions.Caching.Memory --version 10.0.11
-dotnet add package Microsoft.Extensions.Caching.Abstractions --version 10.0.11
+dotnet add package Microsoft.Extensions.Caching.Memory --version 10.0.12
+dotnet add package Microsoft.Extensions.Caching.Abstractions --version 10.0.12
+
+dotnet add package Microsoft.Win32.SystemEvents --version 10.0.12
 
 dotnet add package System.ServiceModel.Primitives --version 10.0.652802
 dotnet add package System.ServiceModel.Http --version 10.0.652802
@@ -122,17 +124,17 @@ dotnet add package System.ServiceModel.NetTcp --version 10.0.652802
 dotnet add package System.ServiceModel.Federation --version 10.0.652802
 dotnet add package System.Web.Services.Description --version 10.0.652802
 
-dotnet add package System.CommandLine --version 2.0.11
+dotnet add package System.CommandLine --version 2.0.12
 
 dotnet add package Duende.IdentityModel.OidcClient --version 7.1.0
 
-dotnet add package Google.Apis.Auth --version 1.76.0
-dotnet add package Microsoft.Identity.Client --version 4.88.0
+dotnet add package Google.Apis.Auth --version 1.77.0
+dotnet add package Microsoft.Identity.Client --version 4.90.1
 
-dotnet add package Microsoft.IdentityModel.Tokens --version 8.22.0
-dotnet add package Microsoft.IdentityModel.Protocols --version 8.22.0
+dotnet add package Microsoft.IdentityModel.Tokens --version 8.23.0
+dotnet add package Microsoft.IdentityModel.Protocols --version 8.23.0
 
-dotnet add package Microsoft.Data.SqlClient --version 7.0.2
+dotnet add package Microsoft.Data.SqlClient --version 7.1.1
 
 dotnet add package Mono.Data.Sqlite.Core --version 1.0.61.1
 
@@ -144,7 +146,7 @@ dotnet add package Mono.Cecil --version 0.11.6
 
 dotnet add package Npgsql --version 10.0.3
 
-dotnet add package Tmds.DBus --version 0.95.0
+dotnet add package Tmds.DBus --version 0.95.1
 
 dotnet add package DnsClient --version 1.8.0
 
@@ -166,8 +168,8 @@ dotnet add package GirCore.GstPbutils-1.0 --version 0.8.1
 
 dotnet add package Newtonsoft.Json --version 13.0.4
 dotnet add package BouncyCastle.Cryptography --version 2.7.0
-dotnet add package MimeKit --version 4.17.0
-dotnet add package MailKit --version 4.17.0
+dotnet add package MimeKit --version 4.18.1
+dotnet add package MailKit --version 4.18.1
 dotnet add package RestSharp --version 114.0.0
 dotnet add package Sprache --version 2.3.1
 dotnet add package PDFsharp-MigraDoc --version 6.2.4
@@ -191,20 +193,17 @@ dotnet publish --force --runtime osx-x64 -o darwinx
 
 install -d -m 755 $RPM_BUILD_ROOT%{linux_prefix}
 install -m 644 lin/*.dll $RPM_BUILD_ROOT%{linux_prefix}/
-#install -m 644 any/runtimes/unix/lib/net8.0/Microsoft.Data.SqlClient.dll $RPM_BUILD_ROOT%{linux_prefix}/
 
-install -d -m 755 $RPM_BUILD_ROOT%{mingw64_prefix}
-install -m 644 win/*.dll $RPM_BUILD_ROOT%{mingw64_prefix}/
-#install -m 644 any/runtimes/unix/lib/net8.0/Microsoft.Data.SqlClient.dll $RPM_BUILD_ROOT%{mingw64_prefix}/
+install -d -m 755 $RPM_BUILD_ROOT%{ucrt64_prefix}
+install -m 644 win/*.dll $RPM_BUILD_ROOT%{ucrt64_prefix}/
 
 install -d -m 755 $RPM_BUILD_ROOT%{darwinx_prefix}
 install -m 644 darwinx/*.dll $RPM_BUILD_ROOT%{darwinx_prefix}/
-#install -m 644 any/runtimes/unix/lib/net8.0/Microsoft.Data.SqlClient.dll $RPM_BUILD_ROOT%{darwinx_prefix}/
 
 install -m 644 %{SOURCE1} $RPM_BUILD_ROOT%{linux_prefix}/
 install -m 644 %{SOURCE2} $RPM_BUILD_ROOT%{linux_prefix}/
-install -m 644 %{SOURCE1} $RPM_BUILD_ROOT%{mingw64_prefix}/
-install -m 644 %{SOURCE2} $RPM_BUILD_ROOT%{mingw64_prefix}/
+install -m 644 %{SOURCE1} $RPM_BUILD_ROOT%{ucrt64_prefix}/
+install -m 644 %{SOURCE2} $RPM_BUILD_ROOT%{ucrt64_prefix}/
 install -m 644 %{SOURCE1} $RPM_BUILD_ROOT%{darwinx_prefix}/
 install -m 644 %{SOURCE2} $RPM_BUILD_ROOT%{darwinx_prefix}/
 
@@ -221,18 +220,18 @@ install -m 644 /usr/lib/GstSharp.dll $RPM_BUILD_ROOT%{linux_prefix}/
 install -m 644 /usr/lib/GtkSourceSharp.dll $RPM_BUILD_ROOT%{linux_prefix}/
 install -m 644 /usr/lib/ServoGtkSharp.dll $RPM_BUILD_ROOT%{linux_prefix}/
 
-install -m 644 /usr/lib/AtkSharp.dll $RPM_BUILD_ROOT%{mingw64_prefix}/
-install -m 644 /usr/lib/CairoSharp.dll $RPM_BUILD_ROOT%{mingw64_prefix}/
-install -m 644 /usr/lib/GLibSharp.dll $RPM_BUILD_ROOT%{mingw64_prefix}/
-install -m 644 /usr/lib/GdkSharp.dll $RPM_BUILD_ROOT%{mingw64_prefix}/
-install -m 644 /usr/lib/GioSharp.dll $RPM_BUILD_ROOT%{mingw64_prefix}/
-install -m 644 /usr/lib/GtkSharp.dll $RPM_BUILD_ROOT%{mingw64_prefix}/
-install -m 644 /usr/lib/PangoSharp.dll $RPM_BUILD_ROOT%{mingw64_prefix}/
-install -m 644 /usr/lib/WebkitGtkSharp.dll $RPM_BUILD_ROOT%{mingw64_prefix}/
-install -m 644 /usr/lib/GdlSharp.dll $RPM_BUILD_ROOT%{mingw64_prefix}/
-install -m 644 /usr/lib/GstSharp.dll $RPM_BUILD_ROOT%{mingw64_prefix}/
-install -m 644 /usr/lib/GtkSourceSharp.dll $RPM_BUILD_ROOT%{mingw64_prefix}/
-install -m 644 /usr/lib/ServoGtkSharp.dll $RPM_BUILD_ROOT%{mingw64_prefix}/
+install -m 644 /usr/lib/AtkSharp.dll $RPM_BUILD_ROOT%{ucrt64_prefix}/
+install -m 644 /usr/lib/CairoSharp.dll $RPM_BUILD_ROOT%{ucrt64_prefix}/
+install -m 644 /usr/lib/GLibSharp.dll $RPM_BUILD_ROOT%{ucrt64_prefix}/
+install -m 644 /usr/lib/GdkSharp.dll $RPM_BUILD_ROOT%{ucrt64_prefix}/
+install -m 644 /usr/lib/GioSharp.dll $RPM_BUILD_ROOT%{ucrt64_prefix}/
+install -m 644 /usr/lib/GtkSharp.dll $RPM_BUILD_ROOT%{ucrt64_prefix}/
+install -m 644 /usr/lib/PangoSharp.dll $RPM_BUILD_ROOT%{ucrt64_prefix}/
+install -m 644 /usr/lib/WebkitGtkSharp.dll $RPM_BUILD_ROOT%{ucrt64_prefix}/
+install -m 644 /usr/lib/GdlSharp.dll $RPM_BUILD_ROOT%{ucrt64_prefix}/
+install -m 644 /usr/lib/GstSharp.dll $RPM_BUILD_ROOT%{ucrt64_prefix}/
+install -m 644 /usr/lib/GtkSourceSharp.dll $RPM_BUILD_ROOT%{ucrt64_prefix}/
+install -m 644 /usr/lib/ServoGtkSharp.dll $RPM_BUILD_ROOT%{ucrt64_prefix}/
 
 install -m 644 /usr/lib/AtkSharp.dll $RPM_BUILD_ROOT%{darwinx_prefix}/
 install -m 644 /usr/lib/CairoSharp.dll $RPM_BUILD_ROOT%{darwinx_prefix}/
@@ -249,21 +248,21 @@ install -m 644 /usr/lib/GtkSourceSharp.dll $RPM_BUILD_ROOT%{darwinx_prefix}/
 install -m 644 /usr/lib/ServoGtkSharp.dll $RPM_BUILD_ROOT%{darwinx_prefix}/
 
 rm -f $RPM_BUILD_ROOT%{linux_prefix}/Microsoft.SqlServer.Server.dll
-rm -f $RPM_BUILD_ROOT%{mingw64_prefix}/Microsoft.SqlServer.Server.dll
+rm -f $RPM_BUILD_ROOT%{ucrt64_prefix}/Microsoft.SqlServer.Server.dll
 rm -f $RPM_BUILD_ROOT%{darwinx_prefix}/Microsoft.SqlServer.Server.dll
 
 rm -f $RPM_BUILD_ROOT%{linux_prefix}/Mono.Cecil.Mdb.dll
 rm -f $RPM_BUILD_ROOT%{linux_prefix}/Mono.Cecil.Pdb.dll
 rm -f $RPM_BUILD_ROOT%{linux_prefix}/Mono.Cecil.Rocks.dll
-rm -f $RPM_BUILD_ROOT%{mingw64_prefix}/Mono.Cecil.Mdb.dll
-rm -f $RPM_BUILD_ROOT%{mingw64_prefix}/Mono.Cecil.Pdb.dll
-rm -f $RPM_BUILD_ROOT%{mingw64_prefix}/Mono.Cecil.Rocks.dll
+rm -f $RPM_BUILD_ROOT%{ucrt64_prefix}/Mono.Cecil.Mdb.dll
+rm -f $RPM_BUILD_ROOT%{ucrt64_prefix}/Mono.Cecil.Pdb.dll
+rm -f $RPM_BUILD_ROOT%{ucrt64_prefix}/Mono.Cecil.Rocks.dll
 rm -f $RPM_BUILD_ROOT%{darwinx_prefix}/Mono.Cecil.Mdb.dll
 rm -f $RPM_BUILD_ROOT%{darwinx_prefix}/Mono.Cecil.Pdb.dll
 rm -f $RPM_BUILD_ROOT%{darwinx_prefix}/Mono.Cecil.Rocks.dll
 
 rm -f $RPM_BUILD_ROOT%{linux_prefix}/GSharpKit-sdk-%{major_version}-%{version}.dll
-rm -f $RPM_BUILD_ROOT%{mingw64_prefix}/GSharpKit-sdk-%{major_version}-%{version}.dll
+rm -f $RPM_BUILD_ROOT%{ucrt64_prefix}/GSharpKit-sdk-%{major_version}-%{version}.dll
 rm -f $RPM_BUILD_ROOT%{darwinx_prefix}/GSharpKit-sdk-%{major_version}-%{version}.dll
 
 %clean
@@ -274,10 +273,10 @@ rm -f $RPM_BUILD_ROOT%{darwinx_prefix}/GSharpKit-sdk-%{major_version}-%{version}
 %dir %{linux_prefix}
 %{linux_prefix}/*.dll
 
-%files mingw64
+%files ucrt64
 %defattr(-, root, root)
-%dir %{mingw64_prefix}
-%{mingw64_prefix}/*.dll
+%dir %{ucrt64_prefix}
+%{ucrt64_prefix}/*.dll
 
 %files darwinx
 %defattr(-, root, root)

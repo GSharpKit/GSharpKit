@@ -11,13 +11,13 @@ cp GSharpSdk.json $TMPDIR/
 TMP="$TMPDIR/tmp"
 DIR="$TMPDIR/framework/@FRAMEWORK@"
 
-mkdir -p $TMPDIR/tmp/usr/x86_64-w64-mingw32/sys-root/mingw
+mkdir -p $TMPDIR/tmp/usr/x86_64-w64-mingw32ucrt/sys-root/mingw
 
-sh make-msi-install.sh /usr/x86_64-w64-mingw32/sys-root/mingw $TMP/usr/x86_64-w64-mingw32/sys-root/mingw x64
-cp /usr/x86_64-w64-mingw32/sys-root/mingw/lib/GSharpKit/sdk/@FRAMEWORK@/*.dll $TMP/usr/x86_64-w64-mingw32/sys-root/mingw/bin/
+sh make-msi-install.sh /usr/x86_64-w64-mingw32ucrt/sys-root/mingw $TMP/usr/x86_64-w64-mingw32ucrt/sys-root/mingw x64
+cp /usr/x86_64-w64-mingw32ucrt/sys-root/mingw/lib/GSharpKit/sdk/@FRAMEWORK@/*.dll $TMP/usr/x86_64-w64-mingw32ucrt/sys-root/mingw/bin/
 
 mkdir -p $TMPDIR/framework
-mv $TMP/usr/x86_64-w64-mingw32/sys-root/mingw $DIR
+mv $TMP/usr/x86_64-w64-mingw32ucrt/sys-root/mingw $DIR
 sed -i -e 's!<\!--<auth>EXTERNAL</auth>-->!<auth>EXTERNAL</auth>!g' $DIR/share/dbus-1/session.conf
 
 pushd $TMPDIR
