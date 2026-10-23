@@ -4,13 +4,13 @@
 
 %global debug_package %{nil}
 
-%define version 0.6.0
+%define version 0.7.0
 
 Name:           ucrt-servogtk
 License:        Mozilla Public License Version 2.0
 Group:          System Environment/Base 
 Version:        %{version}
-Release:        2%{?dist}
+Release:        1%{?dist}
 Url:		https://github.com/GSharpKit/servo-gtk
 Summary:        Servo Gtk3/4
 Source0:        servogtk-%{version}.tar.xz
