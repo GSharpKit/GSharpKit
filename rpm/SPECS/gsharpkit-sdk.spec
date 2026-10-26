@@ -4,7 +4,7 @@
 %define DOTNET_VERSION 10.0
 
 %define major_version 44
-%define minor_version 4
+%define minor_version 5
 %define sdk_version 100
 
 %define linux_prefix /usr/lib/GSharpKit/sdk/%{major_version}
@@ -38,7 +38,7 @@ Requires:               python
 Requires:               sudo
 
 BuildRequires:		dotnet-runtime-%{DOTNET_VERSION}
-BuildRequires:		GtkSharp >= 3.24.24.45
+BuildRequires:		GtkSharp >= 3.24.24.46
 
 %description
 Easy management of applications for Linux 64 bit
@@ -99,37 +99,37 @@ Easy management of applications for macOS 64 bit
 %build
 dotnet new console -f net%{DOTNET_VERSION}
 
-dotnet add package NLog --version 6.2.1
+dotnet add package NLog --version 6.2.2
 
-dotnet add package System.Security.Cryptography.Xml --version 10.0.12
-dotnet add package System.Security.Cryptography.Pkcs --version 10.0.12
-dotnet add package System.Security.Cryptography.ProtectedData --version 10.0.12
-dotnet add package System.Configuration.ConfigurationManager --version 10.0.12
+dotnet add package System.Security.Cryptography.Xml --version 10.0.14
+dotnet add package System.Security.Cryptography.Pkcs --version 10.0.14
+dotnet add package System.Security.Cryptography.ProtectedData --version 10.0.14
+dotnet add package System.Configuration.ConfigurationManager --version 10.0.14
 
-dotnet add package System.Runtime.Caching --version 10.0.12
+dotnet add package System.Runtime.Caching --version 10.0.14
 
-dotnet add package System.DirectoryServices --version 10.0.12
-dotnet add package System.DirectoryServices.AccountManagement --version 10.0.12
+dotnet add package System.DirectoryServices --version 10.0.14
+dotnet add package System.DirectoryServices.AccountManagement --version 10.0.14
 
-dotnet add package System.ServiceModel.Syndication --version 10.0.12
+dotnet add package System.ServiceModel.Syndication --version 10.0.14
 
-dotnet add package Microsoft.Extensions.Caching.Memory --version 10.0.12
-dotnet add package Microsoft.Extensions.Caching.Abstractions --version 10.0.12
+dotnet add package Microsoft.Extensions.Caching.Memory --version 10.0.14
+dotnet add package Microsoft.Extensions.Caching.Abstractions --version 10.0.14
 
-dotnet add package Microsoft.Win32.SystemEvents --version 10.0.12
+dotnet add package Microsoft.Win32.SystemEvents --version 10.0.14
 
-dotnet add package System.ServiceModel.Primitives --version 10.0.652802
-dotnet add package System.ServiceModel.Http --version 10.0.652802
-dotnet add package System.ServiceModel.NetTcp --version 10.0.652802
-dotnet add package System.ServiceModel.Federation --version 10.0.652802
-dotnet add package System.Web.Services.Description --version 10.0.652802
+dotnet add package System.ServiceModel.Primitives --version 10.1.0
+dotnet add package System.ServiceModel.Http --version 10.1.0
+dotnet add package System.ServiceModel.NetTcp --version 10.1.0
+dotnet add package System.ServiceModel.Federation --version 10.1.0
+dotnet add package System.Web.Services.Description --version 10.1.0
 
-dotnet add package System.CommandLine --version 2.0.12
+dotnet add package System.CommandLine --version 2.0.14
 
-dotnet add package Duende.IdentityModel.OidcClient --version 7.1.0
+dotnet add package Duende.IdentityModel.OidcClient --version 7.1.1
 
 dotnet add package Google.Apis.Auth --version 1.77.0
-dotnet add package Microsoft.Identity.Client --version 4.90.1
+dotnet add package Microsoft.Identity.Client --version 4.91.1
 
 dotnet add package Microsoft.IdentityModel.Tokens --version 8.23.0
 dotnet add package Microsoft.IdentityModel.Protocols --version 8.23.0
@@ -168,11 +168,11 @@ dotnet add package GirCore.GstPbutils-1.0 --version 0.8.1
 
 dotnet add package Newtonsoft.Json --version 13.0.4
 dotnet add package BouncyCastle.Cryptography --version 2.7.0
-dotnet add package MimeKit --version 4.18.1
-dotnet add package MailKit --version 4.18.1
-dotnet add package RestSharp --version 114.0.0
+dotnet add package MimeKit --version 4.18.2
+dotnet add package MailKit --version 4.18.2
+dotnet add package RestSharp --version 114.1.0
 dotnet add package Sprache --version 2.3.1
-dotnet add package PDFsharp-MigraDoc --version 6.2.4
+dotnet add package PDFsharp-MigraDoc --version 6.5.0
 
 # Version 1.7.0 will pull in Win32.EventManager, we don't want that
 dotnet add package QRCoder --version 1.6.0

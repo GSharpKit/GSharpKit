@@ -3,7 +3,7 @@
 %define libdir /lib
 
 Name:           GtkSharp
-Version:        3.24.24.45
+Version:        3.24.24.46
 Release:        1%{?dist}
 Summary:        GTK+ and GNOME bindings for Mono
 

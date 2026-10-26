@@ -60,7 +60,7 @@
 %define LIBSOUP_VERSION 2.70.0
 %define WEBKITGTK3_VERSION 2.4.11
 
-%define SERVOGTK_VERSION 0.6.0
+%define SERVOGTK_VERSION 0.7.0
 
 %define HUNSPELL_VERSION 1.7.0
 %define ENCHANT_VERSION 1.6.0
@@ -88,7 +88,7 @@
 %define DOTNET_VERSION 10.0
 
 %define major_version 44
-%define minor_version 4
+%define minor_version 5
 
 %define linux_prefix /usr/lib64
 %define mingw64_prefix /usr/x86_64-w64-mingw32/sys-root/mingw/bin
