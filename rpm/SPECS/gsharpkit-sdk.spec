@@ -5,7 +5,7 @@
 
 %define major_version 44
 %define minor_version 5
-%define sdk_version 200
+%define sdk_version 300
 
 %define linux_prefix /usr/lib/GSharpKit/sdk/%{major_version}
 %define ucrt64_prefix /usr/x86_64-w64-mingw32ucrt/sys-root/mingw/lib/GSharpKit/sdk/%{major_version}
@@ -38,7 +38,7 @@ Requires:               python
 Requires:               sudo
 
 BuildRequires:		dotnet-runtime-%{DOTNET_VERSION}
-BuildRequires:		GtkSharp >= 3.24.24.47
+BuildRequires:		GtkSharp >= 3.24.24.48
 
 %description
 Easy management of applications for Linux 64 bit
@@ -128,8 +128,8 @@ dotnet add package System.CommandLine --version 2.0.14
 
 dotnet add package Duende.IdentityModel.OidcClient --version 7.1.1
 
-dotnet add package Google.Apis.Auth --version 1.77.0
-dotnet add package Microsoft.Identity.Client --version 4.91.1
+dotnet add package Google.Apis.Auth --version 1.78.0
+dotnet add package Microsoft.Identity.Client --version 4.92.0
 
 dotnet add package Microsoft.IdentityModel.Tokens --version 8.23.0
 dotnet add package Microsoft.IdentityModel.Protocols --version 8.23.0
@@ -146,7 +146,7 @@ dotnet add package Mono.Cecil --version 0.11.6
 
 dotnet add package Npgsql --version 10.0.3
 
-dotnet add package Tmds.DBus --version 0.95.1
+dotnet add package Tmds.DBus --version 0.95.2
 
 dotnet add package DnsClient --version 1.8.0
 
