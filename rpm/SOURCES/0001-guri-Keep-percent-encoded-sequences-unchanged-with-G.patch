@@ -1,0 +1,252 @@
+From c7238a09ac58e484f2c34927d6f404fec66cc840 Mon Sep 17 00:00:00 2001
+From: Mikkel Kruse Johnsen <mikkel@xmedicus.com>
+Date: Mon, 16 Nov 2026 13:07:59 +0100
+Subject: [PATCH] guri: Keep percent-encoded sequences unchanged with
+ G_URI_FLAGS_ENCODED_*
+
+With an ENCODED flag, uri_decoder() kept %-escapes but normalised them:
+it uppercased the hex digits and decoded escaped unreserved characters,
+so ?a=%2b%7e became ?a=%2B~.
+
+libsoup parses request URIs with SOUP_HTTP_URI_FLAGS, which includes
+G_URI_FLAGS_ENCODED_QUERY, so libsoup and WebKitGTK sent a different
+query than the server issued in its Location header. That breaks
+signatures computed over the encoded query: NemLog-in (Danish MitID)
+rejects SAML HTTP-Redirect binding requests from an identity broker that
+encodes with lowercase hex, while Firefox and Chrome send the bytes
+unchanged and succeed.
+
+Keep an existing %-sequence byte for byte. Illegal characters are still
+escaped. The normalisation is equivalence-preserving (RFC 3986, section
+6.2.2), so the tests now expect the escapes as written:
+
+- /uri/normalize: http://foo/%aa stays %aa, and a new case checks that a
+  signed-style query (%2b%2f%3d, %7e) survives unchanged.
+- /uri/parsing/relative: g_uri_resolve_relative() works on the encoded
+  form and now differs from g_uri_to_string() of the decoded parts for
+  the case with escapes, so that case gets a separate expectation.
+---
+ glib/guri.c      |  12 ++---
+ glib/tests/uri.c | 111 +++++++++++++++++++++++++----------------------
+ 2 files changed, 66 insertions(+), 57 deletions(-)
+
+diff --git a/glib/guri.c b/glib/guri.c
+index 8f7278d..cdc7139 100644
+--- a/glib/guri.c
++++ b/glib/guri.c
+@@ -327,12 +327,14 @@ uri_decoder (gchar       **out,
+               g_string_free (decoded, TRUE);
+               return -1;
+             }
+-          if (just_normalize && !g_uri_char_is_unreserved (c))
++          if (just_normalize)
+             {
+-              /* Leave the % sequence there but normalize it. */
+-              g_string_append_c (decoded, *s);
+-              g_string_append_c (decoded, g_ascii_toupper (s[1]));
+-              g_string_append_c (decoded, g_ascii_toupper (s[2]));
++              /* Keep an existing % sequence byte for byte. Changing the case of the
++               * hex digits or decoding unreserved characters gives an equivalent URI
++               * (RFC 3986, section 6.2.2), but breaks signatures computed over the
++               * encoded query, such as the SAML HTTP-Redirect binding.
++               */
++              g_string_append_len (decoded, s, 3);
+               s += 2;
+             }
+           else
+diff --git a/glib/tests/uri.c b/glib/tests/uri.c
+index e3b5dc7..8c256b9 100644
+--- a/glib/tests/uri.c
++++ b/glib/tests/uri.c
+@@ -824,113 +824,117 @@ test_uri_parsing_absolute (void)
+ typedef struct {
+   const gchar *orig, *resolved;
+   UriParts parts;
++  /* Result of g_uri_resolve_relative() when it differs from @resolved: it keeps
++   * %-escapes as written, while g_uri_to_string() re-encodes decoded parts. */
++  const gchar *resolved_encoded;
+ } UriRelativeTest;
+ 
+ /* This all comes from RFC 3986 */
+ static const char *relative_test_base = "http://a/b/c/d;p?q";
+ static const UriRelativeTest relative_tests[] = {
+   { "g:h", "g:h",
+-    { "g", NULL, NULL, -1, "h", NULL, NULL } },
++    { "g", NULL, NULL, -1, "h", NULL, NULL }, NULL },
+   { "g", "http://a/b/c/g",
+-    { "http", NULL, "a", -1, "/b/c/g", NULL, NULL } },
++    { "http", NULL, "a", -1, "/b/c/g", NULL, NULL }, NULL },
+   { "./g", "http://a/b/c/g",
+-    { "http", NULL, "a", -1, "/b/c/g", NULL, NULL } },
++    { "http", NULL, "a", -1, "/b/c/g", NULL, NULL }, NULL },
+   { "g/", "http://a/b/c/g/",
+-    { "http", NULL, "a", -1, "/b/c/g/", NULL, NULL } },
++    { "http", NULL, "a", -1, "/b/c/g/", NULL, NULL }, NULL },
+   { "/g", "http://a/g",
+-    { "http", NULL, "a", -1, "/g", NULL, NULL } },
++    { "http", NULL, "a", -1, "/g", NULL, NULL }, NULL },
+   { "//g", "http://g",
+-    { "http", NULL, "g", -1, "", NULL, NULL } },
++    { "http", NULL, "g", -1, "", NULL, NULL }, NULL },
+   { "?y", "http://a/b/c/d;p?y",
+-    { "http", NULL, "a", -1, "/b/c/d;p", "y", NULL } },
++    { "http", NULL, "a", -1, "/b/c/d;p", "y", NULL }, NULL },
+   { "g?y", "http://a/b/c/g?y",
+-    { "http", NULL, "a", -1, "/b/c/g", "y", NULL } },
++    { "http", NULL, "a", -1, "/b/c/g", "y", NULL }, NULL },
+   { "#s", "http://a/b/c/d;p?q#s",
+-    { "http", NULL, "a", -1, "/b/c/d;p", "q", "s" } },
++    { "http", NULL, "a", -1, "/b/c/d;p", "q", "s" }, NULL },
+   { "g#s", "http://a/b/c/g#s",
+-    { "http", NULL, "a", -1, "/b/c/g", NULL, "s" } },
++    { "http", NULL, "a", -1, "/b/c/g", NULL, "s" }, NULL },
+   { "g?y#s", "http://a/b/c/g?y#s",
+-    { "http", NULL, "a", -1, "/b/c/g", "y", "s" } },
++    { "http", NULL, "a", -1, "/b/c/g", "y", "s" }, NULL },
+   { ";x", "http://a/b/c/;x",
+-    { "http", NULL, "a", -1, "/b/c/;x", NULL, NULL } },
++    { "http", NULL, "a", -1, "/b/c/;x", NULL, NULL }, NULL },
+   { "g;x", "http://a/b/c/g;x",
+-    { "http", NULL, "a", -1, "/b/c/g;x", NULL, NULL } },
++    { "http", NULL, "a", -1, "/b/c/g;x", NULL, NULL }, NULL },
+   { "g;x?y#s", "http://a/b/c/g;x?y#s",
+-    { "http", NULL, "a", -1, "/b/c/g;x", "y", "s" } },
++    { "http", NULL, "a", -1, "/b/c/g;x", "y", "s" }, NULL },
+   { ".", "http://a/b/c/",
+-    { "http", NULL, "a", -1, "/b/c/", NULL, NULL } },
++    { "http", NULL, "a", -1, "/b/c/", NULL, NULL }, NULL },
+   { "./", "http://a/b/c/",
+-    { "http", NULL, "a", -1, "/b/c/", NULL, NULL } },
++    { "http", NULL, "a", -1, "/b/c/", NULL, NULL }, NULL },
+   { "..", "http://a/b/",
+-    { "http", NULL, "a", -1, "/b/", NULL, NULL } },
++    { "http", NULL, "a", -1, "/b/", NULL, NULL }, NULL },
+   { "../", "http://a/b/",
+-    { "http", NULL, "a", -1, "/b/", NULL, NULL } },
++    { "http", NULL, "a", -1, "/b/", NULL, NULL }, NULL },
+   { "../g", "http://a/b/g",
+-    { "http", NULL, "a", -1, "/b/g", NULL, NULL } },
++    { "http", NULL, "a", -1, "/b/g", NULL, NULL }, NULL },
+   { "../..", "http://a/",
+-    { "http", NULL, "a", -1, "/", NULL, NULL } },
++    { "http", NULL, "a", -1, "/", NULL, NULL }, NULL },
+   { "../../", "http://a/",
+-    { "http", NULL, "a", -1, "/", NULL, NULL } },
++    { "http", NULL, "a", -1, "/", NULL, NULL }, NULL },
+   { "../../g", "http://a/g",
+-    { "http", NULL, "a", -1, "/g", NULL, NULL } },
++    { "http", NULL, "a", -1, "/g", NULL, NULL }, NULL },
+   { "", "http://a/b/c/d;p?q",
+-    { "http", NULL, "a", -1, "/b/c/d;p", "q", NULL } },
++    { "http", NULL, "a", -1, "/b/c/d;p", "q", NULL }, NULL },
+   { "../../../g", "http://a/g",
+-    { "http", NULL, "a", -1, "/g", NULL, NULL } },
++    { "http", NULL, "a", -1, "/g", NULL, NULL }, NULL },
+   { "../../../../g", "http://a/g",
+-    { "http", NULL, "a", -1, "/g", NULL, NULL } },
++    { "http", NULL, "a", -1, "/g", NULL, NULL }, NULL },
+   { "/./g", "http://a/g",
+-    { "http", NULL, "a", -1, "/g", NULL, NULL } },
++    { "http", NULL, "a", -1, "/g", NULL, NULL }, NULL },
+   { "/../g", "http://a/g",
+-    { "http", NULL, "a", -1, "/g", NULL, NULL } },
++    { "http", NULL, "a", -1, "/g", NULL, NULL }, NULL },
+   { "g.", "http://a/b/c/g.",
+-    { "http", NULL, "a", -1, "/b/c/g.", NULL, NULL } },
++    { "http", NULL, "a", -1, "/b/c/g.", NULL, NULL }, NULL },
+   { ".g", "http://a/b/c/.g",
+-    { "http", NULL, "a", -1, "/b/c/.g", NULL, NULL } },
++    { "http", NULL, "a", -1, "/b/c/.g", NULL, NULL }, NULL },
+   { "g..", "http://a/b/c/g..",
+-    { "http", NULL, "a", -1, "/b/c/g..", NULL, NULL } },
++    { "http", NULL, "a", -1, "/b/c/g..", NULL, NULL }, NULL },
+   { "..g", "http://a/b/c/..g",
+-    { "http", NULL, "a", -1, "/b/c/..g", NULL, NULL } },
++    { "http", NULL, "a", -1, "/b/c/..g", NULL, NULL }, NULL },
+   { "./../g", "http://a/b/g",
+-    { "http", NULL, "a", -1, "/b/g", NULL, NULL } },
++    { "http", NULL, "a", -1, "/b/g", NULL, NULL }, NULL },
+   { "./g/.", "http://a/b/c/g/",
+-    { "http", NULL, "a", -1, "/b/c/g/", NULL, NULL } },
++    { "http", NULL, "a", -1, "/b/c/g/", NULL, NULL }, NULL },
+   { "g/./h", "http://a/b/c/g/h",
+-    { "http", NULL, "a", -1, "/b/c/g/h", NULL, NULL } },
++    { "http", NULL, "a", -1, "/b/c/g/h", NULL, NULL }, NULL },
+   { "g/../h", "http://a/b/c/h",
+-    { "http", NULL, "a", -1, "/b/c/h", NULL, NULL } },
++    { "http", NULL, "a", -1, "/b/c/h", NULL, NULL }, NULL },
+   { "g;x=1/./y", "http://a/b/c/g;x=1/y",
+-    { "http", NULL, "a", -1, "/b/c/g;x=1/y", NULL, NULL } },
++    { "http", NULL, "a", -1, "/b/c/g;x=1/y", NULL, NULL }, NULL },
+   { "g;x=1/../y", "http://a/b/c/y",
+-    { "http", NULL, "a", -1, "/b/c/y", NULL, NULL } },
++    { "http", NULL, "a", -1, "/b/c/y", NULL, NULL }, NULL },
+   { "g?y/./x", "http://a/b/c/g?y/./x",
+-    { "http", NULL, "a", -1, "/b/c/g", "y/./x", NULL } },
++    { "http", NULL, "a", -1, "/b/c/g", "y/./x", NULL }, NULL },
+   { "g?y/../x", "http://a/b/c/g?y/../x",
+-    { "http", NULL, "a", -1, "/b/c/g", "y/../x", NULL } },
++    { "http", NULL, "a", -1, "/b/c/g", "y/../x", NULL }, NULL },
+   { "g#s/./x", "http://a/b/c/g#s/./x",
+-    { "http", NULL, "a", -1, "/b/c/g", NULL, "s/./x" } },
++    { "http", NULL, "a", -1, "/b/c/g", NULL, "s/./x" }, NULL },
+   { "g#s/../x", "http://a/b/c/g#s/../x",
+-    { "http", NULL, "a", -1, "/b/c/g", NULL, "s/../x" } },
++    { "http", NULL, "a", -1, "/b/c/g", NULL, "s/../x" }, NULL },
+   { "http:g", "http:g",
+-    { "http", NULL, NULL, -1, "g", NULL, NULL } },
++    { "http", NULL, NULL, -1, "g", NULL, NULL }, NULL },
+   { "http://a/../..", "http://a/",
+-    { "http", NULL, "a", -1, "/", NULL, NULL } },
++    { "http", NULL, "a", -1, "/", NULL, NULL }, NULL },
+   { "ScHeMe://User:P%61ss@HOST.%63om:1234/path/./from/../to%7d/item%2dobj?qu%65ry=something#fr%61gment",
+     "scheme://User:Pass@HOST.com:1234/path/to%7D/item-obj?query=something#fragment",
+-    { "scheme", "User:Pass", "HOST.com", 1234, "/path/to}/item-obj", "query=something", "fragment" } },
++    { "scheme", "User:Pass", "HOST.com", 1234, "/path/to}/item-obj", "query=something", "fragment" },
++    "scheme://User:P%61ss@HOST.com:1234/path/to%7d/item%2dobj?qu%65ry=something#fr%61gment" },
+   /* Test corner cases of remove_dot_segments */
+   { "http:..", "http:",
+-    { "http", NULL, NULL, -1, "", NULL, NULL } },
++    { "http", NULL, NULL, -1, "", NULL, NULL }, NULL },
+   { "http:../", "http:",
+-    { "http", NULL, NULL, -1, "", NULL, NULL } },
++    { "http", NULL, NULL, -1, "", NULL, NULL }, NULL },
+   { "http:.", "http:",
+-    { "http", NULL, NULL, -1, "", NULL, NULL } },
++    { "http", NULL, NULL, -1, "", NULL, NULL }, NULL },
+   { "http:./", "http:",
+-    { "http", NULL, NULL, -1, "", NULL, NULL } },
++    { "http", NULL, NULL, -1, "", NULL, NULL }, NULL },
+   { "http:a/..", "http:/",
+-    { "http", NULL, NULL, -1, "/", NULL, NULL } },
++    { "http", NULL, NULL, -1, "/", NULL, NULL }, NULL },
+   { "http:a/../", "http:/",
+-    { "http", NULL, NULL, -1, "/", NULL, NULL } },
++    { "http", NULL, NULL, -1, "/", NULL, NULL }, NULL },
+ };
+ static int num_relative_tests = G_N_ELEMENTS (relative_tests);
+ 
+@@ -969,7 +973,7 @@ test_uri_parsing_relative (void)
+ 
+       resolved = g_uri_resolve_relative (relative_test_base, test->orig, G_URI_FLAGS_NONE, &error);
+       g_assert_no_error (error);
+-      g_assert_cmpstr (resolved, ==, test->resolved);
++      g_assert_cmpstr (resolved, ==, test->resolved_encoded ? test->resolved_encoded : test->resolved);
+       g_free (resolved);
+     }
+   uri = g_uri_parse_relative (base, "%%", G_URI_FLAGS_NONE, &error);
+@@ -1856,7 +1860,10 @@ static const struct
+     { NULL, "http://foo/path with spaces 2", G_URI_FLAGS_ENCODED_PATH,
+       "http://foo/path%20with%20spaces%202", "/path%20with%20spaces%202", -1 },
+     { NULL, "http://foo/%aa", G_URI_FLAGS_ENCODED,
+-      "http://foo/%AA", "/%AA", -1 },
++      "http://foo/%aa", "/%aa", -1 },
++    /* Escapes are kept byte for byte, so signatures over the encoded query stay valid */
++    { NULL, "http://foo/%7e?s=%2b%2f%3d&r=a%7eb", G_URI_FLAGS_ENCODED,
++      "http://foo/%7e?s=%2b%2f%3d&r=a%7eb", "/%7e", -1 },
+     { NULL, "http://foo/p\xc3\xa4th/", G_URI_FLAGS_ENCODED | G_URI_FLAGS_PARSE_RELAXED,
+       "http://foo/p%C3%A4th/", "/p%C3%A4th/", -1 },
+     { NULL, "http://foo", G_URI_FLAGS_NONE,
+-- 
+2.56.1
+
