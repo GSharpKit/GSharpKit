@@ -68,10 +68,14 @@ This is the MinGW port of WebKitGTK+ for GTK+ 3.
 mkdir build_ucrt
 pushd build_ucrt
 %global ucrt64_cflags %(echo %{ucrt64_cflags} | sed 's/-g /-g1 /') -Wl,--strip-debug
+export WEBKIT_NINJA_COMPILE_MAX=6
+export WEBKIT_NINJA_LINK_MAX=1
 ucrt64-cmake \
+	-DCMAKE_BUILD_TYPE=Release \
 	-GNinja \
 	-DPORT=GTK \
 	-DUSE_GTK4=OFF \
+	-DENABLE_INTROSPECTION=OFF \
 	-DENABLE_TOUCH_EVENTS=OFF \
 	-DENABLE_TOOLS=OFF \
 	-DENABLE_API_TESTS=OFF \
@@ -93,7 +97,7 @@ ucrt64-cmake \
 	-DUSE_AVIF=OFF \
 	-DUSE_LCMS=OFF \
 	-DUNIFDEF_EXECUTABLE=/usr/bin/unifdef ..
-ninja
+ninja -j6
 popd
 
 
