@@ -13,7 +13,7 @@ BuildArch:      noarch
 
 BuildRequires:  ucrt64-filesystem
 BuildRequires:  ucrt64-gcc
-#BuildRequires:  ucrt64-angleproject
+BuildRequires:  ucrt64-egl-headers
 
 BuildRequires:  gcc
 BuildRequires:  meson
@@ -46,7 +46,7 @@ This package contains the MinGW Windows cross compiled libepoxy library.
 mkdir build_ucrt
 pushd build_ucrt 
 %global ucrt64_cflags %(echo %{ucrt64_cflags} | sed 's/-g /-g1 /') -Wl,--strip-debug
-%ucrt64_meson -Degl=no
+%ucrt64_meson -Degl=yes
 ninja
 popd
 

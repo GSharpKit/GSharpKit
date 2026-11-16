@@ -29,6 +29,7 @@ BuildRequires:  ucrt64-fontconfig
 BuildRequires:  ucrt64-freetype
 BuildRequires:  ucrt64-gcc
 BuildRequires:  ucrt64-gcc-c++
+BuildRequires:  ucrt64-egl-headers
 BuildRequires:  ucrt64-gstreamer1
 BuildRequires:  ucrt64-gstreamer1-plugins-base
 BuildRequires:  ucrt64-gtk3
