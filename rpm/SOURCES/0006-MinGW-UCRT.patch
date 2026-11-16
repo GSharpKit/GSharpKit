@@ -1,0 +1,243 @@
+diff -Nur webkitgtk-2.54.2.orig/Source/bmalloc/bmalloc/BExport.h webkitgtk-2.54.2/Source/bmalloc/bmalloc/BExport.h
+--- webkitgtk-2.54.2.orig/Source/bmalloc/bmalloc/BExport.h	2026-07-24 10:02:56.286923400 +0200
++++ webkitgtk-2.54.2/Source/bmalloc/bmalloc/BExport.h	2026-11-15 19:09:52.684511350 +0100
+@@ -27,7 +27,12 @@
+ 
+ #include "BPlatform.h"
+ 
+-#if BUSE(DECLSPEC_ATTRIBUTE)
++#if BUSE(DECLSPEC_ATTRIBUTE) && defined(__MINGW32__) && !defined(__clang__)
++// See WTF/wtf/ExportMacros.h: MinGW GCC rejects inline definitions marked
++// dllimport; GNU ld auto-import makes the decoration unnecessary.
++#define BEXPORT_DECLARATION __declspec(dllexport)
++#define BIMPORT_DECLARATION
++#elif BUSE(DECLSPEC_ATTRIBUTE)
+ #define BEXPORT_DECLARATION __declspec(dllexport)
+ #define BIMPORT_DECLARATION __declspec(dllimport)
+ #elif BUSE(VISIBILITY_ATTRIBUTE)
+diff -Nur webkitgtk-2.54.2.orig/Source/cmake/OptionsGTK.cmake webkitgtk-2.54.2/Source/cmake/OptionsGTK.cmake
+--- webkitgtk-2.54.2.orig/Source/cmake/OptionsGTK.cmake	2026-11-15 19:09:12.842471426 +0100
++++ webkitgtk-2.54.2/Source/cmake/OptionsGTK.cmake	2026-11-15 19:09:51.876946988 +0100
+@@ -118,6 +118,9 @@
+     WEBKIT_OPTION_DEFAULT_PORT_VALUE(USE_LIBHYPHEN PUBLIC OFF)
+     WEBKIT_OPTION_DEFAULT_PORT_VALUE(USE_LIBSECRET PUBLIC OFF)
+     WEBKIT_OPTION_DEFAULT_PORT_VALUE(USE_VULKAN PUBLIC OFF)
++    # The WebKit GStreamer GL integration is EGL based; the mingw-w64
++    # gstreamer-gl builds only provide the WGL platform.
++    WEBKIT_OPTION_DEFAULT_PORT_VALUE(USE_GSTREAMER_GL PRIVATE OFF)
+ endif ()
+ 
+ # Public options shared with other WebKit ports. Do not add any options here
+diff -Nur webkitgtk-2.54.2.orig/Source/JavaScriptCore/create_hash_table webkitgtk-2.54.2/Source/JavaScriptCore/create_hash_table
+--- webkitgtk-2.54.2.orig/Source/JavaScriptCore/create_hash_table	2026-07-24 10:02:50.618277500 +0200
++++ webkitgtk-2.54.2/Source/JavaScriptCore/create_hash_table	2026-11-16 17:13:11.346723695 +0100
+@@ -24,7 +24,7 @@
+  
+ use strict;
+ use warnings;
+-use bigint;
++use Math::BigInt;
+ use Getopt::Long qw(:config pass_through);
+ 
+ my $file = shift @ARGV or die("Must provide source file as final argument.");
+Binære filer webkitgtk-2.54.2.orig/Source/JavaScriptCore/inspector/scripts/codegen/__pycache__/cpp_generator.cpython-314.pyc og webkitgtk-2.54.2/Source/JavaScriptCore/inspector/scripts/codegen/__pycache__/cpp_generator.cpython-314.pyc er forskellige
+Binære filer webkitgtk-2.54.2.orig/Source/JavaScriptCore/inspector/scripts/codegen/__pycache__/cpp_generator_templates.cpython-314.pyc og webkitgtk-2.54.2/Source/JavaScriptCore/inspector/scripts/codegen/__pycache__/cpp_generator_templates.cpython-314.pyc er forskellige
+Binære filer webkitgtk-2.54.2.orig/Source/JavaScriptCore/inspector/scripts/codegen/__pycache__/generate_cpp_alternate_backend_dispatcher_header.cpython-314.pyc og webkitgtk-2.54.2/Source/JavaScriptCore/inspector/scripts/codegen/__pycache__/generate_cpp_alternate_backend_dispatcher_header.cpython-314.pyc er forskellige
+Binære filer webkitgtk-2.54.2.orig/Source/JavaScriptCore/inspector/scripts/codegen/__pycache__/generate_cpp_backend_dispatcher_header.cpython-314.pyc og webkitgtk-2.54.2/Source/JavaScriptCore/inspector/scripts/codegen/__pycache__/generate_cpp_backend_dispatcher_header.cpython-314.pyc er forskellige
+Binære filer webkitgtk-2.54.2.orig/Source/JavaScriptCore/inspector/scripts/codegen/__pycache__/generate_cpp_backend_dispatcher_implementation.cpython-314.pyc og webkitgtk-2.54.2/Source/JavaScriptCore/inspector/scripts/codegen/__pycache__/generate_cpp_backend_dispatcher_implementation.cpython-314.pyc er forskellige
+Binære filer webkitgtk-2.54.2.orig/Source/JavaScriptCore/inspector/scripts/codegen/__pycache__/generate_cpp_frontend_dispatcher_header.cpython-314.pyc og webkitgtk-2.54.2/Source/JavaScriptCore/inspector/scripts/codegen/__pycache__/generate_cpp_frontend_dispatcher_header.cpython-314.pyc er forskellige
+Binære filer webkitgtk-2.54.2.orig/Source/JavaScriptCore/inspector/scripts/codegen/__pycache__/generate_cpp_frontend_dispatcher_implementation.cpython-314.pyc og webkitgtk-2.54.2/Source/JavaScriptCore/inspector/scripts/codegen/__pycache__/generate_cpp_frontend_dispatcher_implementation.cpython-314.pyc er forskellige
+Binære filer webkitgtk-2.54.2.orig/Source/JavaScriptCore/inspector/scripts/codegen/__pycache__/generate_cpp_protocol_types_header.cpython-314.pyc og webkitgtk-2.54.2/Source/JavaScriptCore/inspector/scripts/codegen/__pycache__/generate_cpp_protocol_types_header.cpython-314.pyc er forskellige
+Binære filer webkitgtk-2.54.2.orig/Source/JavaScriptCore/inspector/scripts/codegen/__pycache__/generate_cpp_protocol_types_implementation.cpython-314.pyc og webkitgtk-2.54.2/Source/JavaScriptCore/inspector/scripts/codegen/__pycache__/generate_cpp_protocol_types_implementation.cpython-314.pyc er forskellige
+Binære filer webkitgtk-2.54.2.orig/Source/JavaScriptCore/inspector/scripts/codegen/__pycache__/generate_js_backend_commands.cpython-314.pyc og webkitgtk-2.54.2/Source/JavaScriptCore/inspector/scripts/codegen/__pycache__/generate_js_backend_commands.cpython-314.pyc er forskellige
+Binære filer webkitgtk-2.54.2.orig/Source/JavaScriptCore/inspector/scripts/codegen/__pycache__/generate_objc_backend_dispatcher_header.cpython-314.pyc og webkitgtk-2.54.2/Source/JavaScriptCore/inspector/scripts/codegen/__pycache__/generate_objc_backend_dispatcher_header.cpython-314.pyc er forskellige
+Binære filer webkitgtk-2.54.2.orig/Source/JavaScriptCore/inspector/scripts/codegen/__pycache__/generate_objc_backend_dispatcher_implementation.cpython-314.pyc og webkitgtk-2.54.2/Source/JavaScriptCore/inspector/scripts/codegen/__pycache__/generate_objc_backend_dispatcher_implementation.cpython-314.pyc er forskellige
+Binære filer webkitgtk-2.54.2.orig/Source/JavaScriptCore/inspector/scripts/codegen/__pycache__/generate_objc_configuration_header.cpython-314.pyc og webkitgtk-2.54.2/Source/JavaScriptCore/inspector/scripts/codegen/__pycache__/generate_objc_configuration_header.cpython-314.pyc er forskellige
+Binære filer webkitgtk-2.54.2.orig/Source/JavaScriptCore/inspector/scripts/codegen/__pycache__/generate_objc_configuration_implementation.cpython-314.pyc og webkitgtk-2.54.2/Source/JavaScriptCore/inspector/scripts/codegen/__pycache__/generate_objc_configuration_implementation.cpython-314.pyc er forskellige
+Binære filer webkitgtk-2.54.2.orig/Source/JavaScriptCore/inspector/scripts/codegen/__pycache__/generate_objc_frontend_dispatcher_implementation.cpython-314.pyc og webkitgtk-2.54.2/Source/JavaScriptCore/inspector/scripts/codegen/__pycache__/generate_objc_frontend_dispatcher_implementation.cpython-314.pyc er forskellige
+Binære filer webkitgtk-2.54.2.orig/Source/JavaScriptCore/inspector/scripts/codegen/__pycache__/generate_objc_header.cpython-314.pyc og webkitgtk-2.54.2/Source/JavaScriptCore/inspector/scripts/codegen/__pycache__/generate_objc_header.cpython-314.pyc er forskellige
+Binære filer webkitgtk-2.54.2.orig/Source/JavaScriptCore/inspector/scripts/codegen/__pycache__/generate_objc_internal_header.cpython-314.pyc og webkitgtk-2.54.2/Source/JavaScriptCore/inspector/scripts/codegen/__pycache__/generate_objc_internal_header.cpython-314.pyc er forskellige
+Binære filer webkitgtk-2.54.2.orig/Source/JavaScriptCore/inspector/scripts/codegen/__pycache__/generate_objc_protocol_type_conversions_header.cpython-314.pyc og webkitgtk-2.54.2/Source/JavaScriptCore/inspector/scripts/codegen/__pycache__/generate_objc_protocol_type_conversions_header.cpython-314.pyc er forskellige
+Binære filer webkitgtk-2.54.2.orig/Source/JavaScriptCore/inspector/scripts/codegen/__pycache__/generate_objc_protocol_type_conversions_implementation.cpython-314.pyc og webkitgtk-2.54.2/Source/JavaScriptCore/inspector/scripts/codegen/__pycache__/generate_objc_protocol_type_conversions_implementation.cpython-314.pyc er forskellige
+Binære filer webkitgtk-2.54.2.orig/Source/JavaScriptCore/inspector/scripts/codegen/__pycache__/generate_objc_protocol_types_implementation.cpython-314.pyc og webkitgtk-2.54.2/Source/JavaScriptCore/inspector/scripts/codegen/__pycache__/generate_objc_protocol_types_implementation.cpython-314.pyc er forskellige
+Binære filer webkitgtk-2.54.2.orig/Source/JavaScriptCore/inspector/scripts/codegen/__pycache__/generator.cpython-314.pyc og webkitgtk-2.54.2/Source/JavaScriptCore/inspector/scripts/codegen/__pycache__/generator.cpython-314.pyc er forskellige
+Binære filer webkitgtk-2.54.2.orig/Source/JavaScriptCore/inspector/scripts/codegen/__pycache__/generator_templates.cpython-314.pyc og webkitgtk-2.54.2/Source/JavaScriptCore/inspector/scripts/codegen/__pycache__/generator_templates.cpython-314.pyc er forskellige
+Binære filer webkitgtk-2.54.2.orig/Source/JavaScriptCore/inspector/scripts/codegen/__pycache__/__init__.cpython-314.pyc og webkitgtk-2.54.2/Source/JavaScriptCore/inspector/scripts/codegen/__pycache__/__init__.cpython-314.pyc er forskellige
+Binære filer webkitgtk-2.54.2.orig/Source/JavaScriptCore/inspector/scripts/codegen/__pycache__/models.cpython-314.pyc og webkitgtk-2.54.2/Source/JavaScriptCore/inspector/scripts/codegen/__pycache__/models.cpython-314.pyc er forskellige
+Binære filer webkitgtk-2.54.2.orig/Source/JavaScriptCore/inspector/scripts/codegen/__pycache__/objc_generator.cpython-314.pyc og webkitgtk-2.54.2/Source/JavaScriptCore/inspector/scripts/codegen/__pycache__/objc_generator.cpython-314.pyc er forskellige
+Binære filer webkitgtk-2.54.2.orig/Source/JavaScriptCore/inspector/scripts/codegen/__pycache__/objc_generator_templates.cpython-314.pyc og webkitgtk-2.54.2/Source/JavaScriptCore/inspector/scripts/codegen/__pycache__/objc_generator_templates.cpython-314.pyc er forskellige
+diff -Nur webkitgtk-2.54.2.orig/Source/JavaScriptCore/jit/RegisterAtOffset.h webkitgtk-2.54.2/Source/JavaScriptCore/jit/RegisterAtOffset.h
+--- webkitgtk-2.54.2.orig/Source/JavaScriptCore/jit/RegisterAtOffset.h	2026-07-24 10:02:50.769930600 +0200
++++ webkitgtk-2.54.2/Source/JavaScriptCore/jit/RegisterAtOffset.h	2026-11-15 19:09:51.994946735 +0100
+@@ -79,8 +79,10 @@
+     void dump(PrintStream& out) const;
+ 
+ private:
+-    unsigned m_regIndex : 7 { Reg().index() };
+-    unsigned m_width : 1 { false };
++    // size_t (same size as ptrdiff_t) so that the bit-fields share one storage
++    // unit with the MS bit-field layout too (MinGW defaults to -mms-bitfields).
++    size_t m_regIndex : 7 { Reg().index() };
++    size_t m_width : 1 { false };
+     ptrdiff_t m_offsetBits : (sizeof(ptrdiff_t) * CHAR_BIT - 7 - 1) { 0 };
+ };
+ 
+diff -Nur webkitgtk-2.54.2.orig/Source/JavaScriptCore/Scripts/postprocess-asm webkitgtk-2.54.2/Source/JavaScriptCore/Scripts/postprocess-asm
+--- webkitgtk-2.54.2.orig/Source/JavaScriptCore/Scripts/postprocess-asm	2026-07-24 10:02:50.528026000 +0200
++++ webkitgtk-2.54.2/Source/JavaScriptCore/Scripts/postprocess-asm	2026-11-15 19:09:52.015578739 +0100
+@@ -127,7 +127,7 @@
+ 
+   cxx_args[c_idx] = '-S'
+   o_path = cxx_args[o_idx + 1]
+-  cxx_args[o_idx + 1] = o_path.sub(/[.]o$/, $asm_suffix)
++  cxx_args[o_idx + 1] = o_path.sub(/[.]o(bj)?$/, $asm_suffix)
+   $intermediate_paths << cxx_args[o_idx + 1]
+   if cxx_args[o_idx + 1] == o_path
+     $stderr.puts("Output file name not an object file: `#{o_path}`")
+@@ -143,8 +143,8 @@
+ # the correct name embedded.
+ def rename_s_file(args)
+   o_path = args[get_o_idx(args) + 1]
+-  File.rename(o_path.sub(/[.]o$/, $asm_suffix),
+-              o_path.sub(/[.]o$/, $asm_suffix_pre))
++  File.rename(o_path.sub(/[.]o(bj)?$/, $asm_suffix),
++              o_path.sub(/[.]o(bj)?$/, $asm_suffix_pre))
+ end
+ 
+ # Build
+@@ -154,8 +154,8 @@
+ 
+   pp_args = [
+     $postprocessor,
+-    o_path.sub(/[.]o$/, $asm_suffix_pre), # input
+-    o_path.sub(/[.]o$/, $asm_suffix) # output
++    o_path.sub(/[.]o(bj)?$/, $asm_suffix_pre), # input
++    o_path.sub(/[.]o(bj)?$/, $asm_suffix) # output
+   ]
+   $intermediate_paths << pp_args[-2]
+   $intermediate_paths << pp_args[-1]
+@@ -170,7 +170,7 @@
+ 
+   as_args = args.clone
+   i_path = as_args[i_idx]
+-  as_args[i_idx] = o_path.sub(/[.]o$/, $asm_suffix)
++  as_args[i_idx] = o_path.sub(/[.]o(bj)?$/, $asm_suffix)
+   as_args
+ end
+ 
+diff -Nur webkitgtk-2.54.2.orig/Source/JavaScriptCore/shell/CMakeLists.txt webkitgtk-2.54.2/Source/JavaScriptCore/shell/CMakeLists.txt
+--- webkitgtk-2.54.2.orig/Source/JavaScriptCore/shell/CMakeLists.txt	2026-07-24 10:02:50.891860000 +0200
++++ webkitgtk-2.54.2/Source/JavaScriptCore/shell/CMakeLists.txt	2026-11-15 19:09:51.907060102 +0100
+@@ -15,7 +15,7 @@
+ endif ()
+ 
+ if (WIN32)
+-    list(APPEND jsc_LIBRARIES Winmm)
++    list(APPEND jsc_LIBRARIES winmm)
+ endif ()
+ 
+ if (ENABLE_FUZZILLI)
+Binære filer webkitgtk-2.54.2.orig/Source/JavaScriptCore/wasm/__pycache__/generateWasm.cpython-314.pyc og webkitgtk-2.54.2/Source/JavaScriptCore/wasm/__pycache__/generateWasm.cpython-314.pyc er forskellige
+diff -Nur webkitgtk-2.54.2.orig/Source/JavaScriptCore/wasm/WasmBBQJIT.h webkitgtk-2.54.2/Source/JavaScriptCore/wasm/WasmBBQJIT.h
+--- webkitgtk-2.54.2.orig/Source/JavaScriptCore/wasm/WasmBBQJIT.h	2026-07-27 10:28:18.484562400 +0200
++++ webkitgtk-2.54.2/Source/JavaScriptCore/wasm/WasmBBQJIT.h	2026-11-15 19:09:52.027631016 +0100
+@@ -1467,7 +1467,7 @@
+     [[nodiscard]] PartialResult addArrayNew(TypeSignatureIndex typeIndex, ExpressionType size, ExpressionType initValue, ExpressionType& result);
+     [[nodiscard]] PartialResult addArrayNewDefault(TypeSignatureIndex typeIndex, ExpressionType size, ExpressionType& result);
+ 
+-    using ArraySegmentOperation = EncodedJSValue SYSV_ABI (&)(JSC::JSWebAssemblyInstance*, uint32_t, uint32_t, uint32_t, uint32_t);
++    using ArraySegmentOperation = EncodedJSValue(SYSV_ABI &)(JSC::JSWebAssemblyInstance*, uint32_t, uint32_t, uint32_t, uint32_t);
+     void pushArrayNewFromSegment(ArraySegmentOperation, TypeSignatureIndex typeIndex, uint32_t segmentIndex, ExpressionType arraySize, ExpressionType offset, ExceptionType, ExpressionType& result);
+ 
+     [[nodiscard]] PartialResult addArrayNewData(TypeSignatureIndex typeIndex, uint32_t dataIndex, ExpressionType arraySize, ExpressionType offset, ExpressionType& result);
+diff -Nur webkitgtk-2.54.2.orig/Source/JavaScriptCore/wasm/WasmOMGIRGenerator.cpp webkitgtk-2.54.2/Source/JavaScriptCore/wasm/WasmOMGIRGenerator.cpp
+--- webkitgtk-2.54.2.orig/Source/JavaScriptCore/wasm/WasmOMGIRGenerator.cpp	2026-09-11 07:39:27.243262500 +0200
++++ webkitgtk-2.54.2/Source/JavaScriptCore/wasm/WasmOMGIRGenerator.cpp	2026-11-15 19:09:52.026112545 +0100
+@@ -957,7 +957,7 @@
+     bool emitArraySetUncheckedWithoutWriteBarrier(TypeSignatureIndex, Value*, Value*, Value*);
+     // Returns true if a writeBarrier/mutatorFence is needed.
+     [[nodiscard]] bool emitStructSet(bool canTrap, Value*, uint32_t, const RTT&, Value*);
+-    using ArraySegmentOperation = EncodedJSValue SYSV_ABI (&)(JSC::JSWebAssemblyInstance*, uint32_t, uint32_t, uint32_t, uint32_t);
++    using ArraySegmentOperation = EncodedJSValue(SYSV_ABI &)(JSC::JSWebAssemblyInstance*, uint32_t, uint32_t, uint32_t, uint32_t);
+     [[nodiscard]] ExpressionType pushArrayNewFromSegment(ArraySegmentOperation, TypeSignatureIndex typeIndex, uint32_t segmentIndex, ExpressionType arraySize, ExpressionType offset, ExceptionType);
+     void emitRefTestOrCast(CastKind, TypedExpression, bool, int32_t, bool, ExpressionType&);
+ 
+Binære filer webkitgtk-2.54.2.orig/Source/JavaScriptCore/yarr/__pycache__/hasher.cpython-314.pyc og webkitgtk-2.54.2/Source/JavaScriptCore/yarr/__pycache__/hasher.cpython-314.pyc er forskellige
+diff -Nur webkitgtk-2.54.2.orig/Source/WebCore/platform/graphics/WOFFFileFormat.cpp webkitgtk-2.54.2/Source/WebCore/platform/graphics/WOFFFileFormat.cpp
+--- webkitgtk-2.54.2.orig/Source/WebCore/platform/graphics/WOFFFileFormat.cpp	2026-07-24 10:02:55.201845000 +0200
++++ webkitgtk-2.54.2/Source/WebCore/platform/graphics/WOFFFileFormat.cpp	2026-11-15 19:09:52.228897652 +0100
+@@ -263,7 +263,7 @@
+         uint32_t* sfntTableDirectoryPtr = reinterpret_cast_ptr<uint32_t*>(sfnt.mutableSpan().subspan(sfntTableDirectoryCursor).data());
+         *sfntTableDirectoryPtr++ = htonl(tableTag);
+         *sfntTableDirectoryPtr++ = htonl(tableOrigChecksum);
+-        *sfntTableDirectoryPtr++ = htonl(sfnt.size());
++        *sfntTableDirectoryPtr++ = htonl(static_cast<uint32_t>(sfnt.size()));
+         *sfntTableDirectoryPtr++ = htonl(tableOrigLength);
+         WTF_ALLOW_UNSAFE_BUFFER_USAGE_END
+         sfntTableDirectoryCursor += 4 * sizeof(uint32_t);
+diff -Nur webkitgtk-2.54.2.orig/Source/WebKit/PlatformGTK.cmake webkitgtk-2.54.2/Source/WebKit/PlatformGTK.cmake
+--- webkitgtk-2.54.2.orig/Source/WebKit/PlatformGTK.cmake	2026-11-15 19:09:12.843409987 +0100
++++ webkitgtk-2.54.2/Source/WebKit/PlatformGTK.cmake	2026-11-15 19:09:52.685544706 +0100
+@@ -603,7 +603,9 @@
+ # Non-Windows hosts keep the in-build step.
+ set(WEBKIT_FORWARDING_HEADERS_PERL "${PERL_EXECUTABLE}" CACHE STRING
+     "Perl interpreter used to generate WebKit forwarding headers")
+-if (WIN32)
++# Only a native Windows host (MSYS2) needs the out-of-band pre-generation;
++# cross-compiling from a POSIX host runs the regular perl step.
++if (CMAKE_HOST_WIN32)
+     option(WEBKIT_FORWARDING_HEADERS_SKIP "Skip the WebKit forwarding-headers generation step" ON)
+ else ()
+     option(WEBKIT_FORWARDING_HEADERS_SKIP "Skip the WebKit forwarding-headers generation step" OFF)
+@@ -611,7 +613,8 @@
+ 
+ if (WEBKIT_FORWARDING_HEADERS_SKIP)
+     add_custom_target(WebKit-forwarding-headers
+-        COMMAND ${CMAKE_COMMAND} -E echo "WebKit forwarding headers are pre-generated by the packager; skipping the perl step"
++        COMMAND ${CMAKE_COMMAND} -E echo "WebKit forwarding headers are pre-generated by the packager, skipping the perl step"
++        VERBATIM
+     )
+ else ()
+     add_custom_target(WebKit-forwarding-headers
+Binære filer webkitgtk-2.54.2.orig/Source/WebKit/Scripts/webkit/__pycache__/__init__.cpython-314.pyc og webkitgtk-2.54.2/Source/WebKit/Scripts/webkit/__pycache__/__init__.cpython-314.pyc er forskellige
+Binære filer webkitgtk-2.54.2.orig/Source/WebKit/Scripts/webkit/__pycache__/messages.cpython-314.pyc og webkitgtk-2.54.2/Source/WebKit/Scripts/webkit/__pycache__/messages.cpython-314.pyc er forskellige
+Binære filer webkitgtk-2.54.2.orig/Source/WebKit/Scripts/webkit/__pycache__/model.cpython-314.pyc og webkitgtk-2.54.2/Source/WebKit/Scripts/webkit/__pycache__/model.cpython-314.pyc er forskellige
+Binære filer webkitgtk-2.54.2.orig/Source/WebKit/Scripts/webkit/__pycache__/opaque_ipc_types.cpython-314.pyc og webkitgtk-2.54.2/Source/WebKit/Scripts/webkit/__pycache__/opaque_ipc_types.cpython-314.pyc er forskellige
+Binære filer webkitgtk-2.54.2.orig/Source/WebKit/Scripts/webkit/__pycache__/parser.cpython-314.pyc og webkitgtk-2.54.2/Source/WebKit/Scripts/webkit/__pycache__/parser.cpython-314.pyc er forskellige
+diff -Nur webkitgtk-2.54.2.orig/Source/WebKit/UIProcess/gtk/Display.cpp webkitgtk-2.54.2/Source/WebKit/UIProcess/gtk/Display.cpp
+--- webkitgtk-2.54.2.orig/Source/WebKit/UIProcess/gtk/Display.cpp	2026-11-15 19:08:55.609967495 +0100
++++ webkitgtk-2.54.2/Source/WebKit/UIProcess/gtk/Display.cpp	2026-11-15 19:09:52.998919916 +0100
+@@ -51,10 +51,11 @@
+ 
+ Display::Display()
+ {
+-#if defined(gtk_init_check)
++#if USE(GTK4) && defined(gtk_init_check)
+     // GTK 4.16+: gtk_init_check() is a function-like macro, so the
+     // GTK3-signature overload cannot exist; GtkVersioning.h provides the
+-    // webkitGtkInitCheck() helper instead.
++    // webkitGtkInitCheck() helper instead. (GTK 3 on Windows also defines
++    // gtk_init_check as an ABI-check macro, but keeps the 2-argument form.)
+     if (!webkitGtkInitCheck(nullptr, nullptr))
+ #else
+     if (!gtk_init_check(nullptr, nullptr))
+diff -Nur webkitgtk-2.54.2.orig/Source/WTF/wtf/ExportMacros.h webkitgtk-2.54.2/Source/WTF/wtf/ExportMacros.h
+--- webkitgtk-2.54.2.orig/Source/WTF/wtf/ExportMacros.h	2026-07-24 10:02:54.101866000 +0200
++++ webkitgtk-2.54.2/Source/WTF/wtf/ExportMacros.h	2026-11-15 19:09:52.617326447 +0100
+@@ -47,7 +47,15 @@
+ #define WTF_INTERNAL
+ #endif
+ 
+-#if USE(DECLSPEC_ATTRIBUTE)
++#if USE(DECLSPEC_ATTRIBUTE) && defined(__MINGW32__) && !defined(__clang__)
++// MinGW GCC rejects in-class (implicitly inline) member definitions carrying
++// __declspec(dllimport) ("definition is marked dllimport"), which WebKit uses
++// widely. GNU ld resolves imported functions through the import library and
++// imported data through auto-import/.refptr, so the import decoration is not
++// needed there.
++#define WTF_EXPORT_DECLARATION __declspec(dllexport)
++#define WTF_IMPORT_DECLARATION
++#elif USE(DECLSPEC_ATTRIBUTE)
+ #define WTF_EXPORT_DECLARATION __declspec(dllexport)
+ #define WTF_IMPORT_DECLARATION __declspec(dllimport)
+ #elif USE(VISIBILITY_ATTRIBUTE)

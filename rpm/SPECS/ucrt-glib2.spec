@@ -1,7 +1,7 @@
 %{?ucrt_package_header}
 
 Name:           ucrt-glib2
-Version:        2.90.1
+Version:        2.88.4
 Release:        1%{?dist}
 Summary:        MinGW Windows GLib2 library
 
@@ -11,6 +11,8 @@ URL:            http://www.gtk.org
 # first two digits of version
 %global release_version %(echo %{version} | awk -F. '{print $1"."$2}')
 Source0:        http://download.gnome.org/sources/glib/%{release_version}/glib-%{version}.tar.xz
+
+Patch:          0001-guri-Keep-percent-encoded-sequences-unchanged-with-G.patch
 
 BuildArch:      noarch
 

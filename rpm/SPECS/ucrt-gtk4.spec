@@ -5,7 +5,7 @@
 %define release_version %(echo %{version} | awk -F. '{print $1"."$2}')
 
 Name:           ucrt-gtk4
-Version:        4.24.1
+Version:        4.22.5
 Release:        1%{?dist}
 Summary:        MinGW Windows GTK+ library
 
@@ -27,6 +27,8 @@ BuildRequires:  ucrt64-cairo
 BuildRequires:  ucrt64-gdk-pixbuf
 BuildRequires:  ucrt64-gettext
 BuildRequires:  ucrt64-graphene
+BuildRequires:  ucrt64-directx-headers
+BuildRequires:  ucrt64-directxmath
 BuildRequires:  ucrt64-gstreamer1-plugins-bad-free >= 1.26.3-3
 BuildRequires:  ucrt64-graphene
 BuildRequires:  ucrt64-glib2
@@ -125,6 +127,8 @@ rm -rf %{buildroot}%{ucrt64_datadir}/bash-completion/
 %{ucrt64_bindir}/gtk4-print-editor.exe
 %{ucrt64_bindir}/gtk4-rendernode-tool.exe
 %{ucrt64_bindir}/gtk4-image-tool.exe
+%{ucrt64_bindir}/gtk4-encode-symbolic-svg.exe
+%{ucrt64_bindir}/gtk4-icon-editor.exe
 %{ucrt64_bindir}/libgtk-4-1.dll
 %{ucrt64_includedir}/gtk-4.0/
 %{ucrt64_libdir}/libgtk-4.dll.a

@@ -1,8 +1,8 @@
 %{?ucrt_package_header}
 
 Name: ucrt-brotli
-Version: 1.0.7
-Release: 16%{?dist}
+Version: 1.2.1
+Release: 1%{?dist}
 Summary: MinGW port of Lossless compression algorithm
 
 License: MIT

@@ -5,14 +5,14 @@
 %global tarball_version %%(echo %{version} | tr '~' '.')
 
 Name:           ucrt-libadwaita
-Version:        1.9.1
+Version:        1.9.4
 Release:        %autorelease
 Summary:        Building blocks for modern GNOME applications
 
 # part of src/adw-spring-animation.c is MIT
 License:        LGPL-2.1-or-later AND MIT
 URL:            https://gitlab.gnome.org/GNOME/libadwaita
-Source0:        https://download.gnome.org/sources/libadwaita/1.9/libadwaita-%{tarball_version}.tar.xz
+Source0:        https://download.gnome.org/sources/libadwaita/1.9/libadwaita-%{tarball_version}.tar.bz2
 
 BuildRequires:  desktop-file-utils
 BuildRequires:  gcc
@@ -22,7 +22,7 @@ BuildRequires:  libappstream-glib
 BuildRequires:  meson >= 0.63.0
 BuildRequires:  vala
 #BuildRequires:  /usr/bin/sassc
-BuildRequires:  pkgconfig(appstream)
+#BuildRequires:  pkgconfig(appstream)
 BuildRequires:  pkgconfig(fribidi)
 BuildRequires:  pkgconfig(glib-2.0) >= %{glib_version}
 BuildRequires:  pkgconfig(gobject-introspection-1.0)
@@ -50,8 +50,9 @@ Building blocks for modern GNOME applications.
 mkdir build_ucrt
 pushd build_ucrt
 %ucrt64_meson \
-    -Ddocumentation=true \
-    %{nil}
+	-Dappstream=false \
+	-Ddocumentation=true \
+	%{nil}
 %ucrt64_meson build
 popd
 
