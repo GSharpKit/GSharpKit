@@ -1,4 +1,4 @@
-%define version 0.6.0
+%define version 0.7.0
 
 Name:           darwinx-servogtk
 License:        Mozilla Public License Version 2.0
