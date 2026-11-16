@@ -46,7 +46,7 @@ chmod 644 c/include/brotli/*.h
 chmod 644 c/tools/brotli.c
 
 %build
-%ucrt64_cmake
+%ucrt64_cmake -DCMAKE_POLICY_VERSION_MINIMUM=3.5
 %ucrt64_make %{?_smp_mflags}
 
 %install

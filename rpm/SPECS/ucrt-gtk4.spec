@@ -5,8 +5,8 @@
 %define release_version %(echo %{version} | awk -F. '{print $1"."$2}')
 
 Name:           ucrt-gtk4
-Version:        4.21.0
-Release:        3%{?dist}
+Version:        4.24.1
+Release:        1%{?dist}
 Summary:        MinGW Windows GTK+ library
 
 License:        LGPLv2+
@@ -80,7 +80,7 @@ applications, the overall memory consumption is reduced as well.
 This package contains the MinGW Windows cross compiled gtk-update-icon-cache.
 
 
-%{?ucrt_debug_package}
+#{?ucrt64_debug_package}
 
 
 %prep
@@ -117,8 +117,8 @@ rm -rf %{buildroot}%{ucrt64_datadir}/bash-completion/
 %{ucrt64_bindir}/gtk4-demo.exe
 %{ucrt64_bindir}/gtk4-widget-factory.exe
 %{ucrt64_bindir}/gtk4-builder-tool.exe
-%{ucrt64_bindir}/gtk4-encode-symbolic-svg.exe
-%{ucrt64_bindir}/gtk4-icon-editor.exe
+#{ucrt64_bindir}/gtk4-encode-symbolic-svg.exe
+#{ucrt64_bindir}/gtk4-icon-editor.exe
 %{ucrt64_bindir}/gtk4-query-settings.exe
 %{ucrt64_bindir}/gtk4-node-editor.exe
 %{ucrt64_bindir}/gtk4-path-tool.exe

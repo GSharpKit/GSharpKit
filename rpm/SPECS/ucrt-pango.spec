@@ -1,8 +1,8 @@
 %{?ucrt_package_header}
 
 Name:           ucrt-pango
-Version:        1.57.0
-Release:        2%{?dist}
+Version:        1.58.2
+Release:        1%{?dist}
 Summary:        MinGW Windows Pango library
 
 License:        LGPL-2.0-or-later
@@ -61,7 +61,7 @@ Requires:       ucrt64-pango = %{version}-%{release}
 Static version of the MinGW Windows Pango library.
 
 
-%{?ucrt_debug_package}
+%{?ucrt64_debug_package}
 
 
 %prep

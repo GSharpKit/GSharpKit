@@ -1,17 +1,16 @@
 %{?ucrt_package_header}
 
 Name:           ucrt-glib2
-Version:        2.88.3
+Version:        2.90.1
 Release:        1%{?dist}
 Summary:        MinGW Windows GLib2 library
 
 License:        LGPL-2.0-or-later
 URL:            http://www.gtk.org
+
 # first two digits of version
 %global release_version %(echo %{version} | awk -F. '{print $1"."$2}')
 Source0:        http://download.gnome.org/sources/glib/%{release_version}/glib-%{version}.tar.xz
-# Backport fix for CVE-2026-58016
-Patch0:         https://gitlab.gnome.org/GNOME/glib/-/commit/8d5515ac352add48c53fd477331097a61e9bb052.patch
 
 BuildArch:      noarch
 
@@ -34,13 +33,6 @@ BuildRequires:  gettext
 BuildRequires:  glib2-devel >= 2.45.3
 BuildRequires:  python3-devel
 
-# Prefer the use of GCC constructors over DllMain
-# This prevents having to depend on DllMain in static libraries
-# http://lists.fedoraproject.org/pipermail/ucrt/2013-March/006429.html
-# http://lists.fedoraproject.org/pipermail/ucrt/2013-March/006469.html
-# https://bugzilla.gnome.org/show_bug.cgi?id=698118
-#Patch5:         glib-prefer-constructors-over-DllMain.patch
-
 %description
 MinGW Windows Glib2 library.
 
@@ -62,7 +54,7 @@ Requires:       ucrt64-gettext-static
 Static version of the MinGW Windows GLib2 library.
 
 
-%{?ucrt_debug_package}
+#{?ucrt64_debug_package}
 
 
 %prep
@@ -87,27 +79,6 @@ popd
 pushd shared
 DESTDIR=%{buildroot} ninja install
 popd
-
-# There's a small difference in the file glibconfig.h between the
-# shared and the static build:
-#
-#diff -ur shared/usr/i686-pc-ucrt32/sys-root/ucrt/lib/glib-2.0/include/glibconfig.h static/usr/i686-pc-ucrt32/sys-root/ucrt/lib/glib-2.0/include/glibconfig.h
-#--- shared/usr/i686-pc-ucrt32/sys-root/ucrt/lib/glib-2.0/include/glibconfig.h	2009-02-20 17:34:35.735677022 +0100
-#+++ static/usr/i686-pc-ucrt32/sys-root/ucrt/lib/glib-2.0/include/glibconfig.h	2009-02-20 17:33:35.498932269 +0100
-#@@ -92,7 +92,8 @@
-# 
-# #define G_OS_WIN32
-# #define G_PLATFORM_WIN32
-#-
-#+#define GLIB_STATIC_COMPILATION 1
-#+#define GOBJECT_STATIC_COMPILATION 1
-# 
-# #define G_VA_COPY	va_copy
-#
-# However, we can't merge this change as it is situation-dependent...
-#
-# Developers using the static build of GLib need to add -DGLIB_STATIC_COMPILATION
-# and -DGOBJECT_STATIC_COMPILATION to their CFLAGS to avoid compile failures
 
 # Drop the folder which was temporary used for installing the static bits
 rm -f %{buildroot}/%{ucrt64_libdir}/charset.alias
