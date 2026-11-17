@@ -59,6 +59,14 @@ as well as the sample GtkLauncher tool.
 
 This is the MinGW port of WebKitGTK+ for GTK+ 3.
 
+%package -n ucrt64-webkit2gtk3-static
+Summary:        MinGW Windows web content engine library
+
+%description -n ucrt64-webkit2gtk3-static
+WebKitGTK+ is an open-source Web content engine library.
+This package contains the shared libraries for the WebKit GTK+ port
+as well as the sample GtkLauncher tool.
+
 %{?ucrt_debug_package}
 
 %prep
@@ -72,6 +80,7 @@ export WEBKIT_NINJA_COMPILE_MAX=6
 export WEBKIT_NINJA_LINK_MAX=1
 ucrt64-cmake \
 	-DCMAKE_BUILD_TYPE=Release \
+	-DCMAKE_CXX_FLAGS_RELEASE="-O2 -DNDEBUG" \
 	-GNinja \
 	-DPORT=GTK \
 	-DUSE_GTK4=OFF \
@@ -109,20 +118,27 @@ popd
 # Drop all .la files
 find $RPM_BUILD_ROOT -name "*.la" -delete
 
+mv %{buildroot}%{ucrt64_libexecdir}/webkit2gtk-4.1/*.exe %{buildroot}%{ucrt64_bindir}/
+mv %{buildroot}%{ucrt64_libdir}/*.dll.a %{buildroot}%{ucrt64_bindir}/
+rm -rf %{buildroot}%{ucrt64_libdir}/webkit2gtk-4.1
+
 %files -n ucrt64-webkit2gtk3
-%{_docdir}/ucrt64-webkitgtk3/
-%{ucrt64_bindir}/jsc-3.exe
-%{ucrt64_bindir}/GtkLauncher-3.exe
-%{ucrt64_bindir}/libjavascriptcoregtk-3.0-0.dll
-%{ucrt64_bindir}/libwebkitgtk-3.0-0.dll
-%{ucrt64_includedir}/webkitgtk-3.0/
-%{ucrt64_libdir}/libjavascriptcoregtk-3.0.dll.a
-%{ucrt64_libdir}/libwebkitgtk-3.0.dll.a
-%{ucrt64_libdir}/pkgconfig/javascriptcoregtk-3.0.pc
-%{ucrt64_libdir}/pkgconfig/webkitgtk-3.0.pc
-%{ucrt64_datadir}/webkitgtk-3.0/
+%{ucrt64_bindir}/jsc.exe
+#{ucrt64_bindir}/GtkLauncher-3.exe
+%{ucrt64_bindir}/libjavascriptcoregtk-4.1.dll
+%{ucrt64_bindir}/libwebkit2gtk-4.1.dll
+%{ucrt64_bindir}/WebKitNetworkProcess.exe
+%{ucrt64_bindir}/WebKitWebDriver.exe
+%{ucrt64_bindir}/WebKitWebProcess.exe
+%{ucrt64_libdir}/pkgconfig/webkit2gtk-web-extension-4.1.pc
+%{ucrt64_includedir}/webkitgtk-4.1/
+%{ucrt64_libdir}/pkgconfig/javascriptcoregtk-4.1.pc
+%{ucrt64_libdir}/pkgconfig/webkit2gtk-4.1.pc
 %{ucrt64_datadir}/locale/
-%{ucrt64_datadir}/gtk-doc/
+
+%files -n ucrt64-webkit2gtk3-static
+%{ucrt64_bindir}/libjavascriptcoregtk-4.1.dll.a
+%{ucrt64_bindir}/libwebkit2gtk-4.1.dll.a
 
 %changelog
 * Mon Nov 16 2026 Mikkel Kruse Johnsen <mikkel@xmedicus.com> - 2.54.2-1
